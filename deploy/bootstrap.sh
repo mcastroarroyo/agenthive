@@ -13,7 +13,7 @@ KB_PREFIX=${HIVE_KB_PREFIX:-agenthive-kb}
 BUCKET=gs://${P}-agenthive
 RUNTIME_SA=agenthive-runtime@${P}.iam.gserviceaccount.com
 WEB_SA=agenthive-web@${P}.iam.gserviceaccount.com
-REALMS=(platform government enterprise smb delivery)
+REALMS=(platform government enterprise smb delivery workforce)
 
 echo "== APIs"
 gcloud services enable aiplatform.googleapis.com discoveryengine.googleapis.com bigquery.googleapis.com \

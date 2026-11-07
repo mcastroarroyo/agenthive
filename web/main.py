@@ -51,6 +51,14 @@ def _api_for(engine: str) -> str:
     return _api(engine.split("/locations/")[1].split("/")[0])
 MAX_MESSAGE = 20_000
 MAX_FILE_BYTES = 7 * 1024 * 1024
+FILE_PREFIX = "hive_file:"            # agents put rendered deliverables in session state under this prefix
+FILE_MIMES = {
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/pdf", "text/csv", "text/markdown",
+}
+MAX_DELIVERABLE_B64 = 4 * 1024 * 1024
 RATE = (40, 600)  # runs per user per 10 minutes
 
 app = FastAPI(title="Wursta Agent Hive", docs_url=None, redoc_url=None)
@@ -238,8 +246,15 @@ def _simplify(ev: dict) -> list[dict]:
                     "output": um.get("candidates_token_count", 0), "thoughts": um.get("thoughts_token_count", 0),
                     "model": ev.get("model_version") or ""})
     sd = (ev.get("actions") or {}).get("state_delta") or {}
-    if sd:
-        out.append({"type": "state", "author": author, "keys": sorted(sd)[:10]})
+    for k, v in sd.items():
+        if (k.startswith(FILE_PREFIX) and isinstance(v, dict) and v.get("mime") in FILE_MIMES
+                and isinstance(v.get("b64"), str) and 0 < len(v["b64"]) <= MAX_DELIVERABLE_B64):
+            out.append({"type": "file", "author": author, "id": k[len(FILE_PREFIX):][:64],
+                        "name": re.sub(r"[^\w .()-]", "_", str(v.get("name") or "deliverable"))[:120],
+                        "mime": v["mime"], "size": int(v.get("size") or 0), "b64": v["b64"]})
+    keys = sorted(k for k in sd if not k.startswith(FILE_PREFIX))
+    if keys:
+        out.append({"type": "state", "author": author, "keys": keys[:10]})
     return out
 
 

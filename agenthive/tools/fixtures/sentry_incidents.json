@@ -1,0 +1,926 @@
+{
+ "_note": "WAISentry incident case files for the fictional client Kitewing Software (tokenised). Synthetic.",
+ "incidents": [
+  {
+   "id": "INC-1101-01",
+   "title": "Consent phishing -> hidden mail forwarding -> vendor payment-diversion (BEC) attempt",
+   "category": "identity / OAuth / email",
+   "severity": "critical",
+   "status": "contained",
+   "batch": "TB-1101-0200",
+   "primary_actor": "USR-CFA4",
+   "actor_role": "Finance Manager (finance team)",
+   "analyst": "A-17 (certified Wursta SOC analyst, Tier 2)",
+   "first_malicious": "2026-11-01T02:04:11-06:00",
+   "first_alert": "2026-11-01T02:04:19-06:00",
+   "opened": "2026-11-01T02:05:44-06:00",
+   "analyst_ack": "2026-11-01T02:06:20-06:00",
+   "confirmed": "2026-11-01T02:07:52-06:00",
+   "authorised": "2026-11-01T02:07:52-06:00",
+   "attack_path": [
+    [
+     "T1566.002",
+     "Consent-phishing email 'Shared document: Q4 vendor remittance' from a 2-day-old domain (01:58)"
+    ],
+    [
+     "T1528",
+     "User granted the unverified 'PDF Secure Viewer' app mail-read, mail-settings and full-Drive scopes (02:04)"
+    ],
+    [
+     "T1114.003",
+     "App added an external forwarding address and a finance-keyword filter (02:05)"
+    ],
+    [
+     "T1564.008",
+     "Filter skips the inbox and marks messages read, so the user never sees replies"
+    ],
+    [
+     "T1078.004",
+     "Password sign-in from Amsterdam 8 minutes after a Cedar Harbor sign-in — stopped by the security key (02:06)"
+    ],
+    [
+     "T1114.002",
+     "412 messages read through the Gmail API (02:06)"
+    ],
+    [
+     "T1656",
+     "Lookalike-vendor email asks AP to change bank details for open invoice TD-2026-1187 (02:07)"
+    ],
+    [
+     "T1530",
+     "38 files downloaded from Finance/Vendors (02:07)"
+    ],
+    [
+     "T1567.002",
+     "Public links created on 2 Confidential finance files (02:07)"
+    ]
+   ],
+   "blast_radius": {
+    "users": [
+     "USR-CFA4"
+    ],
+    "ap_shared_mailbox_targeted": "USR-26F5",
+    "phish_recipients_not_compromised": [
+     "USR-0E33",
+     "USR-5B90"
+    ],
+    "apps": [
+     {
+      "app": "PDF Secure Viewer",
+      "client_id": "990417-pdfsecureviewer",
+      "users": 1
+     }
+    ],
+    "mail_rules": [
+     {
+      "mailbox": "USR-CFA4",
+      "forward_to": "EXT-CBE6",
+      "messages_forwarded": 1
+     }
+    ],
+    "messages_read": 412,
+    "files_downloaded": 38,
+    "files_public": [
+     "FIL-48E5",
+     "FIL-A3EF"
+    ],
+    "external_views_of_public_links": 0,
+    "devices": [
+     {
+      "device": "DEV-E7E9",
+      "edr": "clean (full scan 02:20)"
+     }
+    ],
+    "money_at_risk": {
+     "invoice": "TD-2026-1187",
+     "vendor": "Tessaro Design Studio",
+     "amount_usd": 48600,
+     "due": "2026-11-10"
+    }
+   },
+   "iocs": {
+    "domains": [
+     "securedoc-viewer.example",
+     "tessaro-designs.example",
+     "relaymail.example"
+    ],
+    "ips": [
+     "198.51.100.77 (AS64501, hosting, Amsterdam NL)"
+    ],
+    "oauth_client_ids": [
+     "990417-pdfsecureviewer"
+    ],
+    "addresses": [
+     "EXT-CBE6",
+     "EXT-D0D2",
+     "EXT-4805"
+    ]
+   },
+   "analyst_checklist": [
+    [
+     "Is 'PDF Secure Viewer' an approved app?",
+     "No — unverified publisher, domain 2 days old, not on the allowlist"
+    ],
+    [
+     "Did anyone else grant it?",
+     "No — 1 grant; the 2 other recipients did not click"
+    ],
+    [
+     "Did the Amsterdam sign-in succeed?",
+     "No — the security-key challenge failed"
+    ],
+    [
+     "What left through the forwarding rule?",
+     "1 message (the attacker's own bank-change email)"
+    ],
+    [
+     "Which files were exposed?",
+     "38 downloaded through the API; 2 public links, 0 external views"
+    ],
+    [
+     "Is a payment due to the impersonated vendor?",
+     "Yes — TD-2026-1187, $48,600, due 2026-11-10: finance must hold it"
+    ],
+    [
+     "Was internal phishing sent from the mailbox?",
+     "No messages sent through the app"
+    ]
+   ],
+   "recommended_playbooks": [
+    {
+     "playbook": "PB-01",
+     "target": "USR-CFA4",
+     "why": "end every web session and token the attacker may hold"
+    },
+    {
+     "playbook": "PB-02",
+     "target": "PDF Secure Viewer",
+     "why": "revoke the app tenant-wide and block its client id"
+    },
+    {
+     "playbook": "PB-04",
+     "target": "2 public files",
+     "why": "remove the public links"
+    },
+    {
+     "playbook": "PB-03",
+     "target": "USR-CFA4",
+     "why": "suspend 4 h until the password is reset (security key kept)"
+    }
+   ],
+   "escalate": [
+    "Remove the forwarding filter and forwarding address (mail-rule change is not pre-approved)",
+    "Reset the user's password (client IT)",
+    "Hold payment of TD-2026-1187 and verify the vendor's bank details by phone on file (client finance)",
+    "Block tessaro-designs.example, securedoc-viewer.example and relaymail.example in Mimecast and DNSFilter (client approval)"
+   ],
+   "client_actions": [
+    [
+     "2026-11-01T02:09:05-06:00",
+     "Analyst A-17 phoned Noah Kim (client on-call) and paged Marcus Bell for the payment hold"
+    ],
+    [
+     "2026-11-01T02:24:30-06:00",
+     "Noah Kim removed the filter and forwarding address"
+    ],
+    [
+     "2026-11-01T02:31:10-06:00",
+     "Password reset; account unsuspended at 06:10 after the user confirmed by phone"
+    ],
+    [
+     "2026-11-02T09:00:00-06:00",
+     "External auto-forwarding disabled domain-wide (posture fix)"
+    ],
+    [
+     "2026-11-02T10:15:00-06:00",
+     "Marcus Bell verified with Tessaro by phone: no bank change; TD-2026-1187 paid to the account on file on 2026-11-04"
+    ],
+    [
+     "2026-11-03T11:00:00-06:00",
+     "Third-party app access restricted: unverified apps blocked, 14-app allowlist"
+    ]
+   ],
+   "outcome": "Contained in 29 s after analyst confirmation; payment diversion of $48,600 prevented; $0 lost; no external views of the public links.",
+   "funds_at_risk_usd": 48600,
+   "funds_lost_usd": 0,
+   "files_quarantined": 2,
+   "soc_payload": {
+    "egress_bytes": 2318,
+    "fields": [
+     "incident id",
+     "user token",
+     "app name + client id + scopes",
+     "forward-to token",
+     "file tokens",
+     "message-subject tokens",
+     "IPs, ASN, geo",
+     "timestamps",
+     "ATT&CK techniques",
+     "scores"
+    ]
+   },
+   "containment": [
+    {
+     "playbook": "PB-01",
+     "target": "USR-CFA4",
+     "start": "2026-11-01T02:07:53-06:00",
+     "end": "2026-11-01T02:07:56-06:00"
+    },
+    {
+     "playbook": "PB-02",
+     "target": "PDF Secure Viewer",
+     "start": "2026-11-01T02:07:54-06:00",
+     "end": "2026-11-01T02:07:59-06:00"
+    },
+    {
+     "playbook": "PB-04",
+     "target": "2 public files",
+     "start": "2026-11-01T02:07:55-06:00",
+     "end": "2026-11-01T02:08:21-06:00"
+    },
+    {
+     "playbook": "PB-03",
+     "target": "USR-CFA4",
+     "start": "2026-11-01T02:07:57-06:00",
+     "end": "2026-11-01T02:08:02-06:00"
+    }
+   ],
+   "contained_at": "2026-11-01T02:08:21-06:00",
+   "contained_by": "pre-approved playbooks PB-01, PB-02, PB-04, PB-03"
+  },
+  {
+   "id": "INC-1028-01",
+   "title": "Infostealer on a support laptop -> stolen session cookie replay (blocked)",
+   "category": "endpoint / identity",
+   "severity": "critical",
+   "status": "contained",
+   "batch": "TB-1028-1400",
+   "primary_actor": "USR-163D",
+   "actor_role": "Support Specialist (Millbrook)",
+   "analyst": "A-09 (certified Wursta SOC analyst, Tier 2)",
+   "first_malicious": "2026-10-28T14:21:48-06:00",
+   "first_alert": "2026-10-28T14:21:54-06:00",
+   "opened": "2026-10-28T14:21:58-06:00",
+   "analyst_ack": "2026-10-28T14:22:35-06:00",
+   "confirmed": "2026-10-28T14:24:10-06:00",
+   "authorised": "2026-10-28T14:24:10-06:00",
+   "attack_path": [
+    [
+     "T1204.002",
+     "User ran 'pdfconvert_setup.exe' downloaded from a 17-day-old PDF-converter site (14:18)"
+    ],
+    [
+     "T1555.003",
+     "Unsigned process read the Chrome login-data store (14:21)"
+    ],
+    [
+     "T1539",
+     "...and the cookie store, stealing live web-session cookies"
+    ],
+    [
+     "T1041",
+     "4.1 MB uploaded to 198.51.100.23, Frankfurt (14:22)"
+    ],
+    [
+     "T1550.004",
+     "Stolen cookie replayed from Frankfurt at 14:31 — rejected, sessions already revoked at 14:24"
+    ],
+    [
+     "T1078.004",
+     "Stolen password tried at 14:31 — security key and suspension blocked it"
+    ]
+   ],
+   "blast_radius": {
+    "users": [
+     "USR-163D"
+    ],
+    "devices": [
+     {
+      "device": "DEV-D48B",
+      "edr": "infostealer — isolated 14:38, reimaged 2026-10-29"
+     }
+    ],
+    "saved_browser_passwords": 4,
+    "apps": [],
+    "files_downloaded": 0,
+    "files_public": [],
+    "messages_read": 0,
+    "money_at_risk": null
+   },
+   "iocs": {
+    "domains": [
+     "freepdfconvert-pro.example"
+    ],
+    "ips": [
+     "198.51.100.23 (AS64502, hosting, Frankfurt DE)"
+    ],
+    "files": [
+     "FIL-8AA6 (unsigned)"
+    ]
+   },
+   "analyst_checklist": [
+    [
+     "Is the EDR detection a true positive?",
+     "Yes — unsigned binary read browser credential and cookie stores"
+    ],
+    [
+     "Was data sent out?",
+     "Yes — 4.1 MB to a hosting IP: assume cookies and saved passwords are stolen"
+    ],
+    [
+     "Which accounts are exposed?",
+     "The user's Workspace session + 4 saved SaaS passwords"
+    ],
+    [
+     "Is the device still online?",
+     "Yes — isolation needs the client (not pre-approved)"
+    ]
+   ],
+   "recommended_playbooks": [
+    {
+     "playbook": "PB-01",
+     "target": "USR-163D",
+     "why": "invalidate every stolen session cookie and token"
+    },
+    {
+     "playbook": "PB-03",
+     "target": "USR-163D",
+     "why": "suspend 4 h until the password is reset"
+    }
+   ],
+   "escalate": [
+    "Isolate the laptop with the EDR console (device isolation is not pre-approved)",
+    "Rotate the 4 saved SaaS passwords and reset the Workspace password (client IT)",
+    "Block 198.51.100.23 and freepdfconvert-pro.example (client approval)"
+   ],
+   "client_actions": [
+    [
+     "2026-10-28T14:25:00-06:00",
+     "Analyst A-09 called Hugo Laurent (Millbrook IT)"
+    ],
+    [
+     "2026-10-28T14:38:20-06:00",
+     "Hugo Laurent isolated the laptop in the EDR console"
+    ],
+    [
+     "2026-10-28T16:05:00-06:00",
+     "Passwords rotated; freepdfconvert-pro.example blocked in DNSFilter"
+    ],
+    [
+     "2026-10-29T10:30:00-06:00",
+     "Laptop reimaged and returned"
+    ]
+   ],
+   "outcome": "Sessions revoked 7 minutes before the attacker tried the stolen cookie; replay and password sign-in both failed; no data accessed in Workspace.",
+   "funds_at_risk_usd": 0,
+   "funds_lost_usd": 0,
+   "files_quarantined": 0,
+   "soc_payload": {
+    "egress_bytes": 1544,
+    "fields": [
+     "incident id",
+     "user token",
+     "device token",
+     "process + hash",
+     "IPs, ASN, geo",
+     "timestamps",
+     "ATT&CK techniques",
+     "scores"
+    ]
+   },
+   "containment": [
+    {
+     "playbook": "PB-01",
+     "target": "USR-163D",
+     "start": "2026-10-28T14:24:11-06:00",
+     "end": "2026-10-28T14:24:14-06:00"
+    },
+    {
+     "playbook": "PB-03",
+     "target": "USR-163D",
+     "start": "2026-10-28T14:24:15-06:00",
+     "end": "2026-10-28T14:24:20-06:00"
+    }
+   ],
+   "contained_at": "2026-10-28T14:24:20-06:00",
+   "contained_by": "pre-approved playbooks PB-01, PB-03"
+  },
+  {
+   "id": "INC-1106-01",
+   "title": "Confidential customer ARR export shared publicly and to a personal mailbox",
+   "category": "data exposure (Drive)",
+   "severity": "medium",
+   "status": "open — PB-04 recommended, awaiting containment",
+   "batch": "TB-1106-0900",
+   "primary_actor": "USR-FDB1",
+   "actor_role": "Content & Social Marketer",
+   "analyst": "A-21 (certified Wursta SOC analyst, Tier 1)",
+   "first_malicious": "2026-11-06T09:04:22-06:00",
+   "first_alert": "2026-11-06T09:04:27-06:00",
+   "opened": "2026-11-06T09:04:50-06:00",
+   "analyst_ack": "2026-11-06T09:05:30-06:00",
+   "confirmed": "2026-11-06T09:07:05-06:00",
+   "authorised": "2026-11-06T09:07:05-06:00",
+   "attack_path": [
+    [
+     "T1567.002",
+     "Confidential export (171 customer rows with ARR) set to 'anyone with the link' (09:04)"
+    ],
+    [
+     "T1567.002",
+     "Same file shared with a personal mailbox (09:04)"
+    ]
+   ],
+   "blast_radius": {
+    "users": [
+     "USR-FDB1"
+    ],
+    "files_public": [
+     "FIL-5967"
+    ],
+    "external_recipients": [
+     "EXT-4B9C"
+    ],
+    "external_views_of_public_links": 0,
+    "apps": [],
+    "messages_read": 0,
+    "files_downloaded": 0,
+    "money_at_risk": null
+   },
+   "iocs": {},
+   "analyst_checklist": [
+    [
+     "Malicious or accidental?",
+     "Accidental — the owner is preparing case-study numbers; no other risky activity"
+    ],
+    [
+     "Was the link opened externally?",
+     "No — 0 external views so far"
+    ],
+    [
+     "Is the file Confidential?",
+     "Yes — label Confidential, customer ARR for 171 accounts"
+    ]
+   ],
+   "recommended_playbooks": [
+    {
+     "playbook": "PB-04",
+     "target": "FIL-5967",
+     "why": "remove the public link and the personal-mailbox share"
+    }
+   ],
+   "escalate": [
+    "Tell the user's manager (Alicia Moreau) and remind the user of the sharing policy (client)",
+    "Change the Marketing OU default link sharing to 'restricted' (domain setting — client admin)"
+   ],
+   "client_actions": [],
+   "outcome": "Open: PB-04 recommended; no external views yet.",
+   "funds_at_risk_usd": 0,
+   "funds_lost_usd": 0,
+   "files_quarantined": 0,
+   "soc_payload": {
+    "egress_bytes": 911,
+    "fields": [
+     "incident id",
+     "user token",
+     "file token",
+     "recipient token",
+     "label",
+     "row count",
+     "timestamps",
+     "scores"
+    ]
+   },
+   "containment": [],
+   "planned_containment": [
+    {
+     "playbook": "PB-04",
+     "target": "FIL-5967",
+     "start": "2026-11-06T09:07:08-06:00",
+     "end": "2026-11-06T09:07:22-06:00"
+    }
+   ]
+  },
+  {
+   "id": "INC-1015-01",
+   "title": "Payroll-lure credential-harvest phishing wave (no compromise)",
+   "category": "email",
+   "severity": "medium",
+   "status": "resolved",
+   "batch": null,
+   "primary_actor": "USR-68B2",
+   "actor_role": "Sales Development Representative (clicked; page blocked)",
+   "analyst": "A-21 (certified Wursta SOC analyst, Tier 1)",
+   "first_malicious": "2026-10-15T10:12:03-06:00",
+   "first_alert": "2026-10-15T10:13:46-06:00",
+   "opened": "2026-10-15T10:13:50-06:00",
+   "analyst_ack": "2026-10-15T10:14:30-06:00",
+   "confirmed": "2026-10-15T10:16:20-06:00",
+   "authorised": null,
+   "attack_path": [
+    [
+     "T1566.002",
+     "14 users received 'Payroll portal: confirm your direct deposit' from payroll-kitewing.example"
+    ],
+    [
+     "T1566.002",
+     "1 click (page blocked by DNSFilter, phishing category); 6 users reported it with the KnowBe4 button"
+    ]
+   ],
+   "blast_radius": {
+    "users": [
+     "USR-68B2"
+    ],
+    "recipients": 14,
+    "clicks": 1,
+    "credentials_entered": 0,
+    "apps": [],
+    "files_public": [],
+    "money_at_risk": null
+   },
+   "iocs": {
+    "domains": [
+     "payroll-kitewing.example"
+    ],
+    "addresses": [
+     "EXT-483C"
+    ]
+   },
+   "analyst_checklist": [
+    [
+     "Did anyone enter credentials?",
+     "No — the only click was blocked at DNS"
+    ]
+   ],
+   "recommended_playbooks": [],
+   "escalate": [
+    "Purge the 14 messages from mailboxes with Mimecast (message purge is not pre-approved)"
+   ],
+   "client_actions": [
+    [
+     "2026-10-15T10:19:02-06:00",
+     "Noah Kim approved the purge in chat"
+    ],
+    [
+     "2026-10-15T10:21:40-06:00",
+     "Analyst purged 14 messages"
+    ]
+   ],
+   "outcome": "No compromise; 14 messages purged 8 minutes after the first report.",
+   "funds_at_risk_usd": 0,
+   "funds_lost_usd": 0,
+   "files_quarantined": 0,
+   "events": [
+    {
+     "id": "EV-1015-A1",
+     "ts": "2026-10-15T10:12:03-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-68B2",
+     "detail": "'MSG-B627' delivered to 14 users from EXT-483C",
+     "signals": [
+      "lookalike_domain",
+      "newly_registered_domain",
+      "external_sender_first_contact"
+     ],
+     "technique": "T1566.002"
+    },
+    {
+     "id": "EV-1015-A2",
+     "ts": "2026-10-15T10:13:40-06:00",
+     "src": "knowbe4",
+     "type": "phish_reported",
+     "actor": "USR-0E33",
+     "detail": "3 users reported the message with the Phish Alert Button within 90 s",
+     "signals": [
+      "user_reported_phish",
+      "lookalike_domain",
+      "newly_registered_domain"
+     ],
+     "technique": "T1566.002",
+     "triaged_s": 6
+    },
+    {
+     "id": "EV-1015-A3",
+     "ts": "2026-10-15T10:14:05-06:00",
+     "src": "dnsfilter",
+     "type": "phishing_block",
+     "actor": "DEV-FF86",
+     "detail": "Click to payroll-kitewing.example blocked (category phishing)",
+     "signals": [
+      "phishing_category",
+      "lookalike_domain",
+      "newly_registered_domain",
+      "dns_blocked"
+     ],
+     "technique": "T1566.002",
+     "triaged_s": 5
+    }
+   ],
+   "containment": [],
+   "contained_at": "2026-10-15T10:21:40-06:00",
+   "contained_by": "escalation — analyst purged the messages after client approval"
+  },
+  {
+   "id": "INC-1021-01",
+   "title": "MFA-fatigue push bombing against a contractor account",
+   "category": "identity",
+   "severity": "high",
+   "status": "contained",
+   "batch": null,
+   "primary_actor": "USR-2588",
+   "actor_role": "QA Engineer (contractor, Google prompt — security key pending)",
+   "analyst": "A-17 (certified Wursta SOC analyst, Tier 2)",
+   "first_malicious": "2026-10-21T23:10:02-06:00",
+   "first_alert": "2026-10-21T23:12:31-06:00",
+   "opened": "2026-10-21T23:12:35-06:00",
+   "analyst_ack": "2026-10-21T23:13:10-06:00",
+   "confirmed": "2026-10-21T23:13:55-06:00",
+   "authorised": "2026-10-21T23:13:55-06:00",
+   "attack_path": [
+    [
+     "T1110.004",
+     "Password from a third-party breach used from 198.51.100.140 (Singapore, hosting)"
+    ],
+    [
+     "T1621",
+     "11 Google prompts in 4 minutes; the user denied all of them"
+    ]
+   ],
+   "blast_radius": {
+    "users": [
+     "USR-2588"
+    ],
+    "successful_sign_ins": 0,
+    "apps": [],
+    "files_public": [],
+    "money_at_risk": null
+   },
+   "iocs": {
+    "ips": [
+     "198.51.100.140 (AS64503, hosting, Singapore SG)"
+    ]
+   },
+   "analyst_checklist": [
+    [
+     "Did any prompt get approved?",
+     "No — 11 denied"
+    ],
+    [
+     "Is the password known to the attacker?",
+     "Yes — reset needed"
+    ]
+   ],
+   "recommended_playbooks": [
+    {
+     "playbook": "PB-01",
+     "target": "USR-2588",
+     "why": "end any session, just in case"
+    },
+    {
+     "playbook": "PB-03",
+     "target": "USR-2588",
+     "why": "suspend 4 h to stop the prompts until the password is reset"
+    }
+   ],
+   "escalate": [
+    "Reset the password and ship a security key (client IT)"
+   ],
+   "client_actions": [
+    [
+     "2026-10-22T08:30:00-06:00",
+     "Password reset; security key ordered (arrives 2026-11-09)"
+    ]
+   ],
+   "outcome": "Prompts stopped within 4 minutes of the first one; no sign-in succeeded.",
+   "funds_at_risk_usd": 0,
+   "funds_lost_usd": 0,
+   "files_quarantined": 0,
+   "events": [
+    {
+     "id": "EV-1021-A1",
+     "ts": "2026-10-21T23:12:31-06:00",
+     "src": "workspace.login",
+     "type": "mfa_prompt_burst",
+     "actor": "USR-2588",
+     "detail": "5th Google prompt in 150 s after correct passwords from 198.51.100.140 (Singapore, hosting); all denied",
+     "ip": "198.51.100.140",
+     "geo": "Singapore, SG",
+     "signals": [
+      "mfa_prompt_burst",
+      "password_ok",
+      "hosting_asn",
+      "new_country",
+      "after_hours"
+     ],
+     "technique": "T1621",
+     "triaged_s": 4
+    }
+   ],
+   "containment": [
+    {
+     "playbook": "PB-01",
+     "target": "USR-2588",
+     "start": "2026-10-21T23:13:56-06:00",
+     "end": "2026-10-21T23:13:59-06:00"
+    },
+    {
+     "playbook": "PB-03",
+     "target": "USR-2588",
+     "start": "2026-10-21T23:14:00-06:00",
+     "end": "2026-10-21T23:14:05-06:00"
+    }
+   ],
+   "contained_at": "2026-10-21T23:14:05-06:00",
+   "contained_by": "pre-approved playbooks PB-01, PB-03"
+  },
+  {
+   "id": "INC-1023-01",
+   "title": "Legacy remote-access tool on the Millbrook file server beaconing to a re-registered domain",
+   "category": "on-prem server",
+   "severity": "medium",
+   "status": "resolved",
+   "batch": null,
+   "primary_actor": "MB-FS01",
+   "actor_role": "Legacy file server (Windows Server 2016)",
+   "analyst": "A-09 (certified Wursta SOC analyst, Tier 2)",
+   "first_malicious": "2026-10-23T03:12:03-06:00",
+   "first_alert": "2026-10-23T03:12:09-06:00",
+   "opened": "2026-10-23T03:12:12-06:00",
+   "analyst_ack": "2026-10-23T03:13:00-06:00",
+   "confirmed": "2026-10-23T03:15:30-06:00",
+   "authorised": null,
+   "attack_path": [
+    [
+     "T1219",
+     "'LegacyRemote 6' support agent left by a former IT provider tried to self-update"
+    ],
+    [
+     "T1071.001",
+     "Update domain had changed owner (re-registered 2026-10-20); DNSFilter and the IDS blocked it"
+    ]
+   ],
+   "blast_radius": {
+    "servers": [
+     "MB-FS01"
+    ],
+    "data_sent": "none (blocked)",
+    "apps": [],
+    "files_public": [],
+    "money_at_risk": null
+   },
+   "iocs": {
+    "domains": [
+     "update-check.cdn-mirror.example"
+    ]
+   },
+   "analyst_checklist": [
+    [
+     "Did any connection succeed?",
+     "No — blocked at DNS and at the firewall"
+    ]
+   ],
+   "recommended_playbooks": [],
+   "escalate": [
+    "Uninstall LegacyRemote 6 from MB-FS01 (server change — client IT, business hours)"
+   ],
+   "client_actions": [
+    [
+     "2026-10-23T10:40:00-06:00",
+     "Hugo Laurent uninstalled the tool"
+    ]
+   ],
+   "outcome": "Blocked by preventive controls in real time; tool removed the same morning.",
+   "funds_at_risk_usd": 0,
+   "funds_lost_usd": 0,
+   "files_quarantined": 0,
+   "events": [
+    {
+     "id": "EV-1023-A1",
+     "ts": "2026-10-23T03:12:03-06:00",
+     "src": "dnsfilter",
+     "type": "nrd_block",
+     "actor": "MB-FS01",
+     "detail": "MB-FS01 lookup of update-check.cdn-mirror.example blocked (newly registered / malware)",
+     "signals": [
+      "newly_registered_domain",
+      "dns_blocked",
+      "server_host",
+      "outbound_c2_pattern",
+      "after_hours"
+     ],
+     "technique": "T1071.001",
+     "triaged_s": 6
+    },
+    {
+     "id": "EV-1023-A2",
+     "ts": "2026-10-23T03:12:04-06:00",
+     "src": "firewall_ids",
+     "type": "ids_block",
+     "actor": "MB-FS01",
+     "detail": "IDS signature 'LegacyRemote outdated agent update' — outbound connection blocked at MB-FW01",
+     "signals": [
+      "outbound_c2_pattern",
+      "server_host",
+      "unsigned_binary",
+      "after_hours"
+     ],
+     "technique": "T1219",
+     "triaged_s": 5
+    }
+   ],
+   "containment": [],
+   "contained_at": "2026-10-23T03:12:04-06:00",
+   "contained_by": "preventive controls — DNSFilter and the IDS blocked the beacon"
+  },
+  {
+   "id": "INC-1030-01",
+   "title": "Password spray against the Millbrook domain controller from an end-of-life reception PC",
+   "category": "on-prem identity",
+   "severity": "high",
+   "status": "contained",
+   "batch": null,
+   "primary_actor": "MB-WS07",
+   "actor_role": "Reception PC (Windows 10, out of support, no EDR)",
+   "analyst": "A-17 (certified Wursta SOC analyst, Tier 2)",
+   "first_malicious": "2026-10-30T22:47:12-06:00",
+   "first_alert": "2026-10-30T22:47:40-06:00",
+   "opened": "2026-10-30T22:47:44-06:00",
+   "analyst_ack": "2026-10-30T22:48:20-06:00",
+   "confirmed": "2026-10-30T22:50:05-06:00",
+   "authorised": null,
+   "attack_path": [
+    [
+     "T1110.003",
+     "312 failed Kerberos pre-authentications against 41 AD accounts in 11 minutes from MB-WS07"
+    ]
+   ],
+   "blast_radius": {
+    "hosts": [
+     "MB-WS07",
+     "MB-DC01"
+    ],
+    "ad_accounts_targeted": 41,
+    "successful_logons": 0,
+    "lockouts": 6,
+    "apps": [],
+    "files_public": [],
+    "money_at_risk": null
+   },
+   "iocs": {
+    "hosts": [
+     "MB-WS07"
+    ]
+   },
+   "analyst_checklist": [
+    [
+     "Any successful logon?",
+     "No"
+    ],
+    [
+     "Is the source host managed?",
+     "No EDR, Windows 10 out of support"
+    ]
+   ],
+   "recommended_playbooks": [],
+   "escalate": [
+    "Isolate MB-WS07 from the network (on-prem device isolation is not pre-approved)"
+   ],
+   "client_actions": [
+    [
+     "2026-10-30T23:31:00-06:00",
+     "Hugo Laurent disabled the switch port (P2 phone escalation)"
+    ],
+    [
+     "2026-10-31T08:15:00-06:00",
+     "PC removed; forensic image found a commodity loader from a USB stick"
+    ]
+   ],
+   "outcome": "No account compromised; 41 minutes from confirmation to isolation because on-prem isolation needs the client.",
+   "funds_at_risk_usd": 0,
+   "funds_lost_usd": 0,
+   "files_quarantined": 0,
+   "events": [
+    {
+     "id": "EV-1030-A1",
+     "ts": "2026-10-30T22:47:40-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_preauth_burst",
+     "actor": "MB-WS07",
+     "detail": "Burst of failed Kerberos pre-authentication (4771) and logon failures (4625) on MB-DC01 for 41 accounts from MB-WS07",
+     "signals": [
+      "kerberos_preauth_burst",
+      "many_accounts",
+      "eol_host_no_edr",
+      "after_hours"
+     ],
+     "technique": "T1110.003",
+     "triaged_s": 28
+    }
+   ],
+   "containment": [],
+   "contained_at": "2026-10-30T23:31:00-06:00",
+   "contained_by": "escalation — client IT disabled the switch port"
+  }
+ ]
+}

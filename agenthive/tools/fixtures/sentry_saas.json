@@ -1,0 +1,414 @@
+{
+ "as_of": "2026-11-06",
+ "app_policy": "Since 2026-11-03: unverified third-party apps blocked for new grants; 14-app allowlist. Legacy grants remain until revoked.",
+ "scope_risk": {
+  "https://mail.google.com/": "critical",
+  "gmail.readonly": "high",
+  "gmail.modify": "high",
+  "gmail.send": "high",
+  "gmail.settings.sharing": "high",
+  "gmail.settings.basic": "high",
+  "drive": "high",
+  "drive.readonly": "high",
+  "drive.file": "low",
+  "calendar": "medium",
+  "calendar.readonly": "low",
+  "spreadsheets": "medium",
+  "admin.reports.audit.readonly": "medium",
+  "admin.directory.user.readonly": "medium",
+  "openid": "none",
+  "email": "none",
+  "profile": "none",
+  "chat.messages": "medium"
+ },
+ "oauth_apps": [
+  {
+   "app": "PDF Secure Viewer",
+   "client_id": "990417-pdfsecureviewer",
+   "publisher": "pdfsecure-viewer.example",
+   "verified": false,
+   "scopes": [
+    "gmail.readonly",
+    "gmail.settings.sharing",
+    "drive"
+   ],
+   "users": 1,
+   "user_tokens": [
+    "USR-CFA4"
+   ],
+   "first_grant": "2026-11-01",
+   "grant_origin": "link in an email",
+   "publisher_domain_age_days": 2,
+   "allowlisted": false,
+   "status": "revoked 2026-11-01 02:07:59 (PB-02) and client id blocked",
+   "incident": "INC-1101-01"
+  },
+  {
+   "app": "QuickSign Free",
+   "client_id": "771203-quicksignfree",
+   "publisher": "quicksign-free.example",
+   "verified": false,
+   "scopes": [
+    "gmail.readonly",
+    "drive"
+   ],
+   "users": 1,
+   "user_tokens": [
+    "USR-8645"
+   ],
+   "first_grant": "2026-10-19",
+   "grant_origin": "marketplace search",
+   "publisher_domain_age_days": 410,
+   "allowlisted": false,
+   "status": "active (legacy grant)"
+  },
+  {
+   "app": "Docs PDF Converter Plus",
+   "client_id": "552981-docspdfplus",
+   "publisher": "docspdf-plus.example",
+   "verified": false,
+   "scopes": [
+    "drive"
+   ],
+   "users": 4,
+   "user_tokens": [
+    "USR-49E5",
+    "USR-6F68",
+    "USR-212A"
+   ],
+   "first_grant": "2026-08-30",
+   "grant_origin": "browser extension prompt",
+   "publisher_domain_age_days": 220,
+   "allowlisted": false,
+   "status": "active (legacy grant)"
+  },
+  {
+   "app": "AI Meeting Notes Free",
+   "client_id": "640118-aimeetingnotes",
+   "publisher": "meetnotes-ai.example",
+   "verified": false,
+   "scopes": [
+    "calendar",
+    "drive.file",
+    "gmail.send"
+   ],
+   "users": 3,
+   "user_tokens": [
+    "USR-B701",
+    "USR-5A39",
+    "USR-8207"
+   ],
+   "first_grant": "2026-09-22",
+   "grant_origin": "calendar invite add-on",
+   "publisher_domain_age_days": 95,
+   "allowlisted": false,
+   "status": "active (legacy grant); new consents blocked since 2026-11-03"
+  },
+  {
+   "app": "Calendar Sync Pro",
+   "client_id": "339870-calsyncpro",
+   "publisher": "calsync.example",
+   "verified": false,
+   "scopes": [
+    "calendar"
+   ],
+   "users": 2,
+   "user_tokens": [
+    "USR-AD7D",
+    "USR-CD1C"
+   ],
+   "first_grant": "2026-05-11",
+   "grant_origin": "marketplace search",
+   "publisher_domain_age_days": 1300,
+   "allowlisted": false,
+   "status": "active (legacy grant)"
+  },
+  {
+   "app": "MailMerge Toolkit",
+   "client_id": "118044-mailmergetk",
+   "publisher": "MailMerge Toolkit Ltd",
+   "verified": true,
+   "scopes": [
+    "gmail.send",
+    "spreadsheets"
+   ],
+   "users": 6,
+   "user_tokens": [
+    "USR-CD1C",
+    "USR-FDB1",
+    "USR-68B2"
+   ],
+   "first_grant": "2025-03-02",
+   "grant_origin": "marketplace",
+   "publisher_domain_age_days": 2900,
+   "allowlisted": true,
+   "status": "active (allowlisted)"
+  },
+  {
+   "app": "Diagram Helper",
+   "client_id": "204417-diagramhelper",
+   "publisher": "Diagram Helper Inc.",
+   "verified": true,
+   "scopes": [
+    "drive.file"
+   ],
+   "users": 9,
+   "user_tokens": [
+    "USR-EDEE",
+    "USR-01C9",
+    "USR-1E68"
+   ],
+   "first_grant": "2024-11-18",
+   "grant_origin": "marketplace",
+   "publisher_domain_age_days": 3100,
+   "allowlisted": true,
+   "status": "active (allowlisted)"
+  },
+  {
+   "app": "Slack",
+   "client_id": "slack-workspace",
+   "publisher": "Slack",
+   "verified": true,
+   "scopes": [
+    "calendar.readonly",
+    "drive.readonly",
+    "profile"
+   ],
+   "users": 58,
+   "user_tokens": [],
+   "first_grant": "2021-02-10",
+   "grant_origin": "admin-installed",
+   "publisher_domain_age_days": 5000,
+   "allowlisted": true,
+   "status": "sanctioned"
+  },
+  {
+   "app": "Zoom",
+   "client_id": "zoom-workspace",
+   "publisher": "Zoom",
+   "verified": true,
+   "scopes": [
+    "calendar",
+    "profile"
+   ],
+   "users": 55,
+   "user_tokens": [],
+   "first_grant": "2021-02-10",
+   "grant_origin": "admin-installed",
+   "publisher_domain_age_days": 5000,
+   "allowlisted": true,
+   "status": "sanctioned"
+  },
+  {
+   "app": "DocuSign",
+   "client_id": "docusign-workspace",
+   "publisher": "DocuSign",
+   "verified": true,
+   "scopes": [
+    "drive.file",
+    "gmail.send"
+   ],
+   "users": 8,
+   "user_tokens": [],
+   "first_grant": "2022-01-15",
+   "grant_origin": "admin-installed",
+   "publisher_domain_age_days": 5000,
+   "allowlisted": true,
+   "status": "sanctioned"
+  },
+  {
+   "app": "KnowBe4 Phish Alert Button",
+   "client_id": "knowbe4-pab",
+   "publisher": "KnowBe4",
+   "verified": true,
+   "scopes": [
+    "gmail.modify"
+   ],
+   "users": 62,
+   "user_tokens": [],
+   "first_grant": "2025-06-01",
+   "grant_origin": "admin-installed",
+   "publisher_domain_age_days": 5000,
+   "allowlisted": true,
+   "status": "sanctioned (security tool)"
+  },
+  {
+   "app": "Kitewing FieldOps SSO",
+   "client_id": "kitewing-fieldops",
+   "publisher": "Kitewing Software (internal)",
+   "verified": true,
+   "scopes": [
+    "openid",
+    "email",
+    "profile"
+   ],
+   "users": 62,
+   "user_tokens": [],
+   "first_grant": "2021-03-01",
+   "grant_origin": "internal",
+   "publisher_domain_age_days": 5000,
+   "allowlisted": true,
+   "status": "internal"
+  },
+  {
+   "app": "WAISentry telemetry connector",
+   "client_id": "waisentry-connector",
+   "publisher": "Wursta (in-tenant pipeline)",
+   "verified": true,
+   "scopes": [
+    "admin.reports.audit.readonly",
+    "admin.directory.user.readonly"
+   ],
+   "users": 1,
+   "user_tokens": [],
+   "first_grant": "2026-10-05",
+   "grant_origin": "admin-installed (onboarding day 1)",
+   "publisher_domain_age_days": 5000,
+   "allowlisted": true,
+   "status": "sanctioned — read-only audit and directory APIs; runs inside the client's Google Cloud tenant"
+  }
+ ],
+ "shadow_it": [
+  {
+   "service": "freepdfconvert-pro.example",
+   "category": "PDF conversion",
+   "users": 11,
+   "uploads": 186,
+   "uploaded_mb": 1430,
+   "first_seen": "2026-10-11",
+   "risk": "critical",
+   "why": "infostealer source in INC-1028-01; blocked since 2026-10-28",
+   "alternative": "Google Drive / Docs built-in PDF export"
+  },
+  {
+   "service": "chat-ai-free.example",
+   "category": "consumer AI chatbot",
+   "users": 14,
+   "uploads": 212,
+   "uploaded_mb": 9,
+   "first_seen": "2026-09-02",
+   "risk": "high",
+   "why": "37 pastes over 2,000 characters — likely customer or code content",
+   "alternative": "Gemini in Google Workspace (enterprise data protections)"
+  },
+  {
+   "service": "filedrop.example",
+   "category": "large file transfer",
+   "users": 7,
+   "uploads": 41,
+   "uploaded_mb": 2310,
+   "first_seen": "2026-08-14",
+   "risk": "high",
+   "why": "2.3 GB uploaded outside Drive; no expiry or audit",
+   "alternative": "Drive sharing with expiry and visitor sharing"
+  },
+  {
+   "service": "personalmail.example",
+   "category": "personal webmail",
+   "users": 22,
+   "uploads": 61,
+   "uploaded_mb": 140,
+   "first_seen": "2026-10-08",
+   "risk": "medium",
+   "why": "attachments uploaded to personal mailboxes",
+   "alternative": "—"
+  },
+  {
+   "service": "screenrec.example",
+   "category": "screen recording",
+   "users": 6,
+   "uploads": 33,
+   "uploaded_mb": 980,
+   "first_seen": "2026-09-19",
+   "risk": "medium",
+   "why": "support screen recordings may show customer data",
+   "alternative": "Google Vids / Meet recordings in Drive"
+  },
+  {
+   "service": "notesync.example",
+   "category": "note taking",
+   "users": 5,
+   "uploads": 120,
+   "uploaded_mb": 12,
+   "first_seen": "2026-07-30",
+   "risk": "low",
+   "why": "personal notes app synced from work laptops",
+   "alternative": "Google Keep / Docs"
+  }
+ ],
+ "alerts": {
+  "7": {
+   "period": "2026-10-31 to 2026-11-06",
+   "knowbe4": {
+    "phish_prone_pct": 9.7,
+    "phish_prone_pct_baseline_2026_10_01": 21.0,
+    "last_simulation": "'Payroll update' 2026-11-03: 6 of 62 clicked, 0 entered credentials",
+    "training_completion": "58 of 62 (4 overdue)",
+    "running_simulation": "'Holiday bonus' launched 2026-11-06 09:00 — 1 click so far",
+    "phish_alert_reports": 11,
+    "reports_confirmed_malicious": 4,
+    "reports_spam": 5,
+    "reports_simulation": 2
+   },
+   "mimecast": {
+    "inbound": 18940,
+    "rejected": 1212,
+    "impersonation_hits": 23,
+    "url_protect_blocks": 9,
+    "attachments_held": 2,
+    "dmarc_failures": 31,
+    "notable": "2026-11-01 02:07 lookalike tessaro-designs.example delivered with a banner (INC-1101-01) — recommend hold instead of banner for finance recipients"
+   },
+   "dnsfilter": {
+    "queries": 1184220,
+    "blocked": 3410,
+    "blocked_by_category": {
+     "ads/trackers": 2960,
+     "newly registered": 61,
+     "phishing": 14,
+     "malware": 3,
+     "unsanctioned file sharing": 372
+    },
+    "notable": "securedoc-viewer.example resolved (allowed) on 2026-11-01 02:03 — newly registered domains are not blocked for the finance group"
+   },
+   "web_proxy": {
+    "uploads_to_unsanctioned_saas_mb": 2930,
+    "executables_blocked": 4,
+    "notable": "chat-ai-free.example: 9 large pastes this week"
+   }
+  },
+  "30": {
+   "period": "2026-10-08 to 2026-11-06",
+   "knowbe4": {
+    "phish_prone_pct": 9.7,
+    "phish_prone_pct_baseline_2026_10_01": 21.0,
+    "simulations": "3 (2026-10-13, 2026-11-03, 2026-11-06 running)",
+    "phish_alert_reports": 47,
+    "reports_confirmed_malicious": 15
+   },
+   "mimecast": {
+    "inbound": 79410,
+    "rejected": 5233,
+    "impersonation_hits": 88,
+    "url_protect_blocks": 41,
+    "attachments_held": 9,
+    "messages_purged": 14
+   },
+   "dnsfilter": {
+    "queries": 5036810,
+    "blocked": 14820,
+    "blocked_by_category": {
+     "ads/trackers": 12680,
+     "newly registered": 248,
+     "phishing": 61,
+     "malware": 9,
+     "unsanctioned file sharing": 1822
+    }
+   },
+   "web_proxy": {
+    "uploads_to_unsanctioned_saas_mb": 4881,
+    "executables_blocked": 17
+   }
+  }
+ }
+}

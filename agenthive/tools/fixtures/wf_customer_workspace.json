@@ -1,0 +1,81 @@
+{
+  "customers": [
+    {
+      "id": "CUST-1042",
+      "name": "Kitewing Software",
+      "aliases": ["kitewing", "kitewing software, inc."],
+      "mode": "saas",
+      "brand_profile": "kitewing",
+      "users": [
+        {"name": "Alicia Moreau", "role": "Head of Marketing", "approver": true},
+        {"name": "Ben Hartley", "role": "Content & Social"},
+        {"name": "Jamie Cho", "role": "Account Executive"},
+        {"name": "Ines Duarte", "role": "Senior Implementation Consultant"}
+      ],
+      "credits": {"balance": 120, "currency": "USD", "usd_per_credit": 1, "last_top_up": "2026-10-20"},
+      "past_jobs": [
+        {"job_id": "WFJ-40711", "date": "2026-10-22", "title": "LinkedIn post pack — Greystone first-time-fix story", "agents": 1, "tier": "P2", "credits_used": 5.0, "credits_refunded": 1.0},
+        {"job_id": "WFJ-40958", "date": "2026-10-29", "title": "Webinar recap blog post — Beating the spring rush", "agents": 2, "tier": "P3", "credits_used": 5.0, "credits_refunded": 1.0},
+        {"job_id": "WFJ-41203", "date": "2026-11-03", "title": "Spanish beta announcement — customer email", "agents": 1, "tier": "P1", "credits_used": 7.5, "credits_refunded": 1.5}
+      ]
+    }
+  ],
+  "website": {
+    "site": "kitewing.example",
+    "snapshot_date": "2026-11-02",
+    "source": "Synthetic snapshot of the customer's connected crawl and Search Console data (last 30 days)",
+    "pages": [
+      {"path": "/", "title": "Kitewing FieldOps — field service software for contractors", "meta": "Schedule, dispatch, complete and invoice field work with Kitewing FieldOps. Built for contractors with 10 to 300 technicians.", "h1": ["Run every job, finished right the first time"], "words": 820, "target_query": "field service software", "position": 14.2, "sessions_30d": 2310, "lcp_s": 2.1, "last_updated": "2026-09-30", "indexable": true, "internal_links_in": 48},
+      {"path": "/fieldops", "title": "Kitewing FieldOps | Scheduling, Dispatch, Mobile Work Orders, Invoicing and Maintenance Agreements for Service Contractors", "meta": "Kitewing FieldOps brings scheduling, dispatch, a mobile app with offline mode, work orders, maintenance agreements and invoicing together.", "h1": ["Kitewing FieldOps"], "words": 1240, "target_query": "dispatch software", "position": 18.6, "sessions_30d": 940, "lcp_s": 2.4, "last_updated": "2026-08-12", "indexable": true, "internal_links_in": 36},
+      {"path": "/route-optimizer", "title": "Route Optimizer — live route re-sequencing | Kitewing", "meta": "Route Optimizer re-sequences routes automatically when traffic or a cancelled job changes the day.", "h1": ["Route Optimizer"], "words": 180, "target_query": "route optimization software for service businesses", "position": 23.4, "sessions_30d": 310, "lcp_s": 1.9, "last_updated": "2026-10-24", "indexable": true, "internal_links_in": 12},
+      {"path": "/assist", "title": "Kitewing Assist — AI copilot for field technicians", "meta": "Kitewing Assist answers technicians' troubleshooting questions from manuals and job history, built on Google's Gemini models.", "h1": ["Kitewing Assist"], "words": 760, "target_query": "ai for field technicians", "position": null, "sessions_30d": 0, "lcp_s": 2.2, "last_updated": "2026-11-03", "indexable": false, "internal_links_in": 15},
+      {"path": "/insights", "title": "Insights — field service analytics on BigQuery | Kitewing", "meta": "", "h1": ["Insights"], "words": 640, "target_query": "field service analytics", "position": 31.0, "sessions_30d": 120, "lcp_s": 2.0, "last_updated": "2026-06-18", "indexable": true, "internal_links_in": 9},
+      {"path": "/pricing", "title": "Pricing | Kitewing", "meta": "Starter, Growth and Enterprise plans for service contractors. Add Route Optimizer, Kitewing Assist and Insights.", "h1": [], "words": 560, "target_query": "field service software pricing", "position": 9.8, "sessions_30d": 1180, "lcp_s": 2.6, "last_updated": "2026-07-01", "indexable": true, "internal_links_in": 41},
+      {"path": "/industries/hvac", "title": "HVAC dispatch software | Kitewing", "meta": "Cut peak-season overtime and fix more jobs on the first visit with Kitewing FieldOps for HVAC and plumbing contractors.", "h1": ["Software for HVAC and plumbing contractors"], "words": 980, "target_query": "hvac dispatch software", "position": 8.1, "sessions_30d": 860, "lcp_s": 2.3, "last_updated": "2026-05-20", "indexable": true, "internal_links_in": 14},
+      {"path": "/industries/fire-protection", "title": "Fire protection inspection software | Kitewing", "meta": "Statutory inspections, same-day reports and faster cash flow for fire protection, alarm and security contractors.", "h1": ["Software for fire protection contractors"], "words": 910, "target_query": "fire inspection software", "position": 12.7, "sessions_30d": 240, "lcp_s": 2.2, "last_updated": "2026-04-02", "indexable": true, "internal_links_in": 0},
+      {"path": "/customers/greystone-facilities-group", "title": "Greystone Facilities Group customer story | Kitewing", "meta": "How Greystone Facilities Group reached 86% first-time-fix across five branches with Kitewing FieldOps.", "h1": ["Greystone Facilities Group"], "words": 1100, "target_query": "facilities maintenance software case study", "position": 15.3, "sessions_30d": 290, "lcp_s": 4.8, "last_updated": "2026-10-28", "indexable": true, "internal_links_in": 7},
+      {"path": "/blog/hvac-dispatch-software-guide", "title": "HVAC dispatch software: a buyer's guide | Kitewing", "meta": "What to look for in HVAC dispatch software, from scheduling to invoicing.", "h1": ["HVAC dispatch software: a buyer's guide"], "words": 1650, "target_query": "hvac dispatch software", "position": 11.4, "sessions_30d": 410, "lcp_s": 2.0, "last_updated": "2025-02-11", "indexable": true, "internal_links_in": 5},
+      {"path": "/blog/dispatchpro-7-end-of-support", "title": "DispatchPro 7 end of support: what contractors should do next | Kitewing", "meta": "DispatchPro 7 support ends on 2027-06-30. A practical migration checklist for service contractors.", "h1": ["DispatchPro 7 end of support: what to do next"], "words": 1320, "target_query": "dispatchpro 7 end of support", "position": 3.2, "sessions_30d": 1530, "lcp_s": 1.8, "last_updated": "2026-09-15", "indexable": true, "internal_links_in": 11},
+      {"path": "/blog/5-numbers-every-service-manager-should-know", "title": "5 numbers every service manager should know | Kitewing", "meta": "First-time-fix rate, drive time per job, overtime share, job-to-invoice lag and DSO, with customer-reported benchmarks.", "h1": ["5 numbers every service manager should know"], "words": 1480, "target_query": "field service kpis", "position": 6.9, "sessions_30d": 720, "lcp_s": 2.1, "last_updated": "2026-10-30", "indexable": true, "internal_links_in": 6},
+      {"path": "/blog/peak-season-overtime", "title": "5 numbers every service manager should know | Kitewing", "meta": "How HVAC contractors keep peak-season overtime under control.", "h1": ["How to cut peak-season overtime"], "words": 640, "target_query": "reduce technician overtime", "position": 19.5, "sessions_30d": 95, "lcp_s": 2.2, "last_updated": "2024-03-08", "indexable": true, "internal_links_in": 2}
+    ],
+    "queries": [
+      {"query": "hvac dispatch software", "page": "/industries/hvac", "impressions": 6200, "clicks": 118, "position": 8.1},
+      {"query": "field service software pricing", "page": "/pricing", "impressions": 4100, "clicks": 77, "position": 9.8},
+      {"query": "field service kpis", "page": "/blog/5-numbers-every-service-manager-should-know", "impressions": 3900, "clicks": 101, "position": 6.9},
+      {"query": "dispatchpro 7 end of support", "page": "/blog/dispatchpro-7-end-of-support", "impressions": 2600, "clicks": 390, "position": 3.2},
+      {"query": "fire inspection software", "page": "/industries/fire-protection", "impressions": 2200, "clicks": 24, "position": 12.7},
+      {"query": "first time fix rate", "page": "/blog/5-numbers-every-service-manager-should-know", "impressions": 1900, "clicks": 31, "position": 7.4},
+      {"query": "reduce technician overtime", "page": "/blog/peak-season-overtime", "impressions": 1400, "clicks": 9, "position": 19.5},
+      {"query": "field service software", "page": "/", "impressions": 12800, "clicks": 96, "position": 14.2},
+      {"query": "route optimization software for service businesses", "page": "/route-optimizer", "impressions": 900, "clicks": 4, "position": 23.4},
+      {"query": "hvac maintenance agreement software", "page": "/industries/hvac", "impressions": 1100, "clicks": 12, "position": 10.6}
+    ]
+  },
+  "social": {
+    "channels": {
+      "linkedin": {"handle": "Kitewing Software (company page)", "followers": 4820, "days": ["Tue", "Wed", "Thu"], "time": "08:30",
+                   "formats": ["text + image", "document carousel", "short video", "text + image"], "avg_engagement_pct": 3.1,
+                   "best_pillar": "Customer outcomes"},
+      "instagram": {"handle": "@kitewing.fieldops", "followers": 1640, "days": ["Mon", "Fri"], "time": "12:00",
+                    "formats": ["reel", "carousel", "photo"], "avg_engagement_pct": 4.4, "best_pillar": "People & culture"}
+    },
+    "timezone": "America/Chicago",
+    "blackout_dates": [
+      {"date": "2026-11-26", "reason": "Thanksgiving (US)"},
+      {"date": "2026-11-27", "reason": "Day after Thanksgiving"},
+      {"date": "2026-12-24", "reason": "Christmas Eve"},
+      {"date": "2026-12-25", "reason": "Christmas Day"},
+      {"date": "2026-12-31", "reason": "New Year's Eve"},
+      {"date": "2027-01-01", "reason": "New Year's Day"},
+      {"date": "2027-01-18", "reason": "Martin Luther King Jr. Day (US)"}
+    ],
+    "content_moments": [
+      {"date": "2026-11-17", "title": "Kitewing Assist Spanish-language answers — beta opens for Growth and Enterprise customers", "pillar": "Product & how-to", "approved": true},
+      {"date": "2026-11-19", "title": "Regional Service Contractors Summit, Nov 19-20, booth 14 — live demos of Assist in Spanish and Route Optimizer", "pillar": "Industry insight", "approved": true},
+      {"date": "2026-12-04", "title": "'Best Small Workplace' winners announced (Kitewing is a finalist)", "pillar": "People & culture", "approved": true},
+      {"date": "2026-12-09", "title": "Greystone Facilities Group story: 86% first-time-fix across five branches", "pillar": "Customer outcomes", "approved": true},
+      {"date": "2027-01-12", "title": "Spring-rush planning: book maintenance visits in the shoulder season (webinar tip)", "pillar": "Industry insight", "approved": true}
+    ]
+  }
+}

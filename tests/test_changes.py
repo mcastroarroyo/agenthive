@@ -7,7 +7,7 @@ import pytest
 _spec = importlib.util.spec_from_file_location("changes", Path(__file__).resolve().parents[1] / "deploy" / "changes.py")
 changes = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(changes)
-ALL = ["delivery", "enterprise", "government", "platform", "smb"]
+ALL = sorted(changes.realms_and_modules()[0])   # every realm that has agents
 
 
 @pytest.mark.parametrize("files, web, realms, kb, bq", [

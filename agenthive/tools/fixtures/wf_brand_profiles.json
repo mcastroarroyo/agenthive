@@ -1,0 +1,483 @@
+{
+ "note": "Brand library (synthetic). Kitewing's profile was learned by Brand Intelligence from wf_kitewing_brand_guidelines (fact_rules curated at onboarding); BRD-HOUSE is the house style used when a customer has no brand.",
+ "profiles": [
+  {
+   "brand_id": "BRD-91CFB7",
+   "name": "Kitewing Software",
+   "aliases": [
+    "kitewing",
+    "kitewing software, inc."
+   ],
+   "website": "kitewing.example",
+   "voice": "We sound like a great dispatcher: calm, clear and specific. Practical, warm and plain-spoken. We lead with the customer's outcome, not with our features, and we write for people who run vans, crews and service desks — not for software buyers.",
+   "tone_words": [
+    "calm",
+    "clear",
+    "specific",
+    "practical",
+    "warm",
+    "plain-spoken"
+   ],
+   "writing_rules": [
+    "Lead with the customer's outcome, then explain how we get there.",
+    "Be specific: numbers, dates and approved customer names beat adjectives.",
+    "Use plain verbs: help, cut, save, fix, finish, plan, schedule.",
+    "Keep the average sentence under 20 words and paragraphs to 4 sentences or fewer.",
+    "Write headings in sentence case.",
+    "Use US English spelling in customer-facing documents (optimize, organization, color).",
+    "At most one exclamation mark per piece; no emojis in documents (social posts: at most 2).",
+    "Write product names exactly as listed below.",
+    "Follow the claims policy for every number about results.",
+    "Do not compare ourselves with competitors by name in public content."
+   ],
+   "spelling": "en-US",
+   "max_exclamations": 1,
+   "emojis_in_documents": 0,
+   "avg_sentence_words": 20,
+   "banned_words": [
+    "revolutionary",
+    "revolutionize",
+    "game-changer",
+    "synergy",
+    "disrupt",
+    "disruptive",
+    "best-in-class",
+    "world-class",
+    "cutting-edge",
+    "leverage",
+    "unlock",
+    "seamless",
+    "seamlessly",
+    "next-gen",
+    "supercharge",
+    "10x",
+    "robust",
+    "rockstar",
+    "ninja"
+   ],
+   "replacements": {
+    "leverage": "use",
+    "unlock": "give, open up",
+    "seamless": "smooth, simple",
+    "seamlessly": "smoothly",
+    "robust": "reliable",
+    "revolutionary": "new",
+    "game-changer": "big step",
+    "best-in-class": "proven",
+    "world-class": "proven",
+    "cutting-edge": "modern",
+    "supercharge": "speed up",
+    "synergy": "working together"
+   },
+   "product_names": [
+    {
+     "name": "Kitewing FieldOps",
+     "rule": "Full name on first mention, then \"FieldOps\"",
+     "never": [
+      "Field Ops",
+      "Fieldops"
+     ],
+     "allowed": [
+      "Kitewing FieldOps",
+      "FieldOps"
+     ]
+    },
+    {
+     "name": "Kitewing Assist",
+     "rule": "Always \"Kitewing Assist\" or \"Assist\"",
+     "never": [
+      "Kitewing AI",
+      "the bot"
+     ],
+     "allowed": [
+      "Kitewing Assist",
+      "Assist"
+     ]
+    },
+    {
+     "name": "Route Optimizer",
+     "rule": "Two words, capitalised, US spelling",
+     "never": [
+      "Route Optimiser",
+      "RouteOptimizer",
+      "route optimizer"
+     ],
+     "allowed": [
+      "Route Optimizer"
+     ]
+    },
+    {
+     "name": "Insights",
+     "rule": "Capitalised when it means the product",
+     "never": [
+      "Kitewing Analytics"
+     ],
+     "allowed": [
+      "Insights"
+     ]
+    }
+   ],
+   "names": {
+    "approved": [
+     "Greystone Facilities Group",
+     "Copperline Plumbing & Drain",
+     "Summit Ridge Fire Protection",
+     "Meadowlark Pest Solutions"
+    ],
+    "anonymised": [
+     {
+      "name": "Bluefin Elevator Services",
+      "use": "a regional elevator maintenance company"
+     }
+    ],
+    "never": [
+     "Harbor & Pine Mechanical"
+    ],
+    "prospects": [
+     "Alderbrook Home Services",
+     "Silverline Security Systems",
+     "Prairie Bloom Landscaping",
+     "Ironwood Elevator Co"
+    ],
+    "competitors": [
+     "Fieldnest",
+     "ServiceGrid Pro",
+     "DispatchPro 7"
+    ]
+   },
+   "claims_policy": "every number about results must come from an approved customer story and name the customer, or be clearly labelled \"customer-reported\".",
+   "boilerplate": "Kitewing Software builds Kitewing FieldOps, the cloud application that helps service contractors schedule, dispatch, complete and invoice field work. About 170 contractors with 10 to 300 technicians run their field operations on FieldOps, which runs on Google Cloud in US regions. Kitewing holds a SOC 2 Type II report and is headquartered in Cedar Harbor. Learn more at kitewing.example.",
+   "facts": [
+    {
+     "fact": "Customers",
+     "approved": "about 170 active customers"
+    },
+    {
+     "fact": "Team",
+     "approved": "62 people in two offices (Cedar Harbor headquarters and Millbrook)"
+    },
+    {
+     "fact": "Security",
+     "approved": "SOC 2 Type II report"
+    },
+    {
+     "fact": "Hosting",
+     "approved": "Google Cloud, US regions"
+    },
+    {
+     "fact": "AI",
+     "approved": "Kitewing Assist is built on Google's Gemini models"
+    },
+    {
+     "fact": "Spanish answers",
+     "approved": "Spanish-language answers in Kitewing Assist are in beta for Growth and Enterprise customers from 2026-11-17; general availability is targeted for February 2027 (roadmap, subject to change)"
+    },
+    {
+     "fact": "Route Optimizer",
+     "approved": "Live re-sequencing is generally available since 2026-10-24"
+    },
+    {
+     "fact": "Media contact",
+     "approved": "Alicia Moreau, Head of Marketing, press@kitewing.example"
+    },
+    {
+     "fact": "Spokespeople",
+     "approved": "Dana Whitfield (CEO), Sofia Petrov (Product Manager), Alicia Moreau (Head of Marketing)"
+    }
+   ],
+   "results": [
+    {
+     "customer": "Greystone Facilities Group",
+     "result": "First-time-fix rate from 71% to 86%; technician overtime down 22%; invoices out in 2 days instead of 9"
+    },
+    {
+     "customer": "Copperline Plumbing & Drain",
+     "result": "Drive time per job down 18%; jobs per technician per day from 4.1 to 4.8; annual fuel spend down $46,000"
+    },
+    {
+     "customer": "Summit Ridge Fire Protection",
+     "result": "Missed inspections down 90%; days sales outstanding from 52 to 34 days; calls from technicians to the office down 35% with Assist"
+    },
+    {
+     "customer": "Meadowlark Pest Solutions",
+     "result": "Live in 3 weeks; office admin time down 12 hours per week"
+    },
+    {
+     "customer": "a regional elevator maintenance company",
+     "result": "Maintenance-contract renewal rate from 82% to 93%"
+    }
+   ],
+   "social": {
+    "hashtags": [
+     "#FieldService",
+     "#ServiceTechs",
+     "#HVAC",
+     "#Plumbing",
+     "#FacilitiesManagement",
+     "#FireProtection",
+     "#PestControl",
+     "#SmallBusiness",
+     "#Kitewing",
+     "#AIatWork",
+     "#Hiring"
+    ],
+    "max_hashtags": 3,
+    "max_emojis": 2,
+    "pillars": [
+     {
+      "name": "Customer outcomes",
+      "share_pct": 40
+     },
+     {
+      "name": "Product & how-to",
+      "share_pct": 25
+     },
+     {
+      "name": "People & culture",
+      "share_pct": 20
+     },
+     {
+      "name": "Industry insight",
+      "share_pct": 15
+     }
+    ],
+    "cadence": "LinkedIn company page Tuesday, Wednesday and Thursday at 08:30; Instagram Monday and Friday at 12:00."
+   },
+   "fonts": {
+    "heading": {
+     "name": "Montserrat",
+     "fallback": "Arial",
+     "spec": "Bold; H1 22 pt, H2 15 pt, H3 12 pt"
+    },
+    "body": {
+     "name": "Open Sans",
+     "fallback": "Calibri",
+     "spec": "Regular 10.5 pt, line spacing 1.15"
+    },
+    "slide_title": {
+     "name": "Montserrat",
+     "fallback": "Arial",
+     "spec": "Bold 28 pt"
+    },
+    "slide_body": {
+     "name": "Open Sans",
+     "fallback": "Calibri",
+     "spec": "16-20 pt"
+    }
+   },
+   "colours": {
+    "primary": {
+     "name": "Dispatch Navy",
+     "hex": "#14365D",
+     "use": "Primary: headings, title pages and title slides, table header rows"
+    },
+    "accent": {
+     "name": "Kite Orange",
+     "hex": "#F28C28",
+     "use": "Accent: rules, highlights and key numbers — at most 10% of a page; never body text"
+    },
+    "secondary": {
+     "name": "Sky Blue",
+     "hex": "#5BA4D9",
+     "use": "Secondary: charts and callouts"
+    },
+    "text": {
+     "name": "Ink",
+     "hex": "#1F2933",
+     "use": "Body text"
+    },
+    "background": {
+     "name": "Cloud Grey",
+     "hex": "#F4F7FA",
+     "use": "Background: table banding and panels"
+    },
+    "on_primary": {
+     "name": "White",
+     "hex": "#FFFFFF",
+     "use": "Text on Dispatch Navy"
+    }
+   },
+   "logo": {
+    "wordmark": "KITEWING",
+    "rules": [
+     "The logo is the kite mark followed by the KITEWING wordmark. Where the artwork is not available, set the wordmark KITEWING in Montserrat Bold, letter-spaced, in Dispatch Navy.",
+     "Clear space: at least the height of the \"K\" on every side.",
+     "Minimum width: 24 mm in print, 120 px on screen.",
+     "Use the navy logo on white and the white logo on Dispatch Navy or photos.",
+     "Never stretch, rotate, recolour, outline or add shadows to the logo, and never place it on Kite Orange.",
+     "Documents: logo top left on the title page and small in the header of content pages. Slides: wordmark on the title slide, small in the footer of content slides."
+    ]
+   },
+   "layout": {
+    "footer": "Kitewing Software · kitewing.example",
+    "rules": [
+     "Title page: title in Dispatch Navy, a Kite Orange rule beneath it, subtitle in Ink, then \"Prepared for\" and the date.",
+     "Footer: \"Kitewing Software · kitewing.example\" and the page number. Add \"Confidential\" for proposals and internal documents.",
+     "Tables: Dispatch Navy header row with white text, Cloud Grey banding.",
+     "Slides: 16:9; title slide on Dispatch Navy with white text; content slides on white with a Kite Orange accent bar; at most 6 bullets per slide.",
+     "Spreadsheets: Dispatch Navy header row with white text, frozen header row, filters on."
+    ]
+   },
+   "source_doc": "wf_kitewing_brand_guidelines",
+   "learned_on": "2026-10-20",
+   "fact_rules": [
+    {
+     "id": "customers",
+     "topic": "Customer count",
+     "type": "number",
+     "trigger": "\\b(customers|contractors|companies)\\b",
+     "pattern": "(\\d[\\d,]*)\\+?\\s+(?:active\\s+)?(?:service\\s+)?(?:customers|contractors|companies)\\b",
+     "expected": [
+      170
+     ],
+     "approved": "about 170 active customers"
+    },
+    {
+     "id": "team",
+     "topic": "Team size",
+     "type": "number",
+     "trigger": "\\b(people|employees|staff)\\b",
+     "pattern": "(\\d[\\d,]*)\\s+(?:people|employees|staff|team members)\\b",
+     "expected": [
+      62
+     ],
+     "approved": "62 people in two offices (Cedar Harbor headquarters and Millbrook)"
+    },
+    {
+     "id": "security",
+     "topic": "Security certification",
+     "type": "text",
+     "trigger": "soc\\s?2",
+     "require": "soc\\s?2\\s+type\\s+(ii|2)\\b",
+     "forbid": "soc\\s?2\\s+type\\s+(i|1)\\b(?!i)",
+     "approved": "SOC 2 Type II report"
+    },
+    {
+     "id": "hosting",
+     "topic": "Hosting",
+     "type": "text",
+     "trigger": "\\b(hosted|runs on|run on|data cent(er|re)s?|aws|amazon web services|azure|google cloud)\\b",
+     "forbid": "\\b(aws|amazon web services|azure|on-prem\\w*|europe\\w*|eu region\\w*)\\b",
+     "approved": "Google Cloud, US regions"
+    },
+    {
+     "id": "ai_model",
+     "topic": "AI model",
+     "type": "text",
+     "trigger": "\\b(gemini|gpt|chatgpt|openai|claude|llm|language model)\\b",
+     "forbid": "gemini\\s*(1(\\.\\d)?|2\\.0|ultra)\\b|\\bgpt-?\\d|\\bchatgpt\\b|\\bopenai\\b|\\bclaude\\b",
+     "approved": "Kitewing Assist is built on Google's Gemini models"
+    },
+    {
+     "id": "spanish",
+     "topic": "Spanish-language answers",
+     "type": "text",
+     "trigger": "(spanish[- ]language|in spanish|spanish answers).*\\b(available|launch\\w*|announc\\w*|releas\\w*|now|today|general availability)\\b|\\b(available|launch\\w*|announc\\w*|releas\\w*|now|today|general availability)\\b.*(spanish[- ]language|in spanish|spanish answers)",
+     "require": "\\bbeta\\b",
+     "forbid": "generally available|general availability (now|today)|available (now|today) (to|for) (all|every)|for all customers",
+     "approved": "beta for Growth and Enterprise customers from 2026-11-17; general availability targeted for February 2027 (roadmap)"
+    }
+   ]
+  },
+  {
+   "brand_id": "BRD-HOUSE",
+   "name": "Agent Workforce house style",
+   "aliases": [
+    "house",
+    "default"
+   ],
+   "website": "",
+   "voice": "Clear, neutral and professional.",
+   "tone_words": [
+    "clear",
+    "neutral",
+    "professional"
+   ],
+   "writing_rules": [
+    "Lead with the answer.",
+    "Write headings in sentence case.",
+    "Keep the average sentence under 22 words."
+   ],
+   "spelling": "",
+   "max_exclamations": 1,
+   "emojis_in_documents": 0,
+   "avg_sentence_words": 22,
+   "banned_words": [],
+   "replacements": {},
+   "product_names": [],
+   "names": {
+    "approved": [],
+    "anonymised": [],
+    "never": [],
+    "prospects": [],
+    "competitors": []
+   },
+   "claims_policy": "",
+   "boilerplate": "",
+   "facts": [],
+   "results": [],
+   "social": {
+    "hashtags": [],
+    "max_hashtags": 3,
+    "max_emojis": 2,
+    "pillars": [],
+    "cadence": ""
+   },
+   "fonts": {
+    "heading": {
+     "name": "Arial",
+     "fallback": "Helvetica",
+     "spec": "Bold"
+    },
+    "body": {
+     "name": "Calibri",
+     "fallback": "Arial",
+     "spec": "Regular 10.5 pt"
+    }
+   },
+   "colours": {
+    "primary": {
+     "name": "Graphite",
+     "hex": "#2B2D42",
+     "use": "Primary"
+    },
+    "accent": {
+     "name": "Workforce Magenta",
+     "hex": "#B0306A",
+     "use": "Accent"
+    },
+    "secondary": {
+     "name": "Slate",
+     "hex": "#5C6B8A",
+     "use": "Secondary"
+    },
+    "text": {
+     "name": "Ink",
+     "hex": "#1F2328",
+     "use": "Body text"
+    },
+    "background": {
+     "name": "Mist",
+     "hex": "#F4F5F7",
+     "use": "Background"
+    },
+    "on_primary": {
+     "name": "White",
+     "hex": "#FFFFFF",
+     "use": "Text on primary"
+    }
+   },
+   "logo": {
+    "wordmark": "AGENT WORKFORCE",
+    "rules": []
+   },
+   "layout": {
+    "footer": "Delivered by Agent Workforce",
+    "rules": []
+   },
+   "source_doc": "",
+   "learned_on": "",
+   "fact_rules": []
+  }
+ ]
+}

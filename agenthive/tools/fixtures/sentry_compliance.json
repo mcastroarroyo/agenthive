@@ -1,0 +1,124 @@
+{
+ "_note": "How WAISentry controls and evidence map to common frameworks, for the fictional client Kitewing Software. Synthetic; not legal advice.",
+ "disclaimer": "WAISentry supplies monitoring, response and evidence; it does not make an organisation compliant on its own. Final answers belong to the client and its broker, auditor or assessor.",
+ "evidence": [
+  {"id": "EV-01", "title": "Monthly SOC report — October 2026", "date": "2026-11-02", "owner": "Wursta SOC", "shows": "24/7 coverage, events scored, alerts, incidents, time to contain"},
+  {"id": "EV-02", "title": "Telemetry retention configuration", "date": "2026-10-05", "owner": "Wursta onboarding", "shows": "Scored security events kept 400 days in Kitewing's own BigQuery (in-tenant); raw logs 90 days in Kitewing's Cloud Storage (demo configuration, client-adjustable)"},
+  {"id": "EV-03", "title": "Incident case file INC-1101-01 (consent phishing / BEC attempt)", "date": "2026-11-01", "owner": "Wursta SOC", "shows": "Timeline, analyst verification, containment log (29 s), client actions, $0 lost"},
+  {"id": "EV-04", "title": "Pre-approved containment authorisation (PB-01 to PB-04)", "date": "2026-10-05", "owner": "Marcus Bell (Kitewing)", "shows": "Which actions WAISentry may take without asking, limits and rollback"},
+  {"id": "EV-05", "title": "Security Posture & Application Review — baseline and re-check", "date": "2026-10-01 / 2026-11-06", "owner": "Wursta SOC", "shows": "Workspace posture score 20 -> 75, open findings"},
+  {"id": "EV-06", "title": "2-step verification and security-key enrolment report", "date": "2026-11-06", "owner": "Noah Kim (Kitewing)", "shows": "62 of 62 people enforced; 60 on security keys; 2 contractors on Google prompts until 2026-11-09"},
+  {"id": "EV-07", "title": "Endpoint EDR coverage report", "date": "2026-11-06", "owner": "Wursta SOC", "shows": "EDR healthy on 56 of 58 EDR-capable endpoints and 3 of 3 servers; gaps: contractor BYOD laptop, MB-WS07 (removed from the network)"},
+  {"id": "EV-08", "title": "KnowBe4 training completion and phish-prone trend", "date": "2026-11-03", "owner": "Noah Kim (Kitewing)", "shows": "Phish-prone 21.0% -> 9.7%; training 58 of 62 complete"},
+  {"id": "EV-09", "title": "Mimecast and DNSFilter policy exports", "date": "2026-11-03", "owner": "Noah Kim (Kitewing)", "shows": "Impersonation protection, URL protect, DNS categories blocked"},
+  {"id": "EV-10", "title": "Escalation matrix and on-call roster", "date": "2026-10-05", "owner": "Wursta SOC + Kitewing", "shows": "P1-P4 routes and runbook targets"},
+  {"id": "EV-11", "title": "Quarterly access review Q3 2026", "date": "2026-10-16", "owner": "Noah Kim (Kitewing)", "shows": "Least-privilege review of every system"},
+  {"id": "EV-12", "title": "Zero-PII tokenisation design and data-flow diagram", "date": "2026-10-05", "owner": "Wursta onboarding", "shows": "What is tokenised in-tenant, what leaves, who can re-identify"},
+  {"id": "EV-13", "title": "Kitewing incident-response plan (client document)", "date": "2026-09-15", "owner": "Noah Kim (Kitewing)", "shows": "Roles, notification duties (72-hour personal-data breach notice), annual test"}
+ ],
+ "frameworks": {
+  "cyber_insurance": {
+   "name": "Cyber-insurance application and renewal questionnaires",
+   "applies": "Any insured business; carriers increasingly require 24/7 monitoring (MDR), EDR, MFA and log retention.",
+   "controls": [
+    {"ref": "CI-1", "requirement": "24/7/365 monitoring and response (MDR / SOC)", "waisentry": "Gemini triage plus certified Wursta analysts around the clock", "status": "supports", "evidence": ["EV-01", "EV-10"]},
+    {"ref": "CI-2", "requirement": "Ability to contain threats out of hours without waiting for the insured", "waisentry": "Pre-approved playbooks PB-01 to PB-04; sub-60-second active containment", "status": "supports", "evidence": ["EV-04", "EV-03"]},
+    {"ref": "CI-3", "requirement": "EDR on all endpoints and servers", "waisentry": "Monitors and triages EDR alerts; deployment is the client's", "status": "partial", "evidence": ["EV-07"], "gap": "Contractor BYOD laptop without EDR; MB-WS07 removed"},
+    {"ref": "CI-4", "requirement": "MFA for email, remote access and privileged accounts", "waisentry": "Detects MFA fatigue, impossible travel and session hijack; enforcement is the client's", "status": "partial", "evidence": ["EV-06", "EV-05"], "gap": "2 contractors on Google prompts until 2026-11-09"},
+    {"ref": "CI-5", "requirement": "Security log retention (often 90 days to 1 year)", "waisentry": "Scored events kept 400 days in the client's own BigQuery", "status": "supports", "evidence": ["EV-02"]},
+    {"ref": "CI-6", "requirement": "Email filtering and impersonation protection", "waisentry": "Mimecast alerts correlated with identity and OAuth signals", "status": "supports", "evidence": ["EV-09", "EV-03"]},
+    {"ref": "CI-7", "requirement": "Phishing awareness training and simulations", "waisentry": "Monitors KnowBe4 results; the programme is the client's", "status": "client", "evidence": ["EV-08"]},
+    {"ref": "CI-8", "requirement": "Funds-transfer fraud controls (call-back verification of bank changes)", "waisentry": "Detects BEC and payment-diversion attempts and alerts finance", "status": "partial", "evidence": ["EV-03"], "gap": "Call-back procedure is a client finance control — document it"},
+    {"ref": "CI-9", "requirement": "Offline or immutable backups, tested restores", "waisentry": "Not covered", "status": "client", "evidence": [], "gap": "Answer from Kitewing IT records"},
+    {"ref": "CI-10", "requirement": "End-of-life systems", "waisentry": "Posture review and fleet monitor flag them", "status": "partial", "evidence": ["EV-05", "EV-07"], "gap": "MB-FS01 (Windows Server 2016) ends support 2027-01-12"},
+    {"ref": "CI-11", "requirement": "Control of third-party (OAuth) apps", "waisentry": "OAuth governance; unverified apps blocked since 2026-11-03", "status": "supports", "evidence": ["EV-05"], "gap": "4 legacy unverified grants to revoke"},
+    {"ref": "CI-12", "requirement": "Incidents or claims in the last 12 months", "waisentry": "Incident case files with outcomes", "status": "supports", "evidence": ["EV-01", "EV-03"]}
+   ]
+  },
+  "ftc_safeguards": {
+   "name": "FTC Safeguards Rule (16 CFR Part 314)",
+   "applies": "Non-bank financial institutions under the GLBA (for example businesses that offer consumer financing, tax preparers, mortgage brokers). Kitewing itself is in scope only if it offers consumer financing — confirm with counsel.",
+   "controls": [
+    {"ref": "314.4(a)", "requirement": "Designate a Qualified Individual", "waisentry": "Monthly reports support the Qualified Individual", "status": "client", "evidence": ["EV-01"]},
+    {"ref": "314.4(b)", "requirement": "Written risk assessment", "waisentry": "Posture review findings feed the assessment", "status": "partial", "evidence": ["EV-05"]},
+    {"ref": "314.4(c)(1)", "requirement": "Access controls and periodic review", "waisentry": "Detects misuse of access; reviews are the client's", "status": "partial", "evidence": ["EV-11", "EV-05"]},
+    {"ref": "314.4(c)(2)", "requirement": "Inventory of data, personnel, devices, systems and facilities", "waisentry": "Fleet, OAuth-app and shadow-IT inventories", "status": "partial", "evidence": ["EV-07", "EV-05"]},
+    {"ref": "314.4(c)(5)", "requirement": "Multi-factor authentication for anyone accessing information systems", "waisentry": "Monitors MFA abuse; enforcement is the client's", "status": "partial", "evidence": ["EV-06"]},
+    {"ref": "314.4(c)(8)", "requirement": "Monitor and log authorised users' activity; detect unauthorised access, use or tampering", "waisentry": "Core service: in-tenant logging, Gemini triage, 24/7 analysts", "status": "supports", "evidence": ["EV-01", "EV-02"]},
+    {"ref": "314.4(d)(2)", "requirement": "Continuous monitoring, or annual penetration tests and vulnerability assessments every six months", "waisentry": "Continuous monitoring of the connected systems", "status": "supports", "evidence": ["EV-01"], "gap": "Confirm the monitored scope covers every system with customer information"},
+    {"ref": "314.4(e)", "requirement": "Security awareness training", "waisentry": "Monitors KnowBe4 results", "status": "client", "evidence": ["EV-08"]},
+    {"ref": "314.4(f)", "requirement": "Oversee service providers", "waisentry": "Wursta supplies contract terms and SOC reports for oversight", "status": "client", "evidence": ["EV-01"]},
+    {"ref": "314.4(h)", "requirement": "Written incident response plan", "waisentry": "Playbooks, escalation matrix and case files plug into the client's plan", "status": "partial", "evidence": ["EV-04", "EV-10", "EV-13"]},
+    {"ref": "314.4(i)", "requirement": "Qualified Individual reports to the board at least annually", "waisentry": "Monthly SOC reports feed the annual report", "status": "partial", "evidence": ["EV-01"]},
+    {"ref": "314.4(j)", "requirement": "Notify the FTC within 30 days of discovering a notification event (unencrypted customer information of 500+ consumers)", "waisentry": "Case files establish what was accessed and when", "status": "partial", "evidence": ["EV-03"]}
+   ]
+  },
+  "hipaa": {
+   "name": "HIPAA Security Rule (45 CFR Part 164, Subpart C)",
+   "applies": "Covered entities and business associates handling ePHI. Kitewing does not handle ePHI today; the mapping applies to healthcare SMB clients.",
+   "controls": [
+    {"ref": "164.312(b)", "requirement": "Audit controls: mechanisms that record and examine activity in systems that contain or use ePHI", "waisentry": "Records Workspace, endpoint and on-prem activity in-tenant and examines it 24/7", "status": "supports", "evidence": ["EV-02", "EV-01"], "gap": "Connect every system that holds ePHI"},
+    {"ref": "164.308(a)(1)(ii)(D)", "requirement": "Information system activity review (audit logs, access reports, incident tracking)", "waisentry": "Daily triage and monthly reports", "status": "supports", "evidence": ["EV-01"]},
+    {"ref": "164.308(a)(6)(ii)", "requirement": "Security incident procedures: identify, respond, mitigate, document", "waisentry": "Case files, pre-approved containment, escalation", "status": "supports", "evidence": ["EV-03", "EV-04"]},
+    {"ref": "164.312(d)", "requirement": "Person or entity authentication", "waisentry": "Monitors authentication abuse; enforcement is the client's", "status": "partial", "evidence": ["EV-06"]},
+    {"ref": "164.316(b)(2)(i)", "requirement": "Retain required documentation for 6 years", "waisentry": "Case files and reports can be retained in the client's tenant", "status": "partial", "evidence": ["EV-02"], "gap": "The Security Rule does not set a log-retention period; set one in policy"},
+    {"ref": "BAA", "requirement": "Business associate agreement where a provider handles ePHI", "waisentry": "Zero-PII tokenisation keeps content and identities in-tenant", "status": "client", "evidence": ["EV-12"], "gap": "Confirm with counsel whether a BAA is needed"}
+   ]
+  },
+  "soc2": {
+   "name": "SOC 2 (AICPA Trust Services Criteria — Common Criteria)",
+   "applies": "Service organisations reporting to customers; Kitewing's SOC 2 Type II renewal fieldwork is in December 2026.",
+   "controls": [
+    {"ref": "CC7.2", "requirement": "Monitor system components for anomalies indicating malicious acts, errors or natural disasters", "waisentry": "24/7 monitoring and triage", "status": "supports", "evidence": ["EV-01", "EV-02"]},
+    {"ref": "CC7.3", "requirement": "Evaluate security events to determine whether they are incidents", "waisentry": "Gemini triage plus analyst verification", "status": "supports", "evidence": ["EV-03"]},
+    {"ref": "CC7.4", "requirement": "Respond to identified incidents (contain, remediate, communicate)", "waisentry": "Pre-approved playbooks and escalation", "status": "supports", "evidence": ["EV-03", "EV-04", "EV-10"]},
+    {"ref": "CC7.5", "requirement": "Recover from identified incidents", "waisentry": "Rollback records; recovery is the client's", "status": "partial", "evidence": ["EV-03"]},
+    {"ref": "CC6.1 / CC6.6", "requirement": "Logical access security and protection against threats from outside the system boundary", "waisentry": "Posture review and identity monitoring", "status": "partial", "evidence": ["EV-05", "EV-06"]},
+    {"ref": "CC6.8", "requirement": "Prevent or detect unauthorised or malicious software", "waisentry": "EDR alert monitoring; deployment is the client's", "status": "partial", "evidence": ["EV-07"]}
+   ]
+  },
+  "cmmc": {
+   "name": "CMMC Level 2 (NIST SP 800-171 Rev. 2 practices)",
+   "applies": "Defense contractors handling Controlled Unclassified Information. Kitewing is not a defense contractor; the mapping applies to SMB clients that are. Assessment scope (WAISentry as a security protection asset) must be confirmed with the assessor.",
+   "controls": [
+    {"ref": "AU.L2-3.3.1", "requirement": "Create and retain system audit logs", "waisentry": "In-tenant event store with configurable retention", "status": "supports", "evidence": ["EV-02"]},
+    {"ref": "AU.L2-3.3.2", "requirement": "Trace the actions of individual users", "waisentry": "Deterministic tokens let the client re-identify a user inside its tenant", "status": "supports", "evidence": ["EV-12"]},
+    {"ref": "AU.L2-3.3.5", "requirement": "Correlate audit review, analysis and reporting", "waisentry": "Cross-source correlation (identity, endpoint, SaaS, on-prem)", "status": "supports", "evidence": ["EV-01"]},
+    {"ref": "IR.L2-3.6.1", "requirement": "Operational incident-handling capability", "waisentry": "24/7 SOC, playbooks, escalation", "status": "supports", "evidence": ["EV-04", "EV-10"]},
+    {"ref": "IR.L2-3.6.2", "requirement": "Track, document and report incidents", "waisentry": "Case files; external reporting duties stay with the contractor", "status": "partial", "evidence": ["EV-03"]},
+    {"ref": "SI.L2-3.14.6", "requirement": "Monitor systems, including inbound and outbound traffic, to detect attacks", "waisentry": "Firewall/IDS, DNS, proxy and email telemetry", "status": "supports", "evidence": ["EV-01"]},
+    {"ref": "SI.L2-3.14.7", "requirement": "Identify unauthorised use of systems", "waisentry": "Identity, OAuth and session monitoring", "status": "supports", "evidence": ["EV-03"]}
+   ]
+  }
+ },
+ "questionnaire_bank": [
+  {"id": "QA-01", "keywords": ["24/7", "24x7", "around the clock", "mdr", "managed detection", "soc", "monitoring", "monitor"], "control": "CI-1",
+   "answer": "Yes. Wursta WAISentry provides 24/7/365 monitoring: Gemini triage of all connected telemetry plus certified Wursta analysts who verify every real threat.", "status": "Yes", "evidence": ["EV-01", "EV-10"]},
+  {"id": "QA-02", "keywords": ["contain", "containment", "isolate", "response time", "respond", "without approval", "out of hours", "after hours"], "control": "CI-2",
+   "answer": "Yes. Four containment playbooks are pre-approved (session termination, OAuth app revocation, targeted account suspension, Drive quarantine); after analyst confirmation they complete in under 60 seconds. Other actions are escalated to Kitewing's on-call.", "status": "Yes", "evidence": ["EV-04", "EV-03"]},
+  {"id": "QA-03", "keywords": ["edr", "endpoint detection", "antivirus", "anti-malware", "endpoints", "servers"], "control": "CI-3",
+   "answer": "Partially. EDR is healthy on 56 of 58 EDR-capable endpoints and all 3 servers; ChromeOS devices rely on verified boot and DNS filtering. Gaps: one contractor BYOD laptop (EDR being installed) and a retired reception PC.", "status": "Partial", "evidence": ["EV-07"]},
+  {"id": "QA-04", "keywords": ["mfa", "multi-factor", "2fa", "two-factor", "2-step", "remote access", "privileged"], "control": "CI-4",
+   "answer": "Yes. 2-step verification is enforced for all 62 people and all admins; 60 use hardware security keys and 2 contractors use Google prompts until their keys arrive on 2026-11-09.", "status": "Yes", "evidence": ["EV-06"]},
+  {"id": "QA-05", "keywords": ["retain", "retention", "log", "logs", "how long"], "control": "CI-5",
+   "answer": "Scored security events are retained for 400 days and raw logs for 90 days, inside Kitewing's own Google Cloud tenant.", "status": "Yes", "evidence": ["EV-02"]},
+  {"id": "QA-06", "keywords": ["email filtering", "email security", "impersonation", "spoof", "dmarc", "gateway"], "control": "CI-6",
+   "answer": "Yes. Mimecast filters inbound mail with impersonation and URL protection, DMARC is at p=quarantine, and WAISentry correlates mail alerts with identity signals.", "status": "Yes", "evidence": ["EV-09"]},
+  {"id": "QA-07", "keywords": ["training", "awareness", "simulation", "phishing test", "phish"], "control": "CI-7",
+   "answer": "Yes. KnowBe4 training and monthly simulations; phish-prone percentage fell from 21.0% to 9.7%; 58 of 62 completed this year's training.", "status": "Yes", "evidence": ["EV-08"]},
+  {"id": "QA-08", "keywords": ["funds transfer", "wire", "bank details", "payment change", "call-back", "callback", "invoice fraud", "social engineering"], "control": "CI-8",
+   "answer": "Bank-detail changes are verified by phone using the number on file (client finance procedure). WAISentry detects payment-diversion attempts; one was stopped on 2026-11-01 with no loss.", "status": "Yes (client procedure)", "evidence": ["EV-03"]},
+  {"id": "QA-09", "keywords": ["backup", "backups", "immutable", "offline", "restore"], "control": "CI-9",
+   "answer": "Not covered by WAISentry — Kitewing IT to answer from its backup records.", "status": "Client to answer", "evidence": []},
+  {"id": "QA-10", "keywords": ["end of life", "end-of-life", "unsupported", "eol", "legacy", "patch", "patching"], "control": "CI-10",
+   "answer": "One legacy server remains (Windows Server 2016 file server, support ends 2027-01-12, replacement planned); the out-of-support reception PC was removed on 2026-10-31. Laptop patch status is monitored daily.", "status": "Partial", "evidence": ["EV-05", "EV-07"]},
+  {"id": "QA-11", "keywords": ["third-party app", "oauth", "app access", "integrations", "saas", "shadow"], "control": "CI-11",
+   "answer": "Yes. Since 2026-11-03 unverified third-party apps cannot be granted access; 14 apps are allowlisted and WAISentry reviews OAuth grants and shadow IT continuously. 4 legacy grants are being revoked.", "status": "Yes", "evidence": ["EV-05"]},
+  {"id": "QA-12", "keywords": ["incident", "incidents", "breach", "claim", "last 12 months", "past 12 months", "loss"], "control": "CI-12",
+   "answer": "Yes — security incidents occurred and were contained with no financial loss and no confirmed data breach; the most significant was an attempted payment diversion on 2026-11-01 ($48,600 at risk, $0 lost). Details in the case file.", "status": "Yes (disclose)", "evidence": ["EV-01", "EV-03"]},
+  {"id": "QA-13", "keywords": ["incident response plan", "ir plan", "tested", "tabletop", "plan"], "control": "314.4(h)",
+   "answer": "Yes. Kitewing's incident-response plan is tested annually; WAISentry playbooks and the escalation matrix are part of it, and a live incident on 2026-11-01 exercised it end to end.", "status": "Yes", "evidence": ["EV-13", "EV-04", "EV-10"]},
+  {"id": "QA-14", "keywords": ["privacy", "personal data", "pii", "data leave", "where is data"], "control": "EV-12",
+   "answer": "Security telemetry is evaluated inside Kitewing's own Google Cloud tenant; names, emails, file names and message content are tokenised before any alert reaches the SOC.", "status": "Yes", "evidence": ["EV-12"]}
+ ]
+}

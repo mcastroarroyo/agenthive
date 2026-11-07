@@ -32,6 +32,9 @@ REQUIREMENTS = [
     "google-cloud-discoveryengine==0.20.6",
     "cloudpickle==3.1.2",
     "pyyaml>=6.0",
+    "python-docx==1.2.0",      # Agent Workforce document delivery
+    "python-pptx==1.0.2",
+    "openpyxl==3.1.5",
 ]
 
 

@@ -1,0 +1,965 @@
+{
+ "_note": "In-tenant reference data for the fictional client Kitewing Software. It never leaves the client's Google Cloud tenant; the SOC only sees tokens.",
+ "client": "Kitewing Software, Inc. (fictional)",
+ "domain": "kitewing.example",
+ "people": 62,
+ "employees": 60,
+ "contractors": 2,
+ "waisentry": {
+  "posture_review": "2026-10-01",
+  "onboarding": "2026-10-05 to 2026-10-07",
+  "go_live": "2026-10-07 18:00",
+  "telemetry_from": "2026-10-08",
+  "pre_approval_signed": "2026-10-05 by Marcus Bell (COO & CFO)"
+ },
+ "timezone": "Kitewing local time, UTC-6 (all timestamps)",
+ "offices": {
+  "Cedar Harbor HQ": "headquarters, 3rd floor",
+  "Millbrook office": "support team + legacy on-prem footprint",
+  "Remote": "about a third of staff"
+ },
+ "sources": [
+  "Google Workspace audit logs (login, token, Drive, Gmail settings, admin) via native APIs",
+  "Laptop EDR (macOS, Windows) + ChromeOS device signals",
+  "Millbrook firewall/IDS (MB-FW01)",
+  "Domain controller and file server events via syslog forwarder MB-SYSLOG01",
+  "KnowBe4 (awareness + Phish Alert Button)",
+  "Mimecast (email gateway)",
+  "DNSFilter (DNS security)",
+  "Cloud web proxy (secure web gateway)"
+ ],
+ "contacts": [
+  {
+   "role": "Client security contact / on-call",
+   "name": "Noah Kim",
+   "title": "IT & Security Administrator"
+  },
+  {
+   "role": "Millbrook IT",
+   "name": "Hugo Laurent",
+   "title": "IT Support Technician"
+  },
+  {
+   "role": "Executive sponsor; finance escalation (payments)",
+   "name": "Marcus Bell",
+   "title": "COO & CFO"
+  },
+  {
+   "role": "Executive briefing recipient",
+   "name": "Dana Whitfield",
+   "title": "CEO"
+  }
+ ],
+ "token_policy": {
+  "algorithm": "HMAC-SHA256 with a per-tenant key, truncated to 4 hex characters per type",
+  "types": {
+   "USR": "people and mailboxes",
+   "EXT": "external addresses",
+   "FIL": "file names",
+   "MSG": "message subjects and bodies",
+   "DEV": "personal device names",
+   "PHN": "phone numbers",
+   "ACC": "bank or card account numbers"
+  },
+  "kept_in_clear": [
+   "IP addresses and ASNs",
+   "domains and URLs",
+   "app names and OAuth client ids",
+   "server names (MB-*)",
+   "timestamps",
+   "ATT&CK techniques",
+   "scores and counts"
+  ],
+  "key_note": "Demo constant. In the service the tokenisation key stays in the client's tenant, so only the client can re-identify."
+ },
+ "directory": [
+  {
+   "email": "dana.whitfield@kitewing.example",
+   "name": "Dana Whitfield",
+   "title": "CEO",
+   "team": "Leadership",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "dwhitfield-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "marcus.bell@kitewing.example",
+   "name": "Marcus Bell",
+   "title": "COO & CFO",
+   "team": "Leadership",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "mbell-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "lena.okafor@kitewing.example",
+   "name": "Lena Okafor",
+   "title": "VP Sales",
+   "team": "Sales",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "lokafor-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "jamie.cho@kitewing.example",
+   "name": "Jamie Cho",
+   "title": "Account Executive (Mid-market)",
+   "team": "Sales",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "jcho-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "priya.natarajan@kitewing.example",
+   "name": "Priya Natarajan",
+   "title": "Account Executive (SMB)",
+   "team": "Sales",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "pnatarajan-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "ethan.caldwell@kitewing.example",
+   "name": "Ethan Caldwell",
+   "title": "Account Executive",
+   "team": "Sales",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "ecaldwell-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "owen.gallagher@kitewing.example",
+   "name": "Owen Gallagher",
+   "title": "Sales Development Representative",
+   "team": "Sales",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "ogallagher-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "rosa.delgado@kitewing.example",
+   "name": "Rosa Delgado",
+   "title": "Sales Engineer",
+   "team": "Sales",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "rdelgado-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "theo.marsh@kitewing.example",
+   "name": "Theo Marsh",
+   "title": "Sales Development Representative",
+   "team": "Sales",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "tmarsh-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "isla.brennan@kitewing.example",
+   "name": "Isla Brennan",
+   "title": "Sales Operations Analyst",
+   "team": "Sales",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "ibrennan-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "marco.venturi@kitewing.example",
+   "name": "Marco Venturi",
+   "title": "Account Executive (Enterprise)",
+   "team": "Sales",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "mventuri-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "hannah.brooks@kitewing.example",
+   "name": "Hannah Brooks",
+   "title": "Head of Customer Success",
+   "team": "Customer Success",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "hbrooks-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "kwame.mensah@kitewing.example",
+   "name": "Kwame Mensah",
+   "title": "Customer Success Manager",
+   "team": "Customer Success",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "kmensah-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "ruth.adebayo@kitewing.example",
+   "name": "Ruth Adebayo",
+   "title": "Customer Success Manager",
+   "team": "Customer Success",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "radebayo-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "paul.ngata@kitewing.example",
+   "name": "Paul Ngata",
+   "title": "Customer Success Manager",
+   "team": "Customer Success",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "pngata-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "ines.duarte@kitewing.example",
+   "name": "Ines Duarte",
+   "title": "Senior Implementation Consultant",
+   "team": "Customer Success",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "iduarte-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "tomas.rivera@kitewing.example",
+   "name": "Tomás Rivera",
+   "title": "Implementation Consultant",
+   "team": "Customer Success",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "trivera-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "liam.oconnor@kitewing.example",
+   "name": "Liam O'Connor",
+   "title": "Support Lead",
+   "team": "Customer Success",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "loconnor-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "ava.lindholm@kitewing.example",
+   "name": "Ava Lindholm",
+   "title": "Support Specialist",
+   "team": "Customer Success",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "alindholm-cb",
+   "device_os": "ChromeOS"
+  },
+  {
+   "email": "jonah.petit@kitewing.example",
+   "name": "Jonah Petit",
+   "title": "Support Specialist",
+   "team": "Customer Success",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "jpetit-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "zara.quinn@kitewing.example",
+   "name": "Zara Quinn",
+   "title": "Support Specialist",
+   "team": "Customer Success",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "zquinn-cb",
+   "device_os": "ChromeOS"
+  },
+  {
+   "email": "kofi.asante@kitewing.example",
+   "name": "Kofi Asante",
+   "title": "Support Specialist",
+   "team": "Customer Success",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "kasante-cb",
+   "device_os": "ChromeOS"
+  },
+  {
+   "email": "wei.zhang@kitewing.example",
+   "name": "Wei Zhang",
+   "title": "Implementation Consultant",
+   "team": "Customer Success",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "wzhang-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "fatima.diallo@kitewing.example",
+   "name": "Fatima Diallo",
+   "title": "Support Specialist",
+   "team": "Customer Success",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "fdiallo-cb",
+   "device_os": "ChromeOS"
+  },
+  {
+   "email": "sam.okoro@kitewing.example",
+   "name": "Sam Okoro",
+   "title": "Customer Education Specialist",
+   "team": "Customer Success",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "sokoro-cb",
+   "device_os": "ChromeOS"
+  },
+  {
+   "email": "alicia.moreau@kitewing.example",
+   "name": "Alicia Moreau",
+   "title": "Head of Marketing",
+   "team": "Marketing",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "amoreau-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "ben.hartley@kitewing.example",
+   "name": "Ben Hartley",
+   "title": "Content & Social Marketer",
+   "team": "Marketing",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "bhartley-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "sienna.park@kitewing.example",
+   "name": "Sienna Park",
+   "title": "Demand Generation Manager",
+   "team": "Marketing",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "spark-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "rafael.costa@kitewing.example",
+   "name": "Rafael Costa",
+   "title": "Brand Designer",
+   "team": "Marketing",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "rcosta-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "victor.lindgren@kitewing.example",
+   "name": "Victor Lindgren",
+   "title": "CTO",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "vlindgren-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "sofia.petrov@kitewing.example",
+   "name": "Sofia Petrov",
+   "title": "Product Manager",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "spetrov-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "arjun.mehta@kitewing.example",
+   "name": "Arjun Mehta",
+   "title": "Engineering Manager",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "amehta-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "femi.adeyemi@kitewing.example",
+   "name": "Femi Adeyemi",
+   "title": "Data Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "fadeyemi-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "diego.alvarez@kitewing.example",
+   "name": "Diego Alvarez",
+   "title": "Frontend Engineer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "dalvarez-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "chloe.nakamura@kitewing.example",
+   "name": "Chloe Nakamura",
+   "title": "Senior Backend Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "cnakamura-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "nadia.rahman@kitewing.example",
+   "name": "Nadia Rahman",
+   "title": "Product Designer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "nrahman-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "lucas.weber@kitewing.example",
+   "name": "Lucas Weber",
+   "title": "QA Engineer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "lweber-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "riley.ford@kitewing.example",
+   "name": "Riley Ford",
+   "title": "QA Engineer (contractor)",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "contractor",
+   "two_step": "google_prompt",
+   "super_admin": false,
+   "device": "rford-byod",
+   "device_os": "Windows"
+  },
+  {
+   "email": "mila.novak@kitewing.example",
+   "name": "Mila Novak",
+   "title": "Mobile Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "mnovak-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "kenji.arai@kitewing.example",
+   "name": "Kenji Arai",
+   "title": "Site Reliability Engineer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "karai-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "aisha.bello@kitewing.example",
+   "name": "Aisha Bello",
+   "title": "Backend Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "abello-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "tom.becker@kitewing.example",
+   "name": "Tom Becker",
+   "title": "Backend Engineer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "tbecker-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "laura.kowalski@kitewing.example",
+   "name": "Laura Kowalski",
+   "title": "Frontend Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "lkowalski-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "ravi.iyer@kitewing.example",
+   "name": "Ravi Iyer",
+   "title": "Platform Engineer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "riyer-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "jess.moreno@kitewing.example",
+   "name": "Jess Moreno",
+   "title": "Mobile Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "jmoreno-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "pablo.ruiz@kitewing.example",
+   "name": "Pablo Ruiz",
+   "title": "Backend Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "pruiz-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "hana.sato@kitewing.example",
+   "name": "Hana Sato",
+   "title": "ML Engineer (Kitewing Assist)",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "hsato-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "nils.eriksen@kitewing.example",
+   "name": "Nils Eriksen",
+   "title": "Site Reliability Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "neriksen-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "yusuf.kaya@kitewing.example",
+   "name": "Yusuf Kaya",
+   "title": "Backend Engineer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "ykaya-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "elif.demir@kitewing.example",
+   "name": "Elif Demir",
+   "title": "QA Engineer",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "edemir-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "maria.santos@kitewing.example",
+   "name": "Maria Santos",
+   "title": "Frontend Engineer",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "msantos-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "ivy.chen@kitewing.example",
+   "name": "Ivy Chen",
+   "title": "Product Manager",
+   "team": "Product & Engineering",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "ichen-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "kai.lindqvist@kitewing.example",
+   "name": "Kai Lindqvist",
+   "title": "Data Engineer (contractor)",
+   "team": "Product & Engineering",
+   "office": "Remote",
+   "type": "contractor",
+   "two_step": "google_prompt",
+   "super_admin": false,
+   "device": "klindqvist-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "erin.walsh@kitewing.example",
+   "name": "Erin Walsh",
+   "title": "People & Culture Lead",
+   "team": "People & Operations",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "ewalsh-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "noah.kim@kitewing.example",
+   "name": "Noah Kim",
+   "title": "IT & Security Administrator",
+   "team": "People & Operations",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": true,
+   "device": "nkim-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "maya.singh@kitewing.example",
+   "name": "Maya Singh",
+   "title": "Finance Manager",
+   "team": "People & Operations",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "msingh-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "tessa.morgan@kitewing.example",
+   "name": "Tessa Morgan",
+   "title": "AP & Billing Specialist",
+   "team": "People & Operations",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "tmorgan-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "daniel.okeke@kitewing.example",
+   "name": "Daniel Okeke",
+   "title": "Payroll & People Ops Specialist",
+   "team": "People & Operations",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "dokeke-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "hugo.laurent@kitewing.example",
+   "name": "Hugo Laurent",
+   "title": "IT Support Technician",
+   "team": "People & Operations",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": true,
+   "device": "hlaurent-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "amara.nwosu@kitewing.example",
+   "name": "Amara Nwosu",
+   "title": "Talent Acquisition Partner",
+   "team": "People & Operations",
+   "office": "Remote",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "anwosu-mbp",
+   "device_os": "macOS"
+  },
+  {
+   "email": "greta.holm@kitewing.example",
+   "name": "Greta Holm",
+   "title": "Office Manager (Millbrook)",
+   "team": "People & Operations",
+   "office": "Millbrook office",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "gholm-cb",
+   "device_os": "ChromeOS"
+  },
+  {
+   "email": "sean.murphy@kitewing.example",
+   "name": "Sean Murphy",
+   "title": "Financial Analyst",
+   "team": "People & Operations",
+   "office": "Cedar Harbor HQ",
+   "type": "employee",
+   "two_step": "security_key",
+   "super_admin": false,
+   "device": "smurphy-win",
+   "device_os": "Windows"
+  },
+  {
+   "email": "ap@kitewing.example",
+   "name": "Accounts Payable (shared mailbox)",
+   "title": "Delegated to Maya Singh and Tessa Morgan; no interactive sign-in",
+   "team": "—",
+   "office": "—",
+   "type": "shared_mailbox",
+   "two_step": "n/a (delegated)",
+   "super_admin": false,
+   "device": null,
+   "device_os": null
+  },
+  {
+   "email": "it-breakglass@kitewing.example",
+   "name": "Break-glass super admin",
+   "title": "Security key kept in the HQ safe; sign-in alerts to Noah Kim",
+   "team": "—",
+   "office": "—",
+   "type": "break_glass",
+   "two_step": "security_key",
+   "super_admin": true,
+   "device": null,
+   "device_os": null
+  },
+  {
+   "email": "scanner-millbrook@kitewing.example",
+   "name": "Millbrook scan-to-email account",
+   "title": "Multifunction printer; SMTP with an app password (legacy)",
+   "team": "—",
+   "office": "—",
+   "type": "device_account",
+   "two_step": "app_password",
+   "super_admin": false,
+   "device": null,
+   "device_os": null
+  },
+  {
+   "email": "support-escalations@kitewing.example",
+   "name": "Support escalations (Google Group)",
+   "title": "group",
+   "team": "Customer Success",
+   "office": "—",
+   "type": "group",
+   "two_step": "n/a",
+   "super_admin": false,
+   "device": null,
+   "device_os": null
+  }
+ ],
+ "external_contacts": [
+  {
+   "name": "Paolo Tessaro",
+   "email": "paolo@tessarodesign.example",
+   "org": "Tessaro Design Studio (vendor)"
+  },
+  {
+   "name": "Accounts team (spoofed)",
+   "email": "accounts@tessaro-designs.example",
+   "org": "lookalike of Tessaro Design Studio"
+  },
+  {
+   "name": "Reply-to drop box",
+   "email": "tessaro.remit@relaymail.example",
+   "org": "free relay mailbox (attacker)"
+  },
+  {
+   "name": "Forwarding drop box",
+   "email": "ms.archive@relaymail.example",
+   "org": "free relay mailbox (attacker)"
+  },
+  {
+   "name": "Phishing sender",
+   "email": "docs-share@securedoc-viewer.example",
+   "org": "consent-phishing sender"
+  },
+  {
+   "name": "Ben Hartley (personal)",
+   "email": "ben.hartley.design@personalmail.example",
+   "org": "personal mailbox"
+  },
+  {
+   "name": "Kai Lindqvist (own company)",
+   "email": "kai@lindqvist-data.example",
+   "org": "contractor's company"
+  },
+  {
+   "name": "BillFlow AP inbox",
+   "email": "invoices@billflow.example",
+   "org": "sanctioned AP automation vendor"
+  },
+  {
+   "name": "Payroll lure sender",
+   "email": "hr-notice@payroll-kitewing.example",
+   "org": "phishing sender (Oct 15)"
+  }
+ ],
+ "files": [
+  {
+   "name": "Vendor bank details 2026.xlsx",
+   "folder": "Finance/Vendors",
+   "label": "Confidential",
+   "owner": "maya.singh"
+  },
+  {
+   "name": "AP remittance schedule Nov 2026.xlsx",
+   "folder": "Finance/Vendors",
+   "label": "Confidential",
+   "owner": "maya.singh"
+  },
+  {
+   "name": "Customer ARR export Q4 2026.xlsx",
+   "folder": "Marketing/Case studies",
+   "label": "Confidential",
+   "owner": "ben.hartley"
+  },
+  {
+   "name": "Q4 vendor remittance.pdf",
+   "folder": "(phishing lure — not in Drive)",
+   "label": "—",
+   "owner": null
+  },
+  {
+   "name": "Support macros v12.docx",
+   "folder": "Support/Playbooks",
+   "label": "Internal",
+   "owner": "liam.oconnor"
+  },
+  {
+   "name": "pdfconvert_setup.exe",
+   "folder": "(downloaded to a laptop)",
+   "label": "—",
+   "owner": null
+  },
+  {
+   "name": "Invoice TD-2026-1187.pdf",
+   "folder": "Finance/Vendors/Tessaro",
+   "label": "Internal",
+   "owner": "maya.singh"
+  }
+ ],
+ "messages": [
+  "Shared document: Q4 vendor remittance",
+  "Updated remittance details — invoice TD-2026-1187",
+  "Payroll portal: confirm your direct deposit"
+ ]
+}

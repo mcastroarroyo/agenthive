@@ -89,7 +89,7 @@ async def main(a):
     results = await asyncio.gather(*(guarded(x) for x in agents))
     out = ROOT / "deploy" / "out"
     out.mkdir(exist_ok=True)
-    path = out / f"smoke-{int(time.time())}.json"
+    path = out / f"smoke-{int(time.time() * 1000)}.json"   # ms: parallel runs must not overwrite each other
     path.write_text(json.dumps(results, indent=2, ensure_ascii=False))
     bad = [r for r in results if r["error"] or not r["text_chars"]]
     print(f"\n{len(results)} agents · {len(bad)} failed · {sum(r['tokens'] for r in results):,} tokens · {path}")

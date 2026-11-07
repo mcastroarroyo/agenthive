@@ -111,6 +111,23 @@ class Composition(BaseModel):
     blocks: dict[str, str]    # how the composition uses models / runtime / tools / grounding
 
 
+class SecurityControl(BaseModel):
+    name: str
+    short: str                 # chip label on the realm band
+    role: str                  # full description (expanded band)
+    brief: str = ""            # one line for the agent panel
+
+
+class SecurityLayer(BaseModel):
+    """A security layer shown around one or more realms (display only — see `note`)."""
+    id: str
+    name: str
+    realms: list[str]
+    note: str
+    summary: str
+    controls: list[SecurityControl]
+
+
 class Catalog(BaseModel):
     title: str
     subtitle: str
@@ -118,6 +135,7 @@ class Catalog(BaseModel):
     realms: list[Realm]
     compositions: list[Composition]
     skills: list[dict[str, str]]
+    security_layers: list[SecurityLayer] = Field(default_factory=list)
 
     def agents(self) -> list[Agent]:
         return [a for r in self.realms for a in r.agents]
@@ -153,6 +171,10 @@ def load_catalog() -> Catalog:
 
 def _validate(cat: Catalog) -> None:
     ids, codes = set(), set()
+    realm_ids = {r.id for r in cat.realms}
+    for layer in cat.security_layers:
+        if set(layer.realms) - realm_ids:
+            raise ValueError(f"security layer {layer.id}: unknown realms {sorted(set(layer.realms) - realm_ids)}")
     for r in cat.realms:
         cluster_ids = {c.id for c in r.clusters}
         for a in r.agents:

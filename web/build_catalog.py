@@ -42,6 +42,7 @@ def build() -> dict:
         "statuses": cat.statuses,
         "realms": realms,
         "compositions": [c.model_dump() for c in cat.compositions],
+        "security_layers": [l.model_dump() for l in cat.security_layers],
         "skills": skills,
         "tiers": {k: {"label": t.label, "model_id": t.model_id, "why": t.why, "cost": t.price_hint}
                   for k, t in models.TIERS.items()},

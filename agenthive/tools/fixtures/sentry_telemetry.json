@@ -1,0 +1,1975 @@
+{
+ "_note": "Tokenised (zero-PII) telemetry batches as WAISentry triage receives them. Synthetic.",
+ "scoring": {
+  "base": 5,
+  "alert_threshold": 60,
+  "bands": [
+   [
+    90,
+    "critical"
+   ],
+   [
+    75,
+    "high"
+   ],
+   [
+    60,
+    "medium"
+   ],
+   [
+    0,
+    "info"
+   ]
+  ],
+  "business_hours": "Mon-Fri 07:00-19:00 Kitewing local time (UTC-6)",
+  "weights": {
+   "unverified_publisher": 25,
+   "high_risk_scope": 25,
+   "lookalike_name": 10,
+   "consent_via_email_link": 15,
+   "after_hours": 5,
+   "external_forwarding": 35,
+   "hidden_filter": 25,
+   "finance_keywords": 10,
+   "created_by_app": 15,
+   "impossible_travel": 40,
+   "password_ok_2sv_failed": 25,
+   "hosting_asn": 10,
+   "new_country": 10,
+   "new_location": 10,
+   "bulk_mail_read": 25,
+   "app_token_from_hosting_ip": 20,
+   "bulk_download": 25,
+   "sensitive_folder": 15,
+   "external_link_on_confidential": 40,
+   "lookalike_domain": 30,
+   "newly_registered_domain": 15,
+   "bank_change_language": 20,
+   "reply_to_mismatch": 10,
+   "references_real_invoice": 15,
+   "credential_store_access": 40,
+   "unsigned_binary": 15,
+   "edr_high": 20,
+   "edr_medium": 10,
+   "exfil_to_hosting_ip": 25,
+   "executable_download": 15,
+   "session_replay": 40,
+   "concurrent_geo": 25,
+   "ua_mismatch": 10,
+   "share_to_personal_address": 25,
+   "confidential_label": 20,
+   "customer_data": 15,
+   "mfa_prompt_burst": 40,
+   "password_ok": 15,
+   "kerberos_preauth_burst": 45,
+   "many_accounts": 20,
+   "eol_host_no_edr": 10,
+   "outbound_c2_pattern": 35,
+   "server_host": 10,
+   "external_sender_first_contact": 5,
+   "mass_rename": 30,
+   "user_reported_phish": 30,
+   "phishing_category": 25,
+   "first_seen_app": 5,
+   "single_failure": 5,
+   "known_travel": -30,
+   "security_key_used": -10,
+   "known_device": -10,
+   "sanctioned_app": -10,
+   "scheduled_task": -20,
+   "inbound_scan_blocked": -5,
+   "ad_tracker_block": -5,
+   "dns_blocked": -10,
+   "simulation": -25,
+   "routine_auth": -10,
+   "routine_edit": -5,
+   "bulk_mail": -5,
+   "spam_blocked": -5,
+   "training": -5,
+   "admin_routine": -5,
+   "blocked_by_policy": -15,
+   "verified_publisher": -15,
+   "low_risk_scope": -10,
+   "allowlisted": -15,
+   "same_extension_no_entropy": -25,
+   "change_ticket": -30
+  },
+  "phrases": {
+   "unverified_publisher": "app publisher is unverified",
+   "high_risk_scope": "requests high-risk scopes (mail/Drive)",
+   "lookalike_name": "app name imitates a document tool",
+   "consent_via_email_link": "consent came from an email link",
+   "after_hours": "outside business hours",
+   "external_forwarding": "forwards mail to an external address",
+   "hidden_filter": "filter skips the inbox and marks read (hides messages)",
+   "finance_keywords": "targets invoice/payment/bank mail",
+   "created_by_app": "created through a third-party app, not by the user",
+   "impossible_travel": "impossible travel from the previous location",
+   "password_ok_2sv_failed": "correct password but 2-step verification failed",
+   "hosting_asn": "source is a hosting/VPS network",
+   "new_country": "first sign-in from this country",
+   "new_location": "first sign-in from this city",
+   "bulk_mail_read": "bulk mailbox read through the API",
+   "app_token_from_hosting_ip": "app token used from a hosting IP",
+   "bulk_download": "bulk file download",
+   "sensitive_folder": "sensitive folder (Finance/Vendors)",
+   "external_link_on_confidential": "public link on a Confidential file",
+   "lookalike_domain": "sender domain imitates a known vendor/brand",
+   "newly_registered_domain": "domain registered in the last 30 days",
+   "bank_change_language": "asks to change bank details",
+   "reply_to_mismatch": "reply-to differs from the sender",
+   "references_real_invoice": "quotes a real open invoice",
+   "credential_store_access": "process read the browser credential/cookie store",
+   "unsigned_binary": "unsigned executable",
+   "edr_high": "EDR severity high",
+   "edr_medium": "EDR severity medium",
+   "exfil_to_hosting_ip": "upload to a hosting IP",
+   "executable_download": "executable downloaded from the web",
+   "session_replay": "session cookie replayed without a sign-in",
+   "concurrent_geo": "same account active in two countries at once",
+   "ua_mismatch": "browser fingerprint mismatch",
+   "share_to_personal_address": "shared with a personal mailbox",
+   "confidential_label": "file labelled Confidential",
+   "customer_data": "contains customer data",
+   "mfa_prompt_burst": "burst of 2-step prompts (MFA fatigue)",
+   "password_ok": "password was correct",
+   "kerberos_preauth_burst": "burst of failed Kerberos pre-authentication",
+   "many_accounts": "many accounts targeted from one host",
+   "eol_host_no_edr": "source host is end-of-life without EDR",
+   "outbound_c2_pattern": "outbound beacon pattern",
+   "server_host": "on a server",
+   "external_sender_first_contact": "first contact from this sender",
+   "mass_rename": "mass file rename",
+   "user_reported_phish": "reported by users as phishing",
+   "phishing_category": "DNS category: phishing",
+   "first_seen_app": "first time this app is seen",
+   "single_failure": "one failed attempt",
+   "known_travel": "known travel",
+   "security_key_used": "security key used",
+   "known_device": "known device",
+   "sanctioned_app": "sanctioned app",
+   "scheduled_task": "scheduled job",
+   "inbound_scan_blocked": "blocked at the perimeter",
+   "ad_tracker_block": "ad/tracker block",
+   "dns_blocked": "blocked at DNS",
+   "simulation": "KnowBe4 simulation",
+   "routine_auth": "routine authentication",
+   "routine_edit": "owner editing",
+   "bulk_mail": "bulk newsletter",
+   "spam_blocked": "spam blocked",
+   "training": "training activity",
+   "admin_routine": "routine admin task",
+   "blocked_by_policy": "blocked by policy",
+   "verified_publisher": "verified publisher",
+   "low_risk_scope": "low-risk scope",
+   "allowlisted": "allowlisted",
+   "same_extension_no_entropy": "same extensions, no encryption entropy",
+   "change_ticket": "matches an approved change ticket"
+  },
+  "techniques": {
+   "T1566.002": [
+    "Phishing: Spearphishing Link",
+    "Initial Access"
+   ],
+   "T1528": [
+    "Steal Application Access Token",
+    "Credential Access"
+   ],
+   "T1114.003": [
+    "Email Collection: Email Forwarding Rule",
+    "Collection"
+   ],
+   "T1564.008": [
+    "Hide Artifacts: Email Hiding Rules",
+    "Defense Evasion"
+   ],
+   "T1078.004": [
+    "Valid Accounts: Cloud Accounts",
+    "Initial Access"
+   ],
+   "T1114.002": [
+    "Email Collection: Remote Email Collection",
+    "Collection"
+   ],
+   "T1530": [
+    "Data from Cloud Storage",
+    "Collection"
+   ],
+   "T1567.002": [
+    "Exfiltration Over Web Service: Exfiltration to Cloud Storage",
+    "Exfiltration"
+   ],
+   "T1656": [
+    "Impersonation",
+    "Defense Evasion"
+   ],
+   "T1204.002": [
+    "User Execution: Malicious File",
+    "Execution"
+   ],
+   "T1555.003": [
+    "Credentials from Web Browsers",
+    "Credential Access"
+   ],
+   "T1539": [
+    "Steal Web Session Cookie",
+    "Credential Access"
+   ],
+   "T1041": [
+    "Exfiltration Over C2 Channel",
+    "Exfiltration"
+   ],
+   "T1550.004": [
+    "Use Alternate Authentication Material: Web Session Cookie",
+    "Lateral Movement"
+   ],
+   "T1621": [
+    "Multi-Factor Authentication Request Generation",
+    "Credential Access"
+   ],
+   "T1110.003": [
+    "Brute Force: Password Spraying",
+    "Credential Access"
+   ],
+   "T1110.004": [
+    "Brute Force: Credential Stuffing",
+    "Credential Access"
+   ],
+   "T1219": [
+    "Remote Access Software",
+    "Command and Control"
+   ],
+   "T1071.001": [
+    "Application Layer Protocol: Web Protocols",
+    "Command and Control"
+   ],
+   "T1046": [
+    "Network Service Discovery",
+    "Discovery"
+   ]
+  }
+ },
+ "batches": {
+  "TB-1101-0200": {
+   "label": "Sunday 2026-11-01 01:30-02:30 (Kitewing local time, UTC-6)",
+   "window": [
+    "2026-11-01T01:30:00-06:00",
+    "2026-11-01T02:30:00-06:00"
+   ],
+   "raw_records": 4812,
+   "raw_by_source": {
+    "dnsfilter": 2911,
+    "firewall_ids": 1240,
+    "workspace": 388,
+    "mimecast": 141,
+    "edr": 77,
+    "syslog (DC + file server)": 55
+   },
+   "doc": "sentry_alert_batch_sun0200",
+   "events": [
+    {
+     "ts": "2026-11-01T01:33:12-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-D678",
+     "detail": "Sign-in from Lisbon, PT (on leave since 2026-10-29), security key, known device",
+     "ip": "203.0.113.188",
+     "geo": "Lisbon, PT",
+     "signals": [
+      "new_country",
+      "known_travel",
+      "security_key_used",
+      "known_device",
+      "after_hours"
+     ],
+     "noise": "Known travel (leave noted in calendar), security key and known device",
+     "id": "EV-1101-X1",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:37:36-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-4A1E",
+     "detail": "Blocked ad/tracker domain pixel-track.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1101-002",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:38:21-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-5DED",
+     "detail": "Spam from 192.0.2.34 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1101-003",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:38:33-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-E074",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1101-004",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:40:01-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.201 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1101-005",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:40:12-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-0234",
+     "detail": "Blocked ad/tracker domain pixel-track.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1101-006",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:46:18-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-9BC4",
+     "detail": "Sign-in from Cedar Harbor, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device",
+      "after_hours"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1101-007",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:46:52-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-2E5D",
+     "detail": "Spam from 192.0.2.34 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1101-008",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:48:34-06:00",
+     "src": "workspace.login",
+     "type": "login_failed_then_success",
+     "actor": "USR-163D",
+     "detail": "One wrong password, then success from a known device",
+     "signals": [
+      "single_failure",
+      "known_device",
+      "security_key_used",
+      "after_hours"
+     ],
+     "noise": "Single typo followed by a normal sign-in",
+     "id": "EV-1101-009",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:49:10-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.159 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1101-010",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:56:45-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.201 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1101-011",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:56:54-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-D644",
+     "detail": "Blocked ad/tracker domain adserve-metrics.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1101-012",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T01:58:02-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-CFA4",
+     "detail": "Delivered 'MSG-AF33' from EXT-58DD (domain 2 days old); URL rewritten by URL Protect; also sent to USR-0E33 and USR-5B90",
+     "signals": [
+      "newly_registered_domain",
+      "external_sender_first_contact",
+      "after_hours"
+     ],
+     "noise": "Rewritten link from a new sender — not malicious on its own",
+     "incident": "INC-1101-01",
+     "technique": "T1566.002",
+     "id": "EV-1101-X2",
+     "score": 30
+    },
+    {
+     "ts": "2026-11-01T01:58:40-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-CFA4",
+     "detail": "Sign-in from Cedar Harbor (home ISP 203.0.113.61), security key, known device DEV-E7E9",
+     "ip": "203.0.113.61",
+     "geo": "Cedar Harbor, US",
+     "signals": [
+      "security_key_used",
+      "known_device",
+      "after_hours"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "incident": "INC-1101-01",
+     "id": "EV-1101-X3",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:00:19-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (16 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1101-015",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:01:43-06:00",
+     "src": "workspace.drive",
+     "type": "file_edit",
+     "actor": "USR-01C9",
+     "detail": "Edited an internal document they own",
+     "signals": [
+      "routine_edit",
+      "after_hours"
+     ],
+     "noise": "Owner editing an internal file",
+     "id": "EV-1101-016",
+     "score": 5
+    },
+    {
+     "ts": "2026-11-01T02:02:19-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-B701",
+     "detail": "Sign-in from Cedar Harbor, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device",
+      "after_hours"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1101-017",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:03:01-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-5A39",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1101-018",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:03:37-06:00",
+     "src": "dnsfilter",
+     "type": "dns_allowed",
+     "actor": "DEV-E7E9",
+     "detail": "Resolved securedoc-viewer.example (registered 2026-10-30, uncategorised at the time — allowed)",
+     "signals": [
+      "newly_registered_domain",
+      "after_hours"
+     ],
+     "noise": "Uncategorised new domain, allowed — no other signal yet",
+     "incident": "INC-1101-01",
+     "technique": "T1566.002",
+     "id": "EV-1101-X4",
+     "score": 25
+    },
+    {
+     "ts": "2026-11-01T02:03:51-06:00",
+     "src": "edr",
+     "type": "scan_complete",
+     "actor": "DEV-5A6E",
+     "detail": "Scheduled EDR scan completed, 0 detections",
+     "signals": [
+      "scheduled_task"
+     ],
+     "noise": "Scheduled EDR scan",
+     "id": "EV-1101-020",
+     "score": 0
+    },
+    {
+     "id": "EV-1101-A1",
+     "ts": "2026-11-01T02:04:11-06:00",
+     "src": "workspace.token",
+     "type": "oauth_grant",
+     "actor": "USR-CFA4",
+     "detail": "Granted 'PDF Secure Viewer' (client 990417-pdfsecureviewer, publisher unverified) scopes gmail.readonly, gmail.settings.sharing, drive",
+     "ip": "203.0.113.61",
+     "signals": [
+      "unverified_publisher",
+      "high_risk_scope",
+      "lookalike_name",
+      "consent_via_email_link",
+      "after_hours"
+     ],
+     "technique": "T1528",
+     "incident": "INC-1101-01",
+     "triaged_s": 8,
+     "score": 85
+    },
+    {
+     "ts": "2026-11-01T02:05:21-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-DE37",
+     "detail": "Blocked ad/tracker domain adserve-metrics.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1101-022",
+     "score": 0
+    },
+    {
+     "id": "EV-1101-A2",
+     "ts": "2026-11-01T02:05:40-06:00",
+     "src": "workspace.gmail",
+     "type": "forwarding_rule_created",
+     "actor": "USR-CFA4",
+     "detail": "Forwarding address EXT-CBE6 added and filter created by app 'PDF Secure Viewer': subject invoice OR payment OR remittance OR bank OR wire -> forward, skip inbox, mark as read",
+     "signals": [
+      "external_forwarding",
+      "hidden_filter",
+      "finance_keywords",
+      "created_by_app",
+      "after_hours"
+     ],
+     "technique": "T1114.003",
+     "also": [
+      "T1564.008"
+     ],
+     "incident": "INC-1101-01",
+     "triaged_s": 4,
+     "score": 95
+    },
+    {
+     "id": "EV-1101-A3",
+     "ts": "2026-11-01T02:06:12-06:00",
+     "src": "workspace.login",
+     "type": "login_2sv_failed",
+     "actor": "USR-CFA4",
+     "detail": "Password accepted, security-key challenge failed, from 198.51.100.77 (Amsterdam, NL — AS64501 hosting); previous activity Cedar Harbor 01:58:40",
+     "ip": "198.51.100.77",
+     "geo": "Amsterdam, NL",
+     "signals": [
+      "impossible_travel",
+      "password_ok_2sv_failed",
+      "hosting_asn",
+      "new_country",
+      "after_hours"
+     ],
+     "technique": "T1078.004",
+     "incident": "INC-1101-01",
+     "triaged_s": 3,
+     "score": 95
+    },
+    {
+     "id": "EV-1101-A4",
+     "ts": "2026-11-01T02:06:58-06:00",
+     "src": "workspace.gmail",
+     "type": "api_bulk_read",
+     "actor": "USR-CFA4",
+     "detail": "App 'PDF Secure Viewer' read 412 messages through the Gmail API from 198.51.100.77",
+     "ip": "198.51.100.77",
+     "signals": [
+      "bulk_mail_read",
+      "app_token_from_hosting_ip",
+      "unverified_publisher",
+      "after_hours"
+     ],
+     "technique": "T1114.002",
+     "incident": "INC-1101-01",
+     "triaged_s": 5,
+     "score": 80
+    },
+    {
+     "id": "EV-1101-A5",
+     "ts": "2026-11-01T02:07:10-06:00",
+     "src": "mimecast",
+     "type": "impersonation_delivered",
+     "actor": "USR-26F5",
+     "detail": "'MSG-92EF' from EXT-D0D2 (lookalike of tessarodesign.example, registered 2026-10-29), reply-to EXT-4805, to the accounts-payable shared mailbox, cc USR-CFA4; delivered with an impersonation banner",
+     "signals": [
+      "lookalike_domain",
+      "newly_registered_domain",
+      "bank_change_language",
+      "reply_to_mismatch",
+      "references_real_invoice",
+      "after_hours"
+     ],
+     "technique": "T1656",
+     "incident": "INC-1101-01",
+     "triaged_s": 6,
+     "score": 99
+    },
+    {
+     "id": "EV-1101-A6",
+     "ts": "2026-11-01T02:07:30-06:00",
+     "src": "workspace.drive",
+     "type": "api_bulk_download",
+     "actor": "USR-CFA4",
+     "detail": "App 'PDF Secure Viewer' downloaded 38 files from Finance/Vendors including FIL-48E5",
+     "ip": "198.51.100.77",
+     "signals": [
+      "bulk_download",
+      "unverified_publisher",
+      "sensitive_folder",
+      "after_hours"
+     ],
+     "technique": "T1530",
+     "incident": "INC-1101-01",
+     "triaged_s": 4,
+     "score": 75
+    },
+    {
+     "id": "EV-1101-A7",
+     "ts": "2026-11-01T02:07:41-06:00",
+     "src": "workspace.drive",
+     "type": "public_link_created",
+     "actor": "USR-CFA4",
+     "detail": "App 'PDF Secure Viewer' set 'anyone with the link' on FIL-A3EF and FIL-48E5",
+     "ip": "198.51.100.77",
+     "signals": [
+      "external_link_on_confidential",
+      "created_by_app",
+      "unverified_publisher",
+      "after_hours"
+     ],
+     "technique": "T1567.002",
+     "incident": "INC-1101-01",
+     "triaged_s": 3,
+     "score": 90
+    },
+    {
+     "ts": "2026-11-01T02:08:25-06:00",
+     "src": "workspace.gmail",
+     "type": "api_call_rejected",
+     "actor": "USR-CFA4",
+     "detail": "Gmail API call by 'PDF Secure Viewer' from 198.51.100.77 rejected (token revoked by PB-02) — containment verified",
+     "ip": "198.51.100.77",
+     "signals": [
+      "blocked_by_policy",
+      "after_hours"
+     ],
+     "noise": "Rejected after containment — evidence that the revoke worked",
+     "incident": "INC-1101-01",
+     "id": "EV-1101-X12",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:08:30-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.118 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1101-030",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:09:56-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.159 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1101-031",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:10:51-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-AD7D",
+     "detail": "Token refresh for sanctioned app Slack",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1101-032",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:10:55-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-D4D6",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1101-033",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:11:40-06:00",
+     "src": "workspace.login",
+     "type": "login_failed_then_success",
+     "actor": "USR-CC9D",
+     "detail": "One wrong password, then success from a known device",
+     "signals": [
+      "single_failure",
+      "known_device",
+      "security_key_used",
+      "after_hours"
+     ],
+     "noise": "Single typo followed by a normal sign-in",
+     "id": "EV-1101-034",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:12:36-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-60B1",
+     "detail": "Blocked ad/tracker domain cdn-beacon.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1101-035",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:14:10-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-8207",
+     "detail": "Sign-in from home ISP, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device",
+      "after_hours"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1101-036",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:14:20-06:00",
+     "src": "workspace.login",
+     "type": "login_failed_then_success",
+     "actor": "USR-2588",
+     "detail": "One wrong password, then success from a known device",
+     "signals": [
+      "single_failure",
+      "known_device",
+      "security_key_used",
+      "after_hours"
+     ],
+     "noise": "Single typo followed by a normal sign-in",
+     "id": "EV-1101-037",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:14:22-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-A57E",
+     "detail": "Blocked ad/tracker domain cdn-beacon.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1101-038",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:17:42-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (16 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1101-039",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:18:50-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-EC4F",
+     "detail": "Sign-in from home ISP, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device",
+      "after_hours"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1101-040",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:20:54-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-043F",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1101-041",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:21:43-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-8645",
+     "detail": "Spam from 192.0.2.159 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1101-042",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:24:08-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-D4D6",
+     "detail": "Token refresh for sanctioned app Slack",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1101-043",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:28:41-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-6FE4",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1101-044",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:29:03-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (15 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1101-045",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:29:32-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (6 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1101-046",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-01T02:29:36-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-D39D",
+     "detail": "Sign-in from home ISP, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device",
+      "after_hours"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1101-047",
+     "score": 0
+    }
+   ]
+  },
+  "TB-1028-1400": {
+   "label": "Wednesday 2026-10-28 14:00-15:00 (Kitewing local time, UTC-6)",
+   "window": [
+    "2026-10-28T14:00:00-06:00",
+    "2026-10-28T15:00:00-06:00"
+   ],
+   "raw_records": 21406,
+   "raw_by_source": {
+    "dnsfilter": 12870,
+    "firewall_ids": 3102,
+    "workspace": 2944,
+    "mimecast": 1180,
+    "web_proxy": 702,
+    "edr": 361,
+    "syslog (DC + file server)": 198,
+    "knowbe4": 49
+   },
+   "doc": null,
+   "events": [
+    {
+     "ts": "2026-10-28T14:01:13-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-8645",
+     "detail": "Token refresh for sanctioned app Zoom",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1028-001",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:02:22-06:00",
+     "src": "workspace.admin",
+     "type": "admin_routine",
+     "actor": "USR-A7F5",
+     "detail": "Admin viewed audit reports",
+     "signals": [
+      "admin_routine"
+     ],
+     "noise": "Routine admin activity",
+     "id": "EV-1028-002",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:03:26-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-D39D",
+     "detail": "Sign-in from home ISP, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1028-003",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:03:49-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-5A39",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1028-004",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:07:28-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-4764",
+     "detail": "Token refresh for sanctioned app Zoom",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1028-005",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:16:50-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.34 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1028-006",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:17:35-06:00",
+     "src": "web_proxy",
+     "type": "web_allowed",
+     "actor": "DEV-20BB",
+     "detail": "Browsed business-category sites (allowed)",
+     "signals": [],
+     "noise": "Routine browsing",
+     "id": "EV-1028-007",
+     "score": 5
+    },
+    {
+     "ts": "2026-10-28T14:18:05-06:00",
+     "src": "web_proxy",
+     "type": "file_download",
+     "actor": "DEV-D48B",
+     "detail": "Downloaded FIL-8AA6 from freepdfconvert-pro.example (registered 2026-10-11, uncategorised)",
+     "signals": [
+      "executable_download",
+      "newly_registered_domain"
+     ],
+     "noise": "Executable from a new domain — watched, not alerted on its own",
+     "incident": "INC-1028-01",
+     "technique": "T1204.002",
+     "id": "EV-1028-X1",
+     "score": 35
+    },
+    {
+     "ts": "2026-10-28T14:20:51-06:00",
+     "src": "workspace.admin",
+     "type": "admin_routine",
+     "actor": "USR-A7F5",
+     "detail": "Admin viewed audit reports",
+     "signals": [
+      "admin_routine"
+     ],
+     "noise": "Routine admin activity",
+     "id": "EV-1028-009",
+     "score": 0
+    },
+    {
+     "id": "EV-1028-A1",
+     "ts": "2026-10-28T14:21:48-06:00",
+     "src": "edr",
+     "type": "credential_store_access",
+     "actor": "DEV-D48B",
+     "detail": "Unsigned process pdfconvert_setup.exe read the Chrome cookie and login-data stores (EDR alert ED-2210) — user USR-163D",
+     "signals": [
+      "credential_store_access",
+      "unsigned_binary",
+      "edr_high"
+     ],
+     "technique": "T1555.003",
+     "also": [
+      "T1539"
+     ],
+     "incident": "INC-1028-01",
+     "triaged_s": 6,
+     "score": 80
+    },
+    {
+     "ts": "2026-10-28T14:22:18-06:00",
+     "src": "workspace.admin",
+     "type": "admin_routine",
+     "actor": "USR-A7F5",
+     "detail": "Admin viewed audit reports",
+     "signals": [
+      "admin_routine"
+     ],
+     "noise": "Routine admin activity",
+     "id": "EV-1028-011",
+     "score": 0
+    },
+    {
+     "id": "EV-1028-A2",
+     "ts": "2026-10-28T14:22:30-06:00",
+     "src": "edr",
+     "type": "outbound_upload",
+     "actor": "DEV-D48B",
+     "detail": "pdfconvert_setup.exe uploaded 4.1 MB over HTTPS to 198.51.100.23 (Frankfurt, DE — AS64502 hosting) (EDR alert ED-2211)",
+     "ip": "198.51.100.23",
+     "signals": [
+      "exfil_to_hosting_ip",
+      "unsigned_binary",
+      "edr_high"
+     ],
+     "technique": "T1041",
+     "incident": "INC-1028-01",
+     "triaged_s": 5,
+     "score": 65
+    },
+    {
+     "ts": "2026-10-28T14:22:57-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-A685",
+     "detail": "Spam from 192.0.2.159 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1028-013",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:26:19-06:00",
+     "src": "workspace.admin",
+     "type": "admin_routine",
+     "actor": "USR-A7F5",
+     "detail": "Admin viewed audit reports",
+     "signals": [
+      "admin_routine"
+     ],
+     "noise": "Routine admin activity",
+     "id": "EV-1028-014",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:30:05-06:00",
+     "src": "workspace.login",
+     "type": "login_failed_then_success",
+     "actor": "USR-4A89",
+     "detail": "One wrong password, then success from a known device",
+     "signals": [
+      "single_failure",
+      "known_device",
+      "security_key_used"
+     ],
+     "noise": "Single typo followed by a normal sign-in",
+     "id": "EV-1028-015",
+     "score": 0
+    },
+    {
+     "id": "EV-1028-A3",
+     "ts": "2026-10-28T14:31:02-06:00",
+     "src": "workspace.login",
+     "type": "session_replay",
+     "actor": "USR-163D",
+     "detail": "Stolen session cookie replayed from 198.51.100.23 (Frankfurt, DE) while the user's laptop is active in Millbrook — rejected: sessions were already revoked by PB-01 at 14:24:14",
+     "ip": "198.51.100.23",
+     "geo": "Frankfurt, DE",
+     "signals": [
+      "session_replay",
+      "concurrent_geo",
+      "hosting_asn",
+      "ua_mismatch",
+      "new_country"
+     ],
+     "technique": "T1550.004",
+     "incident": "INC-1028-01",
+     "triaged_s": 4,
+     "score": 99
+    },
+    {
+     "id": "EV-1028-A4",
+     "ts": "2026-10-28T14:31:09-06:00",
+     "src": "workspace.login",
+     "type": "login_2sv_failed",
+     "actor": "USR-163D",
+     "detail": "Password from the stolen browser store accepted, security-key challenge failed, from 198.51.100.23 (Frankfurt, DE); account suspended by PB-03 since 14:24:20",
+     "ip": "198.51.100.23",
+     "geo": "Frankfurt, DE",
+     "signals": [
+      "password_ok_2sv_failed",
+      "hosting_asn",
+      "new_country",
+      "concurrent_geo"
+     ],
+     "technique": "T1078.004",
+     "incident": "INC-1028-01",
+     "triaged_s": 3,
+     "score": 75
+    },
+    {
+     "ts": "2026-10-28T14:32:33-06:00",
+     "src": "workspace.drive",
+     "type": "internal_share",
+     "actor": "USR-D39D",
+     "detail": "Shared a document with a colleague (internal only)",
+     "signals": [],
+     "noise": "Internal sharing",
+     "id": "EV-1028-018",
+     "score": 5
+    },
+    {
+     "ts": "2026-10-28T14:33:37-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.118 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1028-019",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:35:42-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-B701",
+     "detail": "Sign-in from Cedar Harbor, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1028-020",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:37:15-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-20BB",
+     "detail": "Blocked ad/tracker domain pixel-track.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1028-021",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:39:50-06:00",
+     "src": "knowbe4",
+     "type": "training_completed",
+     "actor": "USR-5B6F",
+     "detail": "Completed a security-awareness module",
+     "signals": [
+      "training"
+     ],
+     "noise": "Training activity",
+     "id": "EV-1028-022",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:41:01-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (10 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1028-023",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:45:00-06:00",
+     "src": "knowbe4",
+     "type": "training_completed",
+     "actor": "USR-BC6C",
+     "detail": "Completed a security-awareness module",
+     "signals": [
+      "training"
+     ],
+     "noise": "Training activity",
+     "id": "EV-1028-024",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:47:37-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-EC4F",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1028-025",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:48:02-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-6FE4",
+     "detail": "Sign-in from home ISP, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1028-026",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:48:15-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-5A39",
+     "detail": "Token refresh for sanctioned app Kitewing FieldOps (internal)",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1028-027",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:48:19-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.201 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1028-028",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:49:53-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-AEE2",
+     "detail": "Token refresh for sanctioned app Slack",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1028-029",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:50:00-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-EDEE",
+     "detail": "Sign-in from Cedar Harbor, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1028-030",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:52:24-06:00",
+     "src": "workspace.login",
+     "type": "login_failed_then_success",
+     "actor": "USR-407B",
+     "detail": "One wrong password, then success from a known device",
+     "signals": [
+      "single_failure",
+      "known_device",
+      "security_key_used"
+     ],
+     "noise": "Single typo followed by a normal sign-in",
+     "id": "EV-1028-031",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:52:52-06:00",
+     "src": "workspace.drive",
+     "type": "internal_share",
+     "actor": "USR-5A39",
+     "detail": "Shared a document with a colleague (internal only)",
+     "signals": [],
+     "noise": "Internal sharing",
+     "id": "EV-1028-032",
+     "score": 5
+    },
+    {
+     "ts": "2026-10-28T14:55:21-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-2588",
+     "detail": "Spam from 192.0.2.159 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1028-033",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:55:29-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-6836",
+     "detail": "Spam from 192.0.2.77 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1028-034",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:57:09-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-8002",
+     "detail": "Sign-in from home ISP, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1028-035",
+     "score": 0
+    },
+    {
+     "ts": "2026-10-28T14:58:04-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-6836",
+     "detail": "Sign-in from Millbrook, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1028-036",
+     "score": 0
+    }
+   ]
+  },
+  "TB-1106-0900": {
+   "label": "Friday 2026-11-06 09:00-09:30 (this morning, Kitewing local time, UTC-6)",
+   "window": [
+    "2026-11-06T09:00:00-06:00",
+    "2026-11-06T09:30:00-06:00"
+   ],
+   "raw_records": 10937,
+   "raw_by_source": {
+    "dnsfilter": 6420,
+    "firewall_ids": 1515,
+    "workspace": 1630,
+    "mimecast": 788,
+    "web_proxy": 341,
+    "edr": 152,
+    "syslog (DC + file server)": 61,
+    "knowbe4": 30
+   },
+   "doc": null,
+   "events": [
+    {
+     "ts": "2026-11-06T09:00:42-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-899D",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1106-001",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:00:56-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (10 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1106-002",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:01:34-06:00",
+     "src": "mimecast",
+     "type": "mail_delivered",
+     "actor": "USR-57DA",
+     "detail": "Newsletter delivered from a bulk sender (DMARC pass)",
+     "signals": [
+      "bulk_mail"
+     ],
+     "noise": "Clean bulk mail",
+     "id": "EV-1106-003",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:02:14-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-5DED",
+     "detail": "Sign-in from Kansas City, US (customer visit in calendar), security key, known device",
+     "geo": "Kansas City, US",
+     "signals": [
+      "new_location",
+      "known_travel",
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Known travel (calendar), security key and known device",
+     "id": "EV-1106-X1",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:02:32-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-01C9",
+     "detail": "Spam from 192.0.2.77 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1106-005",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:02:51-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-1DEF",
+     "detail": "Sign-in from Millbrook, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1106-006",
+     "score": 0
+    },
+    {
+     "id": "EV-1106-A1",
+     "ts": "2026-11-06T09:04:22-06:00",
+     "src": "workspace.drive",
+     "type": "public_link_created",
+     "actor": "USR-FDB1",
+     "detail": "Set 'anyone with the link' on FIL-5967 (label Confidential, 171 customer rows with ARR)",
+     "signals": [
+      "external_link_on_confidential",
+      "customer_data"
+     ],
+     "technique": "T1567.002",
+     "incident": "INC-1106-01",
+     "triaged_s": 5,
+     "score": 60
+    },
+    {
+     "id": "EV-1106-A2",
+     "ts": "2026-11-06T09:04:40-06:00",
+     "src": "workspace.drive",
+     "type": "external_share",
+     "actor": "USR-FDB1",
+     "detail": "Shared FIL-5967 with personal address EXT-4B9C",
+     "signals": [
+      "share_to_personal_address",
+      "confidential_label",
+      "customer_data"
+     ],
+     "technique": "T1567.002",
+     "incident": "INC-1106-01",
+     "triaged_s": 6,
+     "score": 65
+    },
+    {
+     "ts": "2026-11-06T09:04:56-06:00",
+     "src": "web_proxy",
+     "type": "web_allowed",
+     "actor": "DEV-B4C4",
+     "detail": "Browsed business-category sites (allowed)",
+     "signals": [],
+     "noise": "Routine browsing",
+     "id": "EV-1106-009",
+     "score": 5
+    },
+    {
+     "ts": "2026-11-06T09:06:54-06:00",
+     "src": "knowbe4",
+     "type": "training_completed",
+     "actor": "USR-212A",
+     "detail": "Completed a security-awareness module",
+     "signals": [
+      "training"
+     ],
+     "noise": "Training activity",
+     "id": "EV-1106-010",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:08:15-06:00",
+     "src": "workspace.token",
+     "type": "oauth_grant",
+     "actor": "USR-EDEE",
+     "detail": "Granted 'Diagram Helper' (verified publisher, allowlisted) scope drive.file",
+     "signals": [
+      "verified_publisher",
+      "low_risk_scope",
+      "allowlisted"
+     ],
+     "noise": "Verified, allowlisted app with a file-only scope",
+     "id": "EV-1106-X4",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:09:02-06:00",
+     "src": "workspace.login",
+     "type": "login_failed_then_success",
+     "actor": "USR-5B90",
+     "detail": "One wrong password, then success from a known device",
+     "signals": [
+      "single_failure",
+      "known_device",
+      "security_key_used"
+     ],
+     "noise": "Single typo followed by a normal sign-in",
+     "id": "EV-1106-012",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:09:27-06:00",
+     "src": "web_proxy",
+     "type": "web_allowed",
+     "actor": "DEV-4680",
+     "detail": "Browsed business-category sites (allowed)",
+     "signals": [],
+     "noise": "Routine browsing",
+     "id": "EV-1106-013",
+     "score": 5
+    },
+    {
+     "ts": "2026-11-06T09:09:50-06:00",
+     "src": "edr",
+     "type": "scan_complete",
+     "actor": "DEV-430B",
+     "detail": "Scheduled EDR scan completed, 0 detections",
+     "signals": [
+      "scheduled_task"
+     ],
+     "noise": "Scheduled EDR scan",
+     "id": "EV-1106-014",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:10:07-06:00",
+     "src": "web_proxy",
+     "type": "web_allowed",
+     "actor": "DEV-8ED6",
+     "detail": "Browsed business-category sites (allowed)",
+     "signals": [],
+     "noise": "Routine browsing",
+     "id": "EV-1106-015",
+     "score": 5
+    },
+    {
+     "ts": "2026-11-06T09:11:14-06:00",
+     "src": "workspace.drive",
+     "type": "file_edit",
+     "actor": "USR-8645",
+     "detail": "Edited an internal document they own",
+     "signals": [
+      "routine_edit"
+     ],
+     "noise": "Owner editing an internal file",
+     "id": "EV-1106-016",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:12:02-06:00",
+     "src": "workspace.token",
+     "type": "oauth_blocked",
+     "actor": "USR-68B2",
+     "detail": "Consent to 'AI Meeting Notes Free' (unverified; calendar, gmail.send) blocked by the 2026-11-03 app-access policy",
+     "signals": [
+      "unverified_publisher",
+      "high_risk_scope",
+      "blocked_by_policy"
+     ],
+     "noise": "Blocked by the new third-party app policy — no access granted",
+     "id": "EV-1106-X5",
+     "score": 40
+    },
+    {
+     "ts": "2026-11-06T09:12:04-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-0835",
+     "detail": "Blocked ad/tracker domain pixel-track.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1106-018",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:12:33-06:00",
+     "src": "firewall_ids",
+     "type": "inbound_scan_blocked",
+     "actor": "MB-FW01",
+     "detail": "Inbound port scan from 192.0.2.201 blocked at MB-FW01",
+     "signals": [
+      "inbound_scan_blocked"
+     ],
+     "noise": "Internet background scan, blocked at the perimeter",
+     "id": "EV-1106-019",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:14:46-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-AD7D",
+     "detail": "Token refresh for sanctioned app Kitewing FieldOps (internal)",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1106-020",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:15:47-06:00",
+     "src": "dnsfilter",
+     "type": "nrd_block",
+     "actor": "DEV-B422",
+     "detail": "Blocked newly registered domain parcel-track-update.example",
+     "signals": [
+      "newly_registered_domain",
+      "dns_blocked"
+     ],
+     "noise": "Blocked at DNS; no follow-on activity",
+     "id": "EV-1106-X6",
+     "score": 10
+    },
+    {
+     "ts": "2026-11-06T09:16:21-06:00",
+     "src": "knowbe4",
+     "type": "training_completed",
+     "actor": "USR-899D",
+     "detail": "Completed a security-awareness module",
+     "signals": [
+      "training"
+     ],
+     "noise": "Training activity",
+     "id": "EV-1106-022",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:17:57-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-8AA5",
+     "detail": "Sign-in from Millbrook, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1106-023",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:19:27-06:00",
+     "src": "dnsfilter",
+     "type": "dns_block",
+     "actor": "DEV-E2E5",
+     "detail": "Blocked ad/tracker domain clickstat.example",
+     "signals": [
+      "ad_tracker_block"
+     ],
+     "noise": "Ad/tracker block — policy working as intended",
+     "id": "EV-1106-024",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:19:55-06:00",
+     "src": "edr",
+     "type": "scan_complete",
+     "actor": "DEV-A57E",
+     "detail": "Scheduled EDR scan completed, 0 detections",
+     "signals": [
+      "scheduled_task"
+     ],
+     "noise": "Scheduled EDR scan",
+     "id": "EV-1106-025",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:21:10-06:00",
+     "src": "knowbe4",
+     "type": "simulation_click",
+     "actor": "USR-899D",
+     "detail": "Clicked a KnowBe4 simulated phishing link (campaign 'Holiday bonus', launched 2026-11-06 09:00)",
+     "signals": [
+      "simulation"
+     ],
+     "noise": "Phishing simulation — a training event, not an attack",
+     "id": "EV-1106-X7",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:21:36-06:00",
+     "src": "workspace.login",
+     "type": "login_success",
+     "actor": "USR-68B2",
+     "detail": "Sign-in from Cedar Harbor, security key, known device",
+     "signals": [
+      "security_key_used",
+      "known_device"
+     ],
+     "noise": "Routine sign-in from a known device and location",
+     "id": "EV-1106-027",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:21:41-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-D4D6",
+     "detail": "Spam from 192.0.2.118 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1106-028",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:23:43-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (8 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1106-029",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:24:37-06:00",
+     "src": "mimecast",
+     "type": "spam_rejected",
+     "actor": "USR-2E5D",
+     "detail": "Spam from 192.0.2.118 rejected on reputation",
+     "signals": [
+      "spam_blocked"
+     ],
+     "noise": "Spam blocked at the gateway",
+     "id": "EV-1106-030",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:24:40-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-A7F5",
+     "detail": "Token refresh for sanctioned app Zoom",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1106-031",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:26:53-06:00",
+     "src": "edr",
+     "type": "scan_complete",
+     "actor": "DEV-5586",
+     "detail": "Scheduled EDR scan completed, 0 detections",
+     "signals": [
+      "scheduled_task"
+     ],
+     "noise": "Scheduled EDR scan",
+     "id": "EV-1106-032",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:26:56-06:00",
+     "src": "syslog.dc",
+     "type": "kerberos_routine",
+     "actor": "MB-DC01",
+     "detail": "Routine Kerberos ticket renewals on MB-DC01 (11 accounts)",
+     "signals": [
+      "routine_auth"
+     ],
+     "noise": "Routine domain authentication",
+     "id": "EV-1106-033",
+     "score": 0
+    },
+    {
+     "ts": "2026-11-06T09:28:53-06:00",
+     "src": "workspace.token",
+     "type": "token_refresh",
+     "actor": "USR-CC9D",
+     "detail": "Token refresh for sanctioned app Slack",
+     "signals": [
+      "sanctioned_app"
+     ],
+     "noise": "Sanctioned app refreshing its token",
+     "id": "EV-1106-034",
+     "score": 0
+    }
+   ]
+  }
+ }
+}

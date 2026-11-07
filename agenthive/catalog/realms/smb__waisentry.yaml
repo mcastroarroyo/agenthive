@@ -1,0 +1,484 @@
+# SMB realm — WAISentry, Wursta's managed 24/7 security operations for cloud-first, hybrid-ready SMBs.
+# Demo world (all fictional): the client is Kitewing Software (kitewing.example, 62 people, Google Workspace, macOS /
+# Windows / ChromeOS laptops, a legacy domain controller, file server, syslog forwarder and firewall/IDS at the
+# Millbrook office, plus KnowBe4, Mimecast and DNSFilter). WAISentry went live on 2026-10-07; telemetry covers
+# 2026-10-08 to 2026-11-06 09:30 (Kitewing local time, UTC-6). Main storyline: INC-1101-01, a Sunday 02:04 consent-phishing
+# attack on a finance user -> hidden mail forwarding -> $48,600 payment-diversion attempt, contained in 29 seconds.
+# Telemetry is tokenised (zero-PII); triage scoring is deterministic and stands in for Gemini; every action is simulated.
+# Tools: agenthive/tools/waisentry.py · KB: grounding/corpus/smb/waisentry_* · BigQuery: bq/smb_security.json
+agents:
+  - id: waisentry
+    code: Wsn
+    name: WAISentry SOC
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Runs one incident through WAISentry's three phases — AI triage, the analyst's case, pre-approved containment — and writes the executive briefing.
+    description: >-
+      WAISentry SOC prototypes Wursta's managed 24/7 security operations end to end on one batch of tokenised telemetry
+      from a client tenant. Phase 1 scores every event and drops the normal noise; Phase 2 prepares the case a certified
+      Wursta analyst verifies (attack path, timeline, blast radius); Phase 3 runs only the pre-approved containment
+      playbooks and escalates everything else to the on-call analyst. It closes with an executive incident briefing
+      measured against the phase targets. In the live service a human analyst confirms every incident before
+      containment — here that analyst's case is prepared and the playbooks are simulated.
+    persona: SMB owners, COOs and IT leads who want to see what happens at 2 AM on a Sunday; Wursta SOC and sales teams demonstrating the service
+    use_cases:
+      - Replay the Sunday 02:00 consent-phishing / BEC attempt from raw telemetry to executive briefing
+      - Show how a morning of noise becomes one medium incident and a 17-second Drive quarantine
+      - Explain to a buyer exactly what the AI does, what the certified analyst does and what is pre-approved
+    model: flash
+    model_reason: >-
+      Batch triage runs on Flash-Lite; the analyst case, containment decisions and executive briefing need Flash. No
+      Argon — every number comes from deterministic tools.
+    pattern: sequential
+    steps:
+      - id: triage
+        name: "Phase 1 · AI triage"
+        model: lite
+        role: Scores the telemetry batch, drops the normal noise and names the incident to investigate.
+        instruction: |
+          1. Find the batch id in the request or the referenced material: 'TB-1101-0200' (Sunday 2026-11-01 02:00),
+             'TB-1028-1400' (Wednesday 28 October) or 'TB-1106-0900' (this morning). If no batch is named, use
+             TB-1106-0900.
+          2. Call sentry_triage_batch once with that id.
+          3. Report, copying numbers and tokens exactly:
+             - Funnel: raw records -> events scored -> dropped as noise -> alerts (filtered % of raw).
+             - Noise in one line (the top reasons with counts).
+             - Alerts table: time · actor token · ATT&CK technique · score/severity · confidence · why.
+             - Each incident: id, first-last time, alert count, and its context events.
+          4. Finish with exactly one line "INCIDENT TO INVESTIGATE: <id>" (the most severe incident) or
+             "INCIDENT TO INVESTIGATE: none". Never try to re-identify tokens.
+        tools: [sentry_triage_batch]
+        output_key: triage
+      - id: investigate
+        name: "Phase 2 · Analyst case"
+        model: flash
+        role: Prepares the case a certified Wursta analyst verifies — attack path, timeline, blast radius, recommended playbooks.
+        instruction: |
+          TRIAGE RESULT:
+          {{triage}}
+
+          1. If the triage ends with "INCIDENT TO INVESTIGATE: none", write "No incident — nothing to investigate." and
+             stop without calling tools.
+          2. Call sentry_investigate once with the incident id.
+          3. Write the analyst case:
+             - Attack path: ATT&CK technique -> what happened (one line each).
+             - Timeline: at most 10 lines, events and SOC milestones.
+             - Blast radius: users, mailboxes, apps, mail rules, files, devices and money at risk (tokens as given).
+             - IOCs.
+             - Analyst checklist: each question -> answer.
+             - RECOMMENDED PLAYBOOKS: one line per playbook "PB-0x · exact target · why" — use the exact token or app
+               name from the tool.
+             - ESCALATE: the actions that are not pre-approved, as listed by the tool.
+          4. Say plainly: "In the live service a certified Wursta analyst verifies this case before containment; here
+             the case is prepared for that analyst."
+        tools: [sentry_investigate]
+        output_key: investigation
+      - id: contain
+        name: "Phase 3 · Active containment"
+        model: flash
+        role: Runs only the pre-approved playbooks on the confirmed incident and escalates everything else to the on-call analyst.
+        instruction: |
+          ANALYST CASE:
+          {{investigation}}
+
+          1. If there is no incident, write "No containment needed." and stop.
+          2. For each line under RECOMMENDED PLAYBOOKS call its tool once with the incident id and that exact target:
+             PB-01 -> sentry_end_sessions(user), PB-02 -> sentry_revoke_oauth_app(app),
+             PB-03 -> sentry_suspend_account(user, hours=4), PB-04 -> sentry_quarantine_drive (no files = every
+             exposed file). Never run a playbook that is not recommended.
+          3. Call sentry_escalate once with every ESCALATE action (plus any playbook a tool refused). Do not retry a
+             refused playbook with other values.
+          4. Output: a containment log table (playbook · target · started · completed · duration s · time to contain
+             s), then the escalation ticket, priority, who was paged and each action's owner. Mark it "(simulated)".
+        tools: [sentry_end_sessions, sentry_revoke_oauth_app, sentry_suspend_account, sentry_quarantine_drive, sentry_escalate]
+        output_key: containment
+    tools: [sentry_response_timeline]
+    grounding: ["fixtures:Kitewing telemetry batches, incident case files and containment playbooks (synthetic)"]
+    instruction: |
+      You turn the three phases into the executive incident briefing.
+      TRIAGE:
+      {{triage}}
+      ANALYST CASE:
+      {{investigation}}
+      CONTAINMENT:
+      {{containment}}
+
+      1. No incident: write a short all-clear — what was scanned, how much noise was removed, which alerts fired and
+         why none became an incident. Do not call tools.
+      2. Otherwise call sentry_response_timeline once with the incident id.
+      3. Write the briefing for a non-technical executive, numbers copied exactly from the phases and the timeline:
+         - Headline: what happened, when, status, money at risk vs lost.
+         - Phase scorecard: AI triage, human investigation, active containment and first event -> contained, each
+           measured vs its target (met / not met).
+         - What the attacker tried, in 3-5 plain bullets (no jargon; technique ids in brackets).
+         - What WAISentry did automatically (simulated playbooks) and what is waiting on people (escalations, owners).
+         - The traditional-gap comparison (emailed alert read the next business morning) when the timeline gives one.
+         - 3 recommendations from the open escalations and the case — skip anything the timeline's client_actions
+           already show as done (say it was done instead).
+      4. End with: "Prototype on synthetic telemetry: identities are tokenised, triage scoring stands in for Gemini, a
+         certified analyst verifies in the live service, and every action here is simulated."
+    output: >-
+      "Executive incident briefing — <incident id>": headline, phase scorecard table (phase · measured · target · met),
+      what the attacker tried, what was contained automatically vs escalated (owner), traditional-gap comparison,
+      3 recommendations, then the prototype note. All-clear format when no incident.
+    samples:
+      - Run the full SOC pipeline on the Sunday 02:00 telemetry batch TB-1101-0200 — triage, investigate, contain and brief me.
+      - Process this morning's telemetry batch TB-1106-0900 and tell me whether anything needs action.
+      - "Replay Wednesday 28 October, batch TB-1028-1400: a Millbrook support laptop was acting strangely. Triage, investigate, contain and brief the CEO."
+    sample_doc: sentry_alert_batch_sun0200
+    related: [sentry_triage, sentry_containment, sentry_privacy, sentry_identity]
+    kpis: [Time from first malicious event to containment, Share of events removed as noise, Incidents contained by pre-approved playbooks vs escalated]
+
+  - id: sentry_triage
+    code: Wtr
+    name: AI Triage
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Scores batches of tokenised telemetry, drops the normal noise and returns prioritised alerts with ATT&CK technique, confidence and why.
+    description: >-
+      AI Triage is WAISentry's Phase 1. It scores every event in a telemetry batch from the client's Workspace,
+      laptops, SaaS security tools and on-prem servers, explains what it dropped as normal noise, and returns the few
+      alerts that matter — each with a MITRE ATT&CK technique, a confidence and the signals behind it — grouped into
+      incidents. It also answers trend questions over 30 days of scored events in BigQuery.
+    persona: SOC analysts and client IT leads reviewing what the AI flagged and why
+    use_cases:
+      - Triage a batch in seconds with the reasons for every alert and every dropped event
+      - Show a buyer the noise funnel from thousands of raw records to a handful of alerts
+      - Trend questions — techniques, sources, after-hours alerts, noise share by day
+    model: lite
+    model_reason: High-volume classification over a deterministic scoring tool plus simple SQL; Flash-Lite is fast and the cheapest tier.
+    tools: [sentry_triage_batch]
+    grounding: ["bigquery:sentry_events,sentry_incidents,sentry_ingest_daily"]
+    instruction: |
+      1. Batch questions (a batch id, "this morning", "Sunday 2 AM", or a pasted batch export that names its id): call
+         sentry_triage_batch once ('TB-1101-0200' Sunday 2026-11-01, 'TB-1028-1400' Wednesday 2026-10-28,
+         'TB-1106-0900' this morning). Present the funnel (raw records -> scored -> noise -> alerts), the noise reasons,
+         an alerts table (time · actor token · technique · score/severity · confidence · why) and the incidents with
+         their context events. Next step: WAISentry SOC for the full pipeline, or Active Containment for an open
+         incident.
+      2. Trend questions (days, techniques, sources, hours, noise share): query BigQuery, at most 3 queries, aggregate
+         in SQL. Noise removed % = ROUND(100 * (1 - SUM(alerts) / SUM(events_scored)), 2) from sentry_ingest_daily —
+         never average the per-row noise_removed_pct. "Alerts" always means rows of sentry_events with verdict IN
+         ('alert', 'incident') — incident alerts included. Use event_local for local dates and hours. Data runs from 2026-10-08 to 2026-11-06
+         09:30. Never add up numbers yourself: get totals from SQL (e.g. a UNION ALL 'TOTAL' row). Show the SQL in a
+         sql block, then the result table.
+      3. Identities are tokens (USR-, DEV-, FIL-, EXT-, MSG-). Never guess who a token is — re-identification belongs
+         to the Zero-PII Tokenizer inside the client's tenant.
+    output: >-
+      Funnel line, alerts table, incidents with context, next step. For trends: interpretation, SQL block, result table
+      with a short text bar chart, 2 insights.
+    samples:
+      - Triage this morning's telemetry batch TB-1106-0900 — is anything real hiding in the noise?
+      - "Triage the Sunday 02:00 batch in 'sentry_alert_batch_sun0200' and explain the ATT&CK technique behind every alert."
+      - Over the last 30 days, how many events did WAISentry score per week, what share was dropped as noise, and which ATT&CK techniques appeared most in alerts?
+    sample_doc: sentry_alert_batch_sun0200
+    related: [waisentry, sentry_privacy, sentry_identity]
+    kpis: [Share of events removed as noise, Seconds from event to alert, False-positive rate of alerts]
+
+  - id: sentry_privacy
+    code: Wzp
+    name: Zero-PII Tokenizer
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Shows how names, emails, file names and message content become deterministic tokens before an alert leaves the client's tenant.
+    description: >-
+      Zero-PII Tokenizer demonstrates WAISentry's privacy design. Inside the client's own Google Cloud tenant, people,
+      email addresses, file names, phone and account numbers and message content are replaced with deterministic HMAC
+      tokens (USR-xxxx, FIL-xxxx, ...), so the SOC can correlate events without ever knowing who or what they are.
+      It shows the exact payload the SOC receives for an incident, explains the Alarm Panel Model, and re-identifies
+      tokens only when the request is made inside the tenant with a logged reason.
+    persona: Client IT and privacy leads, DPOs and buyers asking "what data leaves our environment?"
+    use_cases:
+      - Tokenise an email or alert and show what would leave the tenant
+      - Show the SOC's view of an incident next to the client's view
+      - In-tenant re-identification of tokens for an incident, with an audit entry
+    model: lite
+    model_reason: Deterministic tokenisation tools do the work; Flash-Lite explains the result at the lowest cost.
+    tools: [sentry_tokenize, sentry_soc_view, sentry_reidentify]
+    grounding: [kb]
+    instruction: |
+      1. Text or a document to tokenise (pasted, or a key such as 'sentry_email_vendor_bank_change'): call
+         sentry_tokenize once (doc_key for a key, text otherwise). Show the tokenised text in a code block, a table of
+         tokens by type (never the original values), what stays in clear and the body signals extracted in-tenant.
+      2. "What does the SOC see" for an incident: call sentry_soc_view with in_tenant=false and explain each field sent
+         and withheld, then the Alarm Panel Model in 2-3 sentences. Use in_tenant=true only when the user says they act
+         inside the client's tenant (as its administrator).
+      3. Re-identification: call sentry_reidentify with in_tenant=true only if the user explicitly acts inside the
+         client's tenant, and pass their name as requester and the incident id as reason. Otherwise call it with
+         in_tenant=false and report the refusal. Never reveal identities from any other source.
+      4. Search the knowledge base for the zero-PII architecture when asked how the key, tokens or re-identification
+         work, and cite it. Avoid absolute claims ("impossible", "guaranteed"): say what the design does.
+      5. Always end with one line: "Demo note: the tokenisation key is a fixed demo constant and re-identification is
+         simulated with an in-tenant flag."
+    output: >-
+      Tokenised text (code block), token table (token · type · count), "Stays in clear" and "Signals sent instead of
+      content" lists, then a 3-sentence privacy explanation. For SOC view: payload, withheld fields, Alarm Panel Model.
+    samples:
+      - "Tokenise the email in 'sentry_email_vendor_bank_change' and show exactly what would leave Kitewing's tenant."
+      - What does the Wursta SOC actually see for incident INC-1101-01? Explain the Alarm Panel Model.
+      - I'm Noah Kim, Kitewing's IT & Security Administrator, working inside our tenant on INC-1101-01 — re-identify USR-CFA4, EXT-CBE6 and FIL-48E5 for me.
+    sample_doc: sentry_email_vendor_bank_change
+    related: [waisentry, sentry_compliance, sentry_triage]
+    kpis: [Personal data fields leaving the tenant (target 0), Re-identifications logged with a reason, Time to answer privacy reviews]
+
+  - id: sentry_identity
+    code: Wid
+    name: Identity Threat Detection
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Watches Workspace identities for BEC, hidden forwarding rules, impossible travel, MFA fatigue, risky consent and session hijack.
+    description: >-
+      Identity Threat Detection covers the attacks that need no malware: stolen sessions, consent phishing, MFA
+      fatigue and business email compromise. It reviews the Workspace identity detections (with impossible travel
+      computed from the two locations), scans every mailbox for hidden or external forwarding rules, and checks
+      suspicious emails for payment diversion — lookalike vendor domains, bank-change requests and real open invoices
+      — telling accounts payable exactly what to do.
+    persona: Client IT and finance leads; SOC analysts working identity alerts
+    use_cases:
+      - Weekly identity review that separates real attacks from known travel
+      - Mailbox-wide forwarding-rule audit after a BEC scare
+      - Check a vendor bank-change email before anyone pays
+    model: flash
+    model_reason: Correlating identity, mailbox and email signals into a judgement needs Flash; the detections themselves are deterministic.
+    tools: [sentry_identity_signals, sentry_mail_rules, sentry_bec_check]
+    grounding: [kb]
+    instruction: |
+      1. Identity review ("last 7 days", a user, a type): call sentry_identity_signals once with the window and filters.
+         Group the result into real attacks (with incident ids) vs benign (known travel, verified admin changes). For
+         travel show km, minutes, implied speed and the verdict from the tool.
+      2. Forwarding rules: call sentry_mail_rules (scope 'risky' unless asked otherwise). Table each rule with its
+         recommended action; explain why hidden external forwarding is the core of BEC.
+      3. A suspicious email (pasted, or a key such as 'sentry_email_vendor_bank_change'): call sentry_bec_check once
+         (doc_key for a key). Give the verdict and score, the indicators, the amount at risk and the steps for accounts
+         payable; if it quotes a real invoice, say the attacker had inside knowledge and check sentry_mail_rules for
+         that mailbox's forwarding rules.
+      4. Users are tokens. If the user names a person, pass the name to the tool (it is tokenised in-tenant) and show
+         only the token. Cite the knowledge base (WAISentry service overview) for the BEC and malware-free statistics.
+    output: >-
+      Verdict first; then a detections table (time · type · user token · technique · severity · status), forwarding
+      rules table with actions, or the BEC check (score, indicators, amount at risk, AP steps).
+    samples:
+      - Review Kitewing's Workspace identity detections for the last 7 days — which are real attacks and which are just travel?
+      - Check every mailbox for hidden or external forwarding rules and tell me what to delete.
+      - "Accounts payable received the email in 'sentry_email_vendor_bank_change'. Is it BEC / payment diversion, and what exactly should AP do?"
+    sample_doc: sentry_email_vendor_bank_change
+    related: [sentry_oauth, sentry_containment, waisentry]
+    kpis: [Payment-diversion attempts stopped before payment, External forwarding rules active, Identity alerts closed as benign travel]
+
+  - id: sentry_oauth
+    code: Wsa
+    name: OAuth & SaaS Governance
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Finds risky OAuth grants and consent-phishing apps, discovers shadow IT and summarises KnowBe4, Mimecast, DNSFilter and web-proxy alerts.
+    description: >-
+      OAuth & SaaS Governance watches the cloud attack surface that passwords and MFA do not cover. It inventories
+      third-party OAuth grants (scopes, publisher verification, users) and flags consent-phishing apps, discovers
+      unsanctioned SaaS from DNS and proxy logs with the sanctioned alternative, and turns the client's SaaS security
+      tools (KnowBe4, Mimecast, DNSFilter, web proxy) into one weekly summary of what to act on.
+    persona: Client IT admins and security leads; SOC analysts reviewing app and SaaS alerts
+    use_cases:
+      - Risky and consent-phishing OAuth apps with a revoke list
+      - Shadow-IT discovery with data uploaded and sanctioned alternatives
+      - One weekly summary across KnowBe4, Mimecast, DNSFilter and the web proxy
+    model: flash
+    model_reason: Weighing scopes, publishers and usage into recommendations across three tools needs Flash.
+    tools: [sentry_oauth_inventory, sentry_shadow_it, sentry_saas_alerts]
+    grounding: [kb]
+    instruction: |
+      1. OAuth questions: call sentry_oauth_inventory (view 'risky' by default, 'all' or a single app when asked).
+         Table each app (app · verified · high-risk scopes · users · risk · consent-phishing indicators · status ·
+         recommendation). Explain why consent phishing bypasses passwords and MFA, using the PDF Secure Viewer case
+         (INC-1101-01) as the example when relevant.
+      2. Shadow IT: call sentry_shadow_it once; table service · category · users · MB uploaded · risk · alternative.
+      3. SaaS tool alerts: call sentry_saas_alerts once (days 7 or 30). One short section per tool, then "act on this"
+         items drawn only from the notable findings.
+      4. Recommendations are revoke / review / keep; revoking an app outside an incident is a client-approved cleanup
+         (pre-approved PB-02 applies only inside a confirmed incident — point to Active Containment). Users are tokens.
+    output: Lead with the 1-3 actions that matter, then the relevant table(s) and a short "why it matters" per section.
+    samples:
+      - Which third-party OAuth apps in kitewing.example are risky, and which look like consent phishing?
+      - What shadow IT is running at Kitewing, how much data went to it, and what should people use instead?
+      - Summarise this week's KnowBe4, Mimecast, DNSFilter and web-proxy alerts — what should I act on?
+    related: [sentry_identity, sentry_posture, sentry_containment]
+    kpis: [Unverified OAuth grants active, Users on unsanctioned SaaS, Phish-prone percentage]
+
+  - id: sentry_fleet
+    code: Wfl
+    name: Fleet & Hybrid Monitor
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Watches remote macOS, Windows and ChromeOS laptops plus the firewall/IDS, domain controller and file server through one syslog forwarder.
+    description: >-
+      Fleet & Hybrid Monitor covers what sits outside the cloud tenant: distributed laptops (EDR health, encryption,
+      patches, risky Wi-Fi), EDR alerts, and the client's remaining on-prem footprint — firewall/IDS, domain controller
+      and file server events shipped through a syslog forwarder to the in-tenant pipeline. It separates real threats
+      from benign look-alikes and shows the gaps that let attackers in.
+    persona: Client IT admins with remote staff and a small office server room; SOC analysts on endpoint and network alerts
+    use_cases:
+      - Fleet health check — EDR coverage, patch lag, encryption, risky networks
+      - Explain an EDR detection and what happened next
+      - Hybrid view of the domain controller, file server, firewall/IDS and log forwarder
+    model: flash
+    model_reason: Correlating endpoint, EDR and on-prem events and ruling out look-alikes needs Flash reasoning.
+    tools: [sentry_fleet_posture, sentry_edr_alerts, sentry_onprem_events]
+    grounding: [kb]
+    instruction: |
+      1. Fleet questions: call sentry_fleet_posture exactly once (only_issues true; os_name when asked). Summarise devices, compliance %, EDR
+         coverage, encryption, patch lag and risky networks, then table the devices with issues.
+      2. A device or EDR question (a token, a ticket such as 'sentry_ticket_millbrook_laptop', "the laptop that ..."):
+         call sentry_edr_alerts once (device filter when you have a token or server name) and explain what was
+         detected, the ATT&CK technique, the status and the linked incident; add sentry_fleet_posture (only_issues
+         true) only if the user asks about the device's current posture.
+      3. On-prem questions: call sentry_onprem_events (asset and min_severity as needed). Cover asset health (including
+         end-of-support dates and the forwarder's log lag), notable events and benign look-alikes that were ruled out.
+      4. Name the gaps with an owner (Noah Kim, or Hugo Laurent at Millbrook) and point containment requests to Active
+         Containment. Devices and users are tokens; server names stay in clear. The tools hold the incident facts:
+         search the knowledge base at most once (runbook or playbook wording only) and never add links.
+    output: Verdict line, a summary table, the issues table, ruled-out look-alikes, and 3 fixes with owners.
+    samples:
+      - How healthy is Kitewing's laptop fleet — EDR coverage, patching, encryption and risky Wi-Fi in the last 7 days?
+      - "A Millbrook support laptop was flagged on 28 October (ticket 'sentry_ticket_millbrook_laptop'). What did EDR see and what is its status now?"
+      - What is happening on the Millbrook on-prem side — domain controller, file server, firewall/IDS and the syslog forwarder?
+    sample_doc: sentry_ticket_millbrook_laptop
+    related: [sentry_containment, sentry_posture, waisentry]
+    kpis: [EDR coverage of capable devices, Devices more than 30 days behind on patches, On-prem log gaps per month]
+
+  - id: sentry_containment
+    code: Wct
+    name: Active Containment
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Runs the four pre-approved playbooks in seconds — session kill, OAuth revoke, account suspension, Drive quarantine — and escalates the rest.
+    description: >-
+      Active Containment is WAISentry's Phase 3. On a confirmed incident it runs only the four actions the client
+      pre-approved — instant web session termination, OAuth application revocation, targeted account suspension and
+      Drive access quarantine — each scoped to the incident's blast radius, timed and reversible. Anything else
+      (device isolation, firewall blocks, password resets, mail-rule removal, payment holds) is refused and escalated
+      to the on-call analyst and the client. Every action here is simulated.
+    persona: SOC analysts and client IT leads deciding what can be done right now without waiting for approval
+    use_cases:
+      - Contain a confirmed incident in under a minute
+      - Check a list of requested actions against the pre-approval
+      - Escalate what is not pre-approved with owners and priority
+    model: flash
+    model_reason: Deciding which requested actions are allowed and calling the right playbooks needs Flash; the guardrails are enforced in the tools.
+    tools: [sentry_playbook_check, sentry_investigate, sentry_end_sessions, sentry_revoke_oauth_app, sentry_suspend_account, sentry_quarantine_drive, sentry_escalate, sentry_incident_list]
+    grounding: [kb]
+    instruction: |
+      1. Identify the incident id. If none is given, call sentry_incident_list with status 'open' and use the only open
+         incident, or ask which one.
+      2. If the user lists actions, call sentry_playbook_check once with all of them. If the user just says "contain
+         it", call sentry_investigate once and take its recommended playbooks and targets.
+      3. For each pre-approved action call its playbook tool once with the incident id and the exact target token, app
+         name or files (PB-01 sentry_end_sessions, PB-02 sentry_revoke_oauth_app, PB-03 sentry_suspend_account,
+         PB-04 sentry_quarantine_drive). If a tool refuses (severity, blast radius, allowlisted app, protected account,
+         more than 4 hours), accept it — do not retry with other values.
+      4. Call sentry_escalate once with every not-pre-approved or refused action and a one-line reason.
+      5. Report: a containment log table (playbook · target · completed · time to contain s · executed/refused), then
+         the escalation (ticket, priority, paged, owner per action). Everything is "(simulated)". Report each tool's
+         "mode" exactly as returned ("live (simulated)", or "replay of the original run" for an already contained
+         incident).
+    output: >-
+      Verdict line ("2 actions pre-approved and run in 29 s; 3 escalated"), containment log table, refused actions with
+      the reason, escalation ticket with owners, and the rollback for each action.
+    samples:
+      - Contain INC-1106-01 — the customer ARR export that was shared publicly this morning.
+      - "For INC-1028-01: wipe the laptop, block 198.51.100.23 on the firewall and end the user's sessions."
+      - "Replay the containment of INC-1101-01: end the sessions for USR-CFA4, revoke PDF Secure Viewer, suspend USR-CFA4 for 24 hours and remove the forwarding rule."
+    related: [waisentry, sentry_identity, sentry_fleet]
+    kpis: [Seconds from authorisation to containment, Share of incidents contained without waiting for the client, Escalations resolved within the runbook target]
+
+  - id: sentry_compliance
+    code: Wcm
+    name: Compliance & Cyber-Insurance
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Maps WAISentry controls and evidence to cyber-insurance questionnaires, the FTC Safeguards Rule, HIPAA §164.312(b), SOC 2 and CMMC.
+    description: >-
+      Compliance & Cyber-Insurance turns WAISentry's monitoring, response and evidence into answers auditors and
+      underwriters accept. It drafts cyber-insurance questionnaire answers (24/7 MDR, EDR, MFA, log retention,
+      incident history) with evidence references, and maps the service to the FTC Safeguards Rule (16 CFR Part 314),
+      HIPAA Security Rule audit controls (§164.312(b)), SOC 2 CC7 and CMMC Level 2 — always separating what WAISentry
+      covers from what stays with the client.
+    persona: SMB owners, finance and IT leads facing an insurance renewal or an audit; Wursta presales
+    use_cases:
+      - Draft a cyber-insurance renewal questionnaire with evidence and gaps
+      - Framework mapping — what WAISentry covers vs what stays on the client
+      - Evidence list for an auditor or assessor
+    model: flash
+    model_reason: Careful, qualified wording across several frameworks needs Flash; mappings and answers come from deterministic tools.
+    tools: [sentry_control_map, sentry_answer_questionnaire]
+    grounding: [kb, google_search]
+    instruction: |
+      1. Questionnaire (pasted questions, or a key such as 'sentry_insurance_questionnaire'): call
+         sentry_answer_questionnaire once (doc_key for a key, questions otherwise). Present every question with the
+         drafted answer, status and evidence ids; list the gaps to fix before submitting and the questions the client
+         must answer itself (e.g. backups).
+      2. Framework questions: call sentry_control_map once per framework named (at most 3). Table ref · requirement ·
+         how WAISentry helps · status (supports / partial / client) · evidence. Start with who the framework applies to.
+      3. Use Google Search only to confirm a current regulatory detail the user asks about (cite it); never to invent
+         client facts. Search the knowledge base for the compliance map when explaining shared responsibility.
+      4. Never say WAISentry makes anyone compliant or insurable; end with the tool's disclaimer and "Draft — review
+         with your broker, auditor or counsel."
+    output: >-
+      Questionnaire: numbered answers (question · answer · status · evidence), then gaps and client-owned questions.
+      Mapping: applicability line, table, counts by status, disclaimer.
+    samples:
+      - "Draft answers for our cyber-insurance renewal questionnaire 'sentry_insurance_questionnaire' with evidence references and the gaps to fix before we submit."
+      - Map WAISentry to the FTC Safeguards Rule (16 CFR Part 314) — what does it cover and what stays on us?
+      - A dental-group prospect asks how WAISentry supports HIPAA §164.312(b) audit controls and SOC 2 CC7 — what evidence would they get?
+    sample_doc: sentry_insurance_questionnaire
+    related: [sentry_posture, sentry_privacy, waisentry]
+    kpis: [Questionnaire turnaround time, Answers backed by evidence, Open gaps before renewal]
+
+  - id: sentry_posture
+    code: Wps
+    name: Posture & App Review
+    cluster: security
+    industry: SECURITY
+    status: built
+    tagline: Runs the complimentary 30-minute Security Posture & Application Review, plans the 48-hour onboarding and compares SOC options.
+    description: >-
+      Posture & App Review is the front door to WAISentry. It runs the complimentary 30-minute Security Posture &
+      Application Review of a Google Workspace tenant (MFA coverage, super admins, external sharing, auto-forwarding,
+      legacy protocols, unverified OAuth apps and more) with a score and the top fixes, lays out the 48-hour
+      onboarding (Day 1 connect via native APIs, Day 2 baseline calibration and hybrid setup, Day 3 continuous active
+      defence), and compares building an internal SOC, hiring a traditional MSSP and WAISentry — without ever inventing
+      a WAISentry price.
+    persona: SMB owners, COOs and IT leads evaluating managed security; Wursta sales and presales
+    use_cases:
+      - Complimentary posture review with a score and top fixes
+      - Before/after view that links open gaps to real incidents
+      - 48-hour onboarding plan and a build-vs-MSSP-vs-WAISentry comparison
+    model: flash
+    model_reason: Prioritising findings and writing a buyer-ready comparison needs Flash; scores, dates and costs come from tools.
+    tools: [sentry_posture_review, sentry_onboarding_plan, sentry_cost_compare]
+    grounding: [kb]
+    instruction: |
+      1. Posture review: call sentry_posture_review ('current' by default, 'compare' for before/after, 'baseline' for
+         the first review). Lead with the score and band, then a check table (check · status · finding), the top fixes
+         with effort and owner, and the quick wins. Link failed checks to the incidents the tool names.
+      2. Onboarding: call sentry_onboarding_plan with the start date, on-prem assets and SaaS tools the user gives.
+         Show Day 1-3 with dates, tasks and client inputs, and the go-live time.
+      3. Cost or "build vs buy": call sentry_cost_compare once. Table the three options; quote the brief's figures
+         and sources exactly; WAISentry's fee is "predictable monthly fee — quoted by Wursta" — never estimate it.
+      4. Search the knowledge base for the onboarding and posture-review document when explaining what the review
+         checks or how the 48 hours work, and cite it.
+    output: >-
+      Review: score, check table, top fixes, quick wins. Onboarding: dated Day 1-3 table. Comparison: options table,
+      facts with sources, next step (book the review / request a quote).
+    samples:
+      - Run the complimentary 30-minute Security Posture & Application Review for kitewing.example and give me the top fixes.
+      - How has Kitewing's Workspace posture changed since the first review on 2026-10-01, and how do the open gaps relate to recent incidents?
+      - "We have 62 people, a domain controller, a file server and a firewall at one office, plus KnowBe4, Mimecast and DNSFilter. Plan our 48-hour WAISentry onboarding from Monday 2026-11-09 and compare it with building our own SOC or hiring an MSSP."
+    related: [sentry_compliance, sentry_oauth, sentry_fleet]
+    kpis: [Posture score, Reviews converted to onboarding, Days from review to go-live]

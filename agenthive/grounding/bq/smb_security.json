@@ -1,0 +1,68 @@
+{
+  "sentry_events": {
+    "description": "WAISentry security events scored by AI triage for the fictional client Kitewing Software (synthetic, tokenised / zero-PII). One row per event that reached triage, 2026-10-08 to 2026-11-06 09:30. Routine raw records that never reached triage are only counted in sentry_ingest_daily.",
+    "columns": [
+      {"name": "event_id", "type": "STRING", "description": "Event id, e.g. EV-1101-A1 (incident events) or EV-1015-0042 (generated). Matches the triage tool's event ids for the three demo batches."},
+      {"name": "event_ts", "type": "TIMESTAMP", "description": "Event time (UTC)."},
+      {"name": "event_local", "type": "DATETIME", "description": "Event time in Kitewing local time (UTC-6). Use for local dates, hours and after-hours analysis."},
+      {"name": "event_date", "type": "DATE", "description": "Local date of the event."},
+      {"name": "batch_id", "type": "STRING", "description": "Telemetry batch id for the three demo batches (TB-1101-0200, TB-1028-1400, TB-1106-0900); NULL otherwise."},
+      {"name": "source", "type": "STRING", "description": "Telemetry source: workspace.login, workspace.token, workspace.drive, workspace.gmail, workspace.admin, mimecast, dnsfilter, knowbe4, web_proxy, edr, firewall_ids, syslog.dc, syslog.fs."},
+      {"name": "category", "type": "STRING", "description": "identity, oauth, email, data, endpoint, network, onprem or awareness."},
+      {"name": "event_type", "type": "STRING", "description": "Event type, e.g. oauth_grant, forwarding_rule_created, login_2sv_failed, session_replay, dns_block, credential_store_access."},
+      {"name": "actor_token", "type": "STRING", "description": "Who/what acted: a user token (USR-xxxx), device token (DEV-xxxx) or a server name (MB-*). Never a real name."},
+      {"name": "summary", "type": "STRING", "description": "Tokenised one-line description of the event."},
+      {"name": "src_ip", "type": "STRING", "description": "Source IP when relevant (documentation ranges; NULL otherwise)."},
+      {"name": "geo", "type": "STRING", "description": "Geolocation of the source IP, e.g. 'Amsterdam, NL' (NULL when not relevant)."},
+      {"name": "signals", "type": "STRING", "description": "Comma-separated triage signals, e.g. 'unverified_publisher,high_risk_scope'."},
+      {"name": "triage_score", "type": "INT64", "description": "AI triage score 0-99. Alerts are score >= 60."},
+      {"name": "severity", "type": "STRING", "description": "info (score < 60), medium (60-74), high (75-89), critical (90+)."},
+      {"name": "verdict", "type": "STRING", "description": "noise (dropped by triage), alert (raised, not part of an incident) or incident (alert correlated into an incident)."},
+      {"name": "disposition", "type": "STRING", "description": "For alerts: true_positive, true_positive_blocked, benign_true_positive or false_positive. NULL for noise."},
+      {"name": "mitre_technique", "type": "STRING", "description": "MITRE ATT&CK technique id, e.g. T1528 (NULL for noise without a technique)."},
+      {"name": "mitre_name", "type": "STRING", "description": "ATT&CK technique name."},
+      {"name": "mitre_tactic", "type": "STRING", "description": "ATT&CK tactic, e.g. Credential Access."},
+      {"name": "incident_id", "type": "STRING", "description": "Incident id (joins sentry_incidents), also set on lower-score context events of an incident."},
+      {"name": "after_hours", "type": "BOOL", "description": "True outside Mon-Fri 07:00-19:00 local time."},
+      {"name": "triage_seconds", "type": "INT64", "description": "Seconds from the event to the alert (alerts only)."}
+    ]
+  },
+  "sentry_incidents": {
+    "description": "WAISentry incidents for the fictional client Kitewing Software since go-live (2026-10-08 to 2026-11-06), with phase timings vs targets (triage 0-15 s, investigation 1-3 min, active containment < 60 s, first event to contained < 5 min). Synthetic, tokenised.",
+    "columns": [
+      {"name": "incident_id", "type": "STRING", "description": "Incident id, e.g. INC-1101-01. Joins sentry_events.incident_id."},
+      {"name": "title", "type": "STRING", "description": "Short incident title."},
+      {"name": "category", "type": "STRING", "description": "identity / OAuth / email, endpoint / identity, data exposure (Drive), email, identity, on-prem server, on-prem identity."},
+      {"name": "severity", "type": "STRING", "description": "medium, high or critical."},
+      {"name": "status", "type": "STRING", "description": "contained, resolved or open."},
+      {"name": "primary_actor", "type": "STRING", "description": "User token or host name at the centre of the incident."},
+      {"name": "first_malicious_ts", "type": "TIMESTAMP", "description": "First malicious event (UTC)."},
+      {"name": "opened_local", "type": "DATETIME", "description": "Incident opened, Kitewing local time (UTC-6)."},
+      {"name": "contained_local", "type": "DATETIME", "description": "Contained (local time); NULL while open."},
+      {"name": "contained_by", "type": "STRING", "description": "pre-approved playbooks ..., escalation — ..., or preventive controls — ..."},
+      {"name": "triage_seconds", "type": "INT64", "description": "First malicious event -> first alert."},
+      {"name": "investigation_seconds", "type": "INT64", "description": "Incident opened -> analyst confirmed."},
+      {"name": "active_containment_seconds", "type": "INT64", "description": "Authorisation -> last pre-approved playbook finished (NULL when no playbook ran)."},
+      {"name": "seconds_to_contain", "type": "INT64", "description": "First malicious event -> contained (NULL while open)."},
+      {"name": "playbooks", "type": "STRING", "description": "Comma-separated playbooks run (PB-01 session termination, PB-02 OAuth revocation, PB-03 suspension, PB-04 Drive quarantine)."},
+      {"name": "escalated_actions", "type": "INT64", "description": "Number of actions escalated to the analyst/client (not pre-approved)."},
+      {"name": "analyst", "type": "STRING", "description": "Certified Wursta analyst handle, e.g. A-17."},
+      {"name": "mitre_techniques", "type": "STRING", "description": "Comma-separated ATT&CK techniques on the attack path."},
+      {"name": "funds_at_risk_usd", "type": "FLOAT64", "description": "Money at risk (e.g. a diverted vendor payment)."},
+      {"name": "funds_lost_usd", "type": "FLOAT64", "description": "Money lost."},
+      {"name": "batch_id", "type": "STRING", "description": "Telemetry batch that contains the incident, if any."},
+      {"name": "outcome", "type": "STRING", "description": "One-line outcome."}
+    ]
+  },
+  "sentry_ingest_daily": {
+    "description": "WAISentry daily telemetry volume per source for the fictional client Kitewing Software (synthetic): raw records ingested in-tenant, events scored by AI triage, alerts and noise removed. 2026-10-08 to 2026-11-06 (the last day is partial, to 09:30).",
+    "columns": [
+      {"name": "day", "type": "DATE", "description": "Local date."},
+      {"name": "source", "type": "STRING", "description": "Telemetry source (same values as sentry_events.source)."},
+      {"name": "raw_records", "type": "INT64", "description": "Raw telemetry records ingested by the in-tenant pipeline."},
+      {"name": "events_scored", "type": "INT64", "description": "Events passed to AI triage (rows in sentry_events)."},
+      {"name": "alerts", "type": "INT64", "description": "Events raised as alerts (verdict alert or incident)."},
+      {"name": "noise_removed_pct", "type": "FLOAT64", "description": "100 * (1 - alerts / events_scored); NULL when nothing was scored."}
+    ]
+  }
+}

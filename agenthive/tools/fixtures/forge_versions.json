@@ -1,0 +1,912 @@
+{
+ "note": "Synthetic version history. v1 carries the full spec snapshot; later versions carry a delta (tools+/-, connectors+/-, rules+/-, tests+/-, settings) that the forge applies to rebuild each snapshot.",
+ "agents": {
+  "shopify_order_support_tracker": [
+   {
+    "version": "v1",
+    "date": "2026-09-18",
+    "kind": "create",
+    "job": "JOB-6918",
+    "built_by": "marta.quintero@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "An agent that finds customer emails asking where their order is, looks the order up in Shopify and logs it in the support sheet with a suggested reply.",
+    "tests": "9/9",
+    "sandbox": "2026-09-19",
+    "client": "2026-09-22",
+    "spec": {
+     "topology": "workflow: email_searcher -> order_processor",
+     "connectors": [
+      "gmail@2.0",
+      "shopify_admin@1.2",
+      "google_sheets@2.1"
+     ],
+     "tools": [
+      "search_order_emails",
+      "lookup_order",
+      "append_support_row",
+      "draft_reply"
+     ],
+     "settings": {
+      "schedule": "every 30 minutes",
+      "support_sheet": "Support log",
+      "reply_mode": "draft only",
+      "lookback": "3 days"
+     },
+     "rules": [
+      "Drafts only - never send",
+      "Skip messages already processed",
+      "Ask for the order number when it cannot be found"
+     ],
+     "tests": [
+      "test_email_searcher_finds_order_emails",
+      "test_email_searcher_ignores_newsletters",
+      "test_order_number_extracted_from_subject_and_body",
+      "test_lookup_order_by_number",
+      "test_lookup_order_by_customer_email_when_no_number",
+      "test_support_row_columns",
+      "test_reply_is_draft_never_sent",
+      "test_skips_already_processed_messages",
+      "test_handles_shopify_throttle_with_backoff"
+     ]
+    }
+   },
+   {
+    "version": "v2",
+    "date": "2026-10-02",
+    "kind": "modify",
+    "job": "JOB-7002",
+    "built_by": "marta.quintero@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Include the carrier tracking link in the reply.",
+    "tests": "10/10",
+    "sandbox": "2026-10-02",
+    "client": "2026-10-03",
+    "delta": {
+     "tools+": [
+      "get_tracking_link"
+     ],
+     "rules+": [
+      "Reply includes the tracking link when the order is fulfilled"
+     ],
+     "tests+": [
+      "test_reply_includes_tracking_link_when_fulfilled"
+     ]
+    }
+   },
+   {
+    "version": "v3",
+    "date": "2026-10-28",
+    "kind": "modify",
+    "job": "JOB-7126",
+    "built_by": "marta.quintero@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Add the customer's lifetime value (LTV) to the support sheet so the team can prioritise VIPs.",
+    "tests": "12/12",
+    "sandbox": "2026-10-28",
+    "client": "2026-10-30",
+    "delta": {
+     "connectors-": [
+      "shopify_admin@1.2"
+     ],
+     "connectors+": [
+      "shopify_admin (unpinned - resolves to 1.4.0)"
+     ],
+     "settings": {
+      "sheet_columns": "date, order, customer, status, tracking, LTV, VIP"
+     },
+     "rules+": [
+      "Flag VIP when LTV > 1000"
+     ],
+     "tests+": [
+      "test_vip_flag_when_ltv_over_1000",
+      "test_ltv_column_present"
+     ]
+    },
+    "note": "Unit tests mocked the customer with the old totalSpent field, so they passed while live runs wrote 0."
+   },
+   {
+    "version": "v4",
+    "date": "2026-11-05",
+    "kind": "modify",
+    "job": "JOB-7138",
+    "built_by": "marta.quintero@wursta.example",
+    "reviewer": null,
+    "request": "The LTV in the spreadsheet is always 0.",
+    "tests": "12/13",
+    "sandbox": null,
+    "client": null,
+    "state": "draft - tests failing",
+    "delta": {
+     "settings": {
+      "ltv_cell_format": "currency"
+     },
+     "tests+": [
+      "test_ltv_column_populated_from_live_schema"
+     ]
+    },
+    "note": "First fix formatted the LTV cell as currency but still read the removed field; the new regression test caught it.",
+    "code": {
+     "file": "order_processor/tools.py",
+     "source": "def build_row(order: dict, customer: dict, tracking_url: str) -> dict:\n    \"\"\"Build one support-sheet row: date, order, customer, status, tracking link, LTV and VIP flag.\n\n    Args:\n        order: Order from shopify_admin.get_order.\n        customer: Customer from shopify_admin.get_customer (Admin API 2025-10 schema).\n        tracking_url: Carrier tracking link, or an empty string when the order is unfulfilled.\n\n    Returns:\n        status and the row values in sheet-column order.\n    \"\"\"\n    ltv = float(customer.get(\"totalSpent\") or 0)\n    return {\"status\": \"ok\", \"row\": [order[\"processedAt\"][:10], order[\"name\"], customer[\"email\"],\n                                    order[\"displayFulfillmentStatus\"], tracking_url,\n                                    {\"value\": ltv, \"format\": \"currency\"}, \"VIP\" if ltv > 1000 else \"\"]}\n"
+    }
+   }
+  ],
+  "employee_bay_time_tracker": [
+   {
+    "version": "v1",
+    "date": "2026-09-24",
+    "kind": "create",
+    "job": "JOB-6924",
+    "built_by": "jonah.pike@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "An agent that gets data from every employee on their bay times.",
+    "tests": "8/8",
+    "sandbox": "2026-09-25",
+    "client": "2026-09-29",
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "tekmetric@1.1",
+      "google_sheets@2.1"
+     ],
+     "tools": [
+      "list_technicians",
+      "get_time_clock",
+      "get_bay_jobs",
+      "write_bay_time_sheet"
+     ],
+     "settings": {
+      "schedule": "daily 19:00 America/Chicago",
+      "shops": "all",
+      "sheet": "Bay time - daily"
+     },
+     "rules": [
+      "Read-only on Tekmetric",
+      "Flag missing clock-outs instead of guessing"
+     ],
+     "tests": [
+      "test_list_employees_for_shop",
+      "test_time_clock_pagination_reads_all_pages",
+      "test_bay_minutes_from_jobs",
+      "test_daily_sheet_columns",
+      "test_idle_bay_time_computed",
+      "test_shop_time_zone_america_chicago",
+      "test_missing_clock_out_flagged",
+      "test_daily_run_is_idempotent"
+     ]
+    }
+   },
+   {
+    "version": "v2",
+    "date": "2026-10-14",
+    "kind": "modify",
+    "job": "JOB-7110",
+    "built_by": "jonah.pike@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "Overnight shifts show negative hours.",
+    "tests": "9/9",
+    "sandbox": "2026-10-14",
+    "client": "2026-10-16",
+    "delta": {
+     "connectors-": [
+      "tekmetric@1.1"
+     ],
+     "connectors+": [
+      "tekmetric@1.2"
+     ],
+     "rules+": [
+      "Shifts that cross midnight are split at midnight in the shop's time zone"
+     ],
+     "tests+": [
+      "test_overnight_shift_spans_midnight"
+     ]
+    }
+   },
+   {
+    "version": "v3",
+    "date": "2026-11-04",
+    "kind": "modify",
+    "job": "JOB-7136",
+    "built_by": "jonah.pike@wursta.example",
+    "reviewer": null,
+    "request": "Email the service manager the weekly totals per technician every Monday.",
+    "tests": "10/11",
+    "sandbox": null,
+    "client": null,
+    "state": "draft - tests failing",
+    "delta": {
+     "connectors+": [
+      "gmail@2.0"
+     ],
+     "tools+": [
+      "weekly_totals",
+      "email_weekly_summary"
+     ],
+     "settings": {
+      "weekly_email": "Mondays 07:00 to the service manager"
+     },
+     "tests+": [
+      "test_weekly_totals_per_technician",
+      "test_weekly_email_dry_run_in_sandbox"
+     ]
+    },
+    "code": {
+     "file": "agent.py",
+     "source": "def email_weekly_summary(to: str, week_start: str, totals: list[dict]) -> dict:\n    \"\"\"Email the service manager the weekly bay-time totals per technician (Mondays 07:00 America/Chicago).\n\n    Args:\n        to: Service manager email.\n        week_start: ISO date of the Monday that starts the reported week.\n        totals: Rows with technician, clocked_hours, billed_hours and utilisation_pct.\n\n    Returns:\n        status and the Gmail message id.\n    \"\"\"\n    body = \"\\n\".join(f\"{t['technician']}: {t['billed_hours']:.1f} billed / {t['clocked_hours']:.1f} clocked\"\n                     for t in totals)\n    draft = gmail.create_draft(to=to, subject=f\"Bay time - week of {week_start}\", body=body)\n    sent = gmail.send_message(draft[\"id\"])\n    return {\"status\": \"ok\", \"message_id\": sent[\"id\"]}\n"
+    }
+   }
+  ],
+  "asset_audit_assistant": [
+   {
+    "version": "v1",
+    "date": "2026-10-29",
+    "kind": "create",
+    "job": "JOB-7129",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": null,
+    "request": "Tell me where any asset is, when it was last audited, and which sites have overdue audits.",
+    "tests": "3/6 (3 blocked)",
+    "sandbox": null,
+    "client": null,
+    "state": "building - tests blocked",
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "asset_panda@0.9",
+      "google_sheets@2.1"
+     ],
+     "tools": [
+      "find_asset",
+      "list_overdue_audits",
+      "site_summary",
+      "update_asset_location"
+     ],
+     "settings": {
+      "overdue_rule": "no audit in 90 days"
+     },
+     "rules": [
+      "Location updates need explicit confirmation"
+     ],
+     "tests": [
+      "test_list_groups",
+      "test_search_asset_by_tag",
+      "test_overdue_audit_rule_90_days",
+      "test_site_summary_table",
+      "test_update_requires_confirmation",
+      "test_token_read_from_env"
+     ]
+    }
+   }
+  ],
+  "flight_lookup": [
+   {
+    "version": "v1",
+    "date": "2026-10-16",
+    "kind": "create",
+    "job": "JOB-7115",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Look up a flight's status and delay by flight number.",
+    "tests": "7/7",
+    "sandbox": "2026-10-17",
+    "client": null,
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "aviationstack@1.0"
+     ],
+     "tools": [
+      "find_flight",
+      "flight_delay"
+     ],
+     "settings": {
+      "time_display": "airport local time"
+     },
+     "rules": [
+      "Say when the plan cannot return historical flights"
+     ],
+     "tests": [
+      "test_get_flight_by_iata_and_date",
+      "test_delay_minutes_computed",
+      "test_unknown_flight_returns_friendly_message",
+      "test_uses_access_key_from_env",
+      "test_handles_quota_exceeded_error",
+      "test_times_shown_in_airport_local_time",
+      "test_no_secret_in_logs"
+     ]
+    }
+   }
+  ],
+  "ai_video_briefing": [
+   {
+    "version": "v1",
+    "date": "2026-09-02",
+    "kind": "create",
+    "job": "JOB-6902",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Every Friday, brief the team on the best new AI talks and videos with a short summary and a link.",
+    "tests": "6/6",
+    "sandbox": "2026-09-02",
+    "client": "2026-09-04",
+    "spec": {
+     "topology": "workflow: video_scout -> briefing_writer",
+     "connectors": [
+      "rest_client@1.2",
+      "google_docs@2.0",
+      "gmail@2.0"
+     ],
+     "tools": [
+      "search_videos",
+      "summarise_video",
+      "write_briefing_doc",
+      "email_briefing"
+     ],
+     "settings": {
+      "schedule": "Fridays 08:00 America/New_York",
+      "videos_per_brief": "10",
+      "tone": "enthusiastic"
+     },
+     "rules": [
+      "Link to each video"
+     ],
+     "tests": [
+      "test_finds_videos_from_last_week",
+      "test_doc_has_one_section_per_video",
+      "test_email_contains_doc_link",
+      "test_summary_under_80_words",
+      "test_video_search_key_from_env",
+      "test_handles_empty_week"
+     ]
+    }
+   },
+   {
+    "version": "v2",
+    "date": "2026-09-10",
+    "kind": "modify",
+    "job": "JOB-6910",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Dates are a day off - use Eastern time, not UTC.",
+    "tests": "7/7",
+    "sandbox": "2026-09-10",
+    "client": "2026-09-11",
+    "delta": {
+     "settings": {
+      "date_time_zone": "America/New_York"
+     },
+     "tests+": [
+      "test_dates_in_eastern_time"
+     ]
+    }
+   },
+   {
+    "version": "v3",
+    "date": "2026-09-17",
+    "kind": "modify",
+    "job": "JOB-6917",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Links go to search results, not the video itself.",
+    "tests": "8/8",
+    "sandbox": "2026-09-17",
+    "client": "2026-09-18",
+    "delta": {
+     "rules-": [
+      "Link to each video"
+     ],
+     "rules+": [
+      "Link directly to the canonical video page, never to a search page"
+     ],
+     "tests+": [
+      "test_links_are_canonical_video_urls"
+     ]
+    }
+   },
+   {
+    "version": "v4",
+    "date": "2026-09-24",
+    "kind": "modify",
+    "job": "JOB-6925",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "The tone is too hypey - make it sober and specific.",
+    "tests": "9/9",
+    "sandbox": "2026-09-24",
+    "client": "2026-09-25",
+    "delta": {
+     "settings": {
+      "tone": "sober, specific, no superlatives"
+     },
+     "rules+": [
+      "No hype words (revolutionary, game-changing)"
+     ],
+     "tests+": [
+      "test_no_hype_words"
+     ]
+    }
+   },
+   {
+    "version": "v5",
+    "date": "2026-10-08",
+    "kind": "modify",
+    "job": "JOB-7101",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Add a one-line 'why it matters' under each video.",
+    "tests": "10/10",
+    "sandbox": "2026-10-08",
+    "client": "2026-10-09",
+    "delta": {
+     "rules+": [
+      "One 'why it matters' line per video"
+     ],
+     "tests+": [
+      "test_why_it_matters_line"
+     ]
+    }
+   },
+   {
+    "version": "v6",
+    "date": "2026-10-15",
+    "kind": "modify",
+    "job": "JOB-7114",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Don't repeat videos already covered last week.",
+    "tests": "11/11",
+    "sandbox": "2026-10-15",
+    "client": "2026-10-16",
+    "delta": {
+     "settings": {
+      "memory": "covered video ids, 8 weeks"
+     },
+     "rules+": [
+      "Skip videos covered in the last 8 weeks"
+     ],
+     "tests+": [
+      "test_skips_previously_covered_videos"
+     ]
+    }
+   },
+   {
+    "version": "v7",
+    "date": "2026-10-24",
+    "kind": "modify",
+    "job": "JOB-7122",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Only videos published in the last 7 days - and the date in the subject line is off by one.",
+    "tests": "13/13",
+    "sandbox": "2026-10-24",
+    "client": "2026-10-27",
+    "delta": {
+     "settings": {
+      "window": "published in the last 7 days"
+     },
+     "tests+": [
+      "test_subject_line_date_matches_send_date",
+      "test_only_last_7_days"
+     ]
+    }
+   },
+   {
+    "version": "v8",
+    "date": "2026-11-03",
+    "kind": "tune_up",
+    "job": "JOB-7133",
+    "built_by": "lena.fischer@wursta.example",
+    "reviewer": "elena.marsh@wursta.example",
+    "request": "Tune-up: bring the agent to forge standards 2026.11 without changing behaviour.",
+    "tests": "15/15",
+    "sandbox": "2026-11-03",
+    "client": "2026-11-03",
+    "delta": {
+     "connectors-": [
+      "rest_client@1.2"
+     ],
+     "connectors+": [
+      "rest_client@1.3"
+     ],
+     "settings": {
+      "model": "from tier config",
+      "retries": "3 with exponential backoff",
+      "logging": "structured, secrets redacted"
+     },
+     "tests+": [
+      "test_no_secret_in_logs",
+      "test_retries_on_429"
+     ]
+    }
+   }
+  ],
+  "weekly_status_recap_generator": [
+   {
+    "version": "v1",
+    "date": "2026-08-12",
+    "kind": "create",
+    "job": "JOB-6812",
+    "built_by": "ravi.desai@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "Every Friday write a status recap for each engagement from the week's emails and meetings.",
+    "tests": "6/6",
+    "sandbox": "2026-08-12",
+    "client": "2026-08-14",
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "gmail",
+      "google_calendar",
+      "google_docs"
+     ],
+     "tools": [
+      "collect_week_emails",
+      "collect_week_meetings",
+      "write_recap_doc"
+     ],
+     "settings": {
+      "schedule": "Fridays 15:00",
+      "model": "gemini flash (hard-coded id)"
+     },
+     "rules": [
+      "One recap per engagement label"
+     ],
+     "tests": [
+      "test_collects_labelled_emails",
+      "test_collects_meetings",
+      "test_recap_sections",
+      "test_one_doc_per_engagement",
+      "test_empty_week",
+      "test_doc_shared_with_owner"
+     ]
+    }
+   },
+   {
+    "version": "v2",
+    "date": "2026-08-26",
+    "kind": "modify",
+    "job": "JOB-6826",
+    "built_by": "ravi.desai@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "Add risks and decisions sections.",
+    "tests": "7/7",
+    "sandbox": "2026-08-26",
+    "client": "2026-08-27",
+    "delta": {
+     "rules+": [
+      "Recap has Risks and Decisions sections"
+     ],
+     "tests+": [
+      "test_risks_and_decisions_sections"
+     ]
+    }
+   },
+   {
+    "version": "v3",
+    "date": "2026-09-09",
+    "kind": "modify",
+    "job": "JOB-6909",
+    "built_by": "ravi.desai@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "Compare with last week's recap and highlight what changed.",
+    "tests": "8/8",
+    "sandbox": "2026-09-09",
+    "client": "2026-09-10",
+    "delta": {
+     "settings": {
+      "memory": "previous recap per engagement"
+     },
+     "rules+": [
+      "Highlight changes since last week"
+     ],
+     "tests+": [
+      "test_changes_since_last_week"
+     ]
+    }
+   }
+  ],
+  "gmail_slides_maker": [
+   {
+    "version": "v1",
+    "date": "2026-10-08",
+    "kind": "create",
+    "job": "JOB-7103",
+    "built_by": "ravi.desai@wursta.example",
+    "reviewer": "lena.fischer@wursta.example",
+    "request": "Turn an email thread into a 5-slide summary deck.",
+    "tests": "7/7",
+    "sandbox": "2026-10-08",
+    "client": null,
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "gmail@2.0",
+      "google_slides@2.0"
+     ],
+     "tools": [
+      "get_thread",
+      "outline_deck",
+      "build_deck"
+     ],
+     "settings": {
+      "slides": "5"
+     },
+     "rules": [
+      "Never include email addresses on slides"
+     ],
+     "tests": [
+      "test_reads_thread",
+      "test_outline_five_slides",
+      "test_deck_created",
+      "test_no_emails_on_slides",
+      "test_long_thread_truncated",
+      "test_attachments_listed",
+      "test_title_from_subject"
+     ]
+    }
+   },
+   {
+    "version": "v2",
+    "date": "2026-10-22",
+    "kind": "modify",
+    "job": "JOB-7118",
+    "built_by": "ravi.desai@wursta.example",
+    "reviewer": "lena.fischer@wursta.example",
+    "request": "Use the client's slide template instead of a blank deck.",
+    "tests": "8/8",
+    "sandbox": "2026-10-22",
+    "client": null,
+    "delta": {
+     "settings": {
+      "template": "client slide template (copy_template)"
+     },
+     "tests+": [
+      "test_uses_client_template"
+     ]
+    }
+   }
+  ],
+  "board_deck_generator": [
+   {
+    "version": "v1",
+    "date": "2026-10-09",
+    "kind": "create",
+    "job": "JOB-7105",
+    "built_by": "marta.quintero@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "A board deck for each portfolio company from Affinity and the portfolio sheet.",
+    "tests": "9/9",
+    "sandbox": "2026-10-09",
+    "client": null,
+    "spec": {
+     "topology": "workflow: data_collector -> deck_writer",
+     "connectors": [
+      "affinity_crm@1.1",
+      "google_sheets@2.1",
+      "google_slides@2.0"
+     ],
+     "tools": [
+      "get_company_relationships",
+      "get_portfolio_metrics",
+      "build_board_deck"
+     ],
+     "settings": {
+      "metrics_source": "Affinity notes"
+     },
+     "rules": [
+      "One deck per company",
+      "Numbers only from the sources"
+     ],
+     "tests": [
+      "test_company_lookup",
+      "test_metrics_read",
+      "test_deck_sections",
+      "test_one_deck_per_company",
+      "test_missing_metric_flagged",
+      "test_affinity_key_from_env",
+      "test_pagination_page_token",
+      "test_chart_slide",
+      "test_deck_title"
+     ]
+    }
+   },
+   {
+    "version": "v2",
+    "date": "2026-10-23",
+    "kind": "modify",
+    "job": "JOB-7120",
+    "built_by": "marta.quintero@wursta.example",
+    "reviewer": "ravi.desai@wursta.example",
+    "request": "Pull ARR and burn from the portfolio sheet, not from Affinity notes.",
+    "tests": "10/10",
+    "sandbox": "2026-10-24",
+    "client": null,
+    "delta": {
+     "settings": {
+      "metrics_source": "portfolio metrics sheet (ARR, burn, runway)"
+     },
+     "tests+": [
+      "test_arr_and_burn_from_sheet"
+     ]
+    }
+   }
+  ],
+  "company_prospecting_assistant": [
+   {
+    "version": "v1",
+    "date": "2026-09-15",
+    "kind": "create",
+    "job": "JOB-6915",
+    "built_by": "sofia.ruiz@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "Research a company, check Affinity for existing relationships and add a scored row to the pipeline sheet.",
+    "tests": "4/4",
+    "sandbox": "2026-09-16",
+    "client": "2026-09-18",
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "affinity_crm",
+      "google_sheets"
+     ],
+     "tools": [
+      "research_company",
+      "find_relationships",
+      "score_prospect",
+      "add_pipeline_row"
+     ],
+     "settings": {
+      "memory": "full research notes per company"
+     },
+     "rules": [
+      "Score 1-5 on thesis fit"
+     ],
+     "tests": [
+      "test_research_summary",
+      "test_relationship_lookup",
+      "test_score_range",
+      "test_row_appended"
+     ]
+    }
+   },
+   {
+    "version": "v2",
+    "date": "2026-10-06",
+    "kind": "modify",
+    "job": "JOB-7098",
+    "built_by": "sofia.ruiz@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "Add the warmest intro path from our network.",
+    "tests": "5/5",
+    "sandbox": "2026-10-06",
+    "client": "2026-10-07",
+    "delta": {
+     "tools+": [
+      "warmest_intro_path"
+     ],
+     "tests+": [
+      "test_warmest_intro_path"
+     ]
+    }
+   }
+  ],
+  "price_tracker": [
+   {
+    "version": "v1",
+    "date": "2026-10-27",
+    "kind": "create",
+    "job": "JOB-7124",
+    "built_by": "jonah.pike@wursta.example",
+    "reviewer": "marta.quintero@wursta.example",
+    "request": "Track competitor prices for our top 40 SKUs every morning and email me big moves.",
+    "tests": "8/8",
+    "sandbox": "2026-10-28",
+    "client": null,
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "rest_client@1.3",
+      "google_sheets@2.1",
+      "gmail@2.0"
+     ],
+     "tools": [
+      "fetch_competitor_prices",
+      "append_price_rows",
+      "email_big_moves"
+     ],
+     "settings": {
+      "schedule": "daily 07:00 America/Denver",
+      "big_move_threshold": "5%"
+     },
+     "rules": [
+      "Email is a draft in sandbox"
+     ],
+     "tests": [
+      "test_fetch_prices",
+      "test_rows_appended",
+      "test_big_move_threshold",
+      "test_draft_in_sandbox",
+      "test_key_from_env",
+      "test_retries_on_429",
+      "test_missing_sku_flagged",
+      "test_currency_usd"
+     ]
+    }
+   }
+  ],
+  "nano_banana_video_creator": [
+   {
+    "version": "v1",
+    "date": "2026-11-02",
+    "kind": "create",
+    "job": "JOB-7132",
+    "built_by": "ravi.desai@wursta.example",
+    "reviewer": null,
+    "request": "From a creative brief make concept images, a storyboard and a 20-second video, saved to Drive.",
+    "tests": "not run (job in flight)",
+    "sandbox": null,
+    "client": null,
+    "state": "building",
+    "spec": {
+     "topology": "workflow: concept_artist -> storyboarder -> video_producer",
+     "connectors": [
+      "google_drive@2.0"
+     ],
+     "tools": [
+      "generate_concept_images",
+      "build_storyboard",
+      "render_video",
+      "save_to_drive"
+     ],
+     "settings": {
+      "video_length": "20 seconds"
+     },
+     "rules": [
+      "Brand colours from the brief",
+      "Human approves the storyboard before video"
+     ],
+     "tests": [
+      "test_three_concepts",
+      "test_storyboard_frames",
+      "test_video_length",
+      "test_saved_to_drive",
+      "test_storyboard_approval_gate"
+     ]
+    }
+   }
+  ],
+  "quickbooks_ar_followup": [
+   {
+    "version": "v1",
+    "date": "2026-11-06",
+    "kind": "create",
+    "job": "JOB-7140",
+    "built_by": "marta.quintero@wursta.example",
+    "reviewer": null,
+    "request": "Chase overdue QuickBooks invoices with a polite Gmail reminder.",
+    "tests": "not built",
+    "sandbox": null,
+    "client": null,
+    "state": "planning - waiting for builder input",
+    "spec": {
+     "topology": "single",
+     "connectors": [
+      "quickbooks_online@1.2",
+      "gmail@2.0"
+     ],
+     "tools": [
+      "list_overdue_invoices",
+      "draft_reminder"
+     ],
+     "settings": {
+      "overdue_rule": "OPEN QUESTION"
+     },
+     "rules": [
+      "Drafts only until the client approves sending"
+     ],
+     "tests": []
+    }
+   }
+  ]
+ }
+}

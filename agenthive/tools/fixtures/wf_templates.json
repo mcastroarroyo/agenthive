@@ -1,0 +1,118 @@
+{
+  "templates": {
+    "seo_audit": {
+      "name": "SEO audit", "specialists": ["wf_seo_strategist"], "default_format": "docx", "formats": ["docx", "md"],
+      "keywords": ["seo audit", "site audit", "website audit", "audit our website", "audit of our website", "technical seo"],
+      "length": "1,000-1,600 words plus tables",
+      "sections": [
+        "Executive summary — score, the 3 fixes that matter most, expected impact",
+        "Scorecard — table: area, status (good / needs work / critical), issues found",
+        "Technical and on-page findings — table: page, issue, impact, fix",
+        "Content and keyword opportunities — table: query, page, position, impressions, action",
+        "Prioritised action plan — table: action, owner, effort (S/M/L), impact, by when",
+        "Method and data — data snapshot date, what was checked, what was not"
+      ],
+      "checklist": ["Every issue names the page and the fix", "Numbers come from the audit data", "Actions have an owner and a date", "No guarantees about rankings"]
+    },
+    "blog_brief": {
+      "name": "Blog post brief", "specialists": ["wf_seo_strategist"], "default_format": "docx", "formats": ["docx", "md"],
+      "keywords": ["blog brief", "content brief", "post brief", "seo brief", "article brief", "brief for a blog", "blog post brief"],
+      "length": "500-900 words",
+      "sections": [
+        "Working title and meta — title under 60 characters, meta description 120-155 characters, URL slug",
+        "Search intent and reader — who searches, what they need, the job to be done",
+        "Keywords — primary, 3-6 secondary, questions people ask",
+        "Outline — H2/H3 structure with 1-2 lines on what each section must say",
+        "Proof and sources — approved customer results and public sources to cite",
+        "Internal links and call to action",
+        "Brand notes — tone, words to avoid, product names"
+      ],
+      "checklist": ["Primary keyword in title, H1, first 100 words and meta", "Only approved customer results", "One clear call to action"]
+    },
+    "blog_post": {
+      "name": "Blog post", "specialists": ["wf_seo_strategist", "wf_longform_writer"], "default_format": "docx", "formats": ["docx", "md"],
+      "keywords": ["blog post", "write a blog", "article", "blog article"],
+      "length": "800-1,300 words",
+      "sections": ["Title (H1) and standfirst", "3-5 H2 sections answering the search intent", "Proof from approved customer results", "Practical takeaway", "Call to action"],
+      "checklist": ["Keyword placement from the brief", "Average sentence under 20 words", "Sources cited for public facts"]
+    },
+    "content_calendar": {
+      "name": "Social content calendar", "specialists": ["wf_social_planner"], "default_format": "xlsx", "formats": ["xlsx", "csv"],
+      "keywords": ["content calendar", "social calendar", "posting calendar", "social media calendar", "linkedin calendar", "instagram calendar", "social posts", "posting plan", "social plan"],
+      "length": "one row per post; hook and copy under the channel limits",
+      "sections": [
+        "Sheet 'Calendar' — date, day, time, channel, pillar, format, hook, post copy, call to action, hashtags, asset, status",
+        "Sheet 'Pillar mix' — planned share vs target share per pillar",
+        "Sheet 'Notes' — campaign moments, blackout dates, approvals needed"
+      ],
+      "checklist": ["Slots follow the brand cadence", "Pillar mix within 5 points of target", "Hashtags from the approved list, max 3", "No prospects or unapproved customers named"]
+    },
+    "proposal": {
+      "name": "Client proposal", "specialists": ["wf_proposal_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
+      "keywords": ["proposal", "client proposal", "sales proposal", "rfp response", "quote document", "statement of work"],
+      "length": "1,200-2,000 words",
+      "sections": [
+        "Executive summary — their goal, our recommendation, investment and timeline in 5 lines",
+        "Your situation — the client's pains in their own words, with their numbers",
+        "What we propose — scope, products and what is included",
+        "Plan and timeline — phases, milestones, go-live date and assumptions",
+        "Investment — prices exactly as given in the brief, with terms",
+        "Proof — approved customer results relevant to the client",
+        "Why us — 3 reasons tied to their criteria",
+        "Next steps — dated actions and owners",
+        "Assumptions and exclusions"
+      ],
+      "checklist": ["Prices exactly as in the brief", "Client's own words for the pain", "Dated next step", "Only approved proof points"]
+    },
+    "pitch_deck": {
+      "name": "Pitch deck", "specialists": ["wf_proposal_writer"], "default_format": "pptx", "formats": ["pptx"],
+      "keywords": ["pitch deck", "sales deck", "sales presentation", "pitch presentation"],
+      "length": "7-10 slides, at most 6 bullets per slide, speaker notes on key slides",
+      "sections": ["Title", "Your situation", "Cost of the status quo", "What we propose", "How it works", "Proof", "Plan and timeline", "Investment", "Next steps"],
+      "checklist": ["One message per slide", "Numbers from the brief or approved results", "Last slide is a dated next step"]
+    },
+    "sop": {
+      "name": "Standard operating procedure", "specialists": ["wf_sop_builder"], "default_format": "docx", "formats": ["docx", "md"],
+      "keywords": ["sop", "standard operating procedure", "procedure", "runbook", "process document", "playbook for", "checklist for", "handoff", "hand-off"],
+      "length": "800-1,500 words; 8-20 numbered steps",
+      "sections": [
+        "Purpose", "Scope — in and out", "Roles — RACI table (exactly one A per row)", "Trigger and inputs",
+        "Procedure — numbered steps: action (imperative verb), owner, system, done when",
+        "Exceptions and escalation", "Records and KPIs", "Revision history"
+      ],
+      "checklist": ["Every step starts with a verb and has one owner", "Each step has a done-when", "Escalation path with time limits", "KPIs measurable"]
+    },
+    "gtm_plan": {
+      "name": "Go-to-market plan", "specialists": ["wf_gtm_strategist"], "default_format": "pptx", "formats": ["pptx", "docx"],
+      "keywords": ["go-to-market", "go to market", "gtm", "launch plan", "market entry", "launch strategy", "market expansion"],
+      "length": "10-14 slides or 1,500-2,200 words",
+      "sections": [
+        "Executive summary", "Market and segment — sizing with method and sources", "Ideal customer profile and buyers",
+        "Positioning and messaging", "Offer and pricing (as given)", "Channels and launch plan — phased timeline",
+        "Sales and partner enablement", "KPIs and targets", "Risks and mitigations", "First 90 days"
+      ],
+      "checklist": ["Market numbers cite a source or are labelled estimates", "Dates respect the roadmap wording", "KPIs have targets and owners"]
+    },
+    "whitepaper": {
+      "name": "Whitepaper", "specialists": ["wf_longform_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
+      "keywords": ["whitepaper", "white paper", "ebook", "report on", "guide for", "thought leadership"],
+      "length": "1,500-2,500 words",
+      "sections": ["Title and abstract", "Executive summary", "The problem — industry context with cited sources", "A better approach", "Evidence — approved customer results", "How to get started", "About the company (boilerplate)", "Sources"],
+      "checklist": ["Public facts cited", "Approved results only", "Boilerplate verbatim"]
+    },
+    "press_release": {
+      "name": "Press release", "specialists": ["wf_longform_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
+      "keywords": ["press release", "news release", "announcement", "announce"],
+      "length": "400-600 words",
+      "sections": ["Headline (under 100 characters)", "Subheadline", "Dateline and lead paragraph — who, what, when, where, why", "Body — details, availability", "Quote from an approved spokesperson", "Availability and pricing (as given)", "About the company (boilerplate, verbatim)", "Media contact", "###"],
+      "checklist": ["Status words match approved facts (beta vs generally available)", "Only approved customers named", "Boilerplate verbatim"]
+    },
+    "one_pager": {
+      "name": "One-pager", "specialists": ["wf_longform_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
+      "keywords": ["one-pager", "one pager", "fact sheet", "datasheet", "summary sheet"],
+      "length": "300-450 words",
+      "sections": ["Headline", "The problem", "What it does", "Proof", "Call to action"],
+      "checklist": ["Fits on one page", "One call to action"]
+    }
+  }
+}

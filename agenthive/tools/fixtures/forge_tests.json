@@ -1,0 +1,73 @@
+{
+  "note": "Synthetic test-pane results. Each test lists the version it was added in; 'results' holds the recorded outcome per version (anything not listed passed). 'needs_secret' tests are blocked when that session secret is not set in the test pane.",
+  "suites": {
+    "shopify_order_support_tracker": {
+      "tests": [
+        {"id": "T01", "name": "test_email_searcher_finds_order_emails", "kind": "unit", "since": "v1", "ms": 410},
+        {"id": "T02", "name": "test_email_searcher_ignores_newsletters", "kind": "unit", "since": "v1", "ms": 220},
+        {"id": "T03", "name": "test_order_number_extracted_from_subject_and_body", "kind": "unit", "since": "v1", "ms": 180},
+        {"id": "T04", "name": "test_lookup_order_by_number", "kind": "integration", "since": "v1", "ms": 1240, "needs_secret": "SHOPIFY_ADMIN_TOKEN"},
+        {"id": "T05", "name": "test_lookup_order_by_customer_email_when_no_number", "kind": "integration", "since": "v1", "ms": 1380, "needs_secret": "SHOPIFY_ADMIN_TOKEN"},
+        {"id": "T06", "name": "test_support_row_columns", "kind": "unit", "since": "v1", "ms": 150},
+        {"id": "T07", "name": "test_reply_is_draft_never_sent", "kind": "acceptance", "since": "v1", "ms": 640},
+        {"id": "T08", "name": "test_skips_already_processed_messages", "kind": "unit", "since": "v1", "ms": 260},
+        {"id": "T09", "name": "test_handles_shopify_throttle_with_backoff", "kind": "unit", "since": "v1", "ms": 330},
+        {"id": "T10", "name": "test_reply_includes_tracking_link_when_fulfilled", "kind": "acceptance", "since": "v2", "ms": 720},
+        {"id": "T11", "name": "test_vip_flag_when_ltv_over_1000", "kind": "unit", "since": "v3", "ms": 190},
+        {"id": "T12", "name": "test_ltv_column_present", "kind": "unit", "since": "v3", "ms": 140},
+        {"id": "T13", "name": "test_ltv_column_populated_from_live_schema", "kind": "regression", "since": "v4", "ms": 1510, "needs_secret": "SHOPIFY_ADMIN_TOKEN"}
+      ],
+      "results": {
+        "v4": {"T13": {"outcome": "fail", "expected": "LTV 1284.50 for sandbox customer C-20417", "actual": "0.0",
+                       "trace": "order_processor/tools.py:88 in build_row: ltv = float(customer.get('totalSpent') or 0)",
+                       "log": "shopify_admin 1.4.0 (Admin API 2025-10): Customer has no field 'totalSpent'; get_customer returned amountSpent {amount: '1284.50', currencyCode: 'USD'}",
+                       "hint": "build_row still reads the removed totalSpent field; v4 only changed the cell format. Read amountSpent.amount from get_customer, convert it to a number, leave the cell blank (not 0) when it is missing, update the T11 mock to the live schema and pin shopify_admin to 1.4.x (FS-04)."}}
+      }
+    },
+    "employee_bay_time_tracker": {
+      "tests": [
+        {"id": "B01", "name": "test_list_employees_for_shop", "kind": "integration", "since": "v1", "ms": 980, "needs_secret": "TEKMETRIC_CLIENT_SECRET"},
+        {"id": "B02", "name": "test_time_clock_pagination_reads_all_pages", "kind": "unit", "since": "v1", "ms": 240},
+        {"id": "B03", "name": "test_bay_minutes_from_jobs", "kind": "unit", "since": "v1", "ms": 210},
+        {"id": "B04", "name": "test_daily_sheet_columns", "kind": "unit", "since": "v1", "ms": 130},
+        {"id": "B05", "name": "test_idle_bay_time_computed", "kind": "unit", "since": "v1", "ms": 170},
+        {"id": "B06", "name": "test_shop_time_zone_america_chicago", "kind": "unit", "since": "v1", "ms": 120},
+        {"id": "B07", "name": "test_missing_clock_out_flagged", "kind": "unit", "since": "v1", "ms": 160},
+        {"id": "B08", "name": "test_daily_run_is_idempotent", "kind": "acceptance", "since": "v1", "ms": 1120, "needs_secret": "TEKMETRIC_CLIENT_SECRET"},
+        {"id": "B09", "name": "test_overnight_shift_spans_midnight", "kind": "regression", "since": "v2", "ms": 190},
+        {"id": "B10", "name": "test_weekly_totals_per_technician", "kind": "unit", "since": "v3", "ms": 230},
+        {"id": "B11", "name": "test_weekly_email_dry_run_in_sandbox", "kind": "acceptance", "since": "v3", "ms": 870}
+      ],
+      "results": {
+        "v3": {"B11": {"outcome": "fail", "expected": "gmail.create_draft called once; gmail.send_message not called while DRY_RUN=true",
+                       "actual": "gmail.send_message called 1 time in the sandbox run",
+                       "trace": "agent.py:142 in email_weekly_summary: gmail.send_message(draft_id)",
+                       "log": "sandbox run: DRY_RUN=true but email_weekly_summary sent the message",
+                       "hint": "email_weekly_summary ignores the DRY_RUN flag. In sandbox (DRY_RUN=true) it must only create a draft and return its id; send only when DRY_RUN is false in the client deployment (FS-12)."}}
+      }
+    },
+    "flight_lookup": {
+      "tests": [
+        {"id": "F01", "name": "test_get_flight_by_iata_and_date", "kind": "integration", "since": "v1", "ms": 860, "needs_secret": "AVIATIONSTACK_ACCESS_KEY"},
+        {"id": "F02", "name": "test_delay_minutes_computed", "kind": "unit", "since": "v1", "ms": 140},
+        {"id": "F03", "name": "test_unknown_flight_returns_friendly_message", "kind": "acceptance", "since": "v1", "ms": 520, "needs_secret": "AVIATIONSTACK_ACCESS_KEY"},
+        {"id": "F04", "name": "test_uses_access_key_from_env", "kind": "unit", "since": "v1", "ms": 90},
+        {"id": "F05", "name": "test_handles_quota_exceeded_error", "kind": "unit", "since": "v1", "ms": 180},
+        {"id": "F06", "name": "test_times_shown_in_airport_local_time", "kind": "unit", "since": "v1", "ms": 150},
+        {"id": "F07", "name": "test_no_secret_in_logs", "kind": "unit", "since": "v1", "ms": 110}
+      ],
+      "results": {}
+    },
+    "asset_audit_assistant": {
+      "tests": [
+        {"id": "A01", "name": "test_list_groups", "kind": "integration", "since": "v1", "ms": 900, "needs_secret": "ASSET_PANDA_API_TOKEN"},
+        {"id": "A02", "name": "test_search_asset_by_tag", "kind": "integration", "since": "v1", "ms": 1050, "needs_secret": "ASSET_PANDA_API_TOKEN"},
+        {"id": "A03", "name": "test_overdue_audit_rule_90_days", "kind": "unit", "since": "v1", "ms": 160},
+        {"id": "A04", "name": "test_site_summary_table", "kind": "unit", "since": "v1", "ms": 140},
+        {"id": "A05", "name": "test_update_requires_confirmation", "kind": "acceptance", "since": "v1", "ms": 780, "needs_secret": "ASSET_PANDA_API_TOKEN"},
+        {"id": "A06", "name": "test_token_read_from_env", "kind": "unit", "since": "v1", "ms": 80}
+      ],
+      "results": {}
+    }
+  }
+}

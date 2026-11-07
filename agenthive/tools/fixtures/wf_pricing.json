@@ -1,0 +1,23 @@
+{
+  "mock": true,
+  "label": "Illustrative pricing, not final",
+  "currency": "USD",
+  "basis": "Time & materials per job: per-agent rate x billable specialist assignments.",
+  "billable_rule": "One billable agent = one specialist assigned to one deliverable. Orchestration, Brand Intelligence, QA & fact-check and document rendering are included.",
+  "tiers": [
+    {"id": "P1", "name": "Urgent", "mode": "immediate", "per_agent_usd": 7.50, "example_3_agent_job_usd": 27,
+     "turnaround": "starts immediately"},
+    {"id": "P2", "name": "Standard", "mode": "queued", "per_agent_usd": 5.00, "example_3_agent_job_usd": 18,
+     "turnaround": "queued; starts when capacity frees up"},
+    {"id": "P3", "name": "Economy", "mode": "batch", "per_agent_usd": 2.50, "example_3_agent_job_usd": 9,
+     "turnaround": "runs in the next batch window"}
+  ],
+  "buffer_pct": 20,
+  "buffer_rule": "Credits for the job plus a 20% buffer are reserved upfront; the unused buffer is refunded to the credit balance when the job closes.",
+  "credits": {"usd_per_credit": 1, "bought_in_advance": true},
+  "revision_rule": "A revision is estimated like a job: the per-agent rate x the agents the change needs (often one).",
+  "urgency_words": {
+    "P1": ["urgent", "asap", "today", "tonight", "right now", "immediately", "within the hour", "by tomorrow", "this morning", "this afternoon"],
+    "P3": ["no rush", "whenever", "next month", "low priority", "batch", "overnight is fine", "not urgent"]
+  }
+}

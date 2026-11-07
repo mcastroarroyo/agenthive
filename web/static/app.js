@@ -16,6 +16,26 @@ const S = {
 const STATUS_ORDER = ["demo_ready", "built", "in_build", "library"];
 const TIER_LABEL = { lite: "Flash-Lite", flash: "Flash", argon: "Argon" };
 const BLOCK_COLORS = { model: "#8a3fd0", runtime: "#13906a", tools: "#2b6fd0", grounding: "#e39a1c" };
+const LAYER_COLORS = { google_security: "#1a73e8", waisentry: "#d93a40" };
+const SHIELD = `<svg class="shield" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>`;
+const CHEV = `<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
+const layersFor = (realmId) => (S.cat.security_layers || []).filter((l) => l.realms.includes(realmId));
+const firstSentence = (t) => (String(t).match(/^.*?[.!?](\s|$)/) || [t])[0].trim();
+
+/* A realm's security layer: one compact band; click to expand the controls. */
+function securityBand(realmId) {
+  return layersFor(realmId).map((l) => {
+    const color = LAYER_COLORS[l.id] || "#5f5d57";
+    const label = l.id === "waisentry" ? "Protected by WAISentry" : "Security layer";
+    const open = l.id === "waisentry" && S.agents.has("waisentry")
+      ? `<button class="ghost small" data-open="waisentry">Open the WAISentry SOC demo</button>` : "";
+    return `<button class="sec-band" style="--sec:${color}" aria-expanded="false" title="${esc(l.name)}">${SHIELD}
+        <span class="sec-label">${esc(label)}</span>${l.controls.map((c) => `<span class="sec-chip" title="${esc(c.name)}">${esc(c.short)}</span>`).join("")}${CHEV}</button>
+      <div class="sec-detail" style="--sec:${color}" hidden><p>${esc(l.summary)}</p>
+        <dl>${l.controls.map((c) => `<dt>${esc(c.name)}</dt><dd>${esc(c.role)}</dd>`).join("")}</dl>
+        <p class="muted">${esc(l.note)}</p>${open}</div>`;
+  }).join("");
+}
 
 /* ---------------- color helpers ---------------- */
 function mix(hex, pct, base = "#ffffff") {
@@ -159,13 +179,19 @@ function renderHive() {
     }).join("");
     return `<section class="realm" data-realm="${r.id}" style="border-top:4px solid ${r.color}">
       <div class="realm-head"><h2 style="color:${r.color}">${esc(r.name)}</h2><span class="muted">${n} agents · ${d} demo-ready</span><span class="kind" style="color:${r.color}">${r.kind}</span></div>
-      <p class="realm-blurb">${esc(r.blurb)}</p><div class="clusters">${clusters}</div></section>`;
+      <p class="realm-blurb">${esc(r.blurb)}</p>${securityBand(r.id)}<div class="clusters">${clusters}</div></section>`;
   };
   const by = Object.fromEntries(S.cat.realms.map((r) => [r.id, r]));
   const left = ["platform", "government", "smb"].filter((k) => by[k]).map((k) => realm(by[k])).join("");
   const right = ["enterprise", "delivery"].filter((k) => by[k]).map((k) => realm(by[k])).join("");
   const extra = S.cat.realms.filter((r) => !["platform", "government", "smb", "enterprise", "delivery"].includes(r.id)).map(realm).join("");
   $("#view-hive").innerHTML = `<div class="hive"><div class="hive-col">${left}${extra}</div><div class="hive-col">${right}</div></div>`;
+  $$(".sec-band", $("#view-hive")).forEach((b) => b.onclick = () => {
+    const open = b.getAttribute("aria-expanded") !== "true";
+    b.setAttribute("aria-expanded", String(open));
+    b.nextElementSibling.hidden = !open;
+  });
+  $$(".sec-detail [data-open]", $("#view-hive")).forEach((x) => x.onclick = () => openAgent(x.dataset.open));
   wireHexes($("#view-hive"));
   applyFilters();
 }
@@ -274,6 +300,9 @@ function renderBlocks(a) {
       <dt>Region</dt><dd>${esc(b.runtime.region)}</dd><dt>Pattern</dt><dd>${esc(patternDesc)}</dd><dt>Sessions</dt><dd id="rt-session">${esc(b.runtime.sessions)}</dd></dl>${steps}</div>
     <div class="blk" id="blk-tools"><h3><span class="sw" style="background:${BLOCK_COLORS.tools}"></span>Tools<span class="n">${b.tools.length}</span></h3>${tools}</div>
     <div class="blk" id="blk-grounding"><h3><span class="sw" style="background:${BLOCK_COLORS.grounding}"></span>Grounding<span class="n">${b.grounding.length}</span></h3>${grounding}<div class="sources small" id="sources"></div></div>
+    ${layersFor(a.realm).filter((l) => l.id === "google_security").map((l) => `<div class="blk blk-sec" style="--sec:${LAYER_COLORS[l.id]}"><h3>${SHIELD}${esc(l.name)}<span class="n">reference</span></h3>
+      ${l.controls.map((c) => `<div class="item"><div><b>${esc(c.name)}</b><div class="desc">${esc(c.brief || firstSentence(c.role))}</div></div></div>`).join("")}
+      <p class="small muted">${esc(l.note)}</p></div>`).join("")}
     ${a.kpis?.length ? `<div class="blk"><h3>Business KPIs</h3><ul class="small" style="margin:0;padding-left:18px">${a.kpis.map((k) => `<li>${esc(k)}</li>`).join("")}</ul></div>` : ""}
     ${a.related?.length ? `<div class="blk"><h3>Related agents</h3><div class="agent-chips">${a.related.map(chip).join("")}</div></div>` : ""}`;
   $$("[data-open]", $("#p-blocks")).forEach((x) => x.onclick = () => openAgent(x.dataset.open));
@@ -520,6 +549,20 @@ async function send() {
         chat.insertBefore(d, null);
         renderMermaid(d);
         $$("[data-preview]", d).forEach((b) => b.onclick = () => openPreview(b.parentElement.querySelector("code").textContent));
+        chat.scrollTop = chat.scrollHeight;
+        break;
+      }
+      case "file": {
+        if ($(`[data-file="${CSS.escape(ev.id)}"]`, chat)) break;   // the same file can arrive via a step and its parent
+        const bytes = Uint8Array.from(atob(ev.b64), (c) => c.charCodeAt(0));
+        const url = URL.createObjectURL(new Blob([bytes], { type: ev.mime }));
+        const ext = (ev.name.split(".").pop() || "").toUpperCase();
+        const d = document.createElement("div");
+        d.className = "msg agent file-card";
+        d.dataset.file = ev.id;
+        d.innerHTML = `<span class="file-ext">${esc(ext)}</span><div><b>${esc(ev.name)}</b><div class="muted small">${(ev.size / 1024).toFixed(1)} KB · rendered by ${esc(stepName(a, ev.author))}</div></div><a class="primary" href="${url}" download="${esc(ev.name)}">Download</a>`;
+        chat.insertBefore(d, null);
+        addEv(work, "result", `<b>Deliverable</b> <code>${esc(ev.name)}</code> <span class="muted">saved to session state and offered for download</span>`);
         chat.scrollTop = chat.scrollHeight;
         break;
       }

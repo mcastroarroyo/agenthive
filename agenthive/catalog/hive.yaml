@@ -13,11 +13,12 @@ realms:
     kind: internal
     color: "#13906a"
     blurb: >-
-      Horizontal agents every engagement reuses — knowledge, research, productivity and the Pantheon advisory suite
-      that designs and de-risks client transformations.
+      Horizontal agents every engagement reuses — knowledge, research, productivity, the Pantheon advisory suite
+      that designs and de-risks client transformations, and Agent Forge, the factory that builds client agents.
     clusters:
       - {id: core, name: "Core platform", blurb: "Knowledge, research, productivity and engineering agents."}
       - {id: pantheon, name: "Pantheon advisory suite", blurb: "Hermes coordinates five specialists to turn raw client material into a strategy."}
+      - {id: forge, name: "Agent Forge", blurb: "Wursta's agent factory: a plain-English request becomes a planned, built, tested and deployed agent wired to a client's real systems."}
 
   - id: government
     name: Government
@@ -47,11 +48,26 @@ realms:
     name: SMB
     kind: user
     color: "#cf5528"
-    blurb: Practical agents for small and mid-size businesses — sell more, run projects, onboard people, adopt AI.
+    blurb: >-
+      Practical agents for small and mid-size businesses — sell more, run projects, onboard people, adopt AI — and
+      WAISentry, Wursta's 24/7 security operations for cloud-first teams.
     clusters:
       - {id: growth, name: "Growth & sales", blurb: "Discovery, presales, account intelligence, ROI and social presence."}
       - {id: operations, name: "Operations & data", blurb: "Plans, status, retros, data questions and AI adoption."}
       - {id: people, name: "People", blurb: "Onboarding and skills development."}
+      - {id: security, name: "WAISentry · 24/7 security", blurb: "Wursta's managed SOC: Gemini triage, certified analysts, sub-60-second containment, zero-PII by design."}
+
+  - id: workforce
+    name: Agent Workforce
+    kind: user
+    color: "#b0306a"
+    blurb: >-
+      Wursta's AI staffing agency: browse specialist agents, brief one in plain English, see the cost upfront and get a
+      finished, brand-styled document. Runs as a SaaS app or inside the Gemini Enterprise Agent Marketplace.
+    clusters:
+      - {id: workforce_platform, name: "Workforce platform", blurb: "Browse, brief and estimate, multi-agent orchestration, brand intelligence, QA and fact-checking, branded document delivery."}
+      - {id: marketing_sales, name: "Marketing, social & sales", blurb: "Specialists from the Marketing, Social Media and Sales departments."}
+      - {id: ops_strategy, name: "Operations, strategy & writing", blurb: "Specialists from the Operations, Strategy and Writing departments."}
 
   - id: delivery
     name: Wursta Delivery Engine
@@ -160,6 +176,119 @@ compositions:
       runtime: Wursta Delivery Engine Agent Engine.
       tools: extract-video-to-okf, detect-meeting-sentiment-risk, extract-meeting-structured-data skills.
       grounding: Engagement history (synthetic) + delivery knowledge base.
+
+  - id: agent_forge_flow
+    name: Agent Forge build flow
+    kind: workflow
+    status: Live internal app — prototype here
+    summary: >-
+      One plain-English request becomes a tested, deployed agent, and every later change goes through the same path.
+      The Forge coordinator runs the stages as specialists; connectors it builds become reusable assets for the next
+      agent and the next client.
+    agents: [agent_forge, forge_architect, forge_connector_smith, forge_builder, forge_test_bench, forge_release, forge_jobs, forge_governance]
+    flow:
+      - "1 Describe — plain-English request; pick the client and connectors"
+      - "2 Plan — the Architect drafts the spec and asks the builder when unsure"
+      - "3 Build — agent code and tests generated; missing connectors built by the Connector Smith"
+      - "4 Test — the test pane runs with session secrets; every test must pass"
+      - "5 Deploy to sandbox — versioned (v1, v2, v3) and reviewed before release"
+      - "6 Deploy to client — live for the client; secrets in Secret Manager"
+      - "Change requests in plain English loop back: new version, retested, redeployed — every run recorded as a job"
+    blocks:
+      models: Flash for the coordinator, spec, code, connectors and governance; Flash-Lite for the test bench, releases and job analytics.
+      runtime: Platform Core Agent Engine; each stage is an AgentTool of the Forge coordinator (one session, one trace).
+      tools: Connector registry and spec validator, real static code checks (never executed) and real secret redaction; test runs, deploys and jobs simulated.
+      grounding: Forge standards and connector playbooks in the Platform knowledge base + Google Search for vendor API docs.
+
+  - id: waisentry_soc
+    name: WAISentry 24/7 security operations
+    kind: workflow
+    status: Wursta managed service — prototype here
+    summary: >-
+      Cloud-first, hybrid-ready security operations for SMBs. Telemetry is evaluated inside the client's own Google
+      Cloud tenant and tokenised before any alert leaves it; Gemini triage removes the noise, certified Wursta analysts
+      verify, and pre-approved playbooks contain the threat in under a minute.
+    agents: [waisentry, sentry_triage, sentry_privacy, sentry_identity, sentry_oauth, sentry_fleet, sentry_containment, sentry_compliance, sentry_posture]
+    flow:
+      - "Your environment — Google Workspace, distributed laptops, hybrid servers and SaaS"
+      - "In-tenant telemetry pipeline — API log evaluation and correlation; zero-PII tokenisation"
+      - "Phase 1 · AI triage (0–15 s) — Gemini scores thousands of events and drops ~99% of normal noise"
+      - "Phase 2 · Human investigation (1–3 min) — a certified analyst traces the attack path"
+      - "Phase 3 · Coordinated containment (< 5 min) — pre-approved playbooks, then an executive incident briefing"
+    blocks:
+      models: Flash-Lite for high-volume triage and tokenisation; Flash for investigation, containment and compliance.
+      runtime: SMB Agent Engine; the incident pipeline is a SequentialAgent (triage → investigate → contain → brief).
+      tools: 27 sentry_* tools over synthetic Workspace, endpoint, SaaS and firewall telemetry; the 5 containment actions are simulated.
+      grounding: >-
+        The pipeline reads synthetic telemetry fixtures; the cluster's agents add the WAISentry runbooks and compliance
+        maps in the SMB knowledge base and 30 days of security events in BigQuery.
+
+  - id: workforce_job
+    name: Agent Workforce job
+    kind: workflow
+    status: Wursta product — prototype here
+    summary: >-
+      "Hire an AI expert. Get a finished, branded document. Pay per job." The orchestrator scopes the brief, shows the
+      estimate, splits the work across specialists, runs QA and fact-checking, applies the customer's brand and
+      delivers the file; revisions go back through the same path.
+    agents: [workforce, workforce_guide, workforce_estimator, workforce_brand, workforce_qa, workforce_studio, wf_seo_strategist, wf_social_planner, wf_proposal_writer, wf_sop_builder, wf_gtm_strategist, wf_longform_writer]
+    flow:
+      - "1 Browse — 70 specialist agents across 10 departments"
+      - "2 Brief — what you need in plain English, like briefing a contractor"
+      - "3 Estimate — the cost upfront before committing (per job, by priority tier)"
+      - "4 Execute — the orchestrator splits the job; specialists collaborate"
+      - "QA review and fact-check before anything reaches the customer"
+      - "5 Deliver — brand-styled .docx, .pptx or .xlsx (PDF, CSV and Markdown in the product); revisions on request"
+    blocks:
+      models: Flash for the orchestrator, specialists and QA; Flash-Lite for browsing, estimates and rendering.
+      runtime: >-
+        Agent Workforce Agent Engine; specialists run as AgentTools of the orchestrator and hand drafts over in session
+        state. In production the same agents
+        run on Wursta's infrastructure behind a SaaS app and the Gemini Enterprise Agent Marketplace (A2A).
+      tools: >-
+        Marketplace roster, job estimator (illustrative pricing), brand learning and rule checks, QA claim extraction,
+        SEO audit, social slot planner, SOP step checker, market sizing and a real document renderer (Word, PowerPoint,
+        Excel) whose files are offered for download.
+      grounding: Workforce knowledge base (department playbooks, brand guides, positioning) + Google Search for fact-checking.
+
+security_layers:
+  - id: google_security
+    name: Google security layer
+    realms: [government, enterprise]
+    note: Reference architecture for production deployments — this demo runs on synthetic data and does not enforce it.
+    summary: >-
+      Government and enterprise agents run behind Google's security stack: every prompt and response is screened,
+      every agent turn is logged and correlated, and every indicator is enriched with frontline threat intelligence.
+    controls:
+      - name: Google Security Operations
+        short: SecOps
+        brief: "SIEM + SOAR: agent, Cloud Run and audit logs correlated; playbooks contain incidents."
+        role: >-
+          SIEM + SOAR. Agent Engine, Cloud Run and Cloud Audit Logs stream into SecOps; detections cover agent misuse
+          (tool abuse, data exfiltration, unusual volumes) and SOAR playbooks contain incidents.
+      - name: Model Armor
+        short: Model Armor
+        brief: Screens prompts and responses for injection, jailbreaks, sensitive data and malicious URLs.
+        role: >-
+          Screens every prompt and response: prompt injection and jailbreaks, sensitive data via Sensitive Data
+          Protection, malicious URLs and responsible-AI filters, enforced by policy templates.
+      - name: Google Threat Intelligence
+        short: GTI
+        brief: Mandiant and VirusTotal intelligence enriches every indicator.
+        role: >-
+          Mandiant frontline intelligence and VirusTotal context enrich the domains, IPs, URLs and file hashes that
+          show up in SecOps alerts and in what users send to the agents.
+  - id: waisentry
+    name: WAISentry 24/7 SOC
+    realms: [smb]
+    note: Wursta managed service; the agents in the WAISentry cluster prototype each stage on synthetic telemetry.
+    summary: >-
+      Wursta's managed security operations for cloud-first SMBs: Gemini triage plus certified analysts around the
+      clock, sub-60-second containment, and zero-PII by design.
+    controls:
+      - {name: AI triage + 24/7 human SOC, short: 24/7 SOC, role: "Gemini removes ~99% of noise in seconds; certified Wursta analysts verify every real threat."}
+      - {name: Active containment, short: "< 60 s containment", role: "Pre-approved playbooks end sessions, revoke OAuth apps, suspend accounts and quarantine Drive links."}
+      - {name: Zero-PII architecture, short: Zero-PII, role: "Names, emails and file contents are tokenised inside the client's Google Cloud tenant before any alert leaves it."}
 
 skills:
   - {id: detect-meeting-sentiment-risk, tool: detect_meeting_sentiment_risk, description: "Evaluates transcripts for dissatisfaction, scope creep, disengagement and timeline risk."}

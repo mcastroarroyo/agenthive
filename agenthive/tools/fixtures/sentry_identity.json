@@ -1,0 +1,359 @@
+{
+ "window": "2026-10-08 to 2026-11-06 (since WAISentry go-live)",
+ "geo": {
+  "Cedar Harbor, US": [
+   41.88,
+   -87.95
+  ],
+  "Millbrook, US": [
+   41.7,
+   -88.3
+  ],
+  "Amsterdam, NL": [
+   52.37,
+   4.9
+  ],
+  "Frankfurt, DE": [
+   50.11,
+   8.68
+  ],
+  "Singapore, SG": [
+   1.35,
+   103.82
+  ],
+  "Lisbon, PT": [
+   38.72,
+   -9.14
+  ],
+  "Denver, US": [
+   39.74,
+   -104.99
+  ],
+  "Kansas City, US": [
+   39.1,
+   -94.58
+  ],
+  "unknown (192.0.2.66)": null
+ },
+ "detections": [
+  {
+   "id": "ID-01",
+   "ts": "2026-11-01T02:04:11-06:00",
+   "type": "risky_oauth_consent",
+   "user": "USR-CFA4",
+   "severity": "high",
+   "technique": "T1528",
+   "status": "contained — app revoked 02:07:59 (PB-02)",
+   "incident": "INC-1101-01",
+   "evidence": "Unverified 'PDF Secure Viewer' granted gmail.readonly, gmail.settings.sharing, drive from an email link"
+  },
+  {
+   "id": "ID-02",
+   "ts": "2026-11-01T02:05:40-06:00",
+   "type": "hidden_forwarding_rule",
+   "user": "USR-CFA4",
+   "severity": "critical",
+   "technique": "T1114.003",
+   "status": "removed by client 02:24:30",
+   "incident": "INC-1101-01",
+   "evidence": "Filter on invoice/payment/bank keywords forwards to EXT-CBE6, skips inbox, marks read; created by an app"
+  },
+  {
+   "id": "ID-03",
+   "ts": "2026-11-01T02:06:12-06:00",
+   "type": "impossible_travel",
+   "user": "USR-CFA4",
+   "severity": "critical",
+   "technique": "T1078.004",
+   "status": "blocked by security key",
+   "incident": "INC-1101-01",
+   "travel": {
+    "from": "Cedar Harbor, US",
+    "from_ts": "2026-11-01T01:58:40-06:00",
+    "to": "Amsterdam, NL",
+    "to_ts": "2026-11-01T02:06:12-06:00",
+    "to_ip": "198.51.100.77 (AS64501 hosting)"
+   },
+   "evidence": "Password accepted, security-key challenge failed"
+  },
+  {
+   "id": "ID-04",
+   "ts": "2026-11-01T02:07:10-06:00",
+   "type": "bec_impersonation",
+   "user": "USR-26F5",
+   "severity": "critical",
+   "technique": "T1656",
+   "status": "payment held; vendor verified by phone 2026-11-02",
+   "incident": "INC-1101-01",
+   "evidence": "Lookalike vendor domain asks the accounts-payable shared mailbox to change bank details for open invoice TD-2026-1187 ($48,600)"
+  },
+  {
+   "id": "ID-05",
+   "ts": "2026-10-28T14:31:02-06:00",
+   "type": "session_hijack_attempt",
+   "user": "USR-163D",
+   "severity": "critical",
+   "technique": "T1550.004",
+   "status": "blocked — sessions revoked 14:24:14 (PB-01)",
+   "incident": "INC-1028-01",
+   "travel": {
+    "from": "Millbrook, US",
+    "from_ts": "2026-10-28T14:30:40-06:00",
+    "to": "Frankfurt, DE",
+    "to_ts": "2026-10-28T14:31:02-06:00",
+    "to_ip": "198.51.100.23 (AS64502 hosting)",
+    "concurrent": true
+   },
+   "evidence": "Stolen cookie replayed with a different browser fingerprint while the laptop was active in Millbrook"
+  },
+  {
+   "id": "ID-06",
+   "ts": "2026-10-21T23:10:02-06:00",
+   "type": "mfa_fatigue",
+   "user": "USR-2588",
+   "severity": "high",
+   "technique": "T1621",
+   "status": "contained — suspended 23:14:05 (PB-03)",
+   "incident": "INC-1021-01",
+   "evidence": "11 Google prompts in 4 minutes from 198.51.100.140 (Singapore, hosting); all denied; password was correct"
+  },
+  {
+   "id": "ID-07",
+   "ts": "2026-11-04T03:20:00-06:00",
+   "type": "credential_stuffing",
+   "user": "5 sales accounts",
+   "severity": "low",
+   "technique": "T1110.004",
+   "status": "resolved — 0 successes, blocked by login challenges",
+   "users": [
+    "USR-68B2",
+    "USR-899D",
+    "USR-AEE2",
+    "USR-5DED",
+    "USR-8207"
+   ],
+   "evidence": "23 failed passwords in 9 minutes from 192.0.2.66; addresses match the public website team page"
+  },
+  {
+   "id": "ID-08",
+   "ts": "2026-10-29T07:40:00-06:00",
+   "type": "new_country_known_travel",
+   "user": "USR-D678",
+   "severity": "info",
+   "technique": null,
+   "status": "suppressed — known travel",
+   "travel": {
+    "from": "Cedar Harbor, US",
+    "from_ts": "2026-10-28T17:55:00-06:00",
+    "to": "Lisbon, PT",
+    "to_ts": "2026-10-29T07:40:00-06:00",
+    "to_ip": "203.0.113.188"
+   },
+   "evidence": "Leave in calendar; security key; known device"
+  },
+  {
+   "id": "ID-09",
+   "ts": "2026-10-27T08:05:00-06:00",
+   "type": "new_location_known_travel",
+   "user": "USR-B701",
+   "severity": "info",
+   "technique": null,
+   "status": "suppressed — trade show in calendar",
+   "travel": {
+    "from": "Cedar Harbor, US",
+    "from_ts": "2026-10-26T18:10:00-06:00",
+    "to": "Denver, US",
+    "to_ts": "2026-10-27T08:05:00-06:00",
+    "to_ip": "203.0.113.92"
+   },
+   "evidence": "Trade show 2026-10-27 to 10-29; security key; known device; hotel Wi-Fi"
+  },
+  {
+   "id": "ID-10",
+   "ts": "2026-11-06T09:02:14-06:00",
+   "type": "new_location_known_travel",
+   "user": "USR-5DED",
+   "severity": "info",
+   "technique": null,
+   "status": "suppressed — customer visit in calendar",
+   "travel": {
+    "from": "Cedar Harbor, US",
+    "from_ts": "2026-11-05T17:20:00-06:00",
+    "to": "Kansas City, US",
+    "to_ts": "2026-11-06T09:02:14-06:00",
+    "to_ip": "203.0.113.140"
+   },
+   "evidence": "Customer visit; security key; known device"
+  },
+  {
+   "id": "ID-11",
+   "ts": "2026-11-03T08:12:00-06:00",
+   "type": "super_admin_new_device",
+   "user": "USR-A7F5",
+   "severity": "info",
+   "technique": null,
+   "status": "verified benign — replacement laptop (ticket IT-1093)",
+   "evidence": "Super-admin sign-in from a new enrolled device with a security key"
+  }
+ ],
+ "mail_rules": [
+  {
+   "id": "MR-01",
+   "mailbox": "USR-CFA4",
+   "kind": "filter + forwarding address",
+   "forward_to": "EXT-CBE6",
+   "external": true,
+   "hides_mail": true,
+   "criteria": "subject: invoice OR payment OR remittance OR bank OR wire",
+   "created": "2026-11-01T02:05:40-06:00",
+   "created_by": "app 'PDF Secure Viewer'",
+   "status": "removed 2026-11-01 02:24:30",
+   "risk": "critical",
+   "incident": "INC-1101-01"
+  },
+  {
+   "id": "MR-02",
+   "mailbox": "USR-FDB1",
+   "kind": "auto-forward all mail",
+   "forward_to": "EXT-4B9C",
+   "external": true,
+   "hides_mail": false,
+   "criteria": "all mail",
+   "created": "2025-09-12T16:20:00-06:00",
+   "created_by": "user",
+   "status": "still configured — blocked since 2026-11-02 by the domain policy",
+   "risk": "medium"
+  },
+  {
+   "id": "MR-03",
+   "mailbox": "USR-26F5",
+   "kind": "filter forward",
+   "forward_to": "EXT-010E",
+   "external": true,
+   "hides_mail": false,
+   "criteria": "has attachment AND subject: invoice",
+   "created": "2024-03-04T09:00:00-06:00",
+   "created_by": "Noah Kim (AP automation)",
+   "status": "active — allowlisted exception approved by Marcus Bell 2026-11-02",
+   "risk": "low"
+  },
+  {
+   "id": "MR-04",
+   "mailbox": "USR-8002",
+   "kind": "forwarding address (no rule)",
+   "forward_to": "EXT-B904",
+   "external": true,
+   "hides_mail": false,
+   "criteria": "—",
+   "created": "2026-06-02T11:00:00-06:00",
+   "created_by": "user",
+   "status": "inactive — blocked by the domain policy",
+   "risk": "low"
+  },
+  {
+   "id": "MR-05",
+   "mailbox": "USR-AD7D",
+   "kind": "filter",
+   "forward_to": null,
+   "external": false,
+   "hides_mail": true,
+   "criteria": "from: newsletters -> skip inbox, label 'Reading'",
+   "created": "2025-01-20T08:00:00-06:00",
+   "created_by": "user",
+   "status": "active",
+   "risk": "none"
+  },
+  {
+   "id": "MR-06",
+   "mailbox": "USR-8AA5",
+   "kind": "filter forward (internal)",
+   "forward_to": "USR-FE14",
+   "external": false,
+   "hides_mail": false,
+   "criteria": "subject: [P1]",
+   "created": "2025-05-14T10:00:00-06:00",
+   "created_by": "user",
+   "status": "active",
+   "risk": "none"
+  }
+ ],
+ "domain_policy": {
+  "external_auto_forwarding": "disabled since 2026-11-02 (allowlist: billflow.example)",
+  "before": "allowed for all users until 2026-11-02"
+ },
+ "vendors": [
+  {
+   "vendor": "Tessaro Design Studio",
+   "domain": "tessarodesign.example",
+   "contact": "EXT-8CB5",
+   "phone_on_file": "+1-555-0142",
+   "bank_on_file": "account ending 4471",
+   "open_invoices": [
+    {
+     "invoice": "TD-2026-1187",
+     "amount_usd": 48600,
+     "due": "2026-11-10"
+    }
+   ]
+  },
+  {
+   "vendor": "Brightline Hosting",
+   "domain": "brightlinehosting.example",
+   "phone_on_file": "+1-555-0177",
+   "bank_on_file": "account ending 2290",
+   "open_invoices": [
+    {
+     "invoice": "BH-311",
+     "amount_usd": 9800,
+     "due": "2026-11-15"
+    }
+   ]
+  },
+  {
+   "vendor": "Northgate Office Supply",
+   "domain": "northgateoffice.example",
+   "phone_on_file": "+1-555-0110",
+   "bank_on_file": "account ending 7315",
+   "open_invoices": [
+    {
+     "invoice": "NG-88412",
+     "amount_usd": 2140,
+     "due": "2026-11-20"
+    }
+   ]
+  },
+  {
+   "vendor": "BillFlow",
+   "domain": "billflow.example",
+   "phone_on_file": "+1-555-0199",
+   "bank_on_file": "card on file",
+   "open_invoices": []
+  }
+ ],
+ "domain_intel": {
+  "tessaro-designs.example": {
+   "registered": "2026-10-29",
+   "note": "lookalike of tessarodesign.example"
+  },
+  "securedoc-viewer.example": {
+   "registered": "2026-10-30",
+   "note": "consent-phishing landing page"
+  },
+  "relaymail.example": {
+   "registered": "2019-04-02",
+   "note": "free anonymous relay mailbox provider"
+  },
+  "payroll-kitewing.example": {
+   "registered": "2026-10-13",
+   "note": "payroll-lure phishing domain"
+  },
+  "freepdfconvert-pro.example": {
+   "registered": "2026-10-11",
+   "note": "infostealer download site"
+  },
+  "tessarodesign.example": {
+   "registered": "2014-06-18",
+   "note": "real vendor domain"
+  }
+ }
+}

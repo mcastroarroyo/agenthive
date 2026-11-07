@@ -4,11 +4,16 @@ An interactive menu of **live agent demos**. Every hex in the hive is a Google A
 **Vertex AI Agent Engine**; open one, pick a sample prompt and watch its four building blocks — **Model, Runtime,
 Tools, Grounding** — light up as it plans, calls tools and retrieves knowledge.
 
-- **Realms**: Government, Enterprise (financial, healthcare, telco, retail, logistics), SMB — plus the internal
-  Platform Core (with the Pantheon advisory suite) and the Wursta Delivery Engine (WurstaBots, Atlas migration suite,
-  innovation pipeline).
-- **Compositions**: Pantheon strategy engagement, Atlas migration pipeline, Citizen Services Framework (proposed),
-  real-estate enterprise sync (proposal), meeting-intelligence loop.
+- **Realms**: Government, Enterprise (financial, healthcare, telco, retail, logistics), SMB (including WAISentry,
+  Wursta's 24/7 security operations), Agent Workforce (Wursta's AI staffing agency that delivers branded Word,
+  PowerPoint and Excel files) — plus the internal Platform Core (Pantheon advisory suite and Agent Forge, the agent
+  factory) and the Wursta Delivery Engine (WurstaBots, Atlas migration suite, innovation pipeline).
+- **Compositions**: Pantheon strategy engagement, Atlas migration pipeline, Agent Forge build flow, WAISentry 24/7
+  security operations, Agent Workforce job, Citizen Services Framework (proposed), real-estate enterprise sync
+  (proposal), meeting-intelligence loop.
+- **Security layers** (`security_layers` in `hive.yaml`, shown on the realm cards): Google Security Operations,
+  Model Armor and Google Threat Intelligence around Government and Enterprise — a reference architecture, not enforced
+  in this demo — and WAISentry around SMB.
 - **Skill library**: the seven `wco-ge-skills`, reused by agents and exposed over MCP.
 
 All organisations, people and records in this repository are **synthetic**.

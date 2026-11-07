@@ -1,0 +1,72 @@
+{
+ "_note": "WAISentry pre-approved containment playbooks and the Kitewing runbook (fictional client; demo values). Every action is simulated.",
+ "pre_approval": {
+  "signed": "2026-10-05",
+  "by": "Marcus Bell (COO & CFO), Kitewing Software",
+  "scope": "Google Workspace identities, OAuth apps and Drive files of kitewing.example that are in a confirmed incident's blast radius",
+  "rules": [
+   "A certified Wursta analyst confirms the incident before any playbook runs",
+   "Only the four playbooks below run without asking the client; everything else is escalated",
+   "Targets must be in the incident's blast radius",
+   "PB-01, PB-02 and PB-03 need severity high or critical; PB-04 needs medium or higher",
+   "At most 3 suspended accounts per incident, for at most 4 hours; never super admins or the break-glass account",
+   "Allowlisted (sanctioned) apps are never revoked without client approval",
+   "Nothing is ever deleted: accounts, files and mail stay intact and every action can be rolled back"
+  ]
+ },
+ "playbooks": [
+  {"id": "PB-01", "name": "Instant web session termination", "tool": "sentry_end_sessions",
+   "action": "Sign the user out of every web and mobile session and revoke their OAuth and app-password tokens",
+   "api": "Admin SDK Directory API: users.signOut + tokens.delete", "min_severity": "high",
+   "limits": "up to 10 users per incident", "offset_s": 1, "duration_s": 3,
+   "rollback": "none needed — the user signs in again with their security key",
+   "notify": "user's manager and the client on-call"},
+  {"id": "PB-02", "name": "OAuth application revocation", "tool": "sentry_revoke_oauth_app",
+   "action": "Revoke the app's tokens for every user who granted it and block its client id tenant-wide",
+   "api": "Admin SDK Directory API: tokens.delete per user + API controls: block the client id", "min_severity": "high",
+   "limits": "apps in the blast radius; never an allowlisted app", "offset_s": 2, "duration_s": 5,
+   "rollback": "client admin can unblock the client id",
+   "notify": "affected users and the client on-call"},
+  {"id": "PB-03", "name": "Targeted account suspension", "tool": "sentry_suspend_account",
+   "action": "Suspend the account for a fixed window so nobody can sign in while the password is reset",
+   "api": "Admin SDK Directory API: users.update suspended=true (auto-unsuspend scheduled)", "min_severity": "high",
+   "limits": "max 3 accounts per incident; max 4 hours; never super admins or break-glass", "offset_s": 5, "duration_s": 5,
+   "rollback": "automatic at the end of the window, or earlier when the client confirms",
+   "notify": "user's manager and the client on-call"},
+  {"id": "PB-04", "name": "Drive access quarantine", "tool": "sentry_quarantine_drive",
+   "action": "Remove 'anyone with the link' and external user/domain permissions from the incident's files; internal access is untouched; files are never deleted",
+   "api": "Drive API: permissions.delete (previous permissions recorded for restore)", "min_severity": "medium",
+   "limits": "files in the blast radius", "offset_s": 3, "duration_s": "2 s + 12 s per file",
+   "rollback": "one-click restore of the recorded permissions",
+   "notify": "file owner and the client on-call"}
+ ],
+ "pre_approved_keywords": {
+  "PB-01": ["session", "sign out", "sign-out", "signout", "log out", "logout", "cookie", "token"],
+  "PB-02": ["oauth", "app", "application", "consent", "grant", "client id"],
+  "PB-03": ["suspend", "suspension", "lock the account", "lock account", "disable the account", "disable account", "block the user", "block user"],
+  "PB-04": ["drive", "link", "sharing", "shared", "share", "file", "folder", "unshare"]
+ },
+ "not_pre_approved": [
+  {"id": "X-ISOLATE", "keywords": ["isolat", "disconnect", "switch port", "network quarantine", "quarantine the laptop", "quarantine laptop", "quarantine the device", "quarantine device", "contain the laptop", "contain the device"],
+   "action": "Device or network isolation (EDR console or switch port)", "owner": "client IT (Noah Kim; Millbrook: Hugo Laurent) — recommended for the next pre-approval review"},
+  {"id": "X-WIPE", "keywords": ["wipe", "reimage", "re-image", "factory reset", "erase"], "action": "Wipe or reimage a device", "owner": "client IT only"},
+  {"id": "X-FIREWALL", "keywords": ["firewall", "block ip", "block the ip", "ip block", "block 198", "block 203", "block 192"], "action": "Firewall or IP block", "owner": "client IT with analyst guidance"},
+  {"id": "X-DOMAIN", "keywords": ["dns", "block domain", "block the domain", "block the sender", "blocklist", "block list", "mimecast policy"], "action": "Domain or sender block in DNSFilter / Mimecast", "owner": "on-call analyst with client approval"},
+  {"id": "X-PASSWORD", "keywords": ["password", "reset", "credential rotation", "rotate"], "action": "Password reset or credential rotation", "owner": "client IT / the user"},
+  {"id": "X-MAILRULE", "keywords": ["forwarding", "forward", "mail filter", "inbox rule", "mail rule", "filter"], "action": "Remove a mail filter or forwarding address", "owner": "on-call analyst with client approval"},
+  {"id": "X-PURGE", "keywords": ["purge", "recall", "delete the email", "delete email", "delete the message", "remove the email", "remove email"], "action": "Purge messages from mailboxes", "owner": "on-call analyst with client approval (Mimecast)"},
+  {"id": "X-DELETE", "keywords": ["delete the account", "delete account", "delete the user", "delete user", "delete the file", "delete file", "delete the mailbox", "remove the user"], "action": "Delete accounts, files or mailboxes", "owner": "never by WAISentry — client only"},
+  {"id": "X-PAYMENT", "keywords": ["payment", "wire", "bank", "vendor", "invoice"], "action": "Hold a payment or verify vendor bank details", "owner": "client finance (Marcus Bell)"},
+  {"id": "X-2SV", "keywords": ["mfa", "2sv", "two-step", "2-step", "security key"], "action": "Change 2-step verification settings", "owner": "client IT only"},
+  {"id": "X-TENANT", "keywords": ["domain-wide", "tenant-wide", "policy", "setting", "default"], "action": "Change tenant-wide settings", "owner": "client admin"}
+ ],
+ "escalation_matrix": {
+  "critical": "P1 — page the on-call certified analyst now; phone the client on-call (Noah Kim) — runbook target 15 min; payment fraud also Marcus Bell",
+  "high": "P2 — phone the client on-call — runbook target 30 min",
+  "medium": "P3 — ticket and email in the next business hour",
+  "low": "P4 — weekly SOC report"
+ },
+ "on_call": {"analyst": "A-17 (certified Wursta SOC analyst, Tier 2)", "client": "Noah Kim (IT & Security Administrator)",
+             "millbrook": "Hugo Laurent (IT Support Technician)", "finance": "Marcus Bell (COO & CFO)"},
+ "protected_accounts": ["it-breakglass@kitewing.example", "noah.kim@kitewing.example", "hugo.laurent@kitewing.example"]
+}

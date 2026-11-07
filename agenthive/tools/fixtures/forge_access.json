@@ -1,0 +1,40 @@
+{
+  "as_of": "2026-11-06",
+  "note": "Synthetic Agent Forge users, roles and client access. All people and domains are fictional.",
+  "iap": {"enabled": true, "sign_in": "Google Identity-Aware Proxy in front of the forge web app (Cloud Run)",
+          "staff_domain": "wursta.example", "external_access": "individual IAP grants per demo user (no public access)",
+          "context_aware_access": "not configured", "session_length_hours": 12},
+  "roles": {
+    "admin": {"description": "Wursta platform owners: users, roles, clients and everything a builder can do.",
+              "actions": ["view", "build", "test", "deploy_sandbox", "deploy_client", "manage_connectors", "manage_users", "view_jobs"], "client_scope": "all"},
+    "builder": {"description": "Wursta consultants and engineers: create, modify, test and deploy agents and connectors.",
+                "actions": ["view", "build", "test", "deploy_sandbox", "deploy_client", "manage_connectors", "view_jobs"], "client_scope": "all"},
+    "demo": {"description": "Prospects and client stakeholders: see only the agents of the clients they are assigned to.",
+             "actions": ["view", "try_in_sandbox"], "client_scope": "assigned clients only"}
+  },
+  "users": [
+    {"email": "elena.marsh@wursta.example", "name": "Elena Marsh", "role": "admin", "status": "active", "last_active": "2026-11-06", "clients": ["*"]},
+    {"email": "kofi.mensah@wursta.example", "name": "Kofi Mensah", "role": "admin", "status": "active", "last_active": "2026-11-04", "clients": ["*"]},
+    {"email": "ravi.desai@wursta.example", "name": "Ravi Desai", "role": "builder", "status": "active", "last_active": "2026-11-06", "clients": ["*"]},
+    {"email": "marta.quintero@wursta.example", "name": "Marta Quintero", "role": "builder", "status": "active", "last_active": "2026-11-06", "clients": ["*"]},
+    {"email": "jonah.pike@wursta.example", "name": "Jonah Pike", "role": "builder", "status": "active", "last_active": "2026-11-05", "clients": ["*"]},
+    {"email": "lena.fischer@wursta.example", "name": "Lena Fischer", "role": "builder", "status": "active", "last_active": "2026-11-03", "clients": ["*"]},
+    {"email": "sofia.ruiz@wursta.example", "name": "Sofia Ruiz", "role": "builder", "status": "active", "last_active": "2026-08-21", "clients": ["*"], "note": "moved to another practice in August"},
+    {"email": "dev.contractor@freelance-studio.example", "name": "Casey Lund", "role": "builder", "status": "active", "last_active": "2026-10-30", "clients": ["*"], "note": "external contractor for the video agent"},
+    {"email": "dana.cole@ridgelineoutfitters.example", "name": "Dana Cole", "role": "demo", "status": "active", "last_active": "2026-11-05", "clients": ["ridgeline_outfitters"], "assignment_expires": "2027-03-31"},
+    {"email": "m.ortega@copperlineauto.example", "name": "Miguel Ortega", "role": "demo", "status": "active", "last_active": "2026-11-02", "clients": ["copperline_auto"], "assignment_expires": "2027-01-31"},
+    {"email": "jbaker@summittire.example", "name": "Jordan Baker", "role": "demo", "status": "active", "last_active": "2026-11-01", "clients": ["summit_tire"], "assignment_expires": "2026-11-30"},
+    {"email": "a.lindqvist@northpass.example", "name": "Astrid Lindqvist", "role": "demo", "status": "active", "last_active": "2026-10-28", "clients": ["northpass_capital"], "assignment_expires": "2027-02-28"},
+    {"email": "pat.nguyen@northpass.example", "name": "Pat Nguyen", "role": "demo", "status": "active", "last_active": "2026-10-20", "clients": ["northpass_capital", "ridgeline_outfitters"], "assignment_expires": "2027-02-28", "note": "assigned to Ridgeline for a joint portfolio review"},
+    {"email": "ops.lead@stonebridge.example", "name": "Robin Hale", "role": "demo", "status": "active", "last_active": "2026-09-30", "clients": ["stonebridge_facilities"], "assignment_expires": "2026-10-31"},
+    {"email": "t.okafor@harlowpartners.example", "name": "Tobi Okafor", "role": "demo", "status": "active", "last_active": "2026-10-12", "clients": [], "note": "prospect from an event; no client assigned yet"}
+  ],
+  "client_domains": {
+    "ridgeline_outfitters": "ridgelineoutfitters.example",
+    "copperline_auto": "copperlineauto.example",
+    "summit_tire": "summittire.example",
+    "northpass_capital": "northpass.example",
+    "stonebridge_facilities": "stonebridge.example",
+    "wursta_internal": "wursta.example"
+  }
+}
