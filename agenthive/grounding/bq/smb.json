@@ -1,0 +1,122 @@
+{
+  "smb_customers": {
+    "description": "Kitewing Software customers (fictional B2B field-service SaaS; synthetic data). One row per customer account, current state as of 2026-11-06. Includes churned customers (is_active = false).",
+    "columns": [
+      {"name": "customer_id", "type": "STRING", "description": "Customer id, e.g. C-1001. Joins to orders, invoices, tickets and usage."},
+      {"name": "company_name", "type": "STRING", "description": "Customer company name (fictional)."},
+      {"name": "industry", "type": "STRING", "description": "Industry: HVAC & plumbing, Facilities management, Fire & security, Elevator maintenance, Pest control & landscaping."},
+      {"name": "size_band", "type": "STRING", "description": "SMB (< 35 technicians), Mid-market (35-149), Enterprise (150+)."},
+      {"name": "region", "type": "STRING", "description": "Sales region: North, South, East, West, Central."},
+      {"name": "city", "type": "STRING", "description": "Headquarters city (fictional)."},
+      {"name": "technicians", "type": "INT64", "description": "Field technicians employed by the customer."},
+      {"name": "licensed_technicians", "type": "INT64", "description": "Technicians licensed on Kitewing FieldOps today."},
+      {"name": "plan", "type": "STRING", "description": "Current plan: Starter, Growth or Enterprise."},
+      {"name": "addons", "type": "STRING", "description": "Comma-separated add-ons owned: Route Optimizer, Assist, Insights (empty if none)."},
+      {"name": "signup_date", "type": "DATE", "description": "Date the first contract started."},
+      {"name": "renewal_date", "type": "DATE", "description": "Next renewal date (last contract end for churned customers)."},
+      {"name": "arr_usd", "type": "FLOAT64", "description": "Annual recurring revenue in USD after discounts (0 for churned customers)."},
+      {"name": "health_score", "type": "INT64", "description": "Customer health score 0-100 (>= 80 Healthy, 60-79 Watch, < 60 At risk)."},
+      {"name": "csm_owner", "type": "STRING", "description": "Customer Success Manager."},
+      {"name": "account_owner", "type": "STRING", "description": "Account Executive who owns the account."},
+      {"name": "acquisition_channel", "type": "STRING", "description": "How the customer was acquired: Inbound, Webinar, Referral, Outbound, Partner, Trade show."},
+      {"name": "is_active", "type": "BOOL", "description": "False when the customer has churned."},
+      {"name": "churn_date", "type": "DATE", "description": "Date the customer churned (NULL when active)."}
+    ]
+  },
+  "smb_products": {
+    "description": "Kitewing price book (synthetic): plans, add-ons and services with list prices.",
+    "columns": [
+      {"name": "product_id", "type": "STRING", "description": "Product id, e.g. PRD-GROWTH. Joins to smb_orders.product_id."},
+      {"name": "product_name", "type": "STRING", "description": "Product name."},
+      {"name": "category", "type": "STRING", "description": "plan, add_on or service."},
+      {"name": "list_price_usd", "type": "FLOAT64", "description": "List price in USD per billing unit (annual-billing price for plans)."},
+      {"name": "billing_unit", "type": "STRING", "description": "per_technician_month, flat_month or one_time."},
+      {"name": "launched_date", "type": "DATE", "description": "Date the product became available."}
+    ]
+  },
+  "smb_orders": {
+    "description": "Order lines (bookings) for Kitewing customers, 2022-2026 (synthetic). Recurring lines are 12-month terms; amount_usd is the booked contract value of the line after discount.",
+    "columns": [
+      {"name": "order_id", "type": "STRING", "description": "Order id (several lines can share one order)."},
+      {"name": "customer_id", "type": "STRING", "description": "Customer id (joins smb_customers)."},
+      {"name": "order_date", "type": "DATE", "description": "Booking date."},
+      {"name": "product_id", "type": "STRING", "description": "Product id (joins smb_products)."},
+      {"name": "order_type", "type": "STRING", "description": "new (first contract), expansion (more seats or add-ons) or renewal."},
+      {"name": "quantity", "type": "INT64", "description": "Technicians licensed on the line (1 for flat or one-time items)."},
+      {"name": "unit_price_usd", "type": "FLOAT64", "description": "List unit price in USD."},
+      {"name": "discount_pct", "type": "FLOAT64", "description": "Total discount % applied to the line."},
+      {"name": "term_months", "type": "INT64", "description": "Term in months (12 for recurring lines, 0 for one-time services)."},
+      {"name": "amount_usd", "type": "FLOAT64", "description": "Booked value in USD after discount (recurring: quantity x unit price x term x (1 - discount))."},
+      {"name": "sales_rep", "type": "STRING", "description": "Account Executive credited."},
+      {"name": "channel", "type": "STRING", "description": "Direct or Partner."}
+    ]
+  },
+  "smb_pipeline": {
+    "description": "Sales opportunities created 2025-01-01 to 2026-11-05 (synthetic): new logos, expansions and renewals with stage, amount and outcome.",
+    "columns": [
+      {"name": "opportunity_id", "type": "STRING", "description": "Opportunity id, e.g. OPP-3107."},
+      {"name": "account_name", "type": "STRING", "description": "Prospect or customer name (fictional)."},
+      {"name": "customer_id", "type": "STRING", "description": "Customer id for expansions/renewals; NULL for new logos."},
+      {"name": "opportunity_type", "type": "STRING", "description": "new_logo, expansion or renewal."},
+      {"name": "stage", "type": "STRING", "description": "Prospecting, Discovery, Solution Validation, Proposal, Negotiation, Closed Won, Closed Lost."},
+      {"name": "amount_usd", "type": "FLOAT64", "description": "Expected first-year contract value in USD."},
+      {"name": "probability_pct", "type": "INT64", "description": "Stage probability %."},
+      {"name": "created_date", "type": "DATE", "description": "Date the opportunity was created."},
+      {"name": "expected_close_date", "type": "DATE", "description": "Forecast close date."},
+      {"name": "closed_date", "type": "DATE", "description": "Actual close date (NULL while open)."},
+      {"name": "is_closed", "type": "BOOL", "description": "True when Closed Won or Closed Lost."},
+      {"name": "is_won", "type": "BOOL", "description": "True when Closed Won."},
+      {"name": "owner", "type": "STRING", "description": "Opportunity owner (Account Executive)."},
+      {"name": "lead_source", "type": "STRING", "description": "Inbound, Webinar, Referral, Outbound, Partner, Trade show, Customer base."},
+      {"name": "size_band", "type": "STRING", "description": "SMB, Mid-market or Enterprise."},
+      {"name": "industry", "type": "STRING", "description": "Industry of the account."},
+      {"name": "competitor", "type": "STRING", "description": "Main competitor: Fieldnest, ServiceGrid Pro, DispatchPro 7 (status quo) or None."},
+      {"name": "loss_reason", "type": "STRING", "description": "Reason for Closed Lost (NULL otherwise): Price, No decision, Chose Fieldnest, Chose ServiceGrid Pro, Timing, Missing feature."}
+    ]
+  },
+  "smb_support_tickets": {
+    "description": "Customer support tickets 2025-01-01 to 2026-11-06 (synthetic). SLA first-response targets: P1 30 min, P2 120 min, P3 480 min, P4 1440 min.",
+    "columns": [
+      {"name": "ticket_id", "type": "STRING", "description": "Ticket id, e.g. TCK-88412."},
+      {"name": "customer_id", "type": "STRING", "description": "Customer id (joins smb_customers)."},
+      {"name": "opened_at", "type": "TIMESTAMP", "description": "When the ticket was opened (UTC)."},
+      {"name": "resolved_at", "type": "TIMESTAMP", "description": "When it was resolved (NULL if still open)."},
+      {"name": "priority", "type": "STRING", "description": "P1 (critical) to P4 (low)."},
+      {"name": "category", "type": "STRING", "description": "Mobile app, Scheduling, Billing, Integrations, Reporting, Training, Single sign-on, Permissions, Feature request, Route Optimizer, Assist."},
+      {"name": "channel", "type": "STRING", "description": "email, chat, phone or portal."},
+      {"name": "status", "type": "STRING", "description": "open, pending or resolved."},
+      {"name": "first_response_minutes", "type": "INT64", "description": "Minutes to first human response."},
+      {"name": "resolution_hours", "type": "FLOAT64", "description": "Hours from open to resolution (NULL if unresolved)."},
+      {"name": "sla_breached", "type": "BOOL", "description": "True when first response exceeded the priority's SLA target."},
+      {"name": "csat", "type": "INT64", "description": "Customer satisfaction 1-5 after resolution (NULL when not answered)."},
+      {"name": "assignee", "type": "STRING", "description": "Support agent."}
+    ]
+  },
+  "smb_invoices": {
+    "description": "Customer invoices (synthetic). Net-30 terms; status as of 2026-11-06.",
+    "columns": [
+      {"name": "invoice_id", "type": "STRING", "description": "Invoice id, e.g. INV-24871."},
+      {"name": "customer_id", "type": "STRING", "description": "Customer id (joins smb_customers)."},
+      {"name": "invoice_date", "type": "DATE", "description": "Invoice date."},
+      {"name": "due_date", "type": "DATE", "description": "Due date (invoice date + 30 days)."},
+      {"name": "amount_usd", "type": "FLOAT64", "description": "Invoice amount in USD."},
+      {"name": "status", "type": "STRING", "description": "paid, open (not yet due) or overdue."},
+      {"name": "paid_date", "type": "DATE", "description": "Payment date (NULL if unpaid)."},
+      {"name": "days_to_pay", "type": "INT64", "description": "Days from invoice date to payment (NULL if unpaid)."}
+    ]
+  },
+  "smb_product_usage": {
+    "description": "Monthly product usage per active customer, Nov 2025 - Oct 2026 (synthetic). One row per customer per month.",
+    "columns": [
+      {"name": "month", "type": "DATE", "description": "First day of the month."},
+      {"name": "customer_id", "type": "STRING", "description": "Customer id (joins smb_customers)."},
+      {"name": "licensed_technicians", "type": "INT64", "description": "Licensed technicians that month."},
+      {"name": "active_technicians", "type": "INT64", "description": "Technicians who completed at least one job in the mobile app that month."},
+      {"name": "jobs_completed", "type": "INT64", "description": "Jobs completed."},
+      {"name": "work_orders_created", "type": "INT64", "description": "Work orders created."},
+      {"name": "first_time_fix_rate_pct", "type": "FLOAT64", "description": "% of jobs fixed on the first visit."},
+      {"name": "avg_drive_minutes_per_job", "type": "FLOAT64", "description": "Average driving minutes per job."},
+      {"name": "assist_queries", "type": "INT64", "description": "Questions asked to Kitewing Assist (0 when not owned)."}
+    ]
+  }
+}

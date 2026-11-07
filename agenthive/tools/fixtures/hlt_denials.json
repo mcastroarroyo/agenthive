@@ -1,0 +1,388 @@
+{
+ "as_of": "2026-11-06",
+ "organisation": "Corvina Health Network \u2014 Patient Financial Services (fictional)",
+ "codes": {
+  "CO-197": {
+   "meaning": "Precertification/authorization/notification absent",
+   "category": "authorization"
+  },
+  "CO-50": {
+   "meaning": "Not deemed a medical necessity by the payer",
+   "category": "medical_necessity"
+  },
+  "CO-16": {
+   "meaning": "Claim lacks information or has submission/billing errors",
+   "category": "missing_information"
+  },
+  "CO-29": {
+   "meaning": "The time limit for filing has expired",
+   "category": "timely_filing"
+  },
+  "CO-11": {
+   "meaning": "Diagnosis is inconsistent with the procedure",
+   "category": "coding"
+  },
+  "CO-4": {
+   "meaning": "Procedure code inconsistent with the modifier, or modifier missing",
+   "category": "coding"
+  },
+  "CO-97": {
+   "meaning": "Paid as part of another service already adjudicated (bundled)",
+   "category": "bundling"
+  },
+  "CO-18": {
+   "meaning": "Exact duplicate claim/service",
+   "category": "duplicate"
+  }
+ },
+ "category_base_rates": {
+  "authorization": 0.45,
+  "medical_necessity": 0.35,
+  "missing_information": 0.85,
+  "timely_filing": 0.1,
+  "coding": 0.7,
+  "bundling": 0.55,
+  "duplicate": 0.03
+ },
+ "payers": {
+  "Silverline Health Plan": {
+   "appeal_window_days": 180,
+   "corrected_claim_window_days": 90,
+   "levels": [
+    "Level 1 reconsideration (decision in 30 days)",
+    "Level 2 appeal",
+    "Independent external review"
+   ],
+   "submission": "Provider portal \u2014 Appeals module",
+   "overturn_rates": {
+    "authorization": 0.62,
+    "medical_necessity": 0.38,
+    "coding": 0.71,
+    "timely_filing": 0.18,
+    "bundling": 0.52
+   },
+   "policy_notes": [
+    "Prior authorization required for outpatient advanced imaging (MRI, CT, PET) from 2026-07-01 (bulletin SL-2026-14).",
+    "Emergency department services are exempt from prior authorization."
+   ]
+  },
+  "Pinecrest Mutual": {
+   "appeal_window_days": 90,
+   "corrected_claim_window_days": 60,
+   "levels": [
+    "First-level appeal (decision in 45 days)",
+    "Second-level appeal"
+   ],
+   "submission": "Fax or provider portal",
+   "overturn_rates": {
+    "medical_necessity": 0.31,
+    "bundling": 0.58,
+    "coding": 0.66,
+    "authorization": 0.44
+   },
+   "policy_notes": [
+    "Inpatient admissions for chest pain reviewed against observation criteria (synthetic policy PM-UM-22).",
+    "Peer-to-peer review available within 14 days of denial."
+   ]
+  },
+  "Bluewater Senior Advantage": {
+   "appeal_window_days": 65,
+   "corrected_claim_window_days": 60,
+   "levels": [
+    "Reconsideration",
+    "Independent review entity"
+   ],
+   "submission": "Provider portal",
+   "overturn_rates": {
+    "missing_information": 0.9,
+    "duplicate": 0.02,
+    "medical_necessity": 0.4
+   },
+   "policy_notes": [
+    "Referring/ordering provider NPI required on all diagnostic claims since 2026-08-15."
+   ]
+  },
+  "State Medical Assistance Program (synthetic)": {
+   "appeal_window_days": 120,
+   "corrected_claim_window_days": 365,
+   "levels": [
+    "Administrative reconsideration",
+    "Fair hearing"
+   ],
+   "submission": "State portal",
+   "overturn_rates": {
+    "coding": 0.74,
+    "timely_filing": 0.12
+   },
+   "policy_notes": [
+    "Timely filing limit 365 days from date of service."
+   ]
+  }
+ },
+ "claims": [
+  {
+   "claim_id": "CLM-26-004211",
+   "payer": "Silverline Health Plan",
+   "facility": "Corvina Northside Imaging",
+   "department": "Radiology",
+   "patient_ref": "SYN-C1187 (synthetic)",
+   "service_date": "2026-07-14",
+   "submitted_date": "2026-07-18",
+   "denial_date": "2026-08-02",
+   "service": "MRI lumbar spine without contrast",
+   "cpt": "72148",
+   "icd10": [
+    "M54.16"
+   ],
+   "billed_usd": 2850.0,
+   "denied_usd": 2850.0,
+   "denial_code": "CO-197",
+   "evidence": {
+    "auth_on_file": "PA-SL-88213 approved 2026-07-12 (valid 2026-07-12 to 2026-08-11)",
+    "evidence_strength": "strong"
+   },
+   "documents": [
+    "Prior-authorization approval PA-SL-88213",
+    "MRI order with clinical indication",
+    "Radiology report 2026-07-14",
+    "6 weeks failed conservative therapy (PT notes)"
+   ],
+   "notes": "Authorization obtained but the number was not transmitted on the claim (registration workflow gap after the 2026-07-01 policy change)."
+  },
+  {
+   "claim_id": "CLM-26-004377",
+   "payer": "Pinecrest Mutual",
+   "facility": "Corvina General Hospital",
+   "department": "Cardiology (inpatient)",
+   "patient_ref": "SYN-C2204 (synthetic)",
+   "service_date": "2026-08-19",
+   "submitted_date": "2026-08-27",
+   "denial_date": "2026-09-10",
+   "service": "Inpatient admission, 3 days, chest pain",
+   "cpt": "99223 / DRG 313",
+   "icd10": [
+    "R07.9",
+    "I20.0"
+   ],
+   "billed_usd": 18400.0,
+   "denied_usd": 18400.0,
+   "denial_code": "CO-50",
+   "evidence": {
+    "evidence_strength": "moderate"
+   },
+   "documents": [
+    "Admission H&P",
+    "Serial troponins (negative x2)",
+    "Stress echo 2026-08-20 (equivocal)",
+    "Cardiology consult recommending inpatient monitoring"
+   ],
+   "notes": "Payer suggests observation level of care; documentation shows unstable angina concern."
+  },
+  {
+   "claim_id": "CLM-26-004502",
+   "payer": "Bluewater Senior Advantage",
+   "facility": "Corvina Northside Imaging",
+   "department": "Radiology",
+   "patient_ref": "SYN-C3016 (synthetic)",
+   "service_date": "2026-09-02",
+   "submitted_date": "2026-09-05",
+   "denial_date": "2026-09-19",
+   "service": "CT chest without contrast",
+   "cpt": "71250",
+   "icd10": [
+    "R91.1"
+   ],
+   "billed_usd": 1240.0,
+   "denied_usd": 1240.0,
+   "denial_code": "CO-16",
+   "evidence": {
+    "evidence_strength": "strong"
+   },
+   "documents": [
+    "Order from referring physician (NPI on order)",
+    "CT report"
+   ],
+   "notes": "Referring provider NPI missing in loop 2310A after clearinghouse mapping change."
+  },
+  {
+   "claim_id": "CLM-26-004618",
+   "payer": "Silverline Health Plan",
+   "facility": "Corvina Lakeside Medical Center",
+   "department": "Orthopaedics",
+   "patient_ref": "SYN-C0942 (synthetic)",
+   "service_date": "2025-12-10",
+   "submitted_date": "2026-06-30",
+   "denial_date": "2026-07-14",
+   "service": "Knee arthroscopy, outpatient",
+   "cpt": "29881",
+   "icd10": [
+    "M23.221"
+   ],
+   "billed_usd": 6900.0,
+   "denied_usd": 6900.0,
+   "denial_code": "CO-29",
+   "evidence": {
+    "proof_of_timely_filing": "Clearinghouse acceptance report dated 2026-01-09 (original submission)",
+    "evidence_strength": "moderate"
+   },
+   "documents": [
+    "Clearinghouse 277CA acceptance 2026-01-09",
+    "Operative report"
+   ],
+   "notes": "Original claim accepted by the clearinghouse in January but rejected by the payer for a member-ID typo; resubmitted late."
+  },
+  {
+   "claim_id": "CLM-26-004733",
+   "payer": "State Medical Assistance Program (synthetic)",
+   "facility": "Corvina Rehab Center",
+   "department": "Physical therapy",
+   "patient_ref": "SYN-C4471 (synthetic)",
+   "service_date": "2026-08-28",
+   "submitted_date": "2026-09-03",
+   "denial_date": "2026-09-24",
+   "service": "Therapeutic exercise, 3 units",
+   "cpt": "97110",
+   "icd10": [
+    "Z00.00"
+   ],
+   "billed_usd": 330.0,
+   "denied_usd": 330.0,
+   "denial_code": "CO-11",
+   "evidence": {
+    "evidence_strength": "strong"
+   },
+   "documents": [
+    "PT plan of care listing M17.11 (primary osteoarthritis, right knee)"
+   ],
+   "notes": "Wrong diagnosis code defaulted from the registration encounter."
+  },
+  {
+   "claim_id": "CLM-26-004855",
+   "payer": "Pinecrest Mutual",
+   "facility": "Corvina Northside Clinic",
+   "department": "Dermatology",
+   "patient_ref": "SYN-C5120 (synthetic)",
+   "service_date": "2026-09-16",
+   "submitted_date": "2026-09-19",
+   "denial_date": "2026-10-03",
+   "service": "Office visit + lesion destruction same day",
+   "cpt": "99214 + 17110",
+   "icd10": [
+    "L82.1",
+    "L57.0"
+   ],
+   "billed_usd": 410.0,
+   "denied_usd": 245.0,
+   "denial_code": "CO-97",
+   "evidence": {
+    "evidence_strength": "moderate"
+   },
+   "documents": [
+    "Visit note documenting separate evaluation of actinic keratoses"
+   ],
+   "notes": "Modifier 25 missing on the E/M line; note supports a separately identifiable E/M service."
+  },
+  {
+   "claim_id": "CLM-26-004960",
+   "payer": "Silverline Health Plan",
+   "facility": "Corvina General Hospital",
+   "department": "Genetics laboratory",
+   "patient_ref": "SYN-C6038 (synthetic)",
+   "service_date": "2026-08-07",
+   "submitted_date": "2026-08-12",
+   "denial_date": "2026-08-30",
+   "service": "Hereditary cancer gene panel",
+   "cpt": "81479",
+   "icd10": [
+    "Z80.3"
+   ],
+   "billed_usd": 3950.0,
+   "denied_usd": 3950.0,
+   "denial_code": "CO-50",
+   "evidence": {
+    "evidence_strength": "weak"
+   },
+   "documents": [
+    "Lab requisition"
+   ],
+   "notes": "No genetic counselling note or pedigree attached; payer criteria require documented family history."
+  },
+  {
+   "claim_id": "CLM-26-005012",
+   "payer": "Bluewater Senior Advantage",
+   "facility": "Corvina Northside Clinic",
+   "department": "Primary care",
+   "patient_ref": "SYN-C7310 (synthetic)",
+   "service_date": "2026-09-22",
+   "submitted_date": "2026-10-01",
+   "denial_date": "2026-10-12",
+   "service": "Established patient office visit",
+   "cpt": "99213",
+   "icd10": [
+    "E11.9"
+   ],
+   "billed_usd": 165.0,
+   "denied_usd": 165.0,
+   "denial_code": "CO-18",
+   "evidence": {
+    "evidence_strength": "weak"
+   },
+   "documents": [],
+   "notes": "Original claim paid 2026-10-08; the 2026-10-01 submission was a duplicate."
+  },
+  {
+   "claim_id": "CLM-26-005147",
+   "payer": "Silverline Health Plan",
+   "facility": "Corvina General Hospital",
+   "department": "Emergency department",
+   "patient_ref": "SYN-C8255 (synthetic)",
+   "service_date": "2026-09-27",
+   "submitted_date": "2026-10-02",
+   "denial_date": "2026-10-16",
+   "service": "CT abdomen/pelvis with contrast (ED)",
+   "cpt": "74177",
+   "icd10": [
+    "R10.31",
+    "K35.80"
+   ],
+   "billed_usd": 3420.0,
+   "denied_usd": 3420.0,
+   "denial_code": "CO-197",
+   "evidence": {
+    "emergency": true,
+    "evidence_strength": "strong"
+   },
+   "documents": [
+    "ED record (place of service 23)",
+    "CT report: acute appendicitis",
+    "Surgical consult"
+   ],
+   "notes": "Imaging performed in the emergency department; claim lacked POS 23 on the professional line."
+  },
+  {
+   "claim_id": "CLM-26-005233",
+   "payer": "Pinecrest Mutual",
+   "facility": "Corvina Lakeside Medical Center",
+   "department": "Orthopaedics",
+   "patient_ref": "SYN-C9046 (synthetic)",
+   "service_date": "2026-10-06",
+   "submitted_date": "2026-10-09",
+   "denial_date": "2026-10-24",
+   "service": "Knee injection, right",
+   "cpt": "20610",
+   "icd10": [
+    "M17.11"
+   ],
+   "billed_usd": 285.0,
+   "denied_usd": 285.0,
+   "denial_code": "CO-4",
+   "evidence": {
+    "evidence_strength": "strong"
+   },
+   "documents": [
+    "Procedure note (right knee)"
+   ],
+   "notes": "RT laterality modifier missing."
+  }
+ ]
+}

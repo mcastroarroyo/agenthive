@@ -1,0 +1,72 @@
+{
+  "themes": {
+    "Environments & tooling": ["environment", "ci ", "ci red", "tooling", "flaky", "went down", "outage", "smoke test", "uptime"],
+    "Dependencies & blockers": ["sandbox", "blocked", "vendor", "processor", "waiting", "change board", "cab", "dependency", "local passwords", "sso"],
+    "Planning & refinement": ["refine", "refined", "estimate", "estimates", "planning", "definition of ready", "acceptance criteria", "not in scope", "success criteria", "owns", "nobody owns"],
+    "Focus & interruptions": ["escalation", "escalations", "interrupt", "pulled", "rota", "context switch"],
+    "Testing & quality": ["end-to-end", "tests", "qa ", "quality", "bug", "regression"],
+    "Collaboration & communication": ["pairing", "pair ", "hand-off", "handoff", "demo", "feedback", "stand-up", "status emails", "shared", "weekly"],
+    "Adoption & training": ["technicians", "adopted", "training", "trained", "night shift", "video", "questions in"],
+    "Release & delivery": ["release", "ship", "feature flag", "launch", "ahead of schedule"]
+  },
+  "boards": {
+    "sprint-42": {
+      "name": "Portal 2.0 squad — Sprint 42 retrospective",
+      "project": "PRJ-107",
+      "period": "2026-10-19 to 2026-10-30",
+      "facilitator": "Arjun Mehta",
+      "participants": ["Sofia Petrov", "Arjun Mehta", "Chloe Nakamura", "Diego Alvarez", "Lucas Weber", "Nadia Rahman"],
+      "sprint_stats": {"committed_points": 42, "completed_points": 26, "carried_over_stories": 5, "escaped_bugs": 3},
+      "cards": [
+        {"column": "went_well", "text": "Design hand-off for the booking flow was super clear — annotated designs saved hours", "votes": 3},
+        {"column": "went_well", "text": "Pairing Chloe and Diego on the invoice API contract avoided rework", "votes": 4},
+        {"column": "went_well", "text": "Demo to the CS team got great feedback on job tracking", "votes": 2},
+        {"column": "went_well", "text": "Daily stand-ups kept to 15 minutes", "votes": 1},
+        {"column": "to_improve", "text": "QA environment went down 3 times — lost about 2 days of testing", "votes": 6},
+        {"column": "to_improve", "text": "Payment processor sandbox still not available, P4 blocked all sprint", "votes": 5},
+        {"column": "to_improve", "text": "Stories for multi-day bookings were not refined — estimates way off", "votes": 5},
+        {"column": "to_improve", "text": "Customer escalations pulled Chloe out of the sprint 3 times", "votes": 4},
+        {"column": "to_improve", "text": "Flaky end-to-end tests make CI red half the time", "votes": 4},
+        {"column": "to_improve", "text": "Acceptance criteria missing on 4 stories", "votes": 3},
+        {"column": "to_improve", "text": "Nobody owns the notification service yet", "votes": 3},
+        {"column": "to_improve", "text": "Release notes always left to the last day", "votes": 1},
+        {"column": "ideas", "text": "Escalation rota: one engineer per week handles customer escalations", "votes": 5},
+        {"column": "ideas", "text": "Definition of Ready: no story enters the sprint without acceptance criteria and an estimate", "votes": 4},
+        {"column": "ideas", "text": "Feature flag payments so we can ship the portal without it", "votes": 4},
+        {"column": "ideas", "text": "Ask Noah to own QA environment uptime with a nightly smoke test", "votes": 3},
+        {"column": "ideas", "text": "Pair the new backend hire with Chloe on the notification service", "votes": 2}
+      ],
+      "health_check": {"Fun": 3.6, "Pace": 2.4, "Learning": 3.9, "Teamwork": 4.2, "Delivering value": 3.1, "Tooling": 2.0},
+      "previous_actions": [
+        {"action": "Stabilise the QA environment", "owner": "Lucas Weber", "from": "sprint-40", "status": "open", "times_carried": 2},
+        {"action": "Refine stories two days before planning", "owner": "Sofia Petrov", "from": "sprint-41", "status": "partial", "times_carried": 1},
+        {"action": "Limit WIP to 2 tickets per person", "owner": "Arjun Mehta", "from": "sprint-41", "status": "done", "times_carried": 0},
+        {"action": "Escalate the payment processor ticket", "owner": "Arjun Mehta", "from": "sprint-41", "status": "done", "times_carried": 0},
+        {"action": "Add accessibility checks to the PR template", "owner": "Diego Alvarez", "from": "sprint-41", "status": "done", "times_carried": 0}
+      ]
+    },
+    "prj-104-pilot": {
+      "name": "Greystone Assist pilot — mid-point retrospective",
+      "project": "PRJ-104",
+      "period": "2026-10-19 to 2026-11-05",
+      "facilitator": "Ines Duarte",
+      "participants": ["Ines Duarte", "Tomás Rivera", "Femi Adeyemi", "Sofia Petrov", "Simone Achterberg (Greystone)"],
+      "sprint_stats": {"pilot_technicians": 25, "assist_questions": 1140, "answers_rated_helpful_pct": 87, "trained_technicians": 16},
+      "cards": [
+        {"column": "went_well", "text": "Technicians adopted Assist fast — 1,140 questions in 3 weeks", "votes": 5},
+        {"column": "went_well", "text": "Equipment manuals loaded into Assist ahead of schedule", "votes": 3},
+        {"column": "went_well", "text": "Simone's weekly feedback call is gold", "votes": 4},
+        {"column": "to_improve", "text": "SSO mapping blocked by the customer's change board — 9 techs still on local passwords", "votes": 5},
+        {"column": "to_improve", "text": "Night shift at the Rivergate branch never got trained", "votes": 4},
+        {"column": "to_improve", "text": "Pilot success criteria were not shared with Walter's team", "votes": 3},
+        {"column": "to_improve", "text": "Spanish answer requests surprised us — not in scope", "votes": 2},
+        {"column": "to_improve", "text": "Too many status emails; nobody reads them", "votes": 2},
+        {"column": "ideas", "text": "Record a 10-minute training video for the night shift", "votes": 4},
+        {"column": "ideas", "text": "Ask Walter to sponsor a change-board exception for SSO", "votes": 3},
+        {"column": "ideas", "text": "One shared pilot dashboard instead of status emails", "votes": 3}
+      ],
+      "health_check": {"Fun": 4.1, "Pace": 3.2, "Learning": 4.4, "Teamwork": 4.0, "Delivering value": 4.3, "Tooling": 3.4},
+      "previous_actions": []
+    }
+  }
+}

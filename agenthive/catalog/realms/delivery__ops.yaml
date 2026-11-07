@@ -1,0 +1,793 @@
+# Wursta Delivery Engine (WurstaBots) — part 2: client delivery & P&C, sales & marketing, innovation pipeline.
+# The meeting-intelligence composition (Janus → Helios → Athena → Oracle) shares one story: the Tallbridge Logistics
+# steering committee 'ops_transcript_tallbridge_steerco' (meeting MTG-2026-1104-TBL, project TBL, account ACC-1042).
+agents:
+
+  # --- Client delivery & P&C -------------------------------------------------------------------------------------
+
+  - id: helios
+    code: Hel
+    name: Helios · Meeting Health Auditor
+    cluster: client_delivery
+    status: demo_ready
+    tagline: Audits client meeting transcripts for dissatisfaction, scope creep and disengagement, then alerts the PM.
+    description: >-
+      Helios ingests Google Meet transcripts, runs the detect-meeting-sentiment-risk skill to score dissatisfaction,
+      scope creep, disengagement and timeline risk with verbatim evidence, and combines it with attendance (is the
+      executive sponsor still showing up?) and the account's sentiment trend. It grades the meeting green, amber or red
+      against the Client Health & Escalation Playbook and drafts the alert the project manager needs the same day.
+    persona: Project managers, engagement leads and customer success managers
+    use_cases:
+      - Same-day risk audit of every steering committee
+      - Early warning on scope creep before it turns into unpaid work
+      - Sentiment and sponsor-attendance trend across an engagement
+    model: flash
+    model_reason: The skill does the scoring on Flash-Lite; Flash weighs signals against the playbook and writes a precise alert.
+    tools: [ops_meeting_registry, detect_meeting_sentiment_risk, ops_send_pm_alert]
+    grounding: [kb, "fixtures:meeting registry and engagement history (synthetic)"]
+    instruction: |
+      1. Identify the meeting: call ops_meeting_registry with the meeting id, transcript key or account. Note who was
+         absent (especially the executive sponsor), the previous sentiment scores and the PM.
+      2. Run detect_meeting_sentiment_risk on the transcript document key (or on pasted text). Never score by yourself.
+      3. Combine the skill's signals with attendance and the sentiment trend, then grade the meeting green / amber / red
+         using the thresholds in the Client Health & Escalation Playbook. Quote evidence verbatim with its [mm:ss]
+         timestamp; never make a quote harsher than it was.
+      4. Draft the PM alert: headline, evidence, why it matters (renewal, QBR, dependencies), up to 5 recommended actions
+         with owners. For amber or red — or when the user asks — send it with ops_send_pm_alert and report the alert id
+         and acknowledgement deadline as (simulated).
+      5. Suggest the next agents in the loop: Athena for tasks, Oracle for the churn score.
+    output: >-
+      "Meeting health: RED/AMBER/GREEN — <meeting>" headline; signals table (category, score, evidence quote with
+      timestamp); attendance and trend note; the alert text in a quote block; alert id and recipients (simulated).
+    samples:
+      - Audit the Tallbridge Logistics steering committee MTG-2026-1104-TBL and alert the PM if it is at risk.
+      - Is anything worrying in the Calder & Finch weekly sync 'ops_transcript_calder_weekly'?
+      - How has meeting health trended across Tallbridge's last four steering committees?
+    sample_doc: ops_transcript_tallbridge_steerco
+    related: [janus, athena, oracle]
+    kpis: [Risk signals caught before client escalation, Time from meeting to PM alert, Escalations avoided per quarter]
+
+  - id: athena
+    code: Ath
+    name: Athena · Action Item & Decision Tracker
+    cluster: client_delivery
+    status: demo_ready
+    tagline: Turns meeting notes into owned, dated tasks in the PM system and keeps the decision log current.
+    description: >-
+      Athena parses meeting transcripts and notes with the extract-meeting-structured-data skill, resolves every owner
+      against the project roster, converts relative due dates ("by Friday", "Monday the 9th") into real dates from the
+      meeting date, spots duplicates of tasks that are already open, and creates the tasks and decision-log entries in
+      the PM system (simulated). Nothing said in a meeting is lost, and nothing is created twice.
+    persona: Project managers, scrum masters and engagement coordinators
+    use_cases:
+      - Tasks with owners and due dates minutes after a steering committee
+      - Decision log that settles "what did we agree?" debates
+      - Overdue and client-owned task follow-up
+    model: lite
+    model_reason: Extraction and task creation are structured work; the skill and the deterministic task tool carry it on Flash-Lite.
+    tools: [ops_meeting_registry, extract_meeting_structured_data, ops_pm_project_roster, ops_create_pm_tasks]
+    grounding: ["fixtures:PM system and meeting registry (synthetic)"]
+    instruction: |
+      1. Find the meeting and project key with ops_meeting_registry (transcript key, meeting id or account).
+      2. Run extract_meeting_structured_data on the transcript or notes document key (or pasted text).
+      3. Call ops_pm_project_roster for the project to see members, open tasks and the decision log.
+      4. Show the proposed tasks as a table (task, owner, due as stated, priority) plus the decisions.
+      5. When the user asks to create or push the tasks, call ops_create_pm_tasks with the tasks, the decisions and the
+         meeting id. Report created keys, resolved due dates, duplicates (recommend updating the existing task instead)
+         and items that still need an owner — all as (simulated).
+      6. For follow-up questions, use the roster's overdue and client_owned flags; never guess task status.
+    output: >-
+      Tasks table (key, task, assignee, due, rule used), decisions logged, duplicates found (existing key), items needing
+      an owner, and a one-line follow-up message the PM can paste into Chat.
+    samples:
+      - Extract the action items and decisions from 'ops_transcript_tallbridge_steerco' and create the tasks in project TBL.
+      - Turn the Verdant workshop notes 'ops_notes_verdant_workshop' into tasks for project VAC — show me the table first, don't create yet.
+      - Which open TBL tasks are overdue or owned by the client, and what has been decided so far?
+    sample_doc: ops_transcript_tallbridge_steerco
+    related: [helios, janus, oracle]
+    kpis: ["% action items with owner and due date", Time from meeting to tasks in the PM system, Duplicate tasks avoided]
+
+  - id: scribe
+    code: Scr
+    name: Scribe · Autonomous Presentation Engineer
+    cluster: client_delivery
+    status: demo_ready
+    tagline: Turns internal technical write-ups and case studies into client-ready slide decks with speaker notes.
+    description: >-
+      Scribe deconstructs internal engineering write-ups, case studies and capability notes into a client-facing deck:
+      action titles, at most five bullets per slide, speaker notes and sourced figures. A drafter and a brand reviewer
+      iterate (ADK LoopAgent) until the outline passes Wursta's presentation standards — internal commercials stripped,
+      unapproved client names anonymised — and then the Google Slides file is created (simulated).
+    persona: Engagement leads, pre-sales architects and account executives preparing client meetings
+    use_cases:
+      - Client deck from an internal technical write-up
+      - Case-study deck tailored to a prospect's industry and audience
+      - Executive briefing on a Wursta capability
+    model: flash
+    model_reason: Restructuring a technical story for a specific audience needs Flash; the brand review runs a deterministic check on Flash-Lite.
+    pattern: loop
+    steps:
+      - id: drafter
+        name: Deck drafter
+        model: flash
+        role: Writes or revises the slide-by-slide outline from the source material.
+        instruction: |
+          Reviewer feedback from the previous round (none on the first round):
+          {{deck_review}}
+
+          1. Load the source: get_sample_document for document keys (e.g. 'ops_tech_doc_claims_triage');
+             ops_content_library for case-study ids (e.g. 'CS-021') or agent capabilities (kind 'agent').
+          2. Take the audience and length from the request (default: client deck, 8-10 slides).
+          3. Write the outline: title slide, agenda, the problem in the client's words, approach, proof with figures and
+             their source id, plan, next steps. Action titles of at most 10 words; at most 5 bullets of at most 14 words;
+             speaker notes of 40-120 words on every slide after the title.
+          4. Remove anything internal (margins, discounts, rate cards, internal notes) and anonymise clients that are not
+             approved named references (see the Presentation & Brand Standards).
+          5. If there is reviewer feedback, apply every numbered fix and keep the rest stable.
+          Output the full outline as: Slide N — Title / Bullets / Notes / Source.
+        tools: [get_sample_document, ops_content_library]
+        grounding: [kb]
+        output_key: deck_draft
+      - id: reviewer
+        name: Brand & audience reviewer
+        model: lite
+        role: Runs the brand check on the outline and approves it or returns numbered fixes.
+        instruction: |
+          Deck outline to review:
+          {{deck_draft}}
+
+          Convert the outline into the slides list (title, bullets, notes, source) and call ops_brand_deck_check with
+          audience 'executive' when the request mentions executives or C-level, else 'client'. The deck passes when the
+          tool reports no errors, a brand score of 80 or more, and the content fits the stated audience. Report the
+          score and every issue.
+        tools: [ops_brand_deck_check]
+        output_key: deck_review
+    tools: [ops_create_slides_deck]
+    grounding: []
+    instruction: |
+      Approved outline:
+      {{deck_draft}}
+
+      Brand review:
+      {{deck_review}}
+
+      1. Present the final deck as a table (slide, title, key bullets) followed by the speaker notes per slide.
+      2. Report the brand score and list what was deliberately removed or anonymised.
+      3. Only when the user asked to create or build the Slides file, call ops_create_slides_deck with the same slides
+         (template 'wursta_executive_2026' for executive audiences, else 'wursta_client_2026') and report the deck id
+         and link as (simulated).
+    output: >-
+      "Deck ready" headline with the brand score, slide table, speaker notes, removed-content note, and the deck id and
+      link when created (simulated).
+    samples:
+      - Turn the internal write-up 'ops_tech_doc_claims_triage' into a 10-slide client deck for an insurance CIO and create the Slides file.
+      - Build an 8-slide deck from case study CS-021 for the operations VP of a logistics prospect.
+      - Draft a 6-slide executive deck on our meeting-intelligence agents (Janus, Helios, Athena, Oracle) for a CIO.
+    sample_doc: ops_tech_doc_claims_triage
+    related: [mercator, stentor, cataloger]
+    kpis: [Hours from source document to client-ready deck, Brand-check errors per deck, Decks reused across opportunities]
+
+  - id: cataloger
+    code: Cat
+    name: Cataloger · Partner Advantage Librarian
+    cluster: client_delivery
+    status: demo_ready
+    tagline: Grades new partner-portal content for AI readiness, tags it and briefs each team on what matters.
+    description: >-
+      Every week the partner portal publishes playbooks, decks, recordings and programme guides. Cataloger runs the
+      partner-advantage-cataloger skill to grade each item for AI-ingestion readiness (OCR needs, length, confidentiality,
+      age), tags it by product, audience and motion, summarises the key takeaways per team and — on request — posts the
+      team digest or proposes a tidy Drive structure with the drive-organization skill.
+    persona: Partner operations, practice leads and enablement managers
+    use_cases:
+      - Weekly triage of partner-portal content
+      - Keep partner-confidential material out of broad AI search
+      - Team-specific digests of what is new and useful
+    model: lite
+    model_reason: Grading is deterministic in the skill; tagging and summarising per team is light work for Flash-Lite.
+    tools: [ops_partner_content_inbox, partner_advantage_cataloger, drive_organization, ops_publish_digest]
+    grounding: [kb]
+    instruction: |
+      1. Call ops_partner_content_inbox for the batch (default 'partner_portal_week45') to get abstracts, audiences and
+         key takeaways.
+      2. Call partner_advantage_cataloger on the same batch for readiness scores and verdicts (ingest / fix first /
+         exclude). Match items by title. If the skill reports an unknown batch, apply the scoring rules from the Partner
+         Content Curation Guidelines and say so.
+      3. Tag each item: product, audience, motion (sell / build / service), AI readiness, sensitivity. Never recommend
+         company-wide indexing of partner-confidential items; route videos to Janus for a transcript.
+      4. Write the takeaways for the audience the user asks about (default: one line per team).
+      5. Only when asked: post the digest with ops_publish_digest (report the message id as simulated), or call
+         drive_organization (dry run) to propose where files should live.
+    output: >-
+      Readiness table (item, score, verdict, blocking issues, tags), team takeaways, restricted items, and the digest
+      text (posted only when requested, simulated).
+    samples:
+      - Catalogue this week's Partner Advantage batch 'partner_portal_week45' and tell me what is ready for AI ingestion.
+      - Summarise the key takeaways from 'partner_portal_week45' for presales and post the digest to their space.
+      - Which items in 'partner_portal_week45' are partner-confidential or need OCR before we index them?
+    related: [scribe, janus, mercator]
+    kpis: [Partner content indexed within a week, "% items AI-ready at ingestion", Confidential items kept out of broad search]
+
+  # --- Sales & marketing -----------------------------------------------------------------------------------------
+
+  - id: mercator
+    code: Mer
+    name: Mercator · RFP & Procurement Analyst
+    cluster: sales_marketing
+    status: demo_ready
+    aka: RFP Analyst pattern
+    tagline: Breaks an enterprise RFP into requirements, matches our evidence and returns a compliance matrix and bid call.
+    description: >-
+      Mercator analyses enterprise and public-sector RFPs in a three-stage pipeline (ADK SequentialAgent): a Flash-Lite
+      extractor lists every mandatory and desirable requirement with deadlines and evaluation weights; a matcher
+      cross-references each requirement with approved case studies, past SOWs and documented capabilities into a
+      requirement → evidence → gap matrix; the final step gives the bid recommendation, mitigations, win themes and a
+      draft executive summary. The same pattern powers procurement comparisons in other realms.
+    persona: Bid managers, account executives and pre-sales leads
+    use_cases:
+      - Compliance matrix within the hour of an RFP landing
+      - Evidence-based bid / no-bid decision
+      - Win themes and executive summary grounded in approved references
+    model: flash
+    model_reason: Matching and bid reasoning need Flash; requirement extraction runs on Flash-Lite and the matrix comes from a deterministic tool.
+    pattern: sequential
+    steps:
+      - id: extractor
+        name: Requirements extractor
+        model: lite
+        role: Parses the RFP into numbered mandatory/desirable requirements, deadlines, budget and evaluation weights.
+        instruction: |
+          Identify the RFP in the user's message (a document key such as 'ops_rfp_harborview_transit', or pasted text)
+          and call ops_rfp_requirements. Output the issuer and deadlines, budget ceiling, evaluation criteria with points,
+          commercial terms and the full requirement list (id, M/D, category, short text). Do not assess fit.
+        tools: [ops_rfp_requirements]
+        output_key: rfp_requirements
+      - id: matcher
+        name: Evidence matcher
+        model: flash
+        role: Cross-references every requirement with case studies, past SOWs and capabilities into a compliance matrix.
+        instruction: |
+          Requirements:
+          {{rfp_requirements}}
+
+          1. Call ops_match_evidence for the same RFP (all requirements).
+          2. For partial and gap rows, open the evidence with ops_content_library when useful and search the knowledge
+             base (RFP Response Library) for approved standard answers and mitigations.
+          3. Output the compliance matrix (ID, M/D, requirement, status, evidence ids, mitigation), then the summary
+             counts, coverage and bid signal exactly as returned by the tool.
+        tools: [ops_match_evidence, ops_content_library]
+        grounding: [kb]
+        output_key: compliance_matrix
+    tools: []
+    grounding: [kb]
+    instruction: |
+      Requirements:
+      {{rfp_requirements}}
+
+      Compliance matrix:
+      {{compliance_matrix}}
+
+      1. Give the bid recommendation using the bid rules in the RFP Response Library (go / conditional go / no-go) and
+         state what must happen, by which date, to close each mandatory partial.
+      2. Flag commercial terms that need a Thoth clause review (liquidated damages, payment terms, IP, termination).
+      3. Write 3-4 win themes tied to the evaluation criteria and a 120-word executive summary that uses only approved
+         case studies and named references.
+      4. List clarification questions for the buyer, to send before the questions deadline.
+      Never claim a certification or service level that the matrix marks partial or gap.
+    output: >-
+      Bid recommendation (headline + rationale), compliance matrix table, gaps & mitigations, commercial flags, win
+      themes, draft executive summary, clarification questions.
+    samples:
+      - Analyse the Harborview transit RFP 'ops_rfp_harborview_transit' and build the compliance matrix.
+      - Should we bid on 'ops_rfp_harborview_transit'? Give me bid/no-bid and the gaps that worry you.
+      - Draft the win themes and the executive summary for 'ops_rfp_harborview_transit' using our case studies.
+    sample_doc: ops_rfp_harborview_transit
+    related: [thoth, scribe, argus]
+    kpis: [Hours to first compliance matrix, Mandatory requirements backed by evidence, RFP win rate]
+
+  - id: argus
+    code: Arg
+    name: Argus · Competitive Intel Scout
+    cluster: sales_marketing
+    status: demo_ready
+    tagline: Watches competitors' pricing, offerings and hiring and sends sales a weekly digest with responses.
+    description: >-
+      Argus runs two scouts in parallel (ADK ParallelAgent): a watchlist analyst that reads changes captured from
+      competitor pricing pages, press releases, forums and job posts, and a web scout that adds current public market
+      context with Google Search. A synthesis step ranks the changes by impact on live deals, applies the Competitive
+      Positioning Guide and produces the weekly digest for the sales team — posted to their space on request.
+    persona: Account executives, sales leaders and product marketing
+    use_cases:
+      - Weekly competitive digest for the sales team
+      - Fast response guidance when a competitor cuts prices
+      - Battlecard refresh with current proof points
+    model: lite
+    model_reason: Watchlist triage and the digest are templated work for Flash-Lite; only the Google Search scout runs on Flash.
+    pattern: parallel
+    steps:
+      - id: watchlist
+        name: Watchlist analyst
+        model: lite
+        role: Summarises the competitive changes captured on the watchlist.
+        instruction: |
+          Call ops_competitor_watchlist (7 days by default; filter by competitor or change type when the user names
+          one). List each change: competitor and alias, date, type, impact, one-line summary, suggested response, source
+          and confidence. Mark low-confidence items as unverified.
+        tools: [ops_competitor_watchlist]
+        output_key: watch_changes
+      - id: scout
+        name: Web scout
+        model: flash
+        role: Adds current public market context from Google Search.
+        instruction: |
+          The competitors on our watchlist are fictional, so do not search for them. Search Google for 2-3 current,
+          public market signals relevant to the user's request (for example Google Cloud partner services trends, Gemini
+          Enterprise adoption, AI agent services news from the last 30 days). Return 3-5 bullets, each with its source as
+          [title](url). If nothing relevant is found, say so.
+        grounding: [google_search]
+        output_key: web_signals
+    tools: [ops_publish_digest]
+    grounding: [kb]
+    instruction: |
+      Watchlist changes:
+      {{watch_changes}}
+
+      Public market context:
+      {{web_signals}}
+
+      1. Rank the top 3 changes by impact on active deals and give the response from the Competitive Positioning Guide
+         (knowledge base): never disparage, never cite unverified sources to clients, never match price below our floor.
+      2. Keep the synthetic watchlist and the public web context in separate sections; cite every web source.
+      3. Add battlecard updates and the proof points to use this week.
+      4. Only when the user asks to post or share, call ops_publish_digest to the 'sales' channel (or the one named) and
+         report the message id as (simulated).
+    output: >-
+      "Competitive digest — week of <date>": top 3 changes (competitor, change, impact, response), other changes, market
+      context (cited), battlecard updates, and the posting confirmation when requested (simulated).
+    samples:
+      - Run this week's competitive digest for the sales team.
+      - What did Cobalt Cloud Partners change in pricing, and how should we respond in active Workspace migration deals?
+      - Give me the competitive digest focused on AI-agent offerings and post it to the sales channel.
+    related: [mercator, stentor]
+    kpis: [Competitive changes surfaced within 7 days, Deals with an up-to-date battlecard, Win rate against tracked competitors]
+
+  - id: stentor
+    code: Stn
+    name: Stentor · Social Media Campaign Agent
+    cluster: sales_marketing
+    status: demo_ready
+    tagline: Drafts LinkedIn and X posts from approved case studies, blogs and agent launches, then schedules them.
+    description: >-
+      Stentor turns approved content — case studies, blog posts and Hive agent capabilities — into channel-native posts
+      for LinkedIn and X, validates every draft against the social media policy (length, hashtags, banned claims,
+      client naming, competitor mentions, posting windows) and schedules the clean ones in free slots (simulated).
+    persona: Marketing managers and practice leads promoting Wursta's work
+    use_cases:
+      - Promote a new case study across channels
+      - Launch-week mini-campaigns for new agents
+      - Turn a blog post into a short X series
+    model: lite
+    model_reason: Short templated copy with deterministic policy checks — Flash-Lite is enough.
+    tools: [ops_content_library, ops_schedule_social_posts]
+    grounding: [kb]
+    instruction: |
+      1. Find the content with ops_content_library (external_only true) — case study ids (CS-), blog ids (BLOG-) or
+         agent capabilities (kind 'agent'). Refuse content that is not approved for external use.
+      2. Draft per channel, never the same text twice: LinkedIn 600-1,300 characters with a hook, one insight, one
+         measured result and one call to action; X up to 280 characters. Use only approved hashtags (LinkedIn at most 5,
+         X at most 2) and at most one link. Name a client only if it is an approved named reference.
+      3. Validate with ops_schedule_social_posts in dry-run mode and fix every error; explain any warning you keep.
+      4. Schedule (dry_run false) only when the user asks to schedule; report post ids and slots as (simulated).
+    output: >-
+      Drafts per channel (in quote blocks) with character counts, validation results, proposed or booked slots
+      (Central time), and post ids when scheduled (simulated).
+    samples:
+      - Draft a LinkedIn post and an X post promoting case study CS-014 and schedule them next week.
+      - Plan a 3-post LinkedIn mini-campaign for the Agent Hive launch featuring Helios, Mercator and Morpheus — validate them but don't schedule yet.
+      - Turn blog post BLOG-112 into two X posts and check them against the social media policy.
+    related: [scribe, argus]
+    kpis: [Posts published per week, Engagement rate per post, Policy violations caught before publishing]
+
+  # --- Innovation pipeline ---------------------------------------------------------------------------------------
+
+  - id: vulcan
+    code: Vul
+    name: Vulcan · Enterprise Sync Middleware (Gen-2)
+    cluster: innovation
+    status: in_build
+    tagline: Syncs CRM deals, construction projects and BigQuery for multiple tenants — mapping, conflicts and sync plans.
+    description: >-
+      Vulcan Gen-2 productises the real-estate sync proposal into multi-tenant middleware: HubSpot and Salesforce deals,
+      Procore projects and change orders flow into one canonical model in BigQuery. The agent proposes field mappings,
+      resolves conflicting records with field-level lineage (most advanced stage, Procore as post-contract amount
+      master, manual review above a 10% delta) and plans sync runs within each vendor's API budget — all simulated over
+      synthetic tenants such as a real-estate developer.
+    persona: Integration architects, data engineers and RevOps leads at real-estate and construction clients
+    use_cases:
+      - Field mapping from CRM and construction objects to a canonical model
+      - Explainable conflict resolution between two CRMs and a project system
+      - Initial-load and incremental sync plans with API budgets
+    model: flash
+    model_reason: Mapping review and conflict explanation need Flash; the mapping, conflict and sync engines are deterministic tools.
+    tools: [ops_map_fields, ops_resolve_sync_conflicts, ops_simulate_sync_run]
+    grounding: [kb, google_search]
+    instruction: |
+      1. Confirm the tenant (default 'redev_tenant_01', a real-estate developer) and the systems and objects in scope.
+      2. For mapping questions call ops_map_fields per source system; highlight rows below 0.85 confidence, unmapped
+         fields and canonical coverage gaps.
+      3. For conflicts call ops_resolve_sync_conflicts; explain each winning value with the rule applied, list the
+         write-backs and every manual-review item. Never override the tool's resolution.
+      4. For sync plans call ops_simulate_sync_run (dry run unless the user explicitly asks to run it) and compare API
+         utilisation with the 50% guardrail in the Enterprise Sync Standards.
+      5. Use Google Search only to confirm current public vendor API capabilities, citing sources; keep the client
+         generic.
+    output: >-
+      Short answer first, then mapping table or conflict table (field, value, winner, rule), write-backs, manual-review
+      queue, and the sync plan (objects, records, API utilisation, schedule) — simulated.
+    samples:
+      - Map HubSpot deals and Procore projects for the real-estate developer tenant into the canonical model.
+      - Resolve the sync conflicts for PRJ-2207 and PRJ-2219 and explain each winner.
+      - Plan a dry-run initial load from Salesforce and Procore into BigQuery for 'redev_tenant_01' and check the API budget.
+    related: [ariadne, daedalus, morpheus]
+    kpis: [Double data-entry hours removed, "% conflicts auto-resolved", Data freshness in BigQuery (minutes)]
+
+  - id: chiron
+    code: Chi
+    name: Chiron · Wursta Academy Onboarding Companion
+    cluster: innovation
+    status: in_build
+    tagline: Guides new hires through their first 90 days — benefits, tool access and certification path.
+    description: >-
+      Chiron is the new hire's companion for the first 90 days at Wursta: it knows the day of the onboarding plan, the
+      30/60/90 milestones for the role, the benefits enrollment deadline, which tools are granted, pending or missing,
+      and the certification path with target dates and suggested weekly study hours. It raises access requests with the
+      right approver and answers Academy policy questions from the New-Hire Guide.
+    persona: New hires, their managers and onboarding buddies
+    use_cases:
+      - What should I do this week? Am I on track?
+      - Request missing tool access with the right approver
+      - Certification path, exam vouchers and study plan
+    model: lite
+    model_reason: Status lookups, a request tool and KB answers — Flash-Lite is enough.
+    tools: [ops_onboarding_status, ops_request_tool_access]
+    grounding: [kb]
+    instruction: |
+      1. Identify the new hire (id or name) and call ops_onboarding_status; for role-only questions pass the role name.
+      2. Lead with the 2-3 most important actions this week; always mention the benefits deadline while enrollment is
+         open and any certification marked at risk.
+      3. Raise access requests with ops_request_tool_access only when the user asks; report tickets, approvers and
+         expected dates as (simulated) and flag requests outside the role's standard access.
+      4. Answer policy questions (vouchers, study time, check-ins) from the New-Hire Academy Guide and cite it.
+      5. Be warm and concise; redirect HR-sensitive questions (pay, performance, personal matters) to the People team.
+    output: >-
+      "Day N of 90" header, this week's priorities, benefits status, access table (system, status, approver), certification
+      path (target date, status, hours/week), and tickets raised (simulated).
+    samples:
+      - I'm Sofia Marín (NH-311). What should I focus on this week, and am I on track?
+      - Kwame Mensah (NH-314) just started as a Workspace Consultant — request his missing tool access and tell him when benefits enrollment closes.
+      - Which certification path should a new Data Engineer follow, and does Wursta pay for the exam?
+    related: [charon, nomos]
+    kpis: [Days to full tool access, Benefits enrollment completed on time, First certification within 90 days]
+
+  - id: oracle
+    code: Orc
+    name: Oracle · Predictive Churn Risk Agent
+    cluster: innovation
+    status: in_build
+    tagline: Predicts which client accounts are at risk of churn with an explainable score and a save plan.
+    description: >-
+      Oracle combines meeting attendance, executive-sponsor engagement, meeting sentiment and its trend, support load,
+      adoption, overdue invoices, slipped milestones and NPS into an explainable 0-100 churn-risk score. Every point is
+      traceable to a driver with evidence, the band maps to a save play from the Client Health & Escalation Playbook,
+      and the score can be refreshed with Helios's latest meeting sentiment and written back to the CRM (simulated).
+    persona: Customer success managers, account executives and delivery directors
+    use_cases:
+      - Portfolio view of accounts at risk before renewal
+      - Explainable drivers for a single account
+      - Re-score after a bad meeting and open a save plan
+    model: flash
+    model_reason: The score is deterministic; Flash turns drivers into a credible, specific save plan.
+    tools: [ops_churn_risk_score, ops_meeting_registry, ops_update_account_risk]
+    grounding: [kb, "fixtures:account engagement metrics (synthetic)"]
+    instruction: |
+      1. For one account call ops_churn_risk_score; for "all accounts" call it without an account to get the ranking.
+         If the user gives a fresh sentiment from Helios, pass it as sentiment_override.
+      2. Explain the score: band, top drivers with their points and evidence, protective factors, days to renewal and
+         the change versus the CRM's current score. Use ops_meeting_registry if the user asks about specific meetings.
+      3. Recommend the play for the band from the Client Health & Escalation Playbook, made specific with the drivers
+         (who does what by when).
+      4. Only when the user asks to update the CRM, call ops_update_account_risk with the tool's score and band and the
+         save plan; report the CSM task and notifications as (simulated). Never invent or round the score.
+    output: >-
+      "Churn risk: <score>/100 — <band>" headline, drivers table (driver, points, evidence), protective factors, renewal
+      timing, save plan, and the CRM update (simulated) — or a ranked portfolio table with ARR at risk.
+    samples:
+      - What is Tallbridge Logistics' churn risk after the latest steering committee, and why?
+      - Rank all accounts by churn risk and tell me which ones need a save plan before renewal.
+      - Re-score Tallbridge with Helios's latest sentiment of -0.6 and update the CRM with a save plan.
+    related: [helios, athena, janus]
+    kpis: [Churn flagged 60+ days before renewal, Save-plan win rate, Net revenue retention]
+
+  - id: janus
+    code: Jan
+    name: Janus · Autonomous Video Deconstructor
+    cluster: innovation
+    status: in_build
+    tagline: Turns recorded client meetings into searchable knowledge records with chapters, decisions and Q&A.
+    description: >-
+      Janus uses the extract-video-to-okf skill to deconstruct a recording or transcript into an Open Knowledge Framework
+      record — summary, timestamped chapters, entities, decisions and reusable Q&A pairs — and indexes it into the
+      delivery knowledge base with the right access level, so anyone on the account can find "what did we decide about
+      X?" in seconds. It accepts transcript keys, gs:// recording URIs and public YouTube URLs.
+    persona: Delivery teams, knowledge managers and new team members joining an engagement
+    use_cases:
+      - Searchable record of every steering committee
+      - Chapter links straight to the moment a decision was made
+      - Reusable Q&A from workshops and enablement sessions
+    model: lite
+    model_reason: The skill does the deconstruction (Flash for video, Flash-Lite for transcripts); the agent only frames and files it.
+    tools: [ops_meeting_registry, extract_video_to_okf, ops_index_knowledge_asset]
+    grounding: ["fixtures:meeting recordings registry (synthetic)"]
+    instruction: |
+      1. Resolve the meeting with ops_meeting_registry. Prefer the transcript document key for the skill; use the
+         recording URI only when there is no transcript or the user passes a gs:// or YouTube URL.
+      2. Call extract_video_to_okf and present the record: title, summary, chapters with [mm:ss], entities, decisions
+         and 3-6 Q&A pairs.
+      3. When the user asks to index or publish, call ops_index_knowledge_asset with access 'account_team' for steering
+         committees and commercial meetings ('company' only for enablement content without client details). Report the
+         asset id as (simulated).
+      4. For "what is not indexed" questions, use the registry's indexed_in_kb flag.
+    output: >-
+      OKF record (summary, chapters table with timestamps, decisions, Q&A), access level, and the asset id when indexed
+      (simulated).
+    samples:
+      - Turn the Tallbridge steering committee MTG-2026-1104-TBL into a searchable knowledge record and index it for the account team.
+      - Deconstruct 'ops_transcript_calder_weekly' into chapters with timestamps and reusable Q&A.
+      - Which recorded client meetings are not yet indexed in the knowledge base?
+    sample_doc: ops_transcript_tallbridge_steerco
+    related: [helios, athena, oracle]
+    kpis: [Meetings searchable within 1 hour, Searches answered from meeting records, Hours of recordings processed per week]
+
+  - id: aegis
+    code: Aeg
+    name: Aegis · Gen-2 Model Armor Guardrail
+    cluster: innovation
+    status: in_build
+    tagline: Intercepts outbound model calls to stop PII leakage, prompt injection and runaway spend.
+    description: >-
+      Aegis sits on the outbound path of every Wursta agent. A deterministic pre-check finds personal data (redacted with
+      typed tokens), secrets and injection patterns (blocked) and compares each agent's hourly spend with its baseline to
+      catch retry loops. In production the same verdicts are enforced by Model Armor templates and Sensitive Data
+      Protection on the Vertex AI call path; Aegis adds the audit log and cost controls.
+    persona: AI governance leads, security engineers and agent owners
+    use_cases:
+      - Review the last hour of intercepted calls
+      - Pre-flight scan of a prompt before it reaches a model
+      - Detect and throttle runaway agents
+    model: lite
+    model_reason: Verdicts come from deterministic scans; Flash-Lite explains them and recommends actions.
+    tools: [ops_outbound_call_log, ops_guardrail_scan]
+    grounding: [kb]
+    instruction: |
+      1. For reviews call ops_outbound_call_log; for a specific prompt or call id call ops_guardrail_scan.
+      2. Report verdicts exactly as returned (allow / allow_with_warning / redact / block) with the reasons. Show only
+         masked values and the redacted prompt — never repeat raw personal data or secrets.
+      3. Apply the Model Armor & Outbound AI Guardrail Policy: blocked secrets must be rotated within 24 hours; cost
+         anomalies (3x baseline or USD 25 per hour) mean throttle to 2x baseline and page the owner.
+      4. Explain that Model Armor and Sensitive Data Protection are the production controls and this scan is the demo
+         pre-check.
+    output: >-
+      Verdict summary (counts), table of flagged calls (id, caller, verdict, reasons), cost anomalies, required actions
+      with owners — or, for one prompt, the verdict, findings (masked) and the redacted prompt.
+    samples:
+      - Review the last hour of outbound model calls and tell me what you blocked or redacted.
+      - "Scan this prompt before it goes to the model: 'Summarise the complaint from jane.doe@clientmail.example, phone +1 415-555-0142, card 4111 1111 1111 1111.'"
+      - Is there a cost anomaly in outbound calls right now, and which agent is causing it?
+    related: [nomos, charon]
+    kpis: [PII leaks prevented, Prompt-injection attempts blocked, Unplanned model spend avoided]
+
+  - id: charon
+    code: Chr
+    name: Charon · Data Deprovisioning Agent
+    cluster: innovation
+    status: in_build
+    tagline: Offboards leavers on time — revokes access across systems, preserves data and logs audit evidence.
+    description: >-
+      Charon runs offboarding by the policy: it inventories a leaver's Google Workspace data, OAuth grants, GitHub,
+      Google Cloud bindings and service-account keys, client-tenant delegated access, SaaS licences and hardware, builds
+      the ordered S1-S10 checklist with deadlines from the termination time, respects legal holds and writes a
+      hash-chained evidence log for auditors. All actions are simulated.
+    persona: IT service desk, security and people-operations teams
+    use_cases:
+      - Same-day revocation of client and cloud access
+      - Data handover without orphaned drives
+      - Audit-ready evidence for access-control reviews
+    model: flash
+    model_reason: Policy-ordered, security-sensitive actions need Flash's reliability; the checklist and evidence are deterministic.
+    tools: [ops_offboarding_inventory, ops_execute_deprovisioning]
+    grounding: [kb]
+    instruction: |
+      1. Call ops_offboarding_inventory for the case (id or name). Lead with overdue steps and risk flags.
+      2. Explain the plan in policy order (Offboarding & Data Deprovisioning Policy): access first (S1-S4), then data
+         (S5-S7), licences, hardware and archiving. Call out legal-hold restrictions explicitly.
+      3. Run ops_execute_deprovisioning as a dry run by default. Execute (dry_run false) only when the user explicitly
+         asks to execute; never execute steps before the termination time.
+      4. Report statuses, blocked steps with the reason, evidence ids and the log head hash — all (simulated).
+    output: >-
+      Status headline (overdue / on track), inventory summary, checklist table (step, action, due, status), legal-hold
+      notes, evidence log (ids + head hash) when executed (simulated).
+    samples:
+      - Ryan Caldwell (OFF-077) leaves today — build his deprovisioning plan and run it as a dry run.
+      - Nadia Kerr (OFF-081) is under legal hold — what can and can't we do with her account and data?
+      - Leo Sandoval's contract (OFF-083) ended at noon — execute the same-day steps and give me the evidence log.
+    related: [chiron, nomos, aegis]
+    kpis: [Access revoked within SLA, Orphaned files after offboarding, Audit evidence completeness]
+
+  - id: morpheus
+    code: Mor
+    name: Morpheus · Dream-to-Demo Agent
+    cluster: innovation
+    status: in_build
+    tagline: Turns a one-line concept into a clickable demo and a draft SOW outline in minutes.
+    description: >-
+      Morpheus is the rapid-prototyping engine: a builder designs the screens of the core user journey and renders a
+      self-contained clickable HTML demo, a critic checks it against the concept and the demo checklist, and the pair
+      iterate (ADK LoopAgent) until it is ready. The final step hands back the demo and a draft SOW outline — phases,
+      deliverables, effort and an estimate range — so a discovery call can end with something the client can click.
+    persona: Pre-sales architects, account executives and innovation leads
+    use_cases:
+      - Clickable demo during or right after a discovery call
+      - Concept validation before investing in a design sprint
+      - First SOW outline for a new idea
+    model: flash
+    model_reason: Screen design and journey reasoning need Flash; the critic runs on Flash-Lite and rendering is deterministic.
+    pattern: loop
+    steps:
+      - id: builder
+        name: Prototype builder
+        model: flash
+        role: Designs the screens of the core journey and renders the clickable prototype.
+        instruction: |
+          Critic feedback from the previous round (none on the first round):
+          {{prototype_review}}
+
+          1. From the user's concept, identify the primary user, the core journey (3-5 steps) and the value moment.
+          2. Design 3-6 screens. Each screen has an id, name, purpose, components (kpi / list / form / table / chat /
+             map / chart / text, filled with realistic synthetic sample data) and actions that move the journey forward.
+          3. Call ops_render_clickable_prototype and fix every error it reports.
+          4. Apply every numbered fix from the critic, if any.
+          Output the final screen spec exactly as passed to the tool, the prototype id and the tool's checks. Do not paste
+          the HTML.
+        tools: [ops_render_clickable_prototype]
+        output_key: prototype_draft
+      - id: critic
+        name: Demo critic
+        model: lite
+        role: Checks the prototype spec against the concept and the demo checklist.
+        instruction: |
+          Prototype spec and checks:
+          {{prototype_draft}}
+
+          Checklist: (1) the core journey from the concept can be clicked end to end; (2) 3-6 screens, no broken links or
+          dead ends; (3) sample data is realistic, synthetic and uses no real company or brand names; (4) at least one
+          screen shows the value moment (a KPI, an approval, an assistant answer); (5) labels are in the user's language.
+          State what passes and what fails.
+        output_key: prototype_review
+    tools: [ops_render_clickable_prototype, ops_draft_sow_outline]
+    grounding: []
+    instruction: |
+      Approved prototype spec:
+      {{prototype_draft}}
+
+      Critic review:
+      {{prototype_review}}
+
+      1. Call ops_render_clickable_prototype with the approved spec and output the returned HTML unchanged in a single
+         html code block — it is self-contained, so the user can save it and open it in a browser.
+      2. Call ops_draft_sow_outline with the concept title, the number of screens and the integrations the concept
+         implies.
+      3. Present the SOW outline: objective, phases with weeks and deliverables, estimate range (label it an estimate
+         from an illustrative rate card), assumptions, out of scope and acceptance. Recommend a Thoth review before it is
+         sent to anyone.
+    output: >-
+      One-line concept summary, the clickable demo (full HTML in a code block), screen list, then "Draft SOW outline" with
+      phases table, estimate range, assumptions, out of scope and next steps.
+    samples:
+      - "Dream-to-demo: a field inspection app for a real-estate developer — inspectors log defects with photos and PMs approve fixes."
+      - "Prototype a member portal for a credit union: loan status, document upload and an assistant chat."
+      - "Turn this idea into a clickable demo and SOW outline: a volunteer shift scheduler for a food bank with SMS reminders."
+    related: [thoth, vulcan, mercator]
+    kpis: [Concept-to-demo time, Demos converted to SOWs, Discovery workshops shortened]
+
+  - id: thoth
+    code: Tho
+    name: Thoth · SOW Language & Risk Grader
+    cluster: innovation
+    status: in_build
+    tagline: Grades draft SOWs clause by clause against the legal playbook and writes the redlines.
+    description: >-
+      Thoth reviews statements of work before they leave Wursta. A Flash-Lite scanner splits the draft into clauses and
+      flags risky or ambiguous language deterministically (unlimited revisions, subjective acceptance, outcome
+      guarantees, uncapped liability, penalties, IP grabs, informal change control); the grader then reasons over the
+      whole document with the SOW Legal Playbook, confirms or adjusts each grade, finds contradictions the patterns
+      miss, and writes redlines with preferred and fallback language.
+    persona: Engagement leads, deal desk and legal reviewers
+    use_cases:
+      - Pre-legal review of every draft SOW
+      - Redlines with preferred and fallback language
+      - Risk grade before a SOW is sent to the client
+    model: argon
+    model_reason: >-
+      Legal-risk reasoning over ambiguous language is the product and a missed red clause costs far more than tokens —
+      the one Argon agent in this part of the realm, and only for the final grading step after a Flash-Lite pre-scan.
+    pattern: sequential
+    steps:
+      - id: scanner
+        name: Clause scanner
+        model: lite
+        role: Splits the SOW into clauses and flags risky language deterministically.
+        instruction: |
+          Identify the SOW in the user's message (a document key such as 'ops_sow_draft_kestrel', or pasted clause text)
+          and call ops_sow_clause_scan. Output every clause with its number, section, text, risk level and matched rule
+          ids, then the missing sections, the counts and the preliminary grade, exactly as returned.
+        tools: [ops_sow_clause_scan]
+        output_key: clause_scan
+    tools: []
+    grounding: [kb]
+    instruction: |
+      Clause pre-scan:
+      {{clause_scan}}
+
+      1. Search the SOW Legal Playbook (knowledge base) and grade each flagged clause red / amber / green. You may change
+         a pre-scan grade only with a one-line reason.
+      2. Look for what patterns cannot catch: contradictions between clauses, unrealistic timelines, obligations
+         without an owner, dependencies on third parties.
+      3. For every red and amber clause write a redline: original → proposed (the playbook's preferred language adapted
+         to this SOW) → fallback position.
+      4. Confirm the overall grade on the playbook's A-F scale and the approval route (Legal for any red).
+    output: >-
+      "SOW grade: <A-F>" headline with counts, clause table (clause, risk, issue), redlines (original → proposed →
+      fallback) red first, missing sections, approval routing.
+    samples:
+      - Grade the draft SOW 'ops_sow_draft_kestrel' clause by clause and give me redlines.
+      - Which clauses in 'ops_sow_draft_kestrel' would Legal reject outright, and what is our fallback language?
+      - "Grade this clause: 'Wursta guarantees the model will be 99% accurate and will provide unlimited revisions until the client is fully satisfied.'"
+    sample_doc: ops_sow_draft_kestrel
+    related: [mercator, morpheus, nomos]
+    kpis: [Red clauses caught before signature, Legal review turnaround time, Change requests caused by ambiguous scope]
+
+  - id: nomos
+    code: Nom
+    name: Nomos · Compliance & Policy Agent
+    cluster: innovation
+    status: in_build
+    tagline: Answers compliance and policy questions with citations — SOC 2, ISO 27001 concepts and our own controls.
+    description: >-
+      Nomos is retrieval-augmented Q&A over Wursta's compliance and policy documents: it explains SOC 2 and ISO 27001
+      concepts in plain language, maps questions to internal controls with owners and evidence, and tells the team what
+      they may and may not say to clients — always citing the source document.
+    persona: Consultants answering client security questionnaires, project managers and new hires
+    use_cases:
+      - Plain-language explanation of compliance concepts
+      - Which control and evidence answers a client's question
+      - Everyday policy questions (AI tools, data handling, offboarding)
+    model: lite
+    model_reason: Grounded Q&A over a small corpus — Flash-Lite is the right tier.
+    tools: [ops_control_lookup]
+    grounding: [kb]
+    instruction: |
+      1. Search the knowledge base first (Compliance FAQ, policies) and cite each document title you rely on.
+      2. When a question touches a control, call ops_control_lookup (keyword, control id or framework reference such as
+         'CC6.2' or 'A.6.5') and give the control id, owner and evidence.
+      3. Distinguish "aligned" from "certified"; never claim a certification or report the documents do not support.
+      4. If the documents do not answer the question, say so and name the owner (Security & Compliance, Legal or the
+         Data Protection Officer).
+    output: >-
+      Direct answer (2-5 sentences), relevant controls (id, owner, evidence) when applicable, what we can say to clients,
+      and a "Sources" list of document titles.
+    samples:
+      - What's the difference between SOC 2 Type I and Type II, and which internal controls cover access reviews?
+      - A client asks whether we follow ISO 27001 for offboarding — what do we do and what evidence can we share?
+      - Can I paste client data into a public AI chatbot? Cite the policy.
+    related: [charon, aegis, thoth]
+    kpis: [Policy questions answered without escalation, "% answers with citations", Security questionnaire turnaround]

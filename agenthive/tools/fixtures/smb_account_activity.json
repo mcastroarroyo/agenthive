@@ -1,0 +1,148 @@
+{
+  "as_of": "2026-11-06",
+  "accounts": {
+    "C-1001": {
+      "last_qbr": "2026-03-12",
+      "exec_sponsor_engaged": false,
+      "usage": [
+        {"month": "2026-05", "licensed": 70, "active": 64, "jobs_completed": 3910, "first_time_fix_pct": 81.0},
+        {"month": "2026-06", "licensed": 70, "active": 62, "jobs_completed": 4120, "first_time_fix_pct": 80.2},
+        {"month": "2026-07", "licensed": 70, "active": 60, "jobs_completed": 4280, "first_time_fix_pct": 79.5},
+        {"month": "2026-08", "licensed": 70, "active": 57, "jobs_completed": 3990, "first_time_fix_pct": 78.1},
+        {"month": "2026-09", "licensed": 70, "active": 54, "jobs_completed": 3610, "first_time_fix_pct": 77.4},
+        {"month": "2026-10", "licensed": 70, "active": 51, "jobs_completed": 3380, "first_time_fix_pct": 76.9}
+      ],
+      "tickets": [
+        {"id": "TCK-88412", "opened": "2026-10-29", "priority": "P1", "category": "Integrations", "status": "open", "subject": "Invoices not syncing to accounting package since Oct 28", "csat": null},
+        {"id": "TCK-88377", "opened": "2026-10-27", "priority": "P2", "category": "Mobile app", "status": "open", "subject": "Job photos lost when technician is offline", "csat": null},
+        {"id": "TCK-88140", "opened": "2026-10-09", "priority": "P2", "category": "Mobile app", "status": "resolved", "subject": "Offline mode does not save signatures", "csat": 2},
+        {"id": "TCK-87902", "opened": "2026-09-21", "priority": "P3", "category": "Scheduling", "status": "resolved", "subject": "Recurring maintenance visits duplicated", "csat": 3},
+        {"id": "TCK-87655", "opened": "2026-09-02", "priority": "P3", "category": "Billing", "status": "resolved", "subject": "Question about adding 15 technicians", "csat": 4},
+        {"id": "TCK-87511", "opened": "2026-08-18", "priority": "P3", "category": "Training", "status": "resolved", "subject": "New dispatcher needs training", "csat": 4},
+        {"id": "TCK-87420", "opened": "2026-08-11", "priority": "P4", "category": "Reporting", "status": "resolved", "subject": "Export technician utilisation to CSV", "csat": 3}
+      ],
+      "invoices": [
+        {"id": "INV-24871", "date": "2026-08-01", "amount_usd": 17640, "due": "2026-08-31", "status": "overdue", "paid": null},
+        {"id": "INV-24502", "date": "2026-05-01", "amount_usd": 17640, "due": "2026-05-31", "status": "paid", "paid": "2026-06-19"},
+        {"id": "INV-24133", "date": "2026-02-01", "amount_usd": 17640, "due": "2026-03-03", "status": "paid", "paid": "2026-03-02"},
+        {"id": "INV-25240", "date": "2026-11-01", "amount_usd": 17640, "due": "2026-12-01", "status": "open", "paid": null}
+      ],
+      "emails": [
+        {"date": "2026-11-03", "from": "Dale Hutchins", "subject": "Accounting sync — again", "sentiment": "negative", "snippet": "Second sync outage this quarter. If this isn't fixed before we talk renewal, we'll be looking at options."},
+        {"date": "2026-10-30", "from": "Tina Moore", "subject": "Re: invoice INV-24871", "sentiment": "negative", "snippet": "We are holding the August invoice until the sync issue is resolved and credits are discussed."},
+        {"date": "2026-10-29", "from": "Ray Castellanos", "subject": "Photos missing from jobs", "sentiment": "neutral", "snippet": "Techs in the basement jobs lose photos. Is there a fix date?"},
+        {"date": "2026-09-18", "from": "Dale Hutchins", "subject": "Thanks for the check-in", "sentiment": "neutral", "snippet": "We'll get the new guys trained when things calm down."}
+      ]
+    },
+    "C-1002": {
+      "last_qbr": "2026-07-22",
+      "exec_sponsor_engaged": true,
+      "usage": [
+        {"month": "2026-05", "licensed": 48, "active": 46, "jobs_completed": 1820, "first_time_fix_pct": 88.0},
+        {"month": "2026-06", "licensed": 48, "active": 45, "jobs_completed": 1790, "first_time_fix_pct": 87.6},
+        {"month": "2026-07", "licensed": 48, "active": 44, "jobs_completed": 1750, "first_time_fix_pct": 87.1},
+        {"month": "2026-08", "licensed": 48, "active": 41, "jobs_completed": 1610, "first_time_fix_pct": 86.0},
+        {"month": "2026-09", "licensed": 48, "active": 42, "jobs_completed": 1660, "first_time_fix_pct": 86.4},
+        {"month": "2026-10", "licensed": 48, "active": 43, "jobs_completed": 1700, "first_time_fix_pct": 86.9}
+      ],
+      "tickets": [
+        {"id": "TCK-88201", "opened": "2026-10-15", "priority": "P3", "category": "Training", "status": "resolved", "subject": "Admin rights for new Operations Manager", "csat": 5},
+        {"id": "TCK-87788", "opened": "2026-09-08", "priority": "P3", "category": "Reporting", "status": "resolved", "subject": "Contract renewal report", "csat": 4}
+      ],
+      "invoices": [
+        {"id": "INV-23990", "date": "2026-06-17", "amount_usd": 39744, "due": "2026-07-17", "status": "paid", "paid": "2026-07-10"}
+      ],
+      "emails": [
+        {"date": "2026-10-14", "from": "Victor Osei", "subject": "Good intro", "sentiment": "positive", "snippet": "Useful session. Send me the Route Optimizer trial details."},
+        {"date": "2026-10-02", "from": "Gail Fenwick", "subject": "Renewal reminder template", "sentiment": "neutral", "snippet": "Do you have a template for contract renewal reminders?"}
+      ]
+    },
+    "C-1003": {
+      "last_qbr": "2026-10-28",
+      "exec_sponsor_engaged": true,
+      "usage": [
+        {"month": "2026-05", "licensed": 210, "active": 196, "jobs_completed": 9850, "first_time_fix_pct": 85.1},
+        {"month": "2026-06", "licensed": 210, "active": 199, "jobs_completed": 10120, "first_time_fix_pct": 85.4},
+        {"month": "2026-07", "licensed": 210, "active": 201, "jobs_completed": 10340, "first_time_fix_pct": 85.6},
+        {"month": "2026-08", "licensed": 210, "active": 203, "jobs_completed": 10210, "first_time_fix_pct": 85.9},
+        {"month": "2026-09", "licensed": 210, "active": 205, "jobs_completed": 10050, "first_time_fix_pct": 86.0},
+        {"month": "2026-10", "licensed": 210, "active": 207, "jobs_completed": 10480, "first_time_fix_pct": 86.3}
+      ],
+      "tickets": [
+        {"id": "TCK-88390", "opened": "2026-10-28", "priority": "P3", "category": "Single sign-on", "status": "open", "subject": "Map SSO groups for Assist pilot users", "csat": null},
+        {"id": "TCK-88021", "opened": "2026-09-29", "priority": "P3", "category": "Reporting", "status": "resolved", "subject": "Insights dashboard by branch", "csat": 5},
+        {"id": "TCK-87644", "opened": "2026-08-30", "priority": "P4", "category": "Feature request", "status": "resolved", "subject": "Spanish UI for technicians", "csat": 4}
+      ],
+      "invoices": [
+        {"id": "INV-24620", "date": "2026-09-01", "amount_usd": 258552, "due": "2026-10-01", "status": "paid", "paid": "2026-09-25"}
+      ],
+      "emails": [
+        {"date": "2026-11-04", "from": "Simone Achterberg", "subject": "Assist pilot week 3", "sentiment": "positive", "snippet": "Techs love the troubleshooting answers. Can Assist answer in Spanish?"},
+        {"date": "2026-10-28", "from": "Walter Ashby", "subject": "QBR follow-up", "sentiment": "positive", "snippet": "Great QBR. If the pilot holds, I want Assist across all five branches in Q1."}
+      ]
+    },
+    "C-1004": {
+      "last_qbr": "2026-05-14",
+      "exec_sponsor_engaged": true,
+      "usage": [
+        {"month": "2026-05", "licensed": 24, "active": 24, "jobs_completed": 2310, "first_time_fix_pct": 93.0},
+        {"month": "2026-06", "licensed": 24, "active": 24, "jobs_completed": 2480, "first_time_fix_pct": 92.6},
+        {"month": "2026-07", "licensed": 24, "active": 24, "jobs_completed": 2590, "first_time_fix_pct": 92.9},
+        {"month": "2026-08", "licensed": 24, "active": 24, "jobs_completed": 2620, "first_time_fix_pct": 93.1},
+        {"month": "2026-09", "licensed": 24, "active": 24, "jobs_completed": 2710, "first_time_fix_pct": 92.8},
+        {"month": "2026-10", "licensed": 24, "active": 24, "jobs_completed": 2850, "first_time_fix_pct": 93.4}
+      ],
+      "tickets": [
+        {"id": "TCK-88310", "opened": "2026-10-30", "priority": "P3", "category": "Billing", "status": "open", "subject": "How to add 8 more technicians (Starter limit)", "csat": null}
+      ],
+      "invoices": [
+        {"id": "INV-23310", "date": "2026-02-10", "amount_usd": 11232, "due": "2026-03-12", "status": "paid", "paid": "2026-02-27"}
+      ],
+      "emails": [
+        {"date": "2026-10-30", "from": "Andre Bishop", "subject": "More technicians", "sentiment": "positive", "snippet": "We just took over a competitor's routes and need 8 more seats. What are our options?"}
+      ]
+    },
+    "C-1005": {
+      "last_qbr": "2026-09-30",
+      "exec_sponsor_engaged": true,
+      "usage": [
+        {"month": "2026-05", "licensed": 60, "active": 57, "jobs_completed": 4410, "first_time_fix_pct": 84.0},
+        {"month": "2026-06", "licensed": 60, "active": 58, "jobs_completed": 4520, "first_time_fix_pct": 84.3},
+        {"month": "2026-07", "licensed": 60, "active": 58, "jobs_completed": 4610, "first_time_fix_pct": 84.9},
+        {"month": "2026-08", "licensed": 60, "active": 59, "jobs_completed": 4580, "first_time_fix_pct": 85.0},
+        {"month": "2026-09", "licensed": 60, "active": 58, "jobs_completed": 4490, "first_time_fix_pct": 85.2},
+        {"month": "2026-10", "licensed": 60, "active": 59, "jobs_completed": 4650, "first_time_fix_pct": 85.6}
+      ],
+      "tickets": [
+        {"id": "TCK-87990", "opened": "2026-09-24", "priority": "P4", "category": "Reporting", "status": "resolved", "subject": "Add drive-time widget to Insights", "csat": 5}
+      ],
+      "invoices": [
+        {"id": "INV-22870", "date": "2026-01-15", "amount_usd": 67680, "due": "2026-02-14", "status": "paid", "paid": "2026-02-05"}
+      ],
+      "emails": [
+        {"date": "2026-10-27", "from": "Leila Haddon", "subject": "2-year renewal", "sentiment": "positive", "snippet": "Let's do two years. Also curious about Assist after the Greystone webinar."}
+      ]
+    },
+    "C-1006": {
+      "last_qbr": "2026-10-09",
+      "exec_sponsor_engaged": true,
+      "usage": [
+        {"month": "2026-05", "licensed": 72, "active": 69, "jobs_completed": 3020, "first_time_fix_pct": 89.2},
+        {"month": "2026-06", "licensed": 72, "active": 70, "jobs_completed": 3110, "first_time_fix_pct": 89.6},
+        {"month": "2026-07", "licensed": 72, "active": 70, "jobs_completed": 3190, "first_time_fix_pct": 89.9},
+        {"month": "2026-08", "licensed": 72, "active": 71, "jobs_completed": 3150, "first_time_fix_pct": 90.1},
+        {"month": "2026-09", "licensed": 72, "active": 71, "jobs_completed": 3240, "first_time_fix_pct": 90.4},
+        {"month": "2026-10", "licensed": 72, "active": 72, "jobs_completed": 3300, "first_time_fix_pct": 90.8}
+      ],
+      "tickets": [
+        {"id": "TCK-88115", "opened": "2026-10-06", "priority": "P3", "category": "Permissions", "status": "resolved", "subject": "Restrict branch managers to their own branch", "csat": 3}
+      ],
+      "invoices": [
+        {"id": "INV-25190", "date": "2026-11-06", "amount_usd": 89856, "due": "2026-12-06", "status": "open", "paid": null}
+      ],
+      "emails": [
+        {"date": "2026-10-24", "from": "Beatriz Lomax", "subject": "Branch permissions + SSO", "sentiment": "positive", "snippet": "Same-day inspection reports are a hit. We need branch-level permissions and SSO next year."}
+      ]
+    }
+  }
+}

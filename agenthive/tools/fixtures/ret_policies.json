@@ -1,0 +1,42 @@
+{
+ "retailer": "Larkspur Home & Tech (fictional)",
+ "return_window_days": {
+  "default": 30,
+  "TV & Home Theater_55in_plus_opened": 15,
+  "Computing_opened": 15,
+  "Gaming_console_opened": 15
+ },
+ "restocking_fee_pct": {
+  "Computing_opened": 15,
+  "TV & Home Theater_55in_plus_opened": 10,
+  "Gaming_console_opened": 10
+ },
+ "fee_waived_reasons": [
+  "defective",
+  "damaged_in_transit",
+  "wrong_item",
+  "not_as_described"
+ ],
+ "fee_waived_loyalty": [
+  "Rewards Gold"
+ ],
+ "loyalty_extra_days": {
+  "Rewards Gold": 15
+ },
+ "holiday_extension": {
+  "purchased_from": "2026-11-01",
+  "purchased_to": "2026-12-24",
+  "return_by": "2027-01-31"
+ },
+ "doa_days": 14,
+ "transit_damage_report_hours": 48,
+ "goodwill_days_past_window": 7,
+ "non_returnable_skus": [],
+ "product_advisories": {
+  "VAN-CM12": "Quality advisory QA-26-031: cracked housing near screw boss reported on units built after 2026-10-26. Refund or exchange without proof of damage cause; log the return with code QA-26-031."
+ },
+ "escalation": {
+  "queue": "Returns Desk L2",
+  "sla_hours": 24
+ }
+}

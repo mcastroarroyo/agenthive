@@ -1,0 +1,130 @@
+{
+  "_note": "Synthetic tenant configuration for Vulcan (multi-tenant CRM ↔ construction-management ↔ BigQuery sync). API limits and volumes are illustrative demo values, not vendor commitments.",
+  "tenants": {
+    "redev_tenant_01": {
+      "label": "a real-estate developer (demo tenant)",
+      "systems": ["hubspot", "salesforce", "procore"],
+      "why_two_crms": "HubSpot runs residential sales and marketing; Salesforce runs commercial and land deals. Mixed-use projects appear in both.",
+      "warehouse": "BigQuery dataset re_sync (demo)",
+      "volumes": {"hubspot.deals": 1840, "hubspot.companies": 610, "salesforce.Opportunity": 960, "salesforce.Account": 430, "procore.projects": 74, "procore.change_orders": 1130},
+      "daily_change_rate": {"hubspot.deals": 0.04, "hubspot.companies": 0.01, "salesforce.Opportunity": 0.05, "salesforce.Account": 0.01, "procore.projects": 0.2, "procore.change_orders": 0.03},
+      "api_limits_per_day": {"hubspot": 250000, "salesforce": 100000, "procore": 86400}
+    },
+    "homebuilder_tenant_02": {
+      "label": "a regional homebuilder (demo tenant)",
+      "systems": ["salesforce", "procore"],
+      "why_two_crms": "Single CRM.",
+      "warehouse": "BigQuery dataset hb_sync (demo)",
+      "volumes": {"salesforce.Opportunity": 2400, "salesforce.Account": 1900, "procore.projects": 210, "procore.change_orders": 3100},
+      "daily_change_rate": {"salesforce.Opportunity": 0.06, "salesforce.Account": 0.01, "procore.projects": 0.15, "procore.change_orders": 0.04},
+      "api_limits_per_day": {"salesforce": 100000, "procore": 86400}
+    }
+  },
+  "canonical_model": {
+    "Opportunity": ["opportunity_id", "name", "amount_usd", "stage", "close_date", "account_id", "project_code", "owner_ref", "source_system", "source_updated_at"],
+    "Account": ["account_id", "name", "domain", "industry", "city"],
+    "Project": ["project_code", "name", "stage", "contract_value_usd", "start_date", "completion_date", "site_address", "source_updated_at"],
+    "ChangeOrder": ["change_order_id", "project_code", "number", "status", "amount_usd", "approved_at"]
+  },
+  "stage_maps": {
+    "hubspot": {"appointmentscheduled": "prospect", "qualifiedtobuy": "qualified", "presentationscheduled": "qualified", "contractsent": "contracting", "closedwon": "won", "closedlost": "lost"},
+    "salesforce": {"Prospecting": "prospect", "Qualification": "qualified", "Proposal/Price Quote": "qualified", "Negotiation/Review": "contracting", "Closed Won": "won", "Closed Lost": "lost"},
+    "procore": {"Bidding": "pre_construction", "Pre-Construction": "pre_construction", "Course of Construction": "construction", "Post-Construction": "closeout", "Warranty": "warranty"}
+  },
+  "mappings": {
+    "hubspot.deals": [
+      {"source": "hs_object_id", "target": "Opportunity.opportunity_id", "transform": "prefix 'HS-'", "confidence": 1.0},
+      {"source": "dealname", "target": "Opportunity.name", "transform": "trim", "confidence": 1.0},
+      {"source": "amount", "target": "Opportunity.amount_usd", "transform": "currency → USD using deal_currency_code", "confidence": 0.95},
+      {"source": "dealstage", "target": "Opportunity.stage", "transform": "stage_map:hubspot", "confidence": 0.9},
+      {"source": "closedate", "target": "Opportunity.close_date", "transform": "epoch ms → DATE", "confidence": 1.0},
+      {"source": "associatedcompanyid", "target": "Opportunity.account_id", "transform": "lookup Account via HS company id", "confidence": 0.85},
+      {"source": "project_code", "target": "Opportunity.project_code", "transform": "upper + validate 'PRJ-####'", "confidence": 0.9},
+      {"source": "hubspot_owner_id", "target": "Opportunity.owner_ref", "transform": "owner directory lookup", "confidence": 0.8},
+      {"source": "hs_lastmodifieddate", "target": "Opportunity.source_updated_at", "transform": "to TIMESTAMP UTC", "confidence": 1.0}
+    ],
+    "hubspot.companies": [
+      {"source": "hs_object_id", "target": "Account.account_id", "transform": "prefix 'HS-'", "confidence": 1.0},
+      {"source": "name", "target": "Account.name", "transform": "trim + legal-suffix normalisation", "confidence": 0.95},
+      {"source": "domain", "target": "Account.domain", "transform": "lowercase", "confidence": 1.0},
+      {"source": "industry", "target": "Account.industry", "transform": "industry code map", "confidence": 0.7},
+      {"source": "city", "target": "Account.city", "transform": "copy", "confidence": 1.0}
+    ],
+    "salesforce.Opportunity": [
+      {"source": "Id", "target": "Opportunity.opportunity_id", "transform": "prefix 'SF-'", "confidence": 1.0},
+      {"source": "Name", "target": "Opportunity.name", "transform": "trim", "confidence": 1.0},
+      {"source": "Amount", "target": "Opportunity.amount_usd", "transform": "currency → USD using CurrencyIsoCode", "confidence": 0.95},
+      {"source": "StageName", "target": "Opportunity.stage", "transform": "stage_map:salesforce", "confidence": 0.9},
+      {"source": "CloseDate", "target": "Opportunity.close_date", "transform": "copy (DATE)", "confidence": 1.0},
+      {"source": "AccountId", "target": "Opportunity.account_id", "transform": "prefix 'SF-' + Account match", "confidence": 0.85},
+      {"source": "Project_Code__c", "target": "Opportunity.project_code", "transform": "upper + validate 'PRJ-####'", "confidence": 0.95},
+      {"source": "OwnerId", "target": "Opportunity.owner_ref", "transform": "owner directory lookup", "confidence": 0.8},
+      {"source": "LastModifiedDate", "target": "Opportunity.source_updated_at", "transform": "to TIMESTAMP UTC", "confidence": 1.0}
+    ],
+    "salesforce.Account": [
+      {"source": "Id", "target": "Account.account_id", "transform": "prefix 'SF-'", "confidence": 1.0},
+      {"source": "Name", "target": "Account.name", "transform": "trim + legal-suffix normalisation", "confidence": 0.95},
+      {"source": "Website", "target": "Account.domain", "transform": "extract host, lowercase", "confidence": 0.9},
+      {"source": "Industry", "target": "Account.industry", "transform": "industry code map", "confidence": 0.7},
+      {"source": "BillingCity", "target": "Account.city", "transform": "copy", "confidence": 1.0}
+    ],
+    "procore.projects": [
+      {"source": "project_number", "target": "Project.project_code", "transform": "upper + validate 'PRJ-####'", "confidence": 1.0},
+      {"source": "name", "target": "Project.name", "transform": "trim", "confidence": 1.0},
+      {"source": "stage", "target": "Project.stage", "transform": "stage_map:procore", "confidence": 0.9},
+      {"source": "total_value", "target": "Project.contract_value_usd", "transform": "copy (USD)", "confidence": 0.95},
+      {"source": "start_date", "target": "Project.start_date", "transform": "copy (DATE)", "confidence": 1.0},
+      {"source": "completion_date", "target": "Project.completion_date", "transform": "copy (DATE)", "confidence": 1.0},
+      {"source": "address", "target": "Project.site_address", "transform": "concat street, city, postcode", "confidence": 0.9},
+      {"source": "updated_at", "target": "Project.source_updated_at", "transform": "to TIMESTAMP UTC", "confidence": 1.0}
+    ],
+    "procore.change_orders": [
+      {"source": "id", "target": "ChangeOrder.change_order_id", "transform": "prefix 'PC-'", "confidence": 1.0},
+      {"source": "project_id", "target": "ChangeOrder.project_code", "transform": "lookup projects.project_number", "confidence": 0.95},
+      {"source": "number", "target": "ChangeOrder.number", "transform": "copy", "confidence": 1.0},
+      {"source": "status", "target": "ChangeOrder.status", "transform": "lowercase", "confidence": 1.0},
+      {"source": "grand_total", "target": "ChangeOrder.amount_usd", "transform": "copy (USD)", "confidence": 0.95},
+      {"source": "approved_at", "target": "ChangeOrder.approved_at", "transform": "to TIMESTAMP UTC", "confidence": 1.0}
+    ]
+  },
+  "unmapped": {
+    "hubspot.deals": ["pipeline", "deal_currency_code (used in transform only)", "site_address (custom property; Procore is master)"],
+    "hubspot.companies": ["hs_lastmodifieddate (audit only)"],
+    "salesforce.Opportunity": ["Probability", "CurrencyIsoCode (used in transform only)"],
+    "salesforce.Account": ["LastModifiedDate (audit only)"],
+    "procore.projects": ["company_id"],
+    "procore.change_orders": ["title", "updated_at (audit only)"]
+  },
+  "records": {
+    "PRJ-2207": {
+      "label": "Harbor Point Mixed-Use Phase 2",
+      "hubspot": {"dealname": "Harbor Point Mixed-Use Ph2", "amount": 18400000, "dealstage": "contractsent", "closedate": "2026-12-15", "updated": "2026-11-03T16:20:00Z"},
+      "salesforce": {"Name": "Harbor Point Mixed-Use Phase 2", "Amount": 18950000, "StageName": "Closed Won", "CloseDate": "2026-10-30", "updated": "2026-11-02T09:05:00Z"},
+      "procore": {"name": "Harbor Point Mixed-Use Phase 2", "total_value": 19310000, "stage": "Pre-Construction", "updated": "2026-11-04T12:00:00Z", "approved_change_orders_usd": 360000}
+    },
+    "PRJ-2211": {
+      "label": "Elm Street Townhomes",
+      "hubspot": {"dealname": "Elm Street Townhomes", "amount": 6200000, "dealstage": "qualifiedtobuy", "closedate": "2027-01-20", "updated": "2026-11-01T10:00:00Z"},
+      "salesforce": {"Name": "Elm Street Townhomes", "Amount": 6150000, "StageName": "Negotiation/Review", "CloseDate": "2027-01-15", "updated": "2026-11-05T14:30:00Z"}
+    },
+    "PRJ-2194": {
+      "label": "Riverside Logistics Park",
+      "hubspot": {"dealname": "Riverside Log. Park", "amount": 29000000, "dealstage": "closedwon", "closedate": "2026-06-30", "updated": "2026-05-01T08:00:00Z"},
+      "salesforce": {"Name": "Riverside Logistics Park", "Amount": 31000000, "StageName": "Closed Won", "CloseDate": "2026-06-30", "updated": "2026-07-02T11:00:00Z"},
+      "procore": {"name": "Riverside Logistics Park", "total_value": 34900000, "stage": "Course of Construction", "updated": "2026-11-05T07:45:00Z", "approved_change_orders_usd": 3900000}
+    },
+    "PRJ-2219": {
+      "label": "Cedar Ridge Apartments",
+      "hubspot": {"dealname": "Cedar Ridge Apartments", "amount": 9800000, "dealstage": "closedlost", "closedate": "2026-11-02", "updated": "2026-11-02T17:10:00Z"},
+      "salesforce": {"Name": "Cedar Ridge Apartments", "Amount": 11200000, "StageName": "Negotiation/Review", "CloseDate": "2026-12-01", "updated": "2026-10-20T09:00:00Z"}
+    }
+  },
+  "rules": {
+    "stage_order": ["prospect", "qualified", "contracting", "won"],
+    "amount_manual_review_delta_pct": 10,
+    "stale_source_days": 90,
+    "post_contract_amount_master": "procore",
+    "account_master": "hubspot",
+    "project_master": "procore"
+  }
+}

@@ -1,0 +1,21 @@
+name: ci
+on:
+  push: {branches: [main]}
+  pull_request:
+permissions: {contents: read}
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13", cache: pip}
+      - run: pip install -e ".[web,dev]"
+      - name: Catalog, tools and agent builds (offline)
+        run: HIVE_OFFLINE=1 HIVE_PROJECT=ci-project pytest -q
+      - name: UI catalog builds
+        run: python web/build_catalog.py
+      - name: No project identifiers committed
+        run: |
+          if git grep -nE 'wursta-agentspace|projects/[0-9]{6,}|[a-z0-9-]+@[a-z0-9-]+\.iam\.gserviceaccount\.com' -- . ':!.github/workflows/ci.yml'; then
+            echo "Project identifiers found — keep them in environment variables"; exit 1; fi

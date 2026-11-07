@@ -1,0 +1,950 @@
+{
+ "retailer": "Larkspur Home & Tech (fictional)",
+ "as_of": "2026-11-06",
+ "stores": [
+  {
+   "store_id": "S01",
+   "name": "Larkspur Northgate Plaza",
+   "city": "Northgate",
+   "region": "North",
+   "format": "standard",
+   "opened": "2012-01-15"
+  },
+  {
+   "store_id": "S02",
+   "name": "Larkspur Kingsreach Commons",
+   "city": "Kingsreach",
+   "region": "North",
+   "format": "standard",
+   "opened": "2013-02-15"
+  },
+  {
+   "store_id": "S03",
+   "name": "Larkspur Elmstead Market",
+   "city": "Elmstead",
+   "region": "North",
+   "format": "standard",
+   "opened": "2014-03-15"
+  },
+  {
+   "store_id": "S04",
+   "name": "Larkspur Frostholm",
+   "city": "Frostholm",
+   "region": "North",
+   "format": "compact",
+   "opened": "2015-04-15"
+  },
+  {
+   "store_id": "S05",
+   "name": "Larkspur Port Calder Waterfront",
+   "city": "Port Calder",
+   "region": "Coast",
+   "format": "flagship",
+   "opened": "2016-05-15"
+  },
+  {
+   "store_id": "S06",
+   "name": "Larkspur Silverton Bay",
+   "city": "Silverton Bay",
+   "region": "Coast",
+   "format": "standard",
+   "opened": "2017-06-15"
+  },
+  {
+   "store_id": "S07",
+   "name": "Larkspur Gullwing Point",
+   "city": "Gullwing Point",
+   "region": "Coast",
+   "format": "standard",
+   "opened": "2018-07-15"
+  },
+  {
+   "store_id": "S08",
+   "name": "Larkspur Saltmere",
+   "city": "Saltmere",
+   "region": "Coast",
+   "format": "compact",
+   "opened": "2019-08-15"
+  },
+  {
+   "store_id": "S09",
+   "name": "Larkspur Ashford Vale Centre",
+   "city": "Ashford Vale",
+   "region": "Central",
+   "format": "flagship",
+   "opened": "2020-09-15"
+  },
+  {
+   "store_id": "S10",
+   "name": "Larkspur Redmarsh Junction",
+   "city": "Redmarsh",
+   "region": "Central",
+   "format": "standard",
+   "opened": "2021-01-15"
+  },
+  {
+   "store_id": "S11",
+   "name": "Larkspur Brackwater Mills",
+   "city": "Brackwater",
+   "region": "Central",
+   "format": "standard",
+   "opened": "2022-02-15"
+  },
+  {
+   "store_id": "S12",
+   "name": "Larkspur Lowmoor",
+   "city": "Lowmoor",
+   "region": "Central",
+   "format": "compact",
+   "opened": "2023-03-15"
+  },
+  {
+   "store_id": "S13",
+   "name": "Larkspur Cindervale",
+   "city": "Cindervale",
+   "region": "South",
+   "format": "standard",
+   "opened": "2012-04-15"
+  },
+  {
+   "store_id": "S14",
+   "name": "Larkspur Sunhollow",
+   "city": "Sunhollow",
+   "region": "South",
+   "format": "standard",
+   "opened": "2013-05-15"
+  },
+  {
+   "store_id": "S15",
+   "name": "Larkspur Marrow Creek",
+   "city": "Marrow Creek",
+   "region": "South",
+   "format": "compact",
+   "opened": "2014-06-15"
+  },
+  {
+   "store_id": "S16",
+   "name": "Larkspur Dunmere Outlet",
+   "city": "Dunmere",
+   "region": "South",
+   "format": "outlet",
+   "opened": "2015-07-15"
+  }
+ ],
+ "products": [
+  {
+   "sku": "LUM-55Q8",
+   "name": "Lumetra Q8 55\" QLED 4K TV",
+   "brand": "Lumetra",
+   "category": "TV & Home Theater",
+   "unit_cost_usd": 520,
+   "list_price_usd": 799,
+   "lifecycle": "end_of_life",
+   "eol_date": "2027-01-15",
+   "successor": "LUM-55Q9 (launch 2027-01-15)",
+   "ship_class": "large",
+   "weight_lb": 41,
+   "max_discount_pct_override": null,
+   "specs": {
+    "screen_in": 55,
+    "panel": "QLED",
+    "resolution": "4K",
+    "refresh_hz": 120,
+    "hdmi21_ports": 2,
+    "earc": true,
+    "vrr": true,
+    "hdr": "HDR10+, Dolby Vision",
+    "smart_os": "Lumetra OS 6",
+    "wifi": "Wi-Fi 6"
+   }
+  },
+  {
+   "sku": "LUM-65Q8",
+   "name": "Lumetra Q8 65\" QLED 4K TV",
+   "brand": "Lumetra",
+   "category": "TV & Home Theater",
+   "unit_cost_usd": 690,
+   "list_price_usd": 1099,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "white_glove",
+   "weight_lb": 58,
+   "max_discount_pct_override": null,
+   "specs": {
+    "screen_in": 65,
+    "panel": "QLED",
+    "resolution": "4K",
+    "refresh_hz": 120,
+    "hdmi21_ports": 2,
+    "earc": true,
+    "vrr": true,
+    "hdr": "HDR10+, Dolby Vision",
+    "smart_os": "Lumetra OS 6",
+    "wifi": "Wi-Fi 6"
+   }
+  },
+  {
+   "sku": "LUM-55U6",
+   "name": "Lumetra U6 55\" LED 4K TV",
+   "brand": "Lumetra",
+   "category": "TV & Home Theater",
+   "unit_cost_usd": 330,
+   "list_price_usd": 499,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "large",
+   "weight_lb": 36,
+   "max_discount_pct_override": null,
+   "specs": {
+    "screen_in": 55,
+    "panel": "LED",
+    "resolution": "4K",
+    "refresh_hz": 60,
+    "hdmi21_ports": 0,
+    "earc": false,
+    "arc": true,
+    "vrr": false,
+    "hdr": "HDR10",
+    "smart_os": "Lumetra OS 6",
+    "wifi": "Wi-Fi 5"
+   }
+  },
+  {
+   "sku": "LUM-65OLED",
+   "name": "Lumetra G2 65\" OLED 4K TV",
+   "brand": "Lumetra",
+   "category": "TV & Home Theater",
+   "unit_cost_usd": 1290,
+   "list_price_usd": 1899,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "white_glove",
+   "weight_lb": 52,
+   "max_discount_pct_override": null,
+   "specs": {
+    "screen_in": 65,
+    "panel": "OLED",
+    "resolution": "4K",
+    "refresh_hz": 144,
+    "hdmi21_ports": 4,
+    "earc": true,
+    "vrr": true,
+    "hdr": "HDR10+, Dolby Vision",
+    "smart_os": "Lumetra OS 6",
+    "wifi": "Wi-Fi 6E"
+   }
+  },
+  {
+   "sku": "AUR-SB700",
+   "name": "Aurion SB700 Dolby Atmos soundbar (5.1.2)",
+   "brand": "Aurion",
+   "category": "TV & Home Theater",
+   "unit_cost_usd": 210,
+   "list_price_usd": 399,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 14,
+   "max_discount_pct_override": null,
+   "specs": {
+    "channels": "5.1.2",
+    "atmos": true,
+    "connection": "HDMI eARC, optical, Bluetooth 5.3",
+    "atmos_requires": "TV with eARC",
+    "sub_pairing": [
+     "AUR-SUB300"
+    ]
+   }
+  },
+  {
+   "sku": "AUR-SUB300",
+   "name": "Aurion SUB300 wireless subwoofer",
+   "brand": "Aurion",
+   "category": "TV & Home Theater",
+   "unit_cost_usd": 120,
+   "list_price_usd": 249,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 22,
+   "max_discount_pct_override": null,
+   "specs": {
+    "driver_in": 10,
+    "wireless": true,
+    "pairs_with": [
+     "AUR-SB700"
+    ]
+   }
+  },
+  {
+   "sku": "LUM-HDMI21",
+   "name": "Lumetra Ultra High Speed HDMI 2.1 cable (2 m)",
+   "brand": "Lumetra",
+   "category": "TV & Home Theater",
+   "unit_cost_usd": 6,
+   "list_price_usd": 29,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 0.4,
+   "max_discount_pct_override": null,
+   "specs": {
+    "bandwidth_gbps": 48,
+    "supports": "4K120, 8K60, eARC"
+   }
+  },
+  {
+   "sku": "CVX-AIR14",
+   "name": "Corvex Air 14 laptop (16 GB, 512 GB)",
+   "brand": "Corvex",
+   "category": "Computing",
+   "unit_cost_usd": 610,
+   "list_price_usd": 899,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 4,
+   "max_discount_pct_override": null,
+   "specs": {
+    "screen_in": 14,
+    "ram_gb": 16,
+    "storage_gb": 512,
+    "weight_kg": 1.25,
+    "battery_h": 15,
+    "ports": "2x USB-C 3.2 (DisplayPort), 1x USB-A",
+    "usb4": false,
+    "wifi": "Wi-Fi 6E"
+   }
+  },
+  {
+   "sku": "CVX-PRO16",
+   "name": "Corvex Pro 16 laptop (32 GB, 1 TB)",
+   "brand": "Corvex",
+   "category": "Computing",
+   "unit_cost_usd": 1180,
+   "list_price_usd": 1699,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 6,
+   "max_discount_pct_override": null,
+   "specs": {
+    "screen_in": 16,
+    "ram_gb": 32,
+    "storage_gb": 1024,
+    "weight_kg": 1.95,
+    "battery_h": 12,
+    "ports": "2x USB4, 1x HDMI 2.1, SD",
+    "usb4": true,
+    "wifi": "Wi-Fi 7"
+   }
+  },
+  {
+   "sku": "CVX-DOCK4",
+   "name": "Corvex USB-C Dock 4 (dual display)",
+   "brand": "Corvex",
+   "category": "Computing",
+   "unit_cost_usd": 62,
+   "list_price_usd": 129,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 1.2,
+   "max_discount_pct_override": null,
+   "specs": {
+    "displays": "Dual 4K60 on USB4 hosts; single 4K60 on USB-C 3.2 hosts",
+    "power_delivery_w": 100
+   }
+  },
+  {
+   "sku": "AUR-NC90",
+   "name": "Aurion NC90 noise-cancelling headphones",
+   "brand": "Aurion",
+   "category": "Audio",
+   "unit_cost_usd": 145,
+   "list_price_usd": 299,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 1,
+   "max_discount_pct_override": null,
+   "specs": {
+    "anc": true,
+    "battery_h": 40,
+    "multipoint": true,
+    "codec": "AAC, LDAC"
+   }
+  },
+  {
+   "sku": "AUR-BUDS3",
+   "name": "Aurion Buds 3 wireless earbuds",
+   "brand": "Aurion",
+   "category": "Audio",
+   "unit_cost_usd": 58,
+   "list_price_usd": 129,
+   "lifecycle": "end_of_life",
+   "eol_date": "2027-01-31",
+   "successor": "AUR-BUDS4 (launched 2026-09-15)",
+   "ship_class": "parcel",
+   "weight_lb": 0.3,
+   "max_discount_pct_override": null,
+   "specs": {
+    "anc": true,
+    "battery_h": 7,
+    "case_battery_h": 24
+   }
+  },
+  {
+   "sku": "AUR-PARTY2",
+   "name": "Aurion Party Speaker 2",
+   "brand": "Aurion",
+   "category": "Audio",
+   "unit_cost_usd": 120,
+   "list_price_usd": 249,
+   "lifecycle": "seasonal",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 18,
+   "max_discount_pct_override": null,
+   "specs": {
+    "watts": 160,
+    "battery_h": 18,
+    "ip_rating": "IPX4",
+    "season": "Spring-Summer"
+   }
+  },
+  {
+   "sku": "HRT-CAM2",
+   "name": "Hearthly Indoor Cam 2",
+   "brand": "Hearthly",
+   "category": "Smart Home",
+   "unit_cost_usd": 28,
+   "list_price_usd": 69,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 0.6,
+   "max_discount_pct_override": null,
+   "specs": {
+    "resolution": "2K",
+    "matter": true,
+    "connectivity": "Wi-Fi"
+   }
+  },
+  {
+   "sku": "HRT-HUB",
+   "name": "Hearthly Home Hub 8\" smart display",
+   "brand": "Hearthly",
+   "category": "Smart Home",
+   "unit_cost_usd": 64,
+   "list_price_usd": 149,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 2.2,
+   "max_discount_pct_override": null,
+   "specs": {
+    "matter_controller": true,
+    "thread_border_router": true,
+    "screen_in": 8
+   }
+  },
+  {
+   "sku": "HRT-THERM",
+   "name": "Hearthly Smart Thermostat",
+   "brand": "Hearthly",
+   "category": "Smart Home",
+   "unit_cost_usd": 88,
+   "list_price_usd": 179,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 1,
+   "max_discount_pct_override": null,
+   "specs": {
+    "matter": true,
+    "connectivity": "Thread",
+    "c_wire": "Required (adapter sold separately)"
+   }
+  },
+  {
+   "sku": "VAN-CM12",
+   "name": "Vantor Brew 12-cup programmable coffee maker",
+   "brand": "Vantor",
+   "category": "Kitchen",
+   "unit_cost_usd": 38,
+   "list_price_usd": 89,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 7,
+   "max_discount_pct_override": null,
+   "specs": {
+    "cups": 12,
+    "programmable": true,
+    "carafe": "Glass"
+   }
+  },
+  {
+   "sku": "VAN-AF55",
+   "name": "Vantor AirCrisp 5.5 L air fryer",
+   "brand": "Vantor",
+   "category": "Kitchen",
+   "unit_cost_usd": 46,
+   "list_price_usd": 119,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 11,
+   "max_discount_pct_override": null,
+   "specs": {
+    "capacity_l": 5.5,
+    "watts": 1700,
+    "presets": 8
+   }
+  },
+  {
+   "sku": "VAN-BL900",
+   "name": "Vantor Blend 900 blender",
+   "brand": "Vantor",
+   "category": "Kitchen",
+   "unit_cost_usd": 41,
+   "list_price_usd": 99,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 9,
+   "max_discount_pct_override": null,
+   "specs": {
+    "watts": 900,
+    "jar_l": 1.8
+   }
+  },
+  {
+   "sku": "KAI-NOVA",
+   "name": "Kairo Nova console (1 TB)",
+   "brand": "Kairo",
+   "category": "Gaming",
+   "unit_cost_usd": 410,
+   "list_price_usd": 499,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 9,
+   "max_discount_pct_override": 10,
+   "specs": {
+    "output": "4K120 with HDMI 2.1, VRR",
+    "storage_tb": 1,
+    "wifi": "Wi-Fi 7"
+   }
+  },
+  {
+   "sku": "KAI-CTRL",
+   "name": "Kairo Pro wireless controller",
+   "brand": "Kairo",
+   "category": "Gaming",
+   "unit_cost_usd": 34,
+   "list_price_usd": 69,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 0.6,
+   "max_discount_pct_override": null,
+   "specs": {
+    "compatible": [
+     "KAI-NOVA",
+     "PC (Bluetooth)"
+    ]
+   }
+  },
+  {
+   "sku": "KAI-HS7",
+   "name": "Kairo HS7 wireless gaming headset",
+   "brand": "Kairo",
+   "category": "Gaming",
+   "unit_cost_usd": 39,
+   "list_price_usd": 89,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 1,
+   "max_discount_pct_override": null,
+   "specs": {
+    "compatible": [
+     "KAI-NOVA",
+     "PC (USB dongle)"
+    ],
+    "battery_h": 30
+   }
+  },
+  {
+   "sku": "WAV-MESH7",
+   "name": "Wavelyn Mesh Wi-Fi 7 (3-pack)",
+   "brand": "Wavelyn",
+   "category": "Networking",
+   "unit_cost_usd": 230,
+   "list_price_usd": 449,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 5,
+   "max_discount_pct_override": null,
+   "specs": {
+    "wifi": "Wi-Fi 7",
+    "coverage_sqft": 7500,
+    "mlo": true
+   }
+  },
+  {
+   "sku": "WAV-AX3000",
+   "name": "Wavelyn AX3000 Wi-Fi 6 router",
+   "brand": "Wavelyn",
+   "category": "Networking",
+   "unit_cost_usd": 54,
+   "list_price_usd": 119,
+   "lifecycle": "end_of_life",
+   "eol_date": "2026-12-31",
+   "successor": "WAV-BE5000 (Wi-Fi 7)",
+   "ship_class": "parcel",
+   "weight_lb": 2,
+   "max_discount_pct_override": null,
+   "specs": {
+    "wifi": "Wi-Fi 6",
+    "coverage_sqft": 2000
+   }
+  },
+  {
+   "sku": "TES-FIT5",
+   "name": "Tessel Fit 5 fitness band",
+   "brand": "Tessel",
+   "category": "Wearables",
+   "unit_cost_usd": 32,
+   "list_price_usd": 79,
+   "lifecycle": "end_of_life",
+   "eol_date": "2027-02-28",
+   "successor": "TES-FIT6",
+   "ship_class": "parcel",
+   "weight_lb": 0.2,
+   "max_discount_pct_override": null,
+   "specs": {
+    "battery_days": 10,
+    "gps": false
+   }
+  },
+  {
+   "sku": "TES-WATCH2",
+   "name": "Tessel Watch 2 smartwatch",
+   "brand": "Tessel",
+   "category": "Wearables",
+   "unit_cost_usd": 140,
+   "list_price_usd": 299,
+   "lifecycle": "core",
+   "eol_date": null,
+   "successor": null,
+   "ship_class": "parcel",
+   "weight_lb": 0.3,
+   "max_discount_pct_override": null,
+   "specs": {
+    "battery_days": 3,
+    "gps": true,
+    "lte": false
+   }
+  }
+ ],
+ "category_params": {
+  "TV & Home Theater": {
+   "elasticity": -2.2,
+   "max_discount_pct": 25,
+   "clearance_discount_pct": 35
+  },
+  "Computing": {
+   "elasticity": -1.9,
+   "max_discount_pct": 20,
+   "clearance_discount_pct": 30
+  },
+  "Audio": {
+   "elasticity": -2.8,
+   "max_discount_pct": 35,
+   "clearance_discount_pct": 45
+  },
+  "Smart Home": {
+   "elasticity": -2.4,
+   "max_discount_pct": 35,
+   "clearance_discount_pct": 45
+  },
+  "Kitchen": {
+   "elasticity": -2.5,
+   "max_discount_pct": 30,
+   "clearance_discount_pct": 40
+  },
+  "Gaming": {
+   "elasticity": -2.3,
+   "max_discount_pct": 30,
+   "clearance_discount_pct": 40
+  },
+  "Networking": {
+   "elasticity": -2.0,
+   "max_discount_pct": 30,
+   "clearance_discount_pct": 45
+  },
+  "Wearables": {
+   "elasticity": -2.7,
+   "max_discount_pct": 40,
+   "clearance_discount_pct": 50
+  }
+ },
+ "transfer_cost_per_unit_usd": {
+  "large": {
+   "same_region": 18.0,
+   "cross_region": 42.0
+  },
+  "white_glove": {
+   "same_region": 24.0,
+   "cross_region": 55.0
+  },
+  "parcel": {
+   "same_region": 1.5,
+   "cross_region": 4.0
+  }
+ },
+ "transfer_lead_days": {
+  "same_region": 2,
+  "cross_region": 4
+ },
+ "related": {
+  "LUM-55Q8": [
+   {
+    "sku": "LUM-55U6",
+    "cannibalisation_pct": 12
+   },
+   {
+    "sku": "LUM-65Q8",
+    "cannibalisation_pct": 6
+   }
+  ],
+  "LUM-65Q8": [
+   {
+    "sku": "LUM-55Q8",
+    "cannibalisation_pct": 8
+   },
+   {
+    "sku": "LUM-65OLED",
+    "cannibalisation_pct": 5
+   }
+  ],
+  "AUR-BUDS3": [
+   {
+    "sku": "AUR-NC90",
+    "cannibalisation_pct": 6
+   }
+  ],
+  "AUR-NC90": [
+   {
+    "sku": "AUR-BUDS3",
+    "cannibalisation_pct": 5
+   }
+  ],
+  "VAN-AF55": [
+   {
+    "sku": "VAN-BL900",
+    "cannibalisation_pct": 4
+   }
+  ],
+  "WAV-AX3000": [
+   {
+    "sku": "WAV-MESH7",
+    "cannibalisation_pct": 10
+   }
+  ],
+  "TES-FIT5": [
+   {
+    "sku": "TES-WATCH2",
+    "cannibalisation_pct": 9
+   }
+  ],
+  "HRT-HUB": [
+   {
+    "sku": "HRT-CAM2",
+    "cannibalisation_pct": 0
+   }
+  ],
+  "KAI-HS7": [
+   {
+    "sku": "AUR-NC90",
+    "cannibalisation_pct": 3
+   }
+  ],
+  "AUR-SB700": []
+ },
+ "attach": {
+  "LUM-55Q8": [
+   {
+    "sku": "AUR-SB700",
+    "attach_rate": 0.09
+   },
+   {
+    "sku": "LUM-HDMI21",
+    "attach_rate": 0.22
+   }
+  ],
+  "LUM-65Q8": [
+   {
+    "sku": "AUR-SB700",
+    "attach_rate": 0.12
+   },
+   {
+    "sku": "LUM-HDMI21",
+    "attach_rate": 0.25
+   }
+  ],
+  "LUM-65OLED": [
+   {
+    "sku": "AUR-SB700",
+    "attach_rate": 0.18
+   },
+   {
+    "sku": "AUR-SUB300",
+    "attach_rate": 0.08
+   }
+  ],
+  "AUR-SB700": [
+   {
+    "sku": "AUR-SUB300",
+    "attach_rate": 0.15
+   }
+  ],
+  "CVX-AIR14": [
+   {
+    "sku": "CVX-DOCK4",
+    "attach_rate": 0.11
+   }
+  ],
+  "CVX-PRO16": [
+   {
+    "sku": "CVX-DOCK4",
+    "attach_rate": 0.24
+   }
+  ],
+  "KAI-NOVA": [
+   {
+    "sku": "KAI-CTRL",
+    "attach_rate": 0.45
+   },
+   {
+    "sku": "KAI-HS7",
+    "attach_rate": 0.18
+   }
+  ],
+  "HRT-HUB": [
+   {
+    "sku": "HRT-CAM2",
+    "attach_rate": 0.2
+   },
+   {
+    "sku": "HRT-THERM",
+    "attach_rate": 0.07
+   }
+  ]
+ },
+ "bundles": [
+  {
+   "bundle_id": "BND-CINEMA",
+   "name": "Home cinema upgrade",
+   "skus": [
+    "LUM-55Q8",
+    "AUR-SB700",
+    "LUM-HDMI21"
+   ],
+   "offer": "20% off the soundbar and a free HDMI 2.1 cable with any Lumetra Q8 TV"
+  },
+  {
+   "bundle_id": "BND-DESK",
+   "name": "Work-from-home desk",
+   "skus": [
+    "CVX-PRO16",
+    "CVX-DOCK4"
+   ],
+   "offer": "$40 off the dock with any Corvex laptop"
+  },
+  {
+   "bundle_id": "BND-PLAY",
+   "name": "Player one ready",
+   "skus": [
+    "KAI-NOVA",
+    "KAI-CTRL",
+    "KAI-HS7"
+   ],
+   "offer": "15% off accessories with a Kairo Nova"
+  },
+  {
+   "bundle_id": "BND-SMART",
+   "name": "Smart home starter",
+   "skus": [
+    "HRT-HUB",
+    "HRT-CAM2",
+    "HRT-THERM"
+   ],
+   "offer": "Hub at 30% off with any two Hearthly devices"
+  }
+ ],
+ "careplus": {
+  "plans": "Larkspur CarePlus (fictional protection plan)",
+  "bands": [
+   {
+    "max_price": 99.99,
+    "y2": 12,
+    "y3": 19
+   },
+   {
+    "max_price": 299.99,
+    "y2": 29,
+    "y3": 45
+   },
+   {
+    "max_price": 699.99,
+    "y2": 59,
+    "y3": 89
+   },
+   {
+    "max_price": 1199.99,
+    "y2": 119,
+    "y3": 169
+   },
+   {
+    "max_price": 99999,
+    "y2": 179,
+    "y3": 249
+   }
+  ],
+  "accidental_damage_addon_usd": {
+   "Computing": 60,
+   "Wearables": 25
+  },
+  "manufacturer_warranty_months": {
+   "default": 12,
+   "Lumetra": 24
+  }
+ },
+ "holding_cost_pct_per_year": 25
+}

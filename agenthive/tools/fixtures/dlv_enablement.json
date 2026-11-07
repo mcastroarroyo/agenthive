@@ -1,0 +1,102 @@
+{
+  "quiz_pass_mark_pct": 80,
+  "prep_ratio": 0.5,
+  "role_priority": ["admin", "legal_records", "champion", "power_user", "exec_assistant", "executive", "end_user", "frontline"],
+  "modules": {
+    "M-EX-050": {"title": "Executive briefing: what changes on Monday", "minutes": 30, "format": "live", "max_cohort": 12, "languages": ["en"]},
+    "M-EU-101": {"title": "Gmail & Calendar essentials", "minutes": 60, "format": "live virtual", "max_cohort": 30, "languages": ["en", "es"]},
+    "M-EU-102": {"title": "Drive, Shared drives & sharing", "minutes": 60, "format": "live virtual", "max_cohort": 30, "languages": ["en", "es"]},
+    "M-EU-103": {"title": "Meet & Chat for teams", "minutes": 45, "format": "self-paced", "max_cohort": 0, "languages": ["en", "es"]},
+    "M-GEM-110": {"title": "Gemini in Workspace: safe and effective prompting", "minutes": 45, "format": "live virtual", "max_cohort": 40, "languages": ["en", "es"]},
+    "M-FL-090": {"title": "Frontline quick start: mobile Gmail, Chat and Drive (shift huddle)", "minutes": 30, "format": "live on-site", "max_cohort": 25, "languages": ["en", "es"]},
+    "M-PU-201": {"title": "Power user: Sheets, Forms and AppSheet basics", "minutes": 90, "format": "live virtual", "max_cohort": 20, "languages": ["en"]},
+    "M-CH-210": {"title": "Champions: floorwalking and first-line support", "minutes": 120, "format": "live", "max_cohort": 15, "languages": ["en", "es"]},
+    "M-EA-150": {"title": "Delegation and calendar management for assistants", "minutes": 60, "format": "live", "max_cohort": 12, "languages": ["en"]},
+    "M-ADM-301": {"title": "Workspace admin: users, groups, OUs and security", "minutes": 240, "format": "live virtual", "max_cohort": 8, "languages": ["en"]},
+    "M-ADM-302": {"title": "Vault, retention and eDiscovery", "minutes": 120, "format": "live virtual", "max_cohort": 8, "languages": ["en"]},
+    "M-LEG-160": {"title": "Legal-hold custodians: what changes", "minutes": 20, "format": "self-paced", "max_cohort": 0, "languages": ["en"]}
+  },
+  "role_paths": {
+    "executive": ["M-EX-050", "M-GEM-110"],
+    "exec_assistant": ["M-EU-101", "M-EU-102", "M-EA-150", "M-GEM-110"],
+    "end_user": ["M-EU-101", "M-EU-102", "M-EU-103", "M-GEM-110"],
+    "frontline": ["M-FL-090", "M-EU-103"],
+    "power_user": ["M-EU-101", "M-EU-102", "M-PU-201", "M-GEM-110"],
+    "champion": ["M-EU-101", "M-EU-102", "M-CH-210", "M-GEM-110"],
+    "admin": ["M-ADM-301", "M-ADM-302"],
+    "legal_records": ["M-EU-101", "M-EU-102", "M-ADM-302", "M-LEG-160"]
+  },
+  "clients": {
+    "kestrel": {
+      "name": "Kestrel Manufacturing Inc. (fictional)", "trainers": 3,
+      "note": "Align each cohort to its Atlas wave: train in the 7 days before the wave's cutover (baseline plan W0-W7).",
+      "roles": {
+        "end_user": {"headcount": 742, "languages": {"en": 0.86, "es": 0.14}},
+        "frontline": {"headcount": 300, "languages": {"en": 0.45, "es": 0.55}},
+        "power_user": {"headcount": 60, "languages": {"en": 1.0}},
+        "champion": {"headcount": 36, "languages": {"en": 0.75, "es": 0.25}},
+        "admin": {"headcount": 8, "languages": {"en": 1.0}},
+        "legal_records": {"headcount": 6, "languages": {"en": 1.0}},
+        "exec_assistant": {"headcount": 24, "languages": {"en": 1.0}},
+        "executive": {"headcount": 24, "languages": {"en": 1.0}}
+      }
+    },
+    "harborline": {
+      "name": "Harborline Logistics (fictional)", "trainers": 2,
+      "note": "No training between 2026-11-15 and 2027-01-08 (peak season freeze); Gemini module only for the 100 pilot seats in phase 1.",
+      "roles": {
+        "end_user": {"headcount": 610, "languages": {"en": 0.9, "es": 0.1}},
+        "frontline": {"headcount": 160, "languages": {"en": 0.7, "es": 0.3}},
+        "power_user": {"headcount": 30, "languages": {"en": 1.0}},
+        "champion": {"headcount": 25, "languages": {"en": 1.0}},
+        "admin": {"headcount": 5, "languages": {"en": 1.0}},
+        "exec_assistant": {"headcount": 8, "languages": {"en": 1.0}},
+        "executive": {"headcount": 12, "languages": {"en": 1.0}}
+      }
+    }
+  },
+  "question_bank": {
+    "M-EU-101": [
+      {"q": "In Gmail, what replaces Outlook folders?", "options": ["Labels — one email can have several", "Shared drives", "Chat spaces", "Calendar categories"], "answer": 0, "why": "Labels work like folders, but a message can carry more than one."},
+      {"q": "What does Archive do to an email?", "options": ["Deletes it after 30 days", "Removes it from the inbox but keeps it in All Mail", "Moves it to a PST file", "Sends it to your manager"], "answer": 1, "why": "Archived mail stays searchable in All Mail."},
+      {"q": "How do you let an assistant manage your mailbox?", "options": ["Share your password", "Forward all mail to them", "Add them as a delegate in Gmail settings", "Create a shared drive"], "answer": 2, "why": "Delegation gives access without sharing credentials."},
+      {"q": "Where do you check colleagues' availability when booking a meeting?", "options": ["Gmail labels", "'Find a time' in Calendar", "Drive activity", "The help chat space"], "answer": 1, "why": "Find a time overlays attendees' free/busy."},
+      {"q": "After cutover, what happens to mail sent to your usual address?", "options": ["It bounces", "It goes to Outlook", "It arrives in Gmail — your address does not change", "It waits until IT releases it"], "answer": 2, "why": "MX records point to Google after cutover; the address is the same."},
+      {"q": "You deleted an important email by mistake yesterday. Where is it?", "options": ["Gone for good", "In Trash for 30 days", "In Spam", "Only in the old Outlook"], "answer": 1, "why": "Gmail keeps deleted messages in Trash for 30 days."}
+    ],
+    "M-EU-102": [
+      {"q": "Who owns files stored in a Shared drive?", "options": ["The person who uploaded them", "The team / organisation — files stay when someone leaves", "Google", "IT only"], "answer": 1, "why": "Shared drive content belongs to the team, not individuals."},
+      {"q": "What is the safest way to share a file with a supplier?", "options": ["'Anyone with the link'", "Email it as an attachment to your personal account", "Share with the supplier's named address and the least access needed", "Upload it to a public website"], "answer": 2, "why": "Named access with least privilege is traceable and revocable."},
+      {"q": "Your department's file share has moved to...", "options": ["Your My Drive", "A Shared drive with department membership", "Gmail attachments", "A USB key"], "answer": 1, "why": "Departmental shares map to Shared drives."},
+      {"q": "Where do your migrated OneDrive files appear?", "options": ["My Drive", "A Shared drive", "Gmail", "They are not migrated"], "answer": 0, "why": "OneDrive content migrates to the user's My Drive."},
+      {"q": "You need to edit an Excel workbook with colleagues at the same time. Best option?", "options": ["Email copies back and forth", "Open it in Sheets (or edit in Office-compatible mode) from Drive", "Save it to the desktop", "Print it"], "answer": 1, "why": "Drive supports real-time co-editing."}
+    ],
+    "M-GEM-110": [
+      {"q": "Which prompt structure gives the best results?", "options": ["One word", "Context + task + desired format", "As long as possible with no structure", "Only questions with yes/no answers"], "answer": 1, "why": "Context, task and format make the output specific and usable."},
+      {"q": "Gemini drafted a customer email for you. Before sending you should...", "options": ["Send it immediately", "Check facts, numbers and tone — you are accountable for it", "Ask Gemini if it is correct", "Forward it to IT"], "answer": 1, "why": "Generated content must be reviewed by its owner."},
+      {"q": "Can Gemini in Workspace show you content from files you cannot open?", "options": ["Yes, it sees everything", "No — it respects your existing access permissions", "Only on Fridays", "Only for managers"], "answer": 1, "why": "Gemini works within the user's existing permissions."},
+      {"q": "Under Google Workspace's commitments, is your organisation's content used to train models outside your organisation without permission?", "options": ["Yes, always", "No", "Only email", "Only files in My Drive"], "answer": 1, "why": "Workspace commits that customer data is not used to train models outside the organisation without permission."},
+      {"q": "Where can you use 'Help me write'?", "options": ["Gmail and Docs", "Only in Chrome", "Only on mobile", "Nowhere"], "answer": 0, "why": "Help me write is available in Gmail and Docs."}
+    ],
+    "M-ADM-301": [
+      {"q": "What mainly determines which settings apply to a user?", "options": ["Their job title", "Their organizational unit (and group-based policies)", "Their mailbox size", "Their device"], "answer": 1, "why": "Most settings are applied by OU, some by configuration groups."},
+      {"q": "Where do you enforce 2-Step Verification?", "options": ["Gmail settings of each user", "Admin console > Security > Authentication > 2-Step Verification", "Drive sharing settings", "Calendar resources"], "answer": 1, "why": "2SV is enforced centrally in Security settings."},
+      {"q": "How do you replace a shared mailbox like orders@?", "options": ["Create a user and share the password", "A Google Group used as a collaborative inbox (or a delegated account when send-as is needed)", "A Shared drive", "A Chat space"], "answer": 1, "why": "Groups with collaborative inbox avoid shared credentials."},
+      {"q": "The help desk needs to reset passwords. Which access should they get?", "options": ["Super Admin", "A least-privilege role such as Help Desk Admin", "The CEO's account", "No admin role, just the password list"], "answer": 1, "why": "Least privilege: use a prebuilt or custom limited admin role."},
+      {"q": "A user says an external email never arrived. Where do you look first?", "options": ["Email Log Search in the Admin console", "Drive audit", "Calendar resources", "Vault exports"], "answer": 0, "why": "Email Log Search traces delivery of individual messages."}
+    ],
+    "M-FL-090": [
+      {"q": "How do you add your work account on your phone? / ¿Cómo agrega su cuenta de trabajo en el teléfono?", "options": ["Gmail app > Add account > Google", "Send your password to IT", "Install the old Outlook profile", "You cannot"], "answer": 0, "why": "Add the Google account in the Gmail app; IT never asks for your password."},
+      {"q": "Where do shift announcements arrive now? / ¿Dónde llegan ahora los avisos de turno?", "options": ["Printed board only", "The plant's Google Chat space", "Personal WhatsApp", "Voicemail"], "answer": 1, "why": "Each plant has a Chat space for announcements."},
+      {"q": "You forgot your password. What do you do? / Olvidó su contraseña, ¿qué hace?", "options": ["Use a colleague's account", "Call the help desk on ext. 4357 — never share passwords", "Wait a week", "Write it on your locker"], "answer": 1, "why": "The help desk verifies identity and resets it."},
+      {"q": "Can you open the safety procedures on your phone? / ¿Puede abrir los procedimientos de seguridad en el teléfono?", "options": ["Yes, from the plant Shared drive in the Drive app", "No", "Only on paper", "Only on Fridays"], "answer": 0, "why": "Procedures live in the plant's Shared drive."}
+    ],
+    "M-CH-210": [
+      {"q": "On day one, what is a champion's first priority?", "options": ["Fix folder permissions", "Help people sign in, find their mail and calendar, and log issues", "Train on advanced Sheets", "Write a newsletter"], "answer": 1, "why": "Day one is about sign-in and confidence; log what you cannot fix."},
+      {"q": "A colleague cannot see a restricted Finance folder. You...", "options": ["Share your own access", "Log a ticket — never change permissions yourself", "Ask them to use your laptop", "Ignore it"], "answer": 1, "why": "Access changes go through IT for audit."},
+      {"q": "Where do champions log issues?", "options": ["Personal notes", "The 'Workspace Move Help' Chat space / ticket form", "Email to the CEO", "Nowhere"], "answer": 1, "why": "One channel keeps the hypercare queue complete."},
+      {"q": "What is the champion coverage target?", "options": ["1 per 500 users", "At least 1 per 50 users", "1 per site", "1 per country"], "answer": 1, "why": "The playbook targets at least one champion per 50 users."},
+      {"q": "How do we collect user sentiment after cutover?", "options": ["Guess", "The 3-question pulse survey at T+3", "Exit interviews", "Only ticket counts"], "answer": 1, "why": "The T+3 pulse survey feeds adoption tactics."}
+    ]
+  }
+}

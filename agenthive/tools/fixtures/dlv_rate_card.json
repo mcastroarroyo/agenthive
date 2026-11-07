@@ -1,0 +1,137 @@
+{
+  "name": "Wursta Services Rate Card FY27 (illustrative)",
+  "effective": "2026-07-01",
+  "currency": "USD",
+  "roles": {
+    "engagement_director": {
+      "title": "Engagement Director",
+      "us_onshore": 285,
+      "latam_nearshore": 175,
+      "cost_us": 150,
+      "cost_latam": 95
+    },
+    "solutions_architect": {
+      "title": "Solutions Architect",
+      "us_onshore": 240,
+      "latam_nearshore": 150,
+      "cost_us": 125,
+      "cost_latam": 80
+    },
+    "ai_ml_engineer": {
+      "title": "AI/ML Engineer",
+      "us_onshore": 230,
+      "latam_nearshore": 145,
+      "cost_us": 120,
+      "cost_latam": 78
+    },
+    "data_engineer": {
+      "title": "Data Engineer",
+      "us_onshore": 205,
+      "latam_nearshore": 130,
+      "cost_us": 105,
+      "cost_latam": 68
+    },
+    "cloud_engineer": {
+      "title": "Cloud Engineer",
+      "us_onshore": 195,
+      "latam_nearshore": 120,
+      "cost_us": 98,
+      "cost_latam": 62
+    },
+    "migration_specialist": {
+      "title": "Workspace Migration Specialist",
+      "us_onshore": 175,
+      "latam_nearshore": 110,
+      "cost_us": 85,
+      "cost_latam": 55
+    },
+    "change_lead": {
+      "title": "Change Management Lead",
+      "us_onshore": 190,
+      "latam_nearshore": 115,
+      "cost_us": 95,
+      "cost_latam": 60
+    },
+    "project_manager": {
+      "title": "Project Manager",
+      "us_onshore": 185,
+      "latam_nearshore": 115,
+      "cost_us": 92,
+      "cost_latam": 60
+    },
+    "trainer": {
+      "title": "Trainer",
+      "us_onshore": 150,
+      "latam_nearshore": 90,
+      "cost_us": 70,
+      "cost_latam": 45
+    },
+    "qa_analyst": {
+      "title": "QA / Test Analyst",
+      "us_onshore": 140,
+      "latam_nearshore": 85,
+      "cost_us": 65,
+      "cost_latam": 42
+    }
+  },
+  "blended_onshore_roles": [
+    "engagement_director",
+    "solutions_architect",
+    "project_manager",
+    "change_lead"
+  ],
+  "policy": {
+    "target_margin_pct": 40,
+    "floor_margin_pct": 32,
+    "discount_approvals": [
+      {
+        "max_pct": 5,
+        "approver": "Delivery Lead"
+      },
+      {
+        "max_pct": 10,
+        "approver": "Practice Director"
+      },
+      {
+        "max_pct": 15,
+        "approver": "VP Services"
+      },
+      {
+        "max_pct": 100,
+        "approver": "CEO (exception only)"
+      }
+    ],
+    "fixed_risk_premium_pct": {
+      "low": 8,
+      "medium": 15,
+      "high": 22
+    },
+    "tm_nte_buffer_pct": 10,
+    "tm_burn_alert_pct": 80,
+    "billing": {
+      "mobilisation_pct": 15,
+      "holdback_pct": 10,
+      "holdback_release": "10 business days after final acceptance or deemed acceptance",
+      "terms": "Net 30 from invoice date. LATAM follows the country norm; anything above net 45 is an amber clause (SOW Legal Playbook LR-11) and needs Delivery Director approval.",
+      "tm_note": "T&M invoiced monthly in arrears from approved timesheets; never above the not-to-exceed amount without a change order."
+    },
+    "change_orders": {
+      "fixed_contingency_pct": 10,
+      "validity_days": 30,
+      "approvals": [
+        {
+          "max_usd": 10000,
+          "approver": "Delivery Lead"
+        },
+        {
+          "max_usd": 50000,
+          "approver": "Practice Director"
+        },
+        {
+          "max_usd": 1000000000,
+          "approver": "VP Services"
+        }
+      ]
+    }
+  }
+}

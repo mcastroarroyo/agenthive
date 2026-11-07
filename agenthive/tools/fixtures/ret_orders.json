@@ -1,0 +1,596 @@
+{
+ "as_of": "2026-11-06T08:00",
+ "orders": [
+  {
+   "order_id": "ORD-L-480117",
+   "customer": "Mara Ellison",
+   "email": "mara.ellison@mail.example",
+   "loyalty": "Rewards Gold",
+   "channel": "online",
+   "placed": "2026-10-16",
+   "region": "Coast",
+   "ship_to": "Port Calder",
+   "lines": [
+    {
+     "sku": "LUM-65Q8",
+     "qty": 1,
+     "price": 1099.0
+    },
+    {
+     "sku": "AUR-SB700",
+     "qty": 1,
+     "price": 399.0
+    },
+    {
+     "sku": "LUM-HDMI21",
+     "qty": 1,
+     "price": 29.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": "Halvard Final Mile",
+     "service": "white_glove",
+     "tracking": "HFM-55120874",
+     "promised": "2026-10-20",
+     "status": "delivered",
+     "delivered": "2026-10-19",
+     "exception": null
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480532",
+   "customer": "Tobias Renn",
+   "email": "t.renn@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-10-31",
+   "region": "Central",
+   "ship_to": "Lowmoor",
+   "lines": [
+    {
+     "sku": "CVX-PRO16",
+     "qty": 1,
+     "price": 1699.0
+    }
+   ],
+   "careplus": [
+    "3-year"
+   ],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": null,
+     "service": "standard",
+     "tracking": null,
+     "promised": "2026-11-05",
+     "status": "backordered",
+     "delivered": null,
+     "exception": {
+      "type": "backorder",
+      "detail": "DC out of stock; air PO-LRK-88240 due 2026-11-13",
+      "detected": "2026-11-03T09:00",
+      "new_eta": "2026-11-15"
+     }
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480611",
+   "customer": "Ines Calloway",
+   "email": "ines.c@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-11-01",
+   "region": "Central",
+   "ship_to": "Redmarsh",
+   "lines": [
+    {
+     "sku": "AUR-NC90",
+     "qty": 1,
+     "price": 299.0
+    },
+    {
+     "sku": "KAI-NOVA",
+     "qty": 1,
+     "price": 499.0
+    },
+    {
+     "sku": "KAI-CTRL",
+     "qty": 1,
+     "price": 69.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/2",
+     "node": "DC-AVD",
+     "carrier": "Swiftline Parcel",
+     "service": "standard",
+     "tracking": "SWL-7781203",
+     "promised": "2026-11-05",
+     "status": "delivered",
+     "delivered": "2026-11-04",
+     "exception": null,
+     "skus": [
+      "AUR-NC90",
+      "KAI-CTRL"
+     ]
+    },
+    {
+     "shipment": "2/2",
+     "node": "S10",
+     "carrier": null,
+     "service": "standard",
+     "tracking": null,
+     "promised": "2026-11-05",
+     "status": "awaiting_pick",
+     "delivered": null,
+     "skus": [
+      "KAI-NOVA"
+     ],
+     "exception": {
+      "type": "split_shipment",
+      "detail": "Console allocated to ship-from-store S10; store pick missed twice",
+      "detected": "2026-11-04T16:00",
+      "new_eta": "2026-11-08"
+     }
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480702",
+   "customer": "Wen Hartley",
+   "email": "wen.hartley@mail.example",
+   "loyalty": "None",
+   "channel": "online",
+   "placed": "2026-11-02",
+   "region": "North",
+   "ship_to": "Kingsreach",
+   "lines": [
+    {
+     "sku": "WAV-MESH7",
+     "qty": 1,
+     "price": 449.0
+    },
+    {
+     "sku": "HRT-THERM",
+     "qty": 1,
+     "price": 179.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": "Northstar Express",
+     "service": "standard",
+     "tracking": "NSX-30019872",
+     "promised": "2026-11-06",
+     "status": "in_transit",
+     "delivered": null,
+     "exception": {
+      "type": "carrier_delay",
+      "detail": "Held at Ashford Vale hub: Northgate Pass (N-7) closed by ice storm",
+      "detected": "2026-11-06T06:10",
+      "new_eta": "2026-11-09"
+     }
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480745",
+   "customer": "Rafael Okoro",
+   "email": "r.okoro@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-11-04",
+   "region": "Coast",
+   "ship_to": "Silverton Bay",
+   "lines": [
+    {
+     "sku": "TES-WATCH2",
+     "qty": 1,
+     "price": 299.0
+    }
+   ],
+   "careplus": [
+    "2-year"
+   ],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": "Swiftline Parcel",
+     "service": "express",
+     "tracking": null,
+     "promised": "2026-11-06",
+     "status": "on_hold",
+     "delivered": null,
+     "exception": {
+      "type": "address_issue",
+      "detail": "Address validation failed: apartment number missing",
+      "detected": "2026-11-05T11:20",
+      "new_eta": null
+     }
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480790",
+   "customer": "Priya Ashdown",
+   "email": "priya.ashdown@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-11-01",
+   "region": "South",
+   "ship_to": "Sunhollow",
+   "lines": [
+    {
+     "sku": "VAN-AF55",
+     "qty": 1,
+     "price": 119.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-RMD",
+     "carrier": "Northstar Express",
+     "service": "standard",
+     "tracking": "NSX-30017720",
+     "promised": "2026-11-05",
+     "status": "delivered",
+     "delivered": "2026-11-04",
+     "exception": {
+      "type": "damaged_in_transit",
+      "detail": "Customer photo: crushed box, cracked basket",
+      "detected": "2026-11-05T19:40",
+      "new_eta": null
+     }
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480812",
+   "customer": "Jonah Whitcombe",
+   "email": "jonah.w@mail.example",
+   "loyalty": "None",
+   "channel": "online",
+   "placed": "2026-10-30",
+   "region": "Central",
+   "ship_to": "Brackwater",
+   "lines": [
+    {
+     "sku": "LUM-55U6",
+     "qty": 1,
+     "price": 499.0
+    }
+   ],
+   "careplus": [
+    "2-year"
+   ],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": "Halvard Final Mile",
+     "service": "white_glove",
+     "tracking": "HFM-55121933",
+     "promised": "2026-11-04",
+     "status": "delivery_failed",
+     "delivered": null,
+     "exception": {
+      "type": "failed_delivery",
+      "detail": "Two failed attempts (no one home); held at depot",
+      "detected": "2026-11-05T17:00",
+      "new_eta": null
+     }
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480866",
+   "customer": "Lucia Brandt",
+   "email": "lucia.brandt@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-11-03",
+   "region": "Central",
+   "ship_to": "Ashford Vale",
+   "lines": [
+    {
+     "sku": "HRT-HUB",
+     "qty": 1,
+     "price": 149.0
+    },
+    {
+     "sku": "HRT-CAM2",
+     "qty": 2,
+     "price": 69.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": "Coastal Courier",
+     "service": "next_day",
+     "tracking": "CCR-660183",
+     "promised": "2026-11-04",
+     "status": "delivered",
+     "delivered": "2026-11-04",
+     "exception": null
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480901",
+   "customer": "Dev Marlowe",
+   "email": "dev.marlowe@mail.example",
+   "loyalty": "Rewards Gold",
+   "channel": "online",
+   "placed": "2026-11-05",
+   "region": "South",
+   "ship_to": "Cindervale",
+   "lines": [
+    {
+     "sku": "AUR-NC90",
+     "qty": 2,
+     "price": 299.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-RMD",
+     "carrier": "Swiftline Parcel",
+     "service": "express",
+     "tracking": null,
+     "promised": "2026-11-07",
+     "status": "awaiting_pick",
+     "delivered": null,
+     "exception": {
+      "type": "dc_backlog",
+      "detail": "Redmarsh DC wave backlog after WMS outage on 2026-11-05",
+      "detected": "2026-11-06T05:30",
+      "new_eta": "2026-11-08"
+     }
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480955",
+   "customer": "Grace Ndiaye",
+   "email": "grace.ndiaye@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-10-28",
+   "region": "Central",
+   "ship_to": "Ashford Vale",
+   "lines": [
+    {
+     "sku": "VAN-CM12",
+     "qty": 1,
+     "price": 89.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": "Swiftline Parcel",
+     "service": "standard",
+     "tracking": "SWL-7779410",
+     "promised": "2026-11-01",
+     "status": "delivered",
+     "delivered": "2026-10-30",
+     "exception": null
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-479880",
+   "customer": "Harun Keel",
+   "email": "harun.keel@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-09-20",
+   "region": "North",
+   "ship_to": "Elmstead",
+   "lines": [
+    {
+     "sku": "CVX-AIR14",
+     "qty": 1,
+     "price": 899.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "DC-AVD",
+     "carrier": "Swiftline Parcel",
+     "service": "standard",
+     "tracking": "SWL-7650021",
+     "promised": "2026-09-24",
+     "status": "delivered",
+     "delivered": "2026-09-23",
+     "exception": null
+    }
+   ]
+  },
+  {
+   "order_id": "ORD-L-480990",
+   "customer": "Sofia Lindgren",
+   "email": "sofia.lindgren@mail.example",
+   "loyalty": "Rewards",
+   "channel": "online",
+   "placed": "2026-11-05",
+   "region": "Coast",
+   "ship_to": "Port Calder",
+   "lines": [
+    {
+     "sku": "KAI-HS7",
+     "qty": 1,
+     "price": 89.0
+    }
+   ],
+   "careplus": [],
+   "shipments": [
+    {
+     "shipment": "1/1",
+     "node": "S05",
+     "carrier": null,
+     "service": "store_pickup",
+     "tracking": null,
+     "promised": "2026-11-06",
+     "status": "ready_for_pickup",
+     "delivered": null,
+     "exception": null
+    }
+   ]
+  }
+ ],
+ "carriers": [
+  {
+   "carrier": "Swiftline Parcel",
+   "services": {
+    "standard": {
+     "days": 3,
+     "base": 11.2,
+     "per_lb": 0.4
+    },
+    "express": {
+     "days": 1,
+     "base": 24.0,
+     "per_lb": 0.65
+    }
+   },
+   "max_lb": 70,
+   "regions": [
+    "North",
+    "Coast",
+    "Central",
+    "South"
+   ],
+   "on_time_30d_pct": 94.1,
+   "advisory": null
+  },
+  {
+   "carrier": "Northstar Express",
+   "services": {
+    "standard": {
+     "days": 4,
+     "base": 9.8,
+     "per_lb": 0.45
+    },
+    "express": {
+     "days": 2,
+     "base": 19.5,
+     "per_lb": 0.6
+    }
+   },
+   "max_lb": 70,
+   "regions": [
+    "North",
+    "Coast",
+    "Central",
+    "South"
+   ],
+   "on_time_30d_pct": 88.4,
+   "advisory": {
+    "regions": [
+     "North"
+    ],
+    "extra_days": 2,
+    "detail": "Ice storm: Northgate Pass (N-7) closed until about 2026-11-07 12:00"
+   }
+  },
+  {
+   "carrier": "Coastal Courier",
+   "services": {
+    "next_day": {
+     "days": 1,
+     "base": 14.0,
+     "per_lb": 0.2
+    },
+    "same_day": {
+     "days": 0,
+     "base": 22.0,
+     "per_lb": 0.25
+    }
+   },
+   "max_lb": 50,
+   "regions": [
+    "Coast",
+    "Central"
+   ],
+   "on_time_30d_pct": 96.7,
+   "advisory": null
+  },
+  {
+   "carrier": "Halvard Final Mile",
+   "services": {
+    "white_glove": {
+     "days": 3,
+     "base": 59.0,
+     "per_lb": 0.0
+    }
+   },
+   "max_lb": 250,
+   "regions": [
+    "North",
+    "Coast",
+    "Central",
+    "South"
+   ],
+   "on_time_30d_pct": 92.5,
+   "advisory": {
+    "regions": [
+     "North"
+    ],
+    "extra_days": 2,
+    "detail": "Ice storm on N-7: North white-glove routes rescheduled"
+   }
+  }
+ ],
+ "nodes": {
+  "DC-AVD": {
+   "name": "Ashford Vale DC (operated by Halvard Logistics)",
+   "region": "Central"
+  },
+  "DC-RMD": {
+   "name": "Redmarsh DC (operated by Halvard Logistics)",
+   "region": "Central"
+  }
+ },
+ "policy": {
+  "min_on_time_pct": 92.0,
+  "notify_within_hours": 2,
+  "auto_credit_limit_usd": 25.0,
+  "compensation": [
+   {
+    "min_days_late": 2,
+    "credit_usd": 10,
+    "note": "Late 2+ days"
+   },
+   {
+    "min_days_late": 5,
+    "credit_usd": 20,
+    "note": "Late 5+ days or missed express: also refund shipping"
+   }
+  ]
+ }
+}

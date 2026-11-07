@@ -1,0 +1,28 @@
+{
+  "version": "EST-MODEL 3.2 (calibrated on FY26 actuals, illustrative)",
+  "complexity_multipliers": {"low": 0.85, "medium": 1.0, "high": 1.3},
+  "governance_pct": {"project_manager": 0.12, "engagement_director": 0.03},
+  "team_hours_per_week": 110,
+  "deliverable_types": {
+    "discovery_assessment": {"label": "Discovery & assessment", "unit": "engagement", "unit_divisor": 1, "base": {}, "per_unit": {"solutions_architect": 32, "engagement_director": 8, "change_lead": 8}},
+    "workspace_migration": {"label": "Workspace migration (mail, calendar, contacts, OneDrive)", "unit": "users", "unit_divisor": 100, "base": {"solutions_architect": 24, "cloud_engineer": 32}, "per_unit": {"migration_specialist": 22, "cloud_engineer": 6}},
+    "file_share_migration": {"label": "File shares to Shared drives", "unit": "TB", "unit_divisor": 1, "base": {"migration_specialist": 16, "solutions_architect": 8}, "per_unit": {"migration_specialist": 6, "cloud_engineer": 2}},
+    "identity_sso": {"label": "Identity, provisioning & SSO", "unit": "integrations", "unit_divisor": 1, "base": {"cloud_engineer": 24}, "per_unit": {"cloud_engineer": 16, "solutions_architect": 4}},
+    "change_management": {"label": "Change management & communications", "unit": "users", "unit_divisor": 100, "base": {"change_lead": 40}, "per_unit": {"change_lead": 6}},
+    "training_session": {"label": "Live training sessions", "unit": "sessions", "unit_divisor": 1, "base": {"trainer": 8}, "per_unit": {"trainer": 3}},
+    "gemini_rollout": {"label": "Gemini for Workspace rollout", "unit": "seats", "unit_divisor": 100, "base": {"solutions_architect": 16, "change_lead": 16}, "per_unit": {"trainer": 4, "cloud_engineer": 2}},
+    "landing_zone": {"label": "Google Cloud landing zone", "unit": "environments", "unit_divisor": 1, "base": {"solutions_architect": 40, "cloud_engineer": 80}, "per_unit": {"cloud_engineer": 24}},
+    "data_pipeline": {"label": "Data ingestion pipeline", "unit": "pipelines", "unit_divisor": 1, "base": {"solutions_architect": 16}, "per_unit": {"data_engineer": 56, "qa_analyst": 10, "solutions_architect": 6}},
+    "dashboard": {"label": "BI dashboard", "unit": "dashboards", "unit_divisor": 1, "base": {}, "per_unit": {"data_engineer": 22, "qa_analyst": 6}},
+    "ml_model": {"label": "ML model (e.g. forecasting)", "unit": "models", "unit_divisor": 1, "base": {}, "per_unit": {"ai_ml_engineer": 120, "data_engineer": 24, "qa_analyst": 16}},
+    "ai_agent": {"label": "AI agent (ADK / Gemini Enterprise)", "unit": "agents", "unit_divisor": 1, "base": {"solutions_architect": 16}, "per_unit": {"ai_ml_engineer": 110, "solutions_architect": 20, "qa_analyst": 24, "cloud_engineer": 16}},
+    "integration_api": {"label": "System integration (API)", "unit": "integrations", "unit_divisor": 1, "base": {}, "per_unit": {"cloud_engineer": 40, "qa_analyst": 10}},
+    "hypercare": {"label": "Hypercare", "unit": "weeks", "unit_divisor": 1, "base": {}, "per_unit": {"cloud_engineer": 16, "migration_specialist": 12}}
+  },
+  "assumptions": [
+    "Hours are delivery effort before contingency; fixed-fee risk premium or T&M buffer is applied in pricing.",
+    "Project management (12%) and engagement director (3%) are added on top of delivery hours.",
+    "Complexity multipliers: low 0.85, medium 1.0, high 1.3 — justify every 'high' in the SOW assumptions.",
+    "Indicative duration assumes a 3-person core team (~110 delivery hours per week)."
+  ]
+}

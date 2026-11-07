@@ -1,0 +1,655 @@
+{
+ "as_of": "2026-11-06",
+ "institution": "Quillmark Bank (fictional)",
+ "high_risk_jurisdictions": [
+  "Isla Marant",
+  "Republic of Calvera",
+  "Free Port of Ostravia"
+ ],
+ "accounts": [
+  {
+   "account_id": "ACC-30117",
+   "name": "Duskwater Trading LLC",
+   "customer_type": "business",
+   "business": "Wholesale consumer electronics import",
+   "kyc_risk": "medium",
+   "opened": "2024-03-11",
+   "expected_monthly_inflow_usd": 60000,
+   "expected_monthly_outflow_usd": 55000,
+   "cash_intensive": false,
+   "last_activity_before_window": "2026-10-02"
+  },
+  {
+   "account_id": "ACC-30245",
+   "name": "Mateo Ferreira-Holt",
+   "customer_type": "individual",
+   "birth_year": 1988,
+   "business": "Freelance software contractor",
+   "kyc_risk": "low",
+   "opened": "2022-07-19",
+   "expected_monthly_inflow_usd": 12000,
+   "expected_monthly_outflow_usd": 10000,
+   "cash_intensive": false,
+   "last_activity_before_window": "2026-10-01"
+  },
+  {
+   "account_id": "ACC-30388",
+   "name": "Glenrock Dental Group PLLC",
+   "customer_type": "business",
+   "business": "Dental practice (3 clinics)",
+   "kyc_risk": "low",
+   "opened": "2019-01-08",
+   "expected_monthly_inflow_usd": 210000,
+   "expected_monthly_outflow_usd": 195000,
+   "cash_intensive": false,
+   "last_activity_before_window": "2026-10-06"
+  },
+  {
+   "account_id": "ACC-30402",
+   "name": "Vantor Import Export S.A.",
+   "customer_type": "business",
+   "business": "Agricultural machinery trading",
+   "kyc_risk": "high",
+   "opened": "2023-09-27",
+   "expected_monthly_inflow_usd": 420000,
+   "expected_monthly_outflow_usd": 400000,
+   "cash_intensive": false,
+   "last_activity_before_window": "2026-10-05"
+  },
+  {
+   "account_id": "ACC-30519",
+   "name": "Ostrander Holdings LLC",
+   "customer_type": "business",
+   "business": "Real-estate holding company",
+   "kyc_risk": "medium",
+   "opened": "2021-02-02",
+   "expected_monthly_inflow_usd": 15000,
+   "expected_monthly_outflow_usd": 15000,
+   "cash_intensive": false,
+   "last_activity_before_window": "2025-08-01"
+  },
+  {
+   "account_id": "ACC-30577",
+   "name": "Harbor Lane Bakery Inc.",
+   "customer_type": "business",
+   "business": "Bakery and cafe (cash-intensive)",
+   "kyc_risk": "low",
+   "opened": "2018-05-14",
+   "expected_monthly_inflow_usd": 95000,
+   "expected_monthly_outflow_usd": 88000,
+   "cash_intensive": true,
+   "last_activity_before_window": "2026-10-06"
+  }
+ ],
+ "transactions": [
+  {
+   "txn_id": "TX-880101",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-09T11:02",
+   "type": "ach_in",
+   "amount_usd": 21400.0,
+   "counterparty": "Brightway Retail Co",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880102",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-12T09:40",
+   "type": "ach_out",
+   "amount_usd": 18250.0,
+   "counterparty": "Pacific Freight Forwarders",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880103",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-20T10:15",
+   "type": "cash_deposit",
+   "amount_usd": 9400.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 12"
+  },
+  {
+   "txn_id": "TX-880104",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-21T15:47",
+   "type": "cash_deposit",
+   "amount_usd": 9850.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 07"
+  },
+  {
+   "txn_id": "TX-880105",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-22T09:05",
+   "type": "cash_deposit",
+   "amount_usd": 9200.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 12"
+  },
+  {
+   "txn_id": "TX-880106",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-24T13:30",
+   "type": "cash_deposit",
+   "amount_usd": 9700.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 03"
+  },
+  {
+   "txn_id": "TX-880107",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-25T10:12",
+   "type": "cash_deposit",
+   "amount_usd": 9950.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 07"
+  },
+  {
+   "txn_id": "TX-880108",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-10-27T16:20",
+   "type": "wire_out",
+   "amount_usd": 45000.0,
+   "counterparty": "Marant Freight Services",
+   "counterparty_country": "Isla Marant",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880109",
+   "account_id": "ACC-30117",
+   "timestamp": "2026-11-02T11:00",
+   "type": "ach_in",
+   "amount_usd": 16800.0,
+   "counterparty": "Brightway Retail Co",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880110",
+   "account_id": "ACC-30245",
+   "timestamp": "2026-10-15T08:00",
+   "type": "ach_in",
+   "amount_usd": 9800.0,
+   "counterparty": "Client invoice \u2014 Lattice Apps Ltd",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880111",
+   "account_id": "ACC-30245",
+   "timestamp": "2026-10-16T12:10",
+   "type": "card",
+   "amount_usd": 1240.55,
+   "counterparty": "Card spend (multiple merchants)",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880112",
+   "account_id": "ACC-30245",
+   "timestamp": "2026-10-29T10:22",
+   "type": "wire_in",
+   "amount_usd": 185000.0,
+   "counterparty": "Northline Ventures Ltd",
+   "counterparty_country": "Republic of Calvera",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880113",
+   "account_id": "ACC-30245",
+   "timestamp": "2026-10-30T09:14",
+   "type": "wire_out",
+   "amount_usd": 60000.0,
+   "counterparty": "K. Arvelo",
+   "counterparty_country": "Republic of Calvera",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880114",
+   "account_id": "ACC-30245",
+   "timestamp": "2026-10-30T09:31",
+   "type": "wire_out",
+   "amount_usd": 60000.0,
+   "counterparty": "Brisa Consulting SRL",
+   "counterparty_country": "Republic of Calvera",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880115",
+   "account_id": "ACC-30245",
+   "timestamp": "2026-10-31T14:05",
+   "type": "wire_out",
+   "amount_usd": 55000.0,
+   "counterparty": "Tessaro Holdings",
+   "counterparty_country": "Isla Marant",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880116",
+   "account_id": "ACC-30245",
+   "timestamp": "2026-11-01T18:40",
+   "type": "card",
+   "amount_usd": 2310.1,
+   "counterparty": "Card spend (multiple merchants)",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880117",
+   "account_id": "ACC-30388",
+   "timestamp": "2026-10-08T07:30",
+   "type": "ach_in",
+   "amount_usd": 64200.0,
+   "counterparty": "Insurance remittances (multiple payers)",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880118",
+   "account_id": "ACC-30388",
+   "timestamp": "2026-10-15T07:30",
+   "type": "ach_in",
+   "amount_usd": 71850.0,
+   "counterparty": "Insurance remittances (multiple payers)",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880119",
+   "account_id": "ACC-30388",
+   "timestamp": "2026-10-22T07:30",
+   "type": "ach_in",
+   "amount_usd": 69420.0,
+   "counterparty": "Insurance remittances (multiple payers)",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880120",
+   "account_id": "ACC-30388",
+   "timestamp": "2026-10-29T07:30",
+   "type": "ach_in",
+   "amount_usd": 73110.0,
+   "counterparty": "Insurance remittances (multiple payers)",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880121",
+   "account_id": "ACC-30388",
+   "timestamp": "2026-10-10T06:00",
+   "type": "ach_out",
+   "amount_usd": 88400.0,
+   "counterparty": "Payroll \u2014 Evergreen Payroll Services",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880122",
+   "account_id": "ACC-30388",
+   "timestamp": "2026-10-24T06:00",
+   "type": "ach_out",
+   "amount_usd": 88400.0,
+   "counterparty": "Payroll \u2014 Evergreen Payroll Services",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880123",
+   "account_id": "ACC-30388",
+   "timestamp": "2026-10-18T10:00",
+   "type": "ach_out",
+   "amount_usd": 23650.0,
+   "counterparty": "Dental Supply Partners",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880124",
+   "account_id": "ACC-30402",
+   "timestamp": "2026-10-09T15:00",
+   "type": "wire_out",
+   "amount_usd": 120000.0,
+   "counterparty": "Marant Agro Equipment",
+   "counterparty_country": "Isla Marant",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880125",
+   "account_id": "ACC-30402",
+   "timestamp": "2026-10-12T10:30",
+   "type": "wire_in",
+   "amount_usd": 310000.0,
+   "counterparty": "Fieldstone Farm Cooperative",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880126",
+   "account_id": "ACC-30402",
+   "timestamp": "2026-10-16T15:10",
+   "type": "wire_out",
+   "amount_usd": 95000.0,
+   "counterparty": "Marant Agro Equipment",
+   "counterparty_country": "Isla Marant",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880127",
+   "account_id": "ACC-30402",
+   "timestamp": "2026-10-23T14:55",
+   "type": "wire_out",
+   "amount_usd": 130000.0,
+   "counterparty": "Ostravia Port Logistics",
+   "counterparty_country": "Free Port of Ostravia",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880128",
+   "account_id": "ACC-30402",
+   "timestamp": "2026-10-28T09:20",
+   "type": "wire_in",
+   "amount_usd": 185000.0,
+   "counterparty": "Fieldstone Farm Cooperative",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880129",
+   "account_id": "ACC-30519",
+   "timestamp": "2026-10-14T11:45",
+   "type": "wire_in",
+   "amount_usd": 240000.0,
+   "counterparty": "Pellucid Asset Partners",
+   "counterparty_country": "Republic of Calvera",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880130",
+   "account_id": "ACC-30519",
+   "timestamp": "2026-10-15T09:02",
+   "type": "wire_out",
+   "amount_usd": 80000.0,
+   "counterparty": "Hollin Bay Properties",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880131",
+   "account_id": "ACC-30519",
+   "timestamp": "2026-10-15T09:10",
+   "type": "wire_out",
+   "amount_usd": 80000.0,
+   "counterparty": "J. Marlowe Escrow Services",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880132",
+   "account_id": "ACC-30519",
+   "timestamp": "2026-10-15T09:24",
+   "type": "wire_out",
+   "amount_usd": 70000.0,
+   "counterparty": "Saltgrass Title & Escrow",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880133",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-08T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 4120.5,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880134",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-10T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 3880.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880135",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-12T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 5210.25,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880136",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-14T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 4675.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880137",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-16T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 3990.75,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880138",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-18T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 6120.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880139",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-20T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 5480.5,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880140",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-22T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 4302.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880141",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-24T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 4950.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880142",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-26T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 5735.25,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880143",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-28T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 4410.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880144",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-30T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 3765.5,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880145",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-19T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 6045.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880146",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-21T18:30",
+   "type": "cash_deposit",
+   "amount_usd": 5120.0,
+   "counterparty": "Cash",
+   "counterparty_country": "Domestic",
+   "channel": "Branch 05"
+  },
+  {
+   "txn_id": "TX-880147",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-20T08:00",
+   "type": "ach_out",
+   "amount_usd": 31200.0,
+   "counterparty": "Millbrook Flour & Grain",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  },
+  {
+   "txn_id": "TX-880148",
+   "account_id": "ACC-30577",
+   "timestamp": "2026-10-31T06:00",
+   "type": "ach_out",
+   "amount_usd": 42800.0,
+   "counterparty": "Payroll \u2014 Evergreen Payroll Services",
+   "counterparty_country": "Domestic",
+   "channel": ""
+  }
+ ],
+ "watchlist": [
+  {
+   "id": "WL-S-0141",
+   "name": "Marant Freight Services Group",
+   "list": "Sanctions (synthetic consolidated list)",
+   "type": "entity",
+   "countries": [
+    "Isla Marant"
+   ],
+   "program": "Synthetic programme ISM-3 (port logistics)",
+   "listed": "2025-11-20"
+  },
+  {
+   "id": "WL-S-0219",
+   "name": "Duskwater Maritime Ltd",
+   "list": "Sanctions (synthetic consolidated list)",
+   "type": "entity",
+   "countries": [
+    "Isla Marant"
+   ],
+   "program": "Synthetic programme ISM-3",
+   "listed": "2024-06-03"
+  },
+  {
+   "id": "WL-S-0302",
+   "name": "Pellucid Asset Partners Group",
+   "list": "Sanctions (synthetic consolidated list)",
+   "type": "entity",
+   "countries": [
+    "Republic of Calvera"
+   ],
+   "program": "Synthetic programme CAL-1 (asset freeze)",
+   "listed": "2026-04-09"
+  },
+  {
+   "id": "WL-S-0355",
+   "name": "Northline Ventures Holdings",
+   "list": "Sanctions (synthetic consolidated list)",
+   "type": "entity",
+   "countries": [
+    "Free Port of Ostravia"
+   ],
+   "program": "Synthetic programme OST-2",
+   "listed": "2025-02-14"
+  },
+  {
+   "id": "WL-P-0877",
+   "name": "Matteo Ferreira Holt",
+   "list": "PEP (synthetic)",
+   "type": "individual",
+   "birth_year": 1971,
+   "countries": [
+    "Republic of Calvera"
+   ],
+   "position": "Former deputy minister of ports (fictional)"
+  },
+  {
+   "id": "WL-P-0912",
+   "name": "Kasimir Arvelo",
+   "list": "PEP (synthetic)",
+   "type": "individual",
+   "birth_year": 1966,
+   "countries": [
+    "Republic of Calvera"
+   ],
+   "position": "Senior official, state mining company (fictional)"
+  },
+  {
+   "id": "WL-P-1033",
+   "name": "Oriane Delacroix-Venn",
+   "list": "PEP (synthetic)",
+   "type": "individual",
+   "birth_year": 1979,
+   "countries": [
+    "Free Port of Ostravia"
+   ],
+   "position": "Port authority board member (fictional)"
+  },
+  {
+   "id": "WL-A-0420",
+   "name": "Glenmore Dental Holdings",
+   "list": "Adverse media (synthetic)",
+   "type": "entity",
+   "countries": [
+    "Domestic"
+   ],
+   "program": "Healthcare billing fraud allegations (fictional)"
+  }
+ ]
+}

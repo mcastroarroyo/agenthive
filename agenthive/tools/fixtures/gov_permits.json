@@ -1,0 +1,102 @@
+{
+  "department": "Port Alder Department of Building & Safety (DBS) and Planning Division",
+  "zoning_districts": {
+    "R-1": {"name": "Single-Family Residential", "max_height_ft": 30, "max_lot_coverage_pct": 40, "setbacks_ft": {"front": 20, "side": 5, "rear": 20},
+            "allowed": ["single_family", "adu", "home_occupation", "addition", "deck", "fence", "solar_pv", "demolition"],
+            "conditional": ["small_daycare"], "prohibited_examples": ["restaurant", "retail", "office", "warehouse"]},
+    "R-2": {"name": "Two-Family / Townhouse Residential", "max_height_ft": 35, "max_lot_coverage_pct": 50, "setbacks_ft": {"front": 15, "side": 5, "rear": 15},
+            "allowed": ["single_family", "duplex", "townhouse", "adu", "home_occupation", "addition", "deck", "fence", "solar_pv", "demolition"],
+            "conditional": ["small_daycare"], "prohibited_examples": ["restaurant", "retail", "warehouse"]},
+    "MU-2": {"name": "Mixed-Use Corridor", "max_height_ft": 55, "max_lot_coverage_pct": 80, "setbacks_ft": {"front": 0, "side": 0, "rear": 10},
+             "allowed": ["retail", "restaurant", "office", "residential_upper_floors", "mixed_use", "tenant_improvement", "solar_pv", "special_event"],
+             "conditional": ["bar", "nightclub"], "prohibited_examples": ["warehouse", "auto_service", "single_family"]},
+    "C-2": {"name": "General Commercial", "max_height_ft": 45, "max_lot_coverage_pct": 70, "setbacks_ft": {"front": 10, "side": 0, "rear": 10},
+            "allowed": ["retail", "restaurant", "office", "hotel", "auto_service", "tenant_improvement", "solar_pv", "demolition", "special_event"],
+            "conditional": ["bar"], "prohibited_examples": ["single_family", "manufacturing"]},
+    "I-1": {"name": "Light Industrial", "max_height_ft": 50, "max_lot_coverage_pct": 75, "setbacks_ft": {"front": 15, "side": 10, "rear": 10},
+            "allowed": ["warehouse", "light_manufacturing", "auto_service", "office", "tenant_improvement", "solar_pv", "demolition"],
+            "conditional": ["brewery", "event_venue"], "prohibited_examples": ["single_family", "school"]},
+    "OS": {"name": "Open Space / Parks", "max_height_ft": 20, "max_lot_coverage_pct": 5, "setbacks_ft": {"front": 25, "side": 25, "rear": 25},
+           "allowed": ["park", "special_event"], "conditional": ["park_structure"], "prohibited_examples": ["any private building"]}
+  },
+  "adu_standards": {"max_floor_area_sqft": 800, "max_height_ft": 18, "min_side_rear_setback_ft": 4, "max_per_lot": 1, "impact_fee_waiver_below_sqft": 750},
+  "overlays": {
+    "HIST-OT": {"name": "Old Town Historic District", "requirement": "Certificate of Appropriateness from the Historic Preservation Commission for any exterior change (adds about 30 days; fee $220).", "fee": 220},
+    "FLOOD-AE": {"name": "Coastal Flood Zone AE", "requirement": "Elevation certificate; lowest floor of new habitable space at least 1 ft above base flood elevation; flood-resistant materials below; review fee $150.", "fee": 150}
+  },
+  "parcels": [
+    {"apn": "104-221-017", "address": "2218 Willow Terrace", "zone": "R-1", "neighborhood": "Willow Park", "district": "D3", "lot_sqft": 6000, "existing_coverage_sqft": 1680, "overlays": [], "owner": "Priya Natarajan"},
+    {"apn": "087-012-005", "address": "415 Harbor Street", "zone": "MU-2", "neighborhood": "Old Town", "district": "D1", "lot_sqft": 4500, "existing_coverage_sqft": 3240, "overlays": ["HIST-OT"], "owner": "Harbor Lantern Properties LLC"},
+    {"apn": "132-450-009", "address": "61 Tidewater Road", "zone": "R-1", "neighborhood": "Pelican Point", "district": "D6", "lot_sqft": 7200, "existing_coverage_sqft": 2520, "overlays": ["FLOOD-AE"], "base_flood_elevation_ft": 9, "owner": "Colm Brady"},
+    {"apn": "145-003-022", "address": "900 Quarry Road", "zone": "I-1", "neighborhood": "Quarry Hill", "district": "D7", "lot_sqft": 40000, "existing_coverage_sqft": 18000, "overlays": [], "owner": "Quarry Hill Logistics"},
+    {"apn": "118-076-031", "address": "3301 Alder Boulevard", "zone": "C-2", "neighborhood": "Northpoint", "district": "D7", "lot_sqft": 12000, "existing_coverage_sqft": 6000, "overlays": [], "owner": "Northpoint Retail Partners"},
+    {"apn": "099-310-001", "address": "Bayfront Park - Great Lawn", "zone": "OS", "neighborhood": "Harborview", "district": "D1", "lot_sqft": 210000, "existing_coverage_sqft": 4000, "overlays": [], "owner": "City of Port Alder (Parks)", "event_capacity": 5000, "site_fee_per_day": 1200}
+  ],
+  "fees": {
+    "valuation_tiers": [
+      {"up_to": 2000, "base": 85, "rate_per_1000": 0, "over": 0},
+      {"up_to": 25000, "base": 85, "rate_per_1000": 14.5, "over": 2000},
+      {"up_to": 100000, "base": 418.5, "rate_per_1000": 10.5, "over": 25000},
+      {"up_to": 500000, "base": 1206, "rate_per_1000": 8.25, "over": 100000},
+      {"up_to": 1000000000, "base": 4506, "rate_per_1000": 6.0, "over": 500000}],
+    "plan_review_pct": 65,
+    "expedite_pct_of_plan_review": 50,
+    "technology_surcharge_pct": 4,
+    "impact_fee_per_sqft": 3.25
+  },
+  "permit_types": {
+    "ADU": {"name": "Accessory Dwelling Unit (detached or attached)", "fee_basis": "valuation", "plan_review": true, "review_business_days": 20, "expedited_review_business_days": 10,
+            "documents": ["Site plan showing lot lines, existing buildings, ADU footprint and setbacks", "Floor plans and elevations", "Structural calculations and foundation plan",
+                          "Energy compliance form EC-1", "Utility connection letter from Port Alder Water Utility", "Owner authorisation (if applicant is not the owner)"],
+            "plan_review_checklist": ["Floor area <= 800 sq ft", "Height <= 18 ft", "Side and rear setbacks >= 4 ft", "Lot coverage within zone limit",
+                                      "Separate address and utility shut-offs", "Smoke and CO alarms shown", "Egress window in every sleeping room"],
+            "inspections": ["foundation", "framing", "rough_mep", "insulation", "final"]},
+    "RES_ADDITION": {"name": "Residential addition or structural remodel", "fee_basis": "valuation", "plan_review": true, "review_business_days": 15, "expedited_review_business_days": 7,
+                     "documents": ["Site plan with setbacks", "Floor plans (existing and proposed)", "Elevations", "Structural calculations if structural work", "Energy compliance form EC-1"],
+                     "plan_review_checklist": ["Setbacks and height", "Lot coverage", "Structural load path", "Egress and alarms", "Energy compliance"],
+                     "inspections": ["foundation", "framing", "rough_mep", "insulation", "final"]},
+    "DECK": {"name": "Deck or porch", "fee_basis": "valuation", "plan_review": "only when the deck is more than 30 inches above grade or larger than 200 sq ft", "review_business_days": 5, "expedited_review_business_days": 2,
+             "documents": ["Site plan with deck footprint and setbacks", "Framing plan (joist size, spacing, span; ledger attachment detail)", "Guardrail and stair details"],
+             "plan_review_checklist": ["Setbacks", "Ledger flashing and fastening", "Guard height >= 36 in", "Footing size and depth", "Flood-zone construction if in FLOOD-AE"],
+             "inspections": ["footing", "framing", "final"]},
+    "COMMERCIAL_TI": {"name": "Commercial tenant improvement", "fee_basis": "valuation", "plan_review": true, "review_business_days": 20, "expedited_review_business_days": 10,
+                      "documents": ["Architect-stamped plans", "Fire and life-safety plan", "Accessibility compliance checklist", "Health department plan approval (food uses)", "Mechanical, electrical and plumbing plans"],
+                      "plan_review_checklist": ["Occupancy and exiting", "Accessible route and restrooms", "Fire separation and sprinklers", "Grease interceptor sizing (food uses)", "Historic overlay approval for exterior changes"],
+                      "inspections": ["rough_mep", "framing", "fire_sprinkler", "final", "health"]},
+    "SOLAR_PV": {"name": "Residential rooftop solar (up to 15 kW, standard plan)", "fee_basis": "flat", "flat_fee": 275, "plan_review": false, "review_business_days": 2, "expedited_review_business_days": 2,
+                 "documents": ["Standard solar plan set SP-1", "Roof framing photo", "Equipment spec sheets"], "plan_review_checklist": [], "inspections": ["final"]},
+    "DEMOLITION": {"name": "Demolition", "fee_basis": "flat", "flat_fee": 350, "plan_review": false, "review_business_days": 5, "expedited_review_business_days": 3,
+                   "documents": ["Asbestos survey by a certified inspector", "Utility disconnection letters", "Erosion and dust control plan"], "plan_review_checklist": [], "inspections": ["site_clearance"]},
+    "FENCE": {"name": "Fence over 7 ft (or over 4 ft in a front yard)", "fee_basis": "flat", "flat_fee": 95, "plan_review": false, "review_business_days": 3, "expedited_review_business_days": 3,
+              "documents": ["Site plan with fence location and height"], "plan_review_checklist": [], "inspections": ["final"]},
+    "SPECIAL_EVENT": {"name": "Special event permit", "fee_basis": "event", "plan_review": false,
+                      "base_fee_by_attendance": [{"max": 499, "fee": 150, "lead_days": 30, "insurance": 1000000}, {"max": 2499, "fee": 400, "lead_days": 60, "insurance": 1000000}, {"max": 100000, "fee": 950, "lead_days": 90, "insurance": 2000000}],
+                      "street_closure_per_block_per_day": 250, "temporary_food_permit_per_vendor": 85, "temporary_alcohol_endorsement": 150, "amplified_sound_permit": 75,
+                      "toilets_per_attendees": 250, "accessible_toilet_share": 0.10, "security_guard_per_attendees": 250, "police_detail_from_attendance": 2500,
+                      "documents": ["Site plan (stages, booths, toilets, first aid, exits)", "Certificate of liability insurance naming the City of Port Alder as additional insured",
+                                    "Security and crowd management plan", "Waste and recycling plan", "Traffic control plan (for street closures)", "Neighbour notification letter (for street closures)"],
+                      "plan_review_checklist": [], "inspections": ["fire_marshal_walkthrough"]}
+  },
+  "permits": [
+    {"number": "BP-2026-04127", "type": "ADU", "address": "2218 Willow Terrace", "apn": "104-221-017", "owner": "Priya Natarajan", "contractor": "Kestrel Builders Inc.",
+     "contractor_registration_active": true, "status": "issued", "issued": "2026-08-03", "valuation": 148000,
+     "inspections": [
+       {"type": "foundation", "date": "2026-09-10", "result": "passed", "inspector": "Hal Whitcombe"},
+       {"type": "framing", "date": "2026-10-15", "result": "failed", "inspector": "Hal Whitcombe", "notes": "Missing hold-down straps on the north wall."},
+       {"type": "framing", "date": "2026-10-22", "result": "passed", "inspector": "Hal Whitcombe", "notes": "Re-inspection passed."}]},
+    {"number": "BP-2026-03881", "type": "COMMERCIAL_TI", "address": "415 Harbor Street", "apn": "087-012-005", "owner": "Harbor Lantern Properties LLC", "applicant": "Golden Lantern Noodle House",
+     "contractor": "Saltline Interiors", "contractor_registration_active": true, "status": "plan_review_corrections", "submitted": "2026-09-02", "valuation": 265000, "review_cycle": 2,
+     "corrections": ["Accessible restroom: 60-inch turning circle not shown", "Grease interceptor undersized for 120 seats (needs 750 gallons)", "Historic Preservation Commission approval for new storefront signage not yet submitted"],
+     "inspections": []},
+    {"number": "BP-2026-02977", "type": "RES_ADDITION", "address": "14 Ridgeback Avenue", "apn": "121-008-044", "owner": "Mona Albers", "contractor": "Northpoint Roofing & Gutters",
+     "contractor_registration_active": false, "status": "issued", "issued": "2026-06-18", "valuation": 38000,
+     "inspections": [{"type": "framing", "date": "2026-07-14", "result": "passed", "inspector": "Ada Kowalczyk"}],
+     "notes": "Contractor registration LIC-CTR-2022-00561 expired 2026-07-20; inspections are on hold until the registration is renewed or the owner substitutes a registered contractor."}
+  ],
+  "inspection_calendar": {
+    "request_cutoff": "15:00 on the previous business day",
+    "windows": {"AM": "08:00-12:00", "PM": "12:30-16:00"},
+    "default_open_slots": {"AM": 3, "PM": 3},
+    "overrides": {"2026-11-09": {"AM": 0, "PM": 1}, "2026-11-10": {"AM": 0, "PM": 2}, "2026-11-12": {"AM": 4, "PM": 2}, "2026-11-13": {"AM": 1, "PM": 0}}
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "source": "Kitewing customer benchmarks 2024-2026 (synthetic) — medians across customers in each segment before go-live.",
+  "workdays_per_year": 230,
+  "realisation_factor": 0.4,
+  "realisation_note": "Only 40% of freed technician and office capacity is counted as value (conservative: not every saved hour becomes a billable job or avoided cost). Overtime counts only the overtime premium.",
+  "segments": {
+    "hvac_plumbing": {
+      "loaded_tech_hourly_usd": 48,
+      "drive_hours_per_tech_day": 1.9,
+      "jobs_per_tech_day": 3.4,
+      "first_time_fix_rate_pct": 76,
+      "overtime_pct": 12,
+      "admin_hours_per_staff_week": 12,
+      "admin_hourly_usd": 32,
+      "dso_days": 46,
+      "repeat_visit_cost_usd": 95
+    },
+    "facilities": {
+      "loaded_tech_hourly_usd": 45,
+      "drive_hours_per_tech_day": 1.5,
+      "jobs_per_tech_day": 3.0,
+      "first_time_fix_rate_pct": 74,
+      "overtime_pct": 10,
+      "admin_hours_per_staff_week": 14,
+      "admin_hourly_usd": 33,
+      "dso_days": 58,
+      "repeat_visit_cost_usd": 110
+    },
+    "fire_security": {
+      "loaded_tech_hourly_usd": 50,
+      "drive_hours_per_tech_day": 1.7,
+      "jobs_per_tech_day": 2.6,
+      "first_time_fix_rate_pct": 80,
+      "overtime_pct": 9,
+      "admin_hours_per_staff_week": 15,
+      "admin_hourly_usd": 32,
+      "dso_days": 52,
+      "repeat_visit_cost_usd": 120
+    },
+    "elevator": {
+      "loaded_tech_hourly_usd": 62,
+      "drive_hours_per_tech_day": 1.4,
+      "jobs_per_tech_day": 2.2,
+      "first_time_fix_rate_pct": 84,
+      "overtime_pct": 8,
+      "admin_hours_per_staff_week": 10,
+      "admin_hourly_usd": 34,
+      "dso_days": 49,
+      "repeat_visit_cost_usd": 160
+    },
+    "pest_landscaping": {
+      "loaded_tech_hourly_usd": 34,
+      "drive_hours_per_tech_day": 2.1,
+      "jobs_per_tech_day": 7.5,
+      "first_time_fix_rate_pct": 92,
+      "overtime_pct": 7,
+      "admin_hours_per_staff_week": 16,
+      "admin_hourly_usd": 28,
+      "dso_days": 38,
+      "repeat_visit_cost_usd": 45
+    }
+  },
+  "improvements": {
+    "drive_time_reduction_pct": {
+      "value": 10,
+      "basis": "Conservative vs. 18% measured at Copperline (CS-02) with Route Optimizer."
+    },
+    "drive_time_reduction_pct_without_route_optimizer": {
+      "value": 5,
+      "basis": "Dispatch board + mobile app only."
+    },
+    "first_time_fix_gain_pts": {
+      "value": 3,
+      "basis": "Conservative vs. +15 pts at Greystone (CS-01)."
+    },
+    "assist_extra_ftf_pts": {
+      "value": 1,
+      "basis": "Summit Ridge (CS-03): 35% fewer technician calls to the office with Assist."
+    },
+    "overtime_reduction_pct": {
+      "value": 12,
+      "basis": "Conservative vs. -22% at Greystone (CS-01); only the 50% overtime premium is counted."
+    },
+    "overtime_premium": {
+      "value": 0.5,
+      "basis": "Time-and-a-half: the saving is the premium, the work itself still happens."
+    },
+    "admin_time_reduction_pct": {
+      "value": 25,
+      "basis": "Meadowlark (CS-05) saved 12 h/week with 3 office staff (about 33%)."
+    },
+    "dso_reduction_days": {
+      "value": 6,
+      "basis": "Conservative vs. -18 days at Summit Ridge (CS-03)."
+    },
+    "cost_of_capital_pct": {
+      "value": 8,
+      "basis": "Annual value of cash released by faster invoicing."
+    },
+    "internal_training_hours_per_tech": {
+      "value": 6,
+      "basis": "Technician training and ride-alongs during rollout (internal cost of the investment)."
+    },
+    "internal_hours_per_office_staff": {
+      "value": 16,
+      "basis": "Dispatcher/office configuration workshops, testing and training."
+    }
+  },
+  "scenarios": {
+    "conservative": 0.6,
+    "expected": 1.0,
+    "stretch": 1.3
+  }
+}

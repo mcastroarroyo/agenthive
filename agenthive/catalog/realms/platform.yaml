@@ -1,0 +1,491 @@
+# Platform Core — horizontal agents + the Pantheon advisory suite.
+agents:
+  - id: context_librarian
+    code: Lib
+    name: Context Librarian
+    cluster: core
+    status: built
+    tagline: Finds the right source of truth, answers with citations and flags stale knowledge.
+    description: >-
+      The Context Librarian is the front door to an organisation's knowledge. It searches the curated knowledge base,
+      answers with document citations, explains which source is authoritative when documents disagree, and flags
+      content that is stale or ownerless so knowledge managers can fix it.
+    persona: Any employee or consultant looking for "the official answer"; knowledge managers
+    use_cases:
+      - Answer process and policy questions with citations
+      - Resolve conflicts between two versions of a playbook
+      - Report stale or ownerless documents for curation
+    model: lite
+    model_reason: Retrieval does the heavy lifting; Flash-Lite is enough to compose a cited answer.
+    tools: [list_knowledge_sources, check_document_freshness]
+    grounding: [kb]
+    instruction: |
+      1. Search the knowledge base first, every time. Quote the document title for each fact.
+      2. If two sources disagree, say which is authoritative (newer, owned, approved) and why.
+      3. When an answer depends on a document, call check_document_freshness and warn if it is stale.
+      4. If nothing relevant is found, say so and suggest who owns the topic (from list_knowledge_sources).
+    output: A direct answer (2-5 sentences), a "Sources" list with document titles, and a freshness note when relevant.
+    samples:
+      - What is our standard process for a Workspace migration cutover weekend?
+      - Which document is the source of truth for the agent deployment checklist, and is it up to date?
+      - Which knowledge sources have no owner or are older than a year?
+    kpis: [Time-to-answer for policy questions, "% answers with citations", Stale documents fixed per month]
+
+  - id: deep_research
+    code: Drs
+    name: Deep Research
+    cluster: core
+    status: library
+    tagline: Plans, searches and writes a sourced research brief on any market or technology question.
+    description: >-
+      A three-stage research pipeline: a planner breaks the question into sub-questions, a researcher answers each one
+      with Google Search grounding, and a writer produces an executive brief with citations and open questions.
+    persona: Strategists, account executives and architects preparing for a client conversation
+    use_cases:
+      - Market scan before a discovery call
+      - Technology comparison with current sources
+      - Regulatory landscape brief
+    model: flash
+    model_reason: Search-grounded synthesis needs Flash; planning is delegated to Flash-Lite.
+    pattern: sequential
+    steps:
+      - id: planner
+        name: Research planner
+        model: lite
+        role: Breaks the question into 3-5 precise sub-questions and search queries.
+        instruction: |
+          Write a research plan for the user's question: 3-5 numbered sub-questions, each with 1-2 Google search
+          queries. Do not answer them. Output only the plan.
+        output_key: research_plan
+      - id: researcher
+        name: Researcher
+        model: flash
+        role: Answers every sub-question with Google Search and records sources.
+        instruction: |
+          Research plan:
+          {{research_plan}}
+
+          Answer every sub-question using Google Search. For each: 3-5 bullet facts, each with its source as
+          [title](url). Note conflicting or missing evidence.
+        grounding: [google_search]
+        output_key: research_notes
+    tools: []
+    grounding: []
+    instruction: |
+      Research notes from the previous stage:
+      {{research_notes}}
+
+      Write the final brief from these notes only — do not add facts that are not in them.
+    output: >-
+      "Research brief" with: Bottom line (3 bullets), Findings by sub-question, What it means for the client,
+      Open questions, Sources (deduplicated list of links).
+    samples:
+      - What are the main approaches government agencies use to deploy AI assistants for citizens in Latin America?
+      - Compare the current options for running open-weight LLMs on Google Cloud for a regulated bank.
+      - What changed in Google Workspace security features in the last 12 months?
+    kpis: [Research hours saved per proposal, Sources per brief]
+
+  - id: pantheon
+    code: Pan
+    name: Pantheon Rapid Assessment
+    cluster: pantheon
+    status: demo_ready
+    tagline: Five specialists assess a client brief in parallel and return one rapid assessment.
+    description: >-
+      The fast, low-cost way to run the Pantheon suite: backlog, architecture, data, risk and value specialists read the
+      same client brief simultaneously (ADK ParallelAgent), then a synthesis step merges their views into a single
+      one-page assessment. Use Hermes when the engagement needs deep, adaptive orchestration.
+    persona: Engagement leads and pre-sales architects after a first discovery call
+    use_cases:
+      - One-page assessment the same day as discovery
+      - Consistent first view across backlog, architecture, data, risk and value
+      - Input for a SOW or a Hermes deep-dive
+    model: flash
+    model_reason: Parallel fan-out on Flash/Flash-Lite keeps a five-specialist assessment cheap; no Argon needed.
+    pattern: parallel
+    steps:
+      - id: backlog
+        name: Backlog view (Xenophon lens)
+        model: lite
+        role: Lists the epics and the riskiest user stories.
+        instruction: From the client brief in the conversation, list 3-6 epics and the 3 riskiest user stories with one acceptance criterion each.
+        output_key: view_backlog
+      - id: architecture
+        name: Architecture view (Daedalus lens)
+        model: flash
+        role: Sketches the target Google Cloud / Workspace architecture.
+        instruction: From the client brief, propose a target architecture (services and why, one rejected alternative) in under 150 words.
+        grounding: [kb]
+        output_key: view_architecture
+      - id: data
+        name: Data view (Ariadne lens)
+        model: lite
+        role: Identifies data sources, the core entities and data risks.
+        instruction: From the client brief, list the data sources, 4-8 core entities and the top data-quality or governance risks.
+        output_key: view_data
+      - id: risk
+        name: Risk view (Prometheus lens)
+        model: lite
+        role: Lists the top delivery risks with likelihood, impact and mitigation.
+        instruction: From the client brief, list the top 5 delivery risks as likelihood (H/M/L), impact (H/M/L) and one mitigation each.
+        output_key: view_risk
+      - id: value
+        name: Value view (Proteus lens)
+        model: lite
+        role: Frames the business value and the MVP.
+        instruction: From the client brief, state the business value hypothesis, 2 KPIs to measure it and a 6-week MVP.
+        output_key: view_value
+    tools: [get_sample_document]
+    grounding: []
+    instruction: |
+      You merge five specialist views of the same client brief into one assessment. Views:
+      BACKLOG: {{view_backlog}}
+      ARCHITECTURE: {{view_architecture}}
+      DATA: {{view_data}}
+      RISK: {{view_risk}}
+      VALUE: {{view_value}}
+      Resolve contradictions explicitly, keep every specialist's most important point, and finish with the 3 next steps.
+    output: >-
+      "Rapid assessment" — Situation (2 lines), Recommended approach, Architecture, Data, Top risks (table),
+      Value & MVP, Next 3 steps.
+    samples:
+      - "Assess this brief: a 400-employee insurer wants to move from Exchange to Google Workspace and add an AI claims assistant within 6 months."
+      - Run a rapid assessment of the sample discovery notes 'discovery_notes_insurer'.
+      - "A retailer with 120 stores wants daily inventory forecasting on BigQuery and a store-manager chatbot. Assess it."
+    sample_doc: discovery_notes_insurer
+    related: [hermes, xenophon, daedalus, ariadne, prometheus, proteus]
+    kpis: [Time from discovery to assessment, Assessments per architect per week]
+
+  - id: hermes
+    code: Hrm
+    name: Hermes
+    cluster: pantheon
+    status: demo_ready
+    tagline: The strategic coordinator — decomposes the client problem, calls the right specialists, delivers one strategy.
+    description: >-
+      Hermes is the general contractor of the Pantheon suite. It ingests raw client material (notes, transcripts,
+      documents, whiteboard photos), decides which specialists the problem needs — Xenophon, Daedalus, Ariadne,
+      Prometheus, Proteus — calls them as tools, reconciles their outputs and compiles a client-ready engagement report.
+    persona: Engagement directors and client executives sponsoring a transformation
+    use_cases:
+      - Discovery-to-strategy in one session
+      - Executive summary with architecture, backlog, risks and ROI
+      - Client-ready engagement report
+    model: argon
+    model_reason: Adaptive decomposition and cross-specialist synthesis are the product — the one place Argon pays off.
+    pattern: coordinator
+    steps:
+      - {id: xenophon, name: Xenophon · Agile Analyst, model: flash, role: Backlog of epics and Gherkin stories., instruction: "", agent_ref: xenophon}
+      - {id: daedalus, name: Daedalus · Cloud Architect, model: argon, role: Target architecture and cost., instruction: "", agent_ref: daedalus}
+      - {id: ariadne, name: Ariadne · Data Architect, model: flash, role: "Data model, ERD and DDL.", instruction: "", agent_ref: ariadne}
+      - {id: prometheus, name: Prometheus · Risk & Delivery, model: flash, role: Risk register and critical path., instruction: "", agent_ref: prometheus}
+      - {id: proteus, name: Proteus · Value Advisor, model: flash, role: Solution concepts and ROI., instruction: "", agent_ref: proteus}
+    tools: [get_sample_document, extract_meeting_structured_data, compile_engagement_report]
+    grounding: [kb]
+    instruction: |
+      1. Read the client material (call get_sample_document when the user names a sample). If it is a transcript,
+         run extract_meeting_structured_data first.
+      2. Write a short decomposition: the problem, what is known, what is missing, and which specialists you will call
+         and why. Call only the specialists the problem needs (usually 3-5). Give each a focused, self-contained brief.
+      3. Reconcile specialist outputs: resolve conflicts, keep numbers exactly as returned by tools.
+      4. Call compile_engagement_report with the final sections to produce the deliverable.
+    output: >-
+      Executive summary (5 bullets), Recommended architecture, Backlog highlights, Data, Risks & schedule (critical
+      path), Value & ROI, Next steps — then the report id returned by compile_engagement_report.
+    samples:
+      - Run a full Pantheon engagement on 'discovery_notes_insurer' and give me the executive deliverable.
+      - "A city government wants a 311 assistant on WhatsApp plus a data platform for service requests. Build the strategy."
+      - "We have 3 months and $250k to modernise a distributor's order management onto Google Cloud — what should we do?"
+    sample_doc: discovery_notes_insurer
+    related: [pantheon, xenophon, daedalus, ariadne, prometheus, proteus]
+    kpis: [Discovery-to-proposal cycle time, Win rate on assessed deals]
+
+  - id: xenophon
+    code: Xen
+    name: Xenophon
+    cluster: pantheon
+    status: demo_ready
+    tagline: The agile analyst — turns requirements into sprint-ready epics and Gherkin user stories.
+    description: >-
+      Xenophon parses discovery notes and transcripts into epics and user stories with Gherkin acceptance criteria,
+      applies MoSCoW prioritisation, sizes stories from historical velocity, and pushes the backlog to Jira using
+      Wursta's taxonomy.
+    persona: Delivery managers, product owners, scrum masters
+    use_cases:
+      - Backlog from discovery notes
+      - Story sizing from historical data
+      - Jira import with the internal taxonomy
+    model: flash
+    model_reason: Structured decomposition with tool calls; Flash is accurate enough and cheap.
+    tools: [estimate_story_points, create_jira_issues, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Identify epics, then user stories ("As a <role>, I want <capability>, so that <benefit>").
+      2. Give each story 1-3 Gherkin scenarios (Given/When/Then) and a MoSCoW priority.
+      3. Size stories with estimate_story_points (never guess points).
+      4. Only when the user asks to push to Jira, call create_jira_issues and report the issue keys (simulated).
+      Follow the Jira taxonomy in the knowledge base (labels, components, epic naming).
+    output: Backlog table (Epic, Story, Priority, Points), then Gherkin scenarios for the Must-have stories.
+    samples:
+      - Create the backlog for 'discovery_notes_insurer'.
+      - "Write stories for: field technicians need to see today's work orders offline and capture photos."
+      - "Size these and push them to Jira project WRS: As an adjuster I want claims pre-filled from the FNOL email; As a manager I want a weekly SLA report; As an admin I want SSO for the claims portal."
+    sample_doc: discovery_notes_insurer
+    related: [hermes, prometheus]
+    kpis: [Backlog creation time, Estimate accuracy vs actuals]
+
+  - id: daedalus
+    code: Dae
+    name: Daedalus
+    cluster: pantheon
+    status: demo_ready
+    tagline: The GCP & Workspace cloud architect — secure, scalable, cost-optimised designs with rejected alternatives.
+    description: >-
+      Daedalus designs Google Cloud and Workspace architectures, justifies every service against the Google Cloud
+      Architecture Framework, explicitly lists rejected alternatives, estimates monthly cost and renders an editable
+      diagram-as-code.
+    persona: Cloud architects, CTOs, security reviewers
+    use_cases:
+      - Target architecture for a migration or AI workload
+      - Architecture decision record with trade-offs
+      - Monthly run-cost estimate
+    model: argon
+    model_reason: Architecture trade-offs are high-stakes reasoning; Argon is used here deliberately.
+    tools: [estimate_gcp_monthly_cost, render_architecture_diagram]
+    grounding: [kb, google_search]
+    instruction: |
+      1. Restate requirements and constraints (security, data residency, scale, budget).
+      2. Propose the architecture by layer (edge, compute, data, AI, security, operations). For each service: why it
+         fits, citing the Architecture Framework pillar it serves.
+      3. List at least two rejected alternatives and why they lost.
+      4. Call estimate_gcp_monthly_cost with the components and sizes, and render_architecture_diagram for the design.
+      5. Use Google Search only to confirm current product capabilities or regional availability.
+    output: Architecture summary, component table (service, purpose, pillar), rejected alternatives, cost table, Mermaid diagram.
+    samples:
+      - "Design the GCP architecture for a citizen chatbot on WhatsApp with 2M users/month and data residency in the US."
+      - Propose an architecture to run nightly demand forecasting for 120 stores on BigQuery, with cost.
+      - "Architecture for an insurer's AI claims assistant with PII protection and human review."
+    related: [hermes, ariadne]
+    kpis: [Architecture review cycles, Estimate vs actual run cost]
+
+  - id: ariadne
+    code: Ari
+    name: Ariadne
+    cluster: pantheon
+    status: demo_ready
+    tagline: The data & analytics architect — from source systems to a BigQuery star schema with ERD and DDL.
+    description: >-
+      Ariadne architects the data lifecycle: profiles source systems, designs relational (Cloud SQL, AlloyDB, Spanner)
+      and BigQuery star schemas, renders ERDs for validation and produces dependency-ordered DDL ready to deploy.
+    persona: Data architects, analytics engineers, BI leads
+    use_cases:
+      - Star schema for a new analytics domain
+      - ERD for stakeholder validation
+      - Deployment-ready DDL
+    model: flash
+    model_reason: Schema design with deterministic validation tools; Flash suffices.
+    tools: [profile_source_systems, render_erd, validate_ddl]
+    grounding: [kb]
+    instruction: |
+      1. Call profile_source_systems for the domain the user describes to see entities, volumes and quality issues.
+      2. Design facts and dimensions (grain stated explicitly), keys and partitioning/clustering for BigQuery.
+      3. Call render_erd with your entities and relationships.
+      4. Write BigQuery DDL, then call validate_ddl and fix every issue it reports before answering.
+    output: Model overview (grain, facts, dimensions), Mermaid ERD, validated DDL in a sql code block, data-quality notes.
+    samples:
+      - Design a BigQuery star schema for an insurer's claims analytics using the 'claims' source profile.
+      - Model sales and inventory for a 120-store retailer, with partitioning.
+      - Design the data model for 311 service requests and their SLA tracking.
+    related: [daedalus, hermes]
+    kpis: [Time to first validated model, Downstream DDL defects]
+
+  - id: prometheus
+    code: Prm
+    name: Prometheus
+    cluster: pantheon
+    status: demo_ready
+    tagline: The risk & delivery analyst — risk register, critical path and a deterministic schedule.
+    description: >-
+      Prometheus identifies and quantifies project risk, builds the risk register with mitigations and owners, and
+      computes the critical path and slack for multi-workstream plans with a Gantt chart.
+    persona: PMO leads, delivery directors, steering committees
+    use_cases:
+      - Critical path for a multi-workstream plan
+      - Quantified risk register
+      - What-if on a slipped dependency
+    model: flash
+    model_reason: Scheduling is computed by a deterministic CPM tool; the model structures inputs and explains.
+    tools: [critical_path, score_risk_register, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Turn the plan into tasks with ids, durations (days), dependencies and owners; ask only if durations are missing
+         entirely — otherwise state assumptions.
+      2. Call critical_path; never compute dates yourself. Report duration, critical path and slack.
+      3. Build risks (description, likelihood 1-5, impact 1-5, owner) and call score_risk_register.
+      4. For what-ifs, change the inputs and call critical_path again; report the delta.
+    output: Schedule summary, critical path, Mermaid Gantt (from the tool), scored risk register table, top 3 mitigations.
+    samples:
+      - "Plan: discovery 10d, architecture 15d after discovery, data model 12d after discovery, build 40d after both, UAT 10d, cutover 3d. Critical path?"
+      - Build the risk register and schedule for the 'discovery_notes_insurer' engagement.
+      - "Plan: discovery 10d, architecture 15d and data model 12d after discovery, build 40d after both, UAT 10d, cutover 3d. If the data model slips by 8 days, what happens to go-live?"
+    related: [hermes, xenophon]
+    kpis: [Schedule variance, Risks with owners and mitigations]
+
+  - id: proteus
+    code: Prt
+    name: Proteus
+    cluster: pantheon
+    status: demo_ready
+    tagline: The value proposition advisor — challenges assumptions and frames 3-5 solution concepts with ROI.
+    description: >-
+      Proteus drives commercial innovation: it challenges client assumptions, formulates 3-5 solution concepts on
+      Google Cloud and Gemini, defines customer value, commercial angle, risks and a concrete MVP for each, and backs
+      them with ROI calculations and a competitive battlecard.
+    persona: Account executives, partner managers, client innovation leads
+    use_cases:
+      - Solution concepts for a new opportunity
+      - ROI for a business case
+      - Competitive battlecard
+    model: flash
+    model_reason: Creative framing plus ROI math from a tool; Flash balances quality and cost.
+    tools: [compute_roi, competitive_battlecard]
+    grounding: [kb, google_search]
+    instruction: |
+      1. Challenge one or two assumptions in the request before proposing.
+      2. Formulate 3-5 concepts. For each: customer value, commercial angle, key risk, 6-week MVP, Google products used.
+      3. Compute ROI with compute_roi for the top concept (state your input assumptions).
+      4. Call competitive_battlecard for the relevant category when competition matters.
+    output: Concepts table, recommended concept with ROI table, battlecard highlights, next step.
+    samples:
+      - A regional distributor wants to "do something with AI" in customer service. Give me concepts and ROI.
+      - "Business case: $180k implementation, saves 6 FTE at $38k each, run cost $24k/year — ROI over 3 years?"
+      - Battlecard for Gemini Enterprise vs other enterprise AI assistants for a 2,000-seat bank.
+    related: [hermes, pantheon]
+    kpis: [Concepts accepted by clients, Pipeline influenced]
+
+  - id: workspace_pro
+    code: Wsp
+    name: Workspace Pro
+    cluster: core
+    status: demo_ready
+    tagline: A Google Workspace power assistant — triages the inbox, finds meeting slots, drafts replies and docs.
+    description: >-
+      Workspace Pro works across Gmail, Calendar and Drive for a busy professional: triages the inbox, finds slots that
+      work for everyone, drafts replies and follow-up emails, schedules meetings and pulls the right Drive file into
+      context. Actions are simulated against a synthetic mailbox.
+    persona: Executives, consultants and anyone living in Gmail and Calendar
+    use_cases:
+      - Inbox triage with suggested replies
+      - Scheduling across attendees
+      - Drafting follow-ups from meeting notes
+    model: flash
+    model_reason: Multi-tool productivity workflows need Flash's tool-calling reliability.
+    tools: [workspace_inbox, workspace_find_free_slots, workspace_draft_email, workspace_create_event, workspace_search_drive, route_incoming_email]
+    grounding: ["fixtures:Gmail, Calendar and Drive (synthetic)"]
+    instruction: |
+      1. For inbox requests, call workspace_inbox and classify with route_incoming_email only for ambiguous items.
+      2. For scheduling, call workspace_find_free_slots with all attendees, propose up to 3 slots, and create the event
+         only after the user picks one (or explicitly says "book it").
+      3. Draft emails with workspace_draft_email; show the draft text in full and never claim it was sent.
+      4. Use workspace_search_drive to attach or quote the right document.
+    output: Short action-oriented answer; tables for inbox and slots; full draft text in a quote block.
+    samples:
+      - Triage my inbox and draft replies for anything urgent.
+      - Find 45 minutes this week with Ana and Diego for the QBR prep and book the first slot.
+      - Find the latest SOW draft in Drive and draft a follow-up email to the client about open points.
+    kpis: [Hours saved per week, Time-to-reply on priority emails]
+
+  - id: codemender
+    code: Cdm
+    name: CodeMender
+    cluster: core
+    status: library
+    tagline: Reviews code, finds the bug, writes the fix and proves it with tests in a Google-hosted sandbox.
+    description: >-
+      CodeMender reviews a code file, explains defects and security issues, writes a minimal patch and verifies it by
+      running the tests in Gemini's managed code-execution sandbox — no code runs inside the agent runtime itself.
+    persona: Engineers and tech leads reviewing pull requests
+    use_cases:
+      - Find and fix a failing test
+      - Security review of a module
+      - Explain legacy code
+    model: flash
+    model_reason: Code reasoning with sandboxed verification; Flash is strong enough for focused fixes.
+    tools: [get_sample_document, list_sample_documents, run_python_in_sandbox]
+    grounding: ["fixtures:sample code files"]
+    instruction: |
+      1. Load the code (get_sample_document for keys starting with 'code_').
+      2. Run the original code and its tests with run_python_in_sandbox to reproduce the failure.
+      3. Explain the root cause in 2-3 sentences, then write the minimal fix.
+      4. Run the fixed code and tests again with run_python_in_sandbox and report the result. Never claim a pass you
+         did not observe.
+    output: Root cause, unified diff of the fix, sandbox results before/after, one hardening suggestion.
+    samples:
+      - Fix the failing tests in 'code_invoice_calc'.
+      - Review 'code_invoice_calc' for security and correctness issues.
+      - Explain what 'code_invoice_calc' does to a new team member.
+    sample_doc: code_invoice_calc
+    kpis: [Mean time to fix, Escaped defects]
+
+  - id: brief_me
+    code: Brf
+    name: Brief Me
+    cluster: core
+    status: demo_ready
+    tagline: Your morning brief — today's meetings, what each attendee cares about, priority emails and account news.
+    description: >-
+      Brief Me prepares a busy executive for the day: today's meetings with context on each account and attendee,
+      the emails that need a decision, live account signals from the CRM and fresh public news about the accounts.
+    persona: Account executives, partners and leaders with back-to-back meetings
+    use_cases:
+      - Morning brief
+      - Pre-meeting one-pager
+      - Weekly account digest
+    model: flash
+    model_reason: Combines several tools and search grounding into one concise brief.
+    tools: [brief_calendar_today, brief_priority_emails, brief_account_signals]
+    grounding: [google_search, "fixtures:calendar, email and CRM (synthetic)"]
+    instruction: |
+      1. Call brief_calendar_today, brief_priority_emails and brief_account_signals.
+      2. For each external meeting, search Google for news about the account from the last 30 days (company names in
+         the demo are fictional — if nothing is found, say "no recent public news").
+      3. Prioritise: decisions needed, risks, then FYIs.
+    output: >-
+      "Your brief for <date>": Top 3 priorities, Meetings (time · account · why it matters · prep), Emails needing a
+      decision, Account signals, News.
+    samples:
+      - Brief me for today.
+      - Prepare me for the 11:00 meeting.
+      - What should I worry about this week across my accounts?
+    kpis: [Prep time per meeting, Meetings with a brief]
+
+  - id: gws_research
+    code: Gwr
+    name: GWS Research
+    cluster: core
+    status: built
+    tagline: Researches Google Workspace capabilities, editions and admin settings with current, cited sources.
+    description: >-
+      GWS Research answers Google Workspace questions for consultants and admins — feature availability by edition,
+      admin console settings, rollout news and migration considerations — always with current sources and Wursta's
+      own delivery notes.
+    persona: Workspace consultants, IT admins, pre-sales engineers
+    use_cases:
+      - Edition and feature comparisons
+      - Admin setting how-tos
+      - Release-note digests for clients
+    model: flash
+    model_reason: Search-grounded answers with light synthesis.
+    tools: []
+    grounding: [google_search, kb]
+    instruction: |
+      1. Use Google Search for anything that changes over time (editions, features, release notes); prefer official
+         Google sources (support.google.com, workspaceupdates.googleblog.com, workspace.google.com).
+      2. Use the knowledge base for Wursta's delivery practices and lessons learned.
+      3. Distinguish clearly between "Google documentation says" and "Wursta recommends".
+    output: Answer, step-by-step admin path when relevant, "Wursta recommends" box, sources.
+    samples:
+      - Which Workspace editions include Gemini features for Gmail and Docs right now?
+      - How do I set up data regions for a client that needs EU data residency?
+      - Summarise the most relevant Workspace updates from the last month for a security-focused client.
+    kpis: [Research time per client question]

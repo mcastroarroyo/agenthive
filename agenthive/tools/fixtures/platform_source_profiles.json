@@ -1,0 +1,378 @@
+{
+  "claims": {
+    "description": "Regional P&C mutual insurer (~400 employees, ~210k policies, ~38k claims/year). Profiled from read-only extracts, October 2026.",
+    "systems": [
+      {
+        "name": "Core claims system",
+        "platform": "Vendor-hosted application on SQL Server 2016 (nightly read replica available)",
+        "extract": "Nightly full extract via read replica; CDC not licensed",
+        "tables": [
+          {
+            "name": "CLAIM",
+            "rows": 1842310,
+            "columns": ["CLAIM_NO varchar(14)", "POLICY_NO varchar(12)", "LOSS_DATE date", "REPORTED_DATE datetime (local time, no TZ)", "LOSS_CAUSE_CD varchar(4)", "LOSS_DESC nvarchar(max) (free text, contains PII)", "CLAIM_STATUS_CD char(2)", "LOB_CD char(3)", "CAT_CODE varchar(6) (catastrophe event, nullable)", "ASSIGNED_ADJ_ID int", "BRANCH_CD char(3)", "CLOSED_DATE datetime (nullable)"],
+            "candidate_keys": ["CLAIM_NO"]
+          },
+          {
+            "name": "CLAIMANT",
+            "rows": 2295004,
+            "columns": ["CLAIMANT_ID int", "CLAIM_NO varchar(14)", "PARTY_TYPE_CD char(2) (insured / third party / witness)", "FIRST_NM nvarchar(60)", "LAST_NM nvarchar(80)", "DOB date", "SSN_LAST4 char(4)", "PHONE varchar(20)", "EMAIL varchar(120)", "ADDR_LINE1 nvarchar(120)", "ZIP varchar(10)"],
+            "candidate_keys": ["CLAIMANT_ID"]
+          },
+          {
+            "name": "EXPOSURE",
+            "rows": 2610455,
+            "columns": ["EXPOSURE_ID int", "CLAIM_NO varchar(14)", "COVERAGE_CD varchar(6)", "EXPOSURE_TYPE_CD varchar(4) (dwelling, contents, auto PD, BI...)", "RESERVE_AMT decimal(12,2)", "OPENED_DATE date", "CLOSED_DATE date (nullable)"],
+            "candidate_keys": ["EXPOSURE_ID"]
+          },
+          {
+            "name": "CLAIM_PAYMENT",
+            "rows": 4120877,
+            "columns": ["PAYMENT_ID bigint", "EXPOSURE_ID int", "CLAIM_NO varchar(14)", "PAYMENT_DATE date", "PAYMENT_AMT decimal(12,2)", "PAYMENT_TYPE_CD char(2) (indemnity / expense / recovery)", "PAYEE_NM nvarchar(120)", "CHECK_NO varchar(12)"],
+            "candidate_keys": ["PAYMENT_ID"]
+          },
+          {
+            "name": "CLAIM_STATUS_HIST",
+            "rows": 9876120,
+            "columns": ["CLAIM_NO varchar(14)", "STATUS_CD char(2)", "STATUS_TS datetime (local time)", "CHANGED_BY varchar(30)"],
+            "candidate_keys": ["CLAIM_NO + STATUS_TS"]
+          },
+          {
+            "name": "CLAIM_NOTE",
+            "rows": 31408992,
+            "columns": ["NOTE_ID bigint", "CLAIM_NO varchar(14)", "NOTE_TS datetime", "AUTHOR_ID int", "NOTE_TEXT nvarchar(max) (free text, PII, medical details)"],
+            "candidate_keys": ["NOTE_ID"]
+          }
+        ]
+      },
+      {
+        "name": "Policy administration",
+        "platform": "Oracle 12c (on-premises)",
+        "extract": "Weekly CSV export to SFTP; daily possible on request",
+        "tables": [
+          {
+            "name": "POLICY",
+            "rows": 612880,
+            "columns": ["POLICY_NO varchar2(12)", "POLICY_VERSION number(3)", "PRODUCT_CD varchar2(6)", "EFFECTIVE_DT date", "EXPIRY_DT date", "INSURED_PARTY_ID number", "AGENT_CD varchar2(8)", "ANNUAL_PREMIUM number(12,2)", "STATE_CD char(2)"],
+            "candidate_keys": ["POLICY_NO + POLICY_VERSION"]
+          },
+          {
+            "name": "POLICY_COVERAGE",
+            "rows": 3104552,
+            "columns": ["POLICY_NO varchar2(12)", "POLICY_VERSION number(3)", "COVERAGE_CD varchar2(6)", "LIMIT_AMT number(12,2)", "DEDUCTIBLE_AMT number(10,2)", "WORDING_VERSION varchar2(10)"],
+            "candidate_keys": ["POLICY_NO + POLICY_VERSION + COVERAGE_CD"]
+          },
+          {
+            "name": "INSURED_PARTY",
+            "rows": 268410,
+            "columns": ["PARTY_ID number", "PARTY_TYPE char(1) (person / organisation)", "FULL_NAME varchar2(160)", "DOB date", "TAX_ID_HASH varchar2(64)", "MAIL_ADDR varchar2(200)", "ZIP varchar2(10)"],
+            "candidate_keys": ["PARTY_ID"]
+          }
+        ]
+      },
+      {
+        "name": "Document management",
+        "platform": "On-premises document management server (metadata in SQL Server, files on NAS)",
+        "extract": "Metadata via SQL; files via SMB copy",
+        "tables": [
+          {
+            "name": "DOC_INDEX",
+            "rows": 9612004,
+            "columns": ["DOC_ID bigint", "CLAIM_NO varchar(14) (nullable)", "POLICY_NO varchar(12) (nullable)", "DOC_TYPE varchar(20) (photo, estimate, letter, police report, medical...)", "MIME_TYPE varchar(40)", "PAGES int", "HAS_TEXT_LAYER bit", "STORED_TS datetime", "PATH nvarchar(400)"],
+            "candidate_keys": ["DOC_ID"]
+          }
+        ]
+      },
+      {
+        "name": "Adjuster roster",
+        "platform": "Excel workbook on a file share (manually maintained by Claims Operations)",
+        "extract": "Manual upload",
+        "tables": [
+          {
+            "name": "adjusters.xlsx / Roster",
+            "rows": 74,
+            "columns": ["Adjuster ID", "Name", "Team", "Region", "Authority limit ($)", "Start date", "Status (active / leave / left)"],
+            "candidate_keys": ["Adjuster ID"]
+          }
+        ]
+      }
+    ],
+    "quality_issues": [
+      {"table": "CLAIMANT", "issue": "Same person stored under multiple CLAIMANT_IDs across claims (est. 11% duplicates by name + DOB + ZIP); no master party id shared with INSURED_PARTY.", "severity": "high"},
+      {"table": "CLAIM", "issue": "REPORTED_DATE and all status timestamps are local time without time zone; 3 branches are in a different time zone.", "severity": "medium"},
+      {"table": "CLAIM", "issue": "0.4% of claims have LOSS_DATE after REPORTED_DATE (keying errors, mostly 2014-2016).", "severity": "low"},
+      {"table": "CLAIM", "issue": "CLAIM_STATUS_CD values changed in the 2019 re-platforming ('RO' re-opened vs 'RE'); mapping table exists only in an email thread.", "severity": "medium"},
+      {"table": "CLAIM / CLAIM_NOTE", "issue": "Free-text LOSS_DESC and NOTE_TEXT contain names, phone numbers, medical details and occasionally full SSNs; must be de-identified or restricted before analytics or AI use.", "severity": "high"},
+      {"table": "POLICY_COVERAGE", "issue": "WORDING_VERSION null for 18% of coverages written before 2015; policy wording cannot be resolved automatically for those claims.", "severity": "medium"},
+      {"table": "DOC_INDEX", "issue": "61% of documents are scanned PDFs or images without a text layer (OCR required); 2.3% of PATH values point to missing files.", "severity": "high"},
+      {"table": "adjusters.xlsx", "issue": "Roster is manually maintained; 9 ASSIGNED_ADJ_ID values in CLAIM have no match in the roster (departed staff).", "severity": "low"}
+    ]
+  },
+  "retail": {
+    "description": "Specialty outdoor retailer with 120 open stores (124 in master data incl. 4 closed) and e-commerce. Profiled from 24 months of extracts.",
+    "systems": [
+      {
+        "name": "Point of sale",
+        "platform": "Cloud POS suite (vendor SaaS) — daily CSV export per store to SFTP",
+        "extract": "One file per store per day, delivered 02:00-05:00 local",
+        "tables": [
+          {
+            "name": "pos_transactions",
+            "rows": 131400000,
+            "columns": ["store_no int", "register_no int", "txn_no int", "business_date date", "txn_ts timestamp (store local)", "txn_type (sale / return / void)", "customer_loyalty_id string (nullable)", "total_amount numeric", "tender_type string"],
+            "candidate_keys": ["store_no + register_no + txn_no + business_date"]
+          },
+          {
+            "name": "pos_transaction_lines",
+            "rows": 402600000,
+            "columns": ["store_no int", "register_no int", "txn_no int", "business_date date", "line_no int", "sku string", "qty int", "unit_price numeric", "discount_amount numeric", "promo_code string (nullable)"],
+            "candidate_keys": ["store_no + register_no + txn_no + business_date + line_no"]
+          }
+        ]
+      },
+      {
+        "name": "ERP / merchandising",
+        "platform": "On-premises ERP on SQL Server",
+        "extract": "Nightly bulk export; product master changes hourly",
+        "tables": [
+          {
+            "name": "item_master",
+            "rows": 46210,
+            "columns": ["sku string", "style_code string", "description string", "department string", "class string", "subclass string", "brand string", "season string", "unit_cost numeric", "list_price numeric", "status (active / discontinued)", "launch_date date"],
+            "candidate_keys": ["sku"]
+          },
+          {
+            "name": "store_master",
+            "rows": 124,
+            "columns": ["store_no int", "store_name string", "region string", "format (flagship / standard / outlet)", "open_date date", "close_date date (nullable)", "sq_ft int", "latitude float", "longitude float"],
+            "candidate_keys": ["store_no"]
+          },
+          {
+            "name": "inventory_snapshot",
+            "rows": 1583000000,
+            "columns": ["snapshot_date date", "store_no int", "sku string", "on_hand_qty int", "on_order_qty int", "in_transit_qty int"],
+            "candidate_keys": ["snapshot_date + store_no + sku"]
+          },
+          {
+            "name": "purchase_orders",
+            "rows": 388000,
+            "columns": ["po_no string", "supplier_id string", "sku string", "ordered_qty int", "order_date date", "expected_date date", "received_date date (nullable)", "dest_store_no int (nullable = DC)"],
+            "candidate_keys": ["po_no + sku"]
+          }
+        ]
+      },
+      {
+        "name": "E-commerce platform",
+        "platform": "Hosted e-commerce platform (REST API, 2 req/s rate limit)",
+        "extract": "Hourly API pull of orders",
+        "tables": [
+          {
+            "name": "web_orders",
+            "rows": 1920000,
+            "columns": ["order_id string", "order_ts timestamp (UTC)", "customer_email_hash string", "ship_method (home / click-and-collect)", "pickup_store_no int (nullable)", "order_total numeric", "status string"],
+            "candidate_keys": ["order_id"]
+          },
+          {
+            "name": "web_order_lines",
+            "rows": 4380000,
+            "columns": ["order_id string", "line_no int", "sku string", "qty int", "unit_price numeric"],
+            "candidate_keys": ["order_id + line_no"]
+          }
+        ]
+      },
+      {
+        "name": "Promotions calendar",
+        "platform": "Google Sheets maintained by Marketing",
+        "extract": "Manual; one tab per season",
+        "tables": [
+          {
+            "name": "promotions",
+            "rows": 1460,
+            "columns": ["promo_code", "description", "start_date", "end_date", "discount_type (pct / amount / bogo)", "discount_value", "scope (all stores / region / store list)", "sku or class list (comma separated)"],
+            "candidate_keys": ["promo_code"]
+          }
+        ]
+      }
+    ],
+    "quality_issues": [
+      {"table": "pos_transactions", "issue": "txn_ts is store-local time without zone; 3 time zones across the estate. Use business_date for daily grain.", "severity": "medium"},
+      {"table": "pos_transaction_lines", "issue": "Returns are recorded as negative qty in some stores and as txn_type='return' with positive qty in others (two POS versions).", "severity": "high"},
+      {"table": "inventory_snapshot", "issue": "Daily snapshot missing for 2.1% of store-days (late SFTP files never re-sent); negative on_hand_qty in 0.6% of rows.", "severity": "high"},
+      {"table": "item_master", "issue": "Size/colour variants share style_code but 4% of SKUs have a blank class/subclass; 312 SKUs reused after discontinuation.", "severity": "medium"},
+      {"table": "store_master", "issue": "4 closed stores still receive zero-row POS files; 2 stores relocated and kept the same store_no.", "severity": "low"},
+      {"table": "promotions", "issue": "Free-text SKU lists in a spreadsheet; overlapping promotions not flagged; history before 2025 incomplete.", "severity": "medium"},
+      {"table": "web_orders", "issue": "Click-and-collect orders appear in both web_orders and in the pickup store's POS file (double counting risk).", "severity": "high"}
+    ]
+  },
+  "service_requests": {
+    "description": "Mid-size city 311 programme (~410k residents, ~260k service requests/year across phone, web and a new WhatsApp channel).",
+    "systems": [
+      {
+        "name": "311 CRM",
+        "platform": "Legacy case-management application on PostgreSQL 11 (on-premises)",
+        "extract": "Nightly pg_dump of selected tables; read replica planned",
+        "tables": [
+          {
+            "name": "service_request",
+            "rows": 1874000,
+            "columns": ["sr_id bigint", "sr_number varchar(12)", "request_type_code varchar(10)", "channel (phone / web / whatsapp / walk-in / app)", "created_at timestamp without time zone", "closed_at timestamp without time zone (nullable)", "status varchar(15)", "description text (free text, may contain PII)", "address_text varchar(200)", "latitude numeric (nullable)", "longitude numeric (nullable)", "department_code varchar(6)", "contact_id bigint (nullable)", "duplicate_of_sr_id bigint (nullable)"],
+            "candidate_keys": ["sr_id", "sr_number"]
+          },
+          {
+            "name": "request_type",
+            "rows": 212,
+            "columns": ["request_type_code varchar(10)", "name varchar(80)", "department_code varchar(6)", "sla_hours int (nullable)", "active boolean"],
+            "candidate_keys": ["request_type_code"]
+          },
+          {
+            "name": "contact",
+            "rows": 640200,
+            "columns": ["contact_id bigint", "full_name varchar(120)", "phone varchar(20)", "email varchar(120)", "preferred_language varchar(5)", "opt_in_whatsapp boolean"],
+            "candidate_keys": ["contact_id"]
+          },
+          {
+            "name": "sr_status_history",
+            "rows": 7120000,
+            "columns": ["sr_id bigint", "from_status varchar(15)", "to_status varchar(15)", "changed_at timestamp without time zone", "changed_by varchar(40)"],
+            "candidate_keys": ["sr_id + changed_at"]
+          }
+        ]
+      },
+      {
+        "name": "Work order / asset management",
+        "platform": "Asset management system on SQL Server (Public Works and Parks)",
+        "extract": "Nightly CSV",
+        "tables": [
+          {
+            "name": "work_order",
+            "rows": 902000,
+            "columns": ["wo_id varchar(14)", "sr_number varchar(12) (nullable, typed manually)", "asset_id varchar(20) (nullable)", "crew_code varchar(8)", "scheduled_date date", "completed_date date (nullable)", "labor_hours numeric", "material_cost numeric"],
+            "candidate_keys": ["wo_id"]
+          },
+          {
+            "name": "asset",
+            "rows": 188400,
+            "columns": ["asset_id varchar(20)", "asset_type (streetlight / hydrant / sign / tree / segment)", "district_code varchar(4)", "install_date date", "condition_score int"],
+            "candidate_keys": ["asset_id"]
+          }
+        ]
+      },
+      {
+        "name": "WhatsApp channel (pilot)",
+        "platform": "Messaging gateway logs exported to Cloud Storage as JSON",
+        "extract": "Hourly JSON files",
+        "tables": [
+          {
+            "name": "wa_conversations",
+            "rows": 96500,
+            "columns": ["conversation_id string", "wa_user_hash string", "started_at timestamp (UTC)", "ended_at timestamp (UTC)", "intent string", "sr_number string (nullable)", "language string", "csat_score int (nullable)"],
+            "candidate_keys": ["conversation_id"]
+          }
+        ]
+      },
+      {
+        "name": "SLA definitions",
+        "platform": "Google Sheets, one tab per department",
+        "extract": "Manual",
+        "tables": [
+          {
+            "name": "department_sla",
+            "rows": 240,
+            "columns": ["department", "request type name (free text)", "target (business days or hours)", "clock pauses (text)", "effective from"],
+            "candidate_keys": ["department + request type name + effective from"]
+          }
+        ]
+      }
+    ],
+    "quality_issues": [
+      {"table": "service_request", "issue": "14% of requests have no latitude/longitude; address_text is free text with inconsistent abbreviations.", "severity": "high"},
+      {"table": "service_request", "issue": "Duplicate reports for the same pothole/streetlight are common; duplicate_of_sr_id filled for only 30% of probable duplicates.", "severity": "medium"},
+      {"table": "service_request", "issue": "Timestamps stored without time zone; DST transitions create negative durations for ~0.1% of requests.", "severity": "low"},
+      {"table": "work_order", "issue": "sr_number typed manually in work orders: 22% blank, 3% invalid format — weak link between request and fieldwork.", "severity": "high"},
+      {"table": "request_type / department_sla", "issue": "SLA targets differ between the CRM (sla_hours) and the department sheets for 37 request types; some in business days, some in hours.", "severity": "high"},
+      {"table": "service_request", "issue": "Status 'closed' used both for resolved and for 'referred to another agency' — resolution rate overstated.", "severity": "medium"},
+      {"table": "contact", "issue": "Contact details are PII; WhatsApp opt-in captured only since the 2026 pilot.", "severity": "medium"}
+    ]
+  },
+  "crm": {
+    "description": "B2B distributor CRM and adjacent systems (~6,500 active accounts, 38 sales reps).",
+    "systems": [
+      {
+        "name": "Sales CRM",
+        "platform": "SaaS CRM (REST/bulk API export)",
+        "extract": "Daily bulk API export",
+        "tables": [
+          {
+            "name": "account",
+            "rows": 41200,
+            "columns": ["account_id string", "account_name string", "parent_account_id string (nullable)", "industry string", "segment (key / mid / long-tail)", "billing_country string", "owner_user_id string", "erp_customer_no string (nullable)", "created_date date"],
+            "candidate_keys": ["account_id"]
+          },
+          {
+            "name": "contact",
+            "rows": 118900,
+            "columns": ["contact_id string", "account_id string", "first_name string", "last_name string", "email string (nullable)", "phone string", "title string", "marketing_opt_in boolean"],
+            "candidate_keys": ["contact_id"]
+          },
+          {
+            "name": "opportunity",
+            "rows": 64300,
+            "columns": ["opportunity_id string", "account_id string", "stage string", "amount numeric", "currency string", "close_date date", "probability int", "owner_user_id string", "lead_source string", "created_date date"],
+            "candidate_keys": ["opportunity_id"]
+          },
+          {
+            "name": "opportunity_stage_history",
+            "rows": 221000,
+            "columns": ["opportunity_id string", "stage string", "changed_at timestamp", "amount numeric"],
+            "candidate_keys": ["opportunity_id + changed_at"]
+          },
+          {
+            "name": "activity",
+            "rows": 1760000,
+            "columns": ["activity_id string", "account_id string", "contact_id string (nullable)", "type (call / email / meeting / visit)", "activity_date date", "owner_user_id string", "subject string"],
+            "candidate_keys": ["activity_id"]
+          }
+        ]
+      },
+      {
+        "name": "ERP billing",
+        "platform": "On-premises ERP on Oracle",
+        "extract": "Nightly CSV",
+        "tables": [
+          {
+            "name": "invoice",
+            "rows": 2140000,
+            "columns": ["invoice_no string", "erp_customer_no string", "invoice_date date", "due_date date", "net_amount numeric", "tax_amount numeric", "currency string", "paid_date date (nullable)"],
+            "candidate_keys": ["invoice_no"]
+          },
+          {
+            "name": "customer",
+            "rows": 9800,
+            "columns": ["erp_customer_no string", "legal_name string", "tax_id string", "credit_limit numeric", "payment_terms string"],
+            "candidate_keys": ["erp_customer_no"]
+          }
+        ]
+      },
+      {
+        "name": "Support desk",
+        "platform": "SaaS help desk (API export)",
+        "extract": "Hourly API",
+        "tables": [
+          {
+            "name": "ticket",
+            "rows": 312000,
+            "columns": ["ticket_id string", "requester_email string", "account_name string (free text)", "priority string", "created_at timestamp (UTC)", "solved_at timestamp (nullable)", "category string", "csat int (nullable)"],
+            "candidate_keys": ["ticket_id"]
+          }
+        ]
+      }
+    ],
+    "quality_issues": [
+      {"table": "account", "issue": "Duplicate accounts: ~6% of active accounts exist 2+ times with name variants (Inc./LLC/abbreviations).", "severity": "high"},
+      {"table": "account", "issue": "erp_customer_no blank for 31% of accounts — revenue cannot be joined to pipeline for those customers.", "severity": "high"},
+      {"table": "opportunity", "issue": "Mixed currencies (USD, CAD, MXN) without stored FX rate; amount history before 2024 not captured in stage history.", "severity": "medium"},
+      {"table": "contact", "issue": "22% of contacts have no email; 4% have generic mailboxes (info@, sales@).", "severity": "low"},
+      {"table": "ticket", "issue": "Help desk tickets reference accounts by free-text name only; matching to CRM accounts needs fuzzy matching on email domain.", "severity": "medium"}
+    ]
+  }
+}

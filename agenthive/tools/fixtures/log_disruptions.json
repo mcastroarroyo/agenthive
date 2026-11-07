@@ -1,0 +1,86 @@
+{
+ "as_of": "2026-11-06T07:00",
+ "disruptions": [
+  {
+   "disruption_id": "DSR-ICE-1105",
+   "type": "weather",
+   "title": "Ice storm: Northgate Pass (Highway N-7) closed",
+   "region": "North",
+   "started": "2026-11-05T18:00",
+   "expected_clear": "2026-11-07T12:00",
+   "confidence": "medium",
+   "affected_lanes": [
+    "L02",
+    "L03",
+    "L04"
+   ],
+   "uncertainty_hours": 18,
+   "impact": "N-7 closed with chain controls; trucks held at Ashford Vale or rerouted via the R-12 southern corridor (+5 h)",
+   "source": "Regional road authority bulletin N7-118 (synthetic)"
+  },
+  {
+   "disruption_id": "DSR-PORT-1103",
+   "type": "port_congestion",
+   "title": "Port Calder Terminal 2: crane outage and vessel bunching",
+   "region": "Coast",
+   "started": "2026-11-03T06:00",
+   "expected_clear": "2026-11-12T00:00",
+   "confidence": "medium",
+   "affected_lanes": [
+    "L12",
+    "L01",
+    "L10"
+   ],
+   "uncertainty_hours": 48,
+   "impact": "Average discharge delay 3.5 days; vessel Bluefin Aurora (voyage 044E) at anchor since 2026-11-03",
+   "source": "Terminal operator advisory T2-2611 (synthetic)"
+  },
+  {
+   "disruption_id": "DSR-CAP-1104",
+   "type": "carrier_capacity",
+   "title": "Ironbridge Freight: Coast region driver shortage",
+   "region": "Coast",
+   "started": "2026-11-04T00:00",
+   "expected_clear": "2026-11-14T00:00",
+   "confidence": "high",
+   "affected_lanes": [
+    "L07"
+   ],
+   "uncertainty_hours": 24,
+   "impact": "LTL capacity down about 30%; 2 of 5 tenders rejected on 2026-11-05",
+   "source": "Carrier notice (synthetic)"
+  },
+  {
+   "disruption_id": "DSR-DC-1105",
+   "type": "facility",
+   "title": "Redmarsh DC: 4-hour WMS outage backlog",
+   "region": "Central",
+   "started": "2026-11-05T13:00",
+   "expected_clear": "2026-11-07T06:00",
+   "confidence": "high",
+   "affected_lanes": [
+    "L05",
+    "L06",
+    "L11"
+   ],
+   "uncertainty_hours": 10,
+   "impact": "1,800 order lines behind; outbound waves 6-10 h late; night-shift overtime awaiting approval",
+   "source": "Halvard site incident report RMD-1105 (synthetic)"
+  },
+  {
+   "disruption_id": "DSR-DOC-1105",
+   "type": "customs",
+   "title": "Customs hold: HS code mismatch on one import",
+   "region": "Coast",
+   "started": "2026-11-05T10:00",
+   "expected_clear": "2026-11-07T10:00",
+   "confidence": "medium",
+   "affected_lanes": [
+    "L12"
+   ],
+   "uncertainty_hours": 24,
+   "impact": "Container held pending a corrected commercial invoice from the supplier",
+   "source": "Customs broker message (synthetic)"
+  }
+ ]
+}

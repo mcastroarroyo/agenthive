@@ -1,0 +1,4175 @@
+{
+ "snapshot_date": "2026-11-06",
+ "positions": [
+  {
+   "store_id": "S01",
+   "sku": "LUM-55Q8",
+   "on_hand": 77,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S02",
+   "sku": "LUM-55Q8",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S03",
+   "sku": "LUM-55Q8",
+   "on_hand": 77,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-10-22"
+  },
+  {
+   "store_id": "S04",
+   "sku": "LUM-55Q8",
+   "on_hand": 50,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.35,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S05",
+   "sku": "LUM-55Q8",
+   "on_hand": 63,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.94,
+   "last_receipt": "2026-09-26"
+  },
+  {
+   "store_id": "S06",
+   "sku": "LUM-55Q8",
+   "on_hand": 75,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-09-09"
+  },
+  {
+   "store_id": "S07",
+   "sku": "LUM-55Q8",
+   "on_hand": 95,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-09-05"
+  },
+  {
+   "store_id": "S08",
+   "sku": "LUM-55Q8",
+   "on_hand": 49,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.35,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S09",
+   "sku": "LUM-55Q8",
+   "on_hand": 112,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.94,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S10",
+   "sku": "LUM-55Q8",
+   "on_hand": 93,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-10-04"
+  },
+  {
+   "store_id": "S11",
+   "sku": "LUM-55Q8",
+   "on_hand": 85,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-10-15"
+  },
+  {
+   "store_id": "S12",
+   "sku": "LUM-55Q8",
+   "on_hand": 39,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.35,
+   "last_receipt": "2026-09-18"
+  },
+  {
+   "store_id": "S13",
+   "sku": "LUM-55Q8",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-10-01"
+  },
+  {
+   "store_id": "S14",
+   "sku": "LUM-55Q8",
+   "on_hand": 52,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.58,
+   "last_receipt": "2026-10-06"
+  },
+  {
+   "store_id": "S15",
+   "sku": "LUM-55Q8",
+   "on_hand": 34,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.35,
+   "last_receipt": "2026-10-06"
+  },
+  {
+   "store_id": "S16",
+   "sku": "LUM-55Q8",
+   "on_hand": 82,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.47,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S01",
+   "sku": "LUM-65Q8",
+   "on_hand": 6,
+   "on_order": 9,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S02",
+   "sku": "LUM-65Q8",
+   "on_hand": 5,
+   "on_order": 9,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S03",
+   "sku": "LUM-65Q8",
+   "on_hand": 4,
+   "on_order": 9,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S04",
+   "sku": "LUM-65Q8",
+   "on_hand": 4,
+   "on_order": 6,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S05",
+   "sku": "LUM-65Q8",
+   "on_hand": 2,
+   "on_order": 20,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.94,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S06",
+   "sku": "LUM-65Q8",
+   "on_hand": 2,
+   "on_order": 12,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.59,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S07",
+   "sku": "LUM-65Q8",
+   "on_hand": 2,
+   "on_order": 12,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.59,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S08",
+   "sku": "LUM-65Q8",
+   "on_hand": 2,
+   "on_order": 7,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.35,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S09",
+   "sku": "LUM-65Q8",
+   "on_hand": 4,
+   "on_order": 15,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.72,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S10",
+   "sku": "LUM-65Q8",
+   "on_hand": 9,
+   "on_order": 9,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S11",
+   "sku": "LUM-65Q8",
+   "on_hand": 5,
+   "on_order": 9,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S12",
+   "sku": "LUM-65Q8",
+   "on_hand": 4,
+   "on_order": 6,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S13",
+   "sku": "LUM-65Q8",
+   "on_hand": 4,
+   "on_order": 9,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S14",
+   "sku": "LUM-65Q8",
+   "on_hand": 8,
+   "on_order": 9,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S15",
+   "sku": "LUM-65Q8",
+   "on_hand": 1,
+   "on_order": 6,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S16",
+   "sku": "LUM-65Q8",
+   "on_hand": 7,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260540 (Port Calder congestion)",
+   "ads_28d": 0.36,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S01",
+   "sku": "LUM-55U6",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-13"
+  },
+  {
+   "store_id": "S02",
+   "sku": "LUM-55U6",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S03",
+   "sku": "LUM-55U6",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-20"
+  },
+  {
+   "store_id": "S04",
+   "sku": "LUM-55U6",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-12"
+  },
+  {
+   "store_id": "S05",
+   "sku": "LUM-55U6",
+   "on_hand": 24,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.62,
+   "last_receipt": "2026-10-11"
+  },
+  {
+   "store_id": "S06",
+   "sku": "LUM-55U6",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-14"
+  },
+  {
+   "store_id": "S07",
+   "sku": "LUM-55U6",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-24"
+  },
+  {
+   "store_id": "S08",
+   "sku": "LUM-55U6",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S09",
+   "sku": "LUM-55U6",
+   "on_hand": 22,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.62,
+   "last_receipt": "2026-09-11"
+  },
+  {
+   "store_id": "S10",
+   "sku": "LUM-55U6",
+   "on_hand": 16,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-16"
+  },
+  {
+   "store_id": "S11",
+   "sku": "LUM-55U6",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-26"
+  },
+  {
+   "store_id": "S12",
+   "sku": "LUM-55U6",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-02"
+  },
+  {
+   "store_id": "S13",
+   "sku": "LUM-55U6",
+   "on_hand": 20,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-19"
+  },
+  {
+   "store_id": "S14",
+   "sku": "LUM-55U6",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-27"
+  },
+  {
+   "store_id": "S15",
+   "sku": "LUM-55U6",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S16",
+   "sku": "LUM-55U6",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.31,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S01",
+   "sku": "LUM-65OLED",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-09-23"
+  },
+  {
+   "store_id": "S02",
+   "sku": "LUM-65OLED",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S03",
+   "sku": "LUM-65OLED",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-10-02"
+  },
+  {
+   "store_id": "S04",
+   "sku": "LUM-65OLED",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.05,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S05",
+   "sku": "LUM-65OLED",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S06",
+   "sku": "LUM-65OLED",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S07",
+   "sku": "LUM-65OLED",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-10-14"
+  },
+  {
+   "store_id": "S08",
+   "sku": "LUM-65OLED",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.05,
+   "last_receipt": "2026-10-13"
+  },
+  {
+   "store_id": "S09",
+   "sku": "LUM-65OLED",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S10",
+   "sku": "LUM-65OLED",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-09-13"
+  },
+  {
+   "store_id": "S11",
+   "sku": "LUM-65OLED",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-10-13"
+  },
+  {
+   "store_id": "S12",
+   "sku": "LUM-65OLED",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.05,
+   "last_receipt": "2026-10-28"
+  },
+  {
+   "store_id": "S13",
+   "sku": "LUM-65OLED",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-10-24"
+  },
+  {
+   "store_id": "S14",
+   "sku": "LUM-65OLED",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-10-07"
+  },
+  {
+   "store_id": "S15",
+   "sku": "LUM-65OLED",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.05,
+   "last_receipt": "2026-10-10"
+  },
+  {
+   "store_id": "S16",
+   "sku": "LUM-65OLED",
+   "on_hand": 1,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-10-19"
+  },
+  {
+   "store_id": "S01",
+   "sku": "AUR-SB700",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-10"
+  },
+  {
+   "store_id": "S02",
+   "sku": "AUR-SB700",
+   "on_hand": 26,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S03",
+   "sku": "AUR-SB700",
+   "on_hand": 22,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-18"
+  },
+  {
+   "store_id": "S04",
+   "sku": "AUR-SB700",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-06"
+  },
+  {
+   "store_id": "S05",
+   "sku": "AUR-SB700",
+   "on_hand": 29,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-23"
+  },
+  {
+   "store_id": "S06",
+   "sku": "AUR-SB700",
+   "on_hand": 27,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S07",
+   "sku": "AUR-SB700",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-04"
+  },
+  {
+   "store_id": "S08",
+   "sku": "AUR-SB700",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S09",
+   "sku": "AUR-SB700",
+   "on_hand": 33,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S10",
+   "sku": "AUR-SB700",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S11",
+   "sku": "AUR-SB700",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-16"
+  },
+  {
+   "store_id": "S12",
+   "sku": "AUR-SB700",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S13",
+   "sku": "AUR-SB700",
+   "on_hand": 25,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-01"
+  },
+  {
+   "store_id": "S14",
+   "sku": "AUR-SB700",
+   "on_hand": 22,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S15",
+   "sku": "AUR-SB700",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-24"
+  },
+  {
+   "store_id": "S16",
+   "sku": "AUR-SB700",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S01",
+   "sku": "AUR-SUB300",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-06"
+  },
+  {
+   "store_id": "S02",
+   "sku": "AUR-SUB300",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S03",
+   "sku": "AUR-SUB300",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S04",
+   "sku": "AUR-SUB300",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-10-19"
+  },
+  {
+   "store_id": "S05",
+   "sku": "AUR-SUB300",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-03"
+  },
+  {
+   "store_id": "S06",
+   "sku": "AUR-SUB300",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S07",
+   "sku": "AUR-SUB300",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-17"
+  },
+  {
+   "store_id": "S08",
+   "sku": "AUR-SUB300",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-10-25"
+  },
+  {
+   "store_id": "S09",
+   "sku": "AUR-SUB300",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-09"
+  },
+  {
+   "store_id": "S10",
+   "sku": "AUR-SUB300",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-11"
+  },
+  {
+   "store_id": "S11",
+   "sku": "AUR-SUB300",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S12",
+   "sku": "AUR-SUB300",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-10-02"
+  },
+  {
+   "store_id": "S13",
+   "sku": "AUR-SUB300",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S14",
+   "sku": "AUR-SUB300",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-17"
+  },
+  {
+   "store_id": "S15",
+   "sku": "AUR-SUB300",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-09-27"
+  },
+  {
+   "store_id": "S16",
+   "sku": "AUR-SUB300",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-09-13"
+  },
+  {
+   "store_id": "S01",
+   "sku": "LUM-HDMI21",
+   "on_hand": 20,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S02",
+   "sku": "LUM-HDMI21",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-15"
+  },
+  {
+   "store_id": "S03",
+   "sku": "LUM-HDMI21",
+   "on_hand": 19,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-03"
+  },
+  {
+   "store_id": "S04",
+   "sku": "LUM-HDMI21",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S05",
+   "sku": "LUM-HDMI21",
+   "on_hand": 32,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.62,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S06",
+   "sku": "LUM-HDMI21",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S07",
+   "sku": "LUM-HDMI21",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-23"
+  },
+  {
+   "store_id": "S08",
+   "sku": "LUM-HDMI21",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S09",
+   "sku": "LUM-HDMI21",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.62,
+   "last_receipt": "2026-09-11"
+  },
+  {
+   "store_id": "S10",
+   "sku": "LUM-HDMI21",
+   "on_hand": 20,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S11",
+   "sku": "LUM-HDMI21",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S12",
+   "sku": "LUM-HDMI21",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S13",
+   "sku": "LUM-HDMI21",
+   "on_hand": 20,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-02"
+  },
+  {
+   "store_id": "S14",
+   "sku": "LUM-HDMI21",
+   "on_hand": 19,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.39,
+   "last_receipt": "2026-09-26"
+  },
+  {
+   "store_id": "S15",
+   "sku": "LUM-HDMI21",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S16",
+   "sku": "LUM-HDMI21",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.31,
+   "last_receipt": "2026-09-06"
+  },
+  {
+   "store_id": "S01",
+   "sku": "CVX-AIR14",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-10-03"
+  },
+  {
+   "store_id": "S02",
+   "sku": "CVX-AIR14",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-03"
+  },
+  {
+   "store_id": "S03",
+   "sku": "CVX-AIR14",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-26"
+  },
+  {
+   "store_id": "S04",
+   "sku": "CVX-AIR14",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-09-23"
+  },
+  {
+   "store_id": "S05",
+   "sku": "CVX-AIR14",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.57,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S06",
+   "sku": "CVX-AIR14",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-27"
+  },
+  {
+   "store_id": "S07",
+   "sku": "CVX-AIR14",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-10-04"
+  },
+  {
+   "store_id": "S08",
+   "sku": "CVX-AIR14",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-11"
+  },
+  {
+   "store_id": "S09",
+   "sku": "CVX-AIR14",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.57,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S10",
+   "sku": "CVX-AIR14",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-06"
+  },
+  {
+   "store_id": "S11",
+   "sku": "CVX-AIR14",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-18"
+  },
+  {
+   "store_id": "S12",
+   "sku": "CVX-AIR14",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-10"
+  },
+  {
+   "store_id": "S13",
+   "sku": "CVX-AIR14",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S14",
+   "sku": "CVX-AIR14",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S15",
+   "sku": "CVX-AIR14",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-03"
+  },
+  {
+   "store_id": "S16",
+   "sku": "CVX-AIR14",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.29,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S01",
+   "sku": "CVX-PRO16",
+   "on_hand": 0,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S02",
+   "sku": "CVX-PRO16",
+   "on_hand": 0,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S03",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S04",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 3,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S05",
+   "sku": "CVX-PRO16",
+   "on_hand": 4,
+   "on_order": 9,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.44,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S06",
+   "sku": "CVX-PRO16",
+   "on_hand": 2,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S07",
+   "sku": "CVX-PRO16",
+   "on_hand": 2,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S08",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 3,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S09",
+   "sku": "CVX-PRO16",
+   "on_hand": 6,
+   "on_order": 9,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.44,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S10",
+   "sku": "CVX-PRO16",
+   "on_hand": 3,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S11",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S12",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 3,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S13",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S14",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 6,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S15",
+   "sku": "CVX-PRO16",
+   "on_hand": 1,
+   "on_order": 3,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S16",
+   "sku": "CVX-PRO16",
+   "on_hand": 2,
+   "on_order": 5,
+   "on_order_eta": "2026-11-13",
+   "on_order_note": "Air freight PO-LRK-88240",
+   "ads_28d": 0.22,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S01",
+   "sku": "CVX-DOCK4",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S02",
+   "sku": "CVX-DOCK4",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-26"
+  },
+  {
+   "store_id": "S03",
+   "sku": "CVX-DOCK4",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-24"
+  },
+  {
+   "store_id": "S04",
+   "sku": "CVX-DOCK4",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-17"
+  },
+  {
+   "store_id": "S05",
+   "sku": "CVX-DOCK4",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.31,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S06",
+   "sku": "CVX-DOCK4",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-11"
+  },
+  {
+   "store_id": "S07",
+   "sku": "CVX-DOCK4",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S08",
+   "sku": "CVX-DOCK4",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-10-01"
+  },
+  {
+   "store_id": "S09",
+   "sku": "CVX-DOCK4",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.31,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S10",
+   "sku": "CVX-DOCK4",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S11",
+   "sku": "CVX-DOCK4",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S12",
+   "sku": "CVX-DOCK4",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S13",
+   "sku": "CVX-DOCK4",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-10"
+  },
+  {
+   "store_id": "S14",
+   "sku": "CVX-DOCK4",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-09"
+  },
+  {
+   "store_id": "S15",
+   "sku": "CVX-DOCK4",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-10-23"
+  },
+  {
+   "store_id": "S16",
+   "sku": "CVX-DOCK4",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-18"
+  },
+  {
+   "store_id": "S01",
+   "sku": "AUR-NC90",
+   "on_hand": 1,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.68,
+   "last_receipt": "2026-10-13"
+  },
+  {
+   "store_id": "S02",
+   "sku": "AUR-NC90",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.68,
+   "last_receipt": "2026-09-04"
+  },
+  {
+   "store_id": "S03",
+   "sku": "AUR-NC90",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.68,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S04",
+   "sku": "AUR-NC90",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.41,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S05",
+   "sku": "AUR-NC90",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.81,
+   "last_receipt": "2026-10-22"
+  },
+  {
+   "store_id": "S06",
+   "sku": "AUR-NC90",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.51,
+   "last_receipt": "2026-09-01"
+  },
+  {
+   "store_id": "S07",
+   "sku": "AUR-NC90",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.51,
+   "last_receipt": "2026-09-06"
+  },
+  {
+   "store_id": "S08",
+   "sku": "AUR-NC90",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.3,
+   "last_receipt": "2026-10-28"
+  },
+  {
+   "store_id": "S09",
+   "sku": "AUR-NC90",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.81,
+   "last_receipt": "2026-09-08"
+  },
+  {
+   "store_id": "S10",
+   "sku": "AUR-NC90",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.51,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S11",
+   "sku": "AUR-NC90",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.51,
+   "last_receipt": "2026-09-17"
+  },
+  {
+   "store_id": "S12",
+   "sku": "AUR-NC90",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.3,
+   "last_receipt": "2026-09-12"
+  },
+  {
+   "store_id": "S13",
+   "sku": "AUR-NC90",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-09-17"
+  },
+  {
+   "store_id": "S14",
+   "sku": "AUR-NC90",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S15",
+   "sku": "AUR-NC90",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-20"
+  },
+  {
+   "store_id": "S16",
+   "sku": "AUR-NC90",
+   "on_hand": 16,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.3,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S01",
+   "sku": "AUR-BUDS3",
+   "on_hand": 34,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S02",
+   "sku": "AUR-BUDS3",
+   "on_hand": 29,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-13"
+  },
+  {
+   "store_id": "S03",
+   "sku": "AUR-BUDS3",
+   "on_hand": 39,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S04",
+   "sku": "AUR-BUDS3",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S05",
+   "sku": "AUR-BUDS3",
+   "on_hand": 50,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.52,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S06",
+   "sku": "AUR-BUDS3",
+   "on_hand": 45,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-09"
+  },
+  {
+   "store_id": "S07",
+   "sku": "AUR-BUDS3",
+   "on_hand": 31,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-24"
+  },
+  {
+   "store_id": "S08",
+   "sku": "AUR-BUDS3",
+   "on_hand": 25,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S09",
+   "sku": "AUR-BUDS3",
+   "on_hand": 79,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.52,
+   "last_receipt": "2026-09-05"
+  },
+  {
+   "store_id": "S10",
+   "sku": "AUR-BUDS3",
+   "on_hand": 37,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-19"
+  },
+  {
+   "store_id": "S11",
+   "sku": "AUR-BUDS3",
+   "on_hand": 29,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-07"
+  },
+  {
+   "store_id": "S12",
+   "sku": "AUR-BUDS3",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-16"
+  },
+  {
+   "store_id": "S13",
+   "sku": "AUR-BUDS3",
+   "on_hand": 35,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S14",
+   "sku": "AUR-BUDS3",
+   "on_hand": 35,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-04"
+  },
+  {
+   "store_id": "S15",
+   "sku": "AUR-BUDS3",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S16",
+   "sku": "AUR-BUDS3",
+   "on_hand": 28,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S01",
+   "sku": "AUR-PARTY2",
+   "on_hand": 22,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S02",
+   "sku": "AUR-PARTY2",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S03",
+   "sku": "AUR-PARTY2",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S04",
+   "sku": "AUR-PARTY2",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-10-22"
+  },
+  {
+   "store_id": "S05",
+   "sku": "AUR-PARTY2",
+   "on_hand": 38,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.17,
+   "last_receipt": "2026-10-16"
+  },
+  {
+   "store_id": "S06",
+   "sku": "AUR-PARTY2",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-03"
+  },
+  {
+   "store_id": "S07",
+   "sku": "AUR-PARTY2",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-23"
+  },
+  {
+   "store_id": "S08",
+   "sku": "AUR-PARTY2",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-10-10"
+  },
+  {
+   "store_id": "S09",
+   "sku": "AUR-PARTY2",
+   "on_hand": 37,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.17,
+   "last_receipt": "2026-09-02"
+  },
+  {
+   "store_id": "S10",
+   "sku": "AUR-PARTY2",
+   "on_hand": 16,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S11",
+   "sku": "AUR-PARTY2",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S12",
+   "sku": "AUR-PARTY2",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S13",
+   "sku": "AUR-PARTY2",
+   "on_hand": 19,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S14",
+   "sku": "AUR-PARTY2",
+   "on_hand": 20,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S15",
+   "sku": "AUR-PARTY2",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.06,
+   "last_receipt": "2026-09-01"
+  },
+  {
+   "store_id": "S16",
+   "sku": "AUR-PARTY2",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.08,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S01",
+   "sku": "HRT-CAM2",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-09-09"
+  },
+  {
+   "store_id": "S02",
+   "sku": "HRT-CAM2",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-09-08"
+  },
+  {
+   "store_id": "S03",
+   "sku": "HRT-CAM2",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-21"
+  },
+  {
+   "store_id": "S04",
+   "sku": "HRT-CAM2",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.27,
+   "last_receipt": "2026-09-04"
+  },
+  {
+   "store_id": "S05",
+   "sku": "HRT-CAM2",
+   "on_hand": 32,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.73,
+   "last_receipt": "2026-10-25"
+  },
+  {
+   "store_id": "S06",
+   "sku": "HRT-CAM2",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S07",
+   "sku": "HRT-CAM2",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S08",
+   "sku": "HRT-CAM2",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.27,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S09",
+   "sku": "HRT-CAM2",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.73,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S10",
+   "sku": "HRT-CAM2",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-09-13"
+  },
+  {
+   "store_id": "S11",
+   "sku": "HRT-CAM2",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-09-08"
+  },
+  {
+   "store_id": "S12",
+   "sku": "HRT-CAM2",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.27,
+   "last_receipt": "2026-10-22"
+  },
+  {
+   "store_id": "S13",
+   "sku": "HRT-CAM2",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-09-08"
+  },
+  {
+   "store_id": "S14",
+   "sku": "HRT-CAM2",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.45,
+   "last_receipt": "2026-10-15"
+  },
+  {
+   "store_id": "S15",
+   "sku": "HRT-CAM2",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.27,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S16",
+   "sku": "HRT-CAM2",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.36,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S01",
+   "sku": "HRT-HUB",
+   "on_hand": 30,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-09-08"
+  },
+  {
+   "store_id": "S02",
+   "sku": "HRT-HUB",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S03",
+   "sku": "HRT-HUB",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-07"
+  },
+  {
+   "store_id": "S04",
+   "sku": "HRT-HUB",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S05",
+   "sku": "HRT-HUB",
+   "on_hand": 31,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.33,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S06",
+   "sku": "HRT-HUB",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S07",
+   "sku": "HRT-HUB",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-09-12"
+  },
+  {
+   "store_id": "S08",
+   "sku": "HRT-HUB",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-27"
+  },
+  {
+   "store_id": "S09",
+   "sku": "HRT-HUB",
+   "on_hand": 38,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.33,
+   "last_receipt": "2026-09-06"
+  },
+  {
+   "store_id": "S10",
+   "sku": "HRT-HUB",
+   "on_hand": 19,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-09-10"
+  },
+  {
+   "store_id": "S11",
+   "sku": "HRT-HUB",
+   "on_hand": 26,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S12",
+   "sku": "HRT-HUB",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-18"
+  },
+  {
+   "store_id": "S13",
+   "sku": "HRT-HUB",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S14",
+   "sku": "HRT-HUB",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S15",
+   "sku": "HRT-HUB",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S16",
+   "sku": "HRT-HUB",
+   "on_hand": 20,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.17,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S01",
+   "sku": "HRT-THERM",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S02",
+   "sku": "HRT-THERM",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-23"
+  },
+  {
+   "store_id": "S03",
+   "sku": "HRT-THERM",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S04",
+   "sku": "HRT-THERM",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-14"
+  },
+  {
+   "store_id": "S05",
+   "sku": "HRT-THERM",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S06",
+   "sku": "HRT-THERM",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-10"
+  },
+  {
+   "store_id": "S07",
+   "sku": "HRT-THERM",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S08",
+   "sku": "HRT-THERM",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S09",
+   "sku": "HRT-THERM",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-02"
+  },
+  {
+   "store_id": "S10",
+   "sku": "HRT-THERM",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S11",
+   "sku": "HRT-THERM",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-23"
+  },
+  {
+   "store_id": "S12",
+   "sku": "HRT-THERM",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-01"
+  },
+  {
+   "store_id": "S13",
+   "sku": "HRT-THERM",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-17"
+  },
+  {
+   "store_id": "S14",
+   "sku": "HRT-THERM",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S15",
+   "sku": "HRT-THERM",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.1,
+   "last_receipt": "2026-09-27"
+  },
+  {
+   "store_id": "S16",
+   "sku": "HRT-THERM",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.13,
+   "last_receipt": "2026-10-07"
+  },
+  {
+   "store_id": "S01",
+   "sku": "VAN-CM12",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S02",
+   "sku": "VAN-CM12",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-25"
+  },
+  {
+   "store_id": "S03",
+   "sku": "VAN-CM12",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S04",
+   "sku": "VAN-CM12",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.25,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S05",
+   "sku": "VAN-CM12",
+   "on_hand": 19,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.68,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S06",
+   "sku": "VAN-CM12",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-09-27"
+  },
+  {
+   "store_id": "S07",
+   "sku": "VAN-CM12",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S08",
+   "sku": "VAN-CM12",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.25,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S09",
+   "sku": "VAN-CM12",
+   "on_hand": 20,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.68,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S10",
+   "sku": "VAN-CM12",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-09-05"
+  },
+  {
+   "store_id": "S11",
+   "sku": "VAN-CM12",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-07"
+  },
+  {
+   "store_id": "S12",
+   "sku": "VAN-CM12",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.25,
+   "last_receipt": "2026-09-04"
+  },
+  {
+   "store_id": "S13",
+   "sku": "VAN-CM12",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-14"
+  },
+  {
+   "store_id": "S14",
+   "sku": "VAN-CM12",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-06"
+  },
+  {
+   "store_id": "S15",
+   "sku": "VAN-CM12",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.25,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S16",
+   "sku": "VAN-CM12",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.34,
+   "last_receipt": "2026-10-01"
+  },
+  {
+   "store_id": "S01",
+   "sku": "VAN-AF55",
+   "on_hand": 41,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S02",
+   "sku": "VAN-AF55",
+   "on_hand": 44,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S03",
+   "sku": "VAN-AF55",
+   "on_hand": 40,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S04",
+   "sku": "VAN-AF55",
+   "on_hand": 26,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S05",
+   "sku": "VAN-AF55",
+   "on_hand": 67,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.6,
+   "last_receipt": "2026-10-14"
+  },
+  {
+   "store_id": "S06",
+   "sku": "VAN-AF55",
+   "on_hand": 40,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S07",
+   "sku": "VAN-AF55",
+   "on_hand": 38,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-10-20"
+  },
+  {
+   "store_id": "S08",
+   "sku": "VAN-AF55",
+   "on_hand": 23,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S09",
+   "sku": "VAN-AF55",
+   "on_hand": 76,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.6,
+   "last_receipt": "2026-09-02"
+  },
+  {
+   "store_id": "S10",
+   "sku": "VAN-AF55",
+   "on_hand": 50,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S11",
+   "sku": "VAN-AF55",
+   "on_hand": 46,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-10-06"
+  },
+  {
+   "store_id": "S12",
+   "sku": "VAN-AF55",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-03"
+  },
+  {
+   "store_id": "S13",
+   "sku": "VAN-AF55",
+   "on_hand": 48,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S14",
+   "sku": "VAN-AF55",
+   "on_hand": 41,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.38,
+   "last_receipt": "2026-10-17"
+  },
+  {
+   "store_id": "S15",
+   "sku": "VAN-AF55",
+   "on_hand": 25,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S16",
+   "sku": "VAN-AF55",
+   "on_hand": 39,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.3,
+   "last_receipt": "2026-10-23"
+  },
+  {
+   "store_id": "S01",
+   "sku": "VAN-BL900",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-02"
+  },
+  {
+   "store_id": "S02",
+   "sku": "VAN-BL900",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-07"
+  },
+  {
+   "store_id": "S03",
+   "sku": "VAN-BL900",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-24"
+  },
+  {
+   "store_id": "S04",
+   "sku": "VAN-BL900",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S05",
+   "sku": "VAN-BL900",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.37,
+   "last_receipt": "2026-09-13"
+  },
+  {
+   "store_id": "S06",
+   "sku": "VAN-BL900",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S07",
+   "sku": "VAN-BL900",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S08",
+   "sku": "VAN-BL900",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-09"
+  },
+  {
+   "store_id": "S09",
+   "sku": "VAN-BL900",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.37,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S10",
+   "sku": "VAN-BL900",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-03"
+  },
+  {
+   "store_id": "S11",
+   "sku": "VAN-BL900",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S12",
+   "sku": "VAN-BL900",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-24"
+  },
+  {
+   "store_id": "S13",
+   "sku": "VAN-BL900",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-17"
+  },
+  {
+   "store_id": "S14",
+   "sku": "VAN-BL900",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S15",
+   "sku": "VAN-BL900",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S16",
+   "sku": "VAN-BL900",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S01",
+   "sku": "KAI-NOVA",
+   "on_hand": 2,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S02",
+   "sku": "KAI-NOVA",
+   "on_hand": 0,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S03",
+   "sku": "KAI-NOVA",
+   "on_hand": 2,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S04",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 5,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S05",
+   "sku": "KAI-NOVA",
+   "on_hand": 3,
+   "on_order": 13,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.62,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S06",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S07",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S08",
+   "sku": "KAI-NOVA",
+   "on_hand": 2,
+   "on_order": 5,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S09",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 13,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.62,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S10",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S11",
+   "sku": "KAI-NOVA",
+   "on_hand": 2,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S12",
+   "sku": "KAI-NOVA",
+   "on_hand": 0,
+   "on_order": 5,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S13",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S14",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 8,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.39,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S15",
+   "sku": "KAI-NOVA",
+   "on_hand": 1,
+   "on_order": 5,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S16",
+   "sku": "KAI-NOVA",
+   "on_hand": 0,
+   "on_order": 7,
+   "on_order_eta": "2026-11-20",
+   "on_order_note": "Container HLV-SH-260541 (Port Calder congestion)",
+   "ads_28d": 0.31,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S01",
+   "sku": "KAI-CTRL",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-24"
+  },
+  {
+   "store_id": "S02",
+   "sku": "KAI-CTRL",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-22"
+  },
+  {
+   "store_id": "S03",
+   "sku": "KAI-CTRL",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-02"
+  },
+  {
+   "store_id": "S04",
+   "sku": "KAI-CTRL",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S05",
+   "sku": "KAI-CTRL",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.52,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S06",
+   "sku": "KAI-CTRL",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-02"
+  },
+  {
+   "store_id": "S07",
+   "sku": "KAI-CTRL",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-10-28"
+  },
+  {
+   "store_id": "S08",
+   "sku": "KAI-CTRL",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-08"
+  },
+  {
+   "store_id": "S09",
+   "sku": "KAI-CTRL",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.52,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S10",
+   "sku": "KAI-CTRL",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-16"
+  },
+  {
+   "store_id": "S11",
+   "sku": "KAI-CTRL",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-03"
+  },
+  {
+   "store_id": "S12",
+   "sku": "KAI-CTRL",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S13",
+   "sku": "KAI-CTRL",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-11"
+  },
+  {
+   "store_id": "S14",
+   "sku": "KAI-CTRL",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.32,
+   "last_receipt": "2026-09-11"
+  },
+  {
+   "store_id": "S15",
+   "sku": "KAI-CTRL",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-19"
+  },
+  {
+   "store_id": "S16",
+   "sku": "KAI-CTRL",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-05"
+  },
+  {
+   "store_id": "S01",
+   "sku": "KAI-HS7",
+   "on_hand": 16,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-10"
+  },
+  {
+   "store_id": "S02",
+   "sku": "KAI-HS7",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-18"
+  },
+  {
+   "store_id": "S03",
+   "sku": "KAI-HS7",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S04",
+   "sku": "KAI-HS7",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-10-28"
+  },
+  {
+   "store_id": "S05",
+   "sku": "KAI-HS7",
+   "on_hand": 25,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.31,
+   "last_receipt": "2026-09-25"
+  },
+  {
+   "store_id": "S06",
+   "sku": "KAI-HS7",
+   "on_hand": 19,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S07",
+   "sku": "KAI-HS7",
+   "on_hand": 16,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-10"
+  },
+  {
+   "store_id": "S08",
+   "sku": "KAI-HS7",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-27"
+  },
+  {
+   "store_id": "S09",
+   "sku": "KAI-HS7",
+   "on_hand": 31,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.31,
+   "last_receipt": "2026-10-08"
+  },
+  {
+   "store_id": "S10",
+   "sku": "KAI-HS7",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-15"
+  },
+  {
+   "store_id": "S11",
+   "sku": "KAI-HS7",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S12",
+   "sku": "KAI-HS7",
+   "on_hand": 8,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-10-11"
+  },
+  {
+   "store_id": "S13",
+   "sku": "KAI-HS7",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-15"
+  },
+  {
+   "store_id": "S14",
+   "sku": "KAI-HS7",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.19,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S15",
+   "sku": "KAI-HS7",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-09-10"
+  },
+  {
+   "store_id": "S16",
+   "sku": "KAI-HS7",
+   "on_hand": 15,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-28"
+  },
+  {
+   "store_id": "S01",
+   "sku": "WAV-MESH7",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-13"
+  },
+  {
+   "store_id": "S02",
+   "sku": "WAV-MESH7",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S03",
+   "sku": "WAV-MESH7",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-02"
+  },
+  {
+   "store_id": "S04",
+   "sku": "WAV-MESH7",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S05",
+   "sku": "WAV-MESH7",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.25,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S06",
+   "sku": "WAV-MESH7",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-03"
+  },
+  {
+   "store_id": "S07",
+   "sku": "WAV-MESH7",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S08",
+   "sku": "WAV-MESH7",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-10-12"
+  },
+  {
+   "store_id": "S09",
+   "sku": "WAV-MESH7",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.25,
+   "last_receipt": "2026-09-10"
+  },
+  {
+   "store_id": "S10",
+   "sku": "WAV-MESH7",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-24"
+  },
+  {
+   "store_id": "S11",
+   "sku": "WAV-MESH7",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-03"
+  },
+  {
+   "store_id": "S12",
+   "sku": "WAV-MESH7",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-10-20"
+  },
+  {
+   "store_id": "S13",
+   "sku": "WAV-MESH7",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-07"
+  },
+  {
+   "store_id": "S14",
+   "sku": "WAV-MESH7",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-23"
+  },
+  {
+   "store_id": "S15",
+   "sku": "WAV-MESH7",
+   "on_hand": 2,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-09-11"
+  },
+  {
+   "store_id": "S16",
+   "sku": "WAV-MESH7",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.12,
+   "last_receipt": "2026-10-02"
+  },
+  {
+   "store_id": "S01",
+   "sku": "WAV-AX3000",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S02",
+   "sku": "WAV-AX3000",
+   "on_hand": 32,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-10-01"
+  },
+  {
+   "store_id": "S03",
+   "sku": "WAV-AX3000",
+   "on_hand": 29,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-19"
+  },
+  {
+   "store_id": "S04",
+   "sku": "WAV-AX3000",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-09-13"
+  },
+  {
+   "store_id": "S05",
+   "sku": "WAV-AX3000",
+   "on_hand": 29,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S06",
+   "sku": "WAV-AX3000",
+   "on_hand": 31,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-10-15"
+  },
+  {
+   "store_id": "S07",
+   "sku": "WAV-AX3000",
+   "on_hand": 31,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-01"
+  },
+  {
+   "store_id": "S08",
+   "sku": "WAV-AX3000",
+   "on_hand": 14,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-09-17"
+  },
+  {
+   "store_id": "S09",
+   "sku": "WAV-AX3000",
+   "on_hand": 35,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.23,
+   "last_receipt": "2026-10-21"
+  },
+  {
+   "store_id": "S10",
+   "sku": "WAV-AX3000",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S11",
+   "sku": "WAV-AX3000",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S12",
+   "sku": "WAV-AX3000",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-10-20"
+  },
+  {
+   "store_id": "S13",
+   "sku": "WAV-AX3000",
+   "on_hand": 25,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-24"
+  },
+  {
+   "store_id": "S14",
+   "sku": "WAV-AX3000",
+   "on_hand": 17,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.14,
+   "last_receipt": "2026-09-12"
+  },
+  {
+   "store_id": "S15",
+   "sku": "WAV-AX3000",
+   "on_hand": 11,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.09,
+   "last_receipt": "2026-09-01"
+  },
+  {
+   "store_id": "S16",
+   "sku": "WAV-AX3000",
+   "on_hand": 13,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.11,
+   "last_receipt": "2026-10-24"
+  },
+  {
+   "store_id": "S01",
+   "sku": "TES-FIT5",
+   "on_hand": 30,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S02",
+   "sku": "TES-FIT5",
+   "on_hand": 30,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-20"
+  },
+  {
+   "store_id": "S03",
+   "sku": "TES-FIT5",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-26"
+  },
+  {
+   "store_id": "S04",
+   "sku": "TES-FIT5",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S05",
+   "sku": "TES-FIT5",
+   "on_hand": 65,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-28"
+  },
+  {
+   "store_id": "S06",
+   "sku": "TES-FIT5",
+   "on_hand": 28,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-14"
+  },
+  {
+   "store_id": "S07",
+   "sku": "TES-FIT5",
+   "on_hand": 30,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S08",
+   "sku": "TES-FIT5",
+   "on_hand": 26,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S09",
+   "sku": "TES-FIT5",
+   "on_hand": 33,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.42,
+   "last_receipt": "2026-10-23"
+  },
+  {
+   "store_id": "S10",
+   "sku": "TES-FIT5",
+   "on_hand": 30,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S11",
+   "sku": "TES-FIT5",
+   "on_hand": 35,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-09-07"
+  },
+  {
+   "store_id": "S12",
+   "sku": "TES-FIT5",
+   "on_hand": 18,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-04"
+  },
+  {
+   "store_id": "S13",
+   "sku": "TES-FIT5",
+   "on_hand": 28,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-28"
+  },
+  {
+   "store_id": "S14",
+   "sku": "TES-FIT5",
+   "on_hand": 21,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.26,
+   "last_receipt": "2026-10-10"
+  },
+  {
+   "store_id": "S15",
+   "sku": "TES-FIT5",
+   "on_hand": 12,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.16,
+   "last_receipt": "2026-10-16"
+  },
+  {
+   "store_id": "S16",
+   "sku": "TES-FIT5",
+   "on_hand": 19,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.21,
+   "last_receipt": "2026-10-24"
+  },
+  {
+   "store_id": "S01",
+   "sku": "TES-WATCH2",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-09-08"
+  },
+  {
+   "store_id": "S02",
+   "sku": "TES-WATCH2",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-09-05"
+  },
+  {
+   "store_id": "S03",
+   "sku": "TES-WATCH2",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-09-15"
+  },
+  {
+   "store_id": "S04",
+   "sku": "TES-WATCH2",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.11,
+   "last_receipt": "2026-10-26"
+  },
+  {
+   "store_id": "S05",
+   "sku": "TES-WATCH2",
+   "on_hand": 9,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.29,
+   "last_receipt": "2026-09-21"
+  },
+  {
+   "store_id": "S06",
+   "sku": "TES-WATCH2",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-10-02"
+  },
+  {
+   "store_id": "S07",
+   "sku": "TES-WATCH2",
+   "on_hand": 5,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-10-05"
+  },
+  {
+   "store_id": "S08",
+   "sku": "TES-WATCH2",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.11,
+   "last_receipt": "2026-10-01"
+  },
+  {
+   "store_id": "S09",
+   "sku": "TES-WATCH2",
+   "on_hand": 10,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.29,
+   "last_receipt": "2026-10-11"
+  },
+  {
+   "store_id": "S10",
+   "sku": "TES-WATCH2",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-09-14"
+  },
+  {
+   "store_id": "S11",
+   "sku": "TES-WATCH2",
+   "on_hand": 7,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-10-18"
+  },
+  {
+   "store_id": "S12",
+   "sku": "TES-WATCH2",
+   "on_hand": 3,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.11,
+   "last_receipt": "2026-10-09"
+  },
+  {
+   "store_id": "S13",
+   "sku": "TES-WATCH2",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-10-27"
+  },
+  {
+   "store_id": "S14",
+   "sku": "TES-WATCH2",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.18,
+   "last_receipt": "2026-10-14"
+  },
+  {
+   "store_id": "S15",
+   "sku": "TES-WATCH2",
+   "on_hand": 4,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.11,
+   "last_receipt": "2026-09-09"
+  },
+  {
+   "store_id": "S16",
+   "sku": "TES-WATCH2",
+   "on_hand": 6,
+   "on_order": 0,
+   "on_order_eta": null,
+   "on_order_note": null,
+   "ads_28d": 0.15,
+   "last_receipt": "2026-10-14"
+  }
+ ],
+ "thresholds": {
+  "stockout_days": 7,
+  "stockout_critical_days": 3,
+  "overstock_days": 60,
+  "overstock_critical_days": 90,
+  "eol_overstock_days": 30,
+  "transfer_target_cover_days": 21,
+  "donor_floor_days": 30,
+  "min_transfer_units": 2
+ }
+}

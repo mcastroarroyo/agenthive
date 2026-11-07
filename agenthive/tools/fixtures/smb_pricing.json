@@ -1,0 +1,42 @@
+{
+  "currency": "USD",
+  "effective": "2026-07-01",
+  "plans": {
+    "Starter": {"per_tech_month_annual": 39, "per_tech_month_monthly": 45, "min_techs": 5, "max_techs": 25, "billing": ["annual", "monthly"], "default_implementation": "QuickStart",
+                "includes": ["Scheduling & dispatch board", "Mobile app (iOS/Android) with offline mode", "Work orders, photos & signatures", "Basic invoicing", "Customer SMS/email notifications", "Email support (business hours)"]},
+    "Growth": {"per_tech_month_annual": 69, "per_tech_month_monthly": 79, "min_techs": 10, "max_techs": 250, "billing": ["annual", "monthly", "quarterly"], "default_implementation": "Standard",
+               "includes": ["Everything in Starter", "Customer portal", "Maintenance agreements & recurring billing", "Parts & inventory", "Accounting connector", "Open API & webhooks", "Standard dashboards", "Chat & phone support (8x5)"]},
+    "Enterprise": {"per_tech_month_annual": 99, "per_tech_month_monthly": null, "min_techs": 50, "max_techs": null, "billing": ["annual", "quarterly"], "default_implementation": "Premium",
+                   "includes": ["Everything in Growth", "SAML single sign-on & SCIM", "Multi-branch permissions", "Audit log", "Sandbox tenant", "Insights (BigQuery analytics) included", "99.9% uptime SLA", "Named CSM", "24x7 P1 support"]}
+  },
+  "addons": {
+    "Route Optimizer": {"per_tech_month": 15, "eligible_plans": ["Growth", "Enterprise"], "description": "Daily route optimisation, live traffic re-sequencing and drive-time reporting."},
+    "Assist": {"per_tech_month": 20, "eligible_plans": ["Growth", "Enterprise"], "description": "Kitewing Assist — AI copilot built on Gemini: troubleshooting answers from manuals and job history, job summaries, voice notes to work-order text."},
+    "Insights": {"flat_month": 600, "eligible_plans": ["Growth"], "included_in": ["Enterprise"], "description": "Analytics workspace on BigQuery with prebuilt dashboards and data export."}
+  },
+  "implementation": {
+    "QuickStart": {"fee_usd": 4500, "max_techs": 25, "duration_weeks": "3", "includes": "Remote configuration, 2 training sessions, CSV import of customers and equipment."},
+    "Standard": {"fee_usd": 12000, "max_techs": 150, "duration_weeks": "6-8", "includes": "Guided configuration, dispatcher and technician training (train-the-trainer), accounting connector setup, go-live support."},
+    "Premium": {"fee_usd": 28000, "max_techs": null, "duration_weeks": "10-12", "includes": "Dedicated implementation consultant, multi-branch design, SSO, 2 weeks hypercare."},
+    "data_migration_per_source_usd": 3500,
+    "onsite_training_day_usd": 1800
+  },
+  "discounts": {
+    "volume": [{"min_techs": 100, "max_techs": 199, "pct": 5}, {"min_techs": 200, "max_techs": null, "pct": 10}],
+    "multi_year": {"2": 3, "3": 6},
+    "nonprofit_pct": 10,
+    "discretionary_approval": [
+      {"max_pct": 10, "approver": "Account Executive (no approval needed)"},
+      {"max_pct": 20, "approver": "VP Sales — Lena Okafor"},
+      {"max_pct": 30, "approver": "Deal desk — CEO Dana Whitfield and COO/CFO Marcus Bell"}
+    ],
+    "max_total_subscription_discount_pct": 35,
+    "implementation_discount": "Up to 25% with VP Sales approval; never waived entirely.",
+    "notes": "Volume, multi-year and nonprofit discounts apply to subscription only and stack multiplicatively before any discretionary discount."
+  },
+  "terms": {
+    "payment": "Net 30. Annual plans invoiced upfront; quarterly invoicing available for Growth/Enterprise with ACV of $50,000 or more at no uplift.",
+    "price_lock": "Prices locked for the contract term; renewals capped at +5% per year.",
+    "seasonal": "Seasonal technician licences (pest, landscaping) require deal desk approval."
+  }
+}

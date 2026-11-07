@@ -1,0 +1,623 @@
+{
+ "as_of": "2026-11-06",
+ "organisation": "Corvina Health Network \u2014 Clinical Research Office (fictional)",
+ "trials": [
+  {
+   "trial_id": "CVH-ONC-2026-014",
+   "short_name": "HERON-2",
+   "title": "Phase II study of HRX-417 in previously treated KRAS G12C-mutated advanced NSCLC",
+   "phase": "II",
+   "sponsor": "Helix Ridge Therapeutics (fictional)",
+   "intervention": "HRX-417, investigational oral KRAS G12C inhibitor (fictional)",
+   "condition": "Advanced non-small cell lung cancer with KRAS G12C mutation",
+   "condition_keywords": [
+    "non-small cell lung cancer",
+    "nsclc"
+   ],
+   "status": "recruiting",
+   "site": "Corvina General Hospital \u2014 Cancer Institute",
+   "pi": "Dr. Anouk Verhagen (synthetic)",
+   "coordinator": "Lior Batista, CRC (synthetic)",
+   "slots_remaining": 6,
+   "screening_window_days": 28,
+   "criteria": [
+    {
+     "id": "I1",
+     "type": "inclusion",
+     "text": "Age 18 years or older",
+     "rule": {
+      "kind": "age",
+      "min": 18
+     }
+    },
+    {
+     "id": "I2",
+     "type": "inclusion",
+     "text": "Histologically confirmed NSCLC, stage IIIB-IV or recurrent",
+     "rule": {
+      "kind": "diagnosis",
+      "any_of": [
+       "non-small cell lung cancer",
+       "nsclc"
+      ],
+      "stages": [
+       "IIIB",
+       "IIIC",
+       "IV",
+       "IVA",
+       "IVB",
+       "recurrent"
+      ]
+     }
+    },
+    {
+     "id": "I3",
+     "type": "inclusion",
+     "text": "KRAS G12C mutation documented by a validated test",
+     "rule": {
+      "kind": "biomarker",
+      "gene": "KRAS",
+      "variant": "G12C"
+     }
+    },
+    {
+     "id": "I4",
+     "type": "inclusion",
+     "text": "At least 1 prior line of systemic therapy for advanced disease",
+     "rule": {
+      "kind": "fact_min",
+      "field": "prior_systemic_lines",
+      "value": 1
+     }
+    },
+    {
+     "id": "I5",
+     "type": "inclusion",
+     "text": "ECOG performance status 0-1",
+     "rule": {
+      "kind": "fact_max",
+      "field": "ecog",
+      "value": 1
+     }
+    },
+    {
+     "id": "I6",
+     "type": "inclusion",
+     "text": "Measurable disease per RECIST 1.1 (lesion >= 10 mm) on imaging within 28 days",
+     "rule": {
+      "kind": "imaging",
+      "min_lesion_mm": 10,
+      "window_days": 28
+     }
+    },
+    {
+     "id": "I7a",
+     "type": "inclusion",
+     "text": "ANC >= 1.5 x10^9/L (labs within 14 days)",
+     "rule": {
+      "kind": "measurement",
+      "test": "ANC",
+      "op": ">=",
+      "value": 1.5,
+      "window_days": 14
+     }
+    },
+    {
+     "id": "I7b",
+     "type": "inclusion",
+     "text": "Platelets >= 100 x10^9/L (labs within 14 days)",
+     "rule": {
+      "kind": "measurement",
+      "test": "Platelets",
+      "op": ">=",
+      "value": 100,
+      "window_days": 14
+     }
+    },
+    {
+     "id": "I7c",
+     "type": "inclusion",
+     "text": "Haemoglobin >= 9 g/dL (labs within 14 days)",
+     "rule": {
+      "kind": "measurement",
+      "test": "Hemoglobin",
+      "op": ">=",
+      "value": 9,
+      "window_days": 14
+     }
+    },
+    {
+     "id": "I7d",
+     "type": "inclusion",
+     "text": "Creatinine clearance >= 50 mL/min (labs within 14 days)",
+     "rule": {
+      "kind": "measurement",
+      "test": "Creatinine clearance",
+      "op": ">=",
+      "value": 50,
+      "window_days": 14
+     }
+    },
+    {
+     "id": "I7e",
+     "type": "inclusion",
+     "text": "AST and ALT <= 2.5 x ULN (<= 5 x ULN with liver metastases), within 14 days",
+     "rule": {
+      "kind": "measurement",
+      "test": [
+       "AST",
+       "ALT"
+      ],
+      "op": "<=",
+      "x_uln": 2.5,
+      "window_days": 14,
+      "alt_if": {
+       "condition": "liver metastas",
+       "x_uln": 5
+      }
+     }
+    },
+    {
+     "id": "I7f",
+     "type": "inclusion",
+     "text": "Total bilirubin <= 1.5 x ULN (within 14 days)",
+     "rule": {
+      "kind": "measurement",
+      "test": "Total bilirubin",
+      "op": "<=",
+      "x_uln": 1.5,
+      "window_days": 14
+     }
+    },
+    {
+     "id": "I8",
+     "type": "inclusion",
+     "text": "Able to give written informed consent",
+     "rule": {
+      "kind": "fact_true",
+      "field": "consent_capacity"
+     }
+    },
+    {
+     "id": "E1",
+     "type": "exclusion",
+     "text": "Prior treatment with any KRAS G12C inhibitor",
+     "rule": {
+      "kind": "no_prior_drug_class",
+      "classes": [
+       "kras_g12c_inhibitor"
+      ]
+     }
+    },
+    {
+     "id": "E2",
+     "type": "exclusion",
+     "text": "Active or untreated brain metastases (treated and stable >= 4 weeks allowed)",
+     "rule": {
+      "kind": "brain_mets",
+      "stable_weeks": 4
+     }
+    },
+    {
+     "id": "E3",
+     "type": "exclusion",
+     "text": "Systemic anticancer therapy within 21 days before first dose",
+     "rule": {
+      "kind": "washout",
+      "categories": [
+       "systemic_chemotherapy",
+       "systemic_immunotherapy",
+       "targeted_therapy",
+       "investigational"
+      ],
+      "days": 21
+     }
+    },
+    {
+     "id": "E4",
+     "type": "exclusion",
+     "text": "Radiotherapy within 14 days before first dose",
+     "rule": {
+      "kind": "washout",
+      "categories": [
+       "radiotherapy"
+      ],
+      "days": 14
+     }
+    },
+    {
+     "id": "E5",
+     "type": "exclusion",
+     "text": "QTcF > 470 ms",
+     "rule": {
+      "kind": "measurement",
+      "test": "QTcF",
+      "op": "<=",
+      "value": 470,
+      "window_days": 28
+     }
+    },
+    {
+     "id": "E6",
+     "type": "exclusion",
+     "text": "Active hepatitis B or C, or uncontrolled HIV infection",
+     "rule": {
+      "kind": "serology",
+      "tests": [
+       "HBV",
+       "HCV",
+       "HIV"
+      ]
+     }
+    },
+    {
+     "id": "E7",
+     "type": "exclusion",
+     "text": "History of interstitial lung disease or pneumonitis requiring steroids",
+     "rule": {
+      "kind": "absent_history",
+      "any_of": [
+       "interstitial lung disease",
+       "pneumonitis"
+      ]
+     }
+    },
+    {
+     "id": "E8",
+     "type": "exclusion",
+     "text": "Strong CYP3A4 inducers within 14 days",
+     "rule": {
+      "kind": "med_class_absent",
+      "classes": [
+       "strong_cyp3a4_inducer"
+      ],
+      "washout_days": 14
+     }
+    },
+    {
+     "id": "E9",
+     "type": "exclusion",
+     "text": "Pregnant or breastfeeding (negative pregnancy test within 7 days if of childbearing potential)",
+     "rule": {
+      "kind": "pregnancy",
+      "window_days": 7
+     }
+    }
+   ]
+  },
+  {
+   "trial_id": "CVH-CARD-2026-007",
+   "short_name": "ZEPHYR-HF",
+   "title": "Phase III study of ZPH-12 versus placebo on top of guideline-directed therapy in symptomatic HFrEF",
+   "phase": "III",
+   "sponsor": "Northfold Biopharma (fictional)",
+   "intervention": "ZPH-12, investigational once-daily oral agent (fictional)",
+   "condition": "Chronic heart failure with reduced ejection fraction",
+   "condition_keywords": [
+    "heart failure"
+   ],
+   "status": "recruiting",
+   "site": "Corvina Heart Clinic",
+   "pi": "Dr. Tobias Rennert (synthetic)",
+   "coordinator": "Amara Quist, CRC (synthetic)",
+   "slots_remaining": 11,
+   "screening_window_days": 30,
+   "criteria": [
+    {
+     "id": "I1",
+     "type": "inclusion",
+     "text": "Age 40 years or older",
+     "rule": {
+      "kind": "age",
+      "min": 40
+     }
+    },
+    {
+     "id": "I2",
+     "type": "inclusion",
+     "text": "Diagnosis of heart failure with reduced ejection fraction",
+     "rule": {
+      "kind": "diagnosis",
+      "any_of": [
+       "heart failure with reduced ejection fraction",
+       "hfref",
+       "systolic heart failure"
+      ]
+     }
+    },
+    {
+     "id": "I3",
+     "type": "inclusion",
+     "text": "LVEF <= 40% within the last 12 months",
+     "rule": {
+      "kind": "measurement",
+      "test": "LVEF",
+      "op": "<=",
+      "value": 40,
+      "window_days": 365
+     }
+    },
+    {
+     "id": "I4",
+     "type": "inclusion",
+     "text": "NYHA class II-IV",
+     "rule": {
+      "kind": "fact_in",
+      "field": "nyha_class",
+      "values": [
+       2,
+       3,
+       4
+      ]
+     }
+    },
+    {
+     "id": "I5",
+     "type": "inclusion",
+     "text": "NT-proBNP >= 600 pg/mL (>= 900 pg/mL with atrial fibrillation) within 30 days",
+     "rule": {
+      "kind": "measurement",
+      "test": "NT-proBNP",
+      "op": ">=",
+      "value": 600,
+      "window_days": 30,
+      "alt_if": {
+       "condition": "atrial fibrillation",
+       "value": 900
+      }
+     }
+    },
+    {
+     "id": "I6",
+     "type": "inclusion",
+     "text": "Stable guideline-directed therapy (ARNI/ACEi/ARB and beta blocker) for >= 4 weeks",
+     "rule": {
+      "kind": "stable_med_class",
+      "classes": [
+       "arni",
+       "acei",
+       "arb"
+      ],
+      "also": [
+       "beta_blocker"
+      ],
+      "min_weeks": 4
+     }
+    },
+    {
+     "id": "I7",
+     "type": "inclusion",
+     "text": "eGFR >= 25 mL/min/1.73m2 within 30 days",
+     "rule": {
+      "kind": "measurement",
+      "test": "eGFR",
+      "op": ">=",
+      "value": 25,
+      "window_days": 30
+     }
+    },
+    {
+     "id": "I8",
+     "type": "inclusion",
+     "text": "Able to give written informed consent",
+     "rule": {
+      "kind": "fact_true",
+      "field": "consent_capacity"
+     }
+    },
+    {
+     "id": "E1",
+     "type": "exclusion",
+     "text": "Systolic blood pressure < 95 mmHg at screening",
+     "rule": {
+      "kind": "measurement",
+      "test": "Systolic BP",
+      "op": ">=",
+      "value": 95,
+      "window_days": 30
+     }
+    },
+    {
+     "id": "E2",
+     "type": "exclusion",
+     "text": "Serum potassium > 5.0 mmol/L",
+     "rule": {
+      "kind": "measurement",
+      "test": "Potassium",
+      "op": "<=",
+      "value": 5.0,
+      "window_days": 30
+     }
+    },
+    {
+     "id": "E3",
+     "type": "exclusion",
+     "text": "Acute coronary syndrome, stroke or cardiac surgery within 90 days",
+     "rule": {
+      "kind": "absent_history",
+      "any_of": [
+       "acute coronary syndrome",
+       "myocardial infarction",
+       "stroke",
+       "cardiac surgery"
+      ],
+      "within_days": 90
+     }
+    },
+    {
+     "id": "E4",
+     "type": "exclusion",
+     "text": "Current participation in another interventional trial",
+     "rule": {
+      "kind": "fact_false",
+      "field": "other_trial"
+     }
+    },
+    {
+     "id": "E5",
+     "type": "exclusion",
+     "text": "Pregnant or breastfeeding",
+     "rule": {
+      "kind": "pregnancy",
+      "window_days": 7
+     }
+    }
+   ]
+  },
+  {
+   "trial_id": "CVH-ENDO-2026-022",
+   "short_name": "KIDNEY-SHIELD-2",
+   "title": "Phase II study of KSH-209 for albuminuria in type 2 diabetes with chronic kidney disease",
+   "phase": "II",
+   "sponsor": "Aldermoor Therapeutics (fictional)",
+   "intervention": "KSH-209, investigational oral agent (fictional)",
+   "condition": "Type 2 diabetes with chronic kidney disease and albuminuria",
+   "condition_keywords": [
+    "type 2 diabetes"
+   ],
+   "status": "recruiting",
+   "site": "Corvina Diabetes Center",
+   "pi": "Dr. Helena Marsh-Okoro (synthetic)",
+   "coordinator": "Ravi Sandoval, CRC (synthetic)",
+   "slots_remaining": 3,
+   "screening_window_days": 21,
+   "criteria": [
+    {
+     "id": "I1",
+     "type": "inclusion",
+     "text": "Age 18-75 years",
+     "rule": {
+      "kind": "age",
+      "min": 18,
+      "max": 75
+     }
+    },
+    {
+     "id": "I2",
+     "type": "inclusion",
+     "text": "Type 2 diabetes",
+     "rule": {
+      "kind": "diagnosis",
+      "any_of": [
+       "type 2 diabetes"
+      ]
+     }
+    },
+    {
+     "id": "I3",
+     "type": "inclusion",
+     "text": "HbA1c 7.0-10.5% within 60 days",
+     "rule": {
+      "kind": "measurement",
+      "test": "HbA1c",
+      "op": "between",
+      "value": 7.0,
+      "value_hi": 10.5,
+      "window_days": 60
+     }
+    },
+    {
+     "id": "I4",
+     "type": "inclusion",
+     "text": "eGFR 30-60 mL/min/1.73m2 within 30 days",
+     "rule": {
+      "kind": "measurement",
+      "test": "eGFR",
+      "op": "between",
+      "value": 30,
+      "value_hi": 60,
+      "window_days": 30
+     }
+    },
+    {
+     "id": "I5",
+     "type": "inclusion",
+     "text": "Urine albumin-to-creatinine ratio >= 200 mg/g within 60 days",
+     "rule": {
+      "kind": "measurement",
+      "test": "UACR",
+      "op": ">=",
+      "value": 200,
+      "window_days": 60
+     }
+    },
+    {
+     "id": "I6",
+     "type": "inclusion",
+     "text": "Stable ACE inhibitor or ARB for >= 4 weeks",
+     "rule": {
+      "kind": "stable_med_class",
+      "classes": [
+       "acei",
+       "arb"
+      ],
+      "min_weeks": 4
+     }
+    },
+    {
+     "id": "I7",
+     "type": "inclusion",
+     "text": "Able to give written informed consent",
+     "rule": {
+      "kind": "fact_true",
+      "field": "consent_capacity"
+     }
+    },
+    {
+     "id": "E1",
+     "type": "exclusion",
+     "text": "Type 1 diabetes",
+     "rule": {
+      "kind": "absent_history",
+      "any_of": [
+       "type 1 diabetes"
+      ]
+     }
+    },
+    {
+     "id": "E2",
+     "type": "exclusion",
+     "text": "Dialysis or prior kidney transplant",
+     "rule": {
+      "kind": "absent_history",
+      "any_of": [
+       "dialysis",
+       "kidney transplant"
+      ]
+     }
+    },
+    {
+     "id": "E3",
+     "type": "exclusion",
+     "text": "BMI > 45 kg/m2",
+     "rule": {
+      "kind": "fact_max",
+      "field": "bmi",
+      "value": 45
+     }
+    },
+    {
+     "id": "E4",
+     "type": "exclusion",
+     "text": "Diabetic ketoacidosis within 180 days",
+     "rule": {
+      "kind": "absent_history",
+      "any_of": [
+       "diabetic ketoacidosis"
+      ],
+      "within_days": 180
+     }
+    },
+    {
+     "id": "E5",
+     "type": "exclusion",
+     "text": "Pregnant or breastfeeding",
+     "rule": {
+      "kind": "pregnancy",
+      "window_days": 7
+     }
+    }
+   ]
+  }
+ ]
+}

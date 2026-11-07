@@ -1,0 +1,157 @@
+{
+  "as_of": "2026-11-06",
+  "sources": [
+    {
+      "title": "Workspace Migration Cutover Weekend Runbook",
+      "owner": "Laura Méndez",
+      "owner_team": "Workspace Practice",
+      "last_reviewed": "2026-08-14",
+      "topics": ["workspace", "migration", "cutover", "exchange", "mx", "dns", "hypercare", "rollback"],
+      "status": "current",
+      "kb_doc": "plat_workspace_cutover_runbook"
+    },
+    {
+      "title": "Agent Deployment Checklist (ADK + Agent Engine)",
+      "owner": "Tomás Herrera",
+      "owner_team": "AI Engineering",
+      "last_reviewed": "2026-10-02",
+      "topics": ["agents", "adk", "agent engine", "deployment", "evaluation", "security", "checklist"],
+      "status": "current",
+      "kb_doc": "plat_agent_deployment_checklist"
+    },
+    {
+      "title": "Jira Taxonomy and Agile Delivery Standards",
+      "owner": "Priya Raman",
+      "owner_team": "Delivery Excellence",
+      "last_reviewed": "2026-06-20",
+      "topics": ["jira", "agile", "backlog", "labels", "components", "epics", "definition of done", "estimation"],
+      "status": "current",
+      "kb_doc": "plat_jira_agile_standards"
+    },
+    {
+      "title": "Google Cloud Architecture Framework — Wursta Field Notes",
+      "owner": "Daniel Okafor",
+      "owner_team": "Cloud Architecture",
+      "last_reviewed": "2025-09-18",
+      "topics": ["architecture", "framework", "reliability", "security", "cost", "performance", "operations"],
+      "status": "stale",
+      "kb_doc": "plat_architecture_framework_notes"
+    },
+    {
+      "title": "Pantheon Engagement Methodology",
+      "owner": "Sofia Lindqvist",
+      "owner_team": "Advisory Practice",
+      "last_reviewed": "2026-09-25",
+      "topics": ["pantheon", "hermes", "methodology", "agents", "assessment", "deliverables", "engagement"],
+      "status": "current",
+      "kb_doc": "plat_pantheon_methodology"
+    },
+    {
+      "title": "BigQuery Data Modelling Standards",
+      "owner": "Mateo Ruiz",
+      "owner_team": "Data & Analytics Practice",
+      "last_reviewed": "2026-04-10",
+      "topics": ["data", "bigquery", "star schema", "naming", "partitioning", "clustering", "ddl"],
+      "status": "current",
+      "kb_doc": "plat_data_modelling_standards"
+    },
+    {
+      "title": "Delivery Risk Management Standard",
+      "owner": "Priya Raman",
+      "owner_team": "Delivery Excellence",
+      "last_reviewed": "2026-05-12",
+      "topics": ["risk", "register", "scoring", "escalation", "delivery", "governance"],
+      "status": "current",
+      "kb_doc": "plat_risk_management_standard"
+    },
+    {
+      "title": "Model Tier Policy — Flash-Lite, Flash and Argon",
+      "owner": "Tomás Herrera",
+      "owner_team": "AI Engineering",
+      "last_reviewed": "2026-10-20",
+      "topics": ["models", "gemini", "cost", "agents", "flash-lite", "flash", "argon", "policy"],
+      "status": "current",
+      "kb_doc": "plat_model_tier_policy"
+    },
+    {
+      "title": "Workspace Security Baseline and Data Regions Guidance",
+      "owner": "",
+      "owner_team": "",
+      "last_reviewed": "2026-03-03",
+      "topics": ["workspace", "security", "data regions", "residency", "dlp", "2sv", "admin"],
+      "status": "ownerless",
+      "kb_doc": "plat_workspace_security_baseline",
+      "note": "Previous owner moved teams in May 2026; awaiting reassignment by the Knowledge Manager."
+    },
+    {
+      "title": "Knowledge Management Policy",
+      "owner": "Grace Achterberg",
+      "owner_team": "Knowledge Management",
+      "last_reviewed": "2026-01-15",
+      "topics": ["knowledge", "ownership", "review", "curation", "policy", "stale"],
+      "status": "current",
+      "kb_doc": "plat_knowledge_management_policy"
+    },
+    {
+      "title": "Security and PII Handling for Demos",
+      "owner": "Kenji Watanabe",
+      "owner_team": "Security Office",
+      "last_reviewed": "2026-07-08",
+      "topics": ["security", "pii", "demos", "synthetic data", "privacy", "agents"],
+      "status": "current",
+      "kb_doc": "plat_demo_security_pii"
+    },
+    {
+      "title": "Delivery Quality Gates",
+      "owner": "Priya Raman",
+      "owner_team": "Delivery Excellence",
+      "last_reviewed": "2026-02-27",
+      "topics": ["quality", "gates", "delivery", "sign-off", "go-live", "governance"],
+      "status": "current",
+      "kb_doc": "plat_delivery_quality_gates"
+    },
+    {
+      "title": "Exchange to Workspace Cutover Playbook (2023)",
+      "owner": "Laura Méndez",
+      "owner_team": "Workspace Practice",
+      "last_reviewed": "2023-05-02",
+      "topics": ["workspace", "migration", "cutover", "exchange"],
+      "status": "superseded",
+      "superseded_by": "Workspace Migration Cutover Weekend Runbook"
+    },
+    {
+      "title": "Agent Deployment Checklist v1 (Cloud Run + LangChain)",
+      "owner": "",
+      "owner_team": "",
+      "last_reviewed": "2024-11-20",
+      "topics": ["agents", "deployment", "cloud run", "checklist"],
+      "status": "superseded",
+      "superseded_by": "Agent Deployment Checklist (ADK + Agent Engine)"
+    },
+    {
+      "title": "Model Selection Guide (Gemini 1.5 era)",
+      "owner": "Tomás Herrera",
+      "owner_team": "AI Engineering",
+      "last_reviewed": "2024-06-30",
+      "topics": ["models", "gemini", "cost", "agents"],
+      "status": "superseded",
+      "superseded_by": "Model Tier Policy — Flash-Lite, Flash and Argon"
+    },
+    {
+      "title": "Pre-sales Discovery Questionnaire",
+      "owner": "",
+      "owner_team": "",
+      "last_reviewed": "2025-02-11",
+      "topics": ["discovery", "pre-sales", "questionnaire", "assessment"],
+      "status": "ownerless"
+    },
+    {
+      "title": "Demo Environment Access Procedure",
+      "owner": "Kenji Watanabe",
+      "owner_team": "Security Office",
+      "last_reviewed": "2025-07-01",
+      "topics": ["demos", "security", "access", "environments"],
+      "status": "stale"
+    }
+  ]
+}

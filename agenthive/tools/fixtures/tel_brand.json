@@ -1,0 +1,109 @@
+{
+ "brand": "Kestrava Telecom (fictional)",
+ "voice": [
+  "Clear before clever",
+  "Warm, confident, never pushy",
+  "Talk to one person: 'you' over 'we'",
+  "Short sentences (average 20 words or fewer)",
+  "Plain words: no network jargon in consumer copy"
+ ],
+ "product_names": [
+  "Kestrava",
+  "Kestrava Fiber Max",
+  "Kestrava 5G Home",
+  "Kestrava One",
+  "Kestrava Wi-Fi 7 Gateway"
+ ],
+ "misspellings": {
+  "KesTrava": "Kestrava",
+  "KESTRAVA": "Kestrava",
+  "Fibre Max": "Fiber Max",
+  "Fiber-Max": "Fiber Max",
+  "FiberMax": "Fiber Max",
+  "5G home": "5G Home",
+  "Kestrava 5g": "Kestrava 5G",
+  "Kestrava ONE": "Kestrava One"
+ },
+ "banned_terms": [
+  "revolutionary",
+  "game-changer",
+  "game changer",
+  "best-in-class",
+  "cheap",
+  "guaranteed",
+  "no-brainer",
+  "insane",
+  "blazing",
+  "act now",
+  "limited time only!!"
+ ],
+ "claims_needing_source": [
+  "fastest",
+  "#1",
+  "number one",
+  "best network",
+  "most reliable",
+  "lowest price"
+ ],
+ "conditional_lines": {
+  "unlimited": "Fair use policy applies.",
+  "price_short": "T&Cs apply.",
+  "price_email": "Taxes and fees extra. T&Cs apply."
+ },
+ "allowed_caps": [
+  "5G",
+  "TV",
+  "HD",
+  "4K",
+  "SMS",
+  "NBA",
+  "T&Cs",
+  "STOP",
+  "MLO",
+  "Wi-Fi",
+  "Gig"
+ ],
+ "cta_verbs": [
+  "Upgrade",
+  "Get",
+  "Switch",
+  "Check",
+  "Find",
+  "Join",
+  "Try",
+  "See",
+  "Book",
+  "Claim"
+ ],
+ "channels": {
+  "push": {
+   "max_chars": 110,
+   "title_max_chars": 40,
+   "max_emojis": 1,
+   "max_exclamations": 1,
+   "needs_cta": true
+  },
+  "sms": {
+   "max_chars": 160,
+   "max_emojis": 0,
+   "max_exclamations": 1,
+   "needs_cta": true,
+   "required_text": "Reply STOP to opt out"
+  },
+  "email": {
+   "subject_max_chars": 50,
+   "preheader_max_chars": 90,
+   "body_max_words": 180,
+   "max_emojis": 1,
+   "max_exclamations": 1,
+   "needs_cta": true
+  },
+  "social": {
+   "max_chars": 280,
+   "max_emojis": 2,
+   "max_hashtags": 3,
+   "max_exclamations": 1,
+   "needs_cta": true
+  }
+ }
+}

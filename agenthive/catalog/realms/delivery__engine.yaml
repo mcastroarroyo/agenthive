@@ -1,0 +1,943 @@
+# Wursta Delivery Engine (WurstaBots) — clusters delivery_engine + atlas.
+# All clients, consultants and tenants are fictional. The Atlas suite shares ONE synthetic legacy tenant:
+# Kestrel Manufacturing Inc. — 1,200 users on Microsoft 365 + Windows file shares (project KES-WS-2026,
+# SOW-2026-0412), baseline waves W0 (pilot, 2026-10-10) to W7 (executives, 2026-12-05); demo "today" is 2026-11-06.
+agents:
+  # ===================================================================================================================
+  # Delivery engine
+  # ===================================================================================================================
+  - id: sow_builder
+    code: Sow
+    name: SOW Builder
+    cluster: delivery_engine
+    status: demo_ready
+    tagline: Turns discovery notes into a priced, quality-checked Statement of Work in minutes.
+    description: >-
+      A three-stage pipeline (ADK SequentialAgent). A scope analyst turns raw discovery notes into numbered
+      deliverables, assumptions, exclusions and constraints; an estimator sizes every deliverable with Wursta's
+      reference estimation model, prices it from the rate card (fixed fee or time & materials), schedules the phases
+      with the critical-path tool and builds the payment schedule; the writer assembles the SOW from approved clauses
+      and runs the SOW quality check until it passes — acceptance criteria for every deliverable, no vague terms,
+      payments that add up.
+    persona: Engagement leads, pre-sales architects and delivery directors turning a discovery call into a proposal
+    use_cases:
+      - First-draft SOW the same day as discovery, with numbers that come from tools, not guesses
+      - Fixed fee vs T&M (onshore, nearshore or blended) with margin check and the right approver
+      - Consistent SOWs that pass the quality bar before Legal and the client see them
+    model: flash
+    model_reason: >-
+      Tool-heavy drafting over deterministic estimation, pricing and scheduling tools — Flash is accurate enough.
+      Scope extraction runs on Flash-Lite. No Argon: every number comes from a tool, the model only structures.
+    pattern: sequential
+    steps:
+      - id: scope_analyst
+        name: Scope analyst
+        model: lite
+        role: Extracts objectives, numbered deliverables mapped to estimation types, assumptions, exclusions and constraints.
+        instruction: |
+          Read the discovery material in the conversation. When the user names a sample document (keys start with
+          'dlv_'), call get_sample_document first and work only from it.
+          Write a SCOPE BRIEF with these headings:
+          1. Client and context — 2-3 lines: company, users, current platform, target platform.
+          2. Objectives — 3-5 bullets, measurable where the notes allow.
+          3. Deliverables — a table D1..Dn with columns: name, estimation type, quantity, complexity, rationale.
+             Estimation types and their quantity units: discovery_assessment (engagements), workspace_migration
+             (users), file_share_migration (TB), identity_sso (integrations), change_management (users),
+             training_session (sessions), gemini_rollout (seats), landing_zone (environments), data_pipeline
+             (pipelines), dashboard (dashboards), ml_model (models), ai_agent (agents), integration_api
+             (integrations), hypercare (weeks). D1 is always discovery_assessment, quantity 1.
+             Use quantities exactly as stated; if one is missing pick a conservative value and mark it "(assumed)".
+             Complexity is medium unless the notes justify low or high — say why.
+          4. Assumptions — from the notes plus any you need to make the estimate valid.
+          5. Out of scope — everything the notes exclude or defer.
+          6. Constraints and dates — start date, deadlines, change freezes, pricing preference, budget hint,
+             delivery-region preference, language.
+          7. Open questions.
+          Do not estimate or price anything.
+        tools: [get_sample_document]
+        output_key: sow_scope
+      - id: estimator
+        name: Estimator & pricer
+        model: flash
+        role: Sizes and prices the deliverables, schedules the phases and builds the payment schedule.
+        instruction: |
+          Scope brief from the previous step:
+          {{sow_scope}}
+
+          1. Call dlv_estimate_effort ONCE with every deliverable (type, quantity, complexity, name "D<n> <name>").
+          2. Pricing: pricing_model = the client's stated preference (default 'fixed'); delivery_region =
+             'us_onshore' unless the user or notes ask for 'latam_nearshore' or 'blended'; discount_pct = 0 unless
+             the user gives one; risk_level = the estimate's overall_complexity. Call dlv_price_sow with role_hours
+             exactly as returned. If the user asks to compare models or regions, call it once per option.
+          3. Build 4-6 phases (e.g. discovery & design, pilot, migration waves / build, enablement, hypercare) with
+             durations in calendar days, dependencies and owner, respecting freezes in the brief. Call critical_path
+             with the client's start date.
+          4. Turn phase finishes into 3-5 payment milestones (name, date, weight_pct) and call
+             dlv_payment_schedule with the price (fixed fee or T&M estimate) and the pricing model.
+          Output a NUMBERS PACK: effort by deliverable (hours), hours by role, pricing summary (model, region, list
+          total, discount, price, blended rate, gross margin, approver, warnings), schedule (phase, start, finish,
+          critical) and the payment schedule table. Copy every number exactly as the tools returned it.
+        tools: [dlv_estimate_effort, dlv_price_sow, critical_path, dlv_payment_schedule]
+        output_key: sow_numbers
+    tools: [dlv_sow_clause_library, dlv_sow_quality_check, compute_roi]
+    grounding: [kb]
+    instruction: |
+      You write the Statement of Work from two inputs.
+      SCOPE BRIEF:
+      {{sow_scope}}
+
+      NUMBERS PACK:
+      {{sow_numbers}}
+
+      1. Call dlv_sow_clause_library in the client's language (default 'en') and use these clauses verbatim, citing
+         their ids: acceptance, change_control, assumptions, out_of_scope, client_responsibilities, governance and
+         the payment clause for the pricing model (payment_fixed or payment_tm).
+      2. Search the knowledge base for the SOW standards whenever you need a rule (section order, how to write
+         acceptance criteria, terms to avoid, approval matrix).
+      3. Draft the SOW in markdown with '#' headings in this order: Executive summary; Scope; Deliverables (table
+         D1..Dn: deliverable, description, quantity); Acceptance criteria (one measurable criterion per D-id);
+         Assumptions; Out of scope; Client responsibilities; Milestones and timeline; Pricing and payment (price
+         table plus the payment schedule as a markdown table with a % column); Change control; Governance; Open
+         questions; Signatures.
+      4. Call dlv_sow_quality_check on the complete draft. Fix every reported issue (missing sections, vague terms,
+         placeholders, deliverables without acceptance criteria, payment rows not summing to 100%) and re-run it
+         until the verdict is "ready for review" (at most two re-runs).
+      5. Only if the notes give a quantified business benefit, add a short value case using compute_roi.
+      Never change a number from the numbers pack. Label prices "illustrative rate card".
+    output: >-
+      The complete SOW in markdown (a full document — the usual length limit does not apply), then a QA footer:
+      quality-check score and verdict, gross margin vs target, required approver, and the open questions to close
+      with the client before signature.
+    samples:
+      - Build a fixed-price SOW from 'dlv_discovery_harborline'.
+      - "Draft a T&M SOW, blended delivery: 400 users from Exchange Online to Google Workspace, 2 TB of file shares, 6 training sessions, 2 weeks of hypercare, start 2027-02-01."
+      - Price 'dlv_discovery_harborline' as a fixed fee (US onshore) and as T&M (blended), recommend one and write the SOW for it.
+    sample_doc: dlv_discovery_harborline
+    related: [latam_sow, scope_creep, migration_ready, xenophon, prometheus]
+    kpis: [Discovery-to-SOW cycle time, SOWs passing QA on first review, Gross margin vs 40% target]
+
+  - id: latam_sow
+    code: Lsw
+    name: LATAM SOW
+    cluster: delivery_engine
+    status: in_build
+    tagline: Writes SOWs for Latin American clients in Spanish or Portuguese, with local currency, tax notes and local clauses.
+    description: >-
+      The LATAM variant of the SOW Builder. An estimator sizes and prices the work (nearshore delivery by default); a
+      fiscal localiser converts the price at the planning FX rate, compares invoicing cross-border in USD (withholding
+      and gross-up) with invoicing through a local partner (VAT in local currency), and pulls the country's legal
+      clauses — governing law, e-invoicing, withholding gross-up, data protection; the writer produces the SOW in the
+      client's language. Tax figures are illustrative planning values and always flagged for local counsel.
+    persona: Wursta engagement leads and partner managers selling in Mexico, Colombia, Brazil, Chile, Peru and El Salvador
+    use_cases:
+      - Spanish or Portuguese SOW from Spanish/Portuguese discovery notes
+      - USD vs local-currency billing scenarios with VAT, withholding and gross-up
+      - Country-specific legal clauses (CFDI, DIAN, NFS-e, LGPD...) dropped in verbatim
+    model: flash
+    model_reason: Bilingual drafting over pricing and fiscal tools needs Flash; the fiscal/legal lookup step is templated and runs on Flash-Lite.
+    pattern: sequential
+    steps:
+      - id: estimator
+        name: Scope & pricing (USD)
+        model: flash
+        role: Extracts deliverables from the notes, estimates effort and prices it in USD.
+        instruction: |
+          Read the discovery material (call get_sample_document when a 'dlv_' key is named). Notes may be in
+          Spanish or Portuguese — keep client terms in the original language.
+          1. List deliverables D1..Dn mapped to estimation types (discovery_assessment, workspace_migration (users),
+             file_share_migration (TB), identity_sso, change_management (users), training_session (sessions),
+             gemini_rollout (seats), landing_zone (environments), data_pipeline (pipelines), dashboard (dashboards),
+             ml_model, ai_agent (agents), integration_api, hypercare (weeks)) with quantity and complexity.
+          2. Call dlv_estimate_effort once, then dlv_price_sow with delivery_region 'latam_nearshore' unless the
+             client asks otherwise, pricing model as the client prefers (default 'fixed').
+          Output a LATAM NUMBERS PACK: client, country ISO code (MX, CO, BR, CL, PE or SV), contract language
+          (es or pt), start and end dates, deliverables table, hours by role, price in USD, margin and approver,
+          scope exclusions and open questions.
+        tools: [get_sample_document, dlv_estimate_effort, dlv_price_sow]
+        output_key: latam_numbers
+      - id: fiscal_localiser
+        name: Fiscal & legal localiser
+        model: lite
+        role: Converts the price to local currency, compares billing scenarios and fetches country clauses.
+        instruction: |
+          Numbers pack:
+          {{latam_numbers}}
+
+          1. Call dlv_latam_fiscal_profile twice with the USD price: billing 'cross_border' and 'local_partner'.
+          2. Call dlv_sow_clause_library with the contract language and the country code (no topic filter).
+          3. Search the knowledge base (LATAM SOW guide) for payment-term norms and contract-language rules.
+          Output a FISCAL & LEGAL PACK: currency and planning FX, price in local currency, the two billing scenarios
+          (withholding, net received, gross-up invoice; or VAT and total with VAT), e-invoicing system,
+          data-protection law, payment-term norm, and the list of clause ids with their titles. Mark every tax
+          figure as illustrative ("ilustrativo — validar con asesor fiscal local").
+        tools: [dlv_latam_fiscal_profile, dlv_sow_clause_library]
+        grounding: [kb]
+        output_key: latam_fiscal
+    tools: [dlv_sow_clause_library, dlv_payment_schedule, dlv_sow_quality_check]
+    grounding: [kb]
+    instruction: |
+      Write the SOW in the client's language (Spanish or Portuguese) from:
+      NUMBERS PACK:
+      {{latam_numbers}}
+
+      FISCAL & LEGAL PACK:
+      {{latam_fiscal}}
+
+      1. Build 3-5 payment milestones and call dlv_payment_schedule with the USD price.
+      2. Use '#' headings in the contract language. Spanish: Resumen ejecutivo; Alcance; Entregables (tabla D1..Dn);
+         Criterios de aceptación (uno medible por D-id); Supuestos; Fuera de alcance; Responsabilidades del cliente;
+         Hitos y cronograma; Precio y forma de pago; Control de cambios; Gobierno del proyecto; Consideraciones
+         fiscales y legales; Firmas. Portuguese: Resumo executivo; Escopo; Entregáveis; Critérios de aceite;
+         Premissas; Fora do escopo; Responsabilidades do cliente; Marcos e cronograma; Preço e forma de pagamento;
+         Controle de mudanças; Governança; Considerações fiscais e legais; Assinaturas.
+      3. Prices in USD with the local-currency equivalent at the planning FX rate; payment schedule as a markdown
+         table with a % column. Show both billing scenarios and recommend one with a one-line reason.
+      4. Insert the core clauses (dlv_sow_clause_library in the contract language) and the country clauses verbatim
+         with their ids.
+      5. Call dlv_sow_quality_check with the language set; fix every issue and re-run until "ready for review"
+         (max two re-runs).
+      Tax and legal figures are illustrative — say so in the fiscal section and route to local counsel.
+    output: >-
+      The full SOW in Spanish or Portuguese (full document — length limit does not apply), then a short English
+      footer for the Wursta deal desk: price (USD and local), recommended billing scenario, margin, approver,
+      quality-check score and items for local counsel.
+    samples:
+      - Prepara el SOW en español para 'dlv_discovery_altamar' con precio fijo y los dos escenarios de facturación (MXN vía socio local y USD transfronterizo).
+      - Monte o SOW em português para 'dlv_discovery_horizonte', preço fixo, entrega nearshore.
+      - "Escribe un SOW para una aseguradora en El Salvador: 300 usuarios de Exchange Online a Google Workspace, 1 TB de archivos, 4 capacitaciones, 2 semanas de hypercare, inicio 2027-03-01."
+    sample_doc: dlv_discovery_altamar
+    related: [sow_builder, scope_creep]
+    kpis: [LATAM SOW turnaround time, Legal review cycles per SOW, Withholding leakage on collected fees]
+
+  - id: scope_creep
+    code: Scp
+    name: Scope Creep
+    cluster: delivery_engine
+    status: in_build
+    tagline: Spots out-of-scope asks in meetings and emails, checks them against the signed SOW and drafts the change order.
+    description: >-
+      Two specialists read the same meeting notes or email in parallel (ADK ParallelAgent): a scope matcher checks
+      every client ask against the signed SOW — in scope, out of scope, over a contractual cap, or ambiguous — while a
+      signals reader scores the conversation for dissatisfaction, scope creep and timeline risk and pulls the actions.
+      The synthesis drafts a change order priced at the SOW's contracted rates and a client-ready reply that keeps
+      the relationship warm.
+    persona: Project managers and delivery leads protecting margin without damaging the client relationship
+    use_cases:
+      - Weekly status meeting check for unbilled asks
+      - Client email triage — what is covered and what needs paperwork
+      - Change order with effort, price and schedule impact in minutes
+    model: flash
+    model_reason: Judging ambiguous asks and drafting a diplomatic change order needs Flash; meeting-signal extraction runs on Flash-Lite skills.
+    pattern: parallel
+    steps:
+      - id: scope_matcher
+        name: Scope matcher
+        model: flash
+        role: Lists every client ask and classifies it against the signed SOW.
+        instruction: |
+          Load the material (call get_sample_document when a 'dlv_' key is named). Find the SOW id (stated by the
+          user or in the document, e.g. SOW-2026-0412 or SOW-2026-0388).
+          1. Write every client request as one short sentence in the client's words — include small asks.
+          2. Call dlv_check_scope ONCE with the SOW id and all requests.
+          Output a table: #, request, classification (in_scope / out_of_scope / exceeds_cap / ambiguous), clause id
+          and text, quantity detected, reference effort. Then the SOW summary line (model, value, burn %).
+        tools: [get_sample_document, dlv_check_scope]
+        output_key: scope_findings
+      - id: signals_reader
+        name: Meeting signals reader
+        model: lite
+        role: Scores dissatisfaction, scope creep and timeline risk and extracts actions.
+        instruction: |
+          Load the same material (get_sample_document for a 'dlv_' key). Call detect_meeting_sentiment_risk and
+          extract_meeting_structured_data on it.
+          Output: overall risk level, the top 3 signals with a short verbatim quote each, the action items with
+          owners and dates, and a one-line read of the client's mood.
+        tools: [get_sample_document, detect_meeting_sentiment_risk, extract_meeting_structured_data]
+        output_key: meeting_signals
+    tools: [dlv_draft_change_order]
+    grounding: [kb]
+    instruction: |
+      SCOPE FINDINGS:
+      {{scope_findings}}
+
+      MEETING SIGNALS:
+      {{meeting_signals}}
+
+      1. Lead with the verdict: how many asks are in scope, out of scope, over a cap, ambiguous — and the burn.
+      2. For out_of_scope and exceeds_cap items (all of them unless the user picks), call dlv_draft_change_order
+         ONCE with one item per ask: oos_ref = the clause id; for caps also quantity = the extra units (e.g. 150
+         users, 3 dashboards, 2 sessions). Never draft for in-scope items.
+      3. Ambiguous items become clarifying questions, not charges.
+      4. Follow the scope-change process in the knowledge base (impact assessment within 3 business days, approval
+         thresholds, no work before signature).
+      5. Write a client-facing reply: thank, confirm what is covered and when, explain the change order neutrally,
+         and propose a 20-minute review. Match the tone to the meeting signals (de-escalate if risk is high).
+    output: >-
+      Verdict line; table (request, verdict, clause, effort/price); change-order summary (id, total, contract value
+      before/after, schedule impact, approver — simulated filing); client reply draft; internal PM alert (2-3 lines
+      with the risk signals).
+    samples:
+      - Check 'dlv_status_meeting_bluestem' against SOW-2026-0388 and draft the change order.
+      - Megan's email 'dlv_email_kestrel_requests' — which items are covered by SOW-2026-0412 and what would the rest cost?
+      - Kestrel wants to add 150 contractors and migrate the public folders. Is that in SOW-2026-0412, and at what price?
+    sample_doc: dlv_status_meeting_bluestem
+    related: [sow_builder, latam_sow, atlas_status, migration_report]
+    kpis: [Unbilled out-of-scope hours, Change orders raised within 3 business days, Revenue recovered through change orders]
+
+  - id: vdr_validator
+    code: Vdr
+    name: VDR Validator
+    cluster: delivery_engine
+    status: in_build
+    tagline: Checks design and validation documents against Wursta's VDR templates before they go to the client for sign-off.
+    description: >-
+      The VDR Validator reviews delivery documents — design reviews and validation (UAT) reports — against the
+      required template: missing sections, empty document-control fields, version drift between the header and the
+      revision history, unsigned sign-off rows, placeholders, figures that disagree across sections, failed tests
+      without a defect, a stated pass rate that the table does not support, and a GO recommendation with a Sev1
+      still open. It returns review comments the author can paste back.
+    persona: Delivery leads, QA leads and architects preparing documents for client sign-off
+    use_cases:
+      - Pre-sign-off check of a design review document
+      - UAT report sanity check (pass rate, defects, recommendation)
+      - Template guidance for a new author
+    model: flash
+    model_reason: The template checks are deterministic; Flash adds the judgement on content quality and writes precise review comments.
+    tools: [dlv_vdr_validate, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Identify the document and template: 'design_review' for design / architecture documents, 'validation_report'
+         for UAT, test or validation reports. Load sample documents with get_sample_document ('dlv_vdr_' keys).
+      2. Call dlv_vdr_validate. Treat its issues as facts.
+      3. Read the document and add what a tool cannot judge: requirements without a design section, risks without a
+         mitigation or owner, figures that do not reconcile with the scope, unclear acceptance evidence.
+      4. Classify each finding as BLOCKING (prevents sign-off: missing sections, version mismatch, unsigned roles,
+         inconsistent figures, recommendation conflicts) or ADVISORY.
+      5. Use the VDR standards in the knowledge base for required sections and sign-off roles.
+    output: >-
+      Verdict and score; blocking findings table (section, issue, fix); advisory findings; review comments ready to
+      paste (one line each, "Section — comment"); who still has to sign.
+    samples:
+      - Validate 'dlv_vdr_design_kestrel' against the design review template.
+      - Is the Bluestem UAT report 'dlv_vdr_validation_bluestem' ready for client sign-off?
+      - Which sections does a Wursta validation report need, and who must sign it?
+    sample_doc: dlv_vdr_design_kestrel
+    related: [migration_report, atlas_validator, sow_builder]
+    kpis: [Review cycles per document, Documents signed off first time, Days from draft to sign-off]
+
+  - id: enablement_engine
+    code: Iee
+    name: Enablement Engine
+    cluster: delivery_engine
+    status: in_build
+    tagline: Builds role-based client training plans, schedules the sessions and writes the knowledge-check quizzes.
+    description: >-
+      The Enablement Engine turns a client's role mix into learning paths (executives, assistants, end users,
+      frontline, power users, champions, admins, legal), sizes live cohorts by language, lays the sessions on a
+      calendar across the available trainers and generates quizzes from the approved question bank. For migration
+      clients it aligns cohorts to the Atlas wave plan so people train in the week before their cutover.
+    persona: Change and training leads on Workspace and Gemini programmes; client HR and L&D owners
+    use_cases:
+      - Training plan and calendar for a migration
+      - Bilingual cohorts for plants and warehouses
+      - Knowledge-check quizzes per module
+    model: flash
+    model_reason: Planning across tools (training plan, wave plan, quiz bank) and explaining trade-offs suits Flash.
+    tools: [dlv_build_training_plan, dlv_generate_quiz, atlas_plan_waves]
+    grounding: [kb]
+    instruction: |
+      1. Call dlv_build_training_plan for the client ('kestrel' or 'harborline') with the start date and any role
+         filter the user gives.
+      2. For Kestrel, call atlas_plan_waves with defaults (approved baseline) and map cohorts to waves: each wave's
+         users train in the 7 days before its cutover; waves already migrated (cutover before today, 2026-11-06)
+         need only catch-up and Gemini sessions.
+      3. Present learning paths per role, session counts by module and language, trainer hours and the first
+         sessions on the calendar. Flag self-paced modules and any freeze windows from the client notes.
+      4. Quizzes: call dlv_generate_quiz for the module. Show the answer key only when the user asks for the trainer
+         version.
+      5. Use the enablement curriculum in the knowledge base for rules (cohort sizes, Spanish material, champion
+         ratio, completion targets).
+    output: >-
+      Plan summary (sessions, trainer hours, last session date), learning paths table, sessions by module and
+      language, wave alignment (Kestrel), first-week calendar; quizzes as numbered questions with options.
+    samples:
+      - Build the enablement plan for Kestrel starting 2026-11-09 and align it to the remaining waves.
+      - Create a 5-question quiz for module M-EU-102 with the answer key for trainers.
+      - Plan admin and champion training for Harborline starting 2027-01-11.
+    related: [migration_cm, atlas_user_comms, migration_ready]
+    kpis: [Training completion before cutover, Quiz pass rate, Day-one tickets per 100 users]
+
+  - id: cert_notifier
+    code: Crt
+    name: Cert Notifier
+    cluster: delivery_engine
+    status: in_build
+    tagline: Tracks consultants' Google Cloud certifications, warns before they lapse and protects partner specializations.
+    description: >-
+      Cert Notifier watches every consultant's Google Cloud certifications, lists what has expired and what expires
+      inside the look-ahead window, checks coverage against the internal specialization targets now and at the end of
+      the window, and sends renewal reminders (simulated) following the certification policy's cadence — with the
+      manager in copy and voucher eligibility stated.
+    persona: Partner managers, practice directors and the consultants themselves
+    use_cases:
+      - Monthly certification health check
+      - Specialization coverage at risk before a partner review
+      - Renewal reminders with voucher eligibility
+    model: lite
+    model_reason: Deterministic tracking plus templated notifications — Flash-Lite is enough.
+    tools: [dlv_cert_tracker, dlv_send_cert_reminders]
+    grounding: [kb]
+    instruction: |
+      1. Call dlv_cert_tracker (as_of 2026-11-06 unless the user gives a date; window 90 days unless asked; convert
+         phrases like "end of Q1" into days from as_of).
+      2. Report expired certifications, then expiring ones (who, certification, days left, renewal booked), then
+         specialization coverage with status ok / at risk / gap.
+      3. Only when the user asks to notify or send, call dlv_send_cert_reminders for consultants with no renewal
+         booked; report each reminder as (simulated).
+      4. Recommend who gets vouchers this quarter using the certification policy in the knowledge base.
+    output: >-
+      Headline (expired, expiring, specializations at risk); expiring table; coverage table; actions (reminders sent
+      — simulated — and voucher recommendations).
+    samples:
+      - Which certifications expire in the next 60 days and which specializations are at risk?
+      - Send renewal reminders to everyone with an exam not booked in the next 30 days.
+      - Are we still covered for the Work Transformation specialization at the end of Q1 2027?
+    related: [enablement_engine]
+    kpis: [Certifications lapsed, Specialization coverage, Voucher utilisation]
+
+  - id: migration_ready
+    code: Mrd
+    name: Migration Ready
+    cluster: delivery_engine
+    status: in_build
+    tagline: Scores a client's migration readiness questionnaire, names the blockers and gives a go / no-go with a remediation plan.
+    description: >-
+      Migration Ready scores the readiness questionnaire across eight domains (sponsorship, identity, DNS and mail
+      flow, retention and compliance, applications, devices, people and change, support), applies Wursta's
+      go / conditional / no-go rules, and turns every blocker into a remediation task with an owner — scheduled with
+      the critical-path tool to give the earliest realistic kickoff date.
+    persona: Engagement leads and pre-sales architects deciding whether a migration can start
+    use_cases:
+      - Go / no-go before signing a migration SOW
+      - Remediation plan with the earliest kickoff date
+      - Readiness comparison across clients
+    model: flash
+    model_reason: Combines scoring and scheduling tools with judgement on remediation sequencing; Flash is the right tier.
+    tools: [dlv_readiness_assessment, critical_path]
+    grounding: [kb]
+    instruction: |
+      1. Call dlv_readiness_assessment for the client ('harborline', 'quarrystone' or 'kestrel').
+      2. Lead with the verdict and overall score; show domain scores lowest first.
+      3. For each blocker: what was answered, why it matters, the remediation, a suggested owner.
+      4. Build a remediation plan: one task per blocker plus "re-assess" at the end, durations in days and
+         dependencies; call critical_path starting 2026-11-09 (or the user's date) and state the earliest date the
+         client becomes GO.
+      5. Use the readiness model in the knowledge base to explain rules and weights.
+    output: >-
+      Verdict + score; domain table; blockers table (question, answer, remediation, owner); remediation schedule
+      with critical path and earliest GO date; recommendation (proceed / proceed with conditions / stop).
+    samples:
+      - Run the migration readiness assessment for Harborline and tell me what blocks a January kickoff.
+      - Is Quarrystone Credit Union ready to migrate? Give me the go/no-go and a remediation plan.
+      - Compare Kestrel's readiness in August with Harborline's today.
+    related: [sow_builder, atlas_preflight, migration_cm]
+    kpis: [Projects starting with zero critical blockers, Readiness-to-kickoff time, Mid-project surprises]
+
+  - id: migration_report
+    code: Lmr
+    name: Migration Report
+    cluster: delivery_engine
+    status: built
+    tagline: Turns the migration tracker into an executive progress report — waves, users migrated, issues, burndown and forecast.
+    description: >-
+      A sequential pipeline: a tracker analyst reads the migration tracker (for Atlas projects it is the live Atlas
+      run state) and computes progress, plan-vs-actual, burndown and the completion forecast; a reviewer rates
+      schedule, scope, quality and adoption against the runbook thresholds; the writer produces a one-page executive
+      report with decisions needed.
+    persona: Delivery directors, client sponsors and steering committees
+    use_cases:
+      - Weekly executive migration report
+      - Burndown and finish-date forecast
+      - Close-out report with lessons learned
+    model: lite
+    model_reason: >-
+      All numbers are computed by the tracker tool in a Flash step; the RAG review and the write-up are templated,
+      so Flash-Lite keeps the weekly report cheap.
+    pattern: sequential
+    steps:
+      - id: tracker_analyst
+        name: Tracker analyst
+        model: flash
+        role: Reads the tracker and computes progress, plan-vs-actual, burndown, velocity and forecast.
+        instruction: |
+          Identify the project id (KES-WS-2026 for Kestrel unless the user names another, e.g. TDW-WS-2026). Call
+          dlv_migration_tracker. Output a FACTS PACK: summary metrics, waves table (planned vs actual date, users
+          planned vs migrated, deferred, status), burndown points, schedule variance, forecast vs baseline, open
+          issues by severity with the Sev1/Sev2 titles and owners, hypercare trend. Numbers exactly as returned.
+        tools: [dlv_migration_tracker]
+        output_key: report_facts
+      - id: rag_reviewer
+        name: RAG reviewer
+        model: lite
+        role: Rates schedule, scope, quality and adoption against the runbook and names decisions needed.
+        instruction: |
+          Facts pack:
+          {{report_facts}}
+
+          Rate four dimensions green / amber / red with one-line evidence each: Schedule (forecast vs baseline,
+          slips), Scope (deferred users, open scope decisions), Quality (open Sev1/Sev2, validation exceptions),
+          Adoption & support (hypercare tickets trend, CSAT). Use the migration runbook in the knowledge base for
+          thresholds. Then list up to 3 decisions the sponsor must take, each with an owner and a date.
+        grounding: [kb]
+        output_key: report_rag
+    tools: []
+    grounding: []
+    instruction: |
+      FACTS PACK:
+      {{report_facts}}
+
+      RAG REVIEW:
+      {{report_rag}}
+
+      Write the executive migration report from these inputs only. Plain language for a sponsor; no tool names, no
+      internal ids except wave ids and issue ids. Put the burndown as a small table (wave, planned remaining, actual
+      remaining). For a completed project write a close-out: outcome vs plan, what slipped and why, lessons learned.
+    output: >-
+      "Migration report — <client>, <date>": overall RAG and one-sentence summary; progress (users, waves, data);
+      dimension RAG table; burndown table; forecast vs baseline; top risks and issues; decisions needed (owner,
+      date); next week.
+    samples:
+      - Write this week's executive migration report for Kestrel (KES-WS-2026).
+      - Give me the burndown and forecast for KES-WS-2026 — will we finish by December 5?
+      - Close-out report for Tidewell Dental Group (TDW-WS-2026) — what went well and what slipped?
+    related: [atlas_status, migration_cm, atlas_validator, scope_creep]
+    kpis: [Report preparation time, Forecast accuracy, Steering decisions taken on time]
+
+  - id: migration_cm
+    code: Mcm
+    name: Migration CM
+    cluster: delivery_engine
+    status: in_build
+    tagline: Change management for migrations — stakeholder map, comms plan, adoption tactics and the champions programme.
+    description: >-
+      Three change specialists work in parallel (ADK ParallelAgent): a stakeholder analyst maps influence, impact
+      and attitude and plans how to move resisters; a comms planner lays out the wave-by-wave communication calendar;
+      an adoption strategist reads post-migration telemetry (Drive and Meet usage, legacy-client use, training,
+      tickets, champion coverage) and picks targeted tactics. The synthesis is one change plan with owners and dates.
+    persona: Change leads, client HR / communications owners and migration programme managers
+    use_cases:
+      - Change plan for the remaining waves of a migration
+      - Adoption rescue for departments that are falling behind
+      - Stakeholder map and comms plan before kickoff
+    model: flash
+    model_reason: The synthesis balances three views into one plan with trade-offs; the three specialists run cheaply on Flash-Lite.
+    pattern: parallel
+    steps:
+      - id: stakeholder_analyst
+        name: Stakeholder analyst
+        model: lite
+        role: Maps stakeholders by influence, impact and attitude and plans engagement.
+        instruction: |
+          Call dlv_change_profile with the client ('kestrel' by default, or 'harborline') and section
+          'stakeholders'. Output a stakeholder table (name, role, quadrant, attitude, concern, engagement action,
+          owner, by when) and the 3 resistance risks with a specific move for each.
+        tools: [dlv_change_profile]
+        output_key: stakeholder_view
+      - id: comms_planner
+        name: Comms planner
+        model: lite
+        role: Lays out the communication calendar by audience and wave.
+        instruction: |
+          For Kestrel, call atlas_wave_comms_brief for each wave not yet migrated (W4, W5, W6, W7) and build a comms
+          calendar: date, wave, touchpoint, audience segment, channel, owner. For other clients use the change-
+          management playbook in the knowledge base to propose the standard sequence relative to the planned
+          cutovers. Add manager cascades and leadership messages (who sends what, when).
+        tools: [atlas_wave_comms_brief]
+        grounding: [kb]
+        output_key: comms_view
+      - id: adoption_strategist
+        name: Adoption strategist
+        model: lite
+        role: Reads adoption telemetry and champion coverage and picks tactics per department.
+        instruction: |
+          Call dlv_change_profile with the client and section 'adoption'. For every department flagged amber or red,
+          name the gap (with the number), the likely cause and 1-2 tactics (champion drop-ins, targeted training,
+          manager nudges, legacy-access cut-off date). Size the champions programme: champions needed to reach at
+          least 1 per 50 users in each department. If there is no telemetry yet, propose the adoption KPIs to track.
+        tools: [dlv_change_profile]
+        output_key: adoption_view
+    tools: []
+    grounding: [kb]
+    instruction: |
+      STAKEHOLDERS:
+      {{stakeholder_view}}
+
+      COMMUNICATIONS:
+      {{comms_view}}
+
+      ADOPTION:
+      {{adoption_view}}
+
+      Merge the three views into one change-management plan. Resolve conflicts (e.g. a resistant VP whose wave is
+      next gets engagement before the T-7 email). Every action has an owner and a date. Use the change-management
+      playbook in the knowledge base for standards (champion ratio, pulse survey, legacy cut-off).
+    output: >-
+      "Change plan — <client>": top 3 priorities this week; stakeholder actions table; comms calendar (next 3 weeks);
+      adoption tactics by department; champions programme (current vs needed); KPIs to watch.
+    samples:
+      - Build the change-management plan for Kestrel's remaining waves (Sales, Engineering, Finance & Legal, Executives).
+      - Which Kestrel departments are struggling with adoption and what should the champions do this week?
+      - Draft a stakeholder map and comms plan for Harborline before kickoff.
+    related: [atlas_user_comms, enablement_engine, migration_report, migration_ready]
+    kpis: [Weekly active use 30 days after cutover, Tickets per 100 users, Pulse score]
+
+  - id: demo_scripts
+    code: Dsg
+    name: Demo Scripts
+    cluster: delivery_engine
+    status: built
+    tagline: Writes demo scripts and storyboards for Hive agent demos — audience, storyline, click path, talk track and fallbacks.
+    description: >-
+      A draft-and-critique loop (ADK LoopAgent). The writer pulls the real facts of each agent from the Hive catalog
+      (one-click samples, tools, what is simulated) and writes a storyline, a timed run-of-show, the exact click path
+      and the talk track; the critic checks the timing against Wursta's demo standards (buffer, live-demo share,
+      Q&A, no monologues, a fallback for every live step) and that every prompt in the click path really exists,
+      and sends it back until it passes.
+    persona: Pre-sales engineers, engagement leads and anyone presenting the Hive to a client
+    use_cases:
+      - Script for a client demo of one or more agents
+      - Timed run-of-show that fits the slot
+      - Fallback plan for live-demo risk
+    model: lite
+    model_reason: The writer runs on Flash; the timing critique and publishing the approved script are checklist work on Flash-Lite.
+    pattern: loop
+    steps:
+      - id: script_writer
+        name: Script writer
+        model: flash
+        role: Drafts the storyline, run-of-show, click path and talk track from real agent facts.
+        instruction: |
+          Read the demo request (call get_sample_document when a 'dlv_' key is named). For each agent to show, call
+          dlv_agent_demo_facts and use its exact sample prompts in the click path.
+          Previous critique (empty on the first round):
+          {{demo_critique}}
+          Apply every numbered fix from the critique. Write:
+          1. Audience and goal (what each person must leave believing).
+          2. Storyline in three acts (problem, proof, outcome) tied to the audience's worries.
+          3. Run-of-show table: segment, minutes, type (intro / context / live_demo / story / qa / close), fallback
+             (required for live_demo: recorded run, screenshot or cached answer).
+          4. Click path: numbered steps — agent, exact prompt to paste, what to point at in the answer.
+          5. Talk track: 2-3 sentences per segment, plus the "wow" moment.
+          6. Disclaimer line: synthetic data and simulated actions (name them from the facts).
+        tools: [dlv_agent_demo_facts, get_sample_document]
+        grounding: [kb]
+        output_key: demo_draft
+      - id: critic
+        name: Demo critic
+        model: lite
+        role: Checks timing and prompt validity against the demo standards and approves or returns fixes.
+        instruction: |
+          Draft to review:
+          {{demo_draft}}
+
+          1. Call dlv_demo_timing with the run-of-show segments (name, minutes, type, fallback) and the slot length.
+          2. Call dlv_agent_demo_facts for each agent in the click path and confirm each pasted prompt matches one
+             of its samples or is clearly marked as a free-form prompt.
+          3. Check that every audience concern in the request is answered somewhere in the script.
+          If all checks pass, say "APPROVED" with the timing summary. Otherwise list numbered, specific fixes.
+        tools: [dlv_demo_timing, dlv_agent_demo_facts]
+        output_key: demo_critique
+    tools: []
+    grounding: []
+    instruction: |
+      Approved draft:
+      {{demo_draft}}
+
+      Critic's last word:
+      {{demo_critique}}
+
+      Publish the final demo script: the draft with any remaining fixes from the critique applied, unchanged
+      otherwise. Start with a 3-line header: audience, slot and timing verdict.
+    output: >-
+      The demo script: header (audience, slot, timing verdict); goal; three-act storyline; run-of-show table; click
+      path with exact prompts; talk track; fallback plan; disclaimer.
+    samples:
+      - Write the demo script for 'dlv_demo_request_atlas'.
+      - A 15-minute demo of sow_builder and scope_creep for a delivery director — include fallbacks.
+      - Storyboard a 10-minute demo of hermes for a CIO audience.
+    sample_doc: dlv_demo_request_atlas
+    related: [sow_builder, atlas_preflight, atlas_status]
+    kpis: [Demo preparation time, Demos without live failures, Demo-to-next-meeting conversion]
+
+  # ===================================================================================================================
+  # Atlas migration suite — one synthetic tenant (Kestrel Manufacturing, 1,200 users, M365 + file shares)
+  # ===================================================================================================================
+  - id: atlas_preflight
+    code: Apf
+    name: Atlas Pre-Flight Auditor
+    aka: Atlas 1
+    cluster: atlas
+    status: demo_ready
+    tagline: Scans the legacy tenant before anything moves — mailboxes, sizes, file shares, permissions and blockers.
+    description: >-
+      Atlas 1 audits the legacy Microsoft 365 + file-share estate: users, mailbox and OneDrive volumes, share sizes and
+      item counts by department, and every known blocker — litigation holds, oversized mailboxes, PST files, long
+      paths, shares over the shared-drive item limit, broken inheritance, application mail relays, public folders —
+      with severity, owner and remediation, so the plan starts from facts.
+    persona: Migration leads and solutions architects at the start of a Workspace migration
+    use_cases:
+      - Pre-flight audit and blocker list before wave planning
+      - Department deep-dive (e.g. Engineering file shares)
+      - Scope flags for items the SOW excludes
+    model: flash
+    model_reason: Reasoning over a large inventory and prioritising blockers by wave impact needs Flash; the scan itself is deterministic.
+    tools: [atlas_tenant_inventory, atlas_preflight_scan]
+    grounding: [kb, "fixtures:legacy tenant inventory (synthetic Kestrel Manufacturing, 1,200 users)"]
+    instruction: |
+      1. Call atlas_tenant_inventory (whole tenant, or the department asked) and atlas_preflight_scan (all checks, or
+         the one asked).
+      2. Lead with the verdict: open critical/high blockers and which departments they hit.
+      3. Estate summary: users, mailbox / OneDrive / share TB, item counts, PSTs, mobile devices; the 3 most complex
+         departments and why (complexity score drivers).
+      4. Blockers table: severity, finding, count, departments, remediation, owner, status. Use the migration
+         runbook in the knowledge base for standard remediation and lead times.
+      5. Flag findings that are out of scope in the SOW (PSTs, public folders, archive) as client decisions.
+    output: >-
+      "Pre-flight report — Kestrel Manufacturing": verdict; estate summary table; blockers table; scope decisions
+      needed; next 5 actions with owners.
+    samples:
+      - Run the pre-flight audit on the Kestrel tenant and list the blockers.
+      - What will break when we migrate the Engineering file share?
+      - Which findings are out of scope for the SOW and need a client decision?
+    related: [atlas_batch_planner, migration_ready, atlas_status]
+    kpis: [Blockers found before wave 1, Unplanned cutover rollbacks, Audit time per tenant]
+
+  - id: atlas_batch_planner
+    code: Abp
+    name: Atlas Batch Planner
+    aka: Atlas 2
+    cluster: atlas
+    status: demo_ready
+    tagline: Groups users into migration waves by department and data complexity, with cutover and bulk-copy dates.
+    description: >-
+      Atlas 2 builds the wave plan: pilot first, then departments in ascending complexity, executives last as a
+      white-glove wave; waves capped by users and by the data the bulk copy can move before cutover; global and
+      department blackouts (Thanksgiving freeze, Finance month-end) respected. It returns the approved baseline that
+      every other Atlas agent uses and runs what-if plans against it.
+    persona: Migration leads and client project managers
+    use_cases:
+      - Baseline wave plan with dates
+      - What-if re-planning (caps, cadence, start date, pilot)
+      - Wave risk profile (holds, delegates, oversized mailboxes, language)
+    model: flash
+    model_reason: Explaining planner trade-offs and what-ifs needs Flash; the grouping and dates are computed by the tool.
+    tools: [atlas_plan_waves, atlas_tenant_inventory]
+    grounding: [kb, "fixtures:legacy tenant inventory (synthetic Kestrel Manufacturing, 1,200 users)"]
+    instruction: |
+      1. Call atlas_plan_waves with defaults for the approved baseline. For a what-if change only the parameters the
+         user names and report vs_baseline (waves, last cutover, days gained or lost).
+      2. Wave table: id, cutover date, departments, users, data TB, complexity, bulk start, notes (blackouts).
+      3. Explain the grouping rules in two sentences (pilot, ascending complexity, executives last, caps, blackouts).
+      4. Per wave, flag risks from the flags (legal holds, delegates, oversized mailboxes, Spanish speakers) with the
+         runbook mitigation from the knowledge base.
+      5. Never compute or move dates yourself — only the tool's output.
+    output: >-
+      Plan summary (waves, first and last cutover); wave table; risks per wave; for what-ifs, a comparison with the
+      baseline and a recommendation.
+    samples:
+      - Show the approved wave plan for Kestrel.
+      - What if we cap waves at 180 users — how many waves, and when do we finish?
+      - Re-plan with a 10-day cadence starting 2026-10-17 and no pilot — what moves?
+    related: [atlas_preflight, atlas_user_comms, atlas_data_mover]
+    kpis: [Waves delivered on the planned date, Users per wave vs capacity, Re-planning time]
+
+  - id: atlas_user_comms
+    code: Auc
+    name: Atlas User Comms
+    aka: Atlas 3
+    cluster: atlas
+    status: demo_ready
+    tagline: Writes personalised email sequences for each migration wave — in English and Spanish — and schedules them.
+    description: >-
+      Atlas 3 owns the user journey: for each wave it knows the cutover date, the seven touchpoints (announcement,
+      prepare & train, action required, tonight is the night, welcome, tips & survey, wrap-up) and the audience
+      segments — Spanish speakers, mobile users, PST owners, legal-hold custodians, delegates, oversized mailboxes —
+      and writes short, personalised emails with merge fields. Scheduling is simulated.
+    persona: Change leads and client communications teams
+    use_cases:
+      - The next touchpoint for a wave, with segment variants
+      - Spanish versions for plant users
+      - This week's comms calendar across waves
+    model: lite
+    model_reason: Templated, personalised drafting from structured inputs — exactly the Flash-Lite sweet spot.
+    tools: [atlas_wave_comms_brief, atlas_schedule_emails]
+    grounding: [kb]
+    instruction: |
+      1. Call atlas_wave_comms_brief for the wave (as_of 2026-11-06 unless given) to get dates, touchpoints,
+         segments, sample users and allowed merge fields.
+      2. Draft the requested touchpoint (default: the next one due) for 'all', then short variants for each segment
+         that applies — a full Spanish version for 'spanish'; one add-on paragraph for mobile, pst_owners, lit_hold,
+         delegates and oversized_mailbox.
+      3. Each email: subject + body under 150 words, plain language, the cutover date, one call to action, the
+         support channel. Merge fields only in square brackets and only from the allowed list (e.g. [first_name],
+         [cutover_date], [training_link]).
+      4. Only when the user says schedule or send, call atlas_schedule_emails per segment and report schedule ids
+         and recipient counts as (simulated).
+      5. Follow the change-management and comms playbook in the knowledge base.
+    output: Touchpoint and date; one block per email (segment, recipients, subject, body); scheduling results when requested.
+    samples:
+      - Write the T-7 emails for wave W5 (Engineering), including the PST-owner variant.
+      - Draft the Spanish T-1 email for wave W4 and schedule it for the Spanish segment.
+      - Which emails are due this week across all waves?
+    related: [atlas_batch_planner, migration_cm, enablement_engine]
+    kpis: [Open rate per touchpoint, Day-one how-to tickets, Users trained before cutover]
+
+  - id: atlas_data_mover
+    code: Adm
+    name: Atlas Core Data Mover
+    aka: Atlas 4
+    cluster: atlas
+    status: demo_ready
+    tagline: Runs and monitors the bulk transfer — progress, throughput, errors and retries for mail, Drive and shared drives.
+    description: >-
+      Atlas 4 watches the bulk-copy jobs for every wave (mail, OneDrive to My Drive, file shares to Shared drives):
+      items and GB moved, throughput, ETA against the delta-sync start, and errors split into transient (retry now),
+      fixable (needs a source fix), policy skips and permanent failures. It queues retries with the expected recovery
+      from the runbook (simulated) and escalates when a wave is at risk.
+    persona: Migration engineers and the migration lead during the bulk-copy window
+    use_cases:
+      - Bulk transfer health check for a wave
+      - Error triage and retries
+      - Escalation when the ETA threatens the cutover
+    model: flash
+    model_reason: Error triage and escalation calls over live job data need Flash's reasoning; numbers come from the tools.
+    tools: [atlas_transfer_status, atlas_retry_failed]
+    grounding: [kb, "fixtures:migration run state (synthetic)"]
+    instruction: |
+      1. Call atlas_transfer_status — without a wave for the overview, or for the wave asked.
+      2. Per workload: % complete, GB, throughput, ETA vs the delta-sync start, error rate and health.
+      3. Triage errors: transient (retry now), fixable (who must fix what at source), policy skips (report only),
+         permanent (report only).
+      4. Call atlas_retry_failed for 'transient' when asked or when health is amber/red. For fixable classes
+         (path_too_long, permission_denied_source) only retry with source_fixed=True after the user confirms the fix.
+         Report expected recovery as (simulated).
+      5. Escalate (owner + deadline) when the ETA misses the delta window or the error rate is red, per the runbook.
+    output: Headline health; per-workload table; error triage table; actions taken (simulated) and escalations.
+    samples:
+      - How is the bulk transfer for W5 (Engineering) going?
+      - Retry all transient errors on W5 and tell me what is left.
+      - Engineering shortened the long paths — retry path_too_long on W5.
+    related: [atlas_batch_planner, atlas_delta_sync, atlas_status]
+    kpis: [TB moved per day, Actionable error rate, Waves with bulk complete 48 h before cutover]
+
+  - id: atlas_delta_sync
+    code: Ads
+    name: Atlas Delta Sync
+    aka: Atlas 5
+    cluster: atlas
+    status: demo_ready
+    tagline: Sizes the final incremental sync, runs the go/no-go gates and starts the cutover sequence on approval.
+    description: >-
+      Atlas 5 owns the last mile before cutover: it measures everything that changed since the last bulk pass, checks
+      that the delta fits the Friday-night window, evaluates the cutover gates (bulk completion, error rate, delta
+      fit) and the cutover checklist, and gives a GO / CONDITIONAL GO / NO-GO brief. When the sponsor approves, it
+      starts the delta sync and the MX switch sequence (simulated).
+    persona: Migration lead, client IT director and the go/no-go approver
+    use_cases:
+      - Go/no-go brief the afternoon before cutover
+      - Delta size what-ifs (later start, extra users)
+      - Starting the cutover sequence with the approver recorded
+    model: flash
+    model_reason: A go/no-go recommendation weighs gates, checklist and timing — Flash, with every figure from tools.
+    tools: [atlas_delta_scan, atlas_cutover_readiness, atlas_run_delta_sync]
+    grounding: [kb, "fixtures:migration run state (synthetic)"]
+    instruction: |
+      1. Call atlas_delta_scan for the wave (default: W4, cutting over 2026-11-07); pass delta_start for what-ifs.
+      2. Call atlas_cutover_readiness for the same wave.
+      3. Go/no-go brief: verdict first; gates table; open critical checklist items with owner and ETA; delta size,
+         projected finish vs the 12-hour window; rollback point. Use the cutover checklist in the knowledge base.
+      4. Only when the user confirms the decision and names the approver, call atlas_run_delta_sync and report the
+         timeline as (simulated).
+      5. Never recommend GO with a failed gate; a CONDITIONAL GO lists each condition and its deadline (delta start).
+    output: Verdict line; gates table; open items; delta estimate; cutover timeline (when started — simulated).
+    samples:
+      - Are we ready to cut over W4 (Sales) tomorrow? Give me the go/no-go brief.
+      - How big will the final delta for W4 be if we start at 20:00 instead of 18:00?
+      - Robert Lindqvist (CIO) approved go for W4 — start the delta sync.
+    related: [atlas_data_mover, atlas_validator, atlas_status]
+    kpis: [Cutovers inside the window, Rollbacks, Delta size vs estimate]
+
+  - id: atlas_validator
+    code: Apv
+    name: Atlas Post-Migration Validator
+    aka: Atlas 6
+    cluster: atlas
+    status: demo_ready
+    tagline: Proves the migration is complete — item counts, checksum samples and permission audits with a discrepancy report.
+    description: >-
+      Atlas 6 validates each migrated wave: source vs target item counts per workload with explained skips (oversize
+      items, blocked types, long paths) and unexplained variance against the 0.1% tolerance, a checksum sample, and a
+      permission audit — ACLs mapped, orphaned entries dropped, delegations and shared-mailbox groups recreated,
+      external shares found. Open discrepancies come with owner, fix and due date.
+    persona: Migration lead, QA and the client IT owner signing off a wave
+    use_cases:
+      - Wave sign-off evidence
+      - Discrepancy report with owners
+      - Cross-wave quality trends
+    model: flash
+    model_reason: Interpreting validation evidence and writing a defensible sign-off needs Flash; the checks are deterministic.
+    tools: [atlas_validate_wave]
+    grounding: [kb, "fixtures:migration run state (synthetic)"]
+    instruction: |
+      1. Call atlas_validate_wave for the wave (all checks unless asked). For cross-wave questions call it for each
+         migrated wave (W0-W3).
+      2. Verdict first (PASS / PASS WITH EXCEPTIONS / FAIL); counts table per workload (source, target, explained
+         skips, unexplained, variance vs tolerance); checksum sample; permissions summary.
+      3. Discrepancy report: id, detail, owner, fix, due, linked issue.
+      4. State what users must be told (e.g. items over 25 MB skipped) per the migration runbook in the knowledge
+         base.
+      5. For a wave not yet cut over, say so and point to Atlas Delta Sync or Atlas Core Data Mover.
+    output: Verdict; counts table; checksum and permission summary; discrepancy table; user-facing notes; sign-off recommendation.
+    samples:
+      - Validate wave W3 and give me the discrepancy report.
+      - Did every delegation and shared-mailbox group come across in W3?
+      - Compare validation results for W0 to W3 — is there a pattern?
+    related: [atlas_delta_sync, atlas_status, vdr_validator]
+    kpis: [Unexplained variance, Discrepancies closed within 72 h, Post-migration data tickets]
+
+  - id: atlas_status
+    code: Asr
+    name: Atlas Status Reporter
+    aka: Atlas 7
+    cluster: atlas
+    status: demo_ready
+    tagline: Daily migration status for the project team and the client's executives — RAG, progress, issues and next steps.
+    description: >-
+      Atlas 7 writes the daily status from the live run state: overall RAG with reasons, users and data migrated,
+      wave status, open issues with owners and due dates, milestones in the next seven days and the hypercare trend —
+      in a detailed version for the project team and a five-bullet version for client executives. Emails are saved as
+      drafts (simulated).
+    persona: Wursta engagement lead, client sponsor and steering committee
+    use_cases:
+      - Daily project-team status
+      - Executive update for the sponsor
+      - Next-7-days lookahead
+    model: lite
+    model_reason: Templated reporting over a computed snapshot — Flash-Lite keeps a daily report nearly free.
+    tools: [atlas_status_snapshot, workspace_draft_email]
+    grounding: ["fixtures:migration run state (synthetic)"]
+    instruction: |
+      1. Call atlas_status_snapshot (as_of 2026-11-06 unless given): audience 'project_team' by default,
+         'client_exec' for the sponsor or steering committee.
+      2. Project team: RAG and reasons; progress; wave table; open issues table (id, severity, owner, due, next
+         action); next 7 days; hypercare trend.
+      3. Client exec: at most five bullets — RAG, progress, this week's cutover, decisions needed, top risk — no
+         jargon or tool names.
+      4. When asked to send, call workspace_draft_email to the named recipients and say it is a draft (simulated).
+    output: The status report for the requested audience; the draft id when an email was prepared.
+    samples:
+      - Daily status for the Kestrel project team.
+      - Write the client executive update for Robert Lindqvist (robert.lindqvist@kestrelmfg.example) and draft the email.
+      - What happens in the next 7 days and what could stop it?
+    related: [migration_report, atlas_delta_sync, atlas_data_mover]
+    kpis: [Status preparation time, Stakeholder satisfaction, Issues past due]

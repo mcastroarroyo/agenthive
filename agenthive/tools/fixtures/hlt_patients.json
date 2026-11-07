@@ -1,0 +1,860 @@
+{
+ "as_of": "2026-11-06",
+ "note": "All records are SYNTHETIC, generated for the Agent Hive demo. No PHI.",
+ "patients": {
+  "SYN-P014": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 64,
+   "sex": "F",
+   "referring_clinic": "Thoracic Oncology, Corvina General",
+   "diagnoses": [
+    {
+     "term": "Non-small cell lung cancer, adenocarcinoma, right upper lobe",
+     "stage": "IV",
+     "date": "2025-04-22"
+    },
+    {
+     "term": "Brain metastasis (single, 8 mm)",
+     "date": "2026-07-10"
+    },
+    {
+     "term": "Hypertension",
+     "date": "2019-03-01"
+    },
+    {
+     "term": "Hypothyroidism",
+     "date": "2016-06-15"
+    }
+   ],
+   "biomarkers": [
+    {
+     "gene": "KRAS",
+     "variant": "G12C",
+     "method": "NGS (tissue)",
+     "date": "2025-05-06"
+    },
+    {
+     "gene": "EGFR",
+     "variant": "not detected",
+     "method": "NGS (tissue)",
+     "date": "2025-05-06"
+    },
+    {
+     "gene": "PD-L1",
+     "variant": "TPS 30%",
+     "method": "IHC",
+     "date": "2025-05-06"
+    }
+   ],
+   "facts": {
+    "ecog": 1,
+    "ecog_date": "2026-10-30",
+    "prior_systemic_lines": 2,
+    "consent_capacity": true,
+    "other_trial": false,
+    "childbearing_potential": false,
+    "bmi": 24.8,
+    "brain_mets": {
+     "status": "treated_stable",
+     "treated": "2026-08-01",
+     "note": "Stereotactic radiosurgery 2026-08-01; stable on MRI 2026-10-20"
+    }
+   },
+   "measurements": [
+    {
+     "test": "ANC",
+     "value": 3.4,
+     "unit": "10^9/L",
+     "date": "2026-10-30"
+    },
+    {
+     "test": "Platelets",
+     "value": 212,
+     "unit": "10^9/L",
+     "date": "2026-10-30"
+    },
+    {
+     "test": "Hemoglobin",
+     "value": 11.2,
+     "unit": "g/dL",
+     "date": "2026-10-30"
+    },
+    {
+     "test": "Creatinine clearance",
+     "value": 68,
+     "unit": "mL/min",
+     "date": "2026-10-30"
+    },
+    {
+     "test": "AST",
+     "value": 28,
+     "unit": "U/L",
+     "date": "2026-10-30",
+     "uln": 40
+    },
+    {
+     "test": "ALT",
+     "value": 31,
+     "unit": "U/L",
+     "date": "2026-10-30",
+     "uln": 41
+    },
+    {
+     "test": "Total bilirubin",
+     "value": 0.7,
+     "unit": "mg/dL",
+     "date": "2026-10-30",
+     "uln": 1.2
+    },
+    {
+     "test": "QTcF",
+     "value": 448,
+     "unit": "ms",
+     "date": "2026-10-30"
+    }
+   ],
+   "imaging": [
+    {
+     "date": "2026-10-20",
+     "modality": "CT chest/abdomen/pelvis",
+     "finding": "Right upper lobe mass 23 mm (target lesion); no liver lesions",
+     "largest_lesion_mm": 23
+    },
+    {
+     "date": "2026-10-20",
+     "modality": "MRI brain",
+     "finding": "Treated left frontal lesion, stable",
+     "largest_lesion_mm": 7
+    }
+   ],
+   "therapies": [
+    {
+     "name": "Carboplatin + pemetrexed",
+     "category": "systemic_chemotherapy",
+     "drug_class": "platinum_chemotherapy",
+     "start": "2025-05-20",
+     "last_dose": "2025-08-26"
+    },
+    {
+     "name": "Anti-PD-1 immunotherapy (maintenance)",
+     "category": "systemic_immunotherapy",
+     "drug_class": "anti_pd1",
+     "start": "2025-05-20",
+     "last_dose": "2026-09-30"
+    },
+    {
+     "name": "Stereotactic radiosurgery (brain)",
+     "category": "radiotherapy",
+     "drug_class": "radiotherapy",
+     "start": "2026-08-01",
+     "last_dose": "2026-08-01"
+    }
+   ],
+   "medications": [
+    {
+     "name": "Levothyroxine 88 mcg",
+     "drug_class": "thyroid_hormone",
+     "start": "2016-06-20",
+     "status": "active"
+    },
+    {
+     "name": "Amlodipine 5 mg",
+     "drug_class": "calcium_channel_blocker",
+     "start": "2019-03-10",
+     "status": "active"
+    }
+   ],
+   "history": [
+    "hypertension",
+    "hypothyroidism"
+   ],
+   "history_reviewed": true,
+   "serology": {
+    "HIV": "negative (2025-04-24)"
+   },
+   "notes": "Progression on maintenance immunotherapy (CT 2026-10-20). Oncologist referral to research team 2026-11-04."
+  },
+  "SYN-P027": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 71,
+   "sex": "M",
+   "referring_clinic": "Thoracic Oncology, Corvina General",
+   "diagnoses": [
+    {
+     "term": "Non-small cell lung cancer, squamous",
+     "stage": "IV",
+     "date": "2025-11-03"
+    },
+    {
+     "term": "Chronic kidney disease stage 3b",
+     "date": "2022-01-10"
+    },
+    {
+     "term": "Type 2 diabetes",
+     "date": "2015-05-01"
+    }
+   ],
+   "biomarkers": [
+    {
+     "gene": "KRAS",
+     "variant": "G12C",
+     "method": "NGS (plasma)",
+     "date": "2025-11-20"
+    }
+   ],
+   "facts": {
+    "ecog": 2,
+    "ecog_date": "2026-10-28",
+    "prior_systemic_lines": 1,
+    "consent_capacity": true,
+    "other_trial": false,
+    "childbearing_potential": false,
+    "bmi": 27.9,
+    "brain_mets": {
+     "status": "none",
+     "note": "MRI brain 2025-11 negative"
+    }
+   },
+   "measurements": [
+    {
+     "test": "ANC",
+     "value": 2.9,
+     "unit": "10^9/L",
+     "date": "2026-10-28"
+    },
+    {
+     "test": "Platelets",
+     "value": 188,
+     "unit": "10^9/L",
+     "date": "2026-10-28"
+    },
+    {
+     "test": "Hemoglobin",
+     "value": 10.1,
+     "unit": "g/dL",
+     "date": "2026-10-28"
+    },
+    {
+     "test": "Creatinine clearance",
+     "value": 44,
+     "unit": "mL/min",
+     "date": "2026-10-28"
+    },
+    {
+     "test": "AST",
+     "value": 22,
+     "unit": "U/L",
+     "date": "2026-10-28",
+     "uln": 40
+    },
+    {
+     "test": "ALT",
+     "value": 19,
+     "unit": "U/L",
+     "date": "2026-10-28",
+     "uln": 41
+    },
+    {
+     "test": "Total bilirubin",
+     "value": 0.6,
+     "unit": "mg/dL",
+     "date": "2026-10-28",
+     "uln": 1.2
+    },
+    {
+     "test": "QTcF",
+     "value": 452,
+     "unit": "ms",
+     "date": "2026-10-28"
+    }
+   ],
+   "imaging": [
+    {
+     "date": "2026-10-15",
+     "modality": "CT chest",
+     "finding": "Left hilar mass 31 mm",
+     "largest_lesion_mm": 31
+    }
+   ],
+   "therapies": [
+    {
+     "name": "Carboplatin + paclitaxel + anti-PD-1",
+     "category": "systemic_chemotherapy",
+     "drug_class": "platinum_chemotherapy",
+     "start": "2025-12-01",
+     "last_dose": "2026-09-15"
+    }
+   ],
+   "medications": [
+    {
+     "name": "Metformin 500 mg",
+     "drug_class": "biguanide",
+     "start": "2015-05-10",
+     "status": "active"
+    }
+   ],
+   "history": [
+    "chronic kidney disease",
+    "type 2 diabetes"
+   ],
+   "history_reviewed": true,
+   "serology": {
+    "HBV": "negative (2025-11-05)",
+    "HCV": "negative (2025-11-05)",
+    "HIV": "negative (2025-11-05)"
+   },
+   "notes": "Fatigue limiting activity; spends > 50% of day resting per oncology note."
+  },
+  "SYN-P033": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 58,
+   "sex": "M",
+   "referring_clinic": "Thoracic Oncology, Corvina General",
+   "diagnoses": [
+    {
+     "term": "Non-small cell lung cancer, adenocarcinoma",
+     "stage": "IIIB",
+     "date": "2026-02-14"
+    }
+   ],
+   "biomarkers": [
+    {
+     "gene": "KRAS",
+     "variant": "G12D",
+     "method": "NGS (tissue)",
+     "date": "2026-03-01"
+    }
+   ],
+   "facts": {
+    "ecog": 0,
+    "ecog_date": "2026-10-25",
+    "prior_systemic_lines": 1,
+    "consent_capacity": true,
+    "other_trial": false,
+    "childbearing_potential": false,
+    "bmi": 26.0,
+    "brain_mets": {
+     "status": "none"
+    }
+   },
+   "measurements": [
+    {
+     "test": "ANC",
+     "value": 3.4,
+     "unit": "10^9/L",
+     "date": "2026-10-29"
+    },
+    {
+     "test": "Platelets",
+     "value": 212,
+     "unit": "10^9/L",
+     "date": "2026-10-29"
+    },
+    {
+     "test": "Hemoglobin",
+     "value": 11.2,
+     "unit": "g/dL",
+     "date": "2026-10-29"
+    },
+    {
+     "test": "Creatinine clearance",
+     "value": 68,
+     "unit": "mL/min",
+     "date": "2026-10-29"
+    },
+    {
+     "test": "AST",
+     "value": 28,
+     "unit": "U/L",
+     "date": "2026-10-29",
+     "uln": 40
+    },
+    {
+     "test": "ALT",
+     "value": 31,
+     "unit": "U/L",
+     "date": "2026-10-29",
+     "uln": 41
+    },
+    {
+     "test": "Total bilirubin",
+     "value": 0.7,
+     "unit": "mg/dL",
+     "date": "2026-10-29",
+     "uln": 1.2
+    },
+    {
+     "test": "QTcF",
+     "value": 430,
+     "unit": "ms",
+     "date": "2026-10-29"
+    }
+   ],
+   "imaging": [
+    {
+     "date": "2026-10-22",
+     "modality": "CT chest",
+     "finding": "Mediastinal nodes 18 mm",
+     "largest_lesion_mm": 18
+    }
+   ],
+   "therapies": [
+    {
+     "name": "Chemoradiation (cisplatin/etoposide + thoracic RT)",
+     "category": "systemic_chemotherapy",
+     "drug_class": "platinum_chemotherapy",
+     "start": "2026-03-20",
+     "last_dose": "2026-05-08"
+    }
+   ],
+   "medications": [],
+   "history": [],
+   "history_reviewed": true,
+   "serology": {
+    "HBV": "negative (2026-02-20)",
+    "HCV": "negative (2026-02-20)",
+    "HIV": "negative (2026-02-20)"
+   },
+   "notes": ""
+  },
+  "SYN-P058": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 49,
+   "sex": "F",
+   "referring_clinic": "Thoracic Oncology, Corvina General",
+   "diagnoses": [
+    {
+     "term": "Non-small cell lung cancer, adenocarcinoma",
+     "stage": "IV",
+     "date": "2024-12-02"
+    }
+   ],
+   "biomarkers": [
+    {
+     "gene": "KRAS",
+     "variant": "G12C",
+     "method": "NGS (tissue)",
+     "date": "2024-12-20"
+    }
+   ],
+   "facts": {
+    "ecog": 1,
+    "ecog_date": "2026-10-27",
+    "prior_systemic_lines": 2,
+    "consent_capacity": true,
+    "other_trial": false,
+    "childbearing_potential": true,
+    "bmi": 22.4,
+    "brain_mets": {
+     "status": "none"
+    }
+   },
+   "measurements": [
+    {
+     "test": "ANC",
+     "value": 3.4,
+     "unit": "10^9/L",
+     "date": "2026-10-27"
+    },
+    {
+     "test": "Platelets",
+     "value": 212,
+     "unit": "10^9/L",
+     "date": "2026-10-27"
+    },
+    {
+     "test": "Hemoglobin",
+     "value": 11.2,
+     "unit": "g/dL",
+     "date": "2026-10-27"
+    },
+    {
+     "test": "Creatinine clearance",
+     "value": 68,
+     "unit": "mL/min",
+     "date": "2026-10-27"
+    },
+    {
+     "test": "AST",
+     "value": 28,
+     "unit": "U/L",
+     "date": "2026-10-27",
+     "uln": 40
+    },
+    {
+     "test": "ALT",
+     "value": 31,
+     "unit": "U/L",
+     "date": "2026-10-27",
+     "uln": 41
+    },
+    {
+     "test": "Total bilirubin",
+     "value": 0.7,
+     "unit": "mg/dL",
+     "date": "2026-10-27",
+     "uln": 1.2
+    },
+    {
+     "test": "QTcF",
+     "value": 439,
+     "unit": "ms",
+     "date": "2026-10-27"
+    }
+   ],
+   "imaging": [
+    {
+     "date": "2026-10-19",
+     "modality": "CT chest/abdomen",
+     "finding": "Liver lesion 16 mm, lung 21 mm",
+     "largest_lesion_mm": 21
+    }
+   ],
+   "therapies": [
+    {
+     "name": "Carboplatin + pemetrexed + anti-PD-1",
+     "category": "systemic_chemotherapy",
+     "drug_class": "platinum_chemotherapy",
+     "start": "2025-01-05",
+     "last_dose": "2025-07-10"
+    },
+    {
+     "name": "Investigational KRAS G12C inhibitor (prior study)",
+     "category": "investigational",
+     "drug_class": "kras_g12c_inhibitor",
+     "start": "2025-08-04",
+     "last_dose": "2026-06-30"
+    }
+   ],
+   "medications": [],
+   "history": [
+    "liver metastases"
+   ],
+   "history_reviewed": true,
+   "serology": {
+    "HBV": "negative (2025-07-28)",
+    "HCV": "negative (2025-07-28)",
+    "HIV": "negative (2025-07-28)"
+   },
+   "notes": "Progressed on prior KRAS G12C inhibitor study drug."
+  },
+  "SYN-P066": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 62,
+   "sex": "M",
+   "referring_clinic": "Thoracic Oncology, Corvina General",
+   "diagnoses": [
+    {
+     "term": "Non-small cell lung cancer, adenocarcinoma",
+     "stage": "IV",
+     "date": "2025-09-09"
+    }
+   ],
+   "biomarkers": [
+    {
+     "gene": "KRAS",
+     "variant": "G12C",
+     "method": "NGS (tissue)",
+     "date": "2025-09-30"
+    }
+   ],
+   "facts": {
+    "ecog": 1,
+    "ecog_date": "2026-10-28",
+    "prior_systemic_lines": 2,
+    "consent_capacity": true,
+    "other_trial": false,
+    "childbearing_potential": false,
+    "bmi": 25.5,
+    "brain_mets": {
+     "status": "none"
+    }
+   },
+   "measurements": [
+    {
+     "test": "ANC",
+     "value": 2.2,
+     "unit": "10^9/L",
+     "date": "2026-10-14"
+    },
+    {
+     "test": "Platelets",
+     "value": 164,
+     "unit": "10^9/L",
+     "date": "2026-10-14"
+    },
+    {
+     "test": "Hemoglobin",
+     "value": 10.4,
+     "unit": "g/dL",
+     "date": "2026-10-14"
+    },
+    {
+     "test": "Creatinine clearance",
+     "value": 71,
+     "unit": "mL/min",
+     "date": "2026-10-14"
+    },
+    {
+     "test": "AST",
+     "value": 30,
+     "unit": "U/L",
+     "date": "2026-10-14",
+     "uln": 40
+    },
+    {
+     "test": "ALT",
+     "value": 36,
+     "unit": "U/L",
+     "date": "2026-10-14",
+     "uln": 41
+    },
+    {
+     "test": "Total bilirubin",
+     "value": 0.9,
+     "unit": "mg/dL",
+     "date": "2026-10-14",
+     "uln": 1.2
+    },
+    {
+     "test": "QTcF",
+     "value": 441,
+     "unit": "ms",
+     "date": "2026-10-14"
+    }
+   ],
+   "imaging": [
+    {
+     "date": "2026-10-10",
+     "modality": "CT chest/abdomen",
+     "finding": "Right lower lobe mass 27 mm",
+     "largest_lesion_mm": 27
+    }
+   ],
+   "therapies": [
+    {
+     "name": "Carboplatin + pemetrexed + anti-PD-1",
+     "category": "systemic_chemotherapy",
+     "drug_class": "platinum_chemotherapy",
+     "start": "2025-10-01",
+     "last_dose": "2026-04-15"
+    },
+    {
+     "name": "Docetaxel (second line)",
+     "category": "systemic_chemotherapy",
+     "drug_class": "taxane_chemotherapy",
+     "start": "2026-06-03",
+     "last_dose": "2026-10-28"
+    }
+   ],
+   "medications": [
+    {
+     "name": "Dexamethasone 4 mg (pre-medication with docetaxel)",
+     "drug_class": "corticosteroid",
+     "start": "2026-06-02",
+     "status": "active"
+    }
+   ],
+   "history": [],
+   "history_reviewed": true,
+   "serology": {
+    "HBV": "negative (2025-09-15)",
+    "HCV": "negative (2025-09-15)",
+    "HIV": "negative (2025-09-15)"
+   },
+   "notes": "Docetaxel stopped after cycle 7 for progression (CT 2026-10-10)."
+  },
+  "SYN-P041": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 67,
+   "sex": "F",
+   "referring_clinic": "Heart Failure Clinic, Corvina Heart Clinic",
+   "diagnoses": [
+    {
+     "term": "Heart failure with reduced ejection fraction (HFrEF), ischaemic",
+     "date": "2023-02-11"
+    },
+    {
+     "term": "Atrial fibrillation, permanent",
+     "date": "2021-08-30"
+    },
+    {
+     "term": "Myocardial infarction",
+     "date": "2022-12-05"
+    },
+    {
+     "term": "Chronic kidney disease stage 3b",
+     "date": "2024-03-01"
+    }
+   ],
+   "biomarkers": [],
+   "facts": {
+    "nyha_class": 3,
+    "consent_capacity": true,
+    "other_trial": false,
+    "childbearing_potential": false,
+    "bmi": 29.3
+   },
+   "measurements": [
+    {
+     "test": "LVEF",
+     "value": 32,
+     "unit": "%",
+     "date": "2026-06-14"
+    },
+    {
+     "test": "NT-proBNP",
+     "value": 1450,
+     "unit": "pg/mL",
+     "date": "2026-10-25"
+    },
+    {
+     "test": "eGFR",
+     "value": 41,
+     "unit": "mL/min/1.73m2",
+     "date": "2026-10-25"
+    },
+    {
+     "test": "Potassium",
+     "value": 4.6,
+     "unit": "mmol/L",
+     "date": "2026-10-25"
+    },
+    {
+     "test": "Systolic BP",
+     "value": 108,
+     "unit": "mmHg",
+     "date": "2026-10-25"
+    }
+   ],
+   "imaging": [
+    {
+     "date": "2026-06-14",
+     "modality": "Echocardiogram",
+     "finding": "LVEF 32%, moderate MR"
+    }
+   ],
+   "therapies": [],
+   "medications": [
+    {
+     "name": "Sacubitril/valsartan 97/103 mg",
+     "drug_class": "arni",
+     "start": "2025-11-04",
+     "status": "active"
+    },
+    {
+     "name": "Bisoprolol 5 mg",
+     "drug_class": "beta_blocker",
+     "start": "2024-01-15",
+     "status": "active"
+    },
+    {
+     "name": "Eplerenone 25 mg",
+     "drug_class": "mra",
+     "start": "2025-02-10",
+     "status": "active"
+    },
+    {
+     "name": "Empagliflozin 10 mg",
+     "drug_class": "sglt2_inhibitor",
+     "start": "2025-12-01",
+     "status": "active"
+    },
+    {
+     "name": "Apixaban 5 mg",
+     "drug_class": "anticoagulant",
+     "start": "2021-09-01",
+     "status": "active"
+    }
+   ],
+   "history": [
+    "myocardial infarction (2022)",
+    "atrial fibrillation"
+   ],
+   "history_reviewed": true,
+   "serology": {},
+   "notes": "Stable on GDMT; last HF admission 2026-03."
+  },
+  "SYN-P052": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 55,
+   "sex": "M",
+   "referring_clinic": "Nephrology, Corvina Diabetes Center",
+   "diagnoses": [
+    {
+     "term": "Type 2 diabetes with diabetic chronic kidney disease",
+     "date": "2014-09-12"
+    },
+    {
+     "term": "Chronic kidney disease stage 3a",
+     "date": "2023-05-02"
+    },
+    {
+     "term": "Hypertension",
+     "date": "2012-01-20"
+    }
+   ],
+   "biomarkers": [],
+   "facts": {
+    "consent_capacity": true,
+    "other_trial": false,
+    "childbearing_potential": false,
+    "bmi": 37.2
+   },
+   "measurements": [
+    {
+     "test": "HbA1c",
+     "value": 8.4,
+     "unit": "%",
+     "date": "2026-09-18"
+    },
+    {
+     "test": "eGFR",
+     "value": 48,
+     "unit": "mL/min/1.73m2",
+     "date": "2026-10-22"
+    },
+    {
+     "test": "UACR",
+     "value": 310,
+     "unit": "mg/g",
+     "date": "2026-10-22"
+    },
+    {
+     "test": "Potassium",
+     "value": 4.8,
+     "unit": "mmol/L",
+     "date": "2026-10-22"
+    }
+   ],
+   "imaging": [],
+   "therapies": [],
+   "medications": [
+    {
+     "name": "Lisinopril 20 mg",
+     "drug_class": "acei",
+     "start": "2023-06-01",
+     "status": "active"
+    },
+    {
+     "name": "Metformin 1000 mg",
+     "drug_class": "biguanide",
+     "start": "2014-10-01",
+     "status": "active"
+    },
+    {
+     "name": "Insulin degludec 24 units",
+     "drug_class": "basal_insulin",
+     "start": "2022-02-01",
+     "status": "active"
+    }
+   ],
+   "history": [
+    "hypertension"
+   ],
+   "history_reviewed": true,
+   "serology": {},
+   "notes": "Referred by nephrology for albuminuria trials."
+  }
+ }
+}

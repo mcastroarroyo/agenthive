@@ -1,0 +1,109 @@
+{
+  "version": "SOW clause library v4.1 (approved by Wursta Legal, illustrative)",
+  "clauses": [
+    {"id": "CL-ACC-01", "topic": "acceptance",
+     "title": {"en": "Acceptance procedure", "es": "Procedimiento de aceptación", "pt": "Procedimento de aceite"},
+     "text": {
+       "en": "On completion of each deliverable, Wursta will submit it for review against its acceptance criteria. The Client has five (5) business days to accept it or to list specific, reproducible non-conformities. Wursta will correct non-conformities and resubmit. A deliverable not rejected in writing within ten (10) business days of submission is deemed accepted.",
+       "es": "Al completar cada entregable, Wursta lo presentará para revisión contra sus criterios de aceptación. El Cliente dispone de cinco (5) días hábiles para aceptarlo o enumerar no conformidades específicas y reproducibles. Wursta corregirá las no conformidades y lo presentará nuevamente. Un entregable no rechazado por escrito dentro de diez (10) días hábiles se considerará aceptado.",
+       "pt": "Ao concluir cada entregável, a Wursta o submeterá para revisão conforme seus critérios de aceite. O Cliente terá cinco (5) dias úteis para aceitá-lo ou listar não conformidades específicas e reproduzíveis. A Wursta corrigirá as não conformidades e o submeterá novamente. Um entregável não rejeitado por escrito em até dez (10) dias úteis será considerado aceito."}},
+    {"id": "CL-CHG-01", "topic": "change_control",
+     "title": {"en": "Change control", "es": "Control de cambios", "pt": "Controle de mudanças"},
+     "text": {
+       "en": "Either party may request a change in writing. Wursta will provide an impact assessment (effort, price, schedule, risk) within three (3) business days. No change is performed until both parties sign a Change Order. Changes are priced at the contracted rates in this SOW.",
+       "es": "Cualquiera de las partes podrá solicitar un cambio por escrito. Wursta entregará una evaluación de impacto (esfuerzo, precio, cronograma, riesgo) en un plazo de tres (3) días hábiles. Ningún cambio se ejecutará hasta que ambas partes firmen una Orden de Cambio. Los cambios se cotizan a las tarifas contratadas en este SOW.",
+       "pt": "Qualquer das partes poderá solicitar uma mudança por escrito. A Wursta fornecerá uma avaliação de impacto (esforço, preço, cronograma, risco) em até três (3) dias úteis. Nenhuma mudança será executada até que ambas as partes assinem uma Ordem de Mudança. As mudanças são precificadas pelas tarifas contratadas neste SOW."}},
+    {"id": "CL-ASM-01", "topic": "assumptions",
+     "title": {"en": "Standard assumptions", "es": "Supuestos estándar", "pt": "Premissas padrão"},
+     "text": {
+       "en": "Work is performed remotely during business hours (Mon-Fri) unless stated otherwise; cutover activities may run on weekends as scheduled. The Client provides timely access to systems, administrators and decision-makers. Estimates assume the volumes stated in this SOW; material deviations (more than 10%) are handled through change control.",
+       "es": "El trabajo se realiza de forma remota en horario hábil (lunes a viernes) salvo indicación contraria; las actividades de corte pueden realizarse en fin de semana según el plan. El Cliente provee acceso oportuno a sistemas, administradores y tomadores de decisión. Las estimaciones suponen los volúmenes indicados en este SOW; desviaciones materiales (más del 10%) se gestionan mediante control de cambios.",
+       "pt": "O trabalho é realizado remotamente em horário comercial (seg-sex), salvo indicação em contrário; atividades de virada podem ocorrer em fins de semana conforme o plano. O Cliente fornece acesso tempestivo a sistemas, administradores e tomadores de decisão. As estimativas pressupõem os volumes indicados neste SOW; desvios materiais (acima de 10%) são tratados via controle de mudanças."}},
+    {"id": "CL-OOS-01", "topic": "out_of_scope",
+     "title": {"en": "Standard exclusions", "es": "Exclusiones estándar", "pt": "Exclusões padrão"},
+     "text": {
+       "en": "Unless listed as a deliverable, the following are out of scope: hardware, end-user device re-imaging, third-party licence costs, data clean-up or de-duplication, legacy system decommissioning, and support after the hypercare period.",
+       "es": "Salvo que se indique como entregable, queda fuera de alcance: hardware, re-imagen de equipos de usuario, costos de licencias de terceros, limpieza o deduplicación de datos, desmantelamiento de sistemas heredados y soporte posterior al periodo de hypercare.",
+       "pt": "Salvo se listado como entregável, ficam fora do escopo: hardware, reimagem de dispositivos de usuários, custos de licenças de terceiros, limpeza ou deduplicação de dados, descomissionamento de sistemas legados e suporte após o período de hypercare."}},
+    {"id": "CL-PAY-01", "topic": "payment_fixed",
+     "title": {"en": "Fees and payment — fixed fee", "es": "Honorarios y pagos — precio fijo", "pt": "Honorários e pagamento — preço fixo"},
+     "text": {
+       "en": "The fixed fee is invoiced as: 15% on signature (mobilisation), 75% across milestones on milestone acceptance, and a 10% holdback released on final acceptance. Invoices are payable net 30. Expenses are not included and are billed at cost only if pre-approved in writing.",
+       "es": "El precio fijo se factura así: 15% a la firma (movilización), 75% distribuido por hitos al aceptarse cada hito y 10% retenido hasta la aceptación final. Las facturas se pagan a 30 días. Los gastos no están incluidos y se facturan al costo solo si se aprueban previamente por escrito.",
+       "pt": "O preço fixo é faturado assim: 15% na assinatura (mobilização), 75% distribuído por marcos no aceite de cada marco e 10% retido até o aceite final. As faturas vencem em 30 dias. Despesas não estão incluídas e são faturadas ao custo somente se aprovadas previamente por escrito."}},
+    {"id": "CL-PAY-02", "topic": "payment_tm",
+     "title": {"en": "Fees and payment — time & materials", "es": "Honorarios y pagos — tiempo y materiales", "pt": "Honorários e pagamento — tempo e materiais"},
+     "text": {
+       "en": "Services are billed monthly in arrears at the rates in this SOW from approved timesheets, up to the not-to-exceed amount. Wursta notifies the Client when 80% of the not-to-exceed amount is consumed. Work beyond the cap requires a signed Change Order.",
+       "es": "Los servicios se facturan mensualmente por mes vencido, a las tarifas de este SOW y según hojas de tiempo aprobadas, hasta el monto máximo acordado. Wursta notificará al Cliente al consumirse el 80% del monto máximo. Trabajo adicional requiere una Orden de Cambio firmada.",
+       "pt": "Os serviços são faturados mensalmente, a mês vencido, pelas tarifas deste SOW conforme apontamentos aprovados, até o valor máximo acordado. A Wursta notificará o Cliente ao atingir 80% do valor máximo. Trabalho adicional exige uma Ordem de Mudança assinada."}},
+    {"id": "CL-CLR-01", "topic": "client_responsibilities",
+     "title": {"en": "Client responsibilities", "es": "Responsabilidades del cliente", "pt": "Responsabilidades do cliente"},
+     "text": {
+       "en": "The Client will: name a project manager with decision authority; provide admin access to source and target tenants within 5 business days of kick-off; make subject-matter experts available as scheduled; approve communications within 2 business days; and own its internal change approvals and DNS changes.",
+       "es": "El Cliente: designará un gerente de proyecto con autoridad de decisión; dará acceso de administrador a los entornos de origen y destino dentro de 5 días hábiles del inicio; pondrá a disposición a los expertos según el plan; aprobará comunicaciones en 2 días hábiles; y será responsable de sus aprobaciones internas y cambios de DNS.",
+       "pt": "O Cliente: indicará um gerente de projeto com autoridade de decisão; fornecerá acesso de administrador aos ambientes de origem e destino em até 5 dias úteis do início; disponibilizará especialistas conforme o plano; aprovará comunicações em 2 dias úteis; e será responsável por suas aprovações internas e mudanças de DNS."}},
+    {"id": "CL-GOV-01", "topic": "governance",
+     "title": {"en": "Project governance", "es": "Gobierno del proyecto", "pt": "Governança do projeto"},
+     "text": {
+       "en": "Weekly status meeting (project managers) with a written status report; fortnightly steering committee (sponsors) for decisions, risks and change requests; a shared RAID log maintained by Wursta. Escalation path: project managers, then engagement director and client sponsor within 2 business days.",
+       "es": "Reunión semanal de seguimiento (gerentes de proyecto) con informe escrito; comité directivo quincenal (patrocinadores) para decisiones, riesgos y solicitudes de cambio; registro RAID compartido mantenido por Wursta. Escalamiento: gerentes de proyecto, luego director de compromiso y patrocinador del cliente en 2 días hábiles.",
+       "pt": "Reunião semanal de status (gerentes de projeto) com relatório escrito; comitê diretivo quinzenal (patrocinadores) para decisões, riscos e solicitações de mudança; registro RAID compartilhado mantido pela Wursta. Escalonamento: gerentes de projeto, depois diretor de engajamento e patrocinador do cliente em 2 dias úteis."}},
+    {"id": "CL-WAR-01", "topic": "warranty",
+     "title": {"en": "Warranty", "es": "Garantía", "pt": "Garantia"},
+     "text": {
+       "en": "Wursta warrants that deliverables will materially conform to their acceptance criteria for thirty (30) days after acceptance and will re-perform non-conforming services at no charge. This is the Client's sole remedy for non-conformity.",
+       "es": "Wursta garantiza que los entregables cumplirán sustancialmente sus criterios de aceptación durante treinta (30) días posteriores a la aceptación y volverá a ejecutar sin costo los servicios no conformes. Este es el único recurso del Cliente por no conformidad.",
+       "pt": "A Wursta garante que os entregáveis estarão substancialmente conformes aos critérios de aceite por trinta (30) dias após o aceite e reexecutará sem custo os serviços não conformes. Este é o único recurso do Cliente por não conformidade."}},
+    {"id": "CL-DPA-01", "topic": "data_protection",
+     "title": {"en": "Data protection", "es": "Protección de datos", "pt": "Proteção de dados"},
+     "text": {
+       "en": "Wursta processes Client personal data only to perform the services, under the data processing terms of the MSA, using Client-approved tooling and accounts. Migration logs containing personal data are deleted 90 days after project close.",
+       "es": "Wursta trata datos personales del Cliente únicamente para prestar los servicios, conforme a los términos de tratamiento de datos del MSA, usando herramientas y cuentas aprobadas por el Cliente. Los registros de migración con datos personales se eliminan 90 días después del cierre.",
+       "pt": "A Wursta trata dados pessoais do Cliente apenas para prestar os serviços, conforme os termos de tratamento de dados do MSA, usando ferramentas e contas aprovadas pelo Cliente. Logs de migração com dados pessoais são excluídos 90 dias após o encerramento."}},
+    {"id": "CL-SUB-01", "topic": "delivery_model",
+     "title": {"en": "Delivery model and nearshore centre", "es": "Modelo de entrega y centro nearshore", "pt": "Modelo de entrega e centro nearshore"},
+     "text": {
+       "en": "Services may be delivered by Wursta personnel in the United States and Wursta's Latin America nearshore delivery centre, working in Client business hours. Named key personnel are listed in the governance section and are not replaced without notice.",
+       "es": "Los servicios pueden ser prestados por personal de Wursta en Estados Unidos y en el centro de entrega nearshore de Wursta en América Latina, en horario hábil del Cliente. El personal clave nombrado se indica en la sección de gobierno y no se reemplaza sin aviso.",
+       "pt": "Os serviços podem ser prestados por profissionais da Wursta nos Estados Unidos e no centro de entrega nearshore da Wursta na América Latina, no horário comercial do Cliente. O pessoal-chave nomeado consta da seção de governança e não é substituído sem aviso."}}
+  ],
+  "country_clauses": {
+    "MX": [
+      {"id": "CL-MX-LAW", "topic": "governing_law", "title": "Legislación aplicable y jurisdicción", "text": "Este SOW se rige por el MSA. Para el Cliente con domicilio en México, las partes se someten a la legislación federal mexicana y a los tribunales competentes de la Ciudad de México, renunciando a cualquier otro fuero (texto ilustrativo — revisión legal requerida)."},
+      {"id": "CL-MX-CFDI", "topic": "e_invoicing", "title": "Facturación electrónica (CFDI)", "text": "Cuando la facturación se realice por el socio local, se emitirá CFDI 4.0 con los datos fiscales del Cliente. Para facturación transfronteriza, Wursta emitirá factura comercial en USD y el Cliente aplicará el tratamiento fiscal correspondiente."},
+      {"id": "CL-MX-WHT", "topic": "withholding", "title": "Retenciones e impuestos (gross-up)", "text": "Los honorarios se expresan netos de retenciones. Si la ley obliga al Cliente a retener impuestos, el monto se incrementará para que Wursta reciba el importe pactado, salvo que se acredite la aplicación de un tratado para evitar la doble imposición mediante constancia de residencia fiscal."},
+      {"id": "CL-MX-DATA", "topic": "data_protection", "title": "Protección de datos personales", "text": "Las partes cumplirán la legislación mexicana de protección de datos personales en posesión de particulares; Wursta actuará como encargado y solo tratará datos conforme a las instrucciones del Cliente."}
+    ],
+    "CO": [
+      {"id": "CL-CO-LAW", "topic": "governing_law", "title": "Ley aplicable", "text": "Para el Cliente domiciliado en Colombia, este SOW se interpreta conforme a la ley colombiana y las controversias se resolverán ante los jueces de Bogotá D.C., salvo arbitraje pactado en el MSA (texto ilustrativo)."},
+      {"id": "CL-CO-FE", "topic": "e_invoicing", "title": "Factura electrónica", "text": "La facturación local se emitirá como factura electrónica validada por la DIAN a través del socio local; la facturación transfronteriza se emite en USD."},
+      {"id": "CL-CO-WHT", "topic": "withholding", "title": "Retención en la fuente (gross-up)", "text": "Los valores son netos. Si el Cliente debe practicar retención en la fuente sobre pagos al exterior, incrementará el pago de modo que Wursta reciba el valor pactado, y entregará el certificado de retención."},
+      {"id": "CL-CO-DATA", "topic": "data_protection", "title": "Habeas data", "text": "Las partes cumplirán la Ley 1581 de 2012 y sus decretos reglamentarios; Wursta actuará como encargado del tratamiento."}
+    ],
+    "BR": [
+      {"id": "CL-BR-LAW", "topic": "governing_law", "title": "Lei aplicável e foro", "text": "Para o Cliente domiciliado no Brasil, este SOW é regido pelas leis brasileiras, com foro na comarca de São Paulo/SP, salvo arbitragem prevista no MSA (texto ilustrativo — revisão jurídica obrigatória)."},
+      {"id": "CL-BR-NFSE", "topic": "e_invoicing", "title": "Nota fiscal de serviços (NFS-e)", "text": "Quando faturado pelo parceiro local, será emitida NFS-e no município do prestador, com ISS conforme a legislação municipal; o faturamento internacional é feito em USD por invoice comercial."},
+      {"id": "CL-BR-WHT", "topic": "withholding", "title": "Tributos sobre remessas (gross-up)", "text": "Os valores são líquidos de tributos incidentes sobre a remessa ao exterior (como IRRF, CIDE, PIS/COFINS-Importação e ISS, conforme aplicável). Havendo retenção obrigatória, o Cliente acrescerá o valor necessário para que a Wursta receba o montante contratado."},
+      {"id": "CL-BR-LGPD", "topic": "data_protection", "title": "LGPD", "text": "As partes cumprirão a Lei Geral de Proteção de Dados (Lei 13.709/2018); a Wursta atuará como operadora e tratará dados somente conforme instruções do Cliente controlador."}
+    ],
+    "CL": [
+      {"id": "CL-CL-LAW", "topic": "governing_law", "title": "Ley aplicable", "text": "Para el Cliente domiciliado en Chile, este SOW se rige por la ley chilena; las controversias se someten a los tribunales ordinarios de Santiago, salvo arbitraje pactado (texto ilustrativo)."},
+      {"id": "CL-CL-DTE", "topic": "e_invoicing", "title": "Documento tributario electrónico", "text": "La facturación local se emitirá como DTE ante el SII mediante el socio local; la facturación transfronteriza se emite en USD."},
+      {"id": "CL-CL-WHT", "topic": "withholding", "title": "Impuesto adicional (gross-up)", "text": "Los honorarios son netos. Si corresponde retener impuesto adicional por servicios prestados desde el exterior, el Cliente incrementará el pago para que Wursta reciba el monto pactado."},
+      {"id": "CL-CL-DATA", "topic": "data_protection", "title": "Protección de la vida privada", "text": "Las partes cumplirán la normativa chilena de protección de datos personales vigente durante el proyecto, incluida su actualización en implementación."}
+    ],
+    "PE": [
+      {"id": "CL-PE-LAW", "topic": "governing_law", "title": "Ley aplicable", "text": "Para el Cliente domiciliado en Perú, este SOW se rige por la ley peruana; las controversias se resolverán por arbitraje en Lima conforme al MSA (texto ilustrativo)."},
+      {"id": "CL-PE-CPE", "topic": "e_invoicing", "title": "Comprobante de pago electrónico", "text": "La facturación local se emitirá como comprobante electrónico ante SUNAT mediante el socio local; la facturación transfronteriza se emite en USD."},
+      {"id": "CL-PE-WHT", "topic": "withholding", "title": "Retención a no domiciliados (gross-up)", "text": "Los montos son netos. Si el Cliente debe retener impuesto a la renta de no domiciliados, incrementará el pago para que Wursta reciba el importe pactado."},
+      {"id": "CL-PE-DATA", "topic": "data_protection", "title": "Protección de datos personales", "text": "Las partes cumplirán la Ley 29733 y su reglamento; Wursta actuará como encargado del tratamiento."}
+    ],
+    "SV": [
+      {"id": "CL-SV-LAW", "topic": "governing_law", "title": "Ley aplicable", "text": "Para el Cliente domiciliado en El Salvador, este SOW se rige por la legislación salvadoreña; las controversias se resolverán ante los tribunales de San Salvador, salvo arbitraje pactado (texto ilustrativo)."},
+      {"id": "CL-SV-DTE", "topic": "e_invoicing", "title": "Documento tributario electrónico (DTE)", "text": "La facturación local se emitirá como DTE conforme a la normativa del Ministerio de Hacienda mediante el socio local; la facturación transfronteriza se emite en USD."},
+      {"id": "CL-SV-WHT", "topic": "withholding", "title": "Retención a sujetos no domiciliados (gross-up)", "text": "Los honorarios son netos. Si el Cliente debe retener impuesto sobre la renta por servicios de no domiciliados, incrementará el pago para que Wursta reciba el monto pactado."},
+      {"id": "CL-SV-DATA", "topic": "data_protection", "title": "Protección de datos", "text": "Las partes cumplirán la normativa salvadoreña de protección de datos personales vigente; Wursta tratará los datos solo conforme a instrucciones del Cliente."}
+    ]
+  }
+}

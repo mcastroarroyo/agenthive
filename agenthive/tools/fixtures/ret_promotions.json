@@ -1,0 +1,150 @@
+{
+ "calendar": [
+  {
+   "promo_id": "PRM-2611-AUD03",
+   "name": "Headphones Week",
+   "start": "2026-11-09",
+   "end": "2026-11-15",
+   "categories": [
+    "Audio"
+   ],
+   "skus": [
+    "AUR-NC90"
+   ],
+   "mechanic": "10% off",
+   "segments": [
+    "SEG-GFT",
+    "SEG-DLR"
+   ],
+   "channels": [
+    "email",
+    "push",
+    "in-store"
+   ]
+  },
+  {
+   "promo_id": "PRM-2611-KIT02",
+   "name": "Holiday Kitchen Gifting",
+   "start": "2026-11-16",
+   "end": "2026-11-29",
+   "categories": [
+    "Kitchen"
+   ],
+   "skus": [
+    "VAN-BL900"
+   ],
+   "mechanic": "20% off",
+   "segments": [
+    "SEG-GFT"
+   ],
+   "channels": [
+    "email",
+    "in-store"
+   ]
+  },
+  {
+   "promo_id": "PRM-2611-BF01",
+   "name": "Black Friday Doorbusters",
+   "start": "2026-11-26",
+   "end": "2026-11-30",
+   "categories": [
+    "TV & Home Theater",
+    "Computing",
+    "Gaming"
+   ],
+   "skus": [
+    "LUM-65Q8",
+    "CVX-AIR14",
+    "KAI-NOVA"
+   ],
+   "mechanic": "Doorbuster prices: LUM-65Q8 $899, CVX-AIR14 $699, KAI-NOVA bundle",
+   "segments": [
+    "ALL"
+   ],
+   "channels": [
+    "email",
+    "push",
+    "social",
+    "in-store"
+   ]
+  },
+  {
+   "promo_id": "PRM-2612-CYB04",
+   "name": "Cyber Week (online only)",
+   "start": "2026-11-30",
+   "end": "2026-12-06",
+   "categories": [
+    "Computing",
+    "Networking",
+    "Smart Home"
+   ],
+   "skus": [],
+   "mechanic": "Up to 25% off",
+   "segments": [
+    "ALL"
+   ],
+   "channels": [
+    "email",
+    "push",
+    "online"
+   ]
+  },
+  {
+   "promo_id": "PRM-2612-GFT05",
+   "name": "12 Days of Gifts",
+   "start": "2026-12-07",
+   "end": "2026-12-18",
+   "categories": [
+    "TV & Home Theater",
+    "Computing",
+    "Audio",
+    "Smart Home",
+    "Kitchen",
+    "Gaming",
+    "Networking",
+    "Wearables"
+   ],
+   "skus": [],
+   "mechanic": "Daily featured deal",
+   "segments": [
+    "SEG-GFT",
+    "SEG-LOY"
+   ],
+   "channels": [
+    "email",
+    "push"
+   ]
+  }
+ ],
+ "blackouts": [
+  {
+   "name": "Black Friday quiet period",
+   "start": "2026-11-23",
+   "end": "2026-11-30",
+   "categories": [
+    "TV & Home Theater",
+    "Computing",
+    "Gaming"
+   ],
+   "rule": "No new promotions in doorbuster categories in the 7 days before and during Black Friday."
+  },
+  {
+   "name": "Price-lock week",
+   "start": "2026-12-19",
+   "end": "2026-12-26",
+   "categories": [
+    "TV & Home Theater",
+    "Computing",
+    "Audio",
+    "Smart Home",
+    "Kitchen",
+    "Gaming",
+    "Networking",
+    "Wearables"
+   ],
+   "rule": "No new promotions; holiday price-match guarantee in force."
+  }
+ ],
+ "margin_floor_pct": 18,
+ "clearance_margin_floor_pct": 0
+}

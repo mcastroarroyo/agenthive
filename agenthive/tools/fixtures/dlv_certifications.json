@@ -1,0 +1,48 @@
+{
+  "note": "Synthetic roster. Specialization targets are illustrative internal targets — check Partner Advantage for the current official requirements.",
+  "policy": {
+    "renewal_start_days": 90,
+    "reminder_cadence_days": [90, 60, 30, 14, 7],
+    "voucher_budget_per_quarter": 12,
+    "study_time_hours": 16,
+    "escalation": "Under 14 days with no exam booked: weekly reminder to the consultant and their manager; expired certifications are reported to the practice director."
+  },
+  "cert_types": {
+    "PCA": {"name": "Professional Cloud Architect", "validity_years": 2},
+    "PDE": {"name": "Professional Data Engineer", "validity_years": 2},
+    "PMLE": {"name": "Professional Machine Learning Engineer", "validity_years": 2},
+    "PCSE": {"name": "Professional Cloud Security Engineer", "validity_years": 2},
+    "PCNE": {"name": "Professional Cloud Network Engineer", "validity_years": 2},
+    "PCD": {"name": "Professional Cloud Developer", "validity_years": 2},
+    "PCDOE": {"name": "Professional Cloud DevOps Engineer", "validity_years": 2},
+    "PGWA": {"name": "Professional Google Workspace Administrator", "validity_years": 2},
+    "ACE": {"name": "Associate Cloud Engineer", "validity_years": 3},
+    "GAIL": {"name": "Generative AI Leader", "validity_years": 3},
+    "CDL": {"name": "Cloud Digital Leader", "validity_years": 3}
+  },
+  "specializations": {
+    "infrastructure": {"name": "Infrastructure", "requirements": [{"cert": "PCA", "min": 4}, {"cert": "ACE", "min": 3}, {"cert": "PCNE", "min": 1}]},
+    "data_analytics": {"name": "Data Analytics", "requirements": [{"cert": "PDE", "min": 3}, {"cert": "PCA", "min": 1}]},
+    "ai_ml": {"name": "Machine Learning & Generative AI", "requirements": [{"cert": "PMLE", "min": 2}, {"cert": "GAIL", "min": 4}, {"cert": "PDE", "min": 1}]},
+    "security": {"name": "Security", "requirements": [{"cert": "PCSE", "min": 2}]},
+    "work_transformation": {"name": "Work Transformation (Workspace)", "requirements": [{"cert": "PGWA", "min": 3}, {"cert": "GAIL", "min": 2}]}
+  },
+  "consultants": [
+    {"id": "C-101", "name": "Ana Lucia Mendoza", "role": "Engagement Lead", "practice": "Workspace", "manager": "Rachel Imbert", "certs": [{"cert": "PGWA", "earned": "2025-03-14"}, {"cert": "GAIL", "earned": "2025-06-02"}, {"cert": "PCA", "earned": "2024-12-02"}]},
+    {"id": "C-102", "name": "Diego Ferraz", "role": "Migration Lead", "practice": "Workspace", "manager": "Rachel Imbert", "certs": [{"cert": "PGWA", "earned": "2024-11-20", "renewal_booked": "2026-11-17"}, {"cert": "ACE", "earned": "2024-02-10"}]},
+    {"id": "C-103", "name": "Noor Haddad", "role": "Change Management Lead", "practice": "Workspace", "manager": "Rachel Imbert", "certs": [{"cert": "GAIL", "earned": "2025-09-01"}, {"cert": "CDL", "earned": "2023-10-12"}]},
+    {"id": "C-104", "name": "Mateo Alvarez", "role": "Cloud Engineer", "practice": "Infrastructure", "manager": "Victor Hale", "certs": [{"cert": "PCA", "earned": "2025-01-15"}, {"cert": "ACE", "earned": "2023-12-01"}, {"cert": "PCNE", "earned": "2024-08-30"}]},
+    {"id": "C-105", "name": "Priyanka Desai", "role": "Solutions Architect", "practice": "Infrastructure", "manager": "Victor Hale", "certs": [{"cert": "PCA", "earned": "2025-05-20"}, {"cert": "PCSE", "earned": "2024-12-15", "renewal_booked": "2026-12-08"}, {"cert": "PCDOE", "earned": "2025-10-01"}]},
+    {"id": "C-106", "name": "Olumide Bakare", "role": "Data Engineer", "practice": "Data & AI", "manager": "Grace Whitmore", "certs": [{"cert": "PDE", "earned": "2024-12-28", "renewal_booked": "2026-12-10"}, {"cert": "GAIL", "earned": "2025-04-11"}]},
+    {"id": "C-107", "name": "Sofia Brandt", "role": "Data Engineer", "practice": "Data & AI", "manager": "Grace Whitmore", "certs": [{"cert": "PDE", "earned": "2025-08-19"}, {"cert": "PCA", "earned": "2025-02-25"}]},
+    {"id": "C-108", "name": "Kenji Watanabe", "role": "AI/ML Engineer", "practice": "Data & AI", "manager": "Grace Whitmore", "certs": [{"cert": "PMLE", "earned": "2025-01-30"}, {"cert": "GAIL", "earned": "2025-03-03"}, {"cert": "PDE", "earned": "2023-06-06"}]},
+    {"id": "C-109", "name": "Lucia Ferreira", "role": "AI/ML Engineer (nearshore, Sao Paulo)", "practice": "Data & AI", "manager": "Grace Whitmore", "certs": [{"cert": "PMLE", "earned": "2025-11-10"}, {"cert": "GAIL", "earned": "2025-11-02"}]},
+    {"id": "C-110", "name": "Daniel Okoye", "role": "Cloud Security Engineer", "practice": "Security", "manager": "Victor Hale", "certs": [{"cert": "PCSE", "earned": "2025-07-07"}, {"cert": "ACE", "earned": "2025-01-09"}]},
+    {"id": "C-111", "name": "Camila Rojas", "role": "Workspace Migration Specialist (nearshore, Bogota)", "practice": "Workspace", "manager": "Rachel Imbert", "certs": [{"cert": "PGWA", "earned": "2024-12-05"}, {"cert": "GAIL", "earned": "2026-02-14"}]},
+    {"id": "C-112", "name": "Ethan Brooks", "role": "Solutions Architect", "practice": "Infrastructure", "manager": "Victor Hale", "certs": [{"cert": "PCA", "earned": "2024-11-28"}, {"cert": "PCD", "earned": "2025-03-03"}, {"cert": "PCNE", "earned": "2025-06-10"}]},
+    {"id": "C-113", "name": "Valentina Cruz", "role": "Data Engineer (nearshore, Mexico City)", "practice": "Data & AI", "manager": "Grace Whitmore", "certs": [{"cert": "PDE", "earned": "2025-03-21"}, {"cert": "ACE", "earned": "2024-05-05"}]},
+    {"id": "C-114", "name": "Marcus Feld", "role": "Cloud Engineer", "practice": "Infrastructure", "manager": "Victor Hale", "certs": [{"cert": "ACE", "earned": "2024-01-22"}, {"cert": "PCA", "earned": "2025-09-09"}]},
+    {"id": "C-115", "name": "Aisha Rahman", "role": "Security Engineer", "practice": "Security", "manager": "Victor Hale", "certs": [{"cert": "PCSE", "earned": "2024-11-30"}, {"cert": "PCNE", "earned": "2025-02-02"}]},
+    {"id": "C-116", "name": "Tomasz Nowak", "role": "AI Engineer", "practice": "Data & AI", "manager": "Grace Whitmore", "certs": [{"cert": "GAIL", "earned": "2024-10-01"}, {"cert": "PMLE", "earned": "2024-09-15"}]}
+  ]
+}

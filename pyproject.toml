@@ -1,0 +1,28 @@
+[project]
+name = "agenthive"
+version = "0.1.0"
+description = "The Wursta Agent Hive — a catalog of Google ADK agents on Vertex AI Agent Engine with a live demo UI."
+requires-python = ">=3.11"
+dependencies = [
+  "google-adk==2.12.0",
+  "google-cloud-aiplatform[adk,agent_engines]==2.5.0",
+  "google-cloud-discoveryengine==0.20.6",
+  "cloudpickle==3.1.2",
+  "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+web = ["fastapi==0.141.1", "uvicorn==0.34.0", "httpx==0.28.1"]
+mcp = ["mcp>=1.10"]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+include = ["agenthive*"]
+
+[tool.setuptools.package-data]
+agenthive = ["catalog/*.yaml", "catalog/realms/*.yaml", "tools/fixtures/*.json", "tools/fixtures/docs/*.md",
+             "grounding/bq/*.json", "grounding/corpus/*/*.md"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::UserWarning"]

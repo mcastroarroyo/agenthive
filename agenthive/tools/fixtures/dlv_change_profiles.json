@@ -1,0 +1,60 @@
+{
+  "thresholds": {"drive_wau_min_pct": 60, "legacy_client_max_pct": 20, "training_min_pct": 70, "champions_per_50_min": 1.0},
+  "clients": {
+    "kestrel": {
+      "name": "Kestrel Manufacturing Inc. (fictional)",
+      "context": "Atlas migration of 1,200 users in 8 waves (W0 pilot 2026-10-10 to W7 executives 2026-12-05); W0-W3 migrated (657 users), W4 Sales cuts over 2026-11-07.",
+      "stakeholders": [
+        {"name": "Robert Lindqvist", "role": "CIO", "group": "Executive sponsor", "influence": 5, "impact": 4, "attitude": "champion", "concerns": "Finish before the year-end freeze with no business disruption", "needs": "One-page weekly status and crisp go/no-go decisions"},
+        {"name": "Megan Hollis", "role": "IT Director", "group": "Client project manager", "influence": 4, "impact": 5, "attitude": "supporter", "concerns": "IT team capacity; application mail relays", "needs": "Runbook, RACI and early warning on blockers"},
+        {"name": "Elaine Park", "role": "CFO", "group": "Finance", "influence": 5, "impact": 4, "attitude": "skeptic", "concerns": "Month-end close; Excel macros and linked workbooks on the Finance share", "needs": "Cutover after month-end (W6 2026-11-21), macro compatibility test, keep Excel where needed"},
+        {"name": "Hannah Cho", "role": "General Counsel", "group": "Legal", "influence": 4, "impact": 3, "attitude": "neutral", "concerns": "Continuity of 24 legal holds; 7-year archive", "needs": "Vault hold design to sign off; evidence that holds carry over"},
+        {"name": "Marcus Dell", "role": "VP Sales", "group": "Sales", "influence": 4, "impact": 5, "attitude": "resistant", "concerns": "Field reps live on mobile; CRM Outlook add-in; quote emails must not break", "needs": "Mobile-first guide, CRM Gmail add-on, desk-side help for top 20 reps"},
+        {"name": "Ingrid Solberg", "role": "VP Engineering", "group": "Engineering", "influence": 4, "impact": 5, "attitude": "skeptic", "concerns": "CAD files, long paths, very large files, offline work", "needs": "Drive for desktop, share restructure plan, pilot with 5 engineers before W5"},
+        {"name": "Fatima Al-Sayed", "role": "HR Director", "group": "Change owner", "influence": 3, "impact": 4, "attitude": "champion", "concerns": "Training attendance; works-council expectations in Monterrey", "needs": "Training calendar per wave; Spanish material"},
+        {"name": "Rafael Montes", "role": "Plant Manager, Monterrey", "group": "Operations MX", "influence": 3, "impact": 5, "attitude": "supporter", "concerns": "Shift workers without desks; Spanish-first", "needs": "Shift huddles, Spanish comms, shared mobile kiosks"},
+        {"name": "Dolores Vega", "role": "Supply Chain Director", "group": "Supply Chain", "influence": 3, "impact": 4, "attitude": "skeptic", "concerns": "Supplier emails and Excel macros used for purchase planning", "needs": "Supplier notice, macro inventory, power-user support"},
+        {"name": "Theo Grant", "role": "Marketing Director", "group": "Marketing", "influence": 2, "impact": 4, "attitude": "neutral", "concerns": "Large media files; sharing with external agencies", "needs": "External-sharing policy and a Brand Assets shared drive that works"},
+        {"name": "Carol Nguyen", "role": "Executive Assistant to the CEO", "group": "Executive office", "influence": 2, "impact": 4, "attitude": "supporter", "concerns": "CEO calendar delegation working on day one", "needs": "White-glove cutover; delegation tested beforehand"}
+      ],
+      "impacted_groups": [
+        {"group": "Field sales (210)", "change_impact": "high", "notes": "Mobile-first, CRM add-in, cuts over 2026-11-07"},
+        {"group": "Engineering (180)", "change_impact": "high", "notes": "CAD files, long paths, Drive for desktop; W5 2026-11-14"},
+        {"group": "Finance & Legal (126)", "change_impact": "high", "notes": "Holds, macros, month-end; W6 2026-11-21"},
+        {"group": "Plant floor, Cedar Falls + Monterrey (340)", "change_impact": "medium", "notes": "Shared kiosks, Spanish-first, migrated W1-W2"},
+        {"group": "Executives & assistants (24 + EAs)", "change_impact": "medium", "notes": "Delegation, white-glove W7 2026-12-05"}
+      ],
+      "adoption": {
+        "as_of": "2026-11-05",
+        "by_department": [
+          {"department": "IT", "wave": "W0", "users": 40, "gmail_wau_pct": 100, "drive_wau_pct": 92, "meet_wau_pct": 88, "legacy_client_pct": 3, "training_completion_pct": 100, "tickets_per_100": 6, "champions": 3, "pulse_score": 4.6},
+          {"department": "Operations - Cedar Falls plant", "wave": "W1", "users": 190, "gmail_wau_pct": 96, "drive_wau_pct": 41, "meet_wau_pct": 35, "legacy_client_pct": 12, "training_completion_pct": 74, "tickets_per_100": 9, "champions": 2, "pulse_score": 3.8},
+          {"department": "Operaciones - Monterrey plant", "wave": "W2", "users": 150, "gmail_wau_pct": 97, "drive_wau_pct": 58, "meet_wau_pct": 30, "legacy_client_pct": 6, "training_completion_pct": 81, "tickets_per_100": 7, "champions": 4, "pulse_score": 4.1},
+          {"department": "Customer Service", "wave": "W2", "users": 50, "gmail_wau_pct": 99, "drive_wau_pct": 66, "meet_wau_pct": 71, "legacy_client_pct": 9, "training_completion_pct": 90, "tickets_per_100": 12, "champions": 2, "pulse_score": 4.0},
+          {"department": "Supply Chain", "wave": "W3", "users": 110, "gmail_wau_pct": 94, "drive_wau_pct": 52, "meet_wau_pct": 60, "legacy_client_pct": 34, "training_completion_pct": 62, "tickets_per_100": 21, "champions": 1, "pulse_score": 3.2},
+          {"department": "Human Resources", "wave": "W3", "users": 48, "gmail_wau_pct": 98, "drive_wau_pct": 77, "meet_wau_pct": 80, "legacy_client_pct": 8, "training_completion_pct": 88, "tickets_per_100": 10, "champions": 2, "pulse_score": 4.2},
+          {"department": "Marketing", "wave": "W3", "users": 72, "gmail_wau_pct": 95, "drive_wau_pct": 48, "meet_wau_pct": 69, "legacy_client_pct": 27, "training_completion_pct": 70, "tickets_per_100": 24, "champions": 2, "pulse_score": 3.5}
+        ],
+        "champions": {"named": 36, "active_last_7_days": 24, "coverage_note": "Sales (W4) has 5 champions for 210 users; Engineering (W5) 4 for 180", "recognition": "Monthly shout-out in the CEO update; champion badge in Chat"}
+      }
+    },
+    "harborline": {
+      "name": "Harborline Logistics (fictional)",
+      "context": "Pre-migration: 850 users, Exchange hybrid to Google Workspace + 100-seat Gemini pilot; kickoff planned 2027-01-11 after the peak-season freeze.",
+      "stakeholders": [
+        {"name": "Janet Okoro", "role": "COO", "group": "Executive sponsor", "influence": 5, "impact": 4, "attitude": "champion", "concerns": "No disruption to warehouse operations; visible AI value", "needs": "Business-outcome KPIs, Gemini pilot results"},
+        {"name": "Brian Castillo", "role": "IT Manager", "group": "Client project manager", "influence": 4, "impact": 5, "attitude": "supporter", "concerns": "Small team; DNS owned by an agency", "needs": "Clear runbook, agency engagement"},
+        {"name": "Lisa Moreau", "role": "VP Sales", "group": "Sales", "influence": 4, "impact": 4, "attitude": "skeptic", "concerns": "CRM Outlook add-in", "needs": "CRM Gmail add-on decision before kickoff"},
+        {"name": "Hector Salinas", "role": "Warehouse Operations Manager", "group": "Warehouses (4 sites)", "influence": 3, "impact": 5, "attitude": "neutral", "concerns": "Shift workers, shared devices, Spanish speakers", "needs": "Frontline quick start in shift huddles"},
+        {"name": "Kim Albright", "role": "HR Business Partner", "group": "Change owner", "influence": 3, "impact": 3, "attitude": "champion", "concerns": "Champion time allocation", "needs": "2 hours/week champion allowance agreed with managers"},
+        {"name": "Dev Patel", "role": "Help desk lead (outsourced)", "group": "Support", "influence": 2, "impact": 4, "attitude": "neutral", "concerns": "Not briefed; ticket volumes", "needs": "Hypercare runbook and admin training"}
+      ],
+      "impacted_groups": [
+        {"group": "Warehouse frontline (160)", "change_impact": "high", "notes": "Shared devices, shifts, Spanish"},
+        {"group": "Sales (90)", "change_impact": "high", "notes": "CRM add-in"},
+        {"group": "Office staff (575)", "change_impact": "medium", "notes": "Standard Gmail/Drive change; Gemini pilot for 100"}
+      ],
+      "adoption": null
+    }
+  }
+}

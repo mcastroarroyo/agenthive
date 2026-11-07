@@ -1,0 +1,54 @@
+{
+  "agency": "Ministry of Agriculture and Rural Development (MARD), Republic of Valdoria (fictional agriculture ministry)",
+  "registry": "National Producer Registry (NPR)",
+  "season_calendar": {
+    "2026-27-dry": {"planting": "November 2026 - February 2027", "registration_closes": "2026-12-31"},
+    "2027-wet": {"planting": "May - June 2027", "registration_closes": "2027-02-28"}
+  },
+  "crops": {"staple": ["maize", "beans", "rice", "sorghum"], "perennial": ["coffee", "cacao", "avocado", "plantain"], "other": ["vegetables", "sugarcane"]},
+  "tenure_documents": {
+    "owner_title": "Property title number (the registry checks it against the land registry automatically)",
+    "lease": "Signed lease or rental agreement covering at least one full season, with the landowner's national ID number",
+    "cooperative": "Assignment letter from the cooperative with the plot reference",
+    "usufruct": "Usufruct deed or inheritance-in-process certificate",
+    "informal": "Tenure declaration signed by the producer and two witnesses, endorsed by the municipal agriculture officer"
+  },
+  "programs": [
+    {"code": "SIP", "name": "Smallholder Inputs Package", "summary": "Certified seed and fertiliser for staple crops, delivered at the municipal agro-service centre in March 2027.",
+     "rules": {"max_total_ha": 3.0, "requires_staple_plot": true, "requires_verified_identity": true}, "enrol_by": "2027-02-28", "benefit": "Seed for up to 1 ha of staples plus 2 bags (45 kg) of fertiliser per hectare, up to 3 ha"},
+    {"code": "FVP", "name": "Fertiliser Voucher", "summary": "50% voucher on fertiliser at accredited agro-dealers, one voucher per producer per season.",
+     "rules": {"max_total_ha": 10.0, "once_per_season": true}, "enrol_by": "2026-12-31", "benefit": "50% of the price of up to 4 bags (45 kg) per hectare, up to 10 ha"},
+    {"code": "PCI", "name": "Parametric Crop Insurance", "summary": "Rainfall-index insurance; pays automatically when 30-day rainfall falls below 60% of the 20-year average.",
+     "rules": {"subsidy_pct_small": 70, "subsidy_pct_large": 30, "small_max_ha": 5.0}, "enrol_by": "2026-12-15", "benefit": "Payout up to $350 per insured hectare"},
+    {"code": "CRR", "name": "Coffee Renovation Credit", "summary": "Credit to renovate rust-affected or old coffee plots through the national development bank.",
+     "rules": {"crop": "coffee", "max_ha": 5.0, "per_ha": 2500, "rate_pct": 3.0, "term_years": 5, "grace_years": 2, "requires_georeference": true, "requires_tenure": ["owner_title", "lease", "usufruct", "cooperative"], "min_rust_pct": 20, "or_min_plant_age_years": 15},
+     "enrol_by": "2027-03-31", "benefit": "Up to $2,500 per hectare at 3% a year, 5 years with 2 years' grace"}
+  ],
+  "service_centres": {
+    "Alto Verde": "Alto Verde Agro-Service Centre, 12 Market Square - Mon-Fri 07:30-15:30",
+    "Riverbend": "Riverbend Agro-Service Centre, 4 Old Mill Road - Mon-Sat 07:00-14:00",
+    "Cedar Gap": "Cedar Gap Agro-Service Centre, Route 9 km 3 - Mon-Fri 08:00-16:00",
+    "Lowmarsh": "Lowmarsh Agro-Service Centre, 22 Dyke Street - Mon-Fri 08:00-15:00"
+  },
+  "producers": [
+    {"npr": "NPR-2024-018832", "national_id": "VID 0412-7789-3", "name": "Esteban Morales", "municipality": "Alto Verde", "province": "Highlands",
+     "identity_verified": true, "phone_on_file": "registered messaging number ending 4471",
+     "plots": [
+       {"id": "PLT-2024-104417", "crop": "coffee", "area_ha": 2.4, "tenure": "owner_title", "georeferenced": true, "plant_count": 9600, "plant_age_years": 18, "rust_incidence_pct": 35, "status": "active"},
+       {"id": "PLT-2025-118020", "crop": "beans", "area_ha": 0.6, "tenure": "lease", "georeferenced": true, "status": "active", "season": "2026-27-dry"}],
+     "enrolments": [{"program": "FVP", "season": "2026-27-dry", "status": "voucher issued 2026-10-14"}]},
+    {"npr": "NPR-2025-022417", "national_id": "VID 1120-5531-8", "name": "Grace Atieno", "municipality": "Riverbend", "province": "Central Valley",
+     "identity_verified": true, "phone_on_file": "registered messaging number ending 9032",
+     "plots": [{"id": "PLT-2025-120931", "crop": "vegetables", "area_ha": 0.8, "tenure": "cooperative", "georeferenced": true, "irrigated": true, "status": "active"}],
+     "enrolments": []},
+    {"npr": "NPR-2023-009154", "national_id": "VID 0731-2286-4", "name": "Lukas Brenner", "municipality": "Cedar Gap", "province": "Central Valley",
+     "identity_verified": true, "phone_on_file": "registered messaging number ending 1180",
+     "plots": [
+       {"id": "PLT-2023-090112", "crop": "sugarcane", "area_ha": 14.0, "tenure": "owner_title", "georeferenced": true, "status": "active"},
+       {"id": "PLT-2024-101877", "crop": "maize", "area_ha": 2.0, "tenure": "lease", "georeferenced": true, "status": "active", "season": "2027-wet"}],
+     "enrolments": [{"program": "PCI", "season": "2026", "status": "policy expired 2026-10-31"}]},
+    {"npr": "NPR-2026-031002", "national_id": "VID 1502-0047-1", "name": "Nadia Petrova", "municipality": "Lowmarsh", "province": "Bayshore",
+     "identity_verified": false, "verification_issue": "Name on the registration does not match the national identity provider record (second surname missing).",
+     "phone_on_file": "registered messaging number ending 6624", "plots": [], "enrolments": []}
+  ]
+}

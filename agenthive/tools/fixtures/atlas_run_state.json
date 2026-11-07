@@ -1,0 +1,144 @@
+{
+  "as_of": "2026-11-06T09:00",
+  "project_id": "KES-WS-2026",
+  "waves": {
+    "W0": {
+      "status": "complete", "cutover_actual": "2026-10-10", "users_migrated": 40, "deferred": [],
+      "jobs": {
+        "mail": {"pct": 1.0, "state": "complete", "errors": {"item_too_large": 96, "corrupt_item": 4}, "started_at": "2026-09-30T20:00", "last_pass_completed": "2026-10-09T22:00", "retries_done": 2},
+        "drive": {"pct": 1.0, "state": "complete", "errors": {"unsupported_type": 300}, "started_at": "2026-09-30T20:00", "last_pass_completed": "2026-10-09T22:00", "retries_done": 1},
+        "shares": {"pct": 1.0, "state": "complete", "errors": {"unsupported_type": 1800}, "started_at": "2026-09-30T20:00", "last_pass_completed": "2026-10-09T22:00", "retries_done": 1}
+      },
+      "validation": {
+        "skipped": {"mail": {"item_too_large": 96, "corrupt_item": 4}, "drive": {"unsupported_type": 300}, "shares": {"unsupported_type": 1800}},
+        "unexplained": {"mail": 0, "drive": 0, "shares": 0},
+        "checksum": {"sampled": 1000, "mismatches": []},
+        "permissions": {"acl_source": 3400, "acl_mapped": 3310, "orphaned_dropped": 90, "downgraded": 0, "external_shares_found": 0, "delegations_expected": 0, "delegations_recreated": 0, "groups_expected": 3, "groups_created": 3},
+        "open_discrepancies": []
+      }
+    },
+    "W1": {
+      "status": "complete", "cutover_actual": "2026-10-17", "users_migrated": 190, "deferred": [],
+      "jobs": {
+        "mail": {"pct": 1.0, "state": "complete", "errors": {"item_too_large": 210, "corrupt_item": 12}, "started_at": "2026-10-07T20:00", "last_pass_completed": "2026-10-16T22:00", "retries_done": 2},
+        "drive": {"pct": 1.0, "state": "complete", "errors": {}, "started_at": "2026-10-07T20:00", "last_pass_completed": "2026-10-16T22:00", "retries_done": 0},
+        "shares": {"pct": 1.0, "state": "complete", "errors": {}, "started_at": "2026-10-07T20:00", "last_pass_completed": "2026-10-16T22:00", "retries_done": 1}
+      },
+      "validation": {
+        "skipped": {"mail": {"item_too_large": 210, "corrupt_item": 12}, "drive": {}, "shares": {}},
+        "unexplained": {"mail": 0, "drive": 0, "shares": 0},
+        "checksum": {"sampled": 2000, "mismatches": []},
+        "permissions": {"acl_source": 5800, "acl_mapped": 5560, "orphaned_dropped": 240, "downgraded": 0, "external_shares_found": 0, "delegations_expected": 0, "delegations_recreated": 0, "groups_expected": 3, "groups_created": 3},
+        "open_discrepancies": []
+      }
+    },
+    "W2": {
+      "status": "complete", "cutover_actual": "2026-10-24", "users_migrated": 199,
+      "deferred": ["Customer Service: 1 user on extended leave — mailbox kept in sync, account activated with W4"],
+      "jobs": {
+        "mail": {"pct": 1.0, "state": "complete", "errors": {"item_too_large": 480, "corrupt_item": 21}, "started_at": "2026-10-14T20:00", "last_pass_completed": "2026-10-23T22:00", "retries_done": 3},
+        "drive": {"pct": 1.0, "state": "complete", "errors": {}, "started_at": "2026-10-14T20:00", "last_pass_completed": "2026-10-23T22:00", "retries_done": 0},
+        "shares": {"pct": 1.0, "state": "complete", "errors": {}, "started_at": "2026-10-14T20:00", "last_pass_completed": "2026-10-23T22:00", "retries_done": 1}
+      },
+      "validation": {
+        "skipped": {"mail": {"item_too_large": 480, "corrupt_item": 21}, "drive": {}, "shares": {}},
+        "unexplained": {"mail": 0, "drive": 0, "shares": 0},
+        "checksum": {"sampled": 2000, "mismatches": []},
+        "permissions": {"acl_source": 6900, "acl_mapped": 6410, "orphaned_dropped": 490, "downgraded": 0, "external_shares_found": 0, "delegations_expected": 0, "delegations_recreated": 0, "groups_expected": 9, "groups_created": 9},
+        "open_discrepancies": []
+      }
+    },
+    "W3": {
+      "status": "hypercare", "cutover_actual": "2026-10-31", "users_migrated": 228,
+      "deferred": ["Chloe Martin (Marketing) — 58 GB / 1.1M-item mailbox re-run, activating with W4", "Human Resources: 1 user on leave — activating with W4"],
+      "jobs": {
+        "mail": {"pct": 1.0, "state": "complete", "errors": {"item_too_large": 1340, "corrupt_item": 58}, "started_at": "2026-10-19T20:00", "last_pass_completed": "2026-10-30T22:00", "retries_done": 4},
+        "drive": {"pct": 1.0, "state": "complete", "errors": {}, "started_at": "2026-10-19T20:00", "last_pass_completed": "2026-10-30T22:00", "retries_done": 1},
+        "shares": {"pct": 1.0, "state": "complete", "errors": {"path_too_long": 1204}, "started_at": "2026-10-19T20:00", "last_pass_completed": "2026-10-30T22:00", "retries_done": 2}
+      },
+      "validation": {
+        "skipped": {"mail": {"item_too_large": 1340, "corrupt_item": 58}, "drive": {}, "shares": {"path_too_long": 1204}},
+        "unexplained": {"mail": 0, "drive": 0, "shares": 37},
+        "checksum": {"sampled": 2000, "mismatches": [{"path": "Marketing/Campaigns/2026/Q4_launch_master.psd", "cause": "source modified during copy", "resolution": "re-copied on 2026-11-02; checksum now matches"}]},
+        "permissions": {"acl_source": 14200, "acl_mapped": 13640, "orphaned_dropped": 560, "downgraded": 0, "external_shares_found": 14, "delegations_expected": 2, "delegations_recreated": 1, "groups_expected": 7, "groups_created": 7},
+        "open_discrepancies": [
+          {"id": "DSC-W3-01", "workload": "shares", "detail": "Shared drive 'Marketing - Brand Assets': 1,204 files with paths over 400 characters not copied", "owner": "Diego Ferraz (Wursta) + Theo Grant (Marketing)", "fix": "Shorten folder names at source, re-run share pass for that folder", "due": "2026-11-09", "issue": "ISS-011"},
+          {"id": "DSC-W3-02", "workload": "shares", "detail": "37 files missing in 'Supply Chain - Vendors' with no error logged", "owner": "Diego Ferraz (Wursta)", "fix": "Compare manifests, re-copy missing files", "due": "2026-11-07", "issue": "ISS-019"},
+          {"id": "DSC-W3-03", "workload": "permissions", "detail": "HR: delegation for 1 of 2 delegated mailboxes not recreated", "owner": "Wursta cloud engineer", "fix": "Recreate Gmail delegation; confirm with owner", "due": "2026-11-06", "issue": "ISS-012"},
+          {"id": "DSC-W3-04", "workload": "permissions", "detail": "14 Marketing files shared with external agencies", "owner": "Theo Grant (Marketing)", "fix": "Owner confirms each external share or removes it", "due": "2026-11-13", "issue": ""}
+        ]
+      }
+    },
+    "W4": {
+      "status": "delta_pending", "deferred_in": 3,
+      "jobs": {
+        "mail": {"pct": 0.992, "state": "bulk complete, awaiting delta", "errors": {"throttled_429": 1840, "item_too_large": 655, "corrupt_item": 41}, "throughput_gb_h": 34, "started_at": "2026-10-28T20:00", "last_pass_completed": "2026-11-05T22:00", "retries_done": 3},
+        "drive": {"pct": 0.986, "state": "bulk complete, awaiting delta", "errors": {"permission_denied_source": 312, "network_timeout": 88, "unsupported_type": 40}, "throughput_gb_h": 26, "started_at": "2026-10-28T20:00", "last_pass_completed": "2026-11-05T22:00", "retries_done": 2},
+        "shares": {"pct": 0.995, "state": "bulk complete, awaiting delta", "errors": {"throttled_429": 210, "unsupported_type": 120}, "throughput_gb_h": 41, "started_at": "2026-10-28T20:00", "last_pass_completed": "2026-11-05T22:00", "retries_done": 2}
+      }
+    },
+    "W5": {
+      "status": "bulk_in_progress",
+      "jobs": {
+        "mail": {"pct": 0.61, "state": "running", "errors": {"throttled_429": 2400, "item_too_large": 300}, "throughput_gb_h": 30, "started_at": "2026-11-01T20:00", "retries_done": 1},
+        "drive": {"pct": 0.48, "state": "running", "errors": {"throttled_429": 980, "permission_denied_source": 410}, "throughput_gb_h": 24, "started_at": "2026-11-01T20:00", "retries_done": 1},
+        "shares": {"pct": 0.37, "state": "running", "errors": {"path_too_long": 18420, "permission_denied_source": 4210, "unsupported_type": 1840}, "throughput_gb_h": 28, "started_at": "2026-11-01T20:00", "retries_done": 0}
+      }
+    },
+    "W6": {"status": "scheduled", "jobs": {}},
+    "W7": {"status": "scheduled", "jobs": {}}
+  },
+  "checklists": {
+    "W4": {
+      "C01": {"status": "done", "owner": "Megan Hollis (Kestrel IT)"},
+      "C02": {"status": "done", "owner": "Diego Ferraz (Wursta)"},
+      "C03": {"status": "done", "owner": "Noor Haddad (Wursta)", "note": "11 sessions delivered, 87% attendance"},
+      "C04": {"status": "done", "owner": "Noor Haddad (Wursta)"},
+      "C05": {"status": "done", "owner": "Kestrel IT network team", "note": "MX TTL 300 s since 2026-11-04"},
+      "C06": {"status": "pending", "owner": "Noor Haddad (Wursta)", "note": "Sales mobile re-add guide in review", "eta": "2026-11-06T12:00"},
+      "C08": {"status": "blocked", "owner": "Megan Hollis (Kestrel IT)", "note": "CRM quote notifications fail SPF via the new SMTP relay (ISS-015)", "eta": "2026-11-06T14:00"},
+      "C09": {"status": "pending", "owner": "Robert Lindqvist (CIO) + Ana Lucia Mendoza (Wursta)", "note": "go/no-go call 2026-11-06 15:00", "eta": "2026-11-06T15:00"},
+      "C10": {"status": "pending", "owner": "Noor Haddad (Wursta)", "note": "T-1 email scheduled 10:00", "eta": "2026-11-06T10:00"},
+      "C11": {"status": "done", "owner": "Diego Ferraz (Wursta)"},
+      "C12": {"status": "done", "owner": "Noor Haddad (Wursta)", "note": "6 floorwalkers + 2 remote for field sales"}
+    },
+    "W5": {
+      "C01": {"status": "done", "owner": "Megan Hollis (Kestrel IT)"},
+      "C02": {"status": "done", "owner": "Diego Ferraz (Wursta)"},
+      "C03": {"status": "in_progress", "owner": "Noor Haddad (Wursta)", "note": "9 of 12 sessions booked"},
+      "C04": {"status": "pending", "owner": "Noor Haddad (Wursta)", "note": "T-7 email due 2026-11-06"},
+      "C08": {"status": "pending", "owner": "Megan Hollis (Kestrel IT)", "note": "PLM notification relay not yet tested"}
+    },
+    "W6": {
+      "C01": {"status": "done", "owner": "Megan Hollis (Kestrel IT)"},
+      "C13": {"status": "blocked", "owner": "Hannah Cho (General Counsel)", "note": "Vault matter KES-LIT-01 awaiting Legal sign-off (ISS-017)"}
+    }
+  },
+  "issues": [
+    {"id": "ISS-015", "severity": "Sev2", "wave": "W4", "title": "CRM quote notifications fail SPF through the new SMTP relay", "owner": "Megan Hollis (Kestrel IT)", "opened": "2026-11-04", "due": "2026-11-06", "status": "open", "next_action": "Add relay range to SPF record and re-test before 14:00"},
+    {"id": "ISS-014", "severity": "Sev2", "wave": "W5", "title": "18,420 Engineering files fail with path_too_long", "owner": "Diego Ferraz (Wursta) + Ingrid Solberg (Engineering)", "opened": "2026-11-03", "due": "2026-11-10", "status": "open", "next_action": "Remap share root to \\\\KES-FS01\\Engineering\\Projects and shorten 3 top folders; re-run"},
+    {"id": "ISS-017", "severity": "Sev2", "wave": "W6", "title": "Vault matter and holds for 24 custodians not yet approved by Legal", "owner": "Hannah Cho (General Counsel)", "opened": "2026-10-29", "due": "2026-11-13", "status": "open", "next_action": "Legal review of hold scope on 2026-11-10"},
+    {"id": "ISS-020", "severity": "Sev2", "wave": "W5", "title": "4,210 Engineering share items return permission_denied at source", "owner": "Kestrel IT", "opened": "2026-11-05", "due": "2026-11-09", "status": "open", "next_action": "Grant the migration service account read on 6 restricted project folders"},
+    {"id": "ISS-011", "severity": "Sev3", "wave": "W3", "title": "Marketing 'Brand Assets' shared drive missing 1,204 long-path files", "owner": "Diego Ferraz (Wursta)", "opened": "2026-11-01", "due": "2026-11-09", "status": "open", "next_action": "Rename folders at source, re-run folder pass"},
+    {"id": "ISS-019", "severity": "Sev3", "wave": "W3", "title": "37 Supply Chain files missing without an error", "owner": "Diego Ferraz (Wursta)", "opened": "2026-11-03", "due": "2026-11-07", "status": "open", "next_action": "Manifest diff and targeted re-copy"},
+    {"id": "ISS-012", "severity": "Sev3", "wave": "W3", "title": "HR delegated mailbox: delegation not recreated for 1 user", "owner": "Wursta cloud engineer", "opened": "2026-11-02", "due": "2026-11-06", "status": "open", "next_action": "Recreate delegation and confirm with the HR Director"},
+    {"id": "ISS-016", "severity": "Sev3", "wave": "all", "title": "Decision pending on PST ingestion (out of scope, OOS-02) — 214 files / 1.36 TB", "owner": "Megan Hollis (Kestrel IT)", "opened": "2026-10-20", "due": "2026-11-12", "status": "open", "next_action": "Steering committee decides change order vs user self-import"},
+    {"id": "ISS-013", "severity": "Sev3", "wave": "W1", "title": "37 Cedar Falls plant users have not re-added mobile accounts", "owner": "Noor Haddad (Wursta)", "opened": "2026-10-21", "due": "2026-11-08", "status": "open", "next_action": "Floorwalker drop-in at shift change"},
+    {"id": "ISS-009", "severity": "Sev2", "wave": "W2", "title": "Monterrey users defaulted to English locale and US keyboard", "owner": "Wursta cloud engineer", "opened": "2026-10-25", "due": "2026-10-27", "status": "closed", "next_action": "Fixed via OU language policy on 2026-10-26"},
+    {"id": "ISS-010", "severity": "Sev4", "wave": "W1", "title": "Calendar resource names truncated at 30 characters", "owner": "Wursta cloud engineer", "opened": "2026-10-18", "due": "2026-10-20", "status": "closed", "next_action": "Renamed with building codes"}
+  ],
+  "hypercare": {
+    "window": "2026-10-31 to 2026-11-06",
+    "open_tickets": 23,
+    "by_wave": {
+      "W3": {"opened_7d": 64, "open": 17, "top_categories": {"mail missing / folders": 14, "shared drive access": 19, "calendar & delegation": 8, "mobile setup": 11, "how-to": 12}},
+      "W2": {"opened_7d": 9, "open": 4, "top_categories": {"mobile setup": 5, "how-to": 4}},
+      "W1": {"opened_7d": 4, "open": 2, "top_categories": {"mobile setup": 4}}
+    },
+    "daily_new": [
+      {"date": "2026-11-02", "tickets": 24}, {"date": "2026-11-03", "tickets": 17}, {"date": "2026-11-04", "tickets": 12},
+      {"date": "2026-11-05", "tickets": 13}, {"date": "2026-11-06", "tickets": 5}
+    ],
+    "csat": 4.3
+  }
+}

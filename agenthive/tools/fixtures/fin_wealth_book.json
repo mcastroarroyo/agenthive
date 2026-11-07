@@ -1,0 +1,1219 @@
+{
+ "as_of": "2026-11-06",
+ "institution": "Quillmark Private Wealth (fictional division of Quillmark Bank)",
+ "advisor": {
+  "advisor_id": "ADV-07",
+  "name": "Marisol Quint (synthetic)",
+  "title": "Senior Wealth Advisor",
+  "supervisor": "Desmond Arkwright (synthetic), Branch Supervisory Principal"
+ },
+ "policy": {
+  "name": "QPW-POL-07 Investment Policy & Suitability Standard",
+  "single_issuer_max_pct": 10,
+  "sector_fund_max_pct": 20,
+  "look_through_sector_soft_pct": 30,
+  "complex_total_max_pct": 10,
+  "leveraged_max_pct": 5,
+  "complex_min_risk_score": 6,
+  "digital_assets_max_pct": 5,
+  "digital_assets_min_risk_score": 7,
+  "illiquid_max_pct": 15,
+  "profile_max_age_days": 365,
+  "min_trade_usd": 2500,
+  "trading_cost_bps": 3,
+  "single_stock_cost_bps": 5,
+  "staged_sale_gain_ratio": 0.5,
+  "staged_tranches": 4
+ },
+ "models": {
+  "CONSERVATIVE": {
+   "label": "Conservative Income",
+   "risk_scores": [
+    1,
+    3
+   ],
+   "targets": {
+    "equity": 30,
+    "fixed_income": 60,
+    "alternatives": 5,
+    "cash": 5
+   },
+   "bands": {
+    "equity": 5,
+    "fixed_income": 5,
+    "alternatives": 3,
+    "cash": 3
+   },
+   "core_funds": {
+    "equity": {
+     "QUSLC": 0.75,
+     "QINTL": 0.25
+    },
+    "fixed_income": {
+     "QUST3": 0.5,
+     "QIGCB": 0.3,
+     "QMUNI": 0.2
+    },
+    "alternatives": {
+     "QGOLD": 1.0
+    },
+    "cash": {
+     "QMMF": 1.0
+    }
+   },
+   "high_yield_cap_pct": 10
+  },
+  "BALANCED": {
+   "label": "Balanced",
+   "risk_scores": [
+    4,
+    6
+   ],
+   "targets": {
+    "equity": 55,
+    "fixed_income": 35,
+    "alternatives": 7,
+    "cash": 3
+   },
+   "bands": {
+    "equity": 5,
+    "fixed_income": 5,
+    "alternatives": 3,
+    "cash": 2
+   },
+   "core_funds": {
+    "equity": {
+     "QUSLC": 0.7,
+     "QINTL": 0.3
+    },
+    "fixed_income": {
+     "QIGCB": 0.5,
+     "QUST3": 0.5
+    },
+    "alternatives": {
+     "QGOLD": 0.5,
+     "QREIT": 0.5
+    },
+    "cash": {
+     "QMMF": 1.0
+    }
+   },
+   "high_yield_cap_pct": 15
+  },
+  "GROWTH": {
+   "label": "Growth",
+   "risk_scores": [
+    7,
+    8
+   ],
+   "targets": {
+    "equity": 75,
+    "fixed_income": 17,
+    "alternatives": 6,
+    "cash": 2
+   },
+   "bands": {
+    "equity": 5,
+    "fixed_income": 5,
+    "alternatives": 3,
+    "cash": 2
+   },
+   "core_funds": {
+    "equity": {
+     "QUSLC": 0.65,
+     "QINTL": 0.25,
+     "QEMKT": 0.1
+    },
+    "fixed_income": {
+     "QIGCB": 0.6,
+     "QUST3": 0.4
+    },
+    "alternatives": {
+     "QREIT": 0.5,
+     "QGOLD": 0.5
+    },
+    "cash": {
+     "QMMF": 1.0
+    }
+   },
+   "high_yield_cap_pct": 15
+  },
+  "AGGRESSIVE": {
+   "label": "Aggressive Growth",
+   "risk_scores": [
+    9,
+    10
+   ],
+   "targets": {
+    "equity": 88,
+    "fixed_income": 5,
+    "alternatives": 5,
+    "cash": 2
+   },
+   "bands": {
+    "equity": 5,
+    "fixed_income": 3,
+    "alternatives": 3,
+    "cash": 2
+   },
+   "core_funds": {
+    "equity": {
+     "QUSLC": 0.6,
+     "QINTL": 0.25,
+     "QEMKT": 0.15
+    },
+    "fixed_income": {
+     "QIGCB": 1.0
+    },
+    "alternatives": {
+     "QREIT": 0.5,
+     "QGOLD": 0.5
+    },
+    "cash": {
+     "QMMF": 1.0
+    }
+   },
+   "high_yield_cap_pct": 15
+  }
+ },
+ "securities": {
+  "QUSLC": {
+   "name": "Quillmark US Large-Cap Equity Index Fund",
+   "asset_class": "equity",
+   "sub_class": "us_large_cap",
+   "price": 512.4,
+   "region": "US",
+   "look_through": {
+    "technology": 0.32,
+    "financials": 0.13,
+    "healthcare": 0.11,
+    "consumer": 0.16,
+    "industrials": 0.09,
+    "energy": 0.04,
+    "real_estate": 0.02,
+    "other": 0.13
+   },
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "redemption": "Daily"
+  },
+  "QUSTE": {
+   "name": "Quillmark US Technology Sector Fund",
+   "asset_class": "equity",
+   "sub_class": "sector_fund",
+   "price": 286.15,
+   "region": "US",
+   "sector_fund": true,
+   "look_through": {
+    "technology": 1.0
+   },
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "redemption": "Daily"
+  },
+  "QINTL": {
+   "name": "Quillmark International Developed Equity Fund",
+   "asset_class": "equity",
+   "sub_class": "international",
+   "price": 68.92,
+   "region": "Developed ex-US",
+   "look_through": {
+    "technology": 0.12,
+    "financials": 0.2,
+    "healthcare": 0.12,
+    "consumer": 0.15,
+    "industrials": 0.16,
+    "energy": 0.05,
+    "real_estate": 0.02,
+    "other": 0.18
+   },
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "redemption": "Daily"
+  },
+  "QEMKT": {
+   "name": "Quillmark Emerging Markets Equity Fund",
+   "asset_class": "equity",
+   "sub_class": "emerging",
+   "price": 44.37,
+   "region": "Emerging markets",
+   "look_through": {
+    "technology": 0.24,
+    "financials": 0.22,
+    "healthcare": 0.04,
+    "consumer": 0.17,
+    "industrials": 0.07,
+    "energy": 0.06,
+    "real_estate": 0.02,
+    "other": 0.18
+   },
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "redemption": "Daily"
+  },
+  "QSMID": {
+   "name": "Quillmark US Small & Mid-Cap Fund",
+   "asset_class": "equity",
+   "sub_class": "small_mid",
+   "price": 97.8,
+   "region": "US",
+   "look_through": {
+    "technology": 0.14,
+    "financials": 0.15,
+    "healthcare": 0.13,
+    "consumer": 0.14,
+    "industrials": 0.18,
+    "energy": 0.05,
+    "real_estate": 0.07,
+    "other": 0.14
+   },
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "redemption": "Daily"
+  },
+  "Q2XNQ": {
+   "name": "Quillmark 2x Leveraged Technology ETP",
+   "asset_class": "equity",
+   "sub_class": "leveraged_etp",
+   "price": 63.4,
+   "region": "US",
+   "complex": true,
+   "leveraged": true,
+   "look_through": {
+    "technology": 2.0
+   },
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "redemption": "Daily"
+  },
+  "BLMR": {
+   "name": "Brightloom Robotics Inc. (fictional company)",
+   "asset_class": "equity",
+   "sub_class": "single_stock",
+   "price": 142.6,
+   "region": "US",
+   "single_issuer": true,
+   "look_through": {
+    "industrials": 1.0
+   },
+   "complex": false,
+   "illiquid": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "redemption": "Daily"
+  },
+  "CVHL": {
+   "name": "Cobaltvale Holdings (fictional oil & gas company)",
+   "asset_class": "equity",
+   "sub_class": "single_stock",
+   "price": 31.85,
+   "region": "US",
+   "single_issuer": true,
+   "esg_tags": [
+    "fossil_fuels"
+   ],
+   "look_through": {
+    "energy": 1.0
+   },
+   "complex": false,
+   "illiquid": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "redemption": "Daily"
+  },
+  "QIGCB": {
+   "name": "Quillmark Investment-Grade Corporate Bond Fund",
+   "asset_class": "fixed_income",
+   "sub_class": "ig_corporate",
+   "price": 101.26,
+   "region": "US",
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  },
+  "QUST3": {
+   "name": "Quillmark US Treasury 1-3 Year Fund",
+   "asset_class": "fixed_income",
+   "sub_class": "treasury",
+   "price": 49.83,
+   "region": "US",
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  },
+  "QMUNI": {
+   "name": "Quillmark Municipal Bond Fund (tax-exempt)",
+   "asset_class": "fixed_income",
+   "sub_class": "municipal",
+   "price": 53.41,
+   "region": "US",
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  },
+  "QHYLD": {
+   "name": "Quillmark High-Yield Bond Fund",
+   "asset_class": "fixed_income",
+   "sub_class": "high_yield",
+   "price": 77.05,
+   "region": "US",
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  },
+  "QREIT": {
+   "name": "Quillmark Global Real Estate Fund",
+   "asset_class": "alternatives",
+   "sub_class": "real_estate",
+   "price": 36.7,
+   "region": "Global",
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  },
+  "QGOLD": {
+   "name": "Quillmark Gold Trust",
+   "asset_class": "alternatives",
+   "sub_class": "gold",
+   "price": 41.18,
+   "region": "Global",
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  },
+  "QPCRD": {
+   "name": "Quillmark Private Credit Interval Fund",
+   "asset_class": "alternatives",
+   "sub_class": "private_credit",
+   "price": 24.95,
+   "region": "US",
+   "complex": true,
+   "illiquid": true,
+   "redemption": "Quarterly tender window, max 5% of fund per quarter; next window 2026-12-15",
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {}
+  },
+  "QBTCX": {
+   "name": "Quillmark Bitcoin ETP",
+   "asset_class": "alternatives",
+   "sub_class": "digital_assets",
+   "price": 58.12,
+   "region": "Global",
+   "complex": true,
+   "digital_asset": true,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  },
+  "QMMF": {
+   "name": "Quillmark Government Money Market Fund",
+   "asset_class": "cash",
+   "sub_class": "money_market",
+   "price": 1.0,
+   "region": "US",
+   "complex": false,
+   "illiquid": false,
+   "single_issuer": false,
+   "sector_fund": false,
+   "leveraged": false,
+   "digital_asset": false,
+   "esg_tags": [],
+   "look_through": {},
+   "redemption": "Daily"
+  }
+ },
+ "clients": [
+  {
+   "client_id": "WM-1042",
+   "household": "Hartwell Household",
+   "primary_contact": "Graham & Ines Hartwell (synthetic)",
+   "account_type": "Joint taxable brokerage",
+   "tax_status": "taxable",
+   "illustrative_tax_rates": {
+    "short_term": 0.37,
+    "long_term": 0.2
+   },
+   "risk_score": 5,
+   "model": "BALANCED",
+   "objectives": "Long-term growth with moderate volatility; fund two university tuitions",
+   "horizon_years": 12,
+   "liquidity_need_12m_usd": 180000,
+   "liquidity_note": "Daughter's tuition (USD 62k, Jan 2027) + kitchen renovation (USD 118k, spring 2027)",
+   "complex_products_ok": false,
+   "restrictions": {
+    "exclude_sectors": [],
+    "exclude_symbols": [],
+    "notes": "None"
+   },
+   "last_suitability_review": "2025-12-02",
+   "kyc_refresh_due": "2027-06-30",
+   "employer_stock": null,
+   "communication_preference": "Email summary + video call",
+   "notes": [
+    "2026-10-28 call: clients 'nervous about how much tech we own after the rally'",
+    "Prefers to avoid realising short-term gains this tax year"
+   ],
+   "holdings": [
+    {
+     "symbol": "QUSLC",
+     "lots": [
+      {
+       "units": 2786.89,
+       "cost_per_unit": 298.1,
+       "acquired": "2019-08-20"
+      }
+     ]
+    },
+    {
+     "symbol": "QUSTE",
+     "lots": [
+      {
+       "units": 2000,
+       "cost_per_unit": 128.0,
+       "acquired": "2021-05-14"
+      },
+      {
+       "units": 1522.63,
+       "cost_per_unit": 251.3,
+       "acquired": "2026-03-12"
+      }
+     ]
+    },
+    {
+     "symbol": "QINTL",
+     "lots": [
+      {
+       "units": 3656.41,
+       "cost_per_unit": 61.4,
+       "acquired": "2020-02-11"
+      }
+     ]
+    },
+    {
+     "symbol": "QEMKT",
+     "lots": [
+      {
+       "units": 1893.17,
+       "cost_per_unit": 47.9,
+       "acquired": "2022-10-03"
+      }
+     ]
+    },
+    {
+     "symbol": "QIGCB",
+     "lots": [
+      {
+       "units": 6221.61,
+       "cost_per_unit": 108.2,
+       "acquired": "2020-06-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QUST3",
+     "lots": [
+      {
+       "units": 8428.66,
+       "cost_per_unit": 48.6,
+       "acquired": "2023-01-09"
+      }
+     ]
+    },
+    {
+     "symbol": "QREIT",
+     "lots": [
+      {
+       "units": 3433.24,
+       "cost_per_unit": 39.8,
+       "acquired": "2021-09-15"
+      }
+     ]
+    },
+    {
+     "symbol": "QGOLD",
+     "lots": [
+      {
+       "units": 4079.65,
+       "cost_per_unit": 33.1,
+       "acquired": "2022-04-05"
+      }
+     ]
+    },
+    {
+     "symbol": "QMMF",
+     "lots": [
+      {
+       "units": 84000.0,
+       "cost_per_unit": 1.0,
+       "acquired": "2026-01-02"
+      }
+     ]
+    }
+   ],
+   "advisor_id": "ADV-07"
+  },
+  {
+   "client_id": "WM-2087",
+   "household": "Okonkwo-Reyes Family",
+   "primary_contact": "Adaeze Okonkwo-Reyes (synthetic)",
+   "account_type": "Individual taxable brokerage",
+   "tax_status": "taxable",
+   "illustrative_tax_rates": {
+    "short_term": 0.32,
+    "long_term": 0.15
+   },
+   "risk_score": 7,
+   "model": "GROWTH",
+   "objectives": "Maximise long-term growth; comfortable with drawdowns of 25%",
+   "horizon_years": 20,
+   "liquidity_need_12m_usd": 40000,
+   "liquidity_note": "Emergency reserve only",
+   "complex_products_ok": true,
+   "restrictions": {
+    "exclude_sectors": [],
+    "exclude_symbols": [],
+    "notes": "None"
+   },
+   "last_suitability_review": "2026-05-19",
+   "kyc_refresh_due": "2028-05-31",
+   "employer_stock": null,
+   "communication_preference": "Phone",
+   "notes": [
+    "2026-11-04 email: client asks to 'put 15% of the portfolio into Bitcoin before year end'"
+   ],
+   "holdings": [
+    {
+     "symbol": "QUSLC",
+     "lots": [
+      {
+       "units": 2029.66,
+       "cost_per_unit": 334.5,
+       "acquired": "2020-11-02"
+      }
+     ]
+    },
+    {
+     "symbol": "QINTL",
+     "lots": [
+      {
+       "units": 5658.73,
+       "cost_per_unit": 66.1,
+       "acquired": "2021-03-08"
+      }
+     ]
+    },
+    {
+     "symbol": "QEMKT",
+     "lots": [
+      {
+       "units": 4687.85,
+       "cost_per_unit": 52.8,
+       "acquired": "2021-06-14"
+      }
+     ]
+    },
+    {
+     "symbol": "QSMID",
+     "lots": [
+      {
+       "units": 2924.34,
+       "cost_per_unit": 88.4,
+       "acquired": "2022-01-20"
+      }
+     ]
+    },
+    {
+     "symbol": "QIGCB",
+     "lots": [
+      {
+       "units": 3081.18,
+       "cost_per_unit": 99.7,
+       "acquired": "2022-05-03"
+      }
+     ]
+    },
+    {
+     "symbol": "QHYLD",
+     "lots": [
+      {
+       "units": 1687.22,
+       "cost_per_unit": 74.1,
+       "acquired": "2023-07-11"
+      }
+     ]
+    },
+    {
+     "symbol": "QGOLD",
+     "lots": [
+      {
+       "units": 1894.12,
+       "cost_per_unit": 34.9,
+       "acquired": "2023-02-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QBTCX",
+     "lots": [
+      {
+       "units": 894.7,
+       "cost_per_unit": 64.3,
+       "acquired": "2026-01-15"
+      }
+     ]
+    },
+    {
+     "symbol": "QMMF",
+     "lots": [
+      {
+       "units": 104000.0,
+       "cost_per_unit": 1.0,
+       "acquired": "2026-01-02"
+      }
+     ]
+    }
+   ],
+   "advisor_id": "ADV-07"
+  },
+  {
+   "client_id": "WM-3115",
+   "household": "Dr. Priya Lindqvist",
+   "primary_contact": "Dr. Priya Lindqvist (synthetic)",
+   "account_type": "Rollover IRA (tax-deferred)",
+   "tax_status": "tax_deferred",
+   "illustrative_tax_rates": {
+    "short_term": 0.0,
+    "long_term": 0.0
+   },
+   "risk_score": 3,
+   "model": "CONSERVATIVE",
+   "objectives": "Capital preservation and steady retirement income",
+   "horizon_years": 8,
+   "liquidity_need_12m_usd": 95000,
+   "liquidity_note": "Planned retirement distributions",
+   "complex_products_ok": false,
+   "restrictions": {
+    "exclude_sectors": [],
+    "exclude_symbols": [],
+    "notes": "None"
+   },
+   "last_suitability_review": "2026-02-10",
+   "kyc_refresh_due": "2027-02-28",
+   "employer_stock": null,
+   "communication_preference": "In person",
+   "notes": [
+    "2026-02-18 unsolicited order: client bought Q2XNQ after a TV segment (flagged by supervision)",
+    "QPCRD purchased 2025-06 by previous advisor"
+   ],
+   "holdings": [
+    {
+     "symbol": "QUSLC",
+     "lots": [
+      {
+       "units": 741.61,
+       "cost_per_unit": 255.0,
+       "acquired": "2018-05-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QINTL",
+     "lots": [
+      {
+       "units": 1378.41,
+       "cost_per_unit": 60.2,
+       "acquired": "2018-05-01"
+      }
+     ]
+    },
+    {
+     "symbol": "Q2XNQ",
+     "lots": [
+      {
+       "units": 2097.79,
+       "cost_per_unit": 52.75,
+       "acquired": "2026-02-18"
+      }
+     ]
+    },
+    {
+     "symbol": "QUST3",
+     "lots": [
+      {
+       "units": 8769.82,
+       "cost_per_unit": 48.2,
+       "acquired": "2022-09-12"
+      }
+     ]
+    },
+    {
+     "symbol": "QMUNI",
+     "lots": [
+      {
+       "units": 4624.6,
+       "cost_per_unit": 55.9,
+       "acquired": "2021-01-05"
+      }
+     ]
+    },
+    {
+     "symbol": "QHYLD",
+     "lots": [
+      {
+       "units": 3452.3,
+       "cost_per_unit": 75.3,
+       "acquired": "2024-03-04"
+      }
+     ]
+    },
+    {
+     "symbol": "QPCRD",
+     "lots": [
+      {
+       "units": 6853.71,
+       "cost_per_unit": 25.0,
+       "acquired": "2025-06-02"
+      }
+     ]
+    },
+    {
+     "symbol": "QMMF",
+     "lots": [
+      {
+       "units": 171000.0,
+       "cost_per_unit": 1.0,
+       "acquired": "2026-01-02"
+      }
+     ]
+    }
+   ],
+   "advisor_id": "ADV-07"
+  },
+  {
+   "client_id": "WM-4410",
+   "household": "Castellanos Family Trust",
+   "primary_contact": "Rafael Castellanos, trustee (synthetic)",
+   "account_type": "Irrevocable trust (taxable)",
+   "tax_status": "taxable",
+   "illustrative_tax_rates": {
+    "short_term": 0.37,
+    "long_term": 0.2
+   },
+   "risk_score": 8,
+   "model": "GROWTH",
+   "objectives": "Multi-generational growth; fossil-fuel-free mandate",
+   "horizon_years": 25,
+   "liquidity_need_12m_usd": 120000,
+   "liquidity_note": "Trust distributions to beneficiaries",
+   "complex_products_ok": true,
+   "restrictions": {
+    "exclude_sectors": [
+     "fossil_fuels"
+    ],
+    "exclude_symbols": [],
+    "notes": "Trust deed (2023 amendment) excludes fossil-fuel producers"
+   },
+   "last_suitability_review": "2026-08-07",
+   "kyc_refresh_due": "2027-08-31",
+   "employer_stock": {
+    "symbol": "BLMR",
+    "note": "Trustee is a Brightloom Robotics co-founder: trades need pre-clearance and must fall inside the company's open trading window (next window opens 2026-11-12 after Q3 earnings)."
+   },
+   "communication_preference": "Quarterly in-person review",
+   "notes": [
+    "CVHL acquired 2023-05 before the ESG amendment was loaded into the restriction system"
+   ],
+   "holdings": [
+    {
+     "symbol": "BLMR",
+     "lots": [
+      {
+       "units": 14782.61,
+       "cost_per_unit": 8.4,
+       "acquired": "2014-09-30"
+      }
+     ]
+    },
+    {
+     "symbol": "QUSLC",
+     "lots": [
+      {
+       "units": 3848.56,
+       "cost_per_unit": 228.0,
+       "acquired": "2017-03-15"
+      }
+     ]
+    },
+    {
+     "symbol": "QINTL",
+     "lots": [
+      {
+       "units": 8879.86,
+       "cost_per_unit": 58.2,
+       "acquired": "2019-10-01"
+      }
+     ]
+    },
+    {
+     "symbol": "CVHL",
+     "lots": [
+      {
+       "units": 6405.02,
+       "cost_per_unit": 27.4,
+       "acquired": "2023-05-22"
+      }
+     ]
+    },
+    {
+     "symbol": "QIGCB",
+     "lots": [
+      {
+       "units": 9401.54,
+       "cost_per_unit": 112.3,
+       "acquired": "2021-08-17"
+      }
+     ]
+    },
+    {
+     "symbol": "QUST3",
+     "lots": [
+      {
+       "units": 5458.56,
+       "cost_per_unit": 48.9,
+       "acquired": "2024-02-06"
+      }
+     ]
+    },
+    {
+     "symbol": "QREIT",
+     "lots": [
+      {
+       "units": 7411.44,
+       "cost_per_unit": 31.5,
+       "acquired": "2022-11-30"
+      }
+     ]
+    },
+    {
+     "symbol": "QPCRD",
+     "lots": [
+      {
+       "units": 8176.35,
+       "cost_per_unit": 25.1,
+       "acquired": "2024-09-10"
+      }
+     ]
+    },
+    {
+     "symbol": "QMMF",
+     "lots": [
+      {
+       "units": 204000.0,
+       "cost_per_unit": 1.0,
+       "acquired": "2026-01-02"
+      }
+     ]
+    }
+   ],
+   "advisor_id": "ADV-07"
+  },
+  {
+   "client_id": "WM-5023",
+   "household": "Abernathy-Cho Household",
+   "primary_contact": "Lena Abernathy-Cho (synthetic)",
+   "account_type": "Joint taxable brokerage",
+   "tax_status": "taxable",
+   "illustrative_tax_rates": {
+    "short_term": 0.32,
+    "long_term": 0.15
+   },
+   "risk_score": 5,
+   "model": "BALANCED",
+   "objectives": "Balanced growth for retirement in ~15 years",
+   "horizon_years": 15,
+   "liquidity_need_12m_usd": 20000,
+   "liquidity_note": "None planned",
+   "complex_products_ok": false,
+   "restrictions": {
+    "exclude_sectors": [],
+    "exclude_symbols": [],
+    "notes": "None"
+   },
+   "last_suitability_review": "2026-04-22",
+   "kyc_refresh_due": "2028-04-30",
+   "employer_stock": null,
+   "communication_preference": "Email",
+   "notes": [],
+   "holdings": [
+    {
+     "symbol": "QUSLC",
+     "lots": [
+      {
+       "units": 763.08,
+       "cost_per_unit": 401.2,
+       "acquired": "2022-06-15"
+      }
+     ]
+    },
+    {
+     "symbol": "QINTL",
+     "lots": [
+      {
+       "units": 2169.18,
+       "cost_per_unit": 59.8,
+       "acquired": "2022-06-15"
+      }
+     ]
+    },
+    {
+     "symbol": "QEMKT",
+     "lots": [
+      {
+       "units": 1036.74,
+       "cost_per_unit": 41.1,
+       "acquired": "2023-03-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QSMID",
+     "lots": [
+      {
+       "units": 352.76,
+       "cost_per_unit": 85.4,
+       "acquired": "2023-03-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QIGCB",
+     "lots": [
+      {
+       "units": 2271.38,
+       "cost_per_unit": 98.4,
+       "acquired": "2023-03-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QUST3",
+     "lots": [
+      {
+       "units": 3461.77,
+       "cost_per_unit": 48.7,
+       "acquired": "2023-03-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QREIT",
+     "lots": [
+      {
+       "units": 1253.41,
+       "cost_per_unit": 34.2,
+       "acquired": "2023-03-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QGOLD",
+     "lots": [
+      {
+       "units": 837.79,
+       "cost_per_unit": 30.6,
+       "acquired": "2023-03-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QMMF",
+     "lots": [
+      {
+       "units": 46000.0,
+       "cost_per_unit": 1.0,
+       "acquired": "2026-01-02"
+      }
+     ]
+    }
+   ],
+   "advisor_id": "ADV-07"
+  },
+  {
+   "client_id": "WM-6178",
+   "household": "Tamsin Vale",
+   "primary_contact": "Tamsin Vale (synthetic)",
+   "account_type": "Individual taxable brokerage",
+   "tax_status": "taxable",
+   "illustrative_tax_rates": {
+    "short_term": 0.24,
+    "long_term": 0.15
+   },
+   "risk_score": 2,
+   "model": "CONSERVATIVE",
+   "objectives": "Preserve capital; supplement pension income",
+   "horizon_years": 6,
+   "liquidity_need_12m_usd": 30000,
+   "liquidity_note": "Annual home maintenance",
+   "complex_products_ok": false,
+   "restrictions": {
+    "exclude_sectors": [],
+    "exclude_symbols": [],
+    "notes": "None"
+   },
+   "last_suitability_review": "2025-04-18",
+   "kyc_refresh_due": "2026-09-30",
+   "employer_stock": null,
+   "communication_preference": "Letter + phone",
+   "notes": [
+    "Two review invitations unanswered (2026-07, 2026-09)"
+   ],
+   "holdings": [
+    {
+     "symbol": "QUSLC",
+     "lots": [
+      {
+       "units": 365.34,
+       "cost_per_unit": 310.0,
+       "acquired": "2019-04-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QINTL",
+     "lots": [
+      {
+       "units": 452.7,
+       "cost_per_unit": 57.3,
+       "acquired": "2019-04-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QUST3",
+     "lots": [
+      {
+       "units": 5009.03,
+       "cost_per_unit": 49.1,
+       "acquired": "2021-04-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QMUNI",
+     "lots": [
+      {
+       "units": 2044.56,
+       "cost_per_unit": 54.0,
+       "acquired": "2021-04-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QIGCB",
+     "lots": [
+      {
+       "units": 693.26,
+       "cost_per_unit": 104.5,
+       "acquired": "2021-04-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QGOLD",
+     "lots": [
+      {
+       "units": 568.24,
+       "cost_per_unit": 28.9,
+       "acquired": "2021-04-01"
+      }
+     ]
+    },
+    {
+     "symbol": "QMMF",
+     "lots": [
+      {
+       "units": 109200.0,
+       "cost_per_unit": 1.0,
+       "acquired": "2026-01-02"
+      }
+     ]
+    }
+   ],
+   "advisor_id": "ADV-07"
+  }
+ ]
+}

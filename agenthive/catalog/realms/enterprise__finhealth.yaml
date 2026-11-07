@@ -1,0 +1,547 @@
+# Enterprise realm — financial services + healthcare clusters.
+# Fictional organisations: Quillmark Bank (with Quillmark Private Wealth) and Corvina Health Network.
+# Every client, patient, claim and transaction is synthetic; outputs are decision support, never advice.
+agents:
+  # ---------------------------------------------------------------- financial services ---------------------------
+  - id: wealth_sentinel
+    code: Wms
+    name: Wealth Sentinel
+    cluster: financial
+    industry: FINANCIAL
+    status: demo_ready
+    tagline: Watches every portfolio against its mandate and turns drift into a client-ready, suitability-checked rebalance proposal.
+    description: >-
+      Wealth Sentinel is an advisor copilot for Quillmark Private Wealth (fictional). It scans the advisor's book for
+      mandate breaches, explains each client's exposure (asset class, look-through sector, concentration, liquidity,
+      tax lots), adds current market context from Google Search, and builds a tax-aware rebalance that is checked
+      against the firm's suitability policy before a single word reaches the client. The output is two documents: an
+      advisor brief and a plain-language client proposal, ready for supervisory review.
+    persona: Wealth advisors and their supervisors; private-banking teams preparing client reviews
+    use_cases:
+      - Morning book scan — which clients breach their mandate and why
+      - Client review pack with exposure, drift, concentration and a tax-aware rebalance
+      - Suitability check of a client-requested trade (e.g. "15% in Bitcoin") with a compliant alternative
+    model: flash
+    model_reason: >-
+      Tool-heavy portfolio analysis and client writing need Flash; market news runs on Flash-Lite. All numbers come
+      from deterministic tools, so no Argon is needed.
+    pattern: sequential
+    steps:
+      - id: exposure
+        name: Exposure & mandate analyst
+        model: flash
+        role: Identifies the client, loads the profile and portfolio, and documents exposure, drift and policy breaches.
+        instruction: |
+          1. Identify the client from the request: a client id (WM-xxxx), a household or contact name. Client
+             material (meeting notes) may be pasted in the message or appear below as referenced client material;
+             if the user names a sample key that is not shown (e.g. 'fin_meeting_notes_hartwell'), load it with
+             get_sample_document. Note the client's stated wishes and constraints.
+          2. If the request is about the whole book ("which clients", "scan my book", "most urgent"), call
+             fin_mandate_check with no client, show the ranked table, then continue with the highest-priority client
+             that can be advised (skip clients whose profile is blocked under WS-1 and say so).
+          3. For the client, call fin_client_profile, fin_portfolio_exposure and fin_mandate_check.
+          4. Write the exposure review as facts only, numbers copied exactly from the tools:
+             - Client: id, household, model, risk score, objectives, horizon, liquidity need, restrictions, profile status
+             - Allocation: current vs target vs band per asset class
+             - Concentration: top holdings, look-through sectors above 20%, single-issuer and sector-fund weights
+             - Findings: every rule id with severity and message
+             - Client wishes: anything requested in the conversation or the sample notes
+          Do not recommend trades in this step.
+        tools: [fin_mandate_check, fin_client_profile, fin_portfolio_exposure, get_sample_document]
+        output_key: exposure_review
+      - id: market
+        name: Market context scout
+        model: lite
+        role: Adds current, cited market context for the exposures that matter.
+        instruction: |
+          Exposure review:
+          {{exposure_review}}
+
+          Pick the 2-4 exposures that matter most (the over-weights, breaches and concentrated sectors or themes).
+          Securities and companies in this demo are fictional, so search Google for the underlying real-world themes
+          instead — e.g. "technology sector stocks this week", "investment-grade corporate bond yields", "bitcoin
+          volatility", "industrial robotics stocks", "oil and gas sector outlook". Prefer the last 30 days.
+          Output 3-6 bullets: theme · what happened · why it matters for this client · [source](url).
+          No forecasts, price targets or recommendations.
+        grounding: [google_search]
+        output_key: market_context
+      - id: rebalance
+        name: Rebalance & suitability engine
+        model: flash
+        role: Builds the tax-aware rebalance and proves it passes the suitability policy.
+        instruction: |
+          Exposure review:
+          {{exposure_review}}
+
+          1. Call fin_propose_rebalance for the client (avoid_short_term_gains=true unless the user said otherwise).
+             If it is blocked (WS-1), stop and explain what the advisor must do first.
+          2. Call fin_suitability_check with exactly the proposed trades (symbol, action, amount_usd).
+          3. If the client asked for a specific trade (e.g. buy a product or add a percentage), call
+             fin_suitability_check separately for that trade. If it fails, size a compliant alternative from the
+             rule details (e.g. the maximum additional purchase) and fund it from the most over-weight asset class
+             rather than from cash needed for liquidity; re-check it once.
+          4. If any proposed trade fails, remove or resize it and re-check once.
+          Output: trade table (action, symbol, amount, reason, execution), staged sales, tax and cost summary,
+          post-trade weights, suitability verdict with rule ids and conditions. Copy numbers exactly.
+        tools: [fin_propose_rebalance, fin_suitability_check]
+        output_key: rebalance_plan
+    tools: [fin_log_advice_record]
+    grounding: [kb, "fixtures:Quillmark Private Wealth book (synthetic)"]
+    instruction: |
+      You turn three analyses into the advisor's deliverable.
+      EXPOSURE REVIEW:
+      {{exposure_review}}
+      MARKET CONTEXT:
+      {{market_context}}
+      REBALANCE PLAN:
+      {{rebalance_plan}}
+
+      1. Advisor brief first: verdict in one line (e.g. "Rebalance recommended — 3 breaches, suitable with
+         conditions"), then breaches by severity with rule ids, the trade table, tax/cost and conditions
+         (pre-clearance, tender windows, liquidity). Search the knowledge base for the QPW-POL-07 rule wording when
+         you cite a rule.
+      2. Then a client-ready proposal in plain language (no rule ids, no jargon): why we suggest changes, what changes,
+         what it costs (tax estimate as illustrative), what stays the same, and the 1-2 market themes that matter.
+      3. If suitability is not_suitable or blocked, do not write a client proposal — explain what is needed instead.
+      4. Only when the user explicitly asks to record or submit, call fin_log_advice_record with the final trades
+         and verdict, and report the record id (simulated).
+      5. End with: "Illustrative synthetic demo — not investment or tax advice. A licensed advisor and supervisor
+         must review suitability and the client must approve before any order is placed."
+    output: >-
+      "Advisor brief" (verdict, breaches table, trades table, tax & cost, conditions, market context with links) and
+      "Client proposal" (plain-language, 150-250 words), then the disclaimer.
+    samples:
+      - Review the Hartwell household (WM-1042) with the call notes 'fin_meeting_notes_hartwell' and draft a client-ready rebalance proposal.
+      - Scan my book for mandate breaches and prepare the proposal for the most urgent client I can advise today.
+      - Client WM-2087 wants to put 15% of the portfolio into the Bitcoin ETP (QBTCX) before year end. Is it suitable, and what can I offer instead?
+    sample_doc: fin_meeting_notes_hartwell
+    related: [compliance, exec_data_intel, fin_insights]
+    kpis: [Advisor prep time per client review, "% of book within mandate", Suitability exceptions per quarter]
+
+  - id: compliance
+    code: Cmp
+    name: Compliance
+    cluster: financial
+    industry: FINANCIAL
+    status: library
+    tagline: Runs AML-style monitoring rules and screening, maps findings to policies and controls, and assembles audit evidence.
+    description: >-
+      Compliance gives a bank's second line a fast first pass. One specialist runs the transaction-monitoring
+      scenarios and sanctions/PEP screening over the synthetic ledger while another maps the topic to Quillmark's
+      policies and controls with their latest test results and evidence. A synthesis step turns both into an
+      investigator-ready memo: what fired, why it matters, which control and policy apply, what evidence exists and
+      what to do next.
+    persona: AML analysts, compliance officers, internal audit and exam-readiness teams
+    use_cases:
+      - Alert triage with evidence and a recommended disposition
+      - Counterparty screening with false-positive reasoning
+      - Exam or audit request — policy-to-control mapping and evidence pack
+    model: flash
+    model_reason: Synthesis of rule hits, screening and control evidence needs Flash; the policy mapper runs on Flash-Lite.
+    pattern: parallel
+    steps:
+      - id: monitor
+        name: Transaction monitoring & screening analyst
+        model: flash
+        role: Runs TM-01..TM-06 over the account(s) in scope and screens the parties involved.
+        instruction: |
+          1. If the request names an account (ACC-xxxxx) or customer, call fin_run_aml_rules for it; otherwise call it
+             with no account to get every account with alerts.
+          2. Screen the account holder and every counterparty linked to an alert with fin_screen_party (pass
+             birth_year for individuals when the account shows one, and the counterparty country).
+          3. Report per account: alerts (alert id, rule, evidence transaction ids, amounts, detail), risk score,
+             severity, screening outcomes with scores and discounting factors, and the rulebook next step.
+          If the request is purely about policies or an exam letter, report only the high-severity accounts in
+          two lines each.
+        tools: [fin_run_aml_rules, fin_screen_party]
+        output_key: tm_findings
+      - id: policy
+        name: Policy & control mapper
+        model: lite
+        role: Maps the request to regulatory topics, internal policies, controls, test results and evidence.
+        instruction: |
+          1. Decide which topics the request touches (aml_transaction_monitoring, sanctions_screening, kyc_refresh,
+             wealth_suitability, complaints_handling, data_retention). If an exam or audit request is pasted or shown
+             below as referenced client material, map every numbered request item; if only its key is named (e.g.
+             'fin_exam_request_q4') and the text is not shown, load it with get_sample_document.
+          2. Call fin_map_controls for each topic (at most 4).
+          3. Search the knowledge base for the matching policy sections (thresholds, SLAs, escalation rules).
+          Output per topic: obligation, controls (id, owner, rating, pass rate), evidence ids, open issues, gaps and
+          the policy section that applies.
+        tools: [fin_map_controls, get_sample_document]
+        grounding: [kb]
+        output_key: control_map
+    tools: [fin_open_compliance_case]
+    grounding: [kb, "fixtures:Quillmark ledger, watchlists and GRC controls (synthetic)"]
+    instruction: |
+      Merge the two specialist outputs into one compliance memo.
+      MONITORING & SCREENING:
+      {{tm_findings}}
+      POLICIES & CONTROLS:
+      {{control_map}}
+
+      1. Lead with the bottom line: what needs action now, by when, and who owns it.
+      2. For each alerting account: the pattern in one sentence, rules fired with evidence ids, screening results
+         (state clearly when a match is a likely false positive and why), and the recommended disposition per the
+         AML rulebook (escalate / analyst review / close).
+      3. Map each finding to the policy section and control, including control ratings and open issues; for exam
+         requests, list each requested item with the evidence id that answers it and any gap.
+      4. Only if the user asks to open a case, call fin_open_compliance_case with the alert ids and a factual
+         summary; report the case id (simulated).
+      5. Never tell or imply that the customer should be informed of an investigation. End with: "Decision support
+         on synthetic data — a qualified compliance officer makes the determination; nothing has been filed."
+    output: >-
+      "Compliance memo": Bottom line, Alerts table (account · rules · evidence · score · disposition), Screening
+      results, Policy & control mapping (with ratings and evidence ids), Next steps with owners and dates.
+    samples:
+      - Run transaction monitoring on ACC-30245 and tell me whether we should open a case.
+      - Screen the counterparties of Duskwater Trading LLC (ACC-30117) and summarise its AML alerts with the controls that apply.
+      - Prepare the evidence summary for the supervisory exam request 'fin_exam_request_q4'.
+    sample_doc: fin_exam_request_q4
+    related: [wealth_sentinel, exec_data_intel]
+    kpis: [Alert triage time, "% alerts dispositioned within SLA", Exam evidence turnaround]
+
+  - id: fin_insights
+    code: Fdi
+    name: Fin. Insights
+    cluster: financial
+    industry: FINANCIAL
+    status: library
+    tagline: Explains P&L variance, cost drivers and forecast accuracy straight from the general ledger in BigQuery.
+    description: >-
+      Fin. Insights is an FP&A analyst on top of the bank's synthetic general ledger. It writes SQL against the
+      actuals and budget/forecast tables, decomposes variances by business unit, cost centre and account, applies the
+      materiality policy to decide what needs commentary, and drafts the variance commentary a CFO pack needs.
+    persona: FP&A analysts, finance business partners, CFO office
+    use_cases:
+      - Monthly and quarterly actual-vs-budget variance commentary
+      - Cost-driver deep dives by cost centre and account
+      - Forecast accuracy and full-year outlook vs budget
+    model: flash
+    model_reason: SQL generation plus multi-step variance reasoning needs Flash; arithmetic lives in BigQuery and a tool.
+    tools: [fin_flag_material_variances]
+    grounding: ["bigquery:fin_gl_actuals,fin_budget_forecast", kb]
+    instruction: |
+      1. Restate the question as a period, a comparison (budget = scenario 'budget'; forecast = scenario
+         'forecast') and a grain (business unit, cost centre, P&L line, account).
+      2. Query BigQuery: aggregate actuals and plan at that grain in one query where possible (join on month,
+         cost_center and account_code). Amounts are positive for both revenue and expense; line_type tells which.
+         Full-year outlook = actual months to date + forecast for the remaining months.
+      3. Pass the resulting lines to fin_flag_material_variances (plan = budget or forecast) to apply the policy.
+      4. For each material line, drill one level down (account or month) to find the driver; quote the numbers.
+      5. Use the knowledge base for the materiality policy, chart of accounts and known management commentary
+         (e.g. the data-centre exit timeline) — cite the document title.
+    output: >-
+      Headline (net profit impact vs plan), variance table (line, actual, plan, variance, %, F/U, material), driver
+      commentary for each material line, and one line on data caveats. Amounts in USD thousands or millions.
+    samples:
+      - Explain the Q3 2026 P&L variance vs budget by business unit and flag what needs commentary.
+      - What drove Technology (CC-900) costs over budget in July-September 2026? Break it down by account and month.
+      - How did Q3 2026 actuals compare with the Q3 reforecast, and what is the full-year 2026 outlook vs budget?
+    related: [exec_data_intel, ariadne]
+    kpis: [Days to close the variance pack, "% material variances with commentary", Forecast accuracy (MAPE)]
+
+  - id: exec_data_intel
+    code: Exi
+    name: Exec Data Intel
+    cluster: financial
+    industry: FINANCIAL
+    status: library
+    tagline: Answers executives' questions about KPIs, trends and anomalies in plain language, straight from BigQuery.
+    description: >-
+      Exec Data Intel is natural-language analytics for the executive committee. It queries the bank's KPI and
+      channel tables (and the ledger when money is involved), tests trends and anomalies with a robust statistical
+      tool, and writes board-ready answers: the number, the comparison, the why and the so-what — with the KPI
+      definitions the board has agreed.
+    persona: CEOs, COOs, board members and chiefs of staff
+    use_cases:
+      - Board-pack KPI summary for a quarter vs prior year
+      - Anomaly explanation (what happened in May?)
+      - Trend questions on credit quality, digital adoption or customer experience
+    model: flash
+    model_reason: Text-to-SQL and executive synthesis need Flash; anomaly maths is a deterministic tool.
+    tools: [fin_detect_anomalies]
+    grounding: ["bigquery:fin_kpi_monthly,fin_channel_daily,fin_gl_actuals", kb]
+    instruction: |
+      1. Translate the question into KPIs using the KPI dictionary in the knowledge base (definition, formula,
+         direction of good); state the definition you used in one line.
+      2. Query BigQuery with at most 3 queries. Bank totals: sum volumes across business units; weight ratios by
+         their denominators or quote them per business unit — never average ratios blindly.
+      3. For trend or anomaly questions, pass the time series to fin_detect_anomalies and report only what it
+         flags. Explain an anomaly with evidence from another table or a knowledge-base document (e.g. an incident
+         or campaign), never with speculation.
+      4. Write for a board: lead with the answer, compare with the right baseline (prior year, plan or trend), say
+         why it moved and what decision it informs.
+    output: >-
+      Board-ready answer: headline (1 sentence), 3-5 bullet insights with numbers and comparisons, a small table,
+      "What to watch" (1-2 bullets) and the KPI definitions used.
+    samples:
+      - Give me a board-ready summary of Q3 2026 performance by business unit vs Q3 2025.
+      - Were there any anomalies in channel activity this year? What happened in May 2026?
+      - Which business unit's credit quality is deteriorating, and how fast?
+    related: [fin_insights, compliance]
+    kpis: [Executive questions answered without an analyst, Time to board pack, Answer re-work rate]
+
+  # ---------------------------------------------------------------- healthcare -----------------------------------
+  - id: trial_screener
+    code: Cts
+    name: Trial Screener
+    cluster: healthcare
+    industry: HEALTHCARE
+    status: demo_ready
+    tagline: Pre-screens patients for clinical trials criterion by criterion, flags missing data and drafts the coordinator note.
+    description: >-
+      Trial Screener helps a research office find eligible patients faster without cutting corners. A record
+      abstractor summarises the synthetic patient record; a criteria evaluator runs every inclusion and exclusion
+      criterion through a deterministic rule engine (lab windows, washouts, ULN multiples, alternate thresholds) and
+      explains each result; the final step drafts the coordinator note with missing data, the earliest eligible date
+      and next steps. Everything is pre-screening on synthetic records — the investigator decides eligibility.
+    persona: Clinical research coordinators, principal investigators, research nurses
+    use_cases:
+      - Pre-screen a referred patient for a specific trial with a criterion-by-criterion table
+      - Match a patient against all recruiting trials and rank them
+      - Find what data is missing (labs out of window, serology) and when the patient becomes eligible
+    model: flash
+    model_reason: >-
+      Criteria logic is deterministic in tools; Flash explains results and writes the note, Flash-Lite abstracts the
+      record. Argon is not needed because the rule engine, not the model, decides each criterion.
+    pattern: sequential
+    steps:
+      - id: abstract
+        name: Record abstractor
+        model: lite
+        role: Abstracts the research-relevant facts from the synthetic patient record.
+        instruction: |
+          1. Identify the synthetic patient id (SYN-Pxxx) and, if named, the trial. A referral note may be pasted
+             in the message or shown below as referenced client material; if only its key is named (e.g.
+             'hlt_referral_p014'), load it with get_sample_document. Keep any facts the referral adds.
+          2. Call hlt_get_patient_record.
+          3. Write a concise abstract, facts only, with dates: age/sex; diagnoses with stage; biomarkers; performance
+             status; latest labs and vitals (value, unit, date); imaging; prior therapies with last-dose dates;
+             current medications; relevant history; serology; data gaps you notice; anything in the referral that is
+             not in the record.
+          Refer to the patient only by the synthetic id. No eligibility judgements here.
+        tools: [hlt_get_patient_record, get_sample_document]
+        output_key: patient_abstract
+      - id: evaluate
+        name: Criteria evaluator
+        model: flash
+        role: Runs every inclusion/exclusion criterion through the rule engine and explains each result.
+        instruction: |
+          Patient abstract:
+          {{patient_abstract}}
+
+          1. If no trial was named, call hlt_screen_patient without trial_id to rank recruiting trials, then pick the
+             best-ranked trial (say why).
+          2. Call hlt_get_trial_criteria for the trial, then hlt_screen_patient for the patient and trial. If the
+             user gave a planned screening date, pass it.
+          3. For every criterion give: id, short criterion, status (pass / fail / missing data / needs review),
+             evidence (value + date) and one plain-language sentence. Copy statuses from the tool; if the abstract
+             contradicts the tool (e.g. referral note mentions a result the record lacks), mark it "needs review"
+             and explain.
+          4. List missing-data actions, window expiries and the earliest eligible date if a washout applies.
+        tools: [hlt_get_trial_criteria, hlt_screen_patient]
+        output_key: criteria_assessment
+    tools: [hlt_log_prescreen]
+    grounding: [kb, "fixtures:Synthetic patient records and trial protocols"]
+    instruction: |
+      Write the pre-screening result from:
+      ABSTRACT:
+      {{patient_abstract}}
+      CRITERIA ASSESSMENT:
+      {{criteria_assessment}}
+
+      1. Outcome first: Likely eligible / Pending data / Not yet eligible (with date) / Likely ineligible — and the
+         trial id, short name, PI and slots remaining.
+      2. Criterion table (all criteria; failing and missing ones first).
+      3. "To complete pre-screening": each missing item, who obtains it and by when (respect lab and imaging
+         windows; check the knowledge-base pre-screening SOP for window and contact rules).
+      4. Draft the coordinator note (to the study coordinator, cc PI): 5-8 sentences, synthetic id only, no patient
+         contact before PI approval.
+      5. Only when the user asks to log or save it, call hlt_log_prescreen with the outcome and the note.
+      6. End with: "Pre-screening on synthetic records — not medical advice. Eligibility is confirmed only by the
+         investigator after informed consent and protocol screening."
+    output: >-
+      Outcome banner, criterion table (ID · criterion · status · evidence · explanation), missing-data checklist,
+      coordinator note in a quote block, log id when logged, disclaimer.
+    samples:
+      - Pre-screen synthetic patient SYN-P014 for trial CVH-ONC-2026-014 using the referral 'hlt_referral_p014' and draft the coordinator note.
+      - Which recruiting trials could SYN-P041 be a candidate for? Explain each criterion and log the pre-screen.
+      - Is SYN-P066 eligible for HERON-2 today? If not, when is the earliest date and what must be repeated?
+    sample_doc: hlt_referral_p014
+    related: [clinical_docs, after_care]
+    kpis: [Pre-screen time per patient, Screen-failure rate after consent, Enrolment vs target]
+
+  - id: after_care
+    code: Pac
+    name: After-Care
+    cluster: healthcare
+    industry: HEALTHCARE
+    status: library
+    tagline: Follows patients after discharge — triages symptoms against red flags, tracks adherence and escalates early.
+    description: >-
+      After-Care supports a transitional-care nurse team in the 30 days after discharge. It reads the synthetic care
+      plan, triages check-ins against universal and condition-specific red flags (weight gain in heart failure, DVT
+      signs after hip surgery, hypoglycaemia on new insulin, COPD action plan), checks medication adherence from
+      refill and dose-log data, and creates the right task — nurse callback, clinic slot, pharmacist review or
+      on-call escalation — with a plain-language message for the patient.
+    persona: Transitional-care nurses, care coordinators, ambulatory pharmacists
+    use_cases:
+      - Symptom check-in triage with escalation for red flags
+      - Medication adherence review and reminder messages
+      - Readmission-risk follow-up tasks for the care team
+    model: flash
+    model_reason: Safety-relevant tool orchestration (triage, adherence, tasking) needs Flash's reliable tool calling.
+    tools: [hlt_get_care_plan, hlt_triage_symptoms, hlt_medication_adherence, hlt_create_care_task]
+    grounding: [kb, "fixtures:Corvina care plans, home readings and refill data (synthetic)"]
+    instruction: |
+      1. Safety first: if the message mentions chest pain, severe breathlessness, fainting, confusion, stroke signs
+         or heavy bleeding, say immediately that the patient should call emergency services, then continue.
+      2. Call hlt_get_care_plan for the synthetic patient id (SYN-Axxx).
+      3. For a symptom check-in, call hlt_triage_symptoms with only the symptoms the patient HAS plus any reported
+         readings (weight, temperature, SpO2, glucose, BP, heart rate, pain). Never downgrade the tool's disposition.
+      4. Call hlt_medication_adherence when adherence, refills or missed doses could explain the problem, or when
+         asked.
+      5. Create tasks with hlt_create_care_task: escalate_on_call for emergency, nurse_callback (urgent) for urgent,
+         clinic_visit or pharmacist_review when indicated, patient_message for reminders. Write the summary in SBAR
+         form. Patient messages: plain language, in the patient's language, under 480 characters, no diagnosis.
+      6. Use the knowledge base (Transitional Care Protocol) for thresholds and response times; cite it.
+      7. End with: "Synthetic patient — decision support, not medical advice; a licensed clinician confirms every
+         disposition."
+    output: >-
+      Disposition banner (emergency / urgent / same day / routine) with response time, why (rules fired), actions
+      and tasks created (simulated ids), adherence table when relevant, patient message text, disclaimer.
+    samples:
+      - "Check in on synthetic patient SYN-A101: weight today is 84.3 kg, ankles a bit swollen, no chest pain. What should happen?"
+      - Review medication adherence for SYN-A123 and send today's reminder message.
+      - SYN-A117 reports calf pain and swelling in the operated leg since this morning. Triage and escalate as needed.
+    related: [clinical_docs, trial_screener]
+    kpis: [30-day readmission rate, Time from red flag to clinician contact, "% patients adherent (PDC >= 80%)"]
+
+  - id: claim_denial
+    code: Cld
+    name: Claim Denial
+    cluster: healthcare
+    industry: HEALTHCARE
+    status: library
+    tagline: Works denied claims — explains the denial, scores appeal odds, picks appeal vs corrected claim and drafts the letter.
+    description: >-
+      Claim Denial helps a revenue-cycle team recover more with less effort. It ranks the open denial worklist by
+      expected recovery and deadline, explains each denial code against the payer's rules, decides whether the fix
+      is an appeal, a corrected claim or a write-off review, drafts the appeal letter from the documents on file and
+      analyses denial trends in BigQuery to fix root causes upstream.
+    persona: Revenue-cycle and denial-management specialists, patient financial services leaders
+    use_cases:
+      - Prioritised denial worklist by expected recovery
+      - Appeal letter drafted from claim facts and payer policy
+      - Denial trend root-cause analysis by payer, code and service line
+    model: flash
+    model_reason: Combines worklist tools, payer-policy reasoning and SQL; letters come from a deterministic template.
+    tools: [hlt_denial_worklist, hlt_get_denied_claim, hlt_draft_appeal_letter, get_sample_document]
+    grounding: [kb, "bigquery:hlt_claim_denials"]
+    instruction: |
+      1. Worklist questions: call hlt_denial_worklist (filter by payer if asked) and group the result into appeal,
+         corrected claim, verify/close and write-off review.
+      2. Single claim: call hlt_get_denied_claim (or load the denial notice with get_sample_document when the user
+         names one, e.g. 'hlt_denial_notice_004211'). Explain the denial code in plain words, the payer rule, the
+         likelihood drivers and the deadline.
+      3. Appeal letters: write 2-4 factual arguments that cite the documents on file and the payer policy notes, then
+         call hlt_draft_appeal_letter. If the tool warns that a corrected claim is the right route, say so and list
+         the correction instead of pushing the appeal.
+      4. Trend questions: query BigQuery (hlt_claim_denials), at most 3 queries; compare periods and name the
+         payer/code/service combination that moved; check the knowledge base for payer bulletins that explain it.
+      5. Never invent clinical facts or documents. End with: "Synthetic claims — draft for human review; not legal
+         or coding advice."
+    output: >-
+      For a claim: denial explained, likelihood with drivers, recommended route, deadline, letter in a quote block.
+      For the worklist or trends: a ranked table with expected recovery and the 3 actions with the biggest impact.
+    samples:
+      - Analyse denied claim CLM-26-004211 and draft the appeal letter.
+      - Prioritise the open denial worklist — which claims should we appeal, correct or write off?
+      - Which payer and denial reason drove the rise in denials in Q3 2026, and what upstream fix would stop it?
+    sample_doc: hlt_denial_notice_004211
+    related: [clinical_docs]
+    kpis: [Denial overturn rate, Days in A/R for denied claims, Net recovery per FTE]
+
+  - id: clinical_docs
+    code: Cdc
+    name: Clinical Docs
+    cluster: healthcare
+    industry: HEALTHCARE
+    status: library
+    tagline: Turns encounter transcripts and notes into a complete SOAP note with illustrative coding suggestions.
+    description: >-
+      Clinical Docs drafts the SOAP note from a synthetic encounter transcript or rough notes, then a completeness
+      reviewer scores it against the documentation standard and sends it back with numbered fixes until it passes
+      (ADK LoopAgent). The final step suggests illustrative ICD-10-CM and E/M codes with specificity queries for
+      the clinician and coder. Nothing is invented: anything not said is marked "[not documented]".
+    persona: Physicians, nurse practitioners, clinical documentation specialists, coders
+    use_cases:
+      - SOAP note from an ambient transcript
+      - Documentation completeness check before sign-off
+      - Coding suggestions with clinician queries for specificity
+    model: lite
+    model_reason: >-
+      Final assembly and code lookup are templated, so they run on Flash-Lite; the drafting step (fidelity to the
+      transcript) runs on Flash and the completeness critic on Flash-Lite.
+    pattern: loop
+    steps:
+      - id: drafter
+        name: SOAP drafter
+        model: flash
+        role: Writes or revises the SOAP note strictly from the encounter source.
+        instruction: |
+          Source: the encounter transcript or notes in the conversation, or the referenced client material shown
+          below. If only a sample key is named (e.g. 'hlt_encounter_hf_followup') and its text is not shown, load
+          it with get_sample_document.
+          Reviewer feedback from the previous round (apply every numbered fix):
+          {{soap_review}}
+
+          Write the note with headings SUBJECTIVE (chief complaint, HPI, ROS, medications, allergies), OBJECTIVE
+          (vitals, exam, data), ASSESSMENT (numbered problems with status), PLAN (per problem, follow-up,
+          education/teach-back) and a line for medical decision making or time when stated.
+          Rules: only document what the source says; write "[not documented]" for anything required that is missing;
+          never invent vitals, doses, exam findings or allergies; keep the patient's synthetic id only.
+        tools: [get_sample_document]
+        output_key: soap_draft
+      - id: reviewer
+        name: Completeness reviewer
+        model: lite
+        role: Scores the draft against the documentation standard and checks fidelity to the source.
+        instruction: |
+          Draft:
+          {{soap_draft}}
+
+          1. Call hlt_documentation_completeness with the full draft and the encounter type (telehealth when the
+             source is a video or phone visit, else outpatient_follow_up).
+          2. Check fidelity: every medication, dose, vital and exam finding in the draft must appear in the source.
+          3. The draft passes when the tool verdict starts with "complete" (score >= 85; items the source genuinely
+             lacks may stay marked "[not documented]") and fidelity has no errors.
+          Output the score, verdict and either "APPROVED" (then call exit_loop) or numbered, specific fixes.
+        tools: [hlt_documentation_completeness]
+        output_key: soap_review
+    tools: [hlt_suggest_codes]
+    grounding: [kb]
+    instruction: |
+      Final SOAP note:
+      {{soap_draft}}
+      Review:
+      {{soap_review}}
+
+      1. Present the final SOAP note exactly as approved.
+      2. Call hlt_suggest_codes with the assessed problems, the MDM level supported by the note, the visit type and
+         days since discharge if this is a post-discharge visit. Show codes as "illustrative" with specificity
+         queries and combination-coding notes; use the knowledge base documentation standard for query wording.
+      3. List "For the clinician": every "[not documented]" item and every coding query.
+      4. End with: "Synthetic encounter — draft for clinician review and signature; codes are illustrative and must
+         be validated by a certified coder. Not medical advice."
+    output: >-
+      SOAP note (markdown headings), completeness score, illustrative coding table (problem · code · description ·
+      query), clinician to-do list, disclaimer.
+    samples:
+      - Draft the SOAP note for 'hlt_encounter_hf_followup' and suggest illustrative codes.
+      - Document the telehealth visit 'hlt_encounter_copd_telehealth' and check it for completeness.
+      - "Turn these notes into a SOAP note: 45-year-old, sore throat 3 days, temp 38.4 C, no cough, tonsillar exudate, rapid strep positive, start amoxicillin 500 mg twice daily for 10 days, no known drug allergies, return if not better in 48 hours."
+    sample_doc: hlt_encounter_hf_followup
+    related: [after_care, claim_denial, trial_screener]
+    kpis: [Documentation time per encounter, "% notes complete at first review", Coding query rate]

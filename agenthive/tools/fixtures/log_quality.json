@@ -1,0 +1,964 @@
+{
+ "plant": "Vantor Appliances, Brackwater plant (fictional)",
+ "as_of": "2026-11-06",
+ "spc_constants_n5": {
+  "A2": 0.577,
+  "D3": 0.0,
+  "D4": 2.114,
+  "d2": 2.326
+ },
+ "lines": {
+  "BW-2": {
+   "name": "Injection molding: VAN-CM12 coffee maker housing (mold M-2207, 4 cavities)",
+   "characteristics": {
+    "boss_wall_mm": {
+     "description": "Wall thickness at screw boss B3",
+     "unit": "mm",
+     "nominal": 2.4,
+     "lsl": 2.28,
+     "usl": 2.52,
+     "phase1_limits": {
+      "center": 2.4,
+      "rbar": 0.0612,
+      "established": "2026-08-31",
+      "cpk": 1.52
+     },
+     "subgroups": [
+      {
+       "subgroup": 1,
+       "timestamp": "2026-10-27T06:00",
+       "shift": "A",
+       "values": [
+        2.422,
+        2.38,
+        2.425,
+        2.374,
+        2.408
+       ]
+      },
+      {
+       "subgroup": 2,
+       "timestamp": "2026-10-27T14:00",
+       "shift": "B",
+       "values": [
+        2.387,
+        2.382,
+        2.4,
+        2.399,
+        2.422
+       ]
+      },
+      {
+       "subgroup": 3,
+       "timestamp": "2026-10-27T22:00",
+       "shift": "C",
+       "values": [
+        2.447,
+        2.38,
+        2.411,
+        2.415,
+        2.352
+       ]
+      },
+      {
+       "subgroup": 4,
+       "timestamp": "2026-10-28T06:00",
+       "shift": "A",
+       "values": [
+        2.425,
+        2.415,
+        2.36,
+        2.413,
+        2.408
+       ]
+      },
+      {
+       "subgroup": 5,
+       "timestamp": "2026-10-28T14:00",
+       "shift": "B",
+       "values": [
+        2.402,
+        2.387,
+        2.385,
+        2.431,
+        2.38
+       ]
+      },
+      {
+       "subgroup": 6,
+       "timestamp": "2026-10-28T22:00",
+       "shift": "C",
+       "values": [
+        2.415,
+        2.398,
+        2.405,
+        2.398,
+        2.384
+       ]
+      },
+      {
+       "subgroup": 7,
+       "timestamp": "2026-10-29T06:00",
+       "shift": "A",
+       "values": [
+        2.415,
+        2.415,
+        2.411,
+        2.394,
+        2.379
+       ]
+      },
+      {
+       "subgroup": 8,
+       "timestamp": "2026-10-29T14:00",
+       "shift": "B",
+       "values": [
+        2.407,
+        2.396,
+        2.412,
+        2.388,
+        2.391
+       ]
+      },
+      {
+       "subgroup": 9,
+       "timestamp": "2026-10-29T22:00",
+       "shift": "C",
+       "values": [
+        2.418,
+        2.402,
+        2.371,
+        2.435,
+        2.379
+       ]
+      },
+      {
+       "subgroup": 10,
+       "timestamp": "2026-10-30T06:00",
+       "shift": "A",
+       "values": [
+        2.409,
+        2.378,
+        2.378,
+        2.378,
+        2.411
+       ]
+      },
+      {
+       "subgroup": 11,
+       "timestamp": "2026-10-30T14:00",
+       "shift": "B",
+       "values": [
+        2.425,
+        2.342,
+        2.395,
+        2.408,
+        2.369
+       ]
+      },
+      {
+       "subgroup": 12,
+       "timestamp": "2026-10-30T22:00",
+       "shift": "C",
+       "values": [
+        2.399,
+        2.433,
+        2.404,
+        2.357,
+        2.368
+       ]
+      },
+      {
+       "subgroup": 13,
+       "timestamp": "2026-10-31T06:00",
+       "shift": "A",
+       "values": [
+        2.389,
+        2.37,
+        2.387,
+        2.4,
+        2.389
+       ]
+      },
+      {
+       "subgroup": 14,
+       "timestamp": "2026-10-31T14:00",
+       "shift": "B",
+       "values": [
+        2.395,
+        2.387,
+        2.394,
+        2.366,
+        2.402
+       ]
+      },
+      {
+       "subgroup": 15,
+       "timestamp": "2026-10-31T22:00",
+       "shift": "C",
+       "values": [
+        2.366,
+        2.424,
+        2.402,
+        2.387,
+        2.351
+       ]
+      },
+      {
+       "subgroup": 16,
+       "timestamp": "2026-11-01T06:00",
+       "shift": "A",
+       "values": [
+        2.358,
+        2.395,
+        2.425,
+        2.426,
+        2.346
+       ]
+      },
+      {
+       "subgroup": 17,
+       "timestamp": "2026-11-01T14:00",
+       "shift": "B",
+       "values": [
+        2.381,
+        2.393,
+        2.385,
+        2.382,
+        2.398
+       ]
+      },
+      {
+       "subgroup": 18,
+       "timestamp": "2026-11-01T22:00",
+       "shift": "C",
+       "values": [
+        2.349,
+        2.389,
+        2.401,
+        2.395,
+        2.386
+       ]
+      },
+      {
+       "subgroup": 19,
+       "timestamp": "2026-11-02T06:00",
+       "shift": "A",
+       "values": [
+        2.367,
+        2.433,
+        2.384,
+        2.345,
+        2.377
+       ]
+      },
+      {
+       "subgroup": 20,
+       "timestamp": "2026-11-02T14:00",
+       "shift": "B",
+       "values": [
+        2.401,
+        2.347,
+        2.377,
+        2.397,
+        2.364
+       ]
+      },
+      {
+       "subgroup": 21,
+       "timestamp": "2026-11-02T22:00",
+       "shift": "C",
+       "values": [
+        2.366,
+        2.402,
+        2.414,
+        2.328,
+        2.35
+       ]
+      },
+      {
+       "subgroup": 22,
+       "timestamp": "2026-11-03T06:00",
+       "shift": "A",
+       "values": [
+        2.355,
+        2.388,
+        2.32,
+        2.396,
+        2.381
+       ]
+      },
+      {
+       "subgroup": 23,
+       "timestamp": "2026-11-03T14:00",
+       "shift": "B",
+       "values": [
+        2.342,
+        2.354,
+        2.386,
+        2.401,
+        2.338
+       ]
+      },
+      {
+       "subgroup": 24,
+       "timestamp": "2026-11-03T22:00",
+       "shift": "C",
+       "values": [
+        2.372,
+        2.347,
+        2.398,
+        2.357,
+        2.33
+       ]
+      },
+      {
+       "subgroup": 25,
+       "timestamp": "2026-11-04T06:00",
+       "shift": "A",
+       "values": [
+        2.361,
+        2.353,
+        2.396,
+        2.336,
+        2.345
+       ]
+      },
+      {
+       "subgroup": 26,
+       "timestamp": "2026-11-04T14:00",
+       "shift": "B",
+       "values": [
+        2.393,
+        2.356,
+        2.336,
+        2.335,
+        2.34
+       ]
+      },
+      {
+       "subgroup": 27,
+       "timestamp": "2026-11-04T22:00",
+       "shift": "C",
+       "values": [
+        2.324,
+        2.35,
+        2.341,
+        2.405,
+        2.325
+       ]
+      },
+      {
+       "subgroup": 28,
+       "timestamp": "2026-11-05T06:00",
+       "shift": "A",
+       "values": [
+        2.336,
+        2.33,
+        2.386,
+        2.37,
+        2.308
+       ]
+      },
+      {
+       "subgroup": 29,
+       "timestamp": "2026-11-05T14:00",
+       "shift": "B",
+       "values": [
+        2.291,
+        2.356,
+        2.346,
+        2.338,
+        2.379
+       ]
+      },
+      {
+       "subgroup": 30,
+       "timestamp": "2026-11-05T22:00",
+       "shift": "C",
+       "values": [
+        2.31,
+        2.324,
+        2.356,
+        2.393,
+        2.313
+       ]
+      }
+     ]
+    }
+   },
+   "weekly": {
+    "weeks": [
+     "2026-W38",
+     "2026-W39",
+     "2026-W40",
+     "2026-W41",
+     "2026-W42",
+     "2026-W43",
+     "2026-W44",
+     "2026-W45"
+    ],
+    "produced": [
+     21400,
+     21850,
+     22100,
+     21700,
+     22300,
+     21950,
+     22600,
+     12400
+    ],
+    "defects": {
+     "crack_at_boss": [
+      41,
+      38,
+      45,
+      40,
+      47,
+      52,
+      141,
+      178
+     ],
+     "splay_moisture": [
+      22,
+      25,
+      19,
+      24,
+      21,
+      27,
+      66,
+      104
+     ],
+     "short_shot": [
+      64,
+      58,
+      61,
+      66,
+      60,
+      63,
+      69,
+      37
+     ],
+     "flash": [
+      88,
+      92,
+      85,
+      90,
+      94,
+      87,
+      91,
+      49
+     ],
+     "sink_mark": [
+      47,
+      51,
+      44,
+      49,
+      53,
+      46,
+      58,
+      31
+     ],
+     "warp": [
+      30,
+      28,
+      33,
+      29,
+      31,
+      30,
+      52,
+      39
+     ],
+     "discoloration": [
+      19,
+      17,
+      21,
+      18,
+      16,
+      20,
+      18,
+      11
+     ]
+    },
+    "note": "2026-W45 is partial (Mon 2026-11-02 to Thu 2026-11-05)"
+   }
+  },
+  "BW-1": {
+   "name": "Assembly: VAN-AF55 air fryer basket handle",
+   "characteristics": {
+    "handle_pull_force_n": {
+     "description": "Handle pull-off force",
+     "unit": "N",
+     "nominal": 182.0,
+     "lsl": 160.0,
+     "usl": 205.0,
+     "phase1_limits": {
+      "center": 182.0,
+      "rbar": 7.2,
+      "established": "2026-07-15",
+      "cpk": 2.3
+     },
+     "subgroups": [
+      {
+       "subgroup": 1,
+       "timestamp": "2026-10-27T06:00",
+       "shift": "A",
+       "values": [
+        182.5,
+        180.7,
+        186.5,
+        179.7,
+        181.8
+       ]
+      },
+      {
+       "subgroup": 2,
+       "timestamp": "2026-10-27T14:00",
+       "shift": "B",
+       "values": [
+        185.3,
+        183.7,
+        182.4,
+        178.9,
+        177.7
+       ]
+      },
+      {
+       "subgroup": 3,
+       "timestamp": "2026-10-27T22:00",
+       "shift": "C",
+       "values": [
+        183.8,
+        186.4,
+        179.2,
+        184.7,
+        183.1
+       ]
+      },
+      {
+       "subgroup": 4,
+       "timestamp": "2026-10-28T06:00",
+       "shift": "A",
+       "values": [
+        180.0,
+        183.5,
+        184.9,
+        185.1,
+        181.6
+       ]
+      },
+      {
+       "subgroup": 5,
+       "timestamp": "2026-10-28T14:00",
+       "shift": "B",
+       "values": [
+        183.0,
+        180.4,
+        182.2,
+        175.9,
+        180.6
+       ]
+      },
+      {
+       "subgroup": 6,
+       "timestamp": "2026-10-28T22:00",
+       "shift": "C",
+       "values": [
+        183.6,
+        183.4,
+        183.0,
+        180.9,
+        186.0
+       ]
+      },
+      {
+       "subgroup": 7,
+       "timestamp": "2026-10-29T06:00",
+       "shift": "A",
+       "values": [
+        183.7,
+        180.3,
+        183.7,
+        181.2,
+        176.9
+       ]
+      },
+      {
+       "subgroup": 8,
+       "timestamp": "2026-10-29T14:00",
+       "shift": "B",
+       "values": [
+        182.0,
+        187.6,
+        178.0,
+        183.2,
+        181.6
+       ]
+      },
+      {
+       "subgroup": 9,
+       "timestamp": "2026-10-29T22:00",
+       "shift": "C",
+       "values": [
+        182.1,
+        181.9,
+        179.1,
+        182.8,
+        180.8
+       ]
+      },
+      {
+       "subgroup": 10,
+       "timestamp": "2026-10-30T06:00",
+       "shift": "A",
+       "values": [
+        182.5,
+        178.1,
+        184.5,
+        181.8,
+        181.7
+       ]
+      },
+      {
+       "subgroup": 11,
+       "timestamp": "2026-10-30T14:00",
+       "shift": "B",
+       "values": [
+        182.8,
+        179.4,
+        179.4,
+        181.4,
+        180.3
+       ]
+      },
+      {
+       "subgroup": 12,
+       "timestamp": "2026-10-30T22:00",
+       "shift": "C",
+       "values": [
+        178.8,
+        182.7,
+        181.2,
+        174.8,
+        187.5
+       ]
+      },
+      {
+       "subgroup": 13,
+       "timestamp": "2026-10-31T06:00",
+       "shift": "A",
+       "values": [
+        183.5,
+        182.2,
+        180.4,
+        173.5,
+        183.7
+       ]
+      },
+      {
+       "subgroup": 14,
+       "timestamp": "2026-10-31T14:00",
+       "shift": "B",
+       "values": [
+        183.0,
+        180.7,
+        178.5,
+        183.4,
+        181.3
+       ]
+      },
+      {
+       "subgroup": 15,
+       "timestamp": "2026-10-31T22:00",
+       "shift": "C",
+       "values": [
+        183.4,
+        183.5,
+        179.9,
+        183.0,
+        180.7
+       ]
+      },
+      {
+       "subgroup": 16,
+       "timestamp": "2026-11-01T06:00",
+       "shift": "A",
+       "values": [
+        182.1,
+        179.6,
+        180.7,
+        182.3,
+        183.7
+       ]
+      },
+      {
+       "subgroup": 17,
+       "timestamp": "2026-11-01T14:00",
+       "shift": "B",
+       "values": [
+        181.0,
+        184.4,
+        186.5,
+        181.3,
+        184.3
+       ]
+      },
+      {
+       "subgroup": 18,
+       "timestamp": "2026-11-01T22:00",
+       "shift": "C",
+       "values": [
+        179.3,
+        185.7,
+        184.4,
+        181.4,
+        173.1
+       ]
+      },
+      {
+       "subgroup": 19,
+       "timestamp": "2026-11-02T06:00",
+       "shift": "A",
+       "values": [
+        182.8,
+        182.0,
+        182.5,
+        179.8,
+        183.2
+       ]
+      },
+      {
+       "subgroup": 20,
+       "timestamp": "2026-11-02T14:00",
+       "shift": "B",
+       "values": [
+        182.1,
+        183.4,
+        178.4,
+        186.7,
+        179.4
+       ]
+      },
+      {
+       "subgroup": 21,
+       "timestamp": "2026-11-02T22:00",
+       "shift": "C",
+       "values": [
+        179.2,
+        182.3,
+        180.9,
+        183.6,
+        184.8
+       ]
+      },
+      {
+       "subgroup": 22,
+       "timestamp": "2026-11-03T06:00",
+       "shift": "A",
+       "values": [
+        180.6,
+        178.9,
+        182.5,
+        176.2,
+        180.3
+       ]
+      },
+      {
+       "subgroup": 23,
+       "timestamp": "2026-11-03T14:00",
+       "shift": "B",
+       "values": [
+        179.9,
+        179.1,
+        179.6,
+        177.2,
+        179.1
+       ]
+      },
+      {
+       "subgroup": 24,
+       "timestamp": "2026-11-03T22:00",
+       "shift": "C",
+       "values": [
+        179.6,
+        182.6,
+        183.7,
+        179.5,
+        177.8
+       ]
+      },
+      {
+       "subgroup": 25,
+       "timestamp": "2026-11-04T06:00",
+       "shift": "A",
+       "values": [
+        183.2,
+        179.9,
+        181.7,
+        182.2,
+        178.6
+       ]
+      },
+      {
+       "subgroup": 26,
+       "timestamp": "2026-11-04T14:00",
+       "shift": "B",
+       "values": [
+        180.0,
+        181.7,
+        186.6,
+        184.6,
+        180.0
+       ]
+      },
+      {
+       "subgroup": 27,
+       "timestamp": "2026-11-04T22:00",
+       "shift": "C",
+       "values": [
+        179.0,
+        179.2,
+        180.0,
+        181.2,
+        191.4
+       ]
+      },
+      {
+       "subgroup": 28,
+       "timestamp": "2026-11-05T06:00",
+       "shift": "A",
+       "values": [
+        183.1,
+        187.5,
+        175.2,
+        182.9,
+        180.7
+       ]
+      },
+      {
+       "subgroup": 29,
+       "timestamp": "2026-11-05T14:00",
+       "shift": "B",
+       "values": [
+        183.6,
+        184.7,
+        179.3,
+        178.0,
+        180.5
+       ]
+      },
+      {
+       "subgroup": 30,
+       "timestamp": "2026-11-05T22:00",
+       "shift": "C",
+       "values": [
+        178.9,
+        182.7,
+        186.2,
+        178.9,
+        185.4
+       ]
+      }
+     ]
+    }
+   },
+   "weekly": {
+    "weeks": [
+     "2026-W38",
+     "2026-W39",
+     "2026-W40",
+     "2026-W41",
+     "2026-W42",
+     "2026-W43",
+     "2026-W44",
+     "2026-W45"
+    ],
+    "produced": [
+     16800,
+     17100,
+     16950,
+     17300,
+     17050,
+     16900,
+     17200,
+     9700
+    ],
+    "defects": {
+     "loose_handle": [
+      18,
+      15,
+      17,
+      16,
+      19,
+      14,
+      17,
+      9
+     ],
+     "coating_scratch": [
+      44,
+      47,
+      41,
+      45,
+      43,
+      46,
+      42,
+      24
+     ],
+     "label_misprint": [
+      9,
+      7,
+      10,
+      8,
+      6,
+      9,
+      8,
+      4
+     ]
+    },
+    "note": "2026-W45 is partial"
+   }
+  }
+ },
+ "events": [
+  {
+   "timestamp": "2026-10-21T06:00",
+   "line": "BW-2",
+   "type": "material_lot_change",
+   "detail": "Resin lot RZ-4471 (Aurelis Resins) replaces RZ-4459; CoA moisture 0.04% before drying"
+  },
+  {
+   "timestamp": "2026-10-30T06:00",
+   "line": "BW-2",
+   "type": "process_change",
+   "detail": "Mold temperature setpoint lowered 80 C -> 72 C (cycle-time trial, no engineering change notice raised)"
+  },
+  {
+   "timestamp": "2026-11-01T22:00",
+   "line": "BW-2",
+   "type": "equipment_alarm",
+   "detail": "Resin dryer D-3 dew-point alarm at -18 C (spec <= -40 C); acknowledged, no work order"
+  },
+  {
+   "timestamp": "2026-11-02T22:00",
+   "line": "BW-2",
+   "type": "staffing",
+   "detail": "New night crew C started on BW-2 (2 of 4 operators in training)"
+  },
+  {
+   "timestamp": "2026-10-28T14:00",
+   "line": "BW-1",
+   "type": "maintenance",
+   "detail": "Planned press PM on BW-1; no parameter changes"
+  }
+ ],
+ "complaints": [
+  {
+   "complaint_id": "CC-26-118",
+   "customer": "Larkspur Home & Tech",
+   "sku": "VAN-CM12",
+   "opened": "2026-11-05",
+   "detail": "23 returns since 2026-11-02 for cracked housing near the rear screw; 4 photos; date codes 2644-2645",
+   "requested": "8D within 10 working days; containment confirmation within 24 h"
+  }
+ ]
+}

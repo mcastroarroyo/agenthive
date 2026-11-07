@@ -1,0 +1,280 @@
+{
+ "provider": "Kestrava Telecom (fictional)",
+ "as_of": "2026-11-06T10:00",
+ "tiers": {
+  "platinum": {
+   "availability_target_pct": 99.98,
+   "restore_hours": {
+    "P1": 2,
+    "P2": 4,
+    "P3": 12
+   },
+   "notify_minutes_P1": 30,
+   "credit_cap_pct": 40,
+   "proactive_credit": true
+  },
+  "gold": {
+   "availability_target_pct": 99.95,
+   "restore_hours": {
+    "P1": 4,
+    "P2": 8,
+    "P3": 24
+   },
+   "notify_minutes_P1": 60,
+   "credit_cap_pct": 30,
+   "proactive_credit": false
+  },
+  "silver": {
+   "availability_target_pct": 99.9,
+   "restore_hours": {
+    "P1": 6,
+    "P2": 12,
+    "P3": 48
+   },
+   "notify_minutes_P1": 60,
+   "credit_cap_pct": 20,
+   "proactive_credit": false
+  }
+ },
+ "availability_credit_bands": [
+  {
+   "shortfall_pp_up_to": 0.05,
+   "credit_pct": 5
+  },
+  {
+   "shortfall_pp_up_to": 0.2,
+   "credit_pct": 10
+  },
+  {
+   "shortfall_pp_up_to": 0.5,
+   "credit_pct": 20
+  },
+  {
+   "shortfall_pp_up_to": 100.0,
+   "credit_pct": 30
+  }
+ ],
+ "restore_miss_credit_pct": {
+  "P1": 3,
+  "P2": 1,
+  "P3": 0
+ },
+ "notify_miss_credit_pct": 1,
+ "incident_credit_max_pct": 10,
+ "risk_thresholds": {
+  "at_risk_probability": 0.6,
+  "watch_probability": 0.3
+ },
+ "customers": [
+  {
+   "customer_id": "ENT-1001",
+   "name": "Calder Mutual Bank",
+   "tier": "platinum",
+   "industry": "Banking",
+   "account_manager": "Dana Whitfield",
+   "customer_contact": "Network Operations, noc@caldermutual.example",
+   "services": [
+    {
+     "service_id": "SVC-1001-MPLS",
+     "type": "MPLS VPN",
+     "sites": 120,
+     "mrc_usd": 186000,
+     "history_90d": {
+      "incidents": 9,
+      "avg_site_minutes": 230
+     }
+    },
+    {
+     "service_id": "SVC-1001-SDW",
+     "type": "SD-WAN overlay",
+     "sites": 120,
+     "mrc_usd": 54000,
+     "history_90d": {
+      "incidents": 4,
+      "avg_site_minutes": 60
+     }
+    }
+   ]
+  },
+  {
+   "customer_id": "ENT-1002",
+   "name": "Ridgeline Health Network",
+   "tier": "platinum",
+   "industry": "Healthcare",
+   "account_manager": "Omar Lindqvist",
+   "customer_contact": "IT Service Desk, itsd@ridgelinehealth.example",
+   "services": [
+    {
+     "service_id": "SVC-1002-DIA",
+     "type": "Dedicated Internet Access 10G",
+     "sites": 14,
+     "mrc_usd": 42000,
+     "history_90d": {
+      "incidents": 3,
+      "avg_site_minutes": 260
+     }
+    },
+    {
+     "service_id": "SVC-1002-MPLS",
+     "type": "MPLS VPN",
+     "sites": 38,
+     "mrc_usd": 61500,
+     "history_90d": {
+      "incidents": 5,
+      "avg_site_minutes": 150
+     }
+    }
+   ]
+  },
+  {
+   "customer_id": "ENT-1003",
+   "name": "Halvard Logistics",
+   "tier": "gold",
+   "industry": "Logistics",
+   "account_manager": "Priya Venkataram",
+   "customer_contact": "IT Operations, itops@halvard.example",
+   "services": [
+    {
+     "service_id": "SVC-1003-SDW",
+     "type": "SD-WAN",
+     "sites": 22,
+     "mrc_usd": 26400,
+     "history_90d": {
+      "incidents": 6,
+      "avg_site_minutes": 45
+     }
+    },
+    {
+     "service_id": "SVC-1003-P5G",
+     "type": "Private 5G (Ashford Vale DC)",
+     "sites": 1,
+     "mrc_usd": 18500,
+     "history_90d": {
+      "incidents": 2,
+      "avg_site_minutes": 35
+     }
+    }
+   ]
+  },
+  {
+   "customer_id": "ENT-1004",
+   "name": "Tidewater Port Authority",
+   "tier": "platinum",
+   "industry": "Ports",
+   "account_manager": "Dana Whitfield",
+   "customer_contact": "Terminal Systems Control, tsc@tidewaterport.example",
+   "services": [
+    {
+     "service_id": "SVC-1004-P5G",
+     "type": "Private 5G (container terminals 1-3)",
+     "sites": 3,
+     "mrc_usd": 64000,
+     "history_90d": {
+      "incidents": 5,
+      "avg_site_minutes": 48
+     }
+    },
+    {
+     "service_id": "SVC-1004-DIA",
+     "type": "Dedicated Internet Access 1G",
+     "sites": 2,
+     "mrc_usd": 9800,
+     "history_90d": {
+      "incidents": 1,
+      "avg_site_minutes": 20
+     }
+    }
+   ]
+  },
+  {
+   "customer_id": "ENT-1005",
+   "name": "Larkspur Home & Tech",
+   "tier": "gold",
+   "industry": "Retail",
+   "account_manager": "Marco Esterhuizen",
+   "customer_contact": "Store Systems, storesystems@larkspur.example",
+   "services": [
+    {
+     "service_id": "SVC-1005-SDW",
+     "type": "SD-WAN (36 stores, DC, HQ)",
+     "sites": 38,
+     "mrc_usd": 31900,
+     "history_90d": {
+      "incidents": 7,
+      "avg_site_minutes": 140
+     }
+    },
+    {
+     "service_id": "SVC-1005-VOICE",
+     "type": "Cloud Voice (1,250 seats)",
+     "sites": 38,
+     "mrc_usd": 15600,
+     "history_90d": {
+      "incidents": 2,
+      "avg_site_minutes": 300
+     }
+    }
+   ]
+  },
+  {
+   "customer_id": "ENT-1006",
+   "name": "Bellmoor Hotels Group",
+   "tier": "silver",
+   "industry": "Hospitality",
+   "account_manager": "Hana Kowalczyk",
+   "customer_contact": "Group IT, it@bellmoor.example",
+   "services": [
+    {
+     "service_id": "SVC-1006-DIA",
+     "type": "Dedicated Internet Access 1G",
+     "sites": 18,
+     "mrc_usd": 16200,
+     "history_90d": {
+      "incidents": 4,
+      "avg_site_minutes": 220
+     }
+    }
+   ]
+  },
+  {
+   "customer_id": "ENT-1007",
+   "name": "Cinder Valley School District",
+   "tier": "silver",
+   "industry": "Education",
+   "account_manager": "Hana Kowalczyk",
+   "customer_contact": "Technology Office, tech@cindervalley.example",
+   "services": [
+    {
+     "service_id": "SVC-1007-DIA",
+     "type": "Dedicated Internet Access 1G",
+     "sites": 26,
+     "mrc_usd": 13000,
+     "history_90d": {
+      "incidents": 3,
+      "avg_site_minutes": 60
+     }
+    }
+   ]
+  },
+  {
+   "customer_id": "ENT-1008",
+   "name": "Vantor Appliances",
+   "tier": "gold",
+   "industry": "Manufacturing",
+   "account_manager": "Marco Esterhuizen",
+   "customer_contact": "Plant IT, plantit@vantor.example",
+   "services": [
+    {
+     "service_id": "SVC-1008-MPLS",
+     "type": "MPLS VPN (3 plants, HQ, parts DC)",
+     "sites": 5,
+     "mrc_usd": 22800,
+     "history_90d": {
+      "incidents": 2,
+      "avg_site_minutes": 120
+     }
+    }
+   ]
+  }
+ ]
+}

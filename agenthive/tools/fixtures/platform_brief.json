@@ -1,0 +1,108 @@
+{
+  "date": "2026-11-09",
+  "owner": "Alex Morgan, Engagement Director",
+  "meetings": [
+    {
+      "time": "08:30",
+      "end": "09:00",
+      "title": "Delivery stand-up",
+      "account": "Wursta (internal)",
+      "external": false,
+      "attendees": [
+        {"name": "Ana Torres", "role": "Engagement Manager", "cares_about": "Brightwater recovery plan and covering her Wednesday PTO"},
+        {"name": "Diego Salas", "role": "Lead Cloud Architect", "cares_about": "Getting the Tidewell OCR cost shown as a separate SOW line"},
+        {"name": "Priya Raman", "role": "Delivery Excellence Lead", "cares_about": "Brightwater G4 gate on Wednesday — needs an approver"}
+      ],
+      "last_interaction": "Friday stand-up: Brightwater recovery plan v1 drafted; Tidewell SOW v3 sent to the client; Larkspur readout deck ready.",
+      "prep": "Confirm who covers Ana's Brightwater items on Wednesday; ask Diego for the 120-store run-cost number for the 11:00."
+    },
+    {
+      "time": "10:00",
+      "end": "10:45",
+      "title": "Tidewell Mutual — SOW v3 review",
+      "account": "Tidewell Mutual",
+      "external": true,
+      "attendees": [
+        {"name": "Helena Brandt", "role": "Head of IT (Workspace sponsor)", "cares_about": "US-only data residency wording; a 6-person IT team that cannot absorb surprises; getting off out-of-support Exchange"},
+        {"name": "Owen Castellano", "role": "VP Claims (claims assistant sponsor)", "cares_about": "Adjuster productivity and being live before the spring storm season"},
+        {"name": "Nadia Farouk", "role": "Chief Compliance & Privacy Officer", "cares_about": "Human review of every customer letter, audit trail, no model training on claimant data"}
+      ],
+      "last_interaction": "2026-11-06: SOW draft v3 sent. 2026-11-09 07:48: Helena emailed asking for explicit 'US-only' wording and 20/40/40 payment milestones before the CFO review on Wednesday.",
+      "prep": "Bring proposed residency clause; decide the milestone position in advance; push for the overdue mailbox inventory export (due 2026-10-31); signature needed by 2026-11-20 for a 2026-12-01 start."
+    },
+    {
+      "time": "11:00",
+      "end": "12:00",
+      "title": "Larkspur Outfitters — Forecasting pilot readout",
+      "account": "Larkspur Outfitters",
+      "external": true,
+      "attendees": [
+        {"name": "Beatriz Lowell", "role": "COO (economic buyer)", "cares_about": "Stock-outs and working capital; wants a go/no-go on rolling out to all 120 stores"},
+        {"name": "Kofi Mensah", "role": "Head of Merchandise Planning", "cares_about": "SKU-store forecast accuracy; wants the 6 new Northeast stores included"},
+        {"name": "Jonah Pratt", "role": "Data Engineering Manager", "cares_about": "Pipeline reliability (late POS files) and BigQuery cost"}
+      ],
+      "last_interaction": "2026-10-29 mid-pilot check-in: accuracy improving; Jonah flagged late POS files from 3 stores. 2026-11-09 06:55: Kofi asked to add 6 new stores to the readout.",
+      "prep": "Lead with WAPE 27% vs 39% baseline and top-200 stock-outs down 18%; have a cold-start answer for new stores with 8 weeks of history; acknowledge the +34% BigQuery spend and the partitioning fix; deal registration expires 2026-11-13."
+    },
+    {
+      "time": "13:00",
+      "end": "14:00",
+      "title": "Pantheon pipeline review",
+      "account": "Wursta (internal)",
+      "external": false,
+      "attendees": [
+        {"name": "Lucia Ferrer", "role": "Account Executive", "cares_about": "Approval of the 12% discount for Ashgrove Bank and a battlecard by Wednesday"},
+        {"name": "Sofia Lindqvist", "role": "Advisory Practice Director", "cares_about": "Pantheon rapid assessments per week and the Port Alder opportunity"}
+      ],
+      "last_interaction": "Last week's review: Tidewell moved to Commit; Ashgrove proposal in progress.",
+      "prep": "Decide on the Ashgrove discount; agree who runs the Pantheon assessment for Port Alder after today's workshop."
+    },
+    {
+      "time": "14:30",
+      "end": "15:30",
+      "title": "City of Port Alder — 311 discovery workshop",
+      "account": "City of Port Alder",
+      "external": true,
+      "attendees": [
+        {"name": "Imani Carter", "role": "Deputy CIO", "cares_about": "Scaling the WhatsApp channel; budget cycle that starts in July"},
+        {"name": "Luis Ortega", "role": "311 Operations Manager", "cares_about": "SLA visibility by department and duplicate requests"},
+        {"name": "Ruth Abernathy", "role": "Privacy Officer", "cares_about": "Personal data in WhatsApp transcripts and records retention"}
+      ],
+      "last_interaction": "2026-10-30 intro call: WhatsApp pilot handled ~96k conversations; RFP expected in Q1 2027. 2026-11-09 08:05: room moved to 4B, City Hall.",
+      "prep": "Room 4B, 3rd floor, City Hall. Show the 311 assistant concept; ask for a service-request extract and the department SLA sheets; agree privacy ground rules with Ruth."
+    },
+    {
+      "time": "16:00",
+      "end": "16:45",
+      "title": "Brightwater Distribution — recovery call",
+      "account": "Brightwater Distribution",
+      "external": true,
+      "attendees": [
+        {"name": "Gregory Haines", "role": "VP Operations (executive sponsor)", "cares_about": "One defensible go-live date for Thursday's board"},
+        {"name": "Wendy Cho", "role": "PMO Lead", "cares_about": "Change control for the EDI request"},
+        {"name": "Raj Iyer", "role": "IT Director", "cares_about": "Getting WMS API credentials from the vendor"}
+      ],
+      "last_interaction": "2026-09-24 Q3 steering: sponsor frustrated by the UAT slip, EDI raised as an addition. 2026-11-08 21:15: Gregory emailed that he is 'frustrated that we are here again'.",
+      "prep": "Present the re-baselined go-live 2027-02-15 with client dependencies (WMS credentials by 2026-11-14, UAT testers by 2026-11-16); propose EDI as change request CR-07; ask Gregory to escalate with the WMS vendor."
+    }
+  ],
+  "emails": [
+    {"from": "Helena Brandt (Tidewell Mutual)", "subject": "SOW v3 — data residency wording before Wednesday's CFO review", "needs": "Decision on the residency clause wording and the payment-milestone position (client asks 20/40/40)", "deadline": "2026-11-09 17:00"},
+    {"from": "Gregory Haines (Brightwater Distribution)", "subject": "Timeline — I need a straight answer before Thursday's board", "needs": "Reply with one go-live date and the client dependencies, after the 16:00 call", "deadline": "2026-11-10 12:00"},
+    {"from": "Kofi Mensah (Larkspur Outfitters)", "subject": "Forecast pilot readout — can we add the 6 new Northeast stores?", "needs": "Decide whether new stores are in pilot scope; answer in the 11:00 meeting", "deadline": "2026-11-09 11:00"},
+    {"from": "Finance Approvals (internal)", "subject": "Approval needed: 12% services discount — Ashgrove Bank proposal", "needs": "Approve or reject a USD 28,800 discount", "deadline": "2026-11-11"},
+    {"from": "Priya Raman (internal)", "subject": "Brightwater re-baseline — G4 gate needs your sign-off by Wednesday", "needs": "Agree to approve the G4 gate as 'pass with conditions'", "deadline": "2026-11-11"},
+    {"from": "Partner Programs Desk", "subject": "Reminder: deal registration for Larkspur Outfitters expires Nov 13", "needs": "Update the registration with next step and expected close date", "deadline": "2026-11-13"}
+  ],
+  "signals": [
+    {"account": "Brightwater Distribution", "type": "escalation", "detail": "Executive sponsor email (2026-11-08) expresses frustration; steering sentiment negative since Q3; go-live has slipped twice.", "severity": "high"},
+    {"account": "Brightwater Distribution", "type": "renewal", "detail": "Managed-services renewal (USD 180k/year) due 2027-01-31; renewal owner rates it at risk.", "severity": "high"},
+    {"account": "Tidewell Mutual", "type": "pipeline_change", "detail": "SOW (USD 386k) moved to Commit with close date 2026-11-20; the client's incumbent productivity-suite agreement renews 2027-03-31, so a renewal remains their fallback.", "severity": "medium"},
+    {"account": "Larkspur Outfitters", "type": "usage_trend", "detail": "BigQuery spend +34% month over month in the pilot project, driven by unpartitioned queries on the inventory snapshot table.", "severity": "medium"},
+    {"account": "Larkspur Outfitters", "type": "pipeline_change", "detail": "Expansion opportunity (USD 240k, 120 stores) created; partner deal registration expires 2026-11-13.", "severity": "medium"},
+    {"account": "Ashgrove Bank", "type": "pipeline_change", "detail": "Gemini Enterprise proposal due 2026-11-13; 12% discount pending approval; incumbent suite's copilot bundled in their renewal offer.", "severity": "medium"},
+    {"account": "City of Port Alder", "type": "pipeline_change", "detail": "New opportunity: 311 assistant plus service-request data platform; RFP expected Q1 2027; budget cycle starts in July.", "severity": "low"},
+    {"account": "Pellmont Logistics", "type": "support_escalation", "detail": "P2 ticket open 6 days: Gmail routing rule for the dispatch mailbox rejects attachments over 20 MB.", "severity": "medium"},
+    {"account": "Corvane Health", "type": "usage_trend", "detail": "Agent adoption steady: 42 agents, ~3,900 weekly active users (+6% month over month).", "severity": "low"}
+  ]
+}

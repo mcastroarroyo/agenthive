@@ -1,0 +1,676 @@
+{
+ "as_of": "2026-11-06T10:30",
+ "organisation": "Corvina Health Network \u2014 Transitional Care Program (fictional)",
+ "care_team": {
+  "nurse_line": "Transitional Care Nurse Line (synthetic, 24/7)",
+  "on_call": "On-call hospitalist, Corvina General Hospital (synthetic)",
+  "pharmacist": "Ambulatory Pharmacy Team (synthetic)"
+ },
+ "slots": {
+  "nurse_callback": [
+   "2026-11-06T11:00",
+   "2026-11-06T11:30",
+   "2026-11-06T13:00"
+  ],
+  "clinic_visit": [
+   "2026-11-06T15:20",
+   "2026-11-07T09:40",
+   "2026-11-07T11:00"
+  ],
+  "pharmacist_review": [
+   "2026-11-06T14:00",
+   "2026-11-07T10:00"
+  ]
+ },
+ "patients": {
+  "SYN-A101": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 74,
+   "sex": "M",
+   "language": "English",
+   "channel": "SMS",
+   "admission": {
+    "reason": "Acute on chronic heart failure with reduced ejection fraction (HFrEF)",
+    "admitted": "2026-10-27",
+    "discharged": "2026-11-01",
+    "facility": "Corvina General Hospital",
+    "ejection_fraction_pct": 30
+   },
+   "comorbidities": [
+    "Type 2 diabetes",
+    "Hypertension",
+    "Chronic kidney disease stage 3a"
+   ],
+   "condition_program": "heart_failure",
+   "discharge_weight_kg": 82.1,
+   "home_readings": {
+    "weight_kg": [
+     [
+      "2026-11-02",
+      82.2
+     ],
+     [
+      "2026-11-03",
+      82.5
+     ],
+     [
+      "2026-11-04",
+      82.9
+     ],
+     [
+      "2026-11-05",
+      83.6
+     ]
+    ],
+    "blood_pressure": [
+     [
+      "2026-11-05",
+      "126/74"
+     ]
+    ]
+   },
+   "medications": [
+    {
+     "name": "Furosemide 40 mg",
+     "schedule": "08:00 and 16:00",
+     "critical": true,
+     "class": "loop diuretic"
+    },
+    {
+     "name": "Sacubitril/valsartan 49/51 mg",
+     "schedule": "08:00 and 20:00",
+     "critical": true,
+     "class": "ARNI"
+    },
+    {
+     "name": "Metoprolol succinate 50 mg",
+     "schedule": "08:00",
+     "critical": true,
+     "class": "beta blocker"
+    },
+    {
+     "name": "Spironolactone 25 mg",
+     "schedule": "08:00",
+     "critical": false,
+     "class": "MRA"
+    },
+    {
+     "name": "Dapagliflozin 10 mg",
+     "schedule": "08:00",
+     "critical": false,
+     "class": "SGLT2 inhibitor"
+    },
+    {
+     "name": "Metformin 500 mg",
+     "schedule": "08:00 and 20:00",
+     "critical": false,
+     "class": "biguanide"
+    }
+   ],
+   "instructions": [
+    "Weigh every morning after voiding, before breakfast",
+    "Sodium < 2 g/day",
+    "Fluid limit 1.5-2 L/day",
+    "Walk 10-15 minutes twice daily as tolerated"
+   ],
+   "appointments": [
+    {
+     "type": "Cardiology follow-up",
+     "when": "2026-11-08T09:20",
+     "where": "Corvina Heart Clinic"
+    },
+    {
+     "type": "Primary care",
+     "when": "2026-11-12T14:00",
+     "where": "Corvina Northside Clinic"
+    },
+    {
+     "type": "Basic metabolic panel (lab)",
+     "when": "2026-11-07T08:00",
+     "where": "Northside lab"
+    }
+   ],
+   "red_flags": [
+    {
+     "id": "HF-1",
+     "keywords": [
+      "swelling",
+      "swollen",
+      "edema",
+      "puffy ankles"
+     ],
+     "disposition": "urgent",
+     "finding": "New or worsening leg/ankle swelling"
+    },
+    {
+     "id": "HF-2",
+     "keywords": [
+      "more pillows",
+      "orthopnea",
+      "wake up breathless",
+      "can't lie flat",
+      "cannot lie flat"
+     ],
+     "disposition": "urgent",
+     "finding": "Breathlessness lying flat / waking breathless"
+    },
+    {
+     "id": "HF-3",
+     "keywords": [
+      "short of breath walking",
+      "breathless walking",
+      "shortness of breath on exertion",
+      "more breathless"
+     ],
+     "disposition": "urgent",
+     "finding": "Worsening breathlessness on exertion"
+    },
+    {
+     "id": "HF-4",
+     "keywords": [
+      "dizzy",
+      "lightheaded",
+      "light-headed"
+     ],
+     "disposition": "same_day",
+     "finding": "Dizziness (possible over-diuresis or low blood pressure)"
+    }
+   ],
+   "weight_rules": {
+    "gain_24h_kg": 1.0,
+    "gain_vs_discharge_kg": 2.0
+   },
+   "adherence": {
+    "source": "Connected pill organiser + pharmacy refill data (synthetic)",
+    "refills": {
+     "Furosemide 40 mg": 30,
+     "Sacubitril/valsartan 49/51 mg": 30,
+     "Metoprolol succinate 50 mg": 30,
+     "Spironolactone 25 mg": 30,
+     "Dapagliflozin 10 mg": 30,
+     "Metformin 500 mg": 30
+    },
+    "dose_log_last_5_days": {
+     "Furosemide 40 mg": {
+      "scheduled": 10,
+      "taken": 7,
+      "missed": [
+       "11-02 16:00",
+       "11-04 16:00",
+       "11-05 16:00"
+      ]
+     },
+     "Sacubitril/valsartan 49/51 mg": {
+      "scheduled": 10,
+      "taken": 10,
+      "missed": []
+     },
+     "Metoprolol succinate 50 mg": {
+      "scheduled": 5,
+      "taken": 5,
+      "missed": []
+     },
+     "Spironolactone 25 mg": {
+      "scheduled": 5,
+      "taken": 5,
+      "missed": []
+     },
+     "Dapagliflozin 10 mg": {
+      "scheduled": 5,
+      "taken": 5,
+      "missed": []
+     },
+     "Metformin 500 mg": {
+      "scheduled": 10,
+      "taken": 9,
+      "missed": [
+       "11-03 20:00"
+      ]
+     }
+    },
+    "patient_reported": "Skips the afternoon water tablet when going out \u2014 'too many bathroom trips'."
+   }
+  },
+  "SYN-A117": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 68,
+   "sex": "F",
+   "language": "Spanish",
+   "channel": "App",
+   "admission": {
+    "reason": "Elective right total hip arthroplasty",
+    "admitted": "2026-10-28",
+    "discharged": "2026-10-30",
+    "facility": "Corvina Lakeside Medical Center"
+   },
+   "comorbidities": [
+    "Osteoarthritis",
+    "Hypothyroidism"
+   ],
+   "condition_program": "post_op_hip",
+   "home_readings": {
+    "temperature_c": [
+     [
+      "2026-11-05",
+      37.1
+     ]
+    ],
+    "pain_score": [
+     [
+      "2026-11-05",
+      4
+     ]
+    ]
+   },
+   "medications": [
+    {
+     "name": "Apixaban 2.5 mg",
+     "schedule": "08:00 and 20:00 for 35 days",
+     "critical": true,
+     "class": "anticoagulant"
+    },
+    {
+     "name": "Acetaminophen 1 g",
+     "schedule": "every 8 hours",
+     "critical": false,
+     "class": "analgesic"
+    },
+    {
+     "name": "Oxycodone 5 mg",
+     "schedule": "every 6 hours as needed (max 4/day)",
+     "critical": false,
+     "class": "opioid"
+    },
+    {
+     "name": "Senna 8.6 mg",
+     "schedule": "bedtime while on oxycodone",
+     "critical": false,
+     "class": "laxative"
+    },
+    {
+     "name": "Levothyroxine 75 mcg",
+     "schedule": "06:30",
+     "critical": false,
+     "class": "thyroid hormone"
+    }
+   ],
+   "instructions": [
+    "Hip precautions: no bending past 90 degrees, no crossing legs, for 6 weeks",
+    "Physiotherapy exercises 3 times daily",
+    "Keep dressing dry; shower with waterproof cover",
+    "Walker for all walking until physiotherapy review"
+   ],
+   "appointments": [
+    {
+     "type": "Physiotherapy (home visit)",
+     "when": "2026-11-07T10:00",
+     "where": "Home"
+    },
+    {
+     "type": "Wound check / staple removal",
+     "when": "2026-11-11T09:00",
+     "where": "Lakeside Ortho Clinic"
+    },
+    {
+     "type": "Orthopaedic surgeon review",
+     "when": "2026-12-09T13:30",
+     "where": "Lakeside Ortho Clinic"
+    }
+   ],
+   "red_flags": [
+    {
+     "id": "HIP-1",
+     "keywords": [
+      "calf pain",
+      "calf swelling",
+      "leg swelling",
+      "swollen leg",
+      "swollen calf",
+      "warm calf",
+      "red calf"
+     ],
+     "disposition": "urgent",
+     "finding": "Possible deep-vein thrombosis (calf pain/swelling)"
+    },
+    {
+     "id": "HIP-2",
+     "keywords": [
+      "pus",
+      "wound drainage",
+      "oozing",
+      "wound redness",
+      "wound opening",
+      "red wound",
+      "smelly wound"
+     ],
+     "disposition": "urgent",
+     "finding": "Possible surgical-site infection"
+    },
+    {
+     "id": "HIP-3",
+     "keywords": [
+      "hip popped",
+      "leg looks shorter",
+      "leg turned",
+      "cannot bear weight",
+      "can't bear weight"
+     ],
+     "disposition": "emergency",
+     "finding": "Possible hip dislocation"
+    },
+    {
+     "id": "HIP-4",
+     "keywords": [
+      "bleeding gums",
+      "blood in urine",
+      "black stools",
+      "nosebleed"
+     ],
+     "disposition": "urgent",
+     "finding": "Bleeding on anticoagulant"
+    },
+    {
+     "id": "HIP-5",
+     "keywords": [
+      "constipation",
+      "no bowel movement"
+     ],
+     "disposition": "same_day",
+     "finding": "Opioid-related constipation"
+    }
+   ],
+   "adherence": {
+    "source": "Patient app check-ins + pharmacy refill data (synthetic)",
+    "refills": {
+     "Apixaban 2.5 mg": 35,
+     "Acetaminophen 1 g": 14,
+     "Oxycodone 5 mg": 7,
+     "Senna 8.6 mg": 14,
+     "Levothyroxine 75 mcg": 90
+    },
+    "dose_log_last_5_days": {
+     "Apixaban 2.5 mg": {
+      "scheduled": 10,
+      "taken": 10,
+      "missed": []
+     },
+     "Acetaminophen 1 g": {
+      "scheduled": 15,
+      "taken": 13,
+      "missed": [
+       "11-03 22:00",
+       "11-04 22:00"
+      ]
+     },
+     "Levothyroxine 75 mcg": {
+      "scheduled": 5,
+      "taken": 5,
+      "missed": []
+     }
+    },
+    "patient_reported": "Uses oxycodone about twice a day, mostly before physiotherapy."
+   }
+  },
+  "SYN-A123": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 59,
+   "sex": "M",
+   "language": "English",
+   "channel": "SMS",
+   "admission": {
+    "reason": "Acute exacerbation of COPD",
+    "admitted": "2026-10-30",
+    "discharged": "2026-11-03",
+    "facility": "Corvina General Hospital"
+   },
+   "comorbidities": [
+    "COPD (GOLD group E)",
+    "Former smoker (40 pack-years)",
+    "Hypertension"
+   ],
+   "condition_program": "copd",
+   "home_readings": {
+    "spo2_pct": [
+     [
+      "2026-11-04",
+      91
+     ],
+     [
+      "2026-11-05",
+      90
+     ]
+    ]
+   },
+   "spo2_target": "88-92%",
+   "medications": [
+    {
+     "name": "Tiotropium/olodaterol inhaler",
+     "schedule": "2 puffs every morning",
+     "critical": true,
+     "class": "LAMA/LABA maintenance inhaler"
+    },
+    {
+     "name": "Albuterol inhaler",
+     "schedule": "2 puffs every 4-6 hours as needed",
+     "critical": false,
+     "class": "rescue bronchodilator"
+    },
+    {
+     "name": "Prednisone 40 mg",
+     "schedule": "once daily to 2026-11-04 (5-day course)",
+     "critical": false,
+     "class": "corticosteroid"
+    },
+    {
+     "name": "Azithromycin 250 mg",
+     "schedule": "once daily to 2026-11-05",
+     "critical": false,
+     "class": "antibiotic"
+    },
+    {
+     "name": "Amlodipine 5 mg",
+     "schedule": "08:00",
+     "critical": false,
+     "class": "calcium channel blocker"
+    }
+   ],
+   "instructions": [
+    "Use maintenance inhaler every day even when well",
+    "Pulmonary rehabilitation referral sent",
+    "Action plan: rescue inhaler more than every 4 hours -> call the nurse line"
+   ],
+   "appointments": [
+    {
+     "type": "Pulmonology follow-up (telehealth)",
+     "when": "2026-11-10T11:15",
+     "where": "Video"
+    },
+    {
+     "type": "Pulmonary rehabilitation intake",
+     "when": "2026-11-18T09:00",
+     "where": "Corvina Rehab Center"
+    }
+   ],
+   "red_flags": [
+    {
+     "id": "COPD-1",
+     "keywords": [
+      "rescue inhaler every 2 hours",
+      "using rescue inhaler a lot",
+      "inhaler every hour",
+      "more breathless",
+      "worse breathing"
+     ],
+     "disposition": "urgent",
+     "finding": "Worsening breathlessness / high rescue-inhaler use"
+    },
+    {
+     "id": "COPD-2",
+     "keywords": [
+      "green sputum",
+      "yellow sputum",
+      "more sputum",
+      "thick sputum"
+     ],
+     "disposition": "urgent",
+     "finding": "Change in sputum (possible infection)"
+    },
+    {
+     "id": "COPD-3",
+     "keywords": [
+      "ankle swelling",
+      "swollen ankles"
+     ],
+     "disposition": "same_day",
+     "finding": "New ankle swelling (possible right-heart strain)"
+    }
+   ],
+   "spo2_rules": {
+    "emergency_below": 85,
+    "urgent_below": 88
+   },
+   "adherence": {
+    "source": "Pharmacy refill data (synthetic)",
+    "refills": {
+     "Tiotropium/olodaterol inhaler": 0,
+     "Albuterol inhaler": 30,
+     "Prednisone 40 mg": 5,
+     "Azithromycin 250 mg": 3,
+     "Amlodipine 5 mg": 90
+    },
+    "dose_log_last_5_days": {},
+    "patient_reported": "Maintenance inhaler prescription not picked up \u2014 told the pharmacy the copay (about USD 85) was too high."
+   }
+  },
+  "SYN-A130": {
+   "synthetic_note": "SYNTHETIC record for demonstration \u2014 not a real patient, no PHI.",
+   "age": 52,
+   "sex": "F",
+   "language": "English",
+   "channel": "App",
+   "admission": {
+    "reason": "Hyperglycaemic crisis; new basal insulin start (type 2 diabetes)",
+    "admitted": "2026-10-29",
+    "discharged": "2026-11-02",
+    "facility": "Corvina General Hospital"
+   },
+   "comorbidities": [
+    "Type 2 diabetes (HbA1c 11.2% on admission)",
+    "Obesity (BMI 34)",
+    "Hyperlipidaemia"
+   ],
+   "condition_program": "diabetes",
+   "home_readings": {
+    "glucose_mg_dl": [
+     [
+      "2026-11-03 07:00",
+      168
+     ],
+     [
+      "2026-11-04 07:00",
+      121
+     ],
+     [
+      "2026-11-05 03:10",
+      62
+     ],
+     [
+      "2026-11-05 07:00",
+      98
+     ],
+     [
+      "2026-11-06 06:45",
+      58
+     ]
+    ]
+   },
+   "medications": [
+    {
+     "name": "Insulin glargine",
+     "schedule": "18 units at 21:00",
+     "critical": true,
+     "class": "basal insulin"
+    },
+    {
+     "name": "Metformin 1000 mg",
+     "schedule": "08:00 and 20:00",
+     "critical": false,
+     "class": "biguanide"
+    },
+    {
+     "name": "Atorvastatin 40 mg",
+     "schedule": "21:00",
+     "critical": false,
+     "class": "statin"
+    }
+   ],
+   "instructions": [
+    "Check glucose before breakfast and at bedtime; also if shaky or sweaty",
+    "Hypo rule of 15: 15 g fast sugar, recheck in 15 minutes",
+    "Carry glucose tablets"
+   ],
+   "appointments": [
+    {
+     "type": "Diabetes educator",
+     "when": "2026-11-09T10:30",
+     "where": "Corvina Northside Clinic"
+    },
+    {
+     "type": "Endocrinology",
+     "when": "2026-11-20T15:00",
+     "where": "Corvina Diabetes Center"
+    }
+   ],
+   "red_flags": [
+    {
+     "id": "DM-1",
+     "keywords": [
+      "shaky",
+      "sweaty",
+      "hypo",
+      "low sugar"
+     ],
+     "disposition": "urgent",
+     "finding": "Hypoglycaemia symptoms"
+    },
+    {
+     "id": "DM-2",
+     "keywords": [
+      "ketones",
+      "vomiting",
+      "fruity breath",
+      "very thirsty"
+     ],
+     "disposition": "urgent",
+     "finding": "Possible hyperglycaemic crisis / ketosis"
+    }
+   ],
+   "glucose_rules": {
+    "urgent_below": 70,
+    "emergency_below": 54,
+    "urgent_above": 300
+   },
+   "adherence": {
+    "source": "Insulin pen cap logger + pharmacy refill data (synthetic)",
+    "refills": {
+     "Insulin glargine": 30,
+     "Metformin 1000 mg": 30,
+     "Atorvastatin 40 mg": 30
+    },
+    "dose_log_last_5_days": {
+     "Insulin glargine": {
+      "scheduled": 4,
+      "taken": 4,
+      "missed": []
+     },
+     "Metformin 1000 mg": {
+      "scheduled": 8,
+      "taken": 8,
+      "missed": []
+     }
+    },
+    "patient_reported": "Taking everything as prescribed; has had two early-morning 'shaky' episodes."
+   }
+  }
+ }
+}

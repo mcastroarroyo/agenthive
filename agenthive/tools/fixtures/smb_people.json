@@ -1,0 +1,223 @@
+{
+  "as_of": "2026-11-06",
+  "new_hires": [
+    {"name": "Mateo Fernández", "role_key": "account_executive", "title": "Account Executive (Mid-market)", "team": "Sales", "manager": "Lena Okafor", "buddy": "Jamie Cho",
+     "start_date": "2026-11-16", "work_mode": "office", "location": "Cedar Harbor HQ, 3rd floor", "email": "mateo.fernandez@kitewing.example", "laptop": "MacBook Pro 14-inch",
+     "public_announcement_consent": true, "background": "Five years selling scheduling software to plumbing contractors; fluent in Spanish.", "first_assignment": "Inherits 15 mid-market accounts in the North region; shadows the Alderbrook Home Services deal (OPP-3107) with Jamie Cho."},
+    {"name": "Samir Haddad", "role_key": "backend_engineer", "title": "Backend Engineer", "team": "Product & Engineering", "manager": "Arjun Mehta", "buddy": "Chloe Nakamura",
+     "start_date": "2026-11-16", "work_mode": "remote", "location": "Remote (Central time zone)", "email": "samir.haddad@kitewing.example", "laptop": "MacBook Pro 16-inch, 32 GB",
+     "public_announcement_consent": false, "background": "Python and Go; four years building notification and billing services.", "first_assignment": "Customer Portal 2.0 notification service (PRJ-107, task P5), paired with Chloe Nakamura."},
+    {"name": "Grace Obi", "role_key": "implementation_consultant", "title": "Implementation Consultant", "team": "Customer Success", "manager": "Hannah Brooks", "buddy": "Ines Duarte",
+     "start_date": "2026-11-23", "work_mode": "hybrid", "location": "Millbrook office (Tue-Thu), remote Mon/Fri", "email": "grace.obi@kitewing.example", "laptop": "MacBook Air 15-inch",
+     "public_announcement_consent": true, "background": "Former dispatcher and dispatch supervisor at an HVAC contractor; trained 30 technicians on a mobile app rollout.", "first_assignment": "Shadows the Greystone Assist rollout (PRJ-104) and co-leads her first QuickStart implementation in January."}
+  ],
+  "role_templates": {
+    "account_executive": {
+      "plan_30": [
+        {"goal": "Pass the Kitewing Certified Associate product certification", "measure": "Certificate by day 30"},
+        {"goal": "Complete the MEDDICC & discovery bootcamp and the pricing & deal-desk module", "measure": "Both modules done by day 14"},
+        {"goal": "Shadow 8 discovery calls and 4 demos (incl. Alderbrook OPP-3107 with Jamie Cho)", "measure": "Call notes logged in the CRM"},
+        {"goal": "Deliver a mock demo to Lena Okafor and Rosa Delgado", "measure": "Pass on the demo scorecard (>= 4/5)"},
+        {"goal": "Take over a 15-account territory and introduce yourself to every champion", "measure": "15 intro emails sent, 5 meetings booked"}
+      ],
+      "plan_60": [
+        {"goal": "Run 10 discovery calls solo", "measure": "MEDDICC score recorded for each"},
+        {"goal": "Build qualified pipeline", "measure": "$250k of opportunities with MEDDICC >= 60%"},
+        {"goal": "Deliver 4 demos with the Sales Engineer", "measure": "Demo feedback >= 4/5"},
+        {"goal": "Send your first proposal with an ROI one-pager", "measure": "Proposal reviewed by Lena Okafor"}
+      ],
+      "plan_90": [
+        {"goal": "Reach 3x pipeline coverage of the ramped quarterly quota ($120k)", "measure": "$360k open pipeline"},
+        {"goal": "Close your first deal", "measure": "Closed Won in the CRM"},
+        {"goal": "Forecast accurately in the weekly pipeline call", "measure": "Commit within +/-15% of actual"},
+        {"goal": "Write account plans for your top 5 accounts", "measure": "Plans reviewed with Lena Okafor"}
+      ],
+      "trainings": [
+        {"name": "MEDDICC & discovery bootcamp", "due_day": 14, "required": true},
+        {"name": "Pricing & deal desk", "due_day": 14, "required": true},
+        {"name": "Demo certification", "due_day": 30, "required": true}
+      ],
+      "equipment": ["laptop", "monitor", "headset", "security key", "welcome kit", "phone stipend"],
+      "accounts": ["google workspace", "password manager", "hr portal", "learning portal", "expense tool", "task tracker", "crm", "sales engagement", "cpq", "call recording", "demo tenant"],
+      "key_contacts": [{"name": "Lena Okafor", "why": "Manager — quota, territory, deal approvals up to 20%"}, {"name": "Jamie Cho", "why": "Buddy — CRM habits, Alderbrook deal"}, {"name": "Rosa Delgado", "why": "Sales Engineer — demos and security questionnaires"}, {"name": "Owen Gallagher", "why": "SDR — books your first meetings"}],
+      "role_session": {"title": "CRM & pipeline walkthrough", "with": "Jamie Cho"}
+    },
+    "backend_engineer": {
+      "plan_30": [
+        {"goal": "Set up the dev environment and merge a first pull request in week 1", "measure": "PR merged by day 5"},
+        {"goal": "Complete the architecture walkthrough (Cloud Run services, Cloud SQL, Pub/Sub, BigQuery export)", "measure": "Walkthrough done by day 7"},
+        {"goal": "Ship 2 small bug fixes to production", "measure": "2 fixes released"},
+        {"goal": "Shadow one on-call week and read the last 5 incident reviews", "measure": "Shadow week complete"},
+        {"goal": "Start the Portal 2.0 notification service design with Chloe Nakamura", "measure": "Design doc draft reviewed"}
+      ],
+      "plan_60": [
+        {"goal": "Deliver the notification service (PRJ-107 P5) end to end", "measure": "Feature in beta with tests >= 80% coverage"},
+        {"goal": "Join the on-call rotation as secondary", "measure": "One secondary week completed"},
+        {"goal": "Write one design doc for a backend change", "measure": "Approved in architecture review"}
+      ],
+      "plan_90": [
+        {"goal": "Lead a medium-sized feature", "measure": "Feature shipped on the agreed date"},
+        {"goal": "Become primary on-call", "measure": "Primary week with no missed pages"},
+        {"goal": "Propose one reliability improvement", "measure": "Proposal accepted into the roadmap"},
+        {"goal": "Optional: Google Cloud Associate Cloud Engineer certification", "measure": "Exam booked (fee reimbursed on pass)"}
+      ],
+      "trainings": [
+        {"name": "Architecture walkthrough", "due_day": 7, "required": true},
+        {"name": "Secure coding (OWASP Top 10)", "due_day": 14, "required": true},
+        {"name": "Incident response & on-call", "due_day": 30, "required": true}
+      ],
+      "equipment": ["laptop", "monitor", "second monitor", "headset", "security key", "welcome kit"],
+      "accounts": ["google workspace", "password manager", "hr portal", "learning portal", "expense tool", "task tracker", "code repository", "ci/cd", "cloud console dev", "error monitoring", "bigquery read", "on-call paging"],
+      "key_contacts": [{"name": "Arjun Mehta", "why": "Manager — priorities, 1:1s, on-call"}, {"name": "Chloe Nakamura", "why": "Buddy — code reviews, notification service"}, {"name": "Noah Kim", "why": "IT & Security — access and security keys"}, {"name": "Sofia Petrov", "why": "Product Manager — Portal 2.0 requirements"}],
+      "role_session": {"title": "Dev environment setup and first ticket", "with": "Chloe Nakamura"}
+    },
+    "implementation_consultant": {
+      "plan_30": [
+        {"goal": "Pass the Kitewing Certified Associate product certification", "measure": "Certificate by day 30"},
+        {"goal": "Complete the Kitewing Delivery Method and data-migration toolkit modules", "measure": "Both modules done by day 21"},
+        {"goal": "Shadow the Greystone Assist rollout (PRJ-104): readout, rollout planning and training", "measure": "Attend 3 customer sessions"},
+        {"goal": "Configure a demo tenant end to end for a 20-technician HVAC company", "measure": "Tenant reviewed by Ines Duarte"}
+      ],
+      "plan_60": [
+        {"goal": "Co-lead a QuickStart implementation with Ines Duarte", "measure": "Kickoff and configuration done"},
+        {"goal": "Run a dispatcher training session for a customer", "measure": "Training CSAT >= 4.5/5"},
+        {"goal": "Run a data-migration dry run", "measure": "Dry run with < 2% rejected records"}
+      ],
+      "plan_90": [
+        {"goal": "Lead a QuickStart implementation solo", "measure": "Go-live within 3 weeks of kickoff"},
+        {"goal": "Contribute one improvement to the implementation playbook", "measure": "Merged into the playbook"},
+        {"goal": "Become the second trainer for Kitewing Assist rollouts", "measure": "Deliver one Assist training"}
+      ],
+      "trainings": [
+        {"name": "Kitewing Delivery Method", "due_day": 14, "required": true},
+        {"name": "Data migration toolkit", "due_day": 21, "required": true},
+        {"name": "Train-the-trainer", "due_day": 30, "required": true}
+      ],
+      "equipment": ["laptop", "monitor", "headset", "security key", "welcome kit", "test devices"],
+      "accounts": ["google workspace", "password manager", "hr portal", "learning portal", "expense tool", "task tracker", "crm", "demo tenant", "implementation sandbox", "support desk", "migration sftp"],
+      "key_contacts": [{"name": "Hannah Brooks", "why": "Manager — Customer Success priorities"}, {"name": "Ines Duarte", "why": "Buddy — implementations, Greystone rollout"}, {"name": "Tomás Rivera", "why": "Peer — training materials and data imports"}, {"name": "Liam O'Connor", "why": "Support Lead — hypercare hand-offs"}],
+      "role_session": {"title": "Shadow a customer implementation call", "with": "Ines Duarte"}
+    }
+  },
+  "common_trainings": [
+    {"name": "Security awareness", "due_day": 7, "required": true},
+    {"name": "Code of conduct & respectful workplace", "due_day": 14, "required": true},
+    {"name": "Data privacy basics", "due_day": 14, "required": true},
+    {"name": "AI at work — safe use of Gemini in Google Workspace", "due_day": 30, "required": true},
+    {"name": "Kitewing Certified Associate (product certification)", "due_day": 30, "required": true}
+  ],
+  "provisioning_catalog": {
+    "laptop": {"label": "Laptop (configured, encrypted, MDM-enrolled)", "queue": "IT", "sla_business_days": 5, "approval": ""},
+    "monitor": {"label": "27-inch monitor (desk or shipped home)", "queue": "IT", "sla_business_days": 5, "approval": ""},
+    "second monitor": {"label": "Second monitor", "queue": "IT", "sla_business_days": 5, "approval": ""},
+    "headset": {"label": "Noise-cancelling headset", "queue": "IT", "sla_business_days": 3, "approval": ""},
+    "security key": {"label": "Hardware security key (x2)", "queue": "Security", "sla_business_days": 3, "approval": ""},
+    "test devices": {"label": "Android tablet + iPhone test devices for the mobile app", "queue": "IT", "sla_business_days": 5, "approval": "manager"},
+    "welcome kit": {"label": "Welcome kit (hoodie, notebook, bottle)", "queue": "People", "sla_business_days": 3, "approval": ""},
+    "phone stipend": {"label": "Mobile phone stipend ($50/month)", "queue": "Finance", "sla_business_days": 2, "approval": "manager"},
+    "google workspace": {"label": "Google Workspace account (Gmail, Calendar, Drive, Meet, Chat, Gemini)", "queue": "IT", "sla_business_days": 1, "approval": ""},
+    "password manager": {"label": "Password manager vault", "queue": "Security", "sla_business_days": 1, "approval": ""},
+    "hr portal": {"label": "HR portal (payroll, benefits, time off)", "queue": "People", "sla_business_days": 1, "approval": ""},
+    "learning portal": {"label": "Learning portal (Kitewing Academy + cloud skills subscription)", "queue": "People", "sla_business_days": 1, "approval": ""},
+    "expense tool": {"label": "Expense tool and company card request", "queue": "Finance", "sla_business_days": 2, "approval": ""},
+    "task tracker": {"label": "Task tracker", "queue": "IT", "sla_business_days": 1, "approval": ""},
+    "crm": {"label": "CRM seat", "queue": "Sales Ops", "sla_business_days": 2, "approval": ""},
+    "sales engagement": {"label": "Sales engagement (email sequences)", "queue": "Sales Ops", "sla_business_days": 2, "approval": ""},
+    "cpq": {"label": "Quoting tool (CPQ)", "queue": "Sales Ops", "sla_business_days": 2, "approval": ""},
+    "call recording": {"label": "Call recording & coaching", "queue": "Sales Ops", "sla_business_days": 2, "approval": ""},
+    "demo tenant": {"label": "Kitewing FieldOps demo tenant (admin)", "queue": "Product", "sla_business_days": 1, "approval": ""},
+    "implementation sandbox": {"label": "Implementation sandbox tenants", "queue": "Professional Services", "sla_business_days": 2, "approval": ""},
+    "support desk": {"label": "Support desk agent seat", "queue": "Support", "sla_business_days": 1, "approval": ""},
+    "migration sftp": {"label": "Data-migration SFTP and toolkit", "queue": "Security", "sla_business_days": 2, "approval": "manager"},
+    "code repository": {"label": "Code repository (backend team)", "queue": "Engineering", "sla_business_days": 1, "approval": ""},
+    "ci/cd": {"label": "CI/CD pipelines", "queue": "Engineering", "sla_business_days": 1, "approval": ""},
+    "cloud console dev": {"label": "Google Cloud console — development project (via group)", "queue": "Security", "sla_business_days": 2, "approval": "manager"},
+    "error monitoring": {"label": "Error monitoring & logs (read)", "queue": "Engineering", "sla_business_days": 1, "approval": ""},
+    "bigquery read": {"label": "BigQuery read access — development dataset", "queue": "Security", "sla_business_days": 2, "approval": "data owner (Femi Adeyemi)"},
+    "on-call paging": {"label": "On-call paging", "queue": "Engineering", "sla_business_days": 1, "approval": "manager", "not_before_day": 30}
+  },
+  "day_one": {
+    "office": [
+      {"time": "08:45", "end": "09:00", "title": "Arrive at reception — welcome and badge", "with": "Erin Walsh"},
+      {"time": "09:00", "end": "09:30", "title": "Welcome coffee", "with": "MANAGER"},
+      {"time": "09:30", "end": "10:30", "title": "IT setup: laptop, accounts, MFA and security keys", "with": "Noah Kim"},
+      {"time": "10:30", "end": "11:30", "title": "People & Culture: handbook, benefits enrolment, HR portal", "with": "Erin Walsh"},
+      {"time": "11:30", "end": "12:00", "title": "Kitewing story, mission and customers (self-paced video)", "with": ""},
+      {"time": "12:00", "end": "13:00", "title": "Team lunch", "with": "BUDDY"},
+      {"time": "13:00", "end": "14:00", "title": "Role kickoff: your 30/60/90 plan", "with": "MANAGER"},
+      {"time": "14:00", "end": "15:00", "title": "Product tour: Kitewing FieldOps demo tenant", "with": "PRODUCT_GUIDE"},
+      {"time": "15:00", "end": "15:30", "title": "Security awareness training (required within 7 days)", "with": ""},
+      {"time": "15:30", "end": "16:30", "title": "ROLE_SESSION", "with": "ROLE_SESSION_WITH"},
+      {"time": "16:30", "end": "17:00", "title": "Day-one wrap-up and questions", "with": "BUDDY"}
+    ],
+    "remote_changes": {"08:45": "Join the welcome video call (link in your calendar)", "12:00": "Virtual team lunch ($25 meal stipend — expense it)"},
+    "product_guides": {"Sales": "Rosa Delgado", "Product & Engineering": "Sofia Petrov", "Customer Success": "Ines Duarte"}
+  },
+  "employees": [
+    {"name": "Diego Alvarez", "title": "Frontend Engineer", "team": "Product & Engineering", "since": "2024-03-04", "aspiration": "Senior Software Engineer (wants more backend and cloud)",
+     "skills": {"TypeScript": 3, "React": 4, "Accessibility": 3, "Testing & quality": 2, "API design & integrations": 2, "Cloud Run & serverless": 1, "System design": 2, "Security practices": 2, "Mentoring": 1, "Google Cloud fundamentals": 1},
+     "certifications": [],
+     "projects": [{"project": "Customer Portal 2.0", "year": 2026, "role": "Frontend lead", "skills": ["React", "TypeScript", "Accessibility"]}, {"project": "Dispatch board v3", "year": 2025, "role": "Frontend engineer", "skills": ["React", "Testing & quality"]}, {"project": "Mobile web inspections", "year": 2024, "role": "Frontend engineer", "skills": ["TypeScript", "Accessibility"]}]},
+    {"name": "Ines Duarte", "title": "Senior Implementation Consultant", "team": "Customer Success", "since": "2022-08-15", "aspiration": "Solutions Architect",
+     "skills": {"Implementation methodology": 4, "Data migration": 3, "SQL": 2, "Customer training": 4, "Stakeholder management": 3, "Google Cloud fundamentals": 1, "API design & integrations": 2, "Solution design": 2, "Pre-sales demos": 2, "Product knowledge": 4, "Project management": 3, "Generative AI (Gemini)": 1, "Security practices": 1},
+     "certifications": ["Kitewing Certified Expert"],
+     "projects": [{"project": "Greystone Enterprise rollout", "year": 2025, "role": "Implementation lead", "skills": ["Implementation methodology", "Data migration", "Stakeholder management"]}, {"project": "Greystone Assist pilot (PRJ-104)", "year": 2026, "role": "Project manager", "skills": ["Project management", "Generative AI (Gemini)"]}, {"project": "Summit Ridge implementation", "year": 2024, "role": "Implementation consultant", "skills": ["Customer training", "Data migration"]}]},
+    {"name": "Femi Adeyemi", "title": "Data Engineer", "team": "Product & Engineering", "since": "2023-05-08", "aspiration": "Senior Data Engineer and the Professional Data Engineer certification",
+     "skills": {"SQL": 4, "BigQuery": 3, "Python": 3, "Data pipelines": 2, "Data modeling": 3, "Looker Studio": 3, "Data governance": 1, "Generative AI (Gemini)": 2, "Mentoring": 1},
+     "certifications": ["Google Cloud Associate Cloud Engineer (2025)"],
+     "projects": [{"project": "Kitewing Insights BigQuery export", "year": 2025, "role": "Data engineer", "skills": ["BigQuery", "Data pipelines", "Data modeling"]}, {"project": "Assist knowledge ingestion", "year": 2026, "role": "Data engineer", "skills": ["Python", "Generative AI (Gemini)"]}, {"project": "PRJ-104 pilot dashboards", "year": 2026, "role": "Data engineer", "skills": ["Looker Studio", "SQL"]}]},
+    {"name": "Kwame Mensah", "title": "Customer Success Manager", "team": "Customer Success", "since": "2024-01-08", "aspiration": "Senior Customer Success Manager",
+     "skills": {"Account management": 3, "Renewals & expansion": 2, "Product knowledge": 3, "Health analytics": 1, "Executive communication": 2, "Stakeholder management": 3, "Generative AI (Gemini)": 1},
+     "certifications": ["Kitewing Certified Associate"],
+     "projects": [{"project": "Book of 38 accounts", "year": 2026, "role": "CSM", "skills": ["Account management", "Stakeholder management"]}, {"project": "Two at-risk renewals saved", "year": 2025, "role": "CSM", "skills": ["Renewals & expansion"]}]},
+    {"name": "Tomás Rivera", "title": "Implementation Consultant", "team": "Customer Success", "since": "2025-06-02", "aspiration": "Senior Implementation Consultant",
+     "skills": {"Implementation methodology": 2, "Product knowledge": 3, "Customer training": 3, "Data migration": 2, "Stakeholder management": 2, "SQL": 1, "Project management": 1},
+     "certifications": ["Kitewing Certified Associate"],
+     "projects": [{"project": "Greystone Assist pilot training (PRJ-104)", "year": 2026, "role": "Trainer", "skills": ["Customer training"]}, {"project": "Four QuickStart implementations", "year": 2025, "role": "Consultant", "skills": ["Implementation methodology", "Data migration"]}]}
+  ],
+  "role_matrix": {
+    "Senior Software Engineer": {"System design": 3, "API design & integrations": 3, "Testing & quality": 3, "Security practices": 3, "Mentoring": 3, "TypeScript": 3, "Cloud Run & serverless": 2, "Google Cloud fundamentals": 2},
+    "Solutions Architect": {"Solution design": 4, "API design & integrations": 3, "Google Cloud fundamentals": 3, "Pre-sales demos": 3, "Stakeholder management": 3, "Data migration": 3, "Security practices": 2, "Generative AI (Gemini)": 2},
+    "Senior Data Engineer": {"SQL": 4, "BigQuery": 4, "Python": 3, "Data pipelines": 3, "Data modeling": 3, "Data governance": 3, "Generative AI (Gemini)": 2, "Looker Studio": 2, "Mentoring": 2},
+    "Senior Customer Success Manager": {"Account management": 4, "Renewals & expansion": 3, "Health analytics": 3, "Executive communication": 3, "Product knowledge": 4, "Stakeholder management": 3, "Generative AI (Gemini)": 2},
+    "Implementation Consultant": {"Implementation methodology": 2, "Product knowledge": 3, "Customer training": 3, "Data migration": 2, "Stakeholder management": 2, "SQL": 1},
+    "Senior Implementation Consultant": {"Implementation methodology": 4, "Product knowledge": 4, "Customer training": 4, "Data migration": 3, "Stakeholder management": 3, "SQL": 2, "Project management": 3, "API design & integrations": 2},
+    "Account Executive": {"Discovery & qualification": 3, "Negotiation": 2, "Product knowledge": 3, "Pre-sales demos": 2, "Executive communication": 3, "Stakeholder management": 2}
+  },
+  "level_names": {"1": "Aware", "2": "Working", "3": "Practitioner", "4": "Expert"},
+  "learning_catalog": {
+    "Google Cloud fundamentals": [{"title": "Google Cloud Digital Leader (certification)", "provider": "Google Cloud", "type": "certification", "hours": 15, "cost_usd": 99}, {"title": "Associate Cloud Engineer (certification)", "provider": "Google Cloud", "type": "certification", "hours": 40, "cost_usd": 125}],
+    "Cloud Run & serverless": [{"title": "Developing apps with Cloud Run (Skills Boost course)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 8, "cost_usd": 0}, {"title": "Professional Cloud Developer (certification)", "provider": "Google Cloud", "type": "certification", "hours": 50, "cost_usd": 200}],
+    "Solution design": [{"title": "Solution design clinic (6 sessions)", "provider": "Kitewing Academy", "type": "course", "hours": 9, "cost_usd": 0}, {"title": "Professional Cloud Architect (certification)", "provider": "Google Cloud", "type": "certification", "hours": 60, "cost_usd": 200}],
+    "BigQuery": [{"title": "BigQuery for data engineers (Skills Boost path)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 12, "cost_usd": 0}, {"title": "Professional Data Engineer (certification)", "provider": "Google Cloud", "type": "certification", "hours": 60, "cost_usd": 200}],
+    "Data pipelines": [{"title": "Building batch and streaming pipelines (Skills Boost)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 16, "cost_usd": 0}],
+    "Data governance": [{"title": "Data governance on Google Cloud (Skills Boost)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 8, "cost_usd": 0}, {"title": "Own the Insights data-quality scorecard for one quarter", "provider": "Kitewing (stretch assignment)", "type": "on-the-job", "hours": 20, "cost_usd": 0}],
+    "Data modeling": [{"title": "Dimensional modelling fundamentals (online)", "provider": "External", "type": "course", "hours": 10, "cost_usd": 300}],
+    "Python": [{"title": "Python guild code katas (monthly)", "provider": "Kitewing Academy", "type": "course", "hours": 6, "cost_usd": 0}],
+    "Generative AI (Gemini)": [{"title": "Introduction to Generative AI (Skills Boost path)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 6, "cost_usd": 0}, {"title": "Generative AI Leader (certification)", "provider": "Google Cloud", "type": "certification", "hours": 12, "cost_usd": 99}],
+    "System design": [{"title": "Shadow 6 architecture reviews", "provider": "Kitewing (on-the-job)", "type": "on-the-job", "hours": 9, "cost_usd": 0}, {"title": "System design for product engineers (online)", "provider": "External", "type": "course", "hours": 14, "cost_usd": 250}],
+    "Security practices": [{"title": "Secure coding — OWASP Top 10", "provider": "Kitewing Academy", "type": "course", "hours": 4, "cost_usd": 0}, {"title": "Google Cloud security best practices (Skills Boost)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 8, "cost_usd": 0}],
+    "Mentoring": [{"title": "Be a buddy for a new hire (buddy programme)", "provider": "Kitewing", "type": "on-the-job", "hours": 20, "cost_usd": 0}],
+    "Testing & quality": [{"title": "Test automation workshop", "provider": "External", "type": "course", "hours": 8, "cost_usd": 250}],
+    "API design & integrations": [{"title": "API design guild — review 2 API specs", "provider": "Kitewing Academy", "type": "on-the-job", "hours": 8, "cost_usd": 0}, {"title": "Developing APIs on Google Cloud (Skills Boost)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 8, "cost_usd": 0}],
+    "Pre-sales demos": [{"title": "Demo certification", "provider": "Kitewing Academy", "type": "course", "hours": 6, "cost_usd": 0}, {"title": "Shadow 5 Sales Engineer demos", "provider": "Kitewing (on-the-job)", "type": "on-the-job", "hours": 5, "cost_usd": 0}],
+    "Stakeholder management": [{"title": "Stakeholder management for consultants (online)", "provider": "External", "type": "course", "hours": 8, "cost_usd": 350}],
+    "Executive communication": [{"title": "Executive presence workshop", "provider": "External", "type": "course", "hours": 8, "cost_usd": 450}],
+    "Health analytics": [{"title": "Customer health dashboards in Looker Studio", "provider": "Kitewing Academy", "type": "course", "hours": 6, "cost_usd": 0}],
+    "Looker Studio": [{"title": "Looker Studio essentials (Skills Boost)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 4, "cost_usd": 0}],
+    "Renewals & expansion": [{"title": "Value selling for CSMs", "provider": "External", "type": "course", "hours": 10, "cost_usd": 400}],
+    "Account management": [{"title": "Strategic account planning", "provider": "External", "type": "course", "hours": 8, "cost_usd": 300}],
+    "Product knowledge": [{"title": "Kitewing Certified Expert", "provider": "Kitewing Academy", "type": "certification", "hours": 16, "cost_usd": 0}],
+    "Data migration": [{"title": "Data migration toolkit", "provider": "Kitewing Academy", "type": "course", "hours": 6, "cost_usd": 0}],
+    "Implementation methodology": [{"title": "Kitewing Delivery Method", "provider": "Kitewing Academy", "type": "course", "hours": 4, "cost_usd": 0}, {"title": "Lead a QuickStart implementation with a mentor", "provider": "Kitewing (on-the-job)", "type": "on-the-job", "hours": 40, "cost_usd": 0}],
+    "Customer training": [{"title": "Train-the-trainer", "provider": "Kitewing Academy", "type": "course", "hours": 6, "cost_usd": 0}],
+    "Project management": [{"title": "Project management fundamentals (online certificate)", "provider": "External", "type": "course", "hours": 40, "cost_usd": 150}],
+    "Discovery & qualification": [{"title": "MEDDICC & discovery bootcamp", "provider": "Kitewing Academy", "type": "course", "hours": 8, "cost_usd": 0}],
+    "Negotiation": [{"title": "Negotiation essentials workshop", "provider": "External", "type": "course", "hours": 12, "cost_usd": 500}],
+    "TypeScript": [{"title": "Advanced TypeScript patterns (online)", "provider": "External", "type": "course", "hours": 10, "cost_usd": 99}],
+    "React": [{"title": "React performance deep dive (online)", "provider": "External", "type": "course", "hours": 8, "cost_usd": 99}],
+    "Accessibility": [{"title": "Accessibility practitioner course (WCAG 2.2)", "provider": "External", "type": "course", "hours": 12, "cost_usd": 200}],
+    "SQL": [{"title": "SQL for analysts (Skills Boost)", "provider": "Google Cloud Skills Boost", "type": "course", "hours": 6, "cost_usd": 0}]
+  },
+  "learning_policy": {"annual_budget_usd": 1500, "weekly_learning_hours": 4, "certification_fees": "Google Cloud certification exam fees are reimbursed on pass and do not count against the annual budget.", "skills_boost": "Company-paid cloud skills subscription for every employee."}
+}

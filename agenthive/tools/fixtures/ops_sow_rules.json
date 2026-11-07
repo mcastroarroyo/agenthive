@@ -1,0 +1,184 @@
+{
+  "_note": "Deterministic clause-risk rules used by Thoth's clause scanner. Mirrors the SOW Legal Playbook in the knowledge base (red = do not sign, amber = negotiate, green = standard). Synthetic, for demo purposes; not legal advice.",
+  "rules": [
+    {
+      "id": "LR-01",
+      "pattern": "\\bunlimited (revisions|changes|iterations)\\b",
+      "category": "Acceptance & revisions",
+      "risk": "red",
+      "why": "Open-ended rework obligation with no cap.",
+      "preferred": "Up to two rounds of revisions per deliverable; further changes follow change control."
+    },
+    {
+      "id": "LR-02",
+      "pattern": "(client'?s|customer'?s) (sole |complete |full )?satisfaction|until the client is (fully |completely )?satisfied|sole satisfaction",
+      "category": "Acceptance & revisions",
+      "risk": "red",
+      "why": "Subjective acceptance standard; acceptance can be withheld indefinitely.",
+      "preferred": "Deliverables are accepted when they materially conform to the acceptance criteria in Appendix B; deemed accepted after 10 business days without a written notice of material non-conformity."
+    },
+    {
+      "id": "LR-03",
+      "pattern": "\\bguarantee(s|d)?\\b",
+      "category": "Warranties & performance",
+      "risk": "red",
+      "why": "Outcome guarantees (accuracy, savings) on probabilistic AI systems.",
+      "preferred": "Wursta will design the service to target the agreed accuracy on the agreed evaluation set; results are measured, reported and improved, not guaranteed."
+    },
+    {
+      "id": "LR-04",
+      "pattern": "including but not limited to",
+      "category": "Scope",
+      "risk": "amber",
+      "why": "Open-ended scope list.",
+      "preferred": "Replace with an exhaustive list; anything else is out of scope unless added by change request."
+    },
+    {
+      "id": "LR-05",
+      "pattern": "\\b(as needed|as required|ongoing support|ongoing)\\b",
+      "category": "Scope",
+      "risk": "amber",
+      "why": "Unbounded service with no hours, duration or SLA.",
+      "preferred": "Hypercare of 4 weeks after go-live, up to 40 hours, business hours; ongoing support under a separate managed-services order."
+    },
+    {
+      "id": "LR-06",
+      "pattern": "\\betc\\.?",
+      "category": "Scope",
+      "risk": "amber",
+      "why": "Ambiguous deliverables list.",
+      "preferred": "List every deliverable explicitly with its acceptance criteria."
+    },
+    {
+      "id": "LR-07",
+      "pattern": "penalt(y|ies)|liquidated damages",
+      "category": "Liability & remedies",
+      "risk": "red",
+      "why": "Uncapped or disproportionate delay penalties.",
+      "preferred": "No penalties; if required by the client, service credits capped at 5% of the phase fee and excused by client-caused delays."
+    },
+    {
+      "id": "LR-08",
+      "pattern": "shall not be limited|unlimited liability",
+      "category": "Liability & remedies",
+      "risk": "red",
+      "why": "Uncapped liability.",
+      "preferred": "Liability is limited as set out in the MSA (fees paid under this SOW in the prior 12 months)."
+    },
+    {
+      "id": "LR-09",
+      "pattern": "pre-existing (materials|ip|intellectual property)|including pre-existing",
+      "category": "Intellectual property",
+      "risk": "red",
+      "why": "Assigns Wursta's pre-existing tools and accelerators to the client.",
+      "preferred": "Client owns custom deliverables on payment; Wursta retains pre-existing materials and grants a perpetual licence to use them with the deliverables."
+    },
+    {
+      "id": "LR-10",
+      "pattern": "time[- ]and[- ]materials",
+      "category": "Fees & payment",
+      "risk": "amber",
+      "why": "T&M without a not-to-exceed amount or estimate.",
+      "preferred": "Time and materials with an estimate of $X and a not-to-exceed amount; work beyond it requires written approval.",
+      "unless": "not[- ]to[- ]exceed|cap of"
+    },
+    {
+      "id": "LR-11",
+      "pattern": "net (6\\d|7\\d|8\\d|9\\d|1\\d\\d) days",
+      "category": "Fees & payment",
+      "risk": "amber",
+      "why": "Payment terms longer than the 45-day maximum.",
+      "preferred": "Invoices are payable within 30 days of receipt."
+    },
+    {
+      "id": "LR-12",
+      "pattern": "wursta shall be responsible for (obtaining|third[- ]party)",
+      "category": "Dependencies",
+      "risk": "amber",
+      "why": "Makes Wursta responsible for parties it does not control.",
+      "preferred": "The Client will procure access to third-party systems and vendor cooperation; delays caused by third parties are client dependencies."
+    },
+    {
+      "id": "LR-13",
+      "pattern": "when possible|reasonable time|promptly",
+      "category": "Dependencies",
+      "risk": "amber",
+      "why": "Client obligations without a time limit.",
+      "preferred": "The Client will provide access within 5 business days of request; delays extend the timeline day for day."
+    },
+    {
+      "id": "LR-14",
+      "pattern": "within (1|one|2|two) hours?|24x7|24/7",
+      "category": "Service levels",
+      "risk": "amber",
+      "why": "Response commitments outside a managed-services order.",
+      "preferred": "Support commitments are defined only in a managed-services order with severity definitions and business hours."
+    },
+    {
+      "id": "LR-15",
+      "pattern": "terminate .*for convenience.*without payment|without payment for work",
+      "category": "Termination",
+      "risk": "red",
+      "why": "Termination without paying for work performed.",
+      "preferred": "Either party may terminate for convenience with 30 days' notice; the client pays for work performed and non-cancellable costs."
+    },
+    {
+      "id": "LR-16",
+      "pattern": "agreed informally|by email between",
+      "category": "Change control",
+      "risk": "amber",
+      "why": "Informal change control — scope creep and revenue leakage.",
+      "preferred": "Changes require a written change request signed by both parties stating scope, fees and timeline impact."
+    },
+    {
+      "id": "LR-17",
+      "pattern": "commercially reasonable efforts",
+      "category": "Data protection",
+      "risk": "green",
+      "why": "Standard effort qualifier.",
+      "preferred": "Keep."
+    },
+    {
+      "id": "LR-18",
+      "pattern": "best efforts",
+      "category": "Warranties & performance",
+      "risk": "amber",
+      "why": "'Best efforts' can imply unlimited expense.",
+      "preferred": "Use 'commercially reasonable efforts'."
+    },
+    {
+      "id": "LR-19",
+      "pattern": "sufficient quality",
+      "category": "Assumptions",
+      "risk": "amber",
+      "why": "Vague data-quality assumption with no remedy.",
+      "preferred": "Data-quality issues found in profiling are logged; remediation beyond 16 hours is handled by change request."
+    }
+  ],
+  "required_sections": [
+    {
+      "name": "Acceptance criteria",
+      "pattern": "acceptance criteria|deemed accepted"
+    },
+    {
+      "name": "Change control",
+      "pattern": "change (request|control)"
+    },
+    {
+      "name": "Out of scope",
+      "pattern": "out of scope"
+    },
+    {
+      "name": "Assumptions",
+      "pattern": "assumption"
+    },
+    {
+      "name": "Limitation of liability",
+      "pattern": "liabilit"
+    },
+    {
+      "name": "Client responsibilities",
+      "pattern": "client responsibilit"
+    }
+  ]
+}

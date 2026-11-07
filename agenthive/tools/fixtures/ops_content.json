@@ -1,0 +1,166 @@
+{
+  "_note": "Synthetic content & evidence library: case studies (fictional clients), past SOWs, capability evidence, blogs and Hive agent capabilities. 'named_reference' = the client agreed to be named; 'approved_external' = cleared for public/client-facing use.",
+  "case_studies": [
+    {
+      "id": "CS-014", "title": "Regional insurer cuts claims triage time 42% with Gemini",
+      "client": "Calder & Finch Insurance", "named_reference": true, "approved_external": true,
+      "industry": "Insurance", "sector": "private", "year": 2026, "related_sow": "SOW-2026-008",
+      "products": ["Gemini on Vertex AI", "Document AI", "Sensitive Data Protection", "Model Armor", "BigQuery", "Looker"],
+      "challenge": "150,000 first-notice-of-loss submissions a year triaged by hand; 26-minute median triage and 3-day storm backlogs.",
+      "solution": "AI triage assistant that classifies claims, extracts key fields from documents and drafts routing notes, with mandatory adjuster review and PII redaction before prompts.",
+      "outcomes": [
+        {"metric": "Median triage time", "value": "26 → 15 minutes (−42%)"},
+        {"metric": "Routing suggestions accepted", "value": "87%"},
+        {"metric": "Field extraction accuracy (audited sample of 1,200 claims)", "value": "96%"}
+      ],
+      "keywords": ["claims", "triage", "assistant", "document ai", "human review", "redaction", "pii", "us region", "gemini"]
+    },
+    {
+      "id": "CS-009", "title": "Regional transit agency moves 2,400 staff to Google Workspace in 9 weeks",
+      "client": "Lakeshore Metro Transit", "named_reference": true, "approved_external": true,
+      "industry": "Public transit", "sector": "public", "year": 2025, "related_sow": "SOW-2025-031",
+      "products": ["Google Workspace", "Cloud Identity"],
+      "challenge": "End-of-support on-premises email and file shares across 5 operating depots and a 24x7 control centre.",
+      "solution": "Wave-based migration by depot with floor-walkers at each cutover, a user communication plan, single sign-on with the agency's identity provider and enforced multi-factor authentication.",
+      "outcomes": [
+        {"metric": "Mailboxes migrated", "value": "2,400 mailboxes and 14 TB of file shares"},
+        {"metric": "Maximum email downtime per user", "value": "2.5 hours"},
+        {"metric": "Cutover support satisfaction", "value": "96%"}
+      ],
+      "keywords": ["migrate", "migration", "mailbox", "calendar", "file shares", "google workspace", "downtime", "wave plan", "communication plan", "floor-walker", "cutover", "single sign-on", "identity provider", "multi-factor", "public-sector", "transit"]
+    },
+    {
+      "id": "CS-021", "title": "Logistics provider gets 15-minute on-time-delivery analytics on BigQuery",
+      "client": "a mid-market logistics provider", "named_reference": false, "approved_external": true,
+      "industry": "Logistics", "sector": "private", "year": 2025, "related_sow": "SOW-2025-022",
+      "products": ["BigQuery", "Dataflow", "Pub/Sub", "Looker"],
+      "challenge": "Nine operational systems and weekly spreadsheets; no shared view of on-time performance.",
+      "solution": "Streaming data platform on BigQuery ingesting transport, telematics and maintenance data, with Looker dashboards refreshed every 15 minutes.",
+      "outcomes": [
+        {"metric": "On-time performance visibility", "value": "every 15 minutes (was weekly)"},
+        {"metric": "Source systems unified", "value": "9"},
+        {"metric": "Report preparation time", "value": "−70%"}
+      ],
+      "keywords": ["data platform", "bigquery", "ingest", "daily refresh", "vehicle-location", "telematics", "maintenance data", "on-time performance", "dashboard", "15 minutes"]
+    },
+    {
+      "id": "CS-011", "title": "City 311 assistant resolves 61% of resident questions without an agent",
+      "client": "a mid-size US city", "named_reference": false, "approved_external": true,
+      "industry": "Government", "sector": "public", "year": 2025, "related_sow": "SOW-2025-044",
+      "products": ["Gemini on Vertex AI", "Vertex AI Search", "Cloud Run"],
+      "challenge": "3,500 calls a day to the 311 line, mostly repeat questions about services and schedules.",
+      "solution": "Bilingual assistant on the city website and a messaging channel, grounded only on approved city content, with live hand-off to a human agent.",
+      "outcomes": [
+        {"metric": "Questions resolved without an agent", "value": "61%"},
+        {"metric": "Languages", "value": "English and Spanish"},
+        {"metric": "Accessibility audit", "value": "WCAG 2.1 AA passed"}
+      ],
+      "keywords": ["assistant", "website", "messaging channel", "english", "spanish", "hand off", "human agent", "approved", "wcag", "accessibility", "public-sector"]
+    },
+    {
+      "id": "CS-025", "title": "Credit union modernises its warehouse on BigQuery with row-level security",
+      "client": "Polaris Credit Union", "named_reference": true, "approved_external": true,
+      "industry": "Financial services", "sector": "private", "year": 2026, "related_sow": "SOW-2026-012",
+      "products": ["BigQuery", "Dataplex", "Looker"],
+      "challenge": "Ageing on-premises warehouse; member personal data visible to too many analysts.",
+      "solution": "BigQuery warehouse with data classification, policy tags, row-level security and role-based access for 600 staff.",
+      "outcomes": [
+        {"metric": "Warehouse run cost", "value": "−40%"},
+        {"metric": "Month-end reporting", "value": "5 days → 1 day"},
+        {"metric": "Staff under role-based access", "value": "600"}
+      ],
+      "keywords": ["bigquery", "role-based access", "data classification", "personal data", "row-level security", "restricted", "governance"]
+    },
+    {
+      "id": "CS-006", "title": "Senior living operator rolls out Gemini Enterprise to 900 staff",
+      "client": "Solace Senior Living", "named_reference": true, "approved_external": true,
+      "industry": "Healthcare", "sector": "private", "year": 2026, "related_sow": "SOW-2026-015",
+      "products": ["Gemini Enterprise", "Google Workspace"],
+      "challenge": "Care and office staff with little time for training and strict confidentiality rules.",
+      "solution": "Use-case-led rollout with short recorded micro-trainings, office champions and data-loss-prevention rules.",
+      "outcomes": [
+        {"metric": "Staff onboarded", "value": "900 in 6 weeks"},
+        {"metric": "Weekly active users after 60 days", "value": "71%"},
+        {"metric": "DLP incidents during pilot", "value": "0"}
+      ],
+      "keywords": ["gemini enterprise", "adoption", "training", "change management", "knowledge-transfer", "dlp"]
+    },
+    {
+      "id": "CS-017", "title": "Agricultural cooperative pilots a WhatsApp farmer advisory assistant",
+      "client": "Verdant Agro Cooperative", "named_reference": false, "approved_external": false,
+      "industry": "Agriculture", "sector": "private", "year": 2026, "related_sow": "SOW-VAC-01",
+      "products": ["Gemini on Vertex AI", "Vertex AI Search"],
+      "challenge": "14,000 member farmers with limited access to agronomists.",
+      "solution": "In progress — pilot with 300 members; not yet approved for external use.",
+      "outcomes": [],
+      "keywords": ["assistant", "whatsapp", "bilingual", "agronomy"]
+    },
+    {
+      "id": "CS-030", "title": "Media group consolidates 14 data sources into a Looker semantic layer",
+      "client": "Kestrel Media Group", "named_reference": false, "approved_external": false,
+      "industry": "Media", "sector": "private", "year": 2026, "related_sow": "SOW-KMG-02",
+      "products": ["BigQuery", "Looker"],
+      "challenge": "Fragmented advertising and subscription reporting.",
+      "solution": "Semantic layer over BigQuery — internal draft, client approval pending.",
+      "outcomes": [{"metric": "Data sources consolidated", "value": "14"}],
+      "keywords": ["looker", "semantic layer", "bigquery"]
+    }
+  ],
+  "past_sows": [
+    {"id": "SOW-2025-031", "title": "Workspace migration for a regional transit agency", "client": "Lakeshore Metro Transit", "fee_model": "fixed fee", "duration_weeks": 9,
+     "deliverables": ["Wave plan", "Communication plan", "Floor-walker cutover support", "SSO and MFA configuration"],
+     "keywords": ["migration", "wave plan", "floor-walker", "cutover", "single sign-on", "multi-factor", "mailbox"]},
+    {"id": "SOW-2025-022", "title": "Operations data platform for a logistics provider", "client": "a mid-market logistics provider", "fee_model": "fixed fee + T&M cap", "duration_weeks": 16,
+     "deliverables": ["Ingestion pipelines", "BigQuery model", "Looker on-time dashboards"],
+     "keywords": ["data platform", "bigquery", "ingest", "dashboard", "on-time performance"]},
+    {"id": "SOW-2025-044", "title": "Bilingual 311 assistant for a city", "client": "a mid-size US city", "fee_model": "fixed fee", "duration_weeks": 14,
+     "deliverables": ["Assistant on web + messaging", "Human hand-off", "Accessibility audit (WCAG 2.1 AA)"],
+     "keywords": ["assistant", "messaging channel", "hand off", "wcag", "spanish"]},
+    {"id": "SOW-2026-008", "title": "Claims triage assistant phase 1", "client": "Calder & Finch Insurance", "fee_model": "fixed fee", "duration_weeks": 12,
+     "deliverables": ["Intake pipeline", "Classification & extraction", "Adjuster review UI", "Accuracy dashboard"],
+     "keywords": ["claims", "triage", "human review", "redaction"]},
+    {"id": "SOW-2026-012", "title": "Warehouse modernisation with row-level security", "client": "Polaris Credit Union", "fee_model": "fixed fee", "duration_weeks": 20,
+     "deliverables": ["BigQuery warehouse", "Data classification", "Row-level security", "Role-based access model"],
+     "keywords": ["role-based access", "data classification", "personal data", "restricted"]}
+  ],
+  "capabilities": [
+    {"id": "CAP-01", "title": "Enablement: knowledge-transfer programmes and Google Cloud certification paths", "strength": "full",
+     "detail": "Standard 6-week knowledge-transfer programme with labs; certification path and exam preparation for client IT staff (demo evidence).",
+     "keywords": ["knowledge-transfer", "certification path", "certification", "it staff"]},
+    {"id": "CAP-02", "title": "Information security programme aligned to ISO/IEC 27001 and SOC 2 concepts", "strength": "partial",
+     "detail": "Demo evidence: policies and controls aligned to ISO/IEC 27001 and SOC 2 concepts; no ISO certificate issued to the organisation itself in this demo.",
+     "limits": "Aligned, not certified — offer the control mapping and a security questionnaire instead.",
+     "keywords": ["iso/iec 27001", "27001", "certificate", "security programme"]},
+    {"id": "CAP-03", "title": "Wursta Care support model", "strength": "partial",
+     "detail": "Demo evidence: business-hours support (8x5) with 4-hour severity-1 response; 24x7 coverage only via an optional partner add-on.",
+     "limits": "Native 24x7 with 1-hour severity-1 response is not standard — price the partner add-on.",
+     "keywords": ["24x7", "production support", "severity-1", "response time"]},
+    {"id": "CAP-04", "title": "Accessibility practice", "strength": "full",
+     "detail": "Accessibility testing against WCAG 2.1 AA for every rider/citizen-facing interface, with an audit report.",
+     "keywords": ["wcag", "accessibility", "wcag 2.1 aa"]},
+    {"id": "CAP-05", "title": "Bilingual delivery (English and Spanish)", "strength": "full",
+     "detail": "Bilingual conversation designers and consultants; assistants tested in both languages.",
+     "keywords": ["english", "spanish", "bilingual"]},
+    {"id": "CAP-06", "title": "US data residency design pattern", "strength": "full",
+     "detail": "Reference design pinning storage, processing and model endpoints to US regions, documented in the design record.",
+     "keywords": ["united states", "us region", "stored and processed", "data residency"]},
+    {"id": "CAP-07", "title": "BigQuery ML forecasting accelerator", "strength": "partial",
+     "detail": "Forecasting and anomaly-detection accelerator on BigQuery ML; no transit fleet reference yet.",
+     "limits": "No fleet predictive-maintenance reference — position as a pilot with success criteria.",
+     "keywords": ["predictive maintenance", "pilot", "forecast", "fleet"]}
+  ],
+  "blogs": [
+    {"id": "BLOG-109", "title": "Model Armor in practice: guardrails for outbound model calls", "published": "2026-10-08", "url": "https://wursta.example/blog/model-armor-in-practice", "approved_external": true, "topics": ["AI security", "guardrails"]},
+    {"id": "BLOG-112", "title": "Five lessons from putting a claims triage assistant into production", "published": "2026-10-20", "url": "https://wursta.example/blog/claims-triage-lessons", "approved_external": true, "topics": ["GenAI", "insurance", "human in the loop"],
+     "key_points": ["Start with the two highest-volume claim types", "Make human review mandatory where liability is high", "Override reason codes are the best improvement backlog", "Redact PII before prompts, not after", "Champions beat training sessions"]},
+    {"id": "BLOG-115", "title": "Why your Workspace migration needs a floor-walker plan", "published": "2026-10-29", "url": "https://wursta.example/blog/floor-walker-plan", "approved_external": true, "topics": ["Workspace", "migration", "change management"]},
+    {"id": "BLOG-118", "title": "Agents that audit meetings: inside our meeting-intelligence loop", "published": "2026-11-05", "url": "https://wursta.example/blog/meeting-intelligence-loop", "approved_external": true, "topics": ["AI agents", "delivery", "customer success"]}
+  ],
+  "agent_capabilities": [
+    {"id": "AG-HELIOS", "agent": "Helios · Meeting Health Auditor", "one_liner": "Flags client frustration, scope creep and disengagement in meeting transcripts and alerts the PM the same day.", "approved_external": true},
+    {"id": "AG-ATHENA", "agent": "Athena · Action Item & Decision Tracker", "one_liner": "Turns meeting notes into owned, dated tasks and a decision log.", "approved_external": true},
+    {"id": "AG-MERCATOR", "agent": "Mercator · RFP & Procurement Analyst", "one_liner": "Builds an RFP compliance matrix from requirement to evidence to gap in minutes.", "approved_external": true},
+    {"id": "AG-MORPHEUS", "agent": "Morpheus · Dream-to-Demo Agent", "one_liner": "From a one-line idea to a clickable demo and a draft SOW outline.", "approved_external": true},
+    {"id": "AG-JANUS", "agent": "Janus · Autonomous Video Deconstructor", "one_liner": "Turns recorded meetings into searchable knowledge with chapters and reusable Q&A.", "approved_external": true}
+  ]
+}

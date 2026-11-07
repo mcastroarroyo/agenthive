@@ -1,0 +1,31 @@
+{
+  "jurisdiction": "City of Port Alder, Bayshore Province, Republic of Valdoria (fictional)",
+  "as_of": "2026-11-06T10:00:00",
+  "timezone": "Valdoria Standard Time",
+  "council_districts": {
+    "D1": ["Old Town", "Harborview"],
+    "D2": ["Saltmarsh", "Station Quarter"],
+    "D3": ["Kestrel Heights", "Willow Park"],
+    "D4": ["Millbrook"],
+    "D5": ["Eastgate", "Juniper Flats"],
+    "D6": ["Fairhaven", "Pelican Point"],
+    "D7": ["Northpoint", "Quarry Hill"]
+  },
+  "holidays": [
+    {"date": "2026-10-12", "name": "Harbor Day"},
+    {"date": "2026-11-11", "name": "Founders' Day"},
+    {"date": "2026-11-26", "name": "Harvest Day"},
+    {"date": "2026-12-25", "name": "Christmas Day"},
+    {"date": "2027-01-01", "name": "New Year's Day"},
+    {"date": "2027-02-15", "name": "Constitution Day"}
+  ],
+  "contacts": {
+    "311": "Dial 311 or (555) 010-0311 from outside the city; messaging channel 'Port Alder 311'",
+    "police_non_emergency": "(555) 010-0100",
+    "emergency": "Emergency line 911",
+    "city_clerk_records": "records@portalder.gov",
+    "permit_center": "Permit Center, 200 Civic Plaza, 2nd floor, Mon-Fri 08:00-16:30",
+    "human_services": "Department of Human Services, 75 Bayview Avenue, (555) 010-0420",
+    "licensing": "Business Licensing Office, City Clerk, 200 Civic Plaza, 1st floor"
+  }
+}

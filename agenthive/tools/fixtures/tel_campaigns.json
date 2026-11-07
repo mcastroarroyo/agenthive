@@ -1,0 +1,177 @@
+{
+ "as_of": "2026-11-06",
+ "arpu_usd": {
+  "fiber": 72,
+  "mobile": 58,
+  "five_g_home": 50
+ },
+ "segments": [
+  "Young digital",
+  "Families",
+  "Price-sensitive",
+  "Small business",
+  "Rural fiber",
+  "Premium"
+ ],
+ "campaigns": [
+  {
+   "campaign_id": "CMP-2610-SAVE01",
+   "name": "Fiber Max loyalty speed upgrade",
+   "type": "churn_save",
+   "product": "fiber",
+   "offer": "Free upgrade 1 Gig -> 2 Gig for 12 months",
+   "channels": [
+    "outbound call",
+    "email"
+   ],
+   "start": "2026-10-01",
+   "end": "2026-10-31",
+   "read": "30-day churn read",
+   "treatment": {
+    "targeted": 18400,
+    "reached": 13616,
+    "responded": 4221,
+    "accepted": 3105,
+    "churned": 846
+   },
+   "control": {
+    "targeted": 2040,
+    "churned": 196
+   },
+   "costs": {
+    "offer_cost_per_accept_usd": 49.2,
+    "contact_cost_per_reach_usd": 1.8,
+    "fixed_usd": 6000
+   },
+   "value_months": 12,
+   "survival_factor": 0.85
+  },
+  {
+   "campaign_id": "CMP-2610-SAVE02",
+   "name": "Mobile Unlimited 15% loyalty discount",
+   "type": "churn_save",
+   "product": "mobile",
+   "offer": "15% off Unlimited for 12 months",
+   "channels": [
+    "sms",
+    "app push"
+   ],
+   "start": "2026-10-01",
+   "end": "2026-10-31",
+   "read": "30-day churn read",
+   "treatment": {
+    "targeted": 42000,
+    "reached": 35280,
+    "responded": 6350,
+    "accepted": 5180,
+    "churned": 2394
+   },
+   "control": {
+    "targeted": 4670,
+    "churned": 290
+   },
+   "costs": {
+    "offer_cost_per_accept_usd": 104.4,
+    "contact_cost_per_reach_usd": 0.03,
+    "fixed_usd": 4000
+   },
+   "value_months": 12,
+   "survival_factor": 0.85
+  },
+  {
+   "campaign_id": "CMP-2609-XS03",
+   "name": "5G Home cross-sell to mobile base",
+   "type": "cross_sell",
+   "product": "five_g_home",
+   "offer": "5G Home for $50/mo, install subsidy $60",
+   "channels": [
+    "email",
+    "app push"
+   ],
+   "start": "2026-09-15",
+   "end": "2026-10-15",
+   "read": "conversion within 21 days",
+   "treatment": {
+    "targeted": 60000,
+    "reached": 51000,
+    "responded": 2860,
+    "accepted": 1140
+   },
+   "control": {
+    "targeted": 6000,
+    "accepted": 42
+   },
+   "costs": {
+    "offer_cost_per_accept_usd": 60,
+    "contact_cost_per_reach_usd": 0.02,
+    "fixed_usd": 8000
+   },
+   "value_months": 12,
+   "survival_factor": 0.8
+  },
+  {
+   "campaign_id": "CMP-2610-WB04",
+   "name": "Win-back Pulse (ported-out < 90 days)",
+   "type": "win_back",
+   "product": "mobile",
+   "offer": "$120 port-in credit",
+   "channels": [
+    "sms",
+    "email",
+    "outbound call"
+   ],
+   "start": "2026-10-05",
+   "end": "2026-11-01",
+   "read": "port-in within 30 days",
+   "treatment": {
+    "targeted": 8200,
+    "reached": 5900,
+    "responded": 610,
+    "accepted": 287
+   },
+   "control": {
+    "targeted": 900,
+    "accepted": 9
+   },
+   "costs": {
+    "offer_cost_per_accept_usd": 120,
+    "contact_cost_per_reach_usd": 0.9,
+    "fixed_usd": 3000
+   },
+   "value_months": 12,
+   "survival_factor": 0.7
+  },
+  {
+   "campaign_id": "CMP-2611-HOL05",
+   "name": "Holiday device bundle (in flight)",
+   "type": "cross_sell",
+   "product": "mobile",
+   "offer": "$200 off flagship phone with new line",
+   "channels": [
+    "email",
+    "app push",
+    "social"
+   ],
+   "start": "2026-11-02",
+   "end": "2026-12-24",
+   "read": "early read (5 days)",
+   "treatment": {
+    "targeted": 75000,
+    "reached": 22000,
+    "responded": 1150,
+    "accepted": 310
+   },
+   "control": {
+    "targeted": 7500,
+    "accepted": 18
+   },
+   "costs": {
+    "offer_cost_per_accept_usd": 200,
+    "contact_cost_per_reach_usd": 0.02,
+    "fixed_usd": 12000
+   },
+   "value_months": 12,
+   "survival_factor": 0.8
+  }
+ ]
+}

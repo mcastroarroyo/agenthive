@@ -1,0 +1,370 @@
+{
+ "as_of": "2026-11-06",
+ "service_level_by_abc": {
+  "A": 0.98,
+  "B": 0.95,
+  "C": 0.9
+ },
+ "holding_rate_per_year": 0.22,
+ "items": [
+  {
+   "dc": "AVD",
+   "sku": "LUM-65Q8",
+   "description": "Lumetra Q8 65\" TV",
+   "supplier": "Lumetra Distribution",
+   "abc": "A",
+   "daily_demand_mean": 26,
+   "daily_demand_sd": 9,
+   "recent_14d_mean": 31,
+   "lead_time_days": 42,
+   "lead_time_sd_days": 6,
+   "review_period_days": 7,
+   "moq": 240,
+   "case_pack": 20,
+   "unit_cost_usd": 690,
+   "order_cost_usd": 450,
+   "on_hand": 85,
+   "backorders": 40,
+   "on_order": [
+    {
+     "po": "PO-LRK-88213",
+     "qty": 480,
+     "eta": "2026-11-13",
+     "shipment": "HLV-SH-260540"
+    }
+   ]
+  },
+  {
+   "dc": "RMD",
+   "sku": "LUM-65Q8",
+   "description": "Lumetra Q8 65\" TV",
+   "supplier": "Lumetra Distribution",
+   "abc": "A",
+   "daily_demand_mean": 10,
+   "daily_demand_sd": 4,
+   "recent_14d_mean": 9,
+   "lead_time_days": 42,
+   "lead_time_sd_days": 6,
+   "review_period_days": 7,
+   "moq": 240,
+   "case_pack": 20,
+   "unit_cost_usd": 690,
+   "order_cost_usd": 450,
+   "on_hand": 190,
+   "backorders": 0,
+   "on_order": [
+    {
+     "po": "PO-LRK-88290",
+     "qty": 240,
+     "eta": "2026-11-24",
+     "shipment": "next sailing (Bluefin Meridian)"
+    }
+   ]
+  },
+  {
+   "dc": "AVD",
+   "sku": "LUM-55Q8",
+   "description": "Lumetra Q8 55\" TV (end of life 2027-01-15)",
+   "supplier": "Lumetra Distribution",
+   "abc": "B",
+   "daily_demand_mean": 6,
+   "daily_demand_sd": 3,
+   "recent_14d_mean": 5,
+   "lead_time_days": 42,
+   "lead_time_sd_days": 6,
+   "review_period_days": 7,
+   "moq": 240,
+   "case_pack": 20,
+   "unit_cost_usd": 520,
+   "order_cost_usd": 450,
+   "on_hand": 420,
+   "backorders": 0,
+   "on_order": []
+  },
+  {
+   "dc": "AVD",
+   "sku": "CVX-PRO16",
+   "description": "Corvex Pro 16 laptop",
+   "supplier": "Corvex Direct",
+   "abc": "A",
+   "daily_demand_mean": 9,
+   "daily_demand_sd": 4,
+   "recent_14d_mean": 11,
+   "lead_time_days": 10,
+   "lead_time_sd_days": 2,
+   "review_period_days": 7,
+   "moq": 50,
+   "case_pack": 5,
+   "unit_cost_usd": 1180,
+   "order_cost_usd": 300,
+   "on_hand": 0,
+   "backorders": 30,
+   "on_order": [
+    {
+     "po": "PO-LRK-88240",
+     "qty": 60,
+     "eta": "2026-11-13",
+     "shipment": "air"
+    }
+   ]
+  },
+  {
+   "dc": "AVD",
+   "sku": "AUR-NC90",
+   "description": "Aurion NC90 headphones",
+   "supplier": "Aurion Audio",
+   "abc": "A",
+   "daily_demand_mean": 21,
+   "daily_demand_sd": 7,
+   "recent_14d_mean": 24,
+   "lead_time_days": 21,
+   "lead_time_sd_days": 3,
+   "review_period_days": 7,
+   "moq": 100,
+   "case_pack": 10,
+   "unit_cost_usd": 145,
+   "order_cost_usd": 250,
+   "on_hand": 160,
+   "backorders": 0,
+   "on_order": [
+    {
+     "po": "PO-LRK-88262",
+     "qty": 400,
+     "eta": "2026-11-12",
+     "shipment": "domestic LTL"
+    }
+   ]
+  },
+  {
+   "dc": "RMD",
+   "sku": "AUR-NC90",
+   "description": "Aurion NC90 headphones",
+   "supplier": "Aurion Audio",
+   "abc": "A",
+   "daily_demand_mean": 12,
+   "daily_demand_sd": 5,
+   "recent_14d_mean": 13,
+   "lead_time_days": 21,
+   "lead_time_sd_days": 3,
+   "review_period_days": 7,
+   "moq": 100,
+   "case_pack": 10,
+   "unit_cost_usd": 145,
+   "order_cost_usd": 250,
+   "on_hand": 45,
+   "backorders": 0,
+   "on_order": []
+  },
+  {
+   "dc": "AVD",
+   "sku": "KAI-NOVA",
+   "description": "Kairo Nova console",
+   "supplier": "Kairo Interactive",
+   "abc": "A",
+   "daily_demand_mean": 14,
+   "daily_demand_sd": 6,
+   "recent_14d_mean": 16,
+   "lead_time_days": 42,
+   "lead_time_sd_days": 7,
+   "review_period_days": 7,
+   "moq": 150,
+   "case_pack": 3,
+   "unit_cost_usd": 410,
+   "order_cost_usd": 450,
+   "on_hand": 30,
+   "backorders": 25,
+   "on_order": [
+    {
+     "po": "PO-LRK-88214",
+     "qty": 300,
+     "eta": "2026-11-13",
+     "shipment": "HLV-SH-260541"
+    }
+   ]
+  },
+  {
+   "dc": "AVD",
+   "sku": "HRT-CAM2",
+   "description": "Hearthly Indoor Cam 2",
+   "supplier": "Hearthly Home",
+   "abc": "B",
+   "daily_demand_mean": 30,
+   "daily_demand_sd": 8,
+   "recent_14d_mean": 29,
+   "lead_time_days": 14,
+   "lead_time_sd_days": 2,
+   "review_period_days": 7,
+   "moq": 200,
+   "case_pack": 20,
+   "unit_cost_usd": 28,
+   "order_cost_usd": 120,
+   "on_hand": 640,
+   "backorders": 0,
+   "on_order": []
+  },
+  {
+   "dc": "RMD",
+   "sku": "CVX-AIR14",
+   "description": "Corvex Air 14 laptop",
+   "supplier": "Corvex Direct",
+   "abc": "B",
+   "daily_demand_mean": 7,
+   "daily_demand_sd": 3,
+   "recent_14d_mean": 7,
+   "lead_time_days": 21,
+   "lead_time_sd_days": 3,
+   "review_period_days": 7,
+   "moq": 50,
+   "case_pack": 5,
+   "unit_cost_usd": 610,
+   "order_cost_usd": 300,
+   "on_hand": 90,
+   "backorders": 0,
+   "on_order": [
+    {
+     "po": "PO-LRK-88275",
+     "qty": 100,
+     "eta": "2026-11-16",
+     "shipment": "domestic LTL"
+    }
+   ]
+  },
+  {
+   "dc": "AVD",
+   "sku": "VAN-AF55",
+   "description": "Vantor AirCrisp air fryer",
+   "supplier": "Vantor Appliances",
+   "abc": "B",
+   "daily_demand_mean": 8,
+   "daily_demand_sd": 3,
+   "recent_14d_mean": 6,
+   "lead_time_days": 7,
+   "lead_time_sd_days": 1,
+   "review_period_days": 7,
+   "moq": 120,
+   "case_pack": 6,
+   "unit_cost_usd": 46,
+   "order_cost_usd": 80,
+   "on_hand": 610,
+   "backorders": 0,
+   "on_order": [
+    {
+     "po": "PO-LRK-88301",
+     "qty": 480,
+     "eta": "2026-11-07",
+     "shipment": "HLV-SH-260600"
+    }
+   ]
+  },
+  {
+   "dc": "AVD",
+   "sku": "VAN-P-CARAFE12",
+   "description": "Vantor 12-cup replacement carafe (service part)",
+   "supplier": "Vantor Service Parts",
+   "abc": "C",
+   "daily_demand_mean": 15,
+   "daily_demand_sd": 6,
+   "recent_14d_mean": 16,
+   "lead_time_days": 7,
+   "lead_time_sd_days": 1,
+   "review_period_days": 7,
+   "moq": 100,
+   "case_pack": 12,
+   "unit_cost_usd": 6.4,
+   "order_cost_usd": 60,
+   "on_hand": 160,
+   "backorders": 0,
+   "on_order": []
+  },
+  {
+   "dc": "AVD",
+   "sku": "VAN-P-HSG12",
+   "description": "Vantor CM12 housing assembly (service part)",
+   "supplier": "Vantor Service Parts",
+   "abc": "C",
+   "daily_demand_mean": 9,
+   "daily_demand_sd": 4,
+   "recent_14d_mean": 22,
+   "lead_time_days": 10,
+   "lead_time_sd_days": 2,
+   "review_period_days": 7,
+   "moq": 60,
+   "case_pack": 6,
+   "unit_cost_usd": 7.9,
+   "order_cost_usd": 60,
+   "on_hand": 60,
+   "backorders": 0,
+   "on_order": []
+  },
+  {
+   "dc": "AVD",
+   "sku": "VAN-P-BASKET55",
+   "description": "Vantor AF55 basket (service part)",
+   "supplier": "Vantor Service Parts",
+   "abc": "C",
+   "daily_demand_mean": 11,
+   "daily_demand_sd": 4,
+   "recent_14d_mean": 12,
+   "lead_time_days": 7,
+   "lead_time_sd_days": 1,
+   "review_period_days": 7,
+   "moq": 100,
+   "case_pack": 10,
+   "unit_cost_usd": 9.5,
+   "order_cost_usd": 60,
+   "on_hand": 300,
+   "backorders": 0,
+   "on_order": []
+  },
+  {
+   "dc": "BRK",
+   "sku": "RES-ABS-PC",
+   "description": "ABS/PC resin, kg (plant raw material)",
+   "supplier": "Aurelis Resins",
+   "abc": "A",
+   "daily_demand_mean": 2400,
+   "daily_demand_sd": 300,
+   "recent_14d_mean": 2450,
+   "lead_time_days": 28,
+   "lead_time_sd_days": 3,
+   "review_period_days": 7,
+   "moq": 18000,
+   "case_pack": 1000,
+   "unit_cost_usd": 2.85,
+   "order_cost_usd": 900,
+   "on_hand": 8300,
+   "backorders": 0,
+   "on_order": [
+    {
+     "po": "PO-VAN-55102",
+     "qty": 18000,
+     "eta": "2026-11-11",
+     "shipment": "HLV-SH-260552"
+    }
+   ]
+  }
+ ],
+ "alternate_suppliers": [
+  {
+   "sku": "RES-ABS-PC",
+   "dc": "BRK",
+   "supplier": "Calder Polymers (domestic)",
+   "lead_time_days": 3,
+   "unit_cost_usd": 3.6,
+   "moq": 2000,
+   "case_pack": 1000,
+   "note": "Approved alternate; same grade, CoA required per lot"
+  },
+  {
+   "sku": "LUM-65Q8",
+   "dc": "AVD",
+   "supplier": "Inter-DC transfer from RMD",
+   "lead_time_days": 1,
+   "unit_cost_usd": 7.9,
+   "moq": 20,
+   "case_pack": 20,
+   "max_qty": 120,
+   "note": "Transfer cost per unit, Halvard Fleet lane L14; Redmarsh keeps 7 days of its own demand"
+  }
+ ]
+}

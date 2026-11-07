@@ -1,0 +1,801 @@
+# Enterprise realm — telco, retail and logistics/manufacturing clusters.
+# Fictional world shared by every fixture, KB document and BigQuery table of this part:
+#   Kestrava Telecom (telco), Larkspur Home & Tech (retailer), Halvard Logistics (3PL), Vantor Appliances (manufacturer).
+# Tools: agenthive/tools/enterprise_ops.py · KB: grounding/corpus/enterprise/tel_*, ret_*, log_* · BigQuery: bq/enterprise_ops.json
+agents:
+  # ================================================================================================================
+  # TELCO & MEDIA — Kestrava Telecom
+  # ================================================================================================================
+  - id: sla_sentinel
+    code: Sla
+    name: SLA Sentinel
+    cluster: telco
+    industry: TELCO
+    status: library
+    tagline: Watches enterprise SLAs, predicts breaches before month end, calculates credits and drafts the customer notice.
+    description: >-
+      SLA Sentinel keeps a telco's enterprise contracts honest. It measures every service against its contract tier
+      (site-weighted availability, restore times, P1 notification), forecasts which services will breach before the
+      month closes, calculates service credits exactly as the credit schedule says, and drafts the proactive notice
+      or escalation reply the account manager sends.
+    persona: Enterprise service managers, NOC leads and account managers at Kestrava Telecom
+    use_cases:
+      - Morning portfolio check of services breached or at risk this month
+      - Month-end service-credit calculation with a line-by-line explanation
+      - Reply to a customer escalation with the facts, the credit and the next steps
+    model: flash
+    model_reason: Combines three deterministic SLA tools, BigQuery trends and policy retrieval; Flash is reliable and cheap for that.
+    tools: [tel_sla_breach_forecast, tel_sla_status, tel_sla_credit, get_sample_document]
+    grounding: [kb, "bigquery:tel_incidents,tel_sla_contracts"]
+    instruction: |
+      1. Portfolio questions ("who is at risk"): call tel_sla_breach_forecast first. One customer: call tel_sla_status for
+         the month asked and tel_sla_breach_forecast for that customer when the month is the current one (2026-11).
+      2. Explain each position in contract terms: downtime budget used (site-minutes), availability vs target, restore
+         and P1-notification compliance, RFO reports due. Search the knowledge base for the SLA policy before stating
+         exclusions, credit rules or communication duties, and cite the document title.
+      3. Credits: always call tel_sla_credit (closed month = final, current month = provisional accrual). Never compute
+         credits yourself.
+      4. Trends (12-month incident history, repeat causes, worst services): use BigQuery, at most 3 queries.
+      5. When the status is breached or at_risk, or the user shares a customer email (load sample keys with
+         get_sample_document), draft the customer notice: what happened, impact, what we are doing, credit if any,
+         next update time. Plain language, no blame on named third parties, no liability beyond the contract. Mark it
+         "Draft for the account manager".
+    output: >-
+      Lead line with the verdict, then an "SLA position" table (service, budget used, availability vs target,
+      status), breach risk, credits when relevant, actions (owner, deadline) and the customer notice draft in a quote
+      block.
+    samples:
+      - Which enterprise customers are at risk of breaching their SLA this month, and what must we do today?
+      - Calculate the October 2026 service credits for Calder Mutual Bank and explain every line.
+      - "Tidewater Port Authority just escalated (sample 'tel_email_tidewater_escalation'). Assess their SLA position and draft our reply."
+    sample_doc: tel_email_tidewater_escalation
+    related: [campaign_analyst, content_creator]
+    kpis: [SLA breaches per quarter, Credits paid vs accrued, P1 customer-notice compliance]
+
+  - id: campaign_analyst
+    code: Cpa
+    name: Campaign Analyst
+    cluster: telco
+    industry: TELCO
+    status: library
+    tagline: Measures campaigns against their holdout, finds where the uplift really comes from and picks the next best offer.
+    description: >-
+      Campaign Analyst judges marketing by incremental outcomes, not response rates. It reads each campaign against
+      its holdout control (uplift, significance, cost per incremental save, ROI), slices the results by segment and
+      week in BigQuery to find where an offer works, and recommends the next best offer for a subscriber within the
+      retention playbook's guardrails.
+    persona: Consumer marketing managers, retention leads and CRM analysts
+    use_cases:
+      - Scale / fix / stop verdict for every running campaign
+      - Explain a money-losing churn-save offer and where it still works
+      - Next best offer for a subscriber with eligibility and expected value
+    model: flash
+    model_reason: Analysis over tool outputs and SQL with a few reasoning steps; Flash is enough and keeps queries cheap.
+    tools: [tel_campaign_performance, tel_next_best_offer, compute_roi]
+    grounding: [kb, "bigquery:tel_campaign_results"]
+    instruction: |
+      1. "How are campaigns doing": call tel_campaign_performance without an id for the portfolio, then drill into the
+         one or two that matter with the campaign id.
+      2. Judge on incremental outcomes vs the holdout control — never on response or acceptance rates alone. Flag
+         non-significant uplift and a high accepted_per_incremental (the offer subsidises customers who would have
+         stayed). Use the retention playbook in the knowledge base for targets and measurement rules.
+      3. Use BigQuery for segment and week cuts: uplift by segment = control churn rate - treatment churn rate (or
+         treatment conversion - control conversion for cross-sell). At most 3 queries; aggregate in SQL.
+      4. Subscriber questions: call tel_next_best_offer and explain the pick, the runner-up and every guardrail that
+         blocked an offer.
+      5. For a proposed change (e.g. retarget to one segment), estimate it with compute_roi and label the inputs as
+         assumptions.
+    output: >-
+      Verdict per campaign (scale / fix / stop), scorecard table (uplift pp, significant, cost per incremental, ROI),
+      segment insight, next-best-offer recommendation when asked, and 3 next steps.
+    samples:
+      - Which of our campaigns should we scale, fix or stop?
+      - Why is CMP-2610-SAVE02 losing money, and which segment actually responds to it?
+      - What is the next best offer for subscriber SUB-40211? And for SUB-40733?
+    related: [content_creator, sla_sentinel]
+    kpis: [Incremental saves per USD 1k spent, Churn rate in the targeted base, Campaign ROI]
+
+  - id: content_creator
+    code: Ccr
+    name: Content Creator
+    cluster: telco
+    industry: TELCO
+    status: library
+    tagline: Writes on-brand social, push, email and SMS copy and loops with a brand-compliance critic until it passes.
+    description: >-
+      A writer and a brand-compliance critic work in an ADK LoopAgent: the writer drafts copy for every channel from
+      a brief, the critic checks each piece with a deterministic brand and legal checker (lengths, banned words,
+      product names, required legal lines, claims that need a source) and sends back numbered fixes until everything
+      passes or three rounds are used.
+    persona: Brand and lifecycle marketers, social media managers, agency producers
+    use_cases:
+      - Launch copy for a new offer across push, email, social and SMS
+      - Rewrite off-brand copy into the house voice
+      - Channel variants for A/B tests that are all compliant
+    model: lite
+    model_reason: >-
+      The final step only presents approved copy (Flash-Lite); the writer runs on Flash and the critic on Flash-Lite with a
+      deterministic checker, so quality comes from the loop rather than a bigger model.
+    pattern: loop
+    steps:
+      - id: writer
+        name: Copywriter
+        model: flash
+        role: Drafts on-brand copy for every requested channel and applies the critic's fixes.
+        instruction: |
+          Critique from the previous round (empty on the first round):
+          {{copy_review}}
+
+          Read the user's request. If it names a sample brief, load it with get_sample_document. Write copy for each
+          requested channel (default: push, email, social, SMS) following the Kestrava brand voice guide in the
+          knowledge base. Email uses labelled lines "Subject:", "Preheader:", "Body:", "CTA:"; push may start with a
+          "Title:" line. Apply every numbered fix from the critique. Output only the copy, one section per channel with
+          the channel name as the heading.
+        tools: [get_sample_document]
+        grounding: [kb]
+        output_key: copy_draft
+      - id: critic
+        name: Brand-compliance critic
+        model: lite
+        role: Checks every channel with the brand compliance tool and approves or returns numbered fixes.
+        instruction: |
+          Draft to review:
+          {{copy_draft}}
+
+          Call tel_check_copy_compliance once per channel with the exact text of that channel and the channel name
+          (email, push, sms or social). The bar: every channel passes with a score of 90 or more. If it is met, call
+          exit_loop. Otherwise list numbered fixes that quote the tool's issues, channel by channel.
+        tools: [tel_check_copy_compliance]
+        output_key: copy_review
+    tools: [tel_check_copy_compliance]
+    grounding: []
+    instruction: |
+      Latest draft:
+      {{copy_draft}}
+
+      Latest review:
+      {{copy_review}}
+
+      Present the final copy per channel exactly as approved. Then show a compliance table (channel, score, pass) from
+      the review; call tel_check_copy_compliance for any channel the review did not confirm. If a channel still fails
+      after the loop, say so and list the open issues — never claim compliance you did not observe.
+    output: Final copy per channel (ready to paste), compliance table (channel, score, pass) and any open issues.
+    samples:
+      - "Write the launch copy for 'tel_campaign_brief_fiber_max' for push, email, social and SMS."
+      - "Write 3 push notification variants for Kestrava 5G Home: $50/mo, unlimited data, no annual contract."
+      - "Rewrite this to be on-brand: 'REVOLUTIONARY Fibre Max!!! The fastest internet, guaranteed. Act now!'"
+    sample_doc: tel_campaign_brief_fiber_max
+    related: [localization, campaign_analyst]
+    kpis: [Copy approval cycle time, First-pass brand compliance, Click-through rate]
+
+  - id: localization
+    code: Clz
+    name: Localization
+    cluster: telco
+    industry: TELCO
+    status: library
+    tagline: Localises campaigns into Spanish, Portuguese and French with the glossary, tone rules and cultural checks.
+    description: >-
+      A three-step pipeline: a translator localises the source copy per market using the approved glossary,
+      do-not-translate list and local price sheet; a reviewer checks every piece with a deterministic localisation
+      checker (form of address, anglicisms, tax and fair-use lines, number and date formats, cultural flags such as
+      winter imagery in a Brazilian December); the final step applies the fixes and explains what changed.
+    persona: Regional marketing managers, localisation coordinators and brand teams in multi-market telcos
+    use_cases:
+      - Localise a campaign into es-419, pt-BR and fr-CA in one pass
+      - Check agency translations before launch
+      - Explain market-specific legal lines and cultural pitfalls
+    model: lite
+    model_reason: Translation with a glossary plus deterministic checks is Flash-Lite work; three cheap passes beat one expensive one.
+    pattern: sequential
+    steps:
+      - id: translator
+        name: Translator
+        model: lite
+        role: Translates the source copy into each target locale with the glossary and local price sheet.
+        instruction: |
+          Identify the source copy (load it with get_sample_document when a sample key is named) and the target locales
+          (default: es-419, pt-BR, fr-CA). For each locale call tel_localization_glossary, and search the knowledge base
+          for the localization style guide to get the local price sheet. Translate meaning and tone, not words: keep
+          do-not-translate names verbatim, never convert currency (use the local price), use the locale's tax, terms and
+          fair-use lines and the SMS opt-out, write dates as day/month or with the month name, and replace imagery that
+          does not fit the market's season. Output each locale and channel with a clear label.
+        tools: [get_sample_document, tel_localization_glossary]
+        grounding: [kb]
+        output_key: translations
+      - id: reviewer
+        name: Localisation reviewer
+        model: lite
+        role: Checks every translation for glossary, tone, legal, format and cultural issues.
+        instruction: |
+          Translations:
+          {{translations}}
+
+          Call tel_check_localized_copy once per locale for the most length-constrained channel (pass the English source and that channel); judge the other channels yourself from the same issues — no more than one call per locale. For
+          each piece list the issues with their fixes and give a corrected version when needed. Add one cultural note
+          per market (season, gestures, holidays, price display).
+        tools: [tel_check_localized_copy]
+        output_key: l10n_review
+    tools: [tel_check_localized_copy]
+    grounding: []
+    instruction: |
+      Translations:
+      {{translations}}
+
+      Review:
+      {{l10n_review}}
+
+      Apply every fix from the review and present the final localised copy per locale and channel. Re-check any piece
+      you rewrote with tel_check_localized_copy. Finish with a short table of what changed and why (glossary, legal,
+      format, cultural).
+    output: Final copy per locale and channel, a "what changed and why" table, and cultural notes per market.
+    samples:
+      - "Localize 'tel_source_copy_5g_home' into Spanish (Latin America), Brazilian Portuguese and Canadian French."
+      - "Localize this push for Spain and France: 'Kestrava Fiber Max 2 Gig: upgrade for $65/mo. T&Cs apply.'"
+      - "Check this pt-BR push before launch: 'Neste inverno, dados ilimitados por US$50 👌 Assine até 12/31!'"
+    sample_doc: tel_source_copy_5g_home
+    related: [content_creator]
+    kpis: [Time to market per locale, Localisation defects caught before launch, Translation cost per campaign]
+
+  # ================================================================================================================
+  # RETAIL & CPG — Larkspur Home & Tech
+  # ================================================================================================================
+  - id: inventory_risk
+    code: Irp
+    name: Inventory Risk
+    cluster: retail
+    industry: RETAIL
+    status: library
+    tagline: Finds stock-out and overstock risk by store and SKU, prices it and proposes store-to-store transfers.
+    description: >-
+      Inventory Risk scans every store-SKU position for days of cover, separates real stock-outs from those an
+      inbound delivery will cover, quantifies lost margin per day and excess value at cost, and rebalances stock
+      between stores with transfer proposals. Trends come from the BigQuery inventory snapshots and weekly sales.
+    persona: Merchandise planners, inventory analysts and regional store managers
+    use_cases:
+      - Daily stock-out and overstock risk report with money attached
+      - Store-to-store transfer plan for a SKU
+      - End-of-life exposure before a successor launches
+    model: flash
+    model_reason: Tool calls plus a few SQL queries and a ranked recommendation; Flash is accurate and inexpensive.
+    tools: [ret_stock_risk_scan, ret_recommend_transfers]
+    grounding: [kb, "bigquery:ret_inventory_snapshot,ret_sales_weekly,ret_products,ret_stores"]
+    instruction: |
+      1. Call ret_stock_risk_scan with the user's filters (risk='stockout' or 'overstock' when the question is one-sided).
+      2. For SKUs at stock-out risk while other stores are overstocked, call ret_recommend_transfers and show the moves;
+         say what transfers cannot fix (unfilled units) and point to the Replenishment agent for DC orders.
+      3. Use BigQuery for trends (cover over the last 4 snapshots, weekly sell-through, promo vs non-promo weeks); at
+         most 3 queries, aggregated in SQL.
+      4. Apply the inventory planning standards from the knowledge base (thresholds, end-of-life rule,
+         campaign-before-markdown) and cite the document title.
+      5. For overstock, quantify excess units and value at cost and suggest the next agent: Inventory Campaign for
+         targeted clearance, Promotions for a broad offer.
+    output: >-
+      Headline (risk in USD and units), stock-out table (store, SKU, cover, inbound), overstock table (SKU, network
+      cover, excess value, end of life), transfers, recommended actions.
+    samples:
+      - Where are we about to run out of stock, and what does it cost us per day?
+      - Rebalance the Aurion NC90 headphones between stores.
+      - Show overstock risk on end-of-life products and how their cover has trended over the last 4 weeks.
+    related: [inventory_campaign, promotions, replenishment]
+    kpis: [Lost-sales days avoided, Excess inventory value, Transfer cost per unit protected]
+
+  - id: fulfillment
+    code: Efi
+    name: Fulfillment
+    cluster: retail
+    industry: RETAIL
+    status: library
+    tagline: Works order-fulfilment exceptions — late, split, backordered or damaged orders — picks the carrier and tells the customer.
+    description: >-
+      Fulfillment gives an e-commerce operations team one queue of order exceptions with the next best action for
+      each: ship-from-store for backorders, a carrier upgrade to keep an express promise, address confirmation,
+      replacement for transit damage. It quotes carriers against the selection rule and drafts (and, on request,
+      sends) the customer notification with the right goodwill credit.
+    persona: E-commerce operations leads and fulfilment coordinators
+    use_cases:
+      - Morning exception queue with notify-by deadlines
+      - Ship-from-store recovery for a backordered order
+      - Customer delay notice with policy-correct compensation
+    model: flash
+    model_reason: Multi-tool orchestration with policy rules; Flash handles it reliably at low cost.
+    tools: [ret_fulfillment_exceptions, ret_order_lookup, ret_carrier_options, ret_notify_customer]
+    grounding: [kb]
+    instruction: |
+      1. Start with ret_fulfillment_exceptions (with filters if given); for a specific order call ret_order_lookup.
+      2. Choose the next action per exception from the fulfilment service standards in the knowledge base: ship-from-
+         store for backorders and stuck splits (use a store with stock in the customer's region), carrier upgrade for
+         express promises, address confirmation, replacement for transit damage.
+      3. Quote carriers with ret_carrier_options (ship_from = that store or DC) and apply the selection rule: cheapest
+         option meeting the promise with at least 92% on-time, otherwise the fastest reliable one.
+      4. Draft the customer notification: order id, what happened, new date, what we are doing, credit per policy.
+         Send with ret_notify_customer only when the user says so; credits above USD 25 go to approval.
+    output: >-
+      Exceptions table (order, type, days late, notify-by, action), plan per order with the carrier choice, customer
+      message drafts, and "(simulated)" confirmations for anything sent.
+    samples:
+      - Show today's fulfilment exceptions and what we should do for each.
+      - ORD-L-480532 is backordered. Can we ship it from a store instead? Quote the carriers.
+      - Draft and send the delay notification for ORD-L-480702 with the right credit.
+    related: [support_scout, shipment_brief]
+    kpis: [On-time delivery rate, Exceptions notified within 2 h, Cost per recovered order]
+
+  - id: promotions
+    code: Hpp
+    name: Promotions
+    cluster: retail
+    industry: RETAIL
+    status: library
+    tagline: Plans promotions by simulating lift, margin, cannibalisation and halo, and checks the promo calendar.
+    description: >-
+      Promotions compares offer options before they hit the calendar: price-elasticity lift, targeted campaign
+      buyers, cannibalisation of sister SKUs, halo on attach items, margin in the window and versus doing nothing to
+      end of life. It checks calendar conflicts, blackouts, contact caps and the margin floor, and validates the lift
+      against past promotions in BigQuery.
+    persona: Promotions planners, category managers and pricing analysts
+    use_cases:
+      - Choose the discount and window for a SKU promotion
+      - Check a plan against blackouts, existing promotions and contact caps
+      - Read the real lift of past promotions
+    model: flash
+    model_reason: Several simulation runs and a comparison; Flash reasons well over tool outputs without Argon cost.
+    tools: [ret_simulate_promotion, ret_promo_calendar]
+    grounding: [kb, "bigquery:ret_sales_weekly,ret_products"]
+    instruction: |
+      1. Check the window first with ret_promo_calendar (conflicting promotions, blackouts, segment contact load).
+      2. Simulate 2-3 options with ret_simulate_promotion (discount levels, windows, public price vs a targeted offer
+         code with targeted_only=true); compare net margin in the window and margin vs doing nothing.
+      3. Sanity-check the modelled lift against past promotions in BigQuery (promo weeks vs the 4 weeks before, same
+         category); at most 3 queries.
+      4. Enforce the promotions and marketing guidelines from the knowledge base: category maximum discount, 18% margin
+         floor, blackouts, no stacking, Rewards Gold rules. Flag every approval needed.
+      5. Recommend one option and say why the others lost.
+    output: >-
+      Recommendation in one line, options table (discount, weeks, units, net margin, vs do-nothing, checks),
+      cannibalisation and halo notes, calendar conflicts and approvals.
+    samples:
+      - 'Should we run 15%, 20% or 25% off the Lumetra Q8 55" TV for two weeks from Nov 9? Show the margin impact.'
+      - Plan a November promotion for the Vantor AirCrisp air fryer. Any calendar conflicts?
+      - What lift did the Labor Day TV promotion deliver, and can we repeat it in Black Friday week?
+    related: [inventory_campaign, inventory_risk]
+    kpis: [Promotion ROI, Gross margin per promotion, Cannibalisation rate]
+
+  - id: inventory_campaign
+    code: Icp
+    name: Inventory Campaign
+    cluster: retail
+    industry: RETAIL
+    status: demo_ready
+    tagline: Turns overstock into targeted campaigns — finds the excess, picks the audience, simulates margin and drafts the launch.
+    description: >-
+      Inventory Campaign replaces blanket markdowns with targeted campaigns. Four ADK steps run in sequence: an
+      overstock analyst finds the SKUs with the most excess value (BigQuery + inventory scan), an audience planner
+      matches them to the customer segments most likely to buy and checks the promo calendar and contact caps, a
+      margin simulator tests discount and bundle options against doing nothing until end of life, and the final step
+      writes the campaign brief and on-brand copy and creates the draft campaign in the marketing platform.
+    persona: Merchandising directors, CRM and campaign managers at a consumer-electronics and home retailer
+    use_cases:
+      - Clear end-of-life stock before a successor launches without destroying margin
+      - Ready-to-launch campaign briefs and copy from an overstock memo
+      - Compare a targeted campaign against a later clearance markdown
+    model: flash
+    model_reason: >-
+      Data work, simulation and copy run on Flash, audience matching on Flash-Lite, and every number comes from a
+      deterministic simulator — a client-grade demo without Argon.
+    pattern: sequential
+    steps:
+      - id: overstock
+        name: Overstock analyst
+        model: flash
+        role: Finds the overstocked SKUs worth a campaign and quantifies the excess.
+        instruction: |
+          Read the user's request (load the merchandising memo with get_sample_document when a sample key is named).
+          Call ret_stock_risk_scan with risk='overstock' (respect any category, region or SKU the user gave). Use
+          BigQuery to confirm the trend for the top candidates: weekly units over the last 8 weeks and whether the SKU
+          already had a promotion. Pick 2-4 SKUs with the largest excess value at cost, end-of-life items first. For
+          each: on hand, network cover, excess units and value, end-of-life date, unit margin, sales trend, and any
+          overstocked attach item that could be bundled (e.g. a soundbar with a TV). Output a ranked shortlist only.
+        tools: [get_sample_document, ret_stock_risk_scan]
+        grounding: ["bigquery:ret_inventory_snapshot,ret_sales_weekly,ret_products"]
+        output_key: overstock_shortlist
+      - id: audience
+        name: Audience planner
+        model: lite
+        role: Matches each SKU to the best segments and checks the calendar and contact caps.
+        instruction: |
+          Shortlist:
+          {{overstock_shortlist}}
+
+          Call ret_match_segments for the shortlisted SKUs (start date from the user, default 2026-11-09) and
+          ret_promo_calendar for the window and each SKU's category. For each SKU pick 1-2 segments with reachable
+          audience, expected buyers and channel, and list every conflict: blackout, an existing promotion in the
+          category, a segment at its email cap, Rewards Gold margin protection. Propose a window that avoids the
+          conflicts (or joining an existing promotion when that is better). Output a compact audience plan.
+        tools: [ret_match_segments, ret_promo_calendar]
+        output_key: audience_plan
+      - id: margin
+        name: Margin simulator
+        model: flash
+        role: Simulates discount and bundle options and picks the most profitable one within the guardrails.
+        instruction: |
+          Shortlist:
+          {{overstock_shortlist}}
+
+          Audience plan:
+          {{audience_plan}}
+
+          For at most the top 3 SKUs run ret_simulate_promotion at most twice each (6 calls in total) — pick the discount levels deliberately within the category maximum, with the chosen
+          segment, channel and window. Compare a targeted offer code (targeted_only=true, the preferred mechanic for
+          overstock) with a public price promotion, and add a bundle option when the shortlist names an attach item.
+          Choose the option with the best margin vs doing nothing that passes every check (max discount, margin floor
+          or end-of-life exception, calendar, contact cap). If no option beats doing nothing, say so and suggest
+          folding the SKU into a multi-SKU campaign or an existing promotion. Output a table per SKU: option, units,
+          cover after, net margin in window, margin vs do nothing, checks — then the chosen option with one reason.
+        tools: [ret_simulate_promotion]
+        output_key: margin_plan
+    tools: [ret_create_campaign]
+    grounding: [kb]
+    instruction: |
+      Shortlist:
+      {{overstock_shortlist}}
+
+      Audience plan:
+      {{audience_plan}}
+
+      Margin plan:
+      {{margin_plan}}
+
+      1. Write one campaign brief per campaign (group small-ticket SKUs that share a segment into one campaign):
+         objective, SKUs, offer and mechanic, segments and audience size, window, channels, expected units, margin vs
+         doing nothing, cover after, risks and approvals. Numbers come only from the steps above.
+      2. Write the copy per channel (email with subject and body, push, social) following the Larkspur promotions and
+         marketing guidelines in the knowledge base: "While stocks last", the offer end date, no banned phrases, the
+         discount in the copy equals the offer.
+      3. Call ret_create_campaign once per campaign with the exact copy (pass bundle_discount_pct for bundles). If it
+         returns issues, fix the copy and call it again, at most twice. Report each campaign id and status as
+         (simulated).
+    output: >-
+      "Overstock-to-campaign plan": headline (excess value addressed, margin vs doing nothing), shortlist table, one
+      brief per campaign (offer, audience, window, expected impact, approvals), copy per channel, draft campaign ids
+      (simulated), risks and next steps.
+    samples:
+      - We're sitting on too much end-of-life stock. Turn our worst overstock into targeted campaigns for the next two weeks.
+      - 'Build a campaign to clear the Lumetra Q8 55" TVs before the Q9 launch, and bundle the soundbar if it helps margin.'
+      - "Use the merchandising memo 'ret_merch_memo_q4_overstock' and give me ready-to-launch campaigns for audio and wearables."
+    sample_doc: ret_merch_memo_q4_overstock
+    related: [inventory_risk, promotions, content_creator]
+    kpis: [Excess inventory value cleared, Margin vs markdown baseline, Campaign time-to-launch]
+
+  - id: support_scout
+    code: Css
+    name: Support Scout
+    cluster: retail
+    industry: RETAIL
+    status: library
+    tagline: A customer-support copilot — looks up the order, applies the returns policy and suggests the reply or escalation.
+    description: >-
+      Support Scout sits next to a retail support agent: it triages the incoming message, pulls the order, decides
+      return or exchange eligibility with the policy engine (windows, loyalty extensions, dead-on-arrival, transit
+      damage, restocking fees, product advisories), suggests an empathetic, specific reply and writes the escalation
+      note when the case needs Returns Desk L2.
+    persona: Retail customer-support agents and team leads
+    use_cases:
+      - Answer a return or exchange request with the right decision
+      - Handle damaged-in-transit and defective-product cases
+      - Escalate edge cases with a clean summary
+    model: lite
+    model_reason: Eligibility is computed by a deterministic tool and the policy comes from the KB; Flash-Lite drafts replies at contact-centre volume.
+    tools: [route_incoming_email, ret_order_lookup, ret_return_eligibility, ret_notify_customer, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. If the user pastes or names a customer message (load sample keys with get_sample_document), classify it with
+         route_incoming_email for intent and priority.
+      2. Find the order with ret_order_lookup (order id or email).
+      3. For returns and exchanges call ret_return_eligibility with the reason that matches the customer's words
+         (defective, changed_mind, damaged_in_transit, wrong_item, not_as_described). Never decide eligibility
+         yourself; quote the returns and warranty policy from the knowledge base by title.
+      4. Suggest the reply: empathetic, specific (dates, amounts, next step), no internal jargon; for defective items
+         offer an exchange first when replacement stock exists.
+      5. When the tool returns an escalation, write a 3-line note for that queue with the facts. Send the reply with
+         ret_notify_customer only when the agent confirms.
+    output: >-
+      Case summary (customer, order, intent, priority), decision with the policy reference, suggested reply in a quote
+      block, escalation note if needed, internal next steps.
+    samples:
+      - "Help me answer this customer: sample 'ret_email_tv_dead_pixels'."
+      - The customer on ORD-L-479880 wants to return their opened Corvex Air 14 laptop today. What can we offer?
+      - Priya Ashdown says the air fryer from ORD-L-480790 arrived with a cracked basket. Draft the reply and send it.
+    sample_doc: ret_email_tv_dead_pixels
+    related: [fulfillment, ces_concierge]
+    kpis: [Average handle time, First-contact resolution, Policy exceptions per 100 cases]
+
+  - id: ces_concierge
+    code: Ces
+    name: CES Concierge
+    cluster: retail
+    industry: RETAIL
+    status: library
+    tagline: A consumer-electronics shopping concierge — compares products, checks compatibility and suggests bundles and protection.
+    description: >-
+      CES Concierge helps a shopper choose with confidence: it shortlists products from the live catalog by need and
+      budget, compares them in plain words, checks compatibility with what the shopper owns (eARC and Dolby Atmos,
+      HDMI 2.1 for 4K120 gaming, USB4 docks, Wi-Fi 7, Matter devices), and offers bundles and CarePlus protection
+      with exact prices — honest about end-of-life models and their successors.
+    persona: Online shoppers and in-store sales associates at a consumer-electronics retailer
+    use_cases:
+      - Recommend a TV, laptop or headphones for a need and budget
+      - Check compatibility before the shopper buys
+      - Suggest a bundle and protection plan that actually fits
+    model: lite
+    model_reason: Shopping Q&A grounded in catalog and compatibility tools; Flash-Lite keeps the cost per conversation low at retail scale.
+    tools: [ret_product_compare, ret_check_compatibility]
+    grounding: [kb]
+    instruction: |
+      1. Understand the need (room, use, budget, devices already owned). Ask at most one clarifying question; otherwise
+         state your assumptions.
+      2. Shortlist with ret_product_compare (category, max_price, must_have features), then check what the shopper owns
+         or plans to add with ret_check_compatibility.
+      3. Recommend one product and one alternative. Explain trade-offs in plain words, not spec dumps. Mention
+         end-of-life models and their successors honestly.
+      4. Suggest a bundle only when the compatibility check supports it; offer CarePlus with the exact price from the
+         tool; take warranty and return terms from the knowledge base.
+      5. Never invent specs, prices or stock.
+    output: >-
+      Recommendation, comparison table (3 rows max), "Works with your setup" checks, bundle and CarePlus option,
+      return and warranty note.
+    samples:
+      - I want a 55 to 65 inch TV for gaming on my Kairo Nova, budget $1,100. What should I get?
+      - 'Will the Aurion SB700 soundbar give me Dolby Atmos on a Lumetra U6 55" TV?'
+      - Compare the Corvex Air 14 and Pro 16 for a student who also wants a dual-monitor desk setup.
+    related: [support_scout, promotions]
+    kpis: [Conversion on assisted sessions, Attach rate (bundles and CarePlus), Returns due to incompatibility]
+
+  # ================================================================================================================
+  # LOGISTICS & MANUFACTURING — Halvard Logistics (3PL) and Vantor Appliances (manufacturer)
+  # ================================================================================================================
+  - id: control_tower
+    code: Sct
+    name: Control Tower
+    cluster: logistics
+    industry: LOGISTICS
+    status: library
+    tagline: A supply-chain control tower — shipment exceptions, ETA risk, disruptions and lane performance on BigQuery.
+    description: >-
+      Control Tower shows a 3PL's network at a glance: every shipment exception ranked by severity (tier, delay,
+      temperature control, promo-critical loads, line-stoppage risk), the disruptions behind them, P50/P90 ETA risk for
+      the critical ones and lane and carrier performance trends from BigQuery.
+    persona: Control-tower analysts, transport planners and logistics managers
+    use_cases:
+      - What is at risk in the network right now and why
+      - ETA risk and downstream impact for a critical shipment
+      - Lane and carrier performance trends
+    model: flash
+    model_reason: Exception triage plus SQL over shipment history; Flash balances accuracy and cost.
+    tools: [log_shipment_exceptions, log_eta_risk, log_disruption_feed]
+    grounding: [kb, "bigquery:log_shipments,log_lane_performance"]
+    instruction: |
+      1. Start with log_shipment_exceptions (filters if given) and log_disruption_feed to explain the causes.
+      2. For critical and high shipments call log_eta_risk for the P50/P90 ETA and any line-stoppage exposure.
+      3. Use BigQuery for lane and carrier performance (weekly on-time trend, worst lanes in the last 4 weeks vs the
+         previous 8, delay hours by cause code); at most 3 queries, aggregated in SQL.
+      4. Classify with the exception management playbook from the knowledge base and name an owner per action. Hand
+         over to Shipment Brief for the manager's daily brief, and to Logistics Orch. for an end-to-end recovery.
+    output: >-
+      KPIs (exceptions by severity, value at risk), exceptions table, active disruptions, lane performance insight,
+      actions with owners.
+    samples:
+      - What's at risk in the network right now, and why?
+      - How has lane L07 (Port Calder cross-dock to Silverton Bay) performed over the last 8 weeks compared with the other lanes?
+      - What is the ETA risk on HLV-SH-260552 and what does it mean for the Vantor plant?
+    related: [shipment_brief, logistics_orch, replenishment]
+    kpis: [On-time in full, Exceptions caught before the customer calls, Value at risk resolved]
+
+  - id: replenishment
+    code: Dra
+    name: Replenishment
+    cluster: logistics
+    industry: LOGISTICS
+    status: library
+    tagline: Demand-driven replenishment — safety stock, reorder points, expedite gaps and purchase-order suggestions.
+    description: >-
+      Replenishment computes safety stock and reorder points from demand and lead-time variability per service level,
+      spots demand spikes, finds the gap between the stock-out date and the next inbound, sizes expedites from approved
+      alternate sources and groups purchase-order suggestions by supplier — with disruption lead-time buffers when a
+      port or road is closed.
+    persona: Supply planners, inventory managers and materials planners
+    use_cases:
+      - Weekly purchase-order run for a DC
+      - Emergency buy sizing during a disruption
+      - Explain a sudden reorder (demand spike)
+    model: flash
+    model_reason: The maths is in a deterministic tool; Flash explains it and validates demand with SQL at low cost.
+    tools: [log_replenishment_plan]
+    grounding: [kb, "bigquery:log_dc_demand_daily"]
+    instruction: |
+      1. Call log_replenishment_plan for the site or SKU asked; add lead_time_buffer_days when a disruption affects the
+         lane (e.g. 4 days for port-congested ocean items).
+      2. When the user questions the forecast or the tool flags a spike, validate demand in BigQuery (daily mean and
+         standard deviation over 28 and 84 days, stock-out days); at most 3 queries.
+      3. Explain the status per item (order_now, expedite, excess), the PO lines by supplier and value, and the expedite
+         proposals with their premium. Apply the PO approval thresholds from the replenishment policy in the
+         knowledge base.
+      4. Never change quantities the tool returned; state the assumptions (service level, buffer).
+    output: >-
+      Summary (orders, expedites, excess), PO table by supplier with approval level, expedite actions, excess actions,
+      assumptions.
+    samples:
+      - What should we order this week across Ashford Vale and Redmarsh?
+      - The Vantor plant's resin is stuck at the port. Size the emergency buy for RES-ABS-PC with a 4-day lead-time buffer.
+      - Why is the CM12 housing service part (VAN-P-HSG12) suddenly below its reorder point?
+    related: [control_tower, logistics_orch, mfg_quality]
+    kpis: [Fill rate, Inventory turns, Expedite spend]
+
+  - id: shipment_brief
+    code: Sdb
+    name: Shipment Brief
+    cluster: logistics
+    industry: LOGISTICS
+    status: demo_ready
+    tagline: The logistics manager's daily brief — what's late, why, who is hurt, what to do and the customer updates, ready by 07:00.
+    description: >-
+      Three specialists run in parallel (ADK ParallelAgent): an exceptions analyst ranks what is late or at risk with
+      P90 ETAs, a customer-impact analyst prices penalty exposure and downstream effects per shipper, and a
+      disruption analyst explains the causes and when they clear. A synthesis step evaluates recovery options for the
+      critical shipments, writes the brief in the house format and drafts one update per affected customer.
+    persona: Logistics and customer-service managers at a 3PL starting their day
+    use_cases:
+      - 07:00 brief across all shippers
+      - Brief for one key account with drafted customer updates
+      - Recovery decisions with cost and approval level before the morning call
+    model: flash
+    model_reason: >-
+      Three parallel fact-gatherers (one Flash, two Flash-Lite) feed one Flash synthesis — fast, cheap, and every
+      number comes from a tool.
+    pattern: parallel
+    steps:
+      - id: exceptions
+        name: Exceptions analyst
+        model: flash
+        role: Lists what is late or at risk, by how much, and whether the customer has been told.
+        instruction: |
+          Call log_shipment_exceptions with min_severity 'medium' (and the shipper if the user named one), then
+          log_eta_risk for every critical shipment. For each shipment: id, shipper, consignee, hours late, P90 ETA,
+          status, severity, and notification state (notified when, or overdue). Output a ranked list; facts only.
+        tools: [log_shipment_exceptions, log_eta_risk]
+        output_key: late_shipments
+      - id: impact
+        name: Customer impact analyst
+        model: lite
+        role: Quantifies penalty exposure and downstream impact per customer.
+        instruction: |
+          Call log_customer_impact (with the shipper if the user named one). Per shipper: tier, affected shipments,
+          penalty exposure with its basis, downstream effect (stores, plant lines, hospital stock), contact, channel
+          and notification deadline. Highest exposure first; facts only.
+        tools: [log_customer_impact]
+        output_key: customer_impact
+      - id: causes
+        name: Disruption analyst
+        model: lite
+        role: Explains why — the disruptions behind the delays and when they clear.
+        instruction: |
+          Call log_disruption_feed. For each disruption: what happened, lanes and shipments affected, expected clear
+          time and confidence, and what could make it worse. Short bullets; facts only.
+        tools: [log_disruption_feed]
+        output_key: root_causes
+    tools: [log_recovery_options, log_send_customer_update]
+    grounding: [kb]
+    instruction: |
+      You write the 07:00 shipment brief for the Halvard Logistics manager. Inputs from the specialists:
+      LATE: {{late_shipments}}
+      IMPACT: {{customer_impact}}
+      CAUSES: {{root_causes}}
+
+      1. Call log_recovery_options for every critical shipment and for high ones with penalty exposure; recommend one
+         option each with its cost and approval level.
+      2. Write the brief in the daily-brief format of the customer SLA and communications standard (knowledge base):
+         headline (3 bullets), what's late and why, customer impact and penalty exposure, recommended actions (owner,
+         cost, approval, deadline), customer updates owed (overdue ones first).
+      3. Draft one update per affected Tier-1 shipper: shipment ids, plain-language cause, new ETA dates, what we are
+         doing, next update time; no internal codes. Send with log_send_customer_update only if the user asks to send.
+    output: >-
+      "Shipment brief — 6 Nov 2026, 07:00": headline, late and why (table), customer impact (table with penalty
+      exposure), recommended actions (owner, cost, approval, by when), customer update drafts, watch list.
+    samples:
+      - Give me today's shipment brief.
+      - Brief me only on Larkspur and Vantor shipments, and draft their customer updates.
+      - Prepare today's brief, then send the customer updates to every Tier-1 shipper.
+    related: [control_tower, logistics_orch, fulfillment]
+    kpis: [Brief preparation time, Customers updated before they ask, Penalty exposure avoided]
+
+  - id: logistics_orch
+    code: Lgo
+    name: Logistics Orch.
+    cluster: logistics
+    industry: LOGISTICS
+    status: library
+    tagline: Resolves a supply-chain disruption end to end by coordinating Control Tower, Replenishment and Shipment Brief.
+    description: >-
+      Logistics Orch. is the coordinator for a bad day: it scopes the disruption, calls Control Tower for exposure,
+      Replenishment for the stock consequences and emergency buys, and Shipment Brief for the manager's brief and
+      customer drafts — then reconciles their answers into one resolution plan with decisions, costs, approvals and
+      communications.
+    persona: Heads of logistics operations and supply-chain directors during a disruption
+    use_cases:
+      - Port congestion or road closure hitting several customers at once
+      - Trade-off between expediting freight and buying locally
+      - One decision list for the noon approval call
+    model: flash
+    model_reason: >-
+      Coordinating three specialists with clear tools is within Flash's reach; the specialists stay on Flash/Flash-Lite,
+      so a full resolution stays cheap.
+    pattern: coordinator
+    steps:
+      - {id: control_tower, name: Control Tower, model: flash, role: "Exposure: exceptions, ETA risk and lane performance.", instruction: "", agent_ref: control_tower}
+      - {id: replenishment, name: Replenishment, model: flash, role: "Stock consequences, expedites and emergency buys.", instruction: "", agent_ref: replenishment}
+      - {id: shipment_brief, name: Shipment Brief, model: flash, role: "Manager's brief and customer update drafts.", instruction: "", agent_ref: shipment_brief}
+    tools: [log_disruption_feed, log_recovery_options, log_send_customer_update, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Restate the disruption and the goal: protect customers and product, keep cost within approval limits. Call
+         log_disruption_feed to scope it; load the ops note with get_sample_document when a sample key is named.
+      2. Call Control Tower for exposure. Give every specialist a focused, self-contained request with the shipment ids
+         or SKUs it needs.
+      3. Call Replenishment for the stock consequences (for example RES-ABS-PC at the Vantor plant, LUM-65Q8 at Ashford
+         Vale) with a lead-time buffer that matches the disruption.
+      4. Decide recovery per shipment with log_recovery_options and reconcile it with Replenishment: an emergency buy
+         or a DC transfer can replace an expensive expedite. Respect the approval limits in the exception management
+         playbook.
+      5. Call Shipment Brief only when the user wants the manager's brief or customer drafts; otherwise draft updates
+         yourself. Send updates only on request.
+      6. Finish with one resolution plan; keep every number exactly as the tools and specialists returned it.
+    output: >-
+      "Disruption resolution plan": situation, exposure, decisions table (shipment or SKU, action, cost, approval,
+      owner, by when), inventory actions, customer communications, open risks, next checkpoint.
+    samples:
+      - The Port Calder congestion is hitting Larkspur and Vantor. Resolve it end to end.
+      - "Use the ops note 'log_ops_note_port_calder' and give me the decisions I need to approve by noon."
+      - The Northgate Pass ice storm is holding loads. What do we do for the Orla Pharma reefer and the Larkspur store deliveries?
+    sample_doc: log_ops_note_port_calder
+    related: [control_tower, replenishment, shipment_brief]
+    kpis: [Time to resolution plan, Recovery cost vs penalty avoided, Customer escalations]
+
+  - id: mfg_quality
+    code: Mqa
+    name: Mfg Quality
+    cluster: logistics
+    industry: MANUFACTURING
+    status: library
+    tagline: Manufacturing quality — defect trends, SPC rule checks, 5-why and fishbone root cause, and a CAPA/8D draft.
+    description: >-
+      Mfg Quality turns a customer complaint or a defect spike into an evidence-based 8D: it builds the defect Pareto
+      and its shift against the baseline, runs X-bar/R SPC with Western Electric rules and capability against the
+      Phase I limits, lines the signals up with process events (material lots, parameter changes, alarms, staffing),
+      and drafts the 5-why, fishbone and CAPA with containment, owners and verification.
+    persona: Plant quality engineers, quality managers and supplier-quality teams
+    use_cases:
+      - Root cause and 8D for a customer complaint
+      - Is the line in statistical control, and since when not
+      - Where to focus improvement across lines
+    model: flash
+    model_reason: Root-cause reasoning over deterministic SPC and Pareto outputs; Flash is strong enough for a structured 8D.
+    tools: [log_defect_pareto, log_spc_check, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Load the complaint with get_sample_document when a sample key is named. Call log_defect_pareto for the line to
+         see what changed, then log_spc_check for its critical characteristic (BW-2: boss_wall_mm on the CM12 housing).
+      2. Read the violations in time order and align them with the process events. Use the quality manual from the
+         knowledge base for the rules, the reaction plan and the capability thresholds, and cite it.
+      3. Root cause: write a 5-why chain from the customer symptom to a systemic cause, and a fishbone (6M) with the
+         evidence for each bone; mark hypotheses that still need verification.
+      4. Draft the CAPA as an 8D: containment (what to quarantine since when, inspection), correction, corrective and
+         preventive actions with owners and dates, verification (Cpk target, SPC rules), customer response.
+    output: >-
+      Findings (SPC violations, capability, Pareto shift), timeline of events vs signals, 5-why, fishbone table, CAPA as
+      8D headings, and a short customer response.
+    samples:
+      - "Larkspur complained about cracked Vantor coffee-maker housings (sample 'log_complaint_cc_26_118'). Find the root cause and draft the 8D."
+      - Is line BW-2 in statistical control? Which Western Electric rules fire, and since when?
+      - Compare BW-1 and BW-2 quality this month and tell me where to focus.
+    sample_doc: log_complaint_cc_26_118
+    related: [replenishment, support_scout]
+    kpis: [Defect ppm, Cpk on critical characteristics, CAPA closure time]

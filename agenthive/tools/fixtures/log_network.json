@@ -1,0 +1,235 @@
+{
+ "operator": "Halvard Logistics (fictional)",
+ "as_of": "2026-11-06T07:00",
+ "sites": {
+  "AVD": "Ashford Vale DC",
+  "RMD": "Redmarsh DC",
+  "PCX": "Port Calder cross-dock",
+  "PCP": "Port Calder container port (Terminal 2)",
+  "BRK": "Vantor Brackwater plant",
+  "AUR": "Port Aurelis (origin port)"
+ },
+ "lanes": [
+  {
+   "lane_id": "L01",
+   "origin": "PCP",
+   "destination": "AVD",
+   "mode": "drayage",
+   "carrier": "Halvard Fleet",
+   "transit_days": 1,
+   "on_time_30d_pct": 91.0,
+   "cost_per_kg_usd": 0.06
+  },
+  {
+   "lane_id": "L02",
+   "origin": "AVD",
+   "destination": "Kingsreach",
+   "mode": "FTL",
+   "carrier": "Ironbridge Freight",
+   "transit_days": 1,
+   "on_time_30d_pct": 93.5,
+   "cost_per_kg_usd": 0.11
+  },
+  {
+   "lane_id": "L03",
+   "origin": "AVD",
+   "destination": "Northgate",
+   "mode": "LTL",
+   "carrier": "Ironbridge Freight",
+   "transit_days": 2,
+   "on_time_30d_pct": 90.2,
+   "cost_per_kg_usd": 0.19
+  },
+  {
+   "lane_id": "L04",
+   "origin": "AVD",
+   "destination": "Frostholm",
+   "mode": "LTL",
+   "carrier": "Northstar Express",
+   "transit_days": 2,
+   "on_time_30d_pct": 87.9,
+   "cost_per_kg_usd": 0.21
+  },
+  {
+   "lane_id": "L05",
+   "origin": "RMD",
+   "destination": "Cindervale",
+   "mode": "FTL",
+   "carrier": "Halvard Fleet",
+   "transit_days": 1,
+   "on_time_30d_pct": 96.8,
+   "cost_per_kg_usd": 0.09
+  },
+  {
+   "lane_id": "L06",
+   "origin": "RMD",
+   "destination": "Sunhollow",
+   "mode": "LTL",
+   "carrier": "Ironbridge Freight",
+   "transit_days": 2,
+   "on_time_30d_pct": 92.4,
+   "cost_per_kg_usd": 0.18
+  },
+  {
+   "lane_id": "L07",
+   "origin": "PCX",
+   "destination": "Silverton Bay",
+   "mode": "LTL",
+   "carrier": "Ironbridge Freight",
+   "transit_days": 1,
+   "on_time_30d_pct": 84.6,
+   "cost_per_kg_usd": 0.17
+  },
+  {
+   "lane_id": "L08",
+   "origin": "PCX",
+   "destination": "Port Calder",
+   "mode": "final_mile",
+   "carrier": "Coastal Courier",
+   "transit_days": 1,
+   "on_time_30d_pct": 96.7,
+   "cost_per_kg_usd": 0.31
+  },
+  {
+   "lane_id": "L09",
+   "origin": "BRK",
+   "destination": "AVD",
+   "mode": "FTL",
+   "carrier": "Halvard Fleet",
+   "transit_days": 1,
+   "on_time_30d_pct": 97.9,
+   "cost_per_kg_usd": 0.08
+  },
+  {
+   "lane_id": "L10",
+   "origin": "PCP",
+   "destination": "BRK",
+   "mode": "drayage",
+   "carrier": "Halvard Fleet",
+   "transit_days": 1,
+   "on_time_30d_pct": 90.5,
+   "cost_per_kg_usd": 0.07
+  },
+  {
+   "lane_id": "L11",
+   "origin": "RMD",
+   "destination": "Parcel network",
+   "mode": "parcel",
+   "carrier": "Northstar Express",
+   "transit_days": 2,
+   "on_time_30d_pct": 88.4,
+   "cost_per_kg_usd": 0.55
+  },
+  {
+   "lane_id": "L12",
+   "origin": "AUR",
+   "destination": "PCP",
+   "mode": "ocean",
+   "carrier": "Bluefin Ocean Lines",
+   "transit_days": 24,
+   "on_time_30d_pct": 71.0,
+   "cost_per_kg_usd": 0.04
+  },
+  {
+   "lane_id": "L13",
+   "origin": "AVD",
+   "destination": "Elmstead",
+   "mode": "LTL",
+   "carrier": "Northstar Express",
+   "transit_days": 1,
+   "on_time_30d_pct": 92.0,
+   "cost_per_kg_usd": 0.16
+  },
+  {
+   "lane_id": "L14",
+   "origin": "RMD",
+   "destination": "AVD",
+   "mode": "FTL",
+   "carrier": "Halvard Fleet",
+   "transit_days": 1,
+   "on_time_30d_pct": 98.2,
+   "cost_per_kg_usd": 0.07
+  }
+ ],
+ "shippers": [
+  {
+   "shipper_id": "C-LRK",
+   "name": "Larkspur Home & Tech",
+   "tier": 1,
+   "on_time_target_pct": 97.0,
+   "penalty": "USD 250 per store delivery more than 24 h late; 2x for promo-critical loads",
+   "penalty_per_late_delivery_usd": 250,
+   "promo_multiplier": 2,
+   "contact": "Larkspur Supply Desk",
+   "email": "supply.desk@larkspur.example",
+   "channel": "email + shipper portal",
+   "notify_within_hours": 2
+  },
+  {
+   "shipper_id": "C-VAN",
+   "name": "Vantor Appliances",
+   "tier": 1,
+   "on_time_target_pct": 96.0,
+   "penalty": "USD 4,000 per hour of line stoppage caused by late inbound material (cap USD 40,000 per incident)",
+   "penalty_per_late_delivery_usd": 0,
+   "line_stoppage_per_hour_usd": 4000,
+   "line_stoppage_cap_usd": 40000,
+   "contact": "Vantor Materials Planning",
+   "email": "materials@vantor.example",
+   "channel": "phone + email",
+   "notify_within_hours": 2
+  },
+  {
+   "shipper_id": "C-ORL",
+   "name": "Orla Pharma Distribution",
+   "tier": 1,
+   "on_time_target_pct": 98.5,
+   "penalty": "USD 1,500 per late temperature-controlled delivery; any excursion outside 2-8 C puts product on hold",
+   "penalty_per_late_delivery_usd": 1500,
+   "contact": "Orla Quality & Logistics",
+   "email": "logistics@orlapharma.example",
+   "channel": "phone + email",
+   "notify_within_hours": 1
+  },
+  {
+   "shipper_id": "C-GRF",
+   "name": "Greenfold Grocers",
+   "tier": 2,
+   "on_time_target_pct": 95.0,
+   "penalty": "USD 150 per late delivery",
+   "penalty_per_late_delivery_usd": 150,
+   "contact": "Greenfold Transport",
+   "email": "transport@greenfold.example",
+   "channel": "email",
+   "notify_within_hours": 4
+  },
+  {
+   "shipper_id": "C-SBR",
+   "name": "Sable & Rye Apparel",
+   "tier": 2,
+   "on_time_target_pct": 95.0,
+   "penalty": "USD 100 per late delivery",
+   "penalty_per_late_delivery_usd": 100,
+   "contact": "Sable & Rye Logistics",
+   "email": "logistics@sableandrye.example",
+   "channel": "email",
+   "notify_within_hours": 4
+  },
+  {
+   "shipper_id": "C-PNC",
+   "name": "Pinecrest Outdoor",
+   "tier": 3,
+   "on_time_target_pct": 92.0,
+   "penalty": "Freight charge credited if more than 48 h late",
+   "penalty_per_late_delivery_usd": 0,
+   "contact": "Pinecrest Ops",
+   "email": "ops@pinecrest.example",
+   "channel": "email",
+   "notify_within_hours": 8
+  }
+ ],
+ "approval_limits_usd": {
+  "ops_manager": 5000,
+  "director": 25000
+ }
+}

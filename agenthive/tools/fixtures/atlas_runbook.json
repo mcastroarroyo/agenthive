@@ -1,0 +1,65 @@
+{
+  "error_classes": {
+    "throttled_429": {"category": "transient", "success_rate": 0.97, "action": "Auto-retry with exponential backoff; lower concurrency if it persists for more than 2 hours."},
+    "network_timeout": {"category": "transient", "success_rate": 0.92, "action": "Auto-retry; check agent host network if more than 1% of items time out."},
+    "permission_denied_source": {"category": "fixable", "success_rate": 0.85, "action": "Grant the migration service account read access at source, then retry."},
+    "path_too_long": {"category": "fixable", "success_rate": 0.98, "action": "Shorten folder names or remap the share root deeper, then re-run the folder pass."},
+    "target_quota": {"category": "fixable", "success_rate": 0.99, "action": "Raise storage allocation for the target shared drive or user, then retry."},
+    "item_too_large": {"category": "policy_skip", "success_rate": 0.0, "action": "Skipped by policy (over 25 MB per item); reported to the user in validation."},
+    "unsupported_type": {"category": "policy_skip", "success_rate": 0.0, "action": "Excluded by extension policy (.exe, .msi, .bat, .pst); kept read-only at source."},
+    "corrupt_item": {"category": "permanent", "success_rate": 0.05, "action": "Item corrupt at source; reported, no further retries."}
+  },
+  "thresholds": {
+    "bulk_complete_pct_min": 99.0,
+    "error_rate_amber_pct": 0.1,
+    "error_rate_red_pct": 0.5,
+    "unexplained_variance_max_pct": 0.1,
+    "checksum_mismatch_max_pct": 0.05,
+    "delegations_recreated_min_pct": 100
+  },
+  "delta_profile": {
+    "mail_items_per_user_day": 62,
+    "avg_mail_kb": 85,
+    "file_change_rate_day": 0.0035,
+    "avg_file_mb": 1.9,
+    "scan_minutes_per_mailbox": 1.2,
+    "parallel_mailbox_scans": 20,
+    "file_scan_per_hour": 1500000,
+    "delta_throughput_gb_h": 30
+  },
+  "checklist": [
+    {"id": "C01", "when": "T-14", "item": "Wave roster frozen and approved by the client PM", "owner_role": "Client PM", "critical": true},
+    {"id": "C02", "when": "T-10", "item": "Bulk transfer started for all workloads", "owner_role": "Wursta migration lead", "critical": true},
+    {"id": "C03", "when": "T-7", "item": "Training sessions scheduled and invites sent", "owner_role": "Wursta change lead", "critical": false},
+    {"id": "C04", "when": "T-7", "item": "'What is changing' email sent to the wave", "owner_role": "Wursta change lead", "critical": false},
+    {"id": "C05", "when": "T-3", "item": "MX and autodiscover TTL lowered to 300 s", "owner_role": "Client network team", "critical": true},
+    {"id": "C06", "when": "T-3", "item": "Mobile re-add guide published", "owner_role": "Wursta change lead", "critical": false},
+    {"id": "C08", "when": "T-2", "item": "SMTP relay / application mail flows for the wave tested", "owner_role": "Client PM", "critical": true},
+    {"id": "C09", "when": "T-1", "item": "Go/no-go call held and approver recorded", "owner_role": "Client sponsor + Wursta engagement lead", "critical": true},
+    {"id": "C10", "when": "T-1", "item": "Final 'tonight is the night' email sent", "owner_role": "Wursta change lead", "critical": false},
+    {"id": "C11", "when": "T-1", "item": "Rollback plan reviewed (MX revert, source mailboxes untouched)", "owner_role": "Wursta migration lead", "critical": true},
+    {"id": "C12", "when": "T-0", "item": "Floorwalker and support roster confirmed for Monday", "owner_role": "Wursta change lead", "critical": false},
+    {"id": "C13", "when": "T-1", "item": "Vault holds verified for custodians in the wave", "owner_role": "Client General Counsel", "critical": false, "critical_if": "lit_hold"}
+  ],
+  "comms_touchpoints": [
+    {"id": "T-14", "offset_days": -15, "name": "Announcement", "purpose": "Your move to Google Workspace is scheduled: date, why, what stays the same", "channel": "email"},
+    {"id": "T-7", "offset_days": -8, "name": "Prepare & train", "purpose": "Training invitations, what changes on day one, clean-up tips", "channel": "email + calendar invite"},
+    {"id": "T-3", "offset_days": -4, "name": "Action required", "purpose": "Mobile guide, large-mailbox and PST notes, what to do on Friday", "channel": "email"},
+    {"id": "T-1", "offset_days": -1, "name": "Tonight is the night", "purpose": "Stop using Outlook after 18:00; how to sign in on Monday; support", "channel": "email + SMS to mobile users"},
+    {"id": "DAY1", "offset_days": 2, "name": "Welcome to Workspace", "purpose": "First steps, floorwalkers, help chat space", "channel": "email (new Gmail)"},
+    {"id": "T+3", "offset_days": 5, "name": "Tips & pulse survey", "purpose": "Top 5 tips, 3-question pulse survey", "channel": "email + Chat"},
+    {"id": "T+10", "offset_days": 12, "name": "Wrap-up", "purpose": "Source mailbox read-only date, where to find old items, champions", "channel": "email"}
+  ],
+  "segments": [
+    {"id": "all", "name": "Everyone in the wave", "focus": "Base message for the touchpoint"},
+    {"id": "spanish", "name": "Spanish-speaking users", "focus": "Same message in Spanish (es)"},
+    {"id": "mobile", "name": "Mobile (ActiveSync) users", "focus": "Re-add the account on Monday; guide link; floorwalkers"},
+    {"id": "oversized_mailbox", "name": "Mailboxes over 50 GB", "focus": "Older mail may appear later; archive items older than 7 years"},
+    {"id": "pst_owners", "name": "PST file owners", "focus": "PST files are not migrated automatically (out of scope OOS-02); keep them; guidance follows"},
+    {"id": "delegates", "name": "Delegates and executive assistants", "focus": "Delegation is recreated; how 'send mail as' works in Gmail"},
+    {"id": "lit_hold", "name": "Legal-hold custodians", "focus": "Message from Legal: do not delete; holds continue in Vault"},
+    {"id": "shared_mailbox_members", "name": "Shared mailbox members", "focus": "Shared mailboxes become collaborative-inbox groups"}
+  ],
+  "merge_fields": ["first_name", "full_name", "department", "manager", "cutover_date", "wave_id", "mailbox_gb", "training_link", "support_link", "new_email"],
+  "support": {"floorwalkers": "Monday 07:00-17:00 at Cedar Falls and Monterrey", "chat": "Google Chat space 'Workspace Move Help'", "phone": "ext. 4357 (HELP)", "hours": "Mon-Fri 07:00-19:00 for 2 weeks after each cutover"}
+}

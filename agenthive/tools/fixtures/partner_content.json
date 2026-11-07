@@ -1,0 +1,22 @@
+{
+  "partner_portal_week45": [
+    {"title": "Gemini Enterprise — Partner Sales Playbook (November 2026)", "format": "pdf", "pages": 42, "has_text_layer": true, "confidential": true, "age_days": 6, "product": "Gemini Enterprise", "audience": "sales"},
+    {"title": "Google Workspace — Migration Best Practices Guide", "format": "pdf", "pages": 96, "has_text_layer": true, "confidential": false, "age_days": 40, "product": "Google Workspace", "audience": "delivery"},
+    {"title": "Agent Engine Technical Deep Dive (session recording)", "format": "video", "pages": 0, "has_text_layer": false, "confidential": false, "age_days": 12, "product": "Vertex AI Agent Engine", "audience": "engineering"},
+    {"title": "Partner Advantage Program Guide 2026", "format": "pdf", "pages": 124, "has_text_layer": true, "confidential": true, "age_days": 300, "product": "Partner program", "audience": "partner operations"},
+    {"title": "Co-sell agreement template (scanned, signed copy)", "format": "scanned_pdf", "pages": 8, "has_text_layer": false, "confidential": true, "age_days": 20, "product": "Partner program", "audience": "legal"},
+    {"title": "BigQuery pricing one-pager (2024 edition)", "format": "pdf", "pages": 2, "has_text_layer": true, "confidential": false, "age_days": 640, "product": "BigQuery", "audience": "sales"},
+    {"title": "Vertex AI Search — competitive positioning", "format": "slides", "pages": 28, "has_text_layer": true, "confidential": true, "age_days": 15, "product": "Vertex AI Search", "audience": "sales"},
+    {"title": "Customer Engagement Suite — demo script", "format": "doc", "pages": 12, "has_text_layer": true, "confidential": false, "age_days": 9, "product": "Customer Engagement Suite", "audience": "pre-sales"},
+    {"title": "Reference landing zone — architecture diagram", "format": "image", "pages": 1, "has_text_layer": false, "confidential": false, "age_days": 210, "product": "Google Cloud foundations", "audience": "engineering"},
+    {"title": "Security and compliance FAQ for public sector", "format": "pdf", "pages": 34, "has_text_layer": true, "confidential": false, "age_days": 400, "product": "Google Cloud security", "audience": "public sector"},
+    {"title": "Q4 partner incentives — funding matrix", "format": "slides", "pages": 16, "has_text_layer": true, "confidential": true, "age_days": 5, "product": "Partner program", "audience": "sales leadership"},
+    {"title": "Gemini in Workspace webinar (Spanish, recording)", "format": "video", "pages": 0, "has_text_layer": false, "confidential": false, "age_days": 30, "product": "Google Workspace", "audience": "customers LATAM"},
+    {"title": "Legacy reseller onboarding guide (scanned)", "format": "scanned_pdf", "pages": 140, "has_text_layer": false, "confidential": false, "age_days": 2100, "product": "Google Workspace", "audience": "partner operations"}
+  ],
+  "partner_portal_week44": [
+    {"title": "AlloyDB migration workshop kit", "format": "slides", "pages": 54, "has_text_layer": true, "confidential": false, "age_days": 14, "product": "AlloyDB", "audience": "delivery"},
+    {"title": "Data residency briefing for regulated industries", "format": "pdf", "pages": 18, "has_text_layer": true, "confidential": true, "age_days": 21, "product": "Google Cloud security", "audience": "sales"},
+    {"title": "Partner certification roadmap (photo of whiteboard)", "format": "image", "pages": 1, "has_text_layer": false, "confidential": true, "age_days": 10, "product": "Partner program", "audience": "partner operations"}
+  ]
+}

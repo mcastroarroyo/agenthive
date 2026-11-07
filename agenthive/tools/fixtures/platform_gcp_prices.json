@@ -1,0 +1,242 @@
+{
+  "note": "Illustrative list-price approximations (USD, single US region, no discounts, no free tiers) for demo cost estimates only. Validate with the official Google Cloud Pricing Calculator before quoting.",
+  "as_of": "2026-10",
+  "prices": {
+    "cloud_run_vcpu_hours": {
+      "unit": "vCPU-hour (instance-based billing)",
+      "usd": 0.0648
+    },
+    "cloud_run_gib_hours": {
+      "unit": "GiB-hour (instance-based billing)",
+      "usd": 0.0072
+    },
+    "cloud_run_requests_million": {
+      "unit": "1M requests (request-based billing)",
+      "usd": 0.4
+    },
+    "gke_autopilot_vcpu_hours": {
+      "unit": "vCPU-hour (Autopilot pod)",
+      "usd": 0.0445
+    },
+    "gke_autopilot_gib_hours": {
+      "unit": "GiB-hour (Autopilot pod)",
+      "usd": 0.0049
+    },
+    "gke_cluster_management_hours": {
+      "unit": "cluster-hour",
+      "usd": 0.1
+    },
+    "compute_e2_standard_4_hours": {
+      "unit": "instance-hour (4 vCPU, 16 GiB)",
+      "usd": 0.134
+    },
+    "compute_n2_standard_8_hours": {
+      "unit": "instance-hour (8 vCPU, 32 GiB)",
+      "usd": 0.388
+    },
+    "compute_pd_balanced_gb": {
+      "unit": "GB-month (balanced persistent disk)",
+      "usd": 0.1
+    },
+    "cloud_sql_postgres_vcpu_hours": {
+      "unit": "vCPU-hour (Enterprise edition)",
+      "usd": 0.0413
+    },
+    "cloud_sql_postgres_gib_hours": {
+      "unit": "GiB-hour (Enterprise edition)",
+      "usd": 0.007
+    },
+    "cloud_sql_storage_ssd_gb": {
+      "unit": "GB-month (SSD)",
+      "usd": 0.17
+    },
+    "alloydb_vcpu_hours": {
+      "unit": "vCPU-hour",
+      "usd": 0.0661
+    },
+    "alloydb_gib_hours": {
+      "unit": "GiB-hour",
+      "usd": 0.0112
+    },
+    "alloydb_storage_gb": {
+      "unit": "GB-month",
+      "usd": 0.3
+    },
+    "spanner_node_hours": {
+      "unit": "node-hour (regional, Standard)",
+      "usd": 0.9
+    },
+    "firestore_reads_100k": {
+      "unit": "100,000 document reads",
+      "usd": 0.03
+    },
+    "firestore_writes_100k": {
+      "unit": "100,000 document writes",
+      "usd": 0.09
+    },
+    "firestore_storage_gb": {
+      "unit": "GB-month",
+      "usd": 0.15
+    },
+    "bigquery_storage_gb": {
+      "unit": "GB-month (active logical storage)",
+      "usd": 0.02
+    },
+    "bigquery_long_term_storage_gb": {
+      "unit": "GB-month (long-term logical storage)",
+      "usd": 0.01
+    },
+    "bigquery_query_tb": {
+      "unit": "TiB scanned (on-demand)",
+      "usd": 6.25
+    },
+    "bigquery_enterprise_slot_hours": {
+      "unit": "slot-hour (Enterprise edition, pay as you go)",
+      "usd": 0.06
+    },
+    "cloud_storage_standard_gb": {
+      "unit": "GB-month (Standard, regional)",
+      "usd": 0.02
+    },
+    "cloud_storage_nearline_gb": {
+      "unit": "GB-month (Nearline, regional)",
+      "usd": 0.01
+    },
+    "cloud_storage_archive_gb": {
+      "unit": "GB-month (Archive, regional)",
+      "usd": 0.0012
+    },
+    "pubsub_tib": {
+      "unit": "TiB of message throughput",
+      "usd": 40.0
+    },
+    "dataflow_vcpu_hours": {
+      "unit": "vCPU-hour (batch)",
+      "usd": 0.056
+    },
+    "cloud_composer_dcu_hours": {
+      "unit": "DCU-hour (Composer 3)",
+      "usd": 0.06
+    },
+    "vertex_ai_search_1k_queries": {
+      "unit": "1,000 queries (Enterprise edition)",
+      "usd": 4.0
+    },
+    "vertex_ai_search_index_gib": {
+      "unit": "GiB-month of indexed data",
+      "usd": 5.0
+    },
+    "gemini_flash_1m_input_tokens": {
+      "unit": "1M input tokens",
+      "usd": 0.3
+    },
+    "gemini_flash_1m_output_tokens": {
+      "unit": "1M output tokens",
+      "usd": 2.5
+    },
+    "gemini_flash_lite_1m_input_tokens": {
+      "unit": "1M input tokens",
+      "usd": 0.1
+    },
+    "gemini_flash_lite_1m_output_tokens": {
+      "unit": "1M output tokens",
+      "usd": 0.4
+    },
+    "gemini_argon_1m_input_tokens": {
+      "unit": "1M input tokens",
+      "usd": 2.0
+    },
+    "gemini_argon_1m_output_tokens": {
+      "unit": "1M output tokens",
+      "usd": 12.0
+    },
+    "gemini_embedding_1m_tokens": {
+      "unit": "1M input tokens",
+      "usd": 0.15
+    },
+    "vertex_ai_training_vcpu_hours": {
+      "unit": "vCPU-hour (custom training, general purpose)",
+      "usd": 0.05
+    },
+    "vertex_ai_prediction_node_hours": {
+      "unit": "node-hour (online prediction, 4 vCPU)",
+      "usd": 0.22
+    },
+    "document_ai_ocr_1k_pages": {
+      "unit": "1,000 pages (Enterprise OCR)",
+      "usd": 1.5
+    },
+    "sensitive_data_protection_inspect_gb": {
+      "unit": "GB inspected (content inspection)",
+      "usd": 1.0
+    },
+    "speech_to_text_minutes": {
+      "unit": "audio minute (standard)",
+      "usd": 0.016
+    },
+    "conversational_agents_1k_text_requests": {
+      "unit": "1,000 text requests",
+      "usd": 7.0
+    },
+    "agent_engine_vcpu_hours": {
+      "unit": "vCPU-hour (runtime)",
+      "usd": 0.0864
+    },
+    "agent_engine_gib_hours": {
+      "unit": "GiB-hour (runtime)",
+      "usd": 0.009
+    },
+    "load_balancer_rules_hours": {
+      "unit": "forwarding rule-hour (first 5 rules)",
+      "usd": 0.025
+    },
+    "load_balancer_data_gb": {
+      "unit": "GB processed",
+      "usd": 0.008
+    },
+    "cloud_armor_policy_months": {
+      "unit": "security policy-month (Standard)",
+      "usd": 5.0
+    },
+    "cloud_armor_rules_months": {
+      "unit": "rule-month (Standard)",
+      "usd": 1.0
+    },
+    "cloud_armor_requests_million": {
+      "unit": "1M requests evaluated",
+      "usd": 0.75
+    },
+    "internet_egress_gb": {
+      "unit": "GB to internet (Premium tier, North America)",
+      "usd": 0.12
+    },
+    "cloud_logging_gib": {
+      "unit": "GiB ingested (beyond free allotment)",
+      "usd": 0.5
+    },
+    "cloud_monitoring_metrics_mib": {
+      "unit": "MiB of chargeable metrics",
+      "usd": 0.258
+    },
+    "secret_manager_secret_versions": {
+      "unit": "active secret version-month",
+      "usd": 0.06
+    },
+    "cloud_kms_key_versions": {
+      "unit": "active key version-month (software)",
+      "usd": 0.06
+    },
+    "memorystore_redis_gib_hours": {
+      "unit": "GiB-hour (Basic tier)",
+      "usd": 0.049
+    },
+    "artifact_registry_gb": {
+      "unit": "GB-month",
+      "usd": 0.1
+    },
+    "looker_studio_pro_user_months": {
+      "unit": "user-month",
+      "usd": 9.0
+    }
+  }
+}

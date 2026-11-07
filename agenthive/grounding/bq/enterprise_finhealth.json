@@ -1,0 +1,84 @@
+{
+  "fin_gl_actuals": {
+    "description": "Quillmark Bank (fictional) general-ledger actuals, one row per month x cost centre x account, Jan 2024 - Sep 2026 (Q3 2026 closed). amount_usd is positive for both revenue and expense lines; line_type says which. Pre-tax profit = revenue - expense. Synthetic data.",
+    "columns": [
+      {"name": "month", "type": "DATE", "description": "First day of the accounting month."},
+      {"name": "business_unit", "type": "STRING", "description": "Retail Banking, Commercial Banking, Private Wealth, Cards & Payments or Corporate Center."},
+      {"name": "cost_center", "type": "STRING", "description": "Cost-centre code, e.g. CC-900 (Technology), CP-500 (Card Issuing), CB-300 (Commercial Lending)."},
+      {"name": "cost_center_name", "type": "STRING", "description": "Cost-centre name."},
+      {"name": "pnl_line", "type": "STRING", "description": "Management P&L line, e.g. Net interest income, Personnel, Technology, Fraud & operational losses, Credit loss provisions."},
+      {"name": "account_code", "type": "STRING", "description": "GL account: 4100 NII, 4200 fees, 4300 wealth fees, 4400 card fees, 6100 salaries, 6200 technology & software, 6250 cloud & data centre, 6300 occupancy, 6400 marketing, 6500 professional fees, 6600 fraud & op losses, 6700 credit provisions."},
+      {"name": "account_name", "type": "STRING", "description": "GL account name."},
+      {"name": "line_type", "type": "STRING", "description": "revenue or expense."},
+      {"name": "amount_usd", "type": "FLOAT64", "description": "Actual amount in USD for the month (positive)."}
+    ]
+  },
+  "fin_budget_forecast": {
+    "description": "Quillmark Bank (fictional) plan data at the same grain as fin_gl_actuals. scenario='budget' holds the FY2025 and FY2026 budgets; scenario='forecast' holds the Q3 2026 Reforecast (6+6, prepared 2026-07-20: Jan-Jun 2026 = actuals, Jul-Dec 2026 = forecast). Join to actuals on month, cost_center and account_code. Synthetic data.",
+    "columns": [
+      {"name": "month", "type": "DATE", "description": "First day of the month."},
+      {"name": "business_unit", "type": "STRING", "description": "Business unit (same values as fin_gl_actuals)."},
+      {"name": "cost_center", "type": "STRING", "description": "Cost-centre code."},
+      {"name": "account_code", "type": "STRING", "description": "GL account code."},
+      {"name": "pnl_line", "type": "STRING", "description": "Management P&L line."},
+      {"name": "line_type", "type": "STRING", "description": "revenue or expense."},
+      {"name": "scenario", "type": "STRING", "description": "budget or forecast."},
+      {"name": "version", "type": "STRING", "description": "Plan version label, e.g. 'FY2026 Budget' or 'Q3 2026 Reforecast (6+6, 2026-07-20)'."},
+      {"name": "amount_usd", "type": "FLOAT64", "description": "Planned amount in USD (positive)."}
+    ]
+  },
+  "fin_kpi_monthly": {
+    "description": "Quillmark Bank (fictional) executive KPIs, one row per month x business unit (Retail Banking, Commercial Banking, Private Wealth, Cards & Payments), Jan 2024 - Sep 2026. Revenue, opex and provisions are the business unit's direct GL totals (Corporate Center costs are not allocated). Metrics that do not apply to a unit are NULL. For bank totals sum volumes; weight ratios by their bases. Synthetic data.",
+    "columns": [
+      {"name": "month", "type": "DATE", "description": "First day of the month."},
+      {"name": "business_unit", "type": "STRING", "description": "Business unit."},
+      {"name": "revenue_usd_m", "type": "FLOAT64", "description": "Direct revenue, USD millions."},
+      {"name": "operating_expense_usd_m", "type": "FLOAT64", "description": "Direct operating expense excluding credit provisions, USD millions."},
+      {"name": "cost_income_ratio_pct", "type": "FLOAT64", "description": "Direct opex / revenue x 100 (lower is better)."},
+      {"name": "credit_provisions_usd_m", "type": "FLOAT64", "description": "Credit loss provisions, USD millions."},
+      {"name": "net_interest_margin_pct", "type": "FLOAT64", "description": "Net interest margin %, lending units only (NULL for Private Wealth)."},
+      {"name": "loans_usd_m", "type": "FLOAT64", "description": "Average loan balances, USD millions (lending units)."},
+      {"name": "deposits_usd_m", "type": "FLOAT64", "description": "Average deposit balances, USD millions."},
+      {"name": "aum_usd_m", "type": "FLOAT64", "description": "Assets under management at month end, USD millions (Private Wealth only)."},
+      {"name": "net_new_assets_usd_m", "type": "FLOAT64", "description": "Net new client assets in the month, USD millions (Private Wealth only)."},
+      {"name": "npl_ratio_pct", "type": "FLOAT64", "description": "Non-performing loans / loans % (90+ days past due for cards); higher is worse."},
+      {"name": "nps", "type": "INT64", "description": "Relationship Net Promoter Score (-100..100)."},
+      {"name": "new_customers", "type": "INT64", "description": "New customers acquired in the month."},
+      {"name": "active_customers", "type": "INT64", "description": "Active customers at month end."},
+      {"name": "digital_active_pct", "type": "FLOAT64", "description": "% of active customers who used a digital channel in the last 30 days."},
+      {"name": "complaints", "type": "INT64", "description": "Complaints received in the month."}
+    ]
+  },
+  "fin_channel_daily": {
+    "description": "Quillmark Bank (fictional) daily channel activity by region, 2026-01-01 to 2026-09-30. Channels: mobile_app, online_banking, branch, atm, contact_center. For contact_center, transactions = handled contacts, value_usd = 0 and failed_pct = abandonment rate. Branches close on Sundays and public holidays. Synthetic data.",
+    "columns": [
+      {"name": "date", "type": "DATE", "description": "Calendar day."},
+      {"name": "channel", "type": "STRING", "description": "mobile_app, online_banking, branch, atm or contact_center."},
+      {"name": "region", "type": "STRING", "description": "North, Central or Coastal."},
+      {"name": "transactions", "type": "INT64", "description": "Completed transactions (or handled contacts for contact_center)."},
+      {"name": "value_usd", "type": "FLOAT64", "description": "Total transaction value in USD (0 for contact_center)."},
+      {"name": "failed_pct", "type": "FLOAT64", "description": "% of attempted transactions that failed (abandonment % for contact_center)."},
+      {"name": "unique_customers", "type": "INT64", "description": "Distinct customers using the channel that day in the region."}
+    ]
+  },
+  "hlt_claim_denials": {
+    "description": "Corvina Health Network (fictional) claim-denial history, denials dated 2025-10-01 to 2026-10-31, one row per denied claim with appeal / corrected-claim outcome as of 2026-11-06. Denial codes are CARC-style (CO-197 authorization, CO-50 medical necessity, CO-16 missing information, CO-29 timely filing, CO-11/CO-4 coding, CO-97 bundling, CO-18 duplicate). Synthetic data, no PHI.",
+    "columns": [
+      {"name": "claim_id", "type": "STRING", "description": "Synthetic denied-claim id."},
+      {"name": "denial_date", "type": "DATE", "description": "Date the payer denied the claim."},
+      {"name": "service_date", "type": "DATE", "description": "Date of service."},
+      {"name": "facility", "type": "STRING", "description": "Corvina facility."},
+      {"name": "department", "type": "STRING", "description": "Department."},
+      {"name": "service_line", "type": "STRING", "description": "Advanced imaging, Inpatient stay, Emergency department, Laboratory, Physical therapy, Office visit or Outpatient surgery."},
+      {"name": "payer", "type": "STRING", "description": "Silverline Health Plan, Pinecrest Mutual, Bluewater Senior Advantage or State Medical Assistance Program (synthetic)."},
+      {"name": "denial_code", "type": "STRING", "description": "CARC-style denial code, e.g. CO-197."},
+      {"name": "denial_category", "type": "STRING", "description": "authorization, medical_necessity, missing_information, timely_filing, coding, bundling or duplicate."},
+      {"name": "billed_amount_usd", "type": "FLOAT64", "description": "Billed charge in USD."},
+      {"name": "denied_amount_usd", "type": "FLOAT64", "description": "Amount denied in USD."},
+      {"name": "appealed", "type": "BOOL", "description": "True if an appeal or corrected claim was submitted."},
+      {"name": "appeal_outcome", "type": "STRING", "description": "overturned, corrected_claim_paid, upheld, pending or not_appealed."},
+      {"name": "recovered_amount_usd", "type": "FLOAT64", "description": "Amount recovered after appeal/correction (0 if none)."},
+      {"name": "days_to_resolution", "type": "INT64", "description": "Days from denial to final outcome (NULL if pending or not appealed)."}
+    ]
+  }
+}

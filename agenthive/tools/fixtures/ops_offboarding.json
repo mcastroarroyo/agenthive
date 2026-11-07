@@ -1,0 +1,211 @@
+{
+  "_note": "Synthetic offboarding cases for Charon. People, accounts and assets are fictional; step ids and SLAs mirror the Offboarding & Data Deprovisioning Policy in the knowledge base. All actions are simulated.",
+  "today": "2026-11-06",
+  "now": "2026-11-06T15:00",
+  "policy_steps": [
+    {
+      "id": "S1",
+      "name": "Suspend sign-in, reset password, revoke sessions and OAuth tokens",
+      "system": "Google Workspace",
+      "sla_hours": 1,
+      "category": "access",
+      "destructive": false
+    },
+    {
+      "id": "S2",
+      "name": "Remove partner delegated-admin access in client tenants and notify client PMs",
+      "system": "Client tenants",
+      "sla_hours": 4,
+      "category": "access",
+      "destructive": false
+    },
+    {
+      "id": "S3",
+      "name": "Disable user-managed service-account keys created by the user; remove personal IAM bindings",
+      "system": "Google Cloud",
+      "sla_hours": 4,
+      "category": "access",
+      "destructive": false
+    },
+    {
+      "id": "S4",
+      "name": "Remove GitHub organisation membership; transfer repository ownership",
+      "system": "GitHub",
+      "sla_hours": 8,
+      "category": "access",
+      "destructive": false
+    },
+    {
+      "id": "S5",
+      "name": "Transfer Drive file ownership to the manager; reassign shared-drive manager roles",
+      "system": "Google Drive",
+      "sla_hours": 72,
+      "category": "data",
+      "destructive": false
+    },
+    {
+      "id": "S6",
+      "name": "Delegate mailbox to the manager for 30 days; place mail and Drive under Vault retention",
+      "system": "Gmail / Vault",
+      "sla_hours": 72,
+      "category": "data",
+      "destructive": false
+    },
+    {
+      "id": "S7",
+      "name": "Transfer recurring calendar events and Chat space ownership",
+      "system": "Calendar / Chat",
+      "sla_hours": 72,
+      "category": "data",
+      "destructive": false
+    },
+    {
+      "id": "S8",
+      "name": "Reclaim Jira, HubSpot and other SaaS licences",
+      "system": "SaaS",
+      "sla_hours": 120,
+      "category": "licences",
+      "destructive": false
+    },
+    {
+      "id": "S9",
+      "name": "Recover laptop (remote wipe if not returned) and security key",
+      "system": "Hardware",
+      "sla_hours": 240,
+      "category": "hardware",
+      "destructive": true
+    },
+    {
+      "id": "S10",
+      "name": "Convert to archived user after 30 days; delete account after the retention period",
+      "system": "Google Workspace",
+      "sla_hours": 720,
+      "category": "data",
+      "destructive": true
+    }
+  ],
+  "cases": {
+    "OFF-077": {
+      "name": "Ryan Caldwell",
+      "role": "Senior Cloud Engineer",
+      "manager": "Priya Nair",
+      "type": "voluntary",
+      "last_day": "2026-11-06",
+      "termination_time": "2026-11-06T17:00",
+      "legal_hold": false,
+      "account": "ryan.caldwell@wursta.example",
+      "inventory": {
+        "drive_files_owned": 1284,
+        "shared_drives_sole_manager": [
+          "Client – Tallbridge Lighthouse",
+          "Academy – Terraform labs"
+        ],
+        "gmail_size_gb": 18.2,
+        "oauth_apps": 4,
+        "chat_spaces_owned": 5,
+        "recurring_events_organised": 7,
+        "github": {
+          "member": true,
+          "repos_owned": [
+            "lighthouse-ingestion",
+            "tf-landing-zone-modules"
+          ]
+        },
+        "gcp": {
+          "projects_with_personal_bindings": [
+            "demo sandbox (retail)",
+            "AI lab sandbox",
+            "Tallbridge dev (client-delegated)"
+          ],
+          "user_managed_sa_keys": 2
+        },
+        "client_tenants_delegated_admin": [
+          "Calder & Finch Insurance (Workspace)"
+        ],
+        "saas": [
+          "Jira",
+          "HubSpot (read-only)"
+        ],
+        "hardware": {
+          "laptop": "LT-5521",
+          "security_key": "SK-0913",
+          "returned": false
+        }
+      }
+    },
+    "OFF-081": {
+      "name": "Nadia Kerr",
+      "role": "Account Executive",
+      "manager": "Grace Okafor",
+      "type": "voluntary",
+      "last_day": "2026-11-13",
+      "termination_time": "2026-11-13T17:00",
+      "legal_hold": true,
+      "legal_hold_reason": "Pending commercial dispute with a client — preserve all mail, Drive and Chat data (Legal, case LH-2026-07).",
+      "account": "nadia.kerr@wursta.example",
+      "inventory": {
+        "drive_files_owned": 642,
+        "shared_drives_sole_manager": [],
+        "gmail_size_gb": 9.7,
+        "oauth_apps": 2,
+        "chat_spaces_owned": 1,
+        "recurring_events_organised": 3,
+        "github": {
+          "member": false,
+          "repos_owned": []
+        },
+        "gcp": {
+          "projects_with_personal_bindings": [],
+          "user_managed_sa_keys": 0
+        },
+        "client_tenants_delegated_admin": [],
+        "saas": [
+          "HubSpot (sales)",
+          "Contract e-signature tool"
+        ],
+        "hardware": {
+          "laptop": "LT-6034",
+          "security_key": "SK-1102",
+          "returned": false
+        }
+      }
+    },
+    "OFF-083": {
+      "name": "Leo Sandoval",
+      "role": "Data Engineer (contractor)",
+      "manager": "Priya Nair",
+      "type": "contract end",
+      "last_day": "2026-11-06",
+      "termination_time": "2026-11-06T12:00",
+      "legal_hold": false,
+      "account": "leo.sandoval@wursta.example",
+      "inventory": {
+        "drive_files_owned": 213,
+        "shared_drives_sole_manager": [],
+        "gmail_size_gb": 2.1,
+        "oauth_apps": 6,
+        "chat_spaces_owned": 0,
+        "recurring_events_organised": 1,
+        "github": {
+          "member": true,
+          "repos_owned": []
+        },
+        "gcp": {
+          "projects_with_personal_bindings": [
+            "Polaris analytics dev (client-delegated)"
+          ],
+          "user_managed_sa_keys": 1
+        },
+        "client_tenants_delegated_admin": [],
+        "saas": [
+          "Jira"
+        ],
+        "hardware": {
+          "laptop": "none (contractor-owned device)",
+          "security_key": "SK-1177",
+          "returned": false
+        }
+      }
+    }
+  }
+}

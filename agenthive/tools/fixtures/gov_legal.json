@@ -1,0 +1,60 @@
+{
+  "office": "Office of the City Attorney - Litigation & Claims, City of Port Alder",
+  "settlement_authority": [
+    {"max": 5000, "who": "Risk Manager"},
+    {"max": 25000, "who": "City Attorney"},
+    {"max": 1000000000, "who": "City Council (closed session)"}
+  ],
+  "cases": [
+    {"id": "CLM-2026-0083", "title": "Okafor v. City of Port Alder - vehicle damage claim (pothole, 1388 Harbor Street)",
+     "type": "government_claim", "status": "pre-litigation demand", "department": "Public Works - Streets",
+     "assigned_attorney": "Nadia Brennan, Deputy City Attorney", "adjuster": "Pauline Wexford, Risk Management",
+     "parties": {"claimant": "Amaka Okafor", "claimant_counsel": "Simone Achebe, Brightwater Law Group", "respondent": "City of Port Alder"},
+     "amount_claimed": 4470, "amount_breakdown": {"tyres, rim and alignment (Eastgate Tire & Auto invoice 5521)": 3870, "rental car 8 days": 600},
+     "demand_letter_amount": 5670, "demand_breakdown_note": "Counsel's demand adds $1,200 attorney fees to the $4,470 claim.",
+     "case_file_doc": "gov_case_file_clm_2026_0083",
+     "events": [
+       {"date": "2026-05-02", "event": "Resident reports pothole near 1388 Harbor Street eastbound (311 SR-2026-061744): approx 45 cm wide, 10 cm deep.", "source": "311 record SR-2026-061744", "tag": "notice"},
+       {"date": "2026-05-02", "event": "311 triage assigns priority P2 (72-hour SLA) although Harbor Street is a designated arterial (P1, 24-hour SLA under the 311 Service Standards).", "source": "311 record SR-2026-061744", "tag": "sla"},
+       {"date": "2026-05-04", "event": "Crew inspection; cold patch scheduled under work order WO-2026-22817; asphalt plant supply shortage noted.", "source": "Work order WO-2026-22817", "tag": "response"},
+       {"date": "2026-05-08", "event": "Second resident report merged as duplicate (SR-2026-064102): 'pothole getting bigger'.", "source": "311 record SR-2026-064102", "tag": "notice"},
+       {"date": "2026-05-11", "event": "Incident at 21:40: claimant's 2019 sedan strikes the pothole; two tyres and one rim damaged. Claimant's dashcam shows 34 mph in a 30 mph zone, wet road, street lights on.", "source": "Claim form; dashcam stills", "tag": "incident"},
+       {"date": "2026-05-12", "event": "Repair invoice from Eastgate Tire & Auto: $3,870 (2 tyres, 1 rim, alignment).", "source": "Invoice 5521", "tag": "damages"},
+       {"date": "2026-05-19", "event": "Permanent hot-mix repair completed; SR-2026-061744 closed (17 days after first report).", "source": "311 record SR-2026-061744", "tag": "response"},
+       {"date": "2026-07-28", "event": "Government claim form filed with the City Clerk for $4,470.", "source": "Claim form", "tag": "procedure"},
+       {"date": "2026-08-05", "event": "Risk Management acknowledges the claim; adjuster assigned.", "source": "Acknowledgement letter", "tag": "procedure"},
+       {"date": "2026-09-08", "event": "City issues written notice of claim rejection.", "source": "Rejection notice", "tag": "procedure"},
+       {"date": "2026-09-15", "event": "Streets Superintendent notes: no completion entry for the 4 May cold patch; contractor not working on that block in May.", "source": "Email REC-0418-008", "tag": "response"},
+       {"date": "2026-10-21", "event": "Demand letter from Brightwater Law Group: $5,670 including $1,200 attorney fees; threatens limited civil suit in Alder County Superior Court.", "source": "Demand letter", "tag": "procedure"},
+       {"date": "2026-11-03", "event": "File assigned to Deputy City Attorney Nadia Brennan for liability review and settlement recommendation.", "source": "Assignment memo", "tag": "procedure"}],
+     "deadline_rules": [
+       {"name": "Claim filing deadline (180 days after incident)", "from": "2026-05-11", "days": 180, "kind": "calendar", "met_by": "2026-07-28"},
+       {"name": "City decision on claim (45 days after filing, otherwise deemed rejected)", "from": "2026-07-28", "days": 45, "kind": "calendar", "met_by": "2026-09-08"},
+       {"name": "Claimant's deadline to sue (6 months after written rejection)", "from": "2026-09-08", "months": 6, "kind": "months", "met_by": null}],
+     "record_gaps": ["No completion entry for the cold patch scheduled on 2026-05-04 (WO-2026-22817)",
+                     "Original dashcam video file not yet obtained (only stills)", "No crew-availability or materials log for 2026-05-04 to 2026-05-19",
+                     "No photo or measurement of the pothole depth on the incident date"]},
+    {"id": "LIT-2026-0012", "title": "Granite Ridge Construction v. City of Port Alder - bid protest and petition for writ of mandate (ITB-2026-044)",
+     "type": "bid_protest", "status": "petition served", "department": "Finance - Procurement Division",
+     "assigned_attorney": "Nadia Brennan, Deputy City Attorney",
+     "parties": {"petitioner": "Granite Ridge Construction", "respondent": "City of Port Alder", "real_party_in_interest": "Coastline Paving Co."},
+     "contract_value": 1742300,
+     "events": [
+       {"date": "2026-08-14", "event": "ITB-2026-044 Harbor Street Repaving Phase 2 advertised; bids due 2026-09-11 14:00; 5% bid bond must be enclosed with the sealed bid.", "source": "ITB-2026-044 section 4.2", "tag": "procedure"},
+       {"date": "2026-08-30", "event": "Coastline Paving's project manager emails the Public Works Director asking to meet about Phase 2; Director redirects her to Procurement (cone of silence).", "source": "Email REC-0418-007", "tag": "integrity"},
+       {"date": "2026-09-11", "event": "Bid opening: Granite Ridge $1,698,900 (no bid bond enclosed), Coastline $1,742,300, Ostrander Civil $1,779,500.", "source": "Bid tabulation REC-0409-001", "tag": "bids"},
+       {"date": "2026-09-11", "event": "Granite Ridge emails a bid bond PDF at 14:12, after the 14:00 deadline.", "source": "Procurement inbox log", "tag": "bids"},
+       {"date": "2026-09-18", "event": "Chief Procurement Officer finds Granite Ridge non-responsive (no bid security at opening).", "source": "Responsiveness memo", "tag": "decision"},
+       {"date": "2026-09-25", "event": "Notice of intent to award to Coastline Paving Co. (local preference applied: $25,000 cap).", "source": "Notice of intent", "tag": "decision"},
+       {"date": "2026-10-02", "event": "City Council awards the contract (Resolution 2026-188); contract executed the same day.", "source": "Resolution 2026-188", "tag": "decision"},
+       {"date": "2026-10-09", "event": "Granite Ridge files a written protest with the Chief Procurement Officer.", "source": "Protest letter", "tag": "procedure"},
+       {"date": "2026-10-14", "event": "CPO rejects the protest as untimely and on the merits.", "source": "CPO decision", "tag": "decision"},
+       {"date": "2026-10-20", "event": "Granite Ridge files public records request PRR-2026-0409 for all bids and evaluation records.", "source": "PRR-2026-0409", "tag": "procedure"},
+       {"date": "2026-10-30", "event": "Petition for writ of mandate filed in Alder County Superior Court seeking to set aside the award.", "source": "Petition", "tag": "procedure"},
+       {"date": "2026-11-02", "event": "Petition served on the City Clerk; Coastline Paving mobilised on site on 2026-11-02.", "source": "Proof of service", "tag": "procedure"}],
+     "deadline_rules": [
+       {"name": "Bid protest deadline (5 business days after notice of intent to award)", "from": "2026-09-25", "days": 5, "kind": "business", "met_by": "2026-10-09"},
+       {"name": "City's response to the petition (30 days after service)", "from": "2026-11-02", "days": 30, "kind": "calendar", "met_by": null}],
+     "record_gaps": ["Procurement inbox server log for 2026-09-11 14:00-14:15 not yet preserved", "No written CPO determination on the 2026-08-30 cone-of-silence contact"]}
+  ]
+}

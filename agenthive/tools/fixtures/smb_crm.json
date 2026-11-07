@@ -1,0 +1,351 @@
+{
+  "company": {
+    "name": "Kitewing Software",
+    "legal_name": "Kitewing Software, Inc. (fictional)",
+    "employees": 62,
+    "hq": "Cedar Harbor",
+    "offices": ["Cedar Harbor (HQ)", "Millbrook"],
+    "product": "Kitewing FieldOps — field-service scheduling, dispatch, mobile work orders and invoicing for service contractors",
+    "email_domain": "kitewing.example"
+  },
+  "accounts": [
+    {
+      "id": "C-1001",
+      "name": "Harbor & Pine Mechanical",
+      "type": "customer",
+      "industry": "HVAC & plumbing",
+      "segment": "hvac_plumbing",
+      "size_band": "Mid-market",
+      "hq": "Cedar Harbor",
+      "branches": 2,
+      "employees": 140,
+      "technicians": 85,
+      "licensed_technicians": 70,
+      "plan": "Growth",
+      "addons": ["Route Optimizer"],
+      "arr_usd": 70560,
+      "billing": "quarterly",
+      "customer_since": "2023-04-03",
+      "renewal_date": "2027-01-31",
+      "account_owner": "Jamie Cho",
+      "csm": "Kwame Mensah",
+      "tech_stack": ["Kitewing FieldOps (Growth)", "Desktop accounting package (sync via Kitewing connector)", "Google Workspace"],
+      "contacts": [
+        {"name": "Monica Trask", "title": "President", "role": "economic_buyer", "influence": "high", "sentiment": "neutral", "email": "monica.trask@harborpine.example", "last_contact": "2026-03-12"},
+        {"name": "Dale Hutchins", "title": "Operations Director", "role": "champion", "influence": "high", "sentiment": "negative", "email": "dale.hutchins@harborpine.example", "last_contact": "2026-11-03"},
+        {"name": "Priscilla Vaughn", "title": "CFO (joined Sept 2026)", "role": "economic_buyer", "influence": "high", "sentiment": "unknown", "email": "priscilla.vaughn@harborpine.example", "last_contact": null},
+        {"name": "Ray Castellanos", "title": "Dispatch Supervisor", "role": "user", "influence": "medium", "sentiment": "neutral", "email": "ray.castellanos@harborpine.example", "last_contact": "2026-10-29"},
+        {"name": "Tina Moore", "title": "Office & Billing Manager", "role": "user", "influence": "medium", "sentiment": "negative", "email": "tina.moore@harborpine.example", "last_contact": "2026-10-30"}
+      ],
+      "opportunities": [
+        {"id": "OPP-3088", "name": "Harbor & Pine — 2027 renewal", "type": "renewal", "stage": "Discovery", "amount_usd": 70560, "close_date": "2027-01-31", "owner": "Jamie Cho", "next_step": "Renewal health review with Dale Hutchins (not yet booked)"}
+      ],
+      "activities": [
+        {"date": "2026-11-03", "type": "email", "summary": "Dale Hutchins escalated accounting-sync failure; says renewal is 'on the table' if not fixed."},
+        {"date": "2026-10-29", "type": "call", "summary": "Support call with Ray Castellanos about offline photo loss on mobile app."},
+        {"date": "2026-09-18", "type": "meeting", "summary": "Monthly check-in with Dale (CSM). Usage dip attributed to new hires not trained."},
+        {"date": "2026-03-12", "type": "meeting", "summary": "Last QBR with Monica Trask and Dale Hutchins; discussed Assist AI pilot — no decision."}
+      ],
+      "notes": "Founding-era customer and early reference (2024 dispatch-time story). Two branches; 15 technicians hired in 2026 were never licensed or trained. New CFO Priscilla Vaughn has not met Kitewing. No QBR since March."
+    },
+    {
+      "id": "C-1002",
+      "name": "Bluefin Elevator Services",
+      "type": "customer",
+      "industry": "Elevator & escalator maintenance",
+      "segment": "elevator",
+      "size_band": "Mid-market",
+      "hq": "Millbrook",
+      "branches": 1,
+      "employees": 76,
+      "technicians": 52,
+      "licensed_technicians": 48,
+      "plan": "Growth",
+      "addons": [],
+      "arr_usd": 39744,
+      "billing": "annual",
+      "customer_since": "2024-06-17",
+      "renewal_date": "2027-06-30",
+      "account_owner": "Priya Natarajan",
+      "csm": "Kwame Mensah",
+      "tech_stack": ["Kitewing FieldOps (Growth)", "Spreadsheet-based contract register", "Google Workspace"],
+      "contacts": [
+        {"name": "Helen Marsh", "title": "Managing Director", "role": "economic_buyer", "influence": "high", "sentiment": "positive", "email": "helen.marsh@bluefinelevator.example", "last_contact": "2026-07-22"},
+        {"name": "Victor Osei", "title": "Operations Manager (since Aug 2026)", "role": "user", "influence": "high", "sentiment": "neutral", "email": "victor.osei@bluefinelevator.example", "last_contact": "2026-10-14"},
+        {"name": "Gail Fenwick", "title": "Contracts Administrator", "role": "user", "influence": "medium", "sentiment": "positive", "email": "gail.fenwick@bluefinelevator.example", "last_contact": "2026-10-02"}
+      ],
+      "opportunities": [
+        {"id": "OPP-3121", "name": "Bluefin — Route Optimizer add-on", "type": "expansion", "stage": "Solution Validation", "amount_usd": 8640, "close_date": "2026-12-18", "owner": "Priya Natarajan", "next_step": "Route Optimizer trial results review with Victor Osei"}
+      ],
+      "activities": [
+        {"date": "2026-10-14", "type": "meeting", "summary": "Intro meeting with new Ops Manager Victor Osei; former champion Ken Abara left in July."},
+        {"date": "2026-10-02", "type": "email", "summary": "Gail Fenwick asked for contract-renewal reminder report template."},
+        {"date": "2026-07-22", "type": "meeting", "summary": "QBR with Helen Marsh: renewal rate on maintenance contracts up to 93%. Referred Ironwood Elevator Co."}
+      ],
+      "notes": "Champion Ken Abara left in July 2026; relationship rebuilding with Victor Osei. Helen Marsh is a happy reference (referred Ironwood Elevator Co.)."
+    },
+    {
+      "id": "C-1003",
+      "name": "Greystone Facilities Group",
+      "type": "customer",
+      "industry": "Facilities management",
+      "segment": "facilities",
+      "size_band": "Enterprise",
+      "hq": "Rivergate",
+      "branches": 5,
+      "employees": 410,
+      "technicians": 220,
+      "licensed_technicians": 210,
+      "plan": "Enterprise",
+      "addons": ["Route Optimizer"],
+      "arr_usd": 258552,
+      "billing": "annual",
+      "customer_since": "2022-09-01",
+      "renewal_date": "2027-08-31",
+      "account_owner": "Jamie Cho",
+      "csm": "Hannah Brooks",
+      "tech_stack": ["Kitewing FieldOps (Enterprise)", "Kitewing Insights (included)", "Corporate identity provider (SAML SSO)", "Google Workspace"],
+      "contacts": [
+        {"name": "Walter Ashby", "title": "VP Field Operations", "role": "economic_buyer", "influence": "high", "sentiment": "positive", "email": "walter.ashby@greystonefg.example", "last_contact": "2026-10-28"},
+        {"name": "Simone Achterberg", "title": "Service Excellence Manager", "role": "champion", "influence": "high", "sentiment": "positive", "email": "simone.achterberg@greystonefg.example", "last_contact": "2026-11-04"},
+        {"name": "Rob Lindqvist", "title": "IT Director", "role": "technical", "influence": "medium", "sentiment": "neutral", "email": "rob.lindqvist@greystonefg.example", "last_contact": "2026-11-02"},
+        {"name": "Dorothy Pham", "title": "Procurement Lead", "role": "user", "influence": "medium", "sentiment": "neutral", "email": "dorothy.pham@greystonefg.example", "last_contact": "2026-08-15"}
+      ],
+      "opportunities": [
+        {"id": "OPP-3095", "name": "Greystone — Kitewing Assist (210 techs)", "type": "expansion", "stage": "Proposal", "amount_usd": 45360, "close_date": "2026-12-15", "owner": "Jamie Cho", "next_step": "Pilot results readout to Walter Ashby on 2026-11-20 (PRJ-104)"}
+      ],
+      "activities": [
+        {"date": "2026-11-04", "type": "email", "summary": "Simone shared pilot feedback: technicians love Assist troubleshooting answers; asks about Spanish language support."},
+        {"date": "2026-11-02", "type": "call", "summary": "Rob Lindqvist: SSO group mapping for Assist pilot pending on their side."},
+        {"date": "2026-10-28", "type": "meeting", "summary": "QBR with Walter Ashby: first-time-fix at 86%, wants Assist for all 5 branches if pilot holds."}
+      ],
+      "notes": "Flagship reference customer (public case study approved). Assist pilot running with 25 techs at 2 branches (PRJ-104). 10 seasonal technicians not licensed."
+    },
+    {
+      "id": "C-1004",
+      "name": "Meadowlark Pest Solutions",
+      "type": "customer",
+      "industry": "Pest control",
+      "segment": "pest_landscaping",
+      "size_band": "SMB",
+      "hq": "Millbrook",
+      "branches": 1,
+      "employees": 41,
+      "technicians": 32,
+      "licensed_technicians": 24,
+      "plan": "Starter",
+      "addons": [],
+      "arr_usd": 11232,
+      "billing": "annual",
+      "customer_since": "2025-02-10",
+      "renewal_date": "2027-02-09",
+      "account_owner": "Priya Natarajan",
+      "csm": "Kwame Mensah",
+      "tech_stack": ["Kitewing FieldOps (Starter)", "Paper service agreements", "Google Workspace"],
+      "contacts": [
+        {"name": "Jo Whitaker", "title": "Owner", "role": "economic_buyer", "influence": "high", "sentiment": "positive", "email": "jo.whitaker@meadowlarkpest.example", "last_contact": "2026-10-21"},
+        {"name": "Andre Bishop", "title": "Office Manager", "role": "champion", "influence": "medium", "sentiment": "positive", "email": "andre.bishop@meadowlarkpest.example", "last_contact": "2026-10-30"}
+      ],
+      "opportunities": [],
+      "activities": [
+        {"date": "2026-10-30", "type": "email", "summary": "Andre asked how to add 8 new technicians — Starter caps at 25."},
+        {"date": "2026-10-21", "type": "call", "summary": "Jo Whitaker: growing fast after acquiring a competitor's routes; wants recurring service agreements."}
+      ],
+      "notes": "Starter plan is capped at 25 technicians; they now have 32. Recurring service agreements require Growth."
+    },
+    {
+      "id": "C-1005",
+      "name": "Copperline Plumbing & Drain",
+      "type": "customer",
+      "industry": "Plumbing",
+      "segment": "hvac_plumbing",
+      "size_band": "Mid-market",
+      "hq": "Rivergate",
+      "branches": 2,
+      "employees": 88,
+      "technicians": 60,
+      "licensed_technicians": 60,
+      "plan": "Growth",
+      "addons": ["Route Optimizer", "Insights"],
+      "arr_usd": 67680,
+      "billing": "annual",
+      "customer_since": "2024-01-15",
+      "renewal_date": "2027-01-14",
+      "account_owner": "Jamie Cho",
+      "csm": "Kwame Mensah",
+      "tech_stack": ["Kitewing FieldOps (Growth)", "Kitewing Insights", "Google Workspace"],
+      "contacts": [
+        {"name": "Nate Copperfield", "title": "CEO", "role": "economic_buyer", "influence": "high", "sentiment": "positive", "email": "nate.copperfield@copperline.example", "last_contact": "2026-09-30"},
+        {"name": "Leila Haddon", "title": "Service Manager", "role": "champion", "influence": "high", "sentiment": "positive", "email": "leila.haddon@copperline.example", "last_contact": "2026-10-27"}
+      ],
+      "opportunities": [
+        {"id": "OPP-3102", "name": "Copperline — 2027 renewal (2-year)", "type": "renewal", "stage": "Negotiation", "amount_usd": 67680, "close_date": "2026-12-20", "owner": "Jamie Cho", "next_step": "Send 2-year renewal paper with 3% multi-year discount"}
+      ],
+      "activities": [
+        {"date": "2026-10-27", "type": "meeting", "summary": "Renewal call: happy, wants 2-year term; interested in Assist after seeing Greystone webinar."},
+        {"date": "2026-09-30", "type": "meeting", "summary": "QBR with Nate Copperfield: drive time per job down 18% since Route Optimizer."}
+      ],
+      "notes": "Public case study approved (Route Optimizer). Strong advocate."
+    },
+    {
+      "id": "C-1006",
+      "name": "Summit Ridge Fire Protection",
+      "type": "customer",
+      "industry": "Fire protection & inspections",
+      "segment": "fire_security",
+      "size_band": "Mid-market",
+      "hq": "Cedar Harbor",
+      "branches": 3,
+      "employees": 105,
+      "technicians": 72,
+      "licensed_technicians": 72,
+      "plan": "Growth",
+      "addons": ["Route Optimizer", "Assist"],
+      "arr_usd": 89856,
+      "billing": "annual",
+      "customer_since": "2023-11-06",
+      "renewal_date": "2027-11-05",
+      "account_owner": "Priya Natarajan",
+      "csm": "Hannah Brooks",
+      "tech_stack": ["Kitewing FieldOps (Growth)", "Kitewing Assist", "Google Workspace"],
+      "contacts": [
+        {"name": "Grant Halvorsen", "title": "COO", "role": "economic_buyer", "influence": "high", "sentiment": "positive", "email": "grant.halvorsen@summitridgefp.example", "last_contact": "2026-10-09"},
+        {"name": "Beatriz Lomax", "title": "Compliance & Inspections Lead", "role": "champion", "influence": "high", "sentiment": "positive", "email": "beatriz.lomax@summitridgefp.example", "last_contact": "2026-10-24"}
+      ],
+      "opportunities": [],
+      "activities": [
+        {"date": "2026-10-24", "type": "email", "summary": "Beatriz: inspection reports now same-day; asked about multi-branch permissions (Enterprise feature)."},
+        {"date": "2026-10-09", "type": "meeting", "summary": "QBR: missed inspections down 90%, DSO from 52 to 34 days."}
+      ],
+      "notes": "Public case study approved. Asked twice about multi-branch permissions and SSO (Enterprise)."
+    },
+    {
+      "id": "P-2001",
+      "name": "Alderbrook Home Services",
+      "type": "prospect",
+      "industry": "Residential HVAC, plumbing & electrical",
+      "segment": "hvac_plumbing",
+      "size_band": "Mid-market",
+      "hq": "Brookhaven Falls",
+      "branches": 3,
+      "employees": 260,
+      "technicians": 140,
+      "office_staff": 22,
+      "annual_revenue_usd": 48000000,
+      "lead_source": "Webinar — 'Beating the spring rush' (2026-10-14)",
+      "account_owner": "Jamie Cho",
+      "sdr": "Owen Gallagher",
+      "tech_stack": ["DispatchPro 7 (on-premise, end of support 2027-06-30)", "Spreadsheets for maintenance agreements", "Paper inspection forms (electrical division)", "Desktop accounting package"],
+      "known_pains": [
+        "Dispatchers re-key jobs between DispatchPro 7 and spreadsheets; 3 dispatchers work Saturdays",
+        "Overtime around 14% of technician hours during peak season",
+        "Invoices go out about 6 days after job completion",
+        "Asked in the webinar Q&A how other contractors migrated off DispatchPro"
+      ],
+      "competitors": ["Fieldnest (asked for a quote)", "Status quo — extend DispatchPro on extended support"],
+      "contacts": [
+        {"name": "Renata Vos", "title": "COO", "role": "economic_buyer", "influence": "high", "sentiment": "unknown", "email": "renata.vos@alderbrookhs.example", "last_contact": null},
+        {"name": "Carlos Méndez", "title": "Dispatch & Operations Manager", "role": "champion", "influence": "medium", "sentiment": "positive", "email": "carlos.mendez@alderbrookhs.example", "last_contact": "2026-10-16"},
+        {"name": "Joy Park", "title": "IT Manager", "role": "technical", "influence": "medium", "sentiment": "neutral", "email": "joy.park@alderbrookhs.example", "last_contact": null},
+        {"name": "Frank Doyle", "title": "CFO", "role": "economic_buyer", "influence": "high", "sentiment": "unknown", "email": "frank.doyle@alderbrookhs.example", "last_contact": null},
+        {"name": "Ahmed Saleh", "title": "Electrical Division Lead", "role": "user", "influence": "medium", "sentiment": "unknown", "email": "ahmed.saleh@alderbrookhs.example", "last_contact": null}
+      ],
+      "opportunities": [
+        {"id": "OPP-3107", "name": "Alderbrook — FieldOps Growth (140 techs)", "type": "new_logo", "stage": "Discovery", "amount_usd": 160000, "close_date": "2027-01-29", "owner": "Jamie Cho", "next_step": "Discovery call 2026-11-10 10:00 with Carlos Méndez and Joy Park"}
+      ],
+      "activities": [
+        {"date": "2026-10-16", "type": "call", "summary": "SDR Owen Gallagher qualified inbound lead; Carlos wants a 'real plan' before spring peak (March)."},
+        {"date": "2026-10-14", "type": "webinar", "summary": "Carlos Méndez and Joy Park attended 'Beating the spring rush'; Carlos asked about DispatchPro migrations."}
+      ],
+      "notes": "Discovery call booked 2026-11-10 10:00 (Carlos Méndez, Joy Park; Renata Vos may join for the last 10 minutes). Spring peak starts in March — go-live must land before 2027-03-01."
+    },
+    {
+      "id": "P-2002",
+      "name": "Silverline Security Systems",
+      "type": "prospect",
+      "industry": "Alarm, CCTV & access-control installation",
+      "segment": "fire_security",
+      "size_band": "Mid-market",
+      "hq": "Rivergate",
+      "branches": 2,
+      "employees": 95,
+      "technicians": 58,
+      "annual_revenue_usd": 17500000,
+      "lead_source": "Outbound — SDR sequence 'Security installers Q4'",
+      "account_owner": "Priya Natarajan",
+      "sdr": "Owen Gallagher",
+      "tech_stack": ["Fieldnest (trial)", "Monitoring-center software", "Spreadsheets"],
+      "known_pains": ["Install projects span several visits and are hard to schedule", "Recurring monitoring contracts are billed manually"],
+      "competitors": ["Fieldnest (in trial)"],
+      "contacts": [
+        {"name": "Hollis Grant", "title": "VP Operations", "role": "economic_buyer", "influence": "high", "sentiment": "neutral", "email": "hollis.grant@silverlinesec.example", "last_contact": "2026-10-22"},
+        {"name": "Mina Sorensen", "title": "Scheduling Lead", "role": "user", "influence": "medium", "sentiment": "positive", "email": "mina.sorensen@silverlinesec.example", "last_contact": "2026-10-22"}
+      ],
+      "opportunities": [
+        {"id": "OPP-3115", "name": "Silverline — FieldOps Growth (58 techs)", "type": "new_logo", "stage": "Discovery", "amount_usd": 52000, "close_date": "2027-02-26", "owner": "Priya Natarajan", "next_step": "Second call: multi-visit install projects demo"}
+      ],
+      "activities": [
+        {"date": "2026-10-22", "type": "call", "summary": "First call; Fieldnest trial ends 2026-11-30. Pain: multi-visit installs."}
+      ],
+      "notes": "Competitive — Fieldnest trial ends 2026-11-30."
+    },
+    {
+      "id": "P-2003",
+      "name": "Prairie Bloom Landscaping",
+      "type": "prospect",
+      "industry": "Commercial landscaping & snow removal",
+      "segment": "pest_landscaping",
+      "size_band": "Enterprise",
+      "hq": "Westmere",
+      "branches": 4,
+      "employees": 240,
+      "technicians": 190,
+      "annual_revenue_usd": 31000000,
+      "lead_source": "Outbound — trade show 'Green Industry Expo' badge scan",
+      "account_owner": "Jamie Cho",
+      "sdr": "Owen Gallagher",
+      "tech_stack": ["Crew whiteboards", "Generic scheduling spreadsheet"],
+      "known_pains": ["Seasonal crews (190 in summer, 70 in winter)", "Snow-event dispatch is chaotic"],
+      "competitors": ["ServiceGrid Pro"],
+      "contacts": [
+        {"name": "Marisol Ortega", "title": "Owner & CEO", "role": "economic_buyer", "influence": "high", "sentiment": "neutral", "email": "marisol.ortega@prairiebloom.example", "last_contact": "2026-10-08"}
+      ],
+      "opportunities": [
+        {"id": "OPP-3119", "name": "Prairie Bloom — seasonal crews pilot", "type": "new_logo", "stage": "Prospecting", "amount_usd": 95000, "close_date": "2027-03-31", "owner": "Jamie Cho", "next_step": "Book discovery with Marisol Ortega"}
+      ],
+      "activities": [
+        {"date": "2026-10-08", "type": "event", "summary": "Badge scan at Green Industry Expo; asked about seasonal licensing."}
+      ],
+      "notes": "Seasonal licensing question — needs deal desk."
+    },
+    {
+      "id": "P-2004",
+      "name": "Ironwood Elevator Co.",
+      "type": "prospect",
+      "industry": "Elevator installation & maintenance",
+      "segment": "elevator",
+      "size_band": "Mid-market",
+      "hq": "Millbrook",
+      "branches": 1,
+      "employees": 58,
+      "technicians": 40,
+      "annual_revenue_usd": 12000000,
+      "lead_source": "Customer referral — Helen Marsh (Bluefin Elevator Services)",
+      "account_owner": "Priya Natarajan",
+      "sdr": "Owen Gallagher",
+      "tech_stack": ["Paper job tickets", "Accounting package"],
+      "known_pains": ["Statutory inspection deadlines tracked in a spreadsheet", "Contract renewals missed"],
+      "competitors": ["Status quo"],
+      "contacts": [
+        {"name": "Peter Lang", "title": "General Manager", "role": "economic_buyer", "influence": "high", "sentiment": "positive", "email": "peter.lang@ironwoodelevator.example", "last_contact": "2026-10-30"}
+      ],
+      "opportunities": [
+        {"id": "OPP-3123", "name": "Ironwood — FieldOps Growth (40 techs)", "type": "new_logo", "stage": "Discovery", "amount_usd": 33000, "close_date": "2027-01-15", "owner": "Priya Natarajan", "next_step": "Reference call with Helen Marsh"}
+      ],
+      "activities": [
+        {"date": "2026-10-30", "type": "call", "summary": "Warm referral call; wants what Bluefin has."}
+      ],
+      "notes": "Referral — high win probability if reference call goes well."
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "agency": "National Housing Finance Fund (NHFF), Republic of Valdoria (fictional public housing lender) and partner lenders",
+  "rules": {
+    "property_tax_pct_per_year": 0.8,
+    "home_insurance_per_month": 35,
+    "closing_costs_pct": 3.0,
+    "first_home_subsidy": {"amount": 6000, "max_household_income": 2500, "applies_to": ["NHFF-FH25"], "use": "down payment and closing costs"}
+  },
+  "products": [
+    {"id": "NHFF-FH25", "lender": "National Housing Finance Fund", "public": true, "type": "mortgage", "name": "First Home Loan 25",
+     "rate_pct": 5.25, "rate_type": "fixed", "term_years": 25, "min_down_pct": 5, "max_loan": 95000, "origination_fee_pct": 0.5,
+     "max_housing_ratio_pct": 30, "max_dti_pct": 40, "first_time_buyer_only": true, "max_household_income": 4500,
+     "notes": "Public product; eligible for the $6,000 First Home Subsidy when household income is $2,500/month or less."},
+    {"id": "VDB-GREEN25", "lender": "Valdoria Development Bank", "public": true, "type": "mortgage", "name": "Green Home Loan",
+     "rate_pct": 4.90, "rate_type": "fixed", "term_years": 25, "min_down_pct": 10, "max_loan": 150000, "origination_fee_pct": 1.0,
+     "max_housing_ratio_pct": 33, "max_dti_pct": 43, "first_time_buyer_only": false, "requires": "Home with an energy-efficiency certificate (new builds from certified developers)",
+     "notes": "Lowest rate, but only for certified efficient homes."},
+    {"id": "BCB-FIX20", "lender": "Bayline Cooperative Bank", "public": false, "type": "mortgage", "name": "Fixed 20",
+     "rate_pct": 6.40, "rate_type": "fixed", "term_years": 20, "min_down_pct": 10, "max_loan": 250000, "origination_fee_pct": 1.0,
+     "max_housing_ratio_pct": 33, "max_dti_pct": 43, "first_time_buyer_only": false},
+    {"id": "HMCU-COOP25", "lender": "Harbor Mutual Credit Union", "public": false, "type": "mortgage", "name": "Co-op Home 25",
+     "rate_pct": 5.85, "rate_type": "fixed", "term_years": 25, "min_down_pct": 5, "max_loan": 180000, "origination_fee_pct": 0.5,
+     "max_housing_ratio_pct": 33, "max_dti_pct": 43, "first_time_buyer_only": false, "requires": "Credit union membership ($25 share)"},
+    {"id": "NGS-ARM51", "lender": "Northgate Savings", "public": false, "type": "mortgage", "name": "5/1 Adjustable 30",
+     "rate_pct": 5.10, "rate_type": "adjustable (fixed 5 years, then index + 2.75%, cap 9.5%)", "term_years": 30, "min_down_pct": 10, "max_loan": 300000, "origination_fee_pct": 1.25,
+     "max_housing_ratio_pct": 33, "max_dti_pct": 43, "first_time_buyer_only": false, "stress_rate_pct": 7.85,
+     "notes": "Payment can rise after year 5; affordability is tested at the stress rate."},
+    {"id": "NHFF-HIM5", "lender": "National Housing Finance Fund", "public": true, "type": "home_improvement", "name": "Home Improvement Microloan",
+     "rate_pct": 9.5, "rate_type": "fixed", "term_years": 5, "min_down_pct": 0, "max_loan": 8000, "origination_fee_pct": 0,
+     "max_housing_ratio_pct": null, "max_dti_pct": 40, "first_time_buyer_only": false, "requires": "Owner-occupied home; contractor quote",
+     "notes": "Paid partly to the contractor against the quote."},
+    {"id": "HMCU-PL", "lender": "Harbor Mutual Credit Union", "public": false, "type": "personal", "name": "Member Personal Loan",
+     "rate_pct": 12.5, "rate_type": "fixed", "term_years": 4, "min_down_pct": 0, "max_loan": 20000, "origination_fee_pct": 1.0,
+     "max_housing_ratio_pct": null, "max_dti_pct": 43, "first_time_buyer_only": false, "requires": "Credit union membership ($25 share)"},
+    {"id": "BCB-PL", "lender": "Bayline Cooperative Bank", "public": false, "type": "personal", "name": "Personal Loan",
+     "rate_pct": 15.9, "rate_type": "fixed", "term_years": 3, "min_down_pct": 0, "max_loan": 15000, "origination_fee_pct": 2.0,
+     "max_housing_ratio_pct": null, "max_dti_pct": 45, "first_time_buyer_only": false}
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "office": "Procurement Division, Finance Department, City of Port Alder",
+  "chief_procurement_officer": "Raymond Cho",
+  "thresholds": {
+    "goods_services": [
+      {"below": 10000, "method": "micro_purchase", "label": "Micro-purchase", "requirement": "One quote; P-card allowed up to $5,000; department approval."},
+      {"below": 50000, "method": "informal_quotes", "label": "Informal quotes", "requirement": "At least 3 written quotes; award to the lowest responsive quote; department head approval."},
+      {"below": 1000000000, "method": "formal", "label": "Formal solicitation", "requirement": "ITB (lowest responsive, responsible bidder) for clearly specified goods/services, RFP (best value) for complex services; advertised at least 14 calendar days; CPO approval."}],
+    "construction": [
+      {"below": 10000, "method": "micro_purchase", "label": "Micro-purchase", "requirement": "One quote from a registered contractor."},
+      {"below": 100000, "method": "informal_quotes", "label": "Informal quotes", "requirement": "At least 3 written quotes from registered contractors."},
+      {"below": 1000000000, "method": "formal_itb", "label": "Formal ITB", "requirement": "Sealed ITB advertised at least 21 calendar days; 5% bid bond enclosed with the bid; 100% performance and payment bonds; award to the lowest responsive, responsible bidder."}],
+    "professional_services": [
+      {"below": 50000, "method": "informal_qualifications", "label": "Informal qualifications review", "requirement": "Review of at least 3 firms' qualifications."},
+      {"below": 1000000000, "method": "qbs", "label": "Qualifications-based selection (QBS)", "requirement": "Architecture/engineering/surveying: rank on qualifications only, then negotiate a fair price with the top-ranked firm; advertised at least 14 days."}]
+  },
+  "council_approval_from": 250000,
+  "pcard_limit": 5000,
+  "rfp_price_weight_range": [20, 40],
+  "min_evaluators": 3,
+  "local_preference": {"pct": 5, "cap": 25000, "applies_to": "ITBs for goods, services and construction; not applied to nationally funded projects"},
+  "solicitations": [
+    {"id": "RFP-2026-031", "title": "Fleet Telematics & GPS Tracking Services", "category": "goods_services", "method": "RFP", "department": "Public Works - Fleet Services",
+     "estimated_value": 420000, "term_years": 3, "option_years": 2, "option_value_per_year": 135000, "advertised": "2026-08-03", "closed": "2026-09-15",
+     "status": "evaluation_complete", "council_date": "2026-12-08", "nationally_funded": false,
+     "criteria": [
+       {"id": "technical", "name": "Technical solution", "weight": 30},
+       {"id": "implementation", "name": "Implementation & support", "weight": 20},
+       {"id": "experience", "name": "Experience & references", "weight": 15},
+       {"id": "security", "name": "Data security & privacy", "weight": 10},
+       {"id": "price", "name": "Price", "weight": 25}],
+     "evaluators": [
+       {"name": "Lena Ortiz", "title": "Streets Superintendent", "coi_form_signed": "2026-09-29", "declared": "No conflicts"},
+       {"name": "Samir Haddad", "title": "IT Security Manager", "coi_form_signed": "2026-09-29", "declared": "Lunch at Volta Route Analytics vendor day, 2026-02-18 (about $38)"},
+       {"name": "Carla Jennings", "title": "Fleet Services Manager", "coi_form_signed": "2026-09-30", "declared": "No conflicts"},
+       {"name": "Owen Pratt", "title": "Senior Budget Analyst", "coi_form_signed": "2026-09-29", "declared": "Former employee of TrackWise Systems (left 2024-08-31)"}],
+     "proposals": [
+       {"vendor": "Meridian Fleetworks", "price": 398400, "local": false,
+        "scores": {"technical": [8, 8, 7, 8], "implementation": [7, 8, 7, 7], "experience": [9, 8, 8, 9], "security": [8, 9, 8, 8]}},
+       {"vendor": "TrackWise Systems", "price": 352800, "local": false,
+        "scores": {"technical": [7, 7, 6, 8], "implementation": [8, 7, 7, 8], "experience": [7, 7, 6, 7], "security": [6, 5, 6, 6]}},
+       {"vendor": "Harborline Telematics", "price": 377250, "local": true,
+        "scores": {"technical": [7, 8, 10, 7], "implementation": [7, 8, 10, 7], "experience": [7, 6, 9, 6], "security": [7, 7, 9, 7]}},
+       {"vendor": "Volta Route Analytics", "price": 455900, "local": false,
+        "scores": {"technical": [9, 9, 8, 9], "implementation": [6, 7, 6, 6], "experience": [7, 8, 7, 7], "security": [9, 9, 9, 8]}}],
+     "score_scale": "Non-price criteria scored 0-10 by each evaluator; points = average / 10 x weight. Price points = lowest price / proposer price x price weight."},
+    {"id": "ITB-2026-044", "title": "Harbor Street Repaving Phase 2", "category": "construction", "method": "ITB", "department": "Public Works - Streets",
+     "estimated_value": 1860000, "term_years": 1, "option_years": 0, "advertised": "2026-08-14", "closed": "2026-09-11",
+     "status": "awarded", "council_date": "2026-10-02", "council_resolution": "2026-188", "nationally_funded": false,
+     "bid_bond_pct": 5,
+     "bids": [
+       {"vendor": "Coastline Paving Co.", "price": 1742300, "local": true, "bid_bond": true, "registered_contractor": true},
+       {"vendor": "Granite Ridge Construction", "price": 1698900, "local": false, "bid_bond": false, "registered_contractor": true,
+        "notes": "Bid bond emailed separately at 14:12, after the 14:00 deadline."},
+       {"vendor": "Ostrander Civil", "price": 1779500, "local": false, "bid_bond": true, "registered_contractor": true}],
+     "evaluators": [], "cone_of_silence_contacts": [
+       {"date": "2026-08-30", "vendor": "Coastline Paving Co.", "contact": "Tess Morrow emailed Gordon Achterberg (Director of Public Works) asking to meet about Phase 2", "staff_response": "Redirected to Procurement in writing the same day", "cpo_determination": null, "record": "REC-0418-007"}]},
+    {"id": "RFQ-2026-118", "title": "Office furniture for the Permit Center", "category": "goods_services", "method": "informal_quotes", "department": "Building & Safety",
+     "estimated_value": 38500, "term_years": 1, "option_years": 0, "status": "quotes_received", "nationally_funded": false,
+     "quotes": [{"vendor": "Bayline Office Supply", "price": 36900, "local": true}, {"vendor": "Northgate Commercial Interiors", "price": 39850, "local": false}],
+     "evaluators": []}
+  ],
+  "parties": {
+    "vendor_officers": {
+      "Meridian Fleetworks": ["Anika Sorensen (CEO)", "Paul Ferris (VP Public Sector)"],
+      "TrackWise Systems": ["Gideon Marsh (CEO)", "Rita Okoye (Sales Director)"],
+      "Harborline Telematics": ["Elliot Crane (CEO)", "Derek Jennings (VP Sales)"],
+      "Volta Route Analytics": ["Sana Iqbal (CEO)", "Marco Bellini (Account Executive)"],
+      "Coastline Paving Co.": ["Ruth Calloway (President)", "Tess Morrow (Project Manager)"],
+      "Granite Ridge Construction": ["Victor Hale (President)"],
+      "Ostrander Civil": ["Joan Ostrander (Owner)"]
+    },
+    "hr_family_declarations": [
+      {"employee": "Carla Jennings", "relative": "Derek Jennings", "relationship": "brother-in-law (spouse's brother)", "source": "Employee family-relations declaration on HR file, 2024"},
+      {"employee": "Gordon Achterberg", "relative": "Lisa Achterberg", "relationship": "spouse", "source": "HR file"}
+    ],
+    "employment_history": [
+      {"employee": "Owen Pratt", "employer": "TrackWise Systems", "ended": "2024-08-31"}
+    ],
+    "gift_register": [
+      {"employee": "Samir Haddad", "source": "Volta Route Analytics", "date": "2026-02-18", "description": "Lunch at vendor demo day", "value": 38}
+    ]
+  }
+}

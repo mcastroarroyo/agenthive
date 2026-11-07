@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wursta Agent Hive</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,4 90,27 90,73 50,96 10,73 10,27' fill='%2313906a'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css?v=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="brand-hex" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27"/></svg>
+      <div>
+        <h1 id="title">The Wursta Agent Hive</h1>
+        <p id="subtitle" class="muted"></p>
+      </div>
+    </div>
+    <nav class="views" role="tablist" aria-label="Views">
+      <button role="tab" data-view="hive" aria-selected="true">Hive map</button>
+      <button role="tab" data-view="navigator">Use-case navigator</button>
+      <button role="tab" data-view="compositions">Compositions</button>
+      <button role="tab" data-view="skills">Skill library</button>
+    </nav>
+  </header>
+
+  <section class="stats" id="stats" aria-label="Hive summary"></section>
+
+  <section class="blocks-intro" id="blocks-intro" aria-label="ADK building blocks"></section>
+
+  <section class="toolbar" aria-label="Filters">
+    <label class="search">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search agents, use cases, tools…" autocomplete="off">
+    </label>
+    <div class="chips" id="filter-status"></div>
+    <div class="chips" id="filter-tier"></div>
+    <button class="ghost" id="clear-filters" hidden>Clear filters</button>
+  </section>
+
+  <main>
+    <section id="view-hive" class="view"></section>
+    <section id="view-navigator" class="view" hidden></section>
+    <section id="view-compositions" class="view" hidden></section>
+    <section id="view-skills" class="view" hidden></section>
+  </main>
+
+  <footer class="legend" id="legend"></footer>
+
+  <div class="scrim" id="scrim" hidden></div>
+  <aside class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="p-name" hidden>
+    <header class="p-head">
+      <div class="p-hex" id="p-hex"></div>
+      <div class="p-title">
+        <div class="p-meta" id="p-meta"></div>
+        <h2 id="p-name"></h2>
+        <p id="p-tagline" class="muted"></p>
+      </div>
+      <button class="icon close" id="p-close" aria-label="Close">
+        <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </header>
+    <div class="p-grid">
+      <section class="p-left">
+        <details class="p-about" id="p-about"></details>
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <div class="samples" id="samples"></div>
+        <form class="composer" id="composer">
+          <div class="files" id="files"></div>
+          <textarea id="msg" rows="3" placeholder="Ask the agent… (Enter to send, Shift+Enter for a new line)"></textarea>
+          <div class="composer-row">
+            <label class="ghost small attach">
+              <input type="file" id="file" accept="image/*,application/pdf,text/plain" hidden>
+              Attach file
+            </label>
+            <button type="button" class="ghost small" id="doc-btn" hidden>Insert sample document</button>
+            <button type="button" class="ghost small" id="new-session">New session</button>
+            <span class="runtime-line" id="runtime-line"></span>
+            <button type="submit" class="primary" id="send">Run</button>
+          </div>
+        </form>
+      </section>
+      <section class="p-right" id="p-blocks" aria-label="Building blocks"></section>
+    </div>
+  </aside>
+
+  <div class="modal" id="preview" hidden>
+    <div class="modal-box">
+      <header><b>Prototype preview</b><span class="muted small">sandboxed — scripts allowed, no network to this app</span>
+        <button class="icon" id="preview-close" aria-label="Close preview"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header>
+      <iframe id="preview-frame" sandbox="allow-scripts" title="Prototype preview"></iframe>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+{
+  "SOW-2026-0412": {
+    "id_short": "0412",
+    "client": "Kestrel Manufacturing Inc. (fictional)",
+    "title": "Microsoft 365 and file shares to Google Workspace migration (Atlas)",
+    "pricing_model": "fixed",
+    "value_usd": 486500,
+    "signed": "2026-08-28",
+    "start": "2026-09-08",
+    "end": "2026-12-18",
+    "hours_budget": 2380,
+    "hours_burned": 1512,
+    "discount_pct": 8,
+    "contracted_rates": {
+      "engagement_director": 262,
+      "solutions_architect": 221,
+      "cloud_engineer": 179,
+      "migration_specialist": 161,
+      "change_lead": 175,
+      "project_manager": 170,
+      "trainer": 138,
+      "qa_analyst": 129
+    },
+    "change_orders": [
+      {
+        "id": "CO-0412-01",
+        "title": "Spanish comms for Operations - Cedar Falls",
+        "total_usd": 6440,
+        "status": "signed 2026-10-06"
+      }
+    ],
+    "in_scope": [
+      {
+        "id": "IS-01",
+        "item": "Mail, calendar and contacts migration for up to 1,200 users",
+        "keywords": [
+          "mailbox",
+          "calendar",
+          "contacts",
+          "email migration",
+          "inbox"
+        ]
+      },
+      {
+        "id": "IS-02",
+        "item": "OneDrive to My Drive migration",
+        "keywords": [
+          "onedrive",
+          "my drive"
+        ]
+      },
+      {
+        "id": "IS-03",
+        "item": "File shares to Shared drives (up to 30 TB) including shared-drive design and restricted-folder restructure",
+        "keywords": [
+          "file share",
+          "shared drive",
+          "restructure",
+          "folder permissions"
+        ]
+      },
+      {
+        "id": "IS-04",
+        "item": "Shared mailboxes to Groups, resource calendars and distribution lists",
+        "keywords": [
+          "shared mailbox",
+          "distribution list",
+          "meeting room",
+          "resource calendar"
+        ]
+      },
+      {
+        "id": "IS-05",
+        "item": "SMTP relay configuration for up to 8 applications",
+        "keywords": [
+          "smtp",
+          "relay",
+          "scanner",
+          "printer"
+        ]
+      },
+      {
+        "id": "IS-06",
+        "item": "Change management, user communications (Atlas) and end-user training in English and Spanish",
+        "keywords": [
+          "training",
+          "spanish",
+          "communication",
+          "comms",
+          "emails to users"
+        ]
+      },
+      {
+        "id": "IS-07",
+        "item": "Google Vault configuration and holds for litigation custodians",
+        "keywords": [
+          "vault",
+          "legal hold",
+          "litigation",
+          "retention"
+        ]
+      },
+      {
+        "id": "IS-08",
+        "item": "Two weeks of hypercare per wave",
+        "keywords": [
+          "hypercare",
+          "floorwalker",
+          "support after"
+        ]
+      },
+      {
+        "id": "IS-09",
+        "item": "Wave re-sequencing within the contract window (until 2026-12-18) with 10 business days' notice",
+        "keywords": [
+          "reschedule",
+          "move the",
+          "bring forward",
+          "earlier",
+          "re-sequence",
+          "swap"
+        ]
+      }
+    ],
+    "out_of_scope": [
+      {
+        "id": "OOS-01",
+        "item": "Exchange public folder migration",
+        "keywords": [
+          "public folder"
+        ],
+        "reference_effort": [
+          {
+            "role": "migration_specialist",
+            "hours": 40
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 16
+          },
+          {
+            "role": "project_manager",
+            "hours": 6
+          }
+        ],
+        "schedule_impact_days": 5
+      },
+      {
+        "id": "OOS-02",
+        "item": "PST file discovery and ingestion into Gmail",
+        "keywords": [
+          "pst"
+        ],
+        "reference_effort": [
+          {
+            "role": "migration_specialist",
+            "hours": 96
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 24
+          },
+          {
+            "role": "change_lead",
+            "hours": 12
+          },
+          {
+            "role": "project_manager",
+            "hours": 12
+          }
+        ],
+        "schedule_impact_days": 10
+      },
+      {
+        "id": "OOS-03",
+        "item": "Microsoft Teams chat and channel history migration",
+        "keywords": [
+          "teams",
+          "chat history",
+          "channel history"
+        ],
+        "reference_effort": [
+          {
+            "role": "solutions_architect",
+            "hours": 16
+          },
+          {
+            "role": "migration_specialist",
+            "hours": 60
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 24
+          },
+          {
+            "role": "project_manager",
+            "hours": 10
+          }
+        ],
+        "schedule_impact_days": 10
+      },
+      {
+        "id": "OOS-04",
+        "item": "Third-party journaling archive migration",
+        "keywords": [
+          "archive",
+          "journal"
+        ],
+        "reference_effort": [
+          {
+            "role": "solutions_architect",
+            "hours": 24
+          },
+          {
+            "role": "migration_specialist",
+            "hours": 120
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 40
+          },
+          {
+            "role": "project_manager",
+            "hours": 18
+          }
+        ],
+        "schedule_impact_days": 15
+      },
+      {
+        "id": "OOS-05",
+        "item": "Hands-on mobile device re-enrolment and MDM (guide only is in scope)",
+        "keywords": [
+          "mobile device",
+          "re-enrol",
+          "re-enroll",
+          "mdm",
+          "phones for"
+        ],
+        "reference_effort": [
+          {
+            "role": "cloud_engineer",
+            "hours": 40
+          },
+          {
+            "role": "migration_specialist",
+            "hours": 60
+          },
+          {
+            "role": "project_manager",
+            "hours": 6
+          }
+        ],
+        "schedule_impact_days": 0
+      },
+      {
+        "id": "OOS-06",
+        "item": "Data clean-up and de-duplication",
+        "keywords": [
+          "clean up",
+          "cleanup",
+          "de-dup",
+          "dedup",
+          "duplicate"
+        ],
+        "reference_effort": [
+          {
+            "role": "migration_specialist",
+            "hours": 40
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 16
+          }
+        ],
+        "schedule_impact_days": 3
+      },
+      {
+        "id": "OOS-07",
+        "item": "Windows file server decommissioning",
+        "keywords": [
+          "decommission",
+          "retire the file server",
+          "shut down the file server"
+        ],
+        "reference_effort": [
+          {
+            "role": "cloud_engineer",
+            "hours": 24
+          },
+          {
+            "role": "solutions_architect",
+            "hours": 8
+          }
+        ],
+        "schedule_impact_days": 0
+      }
+    ],
+    "caps": [
+      {
+        "id": "CAP-01",
+        "item": "Up to 1,200 migrating employee accounts",
+        "unit": "users",
+        "unit_divisor": 100,
+        "keywords": [
+          "contractor",
+          "additional users",
+          "more users",
+          "extra users",
+          "new hires",
+          "acquired"
+        ],
+        "effort_per_unit": [
+          {
+            "role": "migration_specialist",
+            "hours": 22
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 6
+          },
+          {
+            "role": "change_lead",
+            "hours": 6
+          },
+          {
+            "role": "trainer",
+            "hours": 6
+          },
+          {
+            "role": "project_manager",
+            "hours": 4
+          }
+        ],
+        "unit_words": [
+          "contractors",
+          "users",
+          "accounts",
+          "people"
+        ]
+      },
+      {
+        "id": "CAP-02",
+        "item": "Up to 30 TB of source data",
+        "unit": "TB",
+        "unit_divisor": 1,
+        "keywords": [
+          "another share",
+          "additional share",
+          "new share",
+          "more data",
+          "terabytes",
+          " tb "
+        ],
+        "effort_per_unit": [
+          {
+            "role": "migration_specialist",
+            "hours": 6
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 2
+          }
+        ],
+        "unit_words": [
+          "tb",
+          "terabytes"
+        ]
+      }
+    ]
+  },
+  "SOW-2026-0388": {
+    "id_short": "0388",
+    "client": "Bluestem Foods Co. (fictional)",
+    "title": "BigQuery analytics platform and demand forecasting",
+    "pricing_model": "tm",
+    "value_usd": 296400,
+    "signed": "2026-07-14",
+    "start": "2026-07-27",
+    "end": "2026-12-11",
+    "hours_budget": 1560,
+    "hours_burned": 968,
+    "discount_pct": 5,
+    "contracted_rates": {
+      "engagement_director": 271,
+      "solutions_architect": 228,
+      "data_engineer": 195,
+      "ai_ml_engineer": 218,
+      "cloud_engineer": 185,
+      "qa_analyst": 133,
+      "project_manager": 176,
+      "trainer": 143,
+      "change_lead": 180
+    },
+    "change_orders": [],
+    "in_scope": [
+      {
+        "id": "IS-01",
+        "item": "Four ingestion pipelines: ERP orders, WMS inventory, retailer EDI sell-through, marketing spend",
+        "keywords": [
+          "erp",
+          "wms",
+          "edi",
+          "marketing spend",
+          "pipeline"
+        ]
+      },
+      {
+        "id": "IS-02",
+        "item": "Up to 6 Looker Studio dashboards (defects fixed within warranty)",
+        "keywords": [
+          "dashboard"
+        ]
+      },
+      {
+        "id": "IS-03",
+        "item": "Weekly SKU x region demand forecast (BigQuery ML) with accuracy report",
+        "keywords": [
+          "forecast",
+          "accuracy"
+        ]
+      },
+      {
+        "id": "IS-04",
+        "item": "Data-quality checks and alerting on the four pipelines",
+        "keywords": [
+          "data quality",
+          "alert",
+          "late file",
+          "freshness"
+        ]
+      },
+      {
+        "id": "IS-05",
+        "item": "Two training sessions for analysts and admins",
+        "keywords": [
+          "analyst training",
+          "admin training"
+        ]
+      },
+      {
+        "id": "IS-06",
+        "item": "Four weeks of hypercare after go-live",
+        "keywords": [
+          "hypercare",
+          "support after go-live"
+        ]
+      }
+    ],
+    "out_of_scope": [
+      {
+        "id": "OOS-01",
+        "item": "Any fifth data source, including the CRM",
+        "keywords": [
+          "crm",
+          "fifth source",
+          "new source",
+          "another source"
+        ],
+        "reference_effort": [
+          {
+            "role": "data_engineer",
+            "hours": 72
+          },
+          {
+            "role": "qa_analyst",
+            "hours": 12
+          },
+          {
+            "role": "solutions_architect",
+            "hours": 10
+          },
+          {
+            "role": "project_manager",
+            "hours": 10
+          }
+        ],
+        "schedule_impact_days": 10
+      },
+      {
+        "id": "OOS-02",
+        "item": "Real-time or streaming ingestion (batch daily is in scope)",
+        "keywords": [
+          "real-time",
+          "real time",
+          "streaming",
+          "live data"
+        ],
+        "reference_effort": [
+          {
+            "role": "solutions_architect",
+            "hours": 24
+          },
+          {
+            "role": "data_engineer",
+            "hours": 120
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 40
+          },
+          {
+            "role": "qa_analyst",
+            "hours": 16
+          },
+          {
+            "role": "project_manager",
+            "hours": 20
+          }
+        ],
+        "schedule_impact_days": 20
+      },
+      {
+        "id": "OOS-03",
+        "item": "Pricing optimisation or price-recommendation models",
+        "keywords": [
+          "pricing",
+          "suggest prices",
+          "price recommendation",
+          "optimal price"
+        ],
+        "reference_effort": [
+          {
+            "role": "ai_ml_engineer",
+            "hours": 160
+          },
+          {
+            "role": "data_engineer",
+            "hours": 32
+          },
+          {
+            "role": "qa_analyst",
+            "hours": 20
+          },
+          {
+            "role": "solutions_architect",
+            "hours": 12
+          },
+          {
+            "role": "project_manager",
+            "hours": 22
+          }
+        ],
+        "schedule_impact_days": 25
+      },
+      {
+        "id": "OOS-04",
+        "item": "Historical backfill beyond 3 years",
+        "keywords": [
+          "backfill",
+          "five years",
+          "5 years",
+          "history beyond"
+        ],
+        "reference_effort": [
+          {
+            "role": "data_engineer",
+            "hours": 40
+          },
+          {
+            "role": "qa_analyst",
+            "hours": 8
+          },
+          {
+            "role": "project_manager",
+            "hours": 5
+          }
+        ],
+        "schedule_impact_days": 5
+      },
+      {
+        "id": "OOS-05",
+        "item": "Mobile app or embedded analytics in third-party portals",
+        "keywords": [
+          "mobile app",
+          "embed",
+          "portal"
+        ],
+        "reference_effort": [
+          {
+            "role": "solutions_architect",
+            "hours": 16
+          },
+          {
+            "role": "cloud_engineer",
+            "hours": 80
+          },
+          {
+            "role": "qa_analyst",
+            "hours": 16
+          },
+          {
+            "role": "project_manager",
+            "hours": 12
+          }
+        ],
+        "schedule_impact_days": 15
+      }
+    ],
+    "caps": [
+      {
+        "id": "CAP-01",
+        "item": "Up to 6 dashboards",
+        "unit": "dashboards",
+        "unit_divisor": 1,
+        "keywords": [
+          "more dashboards",
+          "additional dashboards",
+          "new dashboards",
+          "extra dashboards"
+        ],
+        "effort_per_unit": [
+          {
+            "role": "data_engineer",
+            "hours": 22
+          },
+          {
+            "role": "qa_analyst",
+            "hours": 6
+          },
+          {
+            "role": "project_manager",
+            "hours": 3
+          }
+        ],
+        "unit_words": [
+          "dashboards"
+        ]
+      },
+      {
+        "id": "CAP-02",
+        "item": "Up to 2 training sessions (analysts and admins)",
+        "unit": "sessions",
+        "unit_divisor": 1,
+        "keywords": [
+          "store managers",
+          "more training",
+          "additional training",
+          "extra training"
+        ],
+        "effort_per_unit": [
+          {
+            "role": "trainer",
+            "hours": 4
+          },
+          {
+            "role": "change_lead",
+            "hours": 1
+          }
+        ],
+        "unit_words": [
+          "sessions"
+        ]
+      }
+    ]
+  }
+}

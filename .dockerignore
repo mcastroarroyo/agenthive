@@ -1,0 +1,9 @@
+.venv
+.git
+**/__pycache__
+.pytest_cache
+deploy
+tests
+docs
+web/static/catalog.json
+.env*

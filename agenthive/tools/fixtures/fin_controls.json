@@ -1,0 +1,425 @@
+{
+ "period": "2026-Q3",
+ "institution": "Quillmark Bank (fictional)",
+ "rating_scale": {
+  "effective": ">= 95% pass rate",
+  "needs_improvement": "85-94.9%",
+  "deficient": "< 85% or any critical exception"
+ },
+ "topics": {
+  "aml_transaction_monitoring": {
+   "keywords": [
+    "aml",
+    "transaction monitoring",
+    "alert",
+    "structuring",
+    "suspicious",
+    "sar",
+    "money laundering"
+   ],
+   "obligation": "Ongoing monitoring of customer transactions and timely investigation and reporting of suspicious activity (AML/CFT law \u2014 illustrative).",
+   "controls": [
+    {
+     "control_id": "CTL-AML-01",
+     "name": "Daily transaction-monitoring scenario run with completeness reconciliation",
+     "requirement": "All in-scope transactions screened by scenarios TM-01..TM-06 every business day",
+     "policy_ref": "Financial Crime Policy FCP-3 \u00a72",
+     "owner": "Financial Crime Operations",
+     "frequency": "daily",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 63,
+      "exceptions": 0,
+      "pass_rate_pct": 100.0
+     },
+     "evidence": [
+      {
+       "id": "EV-AML-0101",
+       "type": "system report",
+       "title": "Q3 scenario run log and record-count reconciliation",
+       "date": "2026-10-03"
+      },
+      {
+       "id": "EV-AML-0102",
+       "type": "configuration export",
+       "title": "Scenario thresholds TM-01..TM-06 (v4.2)",
+       "date": "2026-07-01"
+      }
+     ],
+     "open_issues": []
+    },
+    {
+     "control_id": "CTL-AML-02",
+     "name": "Alert triage within 5 business days of generation",
+     "requirement": "Every alert dispositioned by a level-1 analyst within 5 business days",
+     "policy_ref": "Financial Crime Policy FCP-3 \u00a74",
+     "owner": "Financial Crime Operations",
+     "frequency": "per alert",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 40,
+      "exceptions": 3,
+      "pass_rate_pct": 92.5
+     },
+     "evidence": [
+      {
+       "id": "EV-AML-0201",
+       "type": "sample workpaper",
+       "title": "Q3 alert timeliness sample (40 alerts)",
+       "date": "2026-10-09"
+      },
+      {
+       "id": "EV-AML-0202",
+       "type": "dashboard extract",
+       "title": "Alert ageing by week, July-September 2026",
+       "date": "2026-10-01"
+      }
+     ],
+     "open_issues": [
+      "ISS-2026-031: 3 alerts triaged late during the August fraud-ring surge (staffing)"
+     ]
+    },
+    {
+     "control_id": "CTL-AML-03",
+     "name": "Case decision within 30 days and regulatory report within 30 days of determination",
+     "requirement": "Escalated cases decided within 30 calendar days; suspicious-activity reports filed within 30 days",
+     "policy_ref": "Financial Crime Policy FCP-3 \u00a76",
+     "owner": "Financial Intelligence Unit",
+     "frequency": "per case",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 12,
+      "exceptions": 0,
+      "pass_rate_pct": 100.0
+     },
+     "evidence": [
+      {
+       "id": "EV-AML-0301",
+       "type": "sample workpaper",
+       "title": "Q3 case decision and filing timeliness (12 cases)",
+       "date": "2026-10-11"
+      },
+      {
+       "id": "EV-AML-0302",
+       "type": "committee minutes",
+       "title": "Financial Crime Committee minutes, 2026-09-24",
+       "date": "2026-09-24"
+      }
+     ],
+     "open_issues": []
+    }
+   ]
+  },
+  "sanctions_screening": {
+   "keywords": [
+    "sanction",
+    "screening",
+    "watchlist",
+    "pep",
+    "ofac",
+    "name match"
+   ],
+   "obligation": "Screen customers and payments against applicable sanctions lists and block or freeze where required (sanctions regulations \u2014 illustrative).",
+   "controls": [
+    {
+     "control_id": "CTL-SAN-01",
+     "name": "Real-time payment screening of wires against the consolidated list",
+     "requirement": "100% of outgoing and incoming wires screened before release",
+     "policy_ref": "Sanctions Policy SP-2 \u00a73",
+     "owner": "Sanctions Compliance",
+     "frequency": "real time",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 60,
+      "exceptions": 0,
+      "pass_rate_pct": 100.0
+     },
+     "evidence": [
+      {
+       "id": "EV-SAN-0101",
+       "type": "system report",
+       "title": "Wire screening coverage report Q3",
+       "date": "2026-10-02"
+      }
+     ],
+     "open_issues": []
+    },
+    {
+     "control_id": "CTL-SAN-02",
+     "name": "Potential-match disposition within 24 hours",
+     "requirement": "Potential matches cleared or escalated within 24 hours; payment held meanwhile",
+     "policy_ref": "Sanctions Policy SP-2 \u00a75",
+     "owner": "Sanctions Compliance",
+     "frequency": "per hit",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 60,
+      "exceptions": 2,
+      "pass_rate_pct": 96.7
+     },
+     "evidence": [
+      {
+       "id": "EV-SAN-0201",
+       "type": "sample workpaper",
+       "title": "Q3 hit disposition sample (60 hits)",
+       "date": "2026-10-08"
+      }
+     ],
+     "open_issues": [
+      "ISS-2026-035: 2 weekend hits cleared after 31 and 38 hours"
+     ]
+    },
+    {
+     "control_id": "CTL-SAN-03",
+     "name": "List updates loaded within 24 hours of publication",
+     "requirement": "Screening lists refreshed within 24h of each publication",
+     "policy_ref": "Sanctions Policy SP-2 \u00a72",
+     "owner": "Sanctions Compliance",
+     "frequency": "per update",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 12,
+      "exceptions": 1,
+      "pass_rate_pct": 91.7
+     },
+     "evidence": [
+      {
+       "id": "EV-SAN-0301",
+       "type": "system log",
+       "title": "List load timestamps vs publication, Q3",
+       "date": "2026-10-02"
+      }
+     ],
+     "open_issues": [
+      "ISS-2026-029: 2026-08-15 update loaded after 41 hours (vendor feed outage)"
+     ]
+    }
+   ]
+  },
+  "kyc_refresh": {
+   "keywords": [
+    "kyc",
+    "cdd",
+    "customer due diligence",
+    "periodic review",
+    "beneficial owner",
+    "edd"
+   ],
+   "obligation": "Keep customer due-diligence information current on a risk-based cycle and verify beneficial owners of legal entities (AML/CFT law \u2014 illustrative).",
+   "controls": [
+    {
+     "control_id": "CTL-KYC-01",
+     "name": "Risk-based periodic review (high 12m, medium 24m, low 36m)",
+     "requirement": "Periodic reviews completed by due date",
+     "policy_ref": "Customer Due Diligence Standard CDD-1 \u00a77",
+     "owner": "KYC Operations",
+     "frequency": "monthly",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 120,
+      "exceptions": 14,
+      "pass_rate_pct": 88.3
+     },
+     "evidence": [
+      {
+       "id": "EV-KYC-0101",
+       "type": "dashboard extract",
+       "title": "Overdue periodic reviews by risk tier, 2026-09-30",
+       "date": "2026-10-01"
+      },
+      {
+       "id": "EV-KYC-0102",
+       "type": "remediation plan",
+       "title": "KYC backlog remediation plan v2",
+       "date": "2026-09-12"
+      }
+     ],
+     "open_issues": [
+      "ISS-2026-022: 214 overdue reviews (3.1% of book); 19 are high-risk customers"
+     ]
+    },
+    {
+     "control_id": "CTL-KYC-02",
+     "name": "Beneficial-ownership verification for legal entities at onboarding",
+     "requirement": "Owners >= 25% identified and verified",
+     "policy_ref": "Customer Due Diligence Standard CDD-1 \u00a74",
+     "owner": "KYC Operations",
+     "frequency": "per onboarding",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 30,
+      "exceptions": 0,
+      "pass_rate_pct": 100.0
+     },
+     "evidence": [
+      {
+       "id": "EV-KYC-0201",
+       "type": "sample workpaper",
+       "title": "Q3 entity onboarding sample (30 files)",
+       "date": "2026-10-06"
+      }
+     ],
+     "open_issues": []
+    }
+   ]
+  },
+  "wealth_suitability": {
+   "keywords": [
+    "suitability",
+    "wealth",
+    "advice",
+    "complex product",
+    "mandate",
+    "investment",
+    "best interest"
+   ],
+   "obligation": "Recommendations must be suitable for the client's profile, documented, and supervised (investor-protection rules \u2014 illustrative).",
+   "controls": [
+    {
+     "control_id": "CTL-WM-01",
+     "name": "Annual suitability profile review",
+     "requirement": "Client profile reviewed at least every 12 months",
+     "policy_ref": "QPW-POL-07 \u00a71 (WS-1)",
+     "owner": "Private Wealth Supervision",
+     "frequency": "monthly",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 50,
+      "exceptions": 3,
+      "pass_rate_pct": 94.0
+     },
+     "evidence": [
+      {
+       "id": "EV-WM-0101",
+       "type": "dashboard extract",
+       "title": "Stale suitability profiles by advisor, 2026-09-30",
+       "date": "2026-10-01"
+      }
+     ],
+     "open_issues": [
+      "ISS-2026-038: 4.8% of profiles older than 12 months (e.g. WM-6178)"
+     ]
+    },
+    {
+     "control_id": "CTL-WM-02",
+     "name": "Complex-product pre-approval and eligibility check",
+     "requirement": "Complex products only for eligible clients with documented pre-approval",
+     "policy_ref": "QPW-POL-07 \u00a74 (WS-3, WS-4)",
+     "owner": "Private Wealth Supervision",
+     "frequency": "per order",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 25,
+      "exceptions": 2,
+      "pass_rate_pct": 92.0
+     },
+     "evidence": [
+      {
+       "id": "EV-WM-0201",
+       "type": "sample workpaper",
+       "title": "Q3 complex-product order sample (25 orders)",
+       "date": "2026-10-10"
+      }
+     ],
+     "open_issues": [
+      "ISS-2026-040 (critical): leveraged ETP held in Conservative IRA WM-3115 via unsolicited order; private-credit interval fund sold to ineligible client in 2025"
+     ]
+    },
+    {
+     "control_id": "CTL-WM-03",
+     "name": "Record of advice retained for every recommendation",
+     "requirement": "Record of advice filed and supervisor-approved within T+1",
+     "policy_ref": "QPW-POL-07 \u00a78",
+     "owner": "Private Wealth Supervision",
+     "frequency": "per recommendation",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 40,
+      "exceptions": 0,
+      "pass_rate_pct": 100.0
+     },
+     "evidence": [
+      {
+       "id": "EV-WM-0301",
+       "type": "sample workpaper",
+       "title": "Q3 record-of-advice sample (40)",
+       "date": "2026-10-10"
+      }
+     ],
+     "open_issues": []
+    }
+   ]
+  },
+  "complaints_handling": {
+   "keywords": [
+    "complaint",
+    "customer complaint",
+    "conduct",
+    "fair treatment"
+   ],
+   "obligation": "Acknowledge, investigate and resolve complaints fairly and on time (consumer-protection rules \u2014 illustrative).",
+   "controls": [
+    {
+     "control_id": "CTL-CMP-01",
+     "name": "Acknowledge within 5 business days, resolve within 30 days",
+     "requirement": "Complaint SLAs met",
+     "policy_ref": "Complaints Policy CP-1 \u00a73",
+     "owner": "Customer Care",
+     "frequency": "weekly",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 60,
+      "exceptions": 4,
+      "pass_rate_pct": 93.3
+     },
+     "evidence": [
+      {
+       "id": "EV-CMP-0101",
+       "type": "dashboard extract",
+       "title": "Complaint SLA report Q3 (cards complaints spike in August)",
+       "date": "2026-10-04"
+      }
+     ],
+     "open_issues": [
+      "ISS-2026-033: card-fraud complaint surge in August breached 30-day SLA for 4 sampled cases"
+     ]
+    }
+   ]
+  },
+  "data_retention": {
+   "keywords": [
+    "retention",
+    "record keeping",
+    "records",
+    "data retention",
+    "archiv"
+   ],
+   "obligation": "Retain transaction and due-diligence records for at least 5 years after the relationship ends (record-keeping rules \u2014 illustrative).",
+   "controls": [
+    {
+     "control_id": "CTL-DR-01",
+     "name": "Records retained >= 5 years and retrievable within 48 hours",
+     "requirement": "Retention schedule enforced; retrieval test passed",
+     "policy_ref": "Records Management Policy RM-2 \u00a72",
+     "owner": "Records Management",
+     "frequency": "semi-annual",
+     "last_test": {
+      "period": "2026-Q3",
+      "sample_size": 20,
+      "exceptions": 0,
+      "pass_rate_pct": 100.0
+     },
+     "evidence": [
+      {
+       "id": "EV-DR-0101",
+       "type": "test report",
+       "title": "Retrieval test, 20 closed-account files",
+       "date": "2026-09-19"
+      }
+     ],
+     "open_issues": []
+    }
+   ]
+  }
+ }
+}

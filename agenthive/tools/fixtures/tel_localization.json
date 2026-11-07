@@ -1,0 +1,263 @@
+{
+ "brand": "Kestrava Telecom (fictional)",
+ "do_not_translate": [
+  "Kestrava",
+  "Kestrava Fiber Max",
+  "Kestrava 5G Home",
+  "Kestrava One",
+  "Kestrava Wi-Fi 7 Gateway",
+  "Wi-Fi 7",
+  "5G",
+  "Gig"
+ ],
+ "locales": {
+  "es-419": {
+   "language": "Spanish (Latin America)",
+   "formality": "tu",
+   "formality_note": "Use tú (contrata, descubre). Never usted in consumer copy.",
+   "avoid_markers": [
+    " usted",
+    "contrate ",
+    "descubra "
+   ],
+   "decimal": ".",
+   "expansion": 1.25,
+   "price_example": "US$65 al mes",
+   "currency_markers": [
+    "US$"
+   ],
+   "taxes_line": "Impuestos y cargos no incluidos.",
+   "terms_line": "Aplican términos y condiciones.",
+   "fair_use_line": "Aplica política de uso razonable.",
+   "sms_opt_out": "Responde STOP para no recibir más mensajes",
+   "season_note": "Mixed hemispheres: avoid snow/winter imagery for December campaigns.",
+   "anglicisms": {
+    "upgrade": "mejora / pásate a",
+    "email": "correo",
+    "shopping": "compras"
+   },
+   "flag_terms": {
+    "nieve": "Season-neutral imagery for mixed-hemisphere markets",
+    "invierno": "Season-neutral imagery for mixed-hemisphere markets",
+    "❄": "Season-neutral imagery for mixed-hemisphere markets"
+   }
+  },
+  "es-ES": {
+   "language": "Spanish (Spain)",
+   "formality": "tu",
+   "formality_note": "Use tú. Prices are shown VAT-inclusive (IVA incluido).",
+   "avoid_markers": [
+    " usted",
+    "contrate "
+   ],
+   "decimal": ",",
+   "expansion": 1.25,
+   "price_example": "49,90 €/mes",
+   "currency_markers": [
+    "€"
+   ],
+   "taxes_line": "IVA incluido.",
+   "terms_line": "Consulta condiciones.",
+   "fair_use_line": "Sujeto a política de uso razonable.",
+   "sms_opt_out": "Responde BAJA para no recibir más mensajes",
+   "season_note": "Northern hemisphere: winter imagery is fine.",
+   "anglicisms": {
+    "upgrade": "mejora / pásate a",
+    "email": "correo electrónico"
+   },
+   "flag_terms": {
+    "Thanksgiving": "Not celebrated in Spain"
+   }
+  },
+  "pt-BR": {
+   "language": "Portuguese (Brazil)",
+   "formality": "voce",
+   "formality_note": "Use você. Prices are tax-inclusive (impostos inclusos).",
+   "avoid_markers": [
+    " tu ",
+    " o senhor",
+    " a senhora"
+   ],
+   "decimal": ",",
+   "expansion": 1.2,
+   "price_example": "R$ 249,90/mês",
+   "currency_markers": [
+    "R$"
+   ],
+   "taxes_line": "Impostos inclusos.",
+   "terms_line": "Consulte condições.",
+   "fair_use_line": "Sujeito à política de uso justo.",
+   "sms_opt_out": "Responda SAIR para não receber mais mensagens",
+   "season_note": "December is summer in Brazil: no snow, winter or cozy-fireplace imagery.",
+   "anglicisms": {},
+   "flag_terms": {
+    "👌": "The OK-hand gesture is offensive in Brazil",
+    "inverno": "December is summer in Brazil",
+    "neve": "December is summer in Brazil",
+    "frio": "December is summer in Brazil",
+    "❄": "December is summer in Brazil",
+    "Thanksgiving": "Not celebrated in Brazil"
+   }
+  },
+  "fr-CA": {
+   "language": "French (Canada)",
+   "formality": "vous",
+   "formality_note": "Use vous. Québec French: avoid anglicisms (courriel, magasinage, fin de semaine).",
+   "avoid_markers": [
+    " tu ",
+    " ton ",
+    " ta ",
+    " tes "
+   ],
+   "decimal": ",",
+   "expansion": 1.2,
+   "price_example": "79 $/mois",
+   "currency_markers": [
+    " $"
+   ],
+   "taxes_line": "Taxes en sus.",
+   "terms_line": "Certaines conditions s'appliquent.",
+   "fair_use_line": "Politique d'utilisation équitable applicable.",
+   "sms_opt_out": "Répondez STOP pour vous désabonner",
+   "season_note": "Northern hemisphere. Thanksgiving (Action de grâce) is in October, not November.",
+   "anglicisms": {
+    "email": "courriel",
+    "e-mail": "courriel",
+    "shopping": "magasinage",
+    "weekend": "fin de semaine",
+    "upgrade": "mise à niveau",
+    "deal": "aubaine",
+    "Black Friday": "Vendredi fou",
+    "streaming": "diffusion en continu"
+   },
+   "flag_terms": {
+    "Thanksgiving": "Canadian Thanksgiving is in October"
+   }
+  },
+  "fr-FR": {
+   "language": "French (France)",
+   "formality": "vous",
+   "formality_note": "Use vous. Prices are shown TTC (taxes included).",
+   "avoid_markers": [
+    " tu ",
+    " ton ",
+    " ta ",
+    " tes "
+   ],
+   "decimal": ",",
+   "expansion": 1.2,
+   "price_example": "44,99 €/mois",
+   "currency_markers": [
+    "€"
+   ],
+   "taxes_line": "Prix TTC.",
+   "terms_line": "Voir conditions.",
+   "fair_use_line": "Soumis à une politique d'usage raisonnable.",
+   "sms_opt_out": "STOP au 36180",
+   "season_note": "Northern hemisphere: winter imagery is fine.",
+   "anglicisms": {
+    "upgrade": "passez à",
+    "deal": "bon plan"
+   },
+   "flag_terms": {
+    "Thanksgiving": "Not celebrated in France"
+   }
+  }
+ },
+ "glossary": [
+  {
+   "en": "plan",
+   "es-419": "plan",
+   "es-ES": "tarifa",
+   "pt-BR": "plano",
+   "fr-CA": "forfait",
+   "fr-FR": "forfait"
+  },
+  {
+   "en": "data",
+   "es-419": "datos",
+   "es-ES": "datos",
+   "pt-BR": "dados",
+   "fr-CA": "données",
+   "fr-FR": "données"
+  },
+  {
+   "en": "unlimited",
+   "es-419": "ilimitado",
+   "es-ES": "ilimitado",
+   "pt-BR": "ilimitado",
+   "fr-CA": "illimité",
+   "fr-FR": "illimité"
+  },
+  {
+   "en": "router",
+   "es-419": "módem",
+   "es-ES": "router",
+   "pt-BR": "roteador",
+   "fr-CA": "routeur",
+   "fr-FR": "box"
+  },
+  {
+   "en": "installation",
+   "es-419": "instalación",
+   "es-ES": "instalación",
+   "pt-BR": "instalação",
+   "fr-CA": "installation",
+   "fr-FR": "installation"
+  },
+  {
+   "en": "speed",
+   "es-419": "velocidad",
+   "es-ES": "velocidad",
+   "pt-BR": "velocidade",
+   "fr-CA": "vitesse",
+   "fr-FR": "débit"
+  },
+  {
+   "en": "fiber",
+   "es-419": "fibra",
+   "es-ES": "fibra",
+   "pt-BR": "fibra",
+   "fr-CA": "fibre",
+   "fr-FR": "fibre"
+  },
+  {
+   "en": "coverage",
+   "es-419": "cobertura",
+   "es-ES": "cobertura",
+   "pt-BR": "cobertura",
+   "fr-CA": "couverture",
+   "fr-FR": "couverture"
+  },
+  {
+   "en": "holiday season",
+   "es-419": "fiestas de fin de año",
+   "es-ES": "Navidad",
+   "pt-BR": "festas de fim de ano",
+   "fr-CA": "temps des Fêtes",
+   "fr-FR": "fêtes de fin d'année"
+  },
+  {
+   "en": "sign up",
+   "es-419": "contrata",
+   "es-ES": "contrata",
+   "pt-BR": "assine",
+   "fr-CA": "abonnez-vous",
+   "fr-FR": "souscrivez"
+  },
+  {
+   "en": "Black Friday",
+   "es-419": "Black Friday",
+   "es-ES": "Black Friday",
+   "pt-BR": "Black Friday",
+   "fr-CA": "Vendredi fou",
+   "fr-FR": "Black Friday"
+  }
+ ],
+ "channel_limits": {
+  "push": 110,
+  "sms": 160,
+  "social": 280,
+  "email_subject": 50
+ }
+}

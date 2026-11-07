@@ -1,0 +1,55 @@
+{
+  "scale": "1 = not at all true, 3 = partly true, 5 = fully true and measured",
+  "dimensions": {
+    "strategy": {"name": "Strategy & leadership", "weight": 20},
+    "data": {"name": "Data foundations", "weight": 20},
+    "tools": {"name": "Tools & infrastructure", "weight": 15},
+    "skills": {"name": "Skills & literacy", "weight": 15},
+    "governance": {"name": "Governance & risk", "weight": 15},
+    "culture": {"name": "Culture & change", "weight": 15}
+  },
+  "questions": [
+    {"id": "S1", "dimension": "strategy", "text": "Leadership has named 2-3 business outcomes AI should improve this year, with targets and an owner."},
+    {"id": "S2", "dimension": "strategy", "text": "There is a budget and a named owner for AI initiatives."},
+    {"id": "D1", "dimension": "data", "text": "Core data (customers, jobs, tickets, invoices) lives in systems we can export or query — not in personal spreadsheets."},
+    {"id": "D2", "dimension": "data", "text": "Data quality is known and someone is accountable for it."},
+    {"id": "T1", "dimension": "tools", "text": "Every employee has an approved, enterprise-grade AI assistant (for example Gemini in Google Workspace)."},
+    {"id": "T2", "dimension": "tools", "text": "Our main systems have APIs or connectors we can automate against."},
+    {"id": "K1", "dimension": "skills", "text": "Most employees have had basic training on using AI safely and well."},
+    {"id": "K2", "dimension": "skills", "text": "At least one person can build, test and evaluate AI workflows."},
+    {"id": "G1", "dimension": "governance", "text": "We have a written AI use policy (which data may be used, which tools are approved, what needs review)."},
+    {"id": "G2", "dimension": "governance", "text": "AI outputs that reach customers are reviewed by a human or systematically tested."},
+    {"id": "C1", "dimension": "culture", "text": "Teams share AI tips and wins openly and experimentation is encouraged."},
+    {"id": "C2", "dimension": "culture", "text": "Managers have redesigned at least one process around AI instead of bolting it on."}
+  ],
+  "levels": [
+    {"level": 1, "name": "Exploring", "min": 1.0, "description": "Curiosity and individual experiments; no shared direction."},
+    {"level": 2, "name": "Experimenting", "min": 1.8, "description": "Pockets of use with approved tools; no policy, metrics or owner."},
+    {"level": 3, "name": "Formalising", "min": 2.6, "description": "Policy, owner and first measured use cases; data gaps known."},
+    {"level": 4, "name": "Scaling", "min": 3.4, "description": "Several use cases in production with KPIs; reusable patterns and training."},
+    {"level": 5, "name": "Transforming", "min": 4.2, "description": "Processes redesigned around AI; continuous evaluation and improvement."}
+  ],
+  "recommendations": {
+    "strategy": ["Name an executive owner and 3 measurable AI outcomes for the next 2 quarters", "Ring-fence a small AI budget (1-2% of opex) with a quarterly review"],
+    "data": ["Name a data owner per core entity (customer, job, invoice) and publish a data-quality scorecard", "Move critical spreadsheets into the system of record or BigQuery"],
+    "tools": ["Roll out the approved assistant to every role with role-specific prompts", "List the APIs/connectors of the top 5 systems and their owners"],
+    "skills": ["Run a 90-minute 'AI at work' session for everyone and a deeper track for 2-3 builders", "Create a prompt library per department"],
+    "governance": ["Publish a one-page AI use policy (approved tools, data classes, human review)", "Add an AI section to the security review and vendor checklist"],
+    "culture": ["Start a monthly 'AI show-and-tell' and a shared wins channel", "Ask each manager to redesign one process end to end"]
+  },
+  "use_case_library": [
+    {"id": "UC-01", "name": "Discovery-call prep and recap emails", "department": "Sales", "value": 4, "effort": 1, "data_readiness": 4, "time_to_value_weeks": 2, "kpi": "AE prep time per call", "tools": "Gemini in Workspace + CRM export"},
+    {"id": "UC-02", "name": "Support ticket triage and suggested replies", "department": "Customer Success", "value": 4, "effort": 2, "data_readiness": 4, "time_to_value_weeks": 4, "kpi": "First response time", "tools": "Support desk + Gemini"},
+    {"id": "UC-03", "name": "Personalised invoice-chasing emails", "department": "Finance", "value": 3, "effort": 1, "data_readiness": 3, "time_to_value_weeks": 2, "kpi": "Days sales outstanding", "tools": "Gemini in Workspace"},
+    {"id": "UC-04", "name": "Churn-risk early warning from usage and tickets", "department": "Customer Success", "value": 5, "effort": 3, "data_readiness": 4, "time_to_value_weeks": 8, "kpi": "Gross revenue retention", "tools": "BigQuery + Vertex AI"},
+    {"id": "UC-05", "name": "Release notes and help articles from tickets and pull requests", "department": "Product & Engineering", "value": 3, "effort": 1, "data_readiness": 4, "time_to_value_weeks": 2, "kpi": "Hours per release", "tools": "Gemini"},
+    {"id": "UC-06", "name": "Code review assistant and test generation", "department": "Product & Engineering", "value": 4, "effort": 2, "data_readiness": 5, "time_to_value_weeks": 3, "kpi": "Cycle time per PR", "tools": "Gemini Code Assist"},
+    {"id": "UC-07", "name": "RFP and security questionnaire first drafts", "department": "Sales", "value": 4, "effort": 2, "data_readiness": 4, "time_to_value_weeks": 3, "kpi": "Hours per questionnaire", "tools": "Answer bank + Gemini"},
+    {"id": "UC-08", "name": "Meeting notes to action items in the task tracker", "department": "All", "value": 3, "effort": 1, "data_readiness": 5, "time_to_value_weeks": 1, "kpi": "Actions with owners and dates", "tools": "Gemini in Meet"},
+    {"id": "UC-09", "name": "Forecast implementation capacity from the sales pipeline", "department": "Operations", "value": 3, "effort": 4, "data_readiness": 2, "time_to_value_weeks": 12, "kpi": "Consultant utilisation", "tools": "BigQuery ML"},
+    {"id": "UC-10", "name": "AI onboarding companion for new hires", "department": "People", "value": 3, "effort": 2, "data_readiness": 3, "time_to_value_weeks": 4, "kpi": "Time to productivity", "tools": "Agent + handbook search"},
+    {"id": "UC-11", "name": "Social content drafts from company news", "department": "Marketing", "value": 2, "effort": 1, "data_readiness": 4, "time_to_value_weeks": 1, "kpi": "Posts per week", "tools": "Gemini"},
+    {"id": "UC-12", "name": "Autonomous dynamic pricing", "department": "Finance", "value": 3, "effort": 5, "data_readiness": 1, "time_to_value_weeks": 20, "kpi": "Average selling price", "tools": "Custom ML"},
+    {"id": "UC-13", "name": "Cash-flow forecast and spend analytics", "department": "Finance", "value": 3, "effort": 3, "data_readiness": 3, "time_to_value_weeks": 6, "kpi": "Forecast accuracy", "tools": "BigQuery + Looker Studio"}
+  ]
+}

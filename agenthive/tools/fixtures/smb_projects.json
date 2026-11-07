@@ -1,0 +1,143 @@
+{
+  "as_of": "2026-11-06",
+  "estimation_reference": {
+    "method": "Three-point (PERT) estimates from Kitewing's last 40 projects: expected = (optimistic + 4 x most likely + pessimistic) / 6; durations are working days for the listed crew.",
+    "work_types": {
+      "discovery": {"keywords": ["discovery", "kickoff", "kick-off", "workshop", "scoping", "scope"], "crew_fte": 1.5, "S": [2, 3, 5], "M": [4, 6, 10], "L": [8, 12, 18]},
+      "design": {"keywords": ["design", "requirements", "architecture", "blueprint", "spec", "ux", "solution design"], "crew_fte": 1.5, "S": [2, 4, 6], "M": [5, 8, 12], "L": [10, 15, 25]},
+      "configuration": {"keywords": ["configure", "configuration", "setup", "set up", "tenant", "templates", "build-out"], "crew_fte": 1.0, "S": [3, 5, 8], "M": [6, 10, 15], "L": [12, 18, 28]},
+      "data_migration": {"keywords": ["migration", "migrate", "import", "data load", "legacy", "history", "conversion"], "crew_fte": 1.5, "S": [3, 5, 9], "M": [6, 10, 18], "L": [12, 20, 35]},
+      "integration": {"keywords": ["integration", "integrate", "api", "connector", "sync", "sso", "accounting"], "crew_fte": 1.0, "S": [3, 5, 10], "M": [6, 10, 20], "L": [12, 20, 35]},
+      "development": {"keywords": ["develop", "development", "build", "feature", "code", "frontend", "backend", "service"], "crew_fte": 2.0, "S": [3, 5, 8], "M": [8, 12, 20], "L": [15, 25, 40]},
+      "testing": {"keywords": ["test", "testing", "qa", "quality", "regression", "dry run", "rehearsal"], "crew_fte": 1.0, "S": [2, 3, 5], "M": [4, 6, 10], "L": [8, 12, 18]},
+      "uat": {"keywords": ["uat", "acceptance", "pilot", "beta", "sign-off", "signoff"], "crew_fte": 1.0, "S": [2, 3, 5], "M": [4, 5, 8], "L": [6, 10, 15]},
+      "training": {"keywords": ["training", "train", "enablement", "onboarding", "coaching", "train-the-trainer"], "crew_fte": 1.0, "S": [1, 2, 3], "M": [3, 5, 8], "L": [6, 9, 14]},
+      "content": {"keywords": ["content", "documentation", "docs", "release notes", "guide", "copy", "video"], "crew_fte": 1.0, "S": [1, 2, 4], "M": [3, 5, 8], "L": [6, 10, 15]},
+      "change_management": {"keywords": ["change", "communication", "comms", "adoption", "stakeholder", "announcement"], "crew_fte": 0.5, "S": [1, 2, 3], "M": [3, 4, 7], "L": [5, 8, 12]},
+      "procurement": {"keywords": ["procurement", "contract", "legal", "purchase", "vendor", "msa", "approval"], "crew_fte": 0.5, "S": [3, 5, 10], "M": [5, 10, 20], "L": [10, 20, 30]},
+      "security_review": {"keywords": ["security", "pen test", "pentest", "penetration", "privacy", "compliance", "audit"], "crew_fte": 1.0, "S": [2, 3, 5], "M": [4, 6, 10], "L": [8, 12, 20]},
+      "go_live": {"keywords": ["go-live", "go live", "golive", "cutover", "cut-over", "launch", "release", "deploy"], "crew_fte": 2.0, "S": [1, 1, 2], "M": [1, 2, 3], "L": [2, 3, 5]},
+      "hypercare": {"keywords": ["hypercare", "stabilisation", "stabilization", "warranty", "support period"], "crew_fte": 1.0, "S": [5, 5, 5], "M": [10, 10, 10], "L": [15, 15, 15]},
+      "marketing": {"keywords": ["marketing", "campaign", "webinar", "event", "social", "press"], "crew_fte": 1.0, "S": [3, 5, 8], "M": [5, 10, 15], "L": [10, 15, 25]}
+    },
+    "contingency_policy": "Add 10% schedule contingency for low-uncertainty plans, 15% by default and 20% when a legacy migration or a third party is on the critical path."
+  },
+  "team": [
+    {"name": "Dana Whitfield", "role": "CEO", "team": "Leadership", "email": "dana.whitfield@kitewing.example", "availability_pct": 10, "skills": ["executive sponsorship", "customer escalations"], "allocations": []},
+    {"name": "Marcus Bell", "role": "COO & CFO", "team": "Leadership", "email": "marcus.bell@kitewing.example", "availability_pct": 10, "skills": ["finance", "contracts", "compliance sponsorship"], "allocations": ["PRJ-109 sponsor"]},
+    {"name": "Lena Okafor", "role": "VP Sales", "team": "Sales", "email": "lena.okafor@kitewing.example", "availability_pct": 15, "skills": ["deal strategy", "pricing approvals"], "allocations": []},
+    {"name": "Jamie Cho", "role": "Account Executive (Mid-market)", "team": "Sales", "email": "jamie.cho@kitewing.example", "availability_pct": 15, "skills": ["account management", "contracts"], "allocations": ["OPP-3107 Alderbrook", "OPP-3095 Greystone"]},
+    {"name": "Rosa Delgado", "role": "Sales Engineer", "team": "Sales", "email": "rosa.delgado@kitewing.example", "availability_pct": 30, "skills": ["demos", "security questionnaires", "solution design"], "allocations": ["Presales for 6 open deals"]},
+    {"name": "Hannah Brooks", "role": "Head of Customer Success", "team": "Customer Success", "email": "hannah.brooks@kitewing.example", "availability_pct": 20, "skills": ["executive relationships", "escalations"], "allocations": ["PRJ-104 sponsor"]},
+    {"name": "Kwame Mensah", "role": "Customer Success Manager", "team": "Customer Success", "email": "kwame.mensah@kitewing.example", "availability_pct": 25, "skills": ["adoption", "training", "health reviews"], "allocations": ["Book of 38 accounts"]},
+    {"name": "Ines Duarte", "role": "Senior Implementation Consultant", "team": "Customer Success", "email": "ines.duarte@kitewing.example", "availability_pct": 40, "skills": ["implementation", "data migration", "project management", "training"], "allocations": ["PRJ-104 PM (50%)"]},
+    {"name": "Tomás Rivera", "role": "Implementation Consultant", "team": "Customer Success", "email": "tomas.rivera@kitewing.example", "availability_pct": 50, "skills": ["configuration", "training", "data import"], "allocations": ["PRJ-104 training (50%)"]},
+    {"name": "Grace Obi", "role": "Implementation Consultant (starts 2026-11-23)", "team": "Customer Success", "email": "grace.obi@kitewing.example", "availability_pct": 60, "skills": ["configuration", "training"], "allocations": ["Onboarding until 2026-12-23"]},
+    {"name": "Liam O'Connor", "role": "Support Lead", "team": "Customer Success", "email": "liam.oconnor@kitewing.example", "availability_pct": 15, "skills": ["support process", "hypercare"], "allocations": ["Support queue"]},
+    {"name": "Alicia Moreau", "role": "Head of Marketing", "team": "Marketing", "email": "alicia.moreau@kitewing.example", "availability_pct": 25, "skills": ["launch planning", "messaging"], "allocations": ["Q4 campaigns"]},
+    {"name": "Ben Hartley", "role": "Content & Social Marketer", "team": "Marketing", "email": "ben.hartley@kitewing.example", "availability_pct": 40, "skills": ["content", "social", "release notes"], "allocations": ["PRJ-107 launch content"]},
+    {"name": "Victor Lindgren", "role": "CTO", "team": "Product & Engineering", "email": "victor.lindgren@kitewing.example", "availability_pct": 10, "skills": ["architecture", "security"], "allocations": ["PRJ-107 sponsor"]},
+    {"name": "Sofia Petrov", "role": "Product Manager", "team": "Product & Engineering", "email": "sofia.petrov@kitewing.example", "availability_pct": 20, "skills": ["product management", "beta programmes", "Assist"], "allocations": ["PRJ-107 PM", "PRJ-104 Spanish beta"]},
+    {"name": "Arjun Mehta", "role": "Engineering Manager", "team": "Product & Engineering", "email": "arjun.mehta@kitewing.example", "availability_pct": 20, "skills": ["delivery", "release management"], "allocations": ["PRJ-107"]},
+    {"name": "Chloe Nakamura", "role": "Senior Backend Engineer", "team": "Product & Engineering", "email": "chloe.nakamura@kitewing.example", "availability_pct": 10, "skills": ["APIs", "integrations", "payments", "Cloud Run"], "allocations": ["PRJ-107 (90%)"]},
+    {"name": "Diego Alvarez", "role": "Frontend Engineer", "team": "Product & Engineering", "email": "diego.alvarez@kitewing.example", "availability_pct": 10, "skills": ["React", "TypeScript", "accessibility"], "allocations": ["PRJ-107 (90%)"]},
+    {"name": "Samir Haddad", "role": "Backend Engineer (starts 2026-11-16)", "team": "Product & Engineering", "email": "samir.haddad@kitewing.example", "availability_pct": 50, "skills": ["Python", "Go", "APIs"], "allocations": ["Onboarding until 2026-12-16"]},
+    {"name": "Femi Adeyemi", "role": "Data Engineer", "team": "Product & Engineering", "email": "femi.adeyemi@kitewing.example", "availability_pct": 30, "skills": ["BigQuery", "data migration", "Insights dashboards", "SQL"], "allocations": ["PRJ-104 dashboards (30%)", "Insights backlog"]},
+    {"name": "Lucas Weber", "role": "QA Engineer", "team": "Product & Engineering", "email": "lucas.weber@kitewing.example", "availability_pct": 20, "skills": ["test automation", "UAT coordination"], "allocations": ["PRJ-107 (80%)"]},
+    {"name": "Nadia Rahman", "role": "Product Designer", "team": "Product & Engineering", "email": "nadia.rahman@kitewing.example", "availability_pct": 50, "skills": ["UX research", "design", "training materials"], "allocations": ["Assist UX"]},
+    {"name": "Erin Walsh", "role": "People & Culture Lead", "team": "People & Operations", "email": "erin.walsh@kitewing.example", "availability_pct": 30, "skills": ["onboarding", "change management", "policies"], "allocations": ["3 new hires in November"]},
+    {"name": "Noah Kim", "role": "IT & Security Administrator", "team": "People & Operations", "email": "noah.kim@kitewing.example", "availability_pct": 20, "skills": ["identity", "security reviews", "provisioning", "SOC 2"], "allocations": ["PRJ-109 owner (60%)"]},
+    {"name": "Maya Singh", "role": "Finance Manager", "team": "People & Operations", "email": "maya.singh@kitewing.example", "availability_pct": 25, "skills": ["billing", "vendor management", "budgets"], "allocations": ["PRJ-109 vendor reviews"]}
+  ],
+  "risk_library": {
+    "customer_implementation": [
+      {"id": "R-CI-01", "risk": "Legacy data is dirtier than expected (duplicate customers, missing equipment history)", "likelihood": 4, "impact": 4, "mitigation": "Data-quality profiling in week 1; two migration dry runs before cutover", "owner_role": "Implementation Consultant"},
+      {"id": "R-CI-02", "risk": "Customer SMEs (dispatchers) unavailable during their busy season", "likelihood": 3, "impact": 4, "mitigation": "Book SME time in the kickoff; record sessions; train-the-trainer", "owner_role": "Customer project lead"},
+      {"id": "R-CI-03", "risk": "Accounting connector or SSO depends on customer IT change windows", "likelihood": 3, "impact": 3, "mitigation": "Request change windows at kickoff; prepare fallback CSV export", "owner_role": "Implementation Consultant"},
+      {"id": "R-CI-04", "risk": "Go-live collides with the customer's peak season", "likelihood": 3, "impact": 5, "mitigation": "Fixed go-live date with 2-week buffer; phased branch rollout", "owner_role": "Project sponsor"},
+      {"id": "R-CI-05", "risk": "Technician adoption of the mobile app is low after go-live", "likelihood": 3, "impact": 4, "mitigation": "Ride-alongs in week 1, branch champions, adoption dashboard in hypercare", "owner_role": "Customer Success Manager"},
+      {"id": "R-CI-06", "risk": "Scope creep — custom reports and forms requested late", "likelihood": 4, "impact": 3, "mitigation": "Change-control log; reports after go-live phase 2", "owner_role": "Project manager"},
+      {"id": "R-CI-07", "risk": "Legacy system support ends before cutover", "likelihood": 2, "impact": 5, "mitigation": "Plan cutover at least 3 months before end of support", "owner_role": "Project sponsor"}
+    ],
+    "product_launch": [
+      {"id": "R-PL-01", "risk": "Third-party dependency (payments, SMS) delays a launch-critical feature", "likelihood": 3, "impact": 5, "mitigation": "Escalate vendor tickets weekly; feature flag to launch without it", "owner_role": "Engineering Manager"},
+      {"id": "R-PL-02", "risk": "Unstable test environment hides regressions", "likelihood": 3, "impact": 4, "mitigation": "Dedicated QA environment owner; nightly smoke tests", "owner_role": "QA Engineer"},
+      {"id": "R-PL-03", "risk": "Security review finds high-severity issues late", "likelihood": 2, "impact": 5, "mitigation": "Threat model at design; pen test booked 3 weeks before release", "owner_role": "IT & Security Administrator"},
+      {"id": "R-PL-04", "risk": "Beta customers do not give feedback in time", "likelihood": 3, "impact": 3, "mitigation": "Agree feedback sessions up front; incentive (1 month free add-on)", "owner_role": "Product Manager"},
+      {"id": "R-PL-05", "risk": "Launch content not ready; sales not enabled", "likelihood": 3, "impact": 3, "mitigation": "Content freeze 1 week before release; sales enablement session", "owner_role": "Head of Marketing"},
+      {"id": "R-PL-06", "risk": "Team capacity drained by customer escalations", "likelihood": 4, "impact": 4, "mitigation": "Ring-fence core team; escalation rota outside the squad", "owner_role": "CTO"}
+    ],
+    "internal_systems": [
+      {"id": "R-IS-01", "risk": "Requirements unclear across departments", "likelihood": 3, "impact": 4, "mitigation": "One process owner per department; sign-off on to-be process", "owner_role": "Project sponsor"},
+      {"id": "R-IS-02", "risk": "Vendor contract and procurement take longer than planned", "likelihood": 3, "impact": 3, "mitigation": "Start procurement in parallel with design", "owner_role": "Finance Manager"},
+      {"id": "R-IS-03", "risk": "Employees revert to spreadsheets after go-live", "likelihood": 3, "impact": 4, "mitigation": "Retire the old spreadsheets on go-live day; champions per team", "owner_role": "People & Culture Lead"},
+      {"id": "R-IS-04", "risk": "Access and security controls not configured before go-live", "likelihood": 2, "impact": 5, "mitigation": "Security checklist as a go-live gate", "owner_role": "IT & Security Administrator"}
+    ],
+    "compliance": [
+      {"id": "R-CO-01", "risk": "Evidence gaps found during audit fieldwork", "likelihood": 3, "impact": 4, "mitigation": "Pre-audit evidence review; control owners named", "owner_role": "IT & Security Administrator"},
+      {"id": "R-CO-02", "risk": "Control owners unavailable during fieldwork", "likelihood": 3, "impact": 3, "mitigation": "Fieldwork calendar shared 4 weeks ahead", "owner_role": "COO & CFO"},
+      {"id": "R-CO-03", "risk": "Vendor (subprocessor) reports missing or expired", "likelihood": 2, "impact": 3, "mitigation": "Request vendor reports at start", "owner_role": "Finance Manager"}
+    ],
+    "marketing_campaign": [
+      {"id": "R-MC-01", "risk": "Customer approvals for quotes and logos arrive late", "likelihood": 4, "impact": 3, "mitigation": "Request approvals in week 1; have anonymised fallback", "owner_role": "Head of Marketing"},
+      {"id": "R-MC-02", "risk": "Campaign launches before the product feature is GA", "likelihood": 2, "impact": 4, "mitigation": "Launch gate tied to release checklist", "owner_role": "Product Manager"},
+      {"id": "R-MC-03", "risk": "Leads not followed up within 24 hours", "likelihood": 3, "impact": 4, "mitigation": "SDR routing rules and SLA dashboard", "owner_role": "VP Sales"}
+    ]
+  },
+  "projects": [
+    {
+      "id": "PRJ-104", "name": "Greystone — Kitewing Assist rollout", "type": "customer_implementation", "customer": "Greystone Facilities Group",
+      "pm": "Ines Duarte", "sponsor": "Hannah Brooks", "customer_sponsor": "Walter Ashby (VP Field Operations)",
+      "start": "2026-10-05", "target_end": "2026-12-15", "budget_hours": 420, "actual_hours": 170, "last_week_rag": "Green",
+      "distribution": ["hannah.brooks@kitewing.example", "walter.ashby@greystonefg.example", "simone.achterberg@greystonefg.example", "jamie.cho@kitewing.example"],
+      "milestones": [{"name": "Pilot live (2 branches, 25 technicians)", "date": "2026-10-19", "status": "done"}, {"name": "Pilot readout to Walter Ashby", "date": "2026-11-20", "status": "at risk"}, {"name": "Contract amendment for 210 technicians", "date": "2026-12-15", "status": "planned"}],
+      "tasks": [
+        {"id": "T1", "name": "Pilot scope & success criteria", "owner": "Ines Duarte", "status": "done", "pct": 100, "start": "2026-10-05", "due": "2026-10-09", "hours": 24, "depends_on": [], "blocker": ""},
+        {"id": "T2", "name": "Load equipment manuals into Assist knowledge", "owner": "Femi Adeyemi", "status": "done", "pct": 100, "start": "2026-10-07", "due": "2026-10-16", "hours": 40, "depends_on": ["T1"], "blocker": ""},
+        {"id": "T3", "name": "SSO group mapping for pilot users", "owner": "Rob Lindqvist (Greystone IT)", "status": "blocked", "pct": 20, "start": "2026-10-20", "due": "2026-10-30", "hours": 16, "depends_on": ["T1"], "blocker": "Waiting on Greystone IT change window — their change board meets 2026-11-12; 9 pilot technicians still use local passwords"},
+        {"id": "T4", "name": "Pilot technician training (25 techs, 2 branches)", "owner": "Tomás Rivera", "status": "in_progress", "pct": 60, "start": "2026-10-19", "due": "2026-11-04", "hours": 60, "depends_on": ["T2"], "blocker": "Night-shift crew at Rivergate branch not yet trained"},
+        {"id": "T5", "name": "Spanish-language answers beta enablement", "owner": "Sofia Petrov", "status": "in_progress", "pct": 40, "start": "2026-10-26", "due": "2026-11-17", "hours": 50, "depends_on": [], "blocker": ""},
+        {"id": "T6", "name": "Pilot metrics dashboard in Insights", "owner": "Femi Adeyemi", "status": "in_progress", "pct": 70, "start": "2026-10-26", "due": "2026-11-13", "hours": 40, "depends_on": ["T2"], "blocker": ""},
+        {"id": "T7", "name": "Pilot readout to Walter Ashby", "owner": "Ines Duarte", "status": "not_started", "pct": 0, "start": "2026-11-16", "due": "2026-11-20", "hours": 30, "depends_on": ["T4", "T6"], "blocker": ""},
+        {"id": "T8", "name": "Rollout plan for remaining 3 branches", "owner": "Ines Duarte", "status": "not_started", "pct": 0, "start": "2026-11-20", "due": "2026-11-27", "hours": 40, "depends_on": ["T7"], "blocker": ""},
+        {"id": "T9", "name": "Contract amendment for 210 technicians (OPP-3095)", "owner": "Jamie Cho", "status": "not_started", "pct": 0, "start": "2026-11-23", "due": "2026-12-15", "hours": 20, "depends_on": ["T7"], "blocker": ""},
+        {"id": "T10", "name": "Rollout training for 3 branches (185 techs)", "owner": "Tomás Rivera", "status": "not_started", "pct": 0, "start": "2026-11-30", "due": "2026-12-15", "hours": 100, "depends_on": ["T8"], "blocker": ""}
+      ]
+    },
+    {
+      "id": "PRJ-107", "name": "Customer Portal 2.0", "type": "product_launch", "customer": "Internal (product)",
+      "pm": "Sofia Petrov", "sponsor": "Victor Lindgren", "customer_sponsor": "",
+      "start": "2026-09-01", "target_end": "2026-12-10", "budget_hours": 1600, "actual_hours": 1180, "last_week_rag": "Amber",
+      "distribution": ["victor.lindgren@kitewing.example", "arjun.mehta@kitewing.example", "alicia.moreau@kitewing.example", "hannah.brooks@kitewing.example"],
+      "milestones": [{"name": "Designs signed off", "date": "2026-09-19", "status": "done"}, {"name": "Feature complete", "date": "2026-11-14", "status": "at risk"}, {"name": "Beta with 3 customers", "date": "2026-12-03", "status": "at risk"}, {"name": "General availability", "date": "2026-12-10", "status": "at risk"}],
+      "tasks": [
+        {"id": "P1", "name": "UX research & designs", "owner": "Nadia Rahman", "status": "done", "pct": 100, "start": "2026-09-01", "due": "2026-09-19", "hours": 140, "depends_on": [], "blocker": ""},
+        {"id": "P2", "name": "Portal API (jobs, invoices, quotes)", "owner": "Chloe Nakamura", "status": "done", "pct": 100, "start": "2026-09-08", "due": "2026-10-10", "hours": 260, "depends_on": [], "blocker": ""},
+        {"id": "P3", "name": "Frontend: booking & job tracking", "owner": "Diego Alvarez", "status": "in_progress", "pct": 75, "start": "2026-09-22", "due": "2026-10-31", "hours": 300, "depends_on": ["P1", "P2"], "blocker": "Booking calendar edge cases (multi-day jobs) took longer than estimated"},
+        {"id": "P4", "name": "Online payments (processor hosted fields)", "owner": "Chloe Nakamura", "status": "blocked", "pct": 35, "start": "2026-10-12", "due": "2026-11-07", "hours": 180, "depends_on": ["P2"], "blocker": "Payment processor has not issued sandbox credentials; vendor ticket open since 2026-10-22"},
+        {"id": "P5", "name": "Notification service (email/SMS)", "owner": "Arjun Mehta (to reassign)", "status": "not_started", "pct": 0, "start": "2026-11-02", "due": "2026-11-20", "hours": 120, "depends_on": ["P2"], "blocker": "No engineer assigned — candidate: new hire Samir Haddad (starts 2026-11-16)"},
+        {"id": "P6", "name": "QA test plan & automation", "owner": "Lucas Weber", "status": "in_progress", "pct": 30, "start": "2026-10-19", "due": "2026-11-14", "hours": 160, "depends_on": [], "blocker": "QA environment unstable — 3 outages last week"},
+        {"id": "P7", "name": "Security review & pen test of the portal", "owner": "Noah Kim", "status": "not_started", "pct": 0, "start": "2026-11-16", "due": "2026-11-27", "hours": 60, "depends_on": ["P4"], "blocker": ""},
+        {"id": "P8", "name": "Beta with Copperline, Summit Ridge and Meadowlark", "owner": "Sofia Petrov", "status": "not_started", "pct": 0, "start": "2026-11-23", "due": "2026-12-03", "hours": 80, "depends_on": ["P3", "P4", "P5", "P6"], "blocker": ""},
+        {"id": "P9", "name": "Launch content & release notes", "owner": "Ben Hartley", "status": "not_started", "pct": 0, "start": "2026-11-23", "due": "2026-12-08", "hours": 60, "depends_on": [], "blocker": ""},
+        {"id": "P10", "name": "Release to general availability", "owner": "Arjun Mehta", "status": "not_started", "pct": 0, "start": "2026-12-08", "due": "2026-12-10", "hours": 40, "depends_on": ["P7", "P8", "P9"], "blocker": ""}
+      ]
+    },
+    {
+      "id": "PRJ-109", "name": "SOC 2 Type II renewal 2026", "type": "compliance", "customer": "Internal (security)",
+      "pm": "Noah Kim", "sponsor": "Marcus Bell", "customer_sponsor": "",
+      "start": "2026-09-15", "target_end": "2027-01-15", "budget_hours": 380, "actual_hours": 170, "last_week_rag": "Green",
+      "distribution": ["marcus.bell@kitewing.example", "victor.lindgren@kitewing.example", "dana.whitfield@kitewing.example"],
+      "milestones": [{"name": "Readiness assessment", "date": "2026-09-30", "status": "done"}, {"name": "Auditor fieldwork complete", "date": "2026-12-18", "status": "on track"}, {"name": "Report issued", "date": "2027-01-15", "status": "on track"}],
+      "tasks": [
+        {"id": "S1", "name": "Readiness assessment", "owner": "Noah Kim", "status": "done", "pct": 100, "start": "2026-09-15", "due": "2026-09-30", "hours": 40, "depends_on": [], "blocker": ""},
+        {"id": "S2", "name": "Policy refresh (12 policies)", "owner": "Noah Kim", "status": "done", "pct": 100, "start": "2026-09-28", "due": "2026-10-16", "hours": 50, "depends_on": ["S1"], "blocker": ""},
+        {"id": "S3", "name": "Quarterly access review", "owner": "Arjun Mehta", "status": "done", "pct": 100, "start": "2026-10-05", "due": "2026-10-16", "hours": 20, "depends_on": ["S1"], "blocker": ""},
+        {"id": "S4", "name": "Evidence collection", "owner": "Noah Kim", "status": "in_progress", "pct": 65, "start": "2026-10-19", "due": "2026-11-30", "hours": 120, "depends_on": ["S2"], "blocker": ""},
+        {"id": "S5", "name": "Vendor risk reviews (3 subprocessors)", "owner": "Maya Singh", "status": "in_progress", "pct": 50, "start": "2026-10-26", "due": "2026-11-20", "hours": 30, "depends_on": [], "blocker": ""},
+        {"id": "S6", "name": "Auditor fieldwork", "owner": "External auditor", "status": "not_started", "pct": 0, "start": "2026-12-01", "due": "2026-12-18", "hours": 80, "depends_on": ["S4", "S5"], "blocker": ""},
+        {"id": "S7", "name": "Management response & report issued", "owner": "Marcus Bell", "status": "not_started", "pct": 0, "start": "2027-01-04", "due": "2027-01-15", "hours": 40, "depends_on": ["S6"], "blocker": ""}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,697 @@
+# SMB — practical agents for small and mid-size businesses.
+# Demo world (all fictional): Kitewing Software, a 62-person B2B company selling Kitewing FieldOps (scheduling,
+# dispatch, mobile work orders and invoicing) to service contractors — its customers (Harbor & Pine Mechanical,
+# Greystone Facilities Group, ...) and prospects (Alderbrook Home Services, Silverline Security Systems, ...).
+agents:
+  # --- Growth & sales ------------------------------------------------------------------------------------------
+  - id: sales_discovery
+    code: Sdc
+    name: Sales Discovery
+    cluster: growth
+    status: demo_ready
+    tagline: Prepares, runs and debriefs sales discovery — prospect research, MEDDICC call plan, qualified opportunity and follow-up email.
+    description: >-
+      Sales Discovery is an account executive's discovery partner from first research to the follow-up email. Before
+      the call it researches the prospect (CRM history plus Google Search for industry context), picks the right proof
+      point and builds a MEDDICC call plan with tailored questions and competitor landmines. After the call it turns
+      raw notes into an evidence-based qualification score, updates the CRM and drafts the recap email inside the
+      24-hour rule.
+    persona: Account executives and SDRs at a B2B software company; sales managers coaching discovery
+    use_cases:
+      - Call plan and tailored MEDDICC questions for tomorrow's discovery call
+      - Evidence-based MEDDICC score, stage and CRM update from messy call notes
+      - Recap email in the buyer's own words, saved as a draft
+    model: flash
+    model_reason: The coordinator chooses prep vs. debrief and stitches specialist outputs — Flash is reliable and cheap; the templated planner and email writer run on Flash-Lite.
+    pattern: coordinator
+    steps:
+      - id: researcher
+        name: Prospect researcher
+        model: flash
+        role: Researches a prospect — CRM record, stakeholders, pains, competitors — plus current industry context from Google Search.
+        instruction: |
+          1. Call smb_crm_lookup for the company. Summarise firmographics, tech stack, known pains, stakeholders (role,
+             influence, sentiment, never contacted), competitors, the open opportunity and the last touch.
+          2. The companies are fictional, so do NOT search for the company itself. Use Google Search for 2-3 current
+             facts about the prospect's industry (e.g. technician shortage, peak-season demand, legacy software end of
+             support) and cite them as [title](url).
+          3. Call smb_find_case_studies for the prospect's industry and pick the one most relevant proof point.
+          4. Finish with 3 pain hypotheses to test, each tied to a CRM fact, and the compelling event if there is one.
+        tools: [smb_crm_lookup, smb_find_case_studies]
+        grounding: [google_search]
+        output_key: prospect_brief
+      - id: planner
+        name: Call planner
+        model: lite
+        role: Builds the 30-minute discovery call plan — MEDDICC questions in the prospect's context, landmines and the next step to secure.
+        instruction: |
+          You receive a prospect brief in the request. Call smb_discovery_playbook with framework MEDDICC and the
+          company name as segment. Build the plan:
+          - Call objective and the one dated next step to secure (demo, ROI workshop or meeting with the economic buyer).
+          - Agenda (the 30-minute agenda from the playbook).
+          - 8-10 questions, at least one per MEDDICC letter, rewritten in the prospect's context (names, systems,
+            dates) and tagged with the letter they test. Pain and metrics questions first.
+          - 2 competitor landmine questions and 1 proof point to drop (customer + metric).
+          - What a "qualified" answer sounds like for Economic buyer and Decision process.
+        tools: [smb_discovery_playbook]
+        output_key: call_plan
+      - id: qualifier
+        name: Deal qualifier
+        model: flash
+        role: Turns discovery call notes into an evidence-based MEDDICC score, stage recommendation, ballpark quote and CRM update.
+        instruction: |
+          1. Read the notes in the request (load them with get_sample_document when a key such as
+             'smb_call_notes_alderbrook' is given). For each MEDDICC criterion quote the buyer's evidence and score it
+             0-3 (0 unknown, 1 weak/assumed, 2 partially confirmed, 3 confirmed). Never score above 1 without a quote.
+          2. Call smb_score_qualification with those scores.
+          3. When the technician count and plan interest are known, call smb_price_quote for a ballpark (state the
+             assumptions) and compare it with any budget or competitor price in the notes.
+          4. Call smb_log_opportunity with the recommended stage, ACV, the close date implied by the notes, the agreed
+             next step and the score (simulated CRM update).
+          Return the score table with evidence, verdict, red flags, gaps with next questions, quote summary and the
+          CRM update result.
+        tools: [smb_score_qualification, smb_price_quote, smb_log_opportunity, get_sample_document]
+        output_key: qualification
+      - id: follow_up
+        name: Follow-up writer
+        model: lite
+        role: Writes the recap email in the buyer's words and saves it as a draft (never sends).
+        instruction: |
+          Write the recap email from the notes and qualification summary in the request, following the follow-up
+          rules: their words for the pain, the numbers they gave, what we understood about the decision process, one
+          case study matched to their industry, and one dated next step. No pricing unless they asked for it; under
+          180 words; plain and warm. Address it to the champion and cc the other attendees, then call
+          smb_save_email_draft. Return the full email text and the draft id.
+        tools: [smb_save_email_draft]
+        output_key: follow_up_email
+    tools: [smb_crm_lookup, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      You coordinate four specialists. Decide the mode from the request:
+      - PREP (before a call — "prepare", "plan", "research"): call researcher, then planner with the researcher's
+        full brief pasted into its request.
+      - DEBRIEF (call notes pasted, or a notes document named such as 'smb_call_notes_alderbrook'): load the notes with
+        get_sample_document if needed, call qualifier with the full notes, then follow_up with the notes plus the
+        qualifier's summary.
+      - END TO END: run PREP, then DEBRIEF.
+      Give every specialist a self-contained request (company, attendees, dates and the earlier outputs it needs).
+      Check stage exit criteria and discount rules in the knowledge base (sales playbook, pricing & packaging) before
+      you recommend a stage or quote a price. Keep every number exactly as the tools returned it.
+    output: >-
+      PREP — "Call plan · <company> · <date>": 3-line prospect snapshot, pain hypotheses, agenda, question table
+      (letter · question · listen for), landmines, proof point, next step to secure. DEBRIEF — MEDDICC table with
+      evidence, score and verdict, red flags, next questions, ballpark quote, CRM update (simulated), then the
+      follow-up email in a quote block with its draft id.
+    samples:
+      - Prepare my discovery call with Alderbrook Home Services on Tuesday — research, call plan and MEDDICC questions.
+      - Debrief the call notes in 'smb_call_notes_alderbrook' — qualify the deal, update the CRM and draft the follow-up email.
+      - "I meet Hollis Grant at Silverline Security Systems next week and they're trialling Fieldnest. How should I run discovery and which landmines should I set?"
+    sample_doc: smb_call_notes_alderbrook
+    related: [presales_lookup, roi_discovery, account_indexer]
+    kpis: [Discovery-to-qualified conversion rate, AE prep time per call, Follow-ups sent within 24 hours]
+
+  - id: presales_lookup
+    code: Psl
+    name: Pre-Sales Lookup
+    cluster: growth
+    status: built
+    tagline: Instant, approved answers for presales — plan capabilities, pricing rules, case studies and security questionnaires.
+    description: >-
+      Pre-Sales Lookup gives sellers and sales engineers the official answer in seconds: what each plan includes, how a
+      quote is priced and who must approve the discount, which customer story proves a point (and whether it may be
+      named), and the approved wording for security-questionnaire questions. It never improvises — low-confidence
+      answers are escalated to the sales engineer.
+    persona: Account executives, SDRs and sales engineers in the middle of a deal or a call
+    use_cases:
+      - Plan and feature questions answered with citations
+      - Quick quote with the discount approval level
+      - Security questionnaire answers from the approved answer bank
+    model: lite
+    model_reason: Retrieval and deterministic tools do the work; Flash-Lite composes short cited answers at the lowest cost.
+    tools: [smb_security_answer, smb_price_quote, smb_find_case_studies]
+    grounding: [kb]
+    instruction: |
+      1. Product and plan questions: search the knowledge base (product guide, pricing & packaging) and cite the
+         document title. Say clearly when something is roadmap, beta or not available.
+      2. Pricing: always call smb_price_quote — never do price math yourself. Report subscription ACV, first-year
+         total, effective price per technician per month, warnings and who must approve the discount.
+      3. Proof: call smb_find_case_studies and respect its usage_rule (never name a customer that is not public).
+      4. Security: call smb_security_answer for each question and quote the approved answer verbatim with its id. If
+         confidence is low, write "Escalate to Rosa Delgado (Sales Engineer)" instead of answering.
+      5. Several questions at once: answer as a numbered list in the same order.
+    output: Direct answer first (1-3 sentences), then detail (a table for quotes), sources (document titles or answer ids) and any escalation.
+    samples:
+      - Does the Growth plan include SSO? And what would 60 technicians on Growth with Route Optimizer cost on a 2-year term?
+      - "Security questionnaire: Where is our data hosted? Is it encrypted at rest? Do you have SOC 2? Is our data used to train AI models? Do you run a bug bounty?"
+      - Give me a case study for a fire-protection prospect that cares about cash flow — can I name the customer on LinkedIn?
+    related: [sales_discovery, roi_discovery]
+    kpis: [Time to answer presales questions, Security questionnaires completed per week, Escalated vs answered questions]
+
+  - id: account_indexer
+    code: Acx
+    name: Account Indexer
+    cluster: growth
+    status: built
+    tagline: Builds a 360° account index from CRM, emails, tickets, invoices and usage — health score, stakeholder map and whitespace.
+    description: >-
+      The Account Indexer joins everything the company knows about a customer into one page: a weighted health score
+      with its drivers, risk signals, the stakeholder map, the renewal countdown, open tickets and overdue invoices,
+      and the whitespace (unlicensed technicians, add-ons, plan upgrades) priced from the price book — ending with the
+      three plays the account team should run next.
+    persona: Customer success managers, account executives and sales leaders preparing renewals, QBRs and expansion plans
+    use_cases:
+      - Renewal risk review with evidence
+      - QBR preparation with a stakeholder map
+      - Expansion (whitespace) planning priced from the price book
+    model: flash
+    model_reason: Reasoning over several joined signals to recommend plays; Flash is accurate and inexpensive.
+    tools: [smb_account_360, smb_crm_lookup, smb_find_case_studies, smb_save_email_draft]
+    grounding: [kb, "fixtures:CRM, email, ticket, invoice and usage systems (synthetic)"]
+    instruction: |
+      1. Call smb_account_360 for the account. Never compute or adjust the health score yourself.
+      2. Explain the score: the two weakest components and the evidence behind each (ticket ids, invoice ids, usage
+         numbers, email snippets).
+      3. Stakeholder map: table of contacts with role, influence, sentiment and days since last contact; flag economic
+         buyers nobody has met.
+      4. Whitespace: list the plays with estimated ACV and back each with a proof point from smb_find_case_studies.
+      5. Recommend 3 plays (save / grow / engage), each with an owner and a date. For at-risk accounts fix first: no
+         upsell before open P1/P2 issues and overdue invoices are resolved. Check renewal and discount rules in the
+         knowledge base.
+      6. Draft an email with smb_save_email_draft only when the user asks for one.
+      For portfolio questions ("compare", "which accounts"), run smb_account_360 for each named customer and compare
+      them in one table.
+    output: >-
+      "Account index — <name>": health score and band with a component table, risk signals, stakeholder map, renewal
+      countdown, whitespace table (play · est. ACV · proof), and 3 recommended plays with owners and dates.
+    samples:
+      - Build the account index for Harbor & Pine Mechanical — the renewal is in January. How worried should we be?
+      - Where is the whitespace at Greystone Facilities Group, and what's the best expansion play this quarter?
+      - "Compare Bluefin Elevator Services, Meadowlark Pest Solutions and Summit Ridge Fire Protection: health, risks and expansion potential."
+    related: [sales_discovery, roi_discovery, bigquery_data]
+    kpis: [Gross revenue retention, Expansion ARR per CSM, At-risk accounts with a save plan]
+
+  - id: roi_discovery
+    code: Roi
+    name: ROI Discovery
+    cluster: growth
+    status: in_build
+    tagline: Runs a guided ROI interview, computes benefit, ROI and payback, and writes a one-page business case a CFO accepts.
+    description: >-
+      ROI Discovery turns a prospect's baseline into a defensible business case. It asks for the few numbers that matter
+      (technicians, drive time, first-time fix, overtime, office staff, DSO), fills gaps with segment benchmarks —
+      clearly labelled — prices the solution from the official price book and computes ROI, NPV and payback, leading
+      with the conservative scenario.
+    persona: Account executives and sales engineers preparing a CFO conversation; buyers building their internal case
+    use_cases:
+      - Guided ROI interview in five questions or fewer
+      - CFO-ready one-page business case
+      - Conservative / expected / stretch sensitivity
+    model: flash
+    model_reason: Orchestrates several calculators and writes a careful narrative; every number comes from deterministic tools.
+    tools: [smb_crm_lookup, smb_estimate_benefits, smb_price_quote, compute_roi, smb_find_case_studies]
+    grounding: [kb]
+    instruction: |
+      1. Interview: if the user has not given baseline numbers and no CRM company is named, ask at most 5 short
+         questions in ONE message (technicians, drive hours per technician per day, first-time-fix %, overtime %,
+         office staff, annual revenue and DSO). If they say "use benchmarks", proceed.
+      2. Call smb_estimate_benefits with the company name (or segment) and every number given. List which inputs came
+         from benchmarks.
+      3. Call smb_price_quote for the proposed plan (default Growth + Route Optimizer; add Assist when first-time fix
+         or technician know-how is a pain; 1 legacy migration source if they replace a system).
+      4. Call compute_roi with investment_usd = implementation total + internal one-off effort, annual_benefit_usd =
+         the CONSERVATIVE scenario, annual_run_cost_usd = subscription ACV, years = 3. Call it again with the expected
+         scenario and report both.
+      5. Back the two biggest levers with one case study each. Never present a benchmark as the customer's own number.
+    output: >-
+      "Business case — <company>": headline (ROI %, payback months, 3-year net benefit — conservative case), inputs
+      table (value · source: customer or benchmark), benefit by lever, cost table (subscription, implementation,
+      internal effort), ROI conservative vs expected, proof points, assumptions and what to validate with finance.
+    samples:
+      - Build the ROI business case for Alderbrook Home Services — 140 technicians, 2.1 drive hours a day, 74% first-time fix, 14% overtime, DSO 47 days.
+      - "A 45-technician fire-protection contractor wants to know if Kitewing pays back within a year. Use benchmarks where needed."
+      - Start an ROI interview for Ironwood Elevator Co.
+    related: [sales_discovery, presales_lookup]
+    kpis: [Deals with a business case at Proposal stage, Win rate with a CFO-validated ROI, Average payback presented]
+
+  - id: social_branding
+    code: Soc
+    name: Social Branding
+    cluster: growth
+    status: built
+    tagline: Turns company news into on-brand LinkedIn posts and a two-week content calendar — written, critiqued, approved.
+    description: >-
+      Social Branding drafts LinkedIn posts from approved company news, then a brand critic checks every post against
+      the brand rules (banned words, claims policy, customer and employee permissions, hashtags, length, call to
+      action) with a deterministic linter and returns numbered fixes until the drafts pass. A final step places the
+      approved posts on a content calendar balanced across the content pillars.
+    persona: Marketing managers and founders of small B2B companies who post without a social media team
+    use_cases:
+      - Weekly LinkedIn posts from company news
+      - Brand-safe customer stories (permissions and claims checked)
+      - Two-week content calendar balanced across pillars
+    model: lite
+    model_reason: The calendar step is templated; the writer uses Flash for tone and the critic uses Flash-Lite plus a deterministic linter.
+    pattern: loop
+    steps:
+      - id: writer
+        name: Post writer
+        model: flash
+        role: Writes or revises LinkedIn posts from approved company news in the brand voice.
+        instruction: |
+          Brand review of the previous draft (empty on the first round):
+          {{brand_review}}
+
+          If there is a review, revise the posts and fix EVERY numbered item; keep what already passed.
+          Otherwise call smb_company_news (approved items only) and write the posts the user asked for (default 3),
+          each from a different content pillar. Rules: hook under 140 characters on the first line; 400-1300
+          characters; customer outcome before product; only numbers that appear in the news or a public case study,
+          with the customer named or labelled "customer-reported"; never name prospects, customers without
+          permission or employees who declined; at most 3 approved hashtags; one clear call to action; at most 2
+          emojis. Use smb_find_case_studies with public_only true for proof.
+          Output each post as "POST n — pillar — source news id", then the full text.
+        tools: [smb_company_news, smb_find_case_studies]
+        output_key: draft_posts
+      - id: critic
+        name: Brand critic
+        model: lite
+        role: Lints every post with smb_brand_check and either approves or returns numbered fixes.
+        instruction: |
+          Drafts to review:
+          {{draft_posts}}
+
+          Call smb_brand_check once per post with the exact post text. Also check the brand voice in the knowledge
+          base (practical, warm, specific; customer outcome first). A post passes only when the tool says passed and
+          you see no voice problem. Output a table: post · score · pass/fail · numbered fixes quoting the offending
+          words. If every post passes, write APPROVED.
+        tools: [smb_brand_check]
+        grounding: [kb]
+        output_key: brand_review
+    tools: [smb_company_news]
+    grounding: []
+    instruction: |
+      Final drafts:
+      {{draft_posts}}
+
+      Brand review:
+      {{brand_review}}
+
+      Publish only posts that passed the brand review; list any that failed with the reason. Call smb_company_news for
+      the next posting slots and the pillar targets, then place the approved posts on a two-week calendar (Tue/Wed/Thu
+      at 08:30), matching event posts to their dates and balancing pillars. Nothing is posted automatically — present
+      the calendar as a plan to schedule (simulated).
+    output: >-
+      Approved posts (full text, ready to paste), calendar table (date · slot · pillar · post · source news id),
+      pillar balance vs targets, and anything held back with the reason.
+    samples:
+      - Write 3 LinkedIn posts for next week from our latest company news and put them on the calendar.
+      - Turn the Greystone first-time-fix story and the Spanish-language Assist beta into two posts.
+      - Draft a post welcoming our three new hires and announcing we'll be at the Regional Service Contractors Summit.
+    related: [presales_lookup, account_indexer]
+    kpis: [Posts published per week, Brand-check pass rate on first draft, Engagement rate per post]
+
+  # --- Operations & data ---------------------------------------------------------------------------------------
+  - id: project_plan
+    code: Ppb
+    name: Project Plan
+    cluster: operations
+    status: demo_ready
+    tagline: Turns a project brief into a plan you can run — WBS, three-point estimates, critical path, RACI and a scored risk register.
+    description: >-
+      Project Plan reads a brief (pasted or a document), structures the work breakdown, estimates every work package
+      from the company's reference projects (PERT), schedules it with a deterministic critical-path engine, assigns
+      owners from real team capacity, and builds the RACI and risk register — the plan a 60-person company can start
+      on Monday.
+    persona: Project and operations managers, implementation leads and founders running projects without a PMO
+    use_cases:
+      - Customer implementation plan from a signed brief
+      - Internal project plan (launch, compliance, systems) with named owners
+      - What-if on deadlines and scope with a recomputed critical path
+    model: flash
+    model_reason: Flash and Flash-Lite steps around deterministic estimating and CPM tools; planning at SMB scale does not need a premium model.
+    pattern: sequential
+    steps:
+      - id: scoper
+        name: Scope & WBS
+        model: flash
+        role: Reads the brief and produces objectives, scope, constraints and a two-level work breakdown structure.
+        instruction: |
+          Read the project brief in the conversation. If the user names a document key (for example
+          'smb_brief_alderbrook_rollout'), load it with get_sample_document.
+          Produce:
+          - Objective (1 sentence), measurable success criteria, in / out of scope, constraints (dates, budget,
+            people) and assumptions.
+          - WBS: 3-6 phases and 8-14 work packages in total. For each: id (W1, W2...), name, phase, size S/M/L, type
+            (one of discovery, design, configuration, data_migration, integration, development, testing, uat,
+            training, content, change_management, procurement, security_review, go_live, hypercare, marketing),
+            dependencies (ids) and the deliverable.
+          - Hard dates from the brief (start, deadline, blackout periods).
+          Output the WBS as a table. Do not estimate durations.
+        tools: [get_sample_document]
+        output_key: wbs
+      - id: scheduler
+        name: Estimator & scheduler
+        model: flash
+        role: Estimates work packages (PERT), assigns owners from team capacity and computes the critical path.
+        instruction: |
+          WBS from the previous step:
+          {{wbs}}
+
+          1. Call smb_estimate_tasks with every work package (id, name, type, size, depends_on).
+          2. Call smb_team_capacity (filter by the relevant teams) and assign one accountable owner per work package by
+             skill and availability; name customer-side owners as "<role> (customer)".
+          3. Call critical_path with tasks_for_critical_path (owners filled in) and the start date from the brief.
+          4. Compare the finish date with the deadline. If it is late, propose ONE fix (overlap, phasing or more
+             people), re-run critical_path and report both runs. Add the recommended contingency.
+          Output: schedule table (id · package · owner · expected days · start · finish · slack), the critical path,
+          the Mermaid Gantt exactly as returned, total effort in person-days, and the deadline check.
+        tools: [smb_estimate_tasks, smb_team_capacity, critical_path]
+        output_key: schedule
+      - id: governance
+        name: RACI & risks
+        model: lite
+        role: Builds the RACI matrix and the scored risk register for the plan.
+        instruction: |
+          WBS:
+          {{wbs}}
+
+          Schedule:
+          {{schedule}}
+
+          1. RACI: phases as rows; 4-6 people or roles as columns (sponsor, PM, owners from the schedule, customer
+             roles). Exactly one A per row.
+          2. Call smb_risk_library for the project type. Keep the 5-7 risks that apply to this brief, adapt the wording,
+             give each a named owner from the schedule, and add any brief-specific risk (e.g. a date collision) with
+             likelihood and impact 1-5.
+          Output the RACI table and the risk table (risk · L · I · exposure · rating · mitigation · owner).
+        tools: [smb_risk_library]
+        output_key: governance
+    tools: [smb_create_tasks]
+    grounding: [kb]
+    instruction: |
+      Assemble the final plan from the three steps:
+      WBS: {{wbs}}
+      SCHEDULE: {{schedule}}
+      RACI AND RISKS: {{governance}}
+
+      Keep every date and number exactly as computed. Check the plan against the delivery method in the knowledge base
+      (phase gates, status cadence, change control) and add the governance rhythm. Only if the user asked to "create
+      the tasks" or "push to the tracker", call smb_create_tasks with the work packages (owner, due date = finish date)
+      and report the task keys (simulated).
+    output: >-
+      "Project plan — <name>": summary (objective, start, finish, duration, effort, critical path in one line, deadline
+      check), WBS & schedule table, Mermaid Gantt, RACI, risk register, governance cadence, assumptions and the 3
+      decisions needed from the sponsor.
+    samples:
+      - Build the project plan for 'smb_brief_alderbrook_rollout' — they must be live before March 1.
+      - "Plan the Kitewing Assist Spanish-language GA launch: the beta ends Dec 18 and GA must ship by Feb 2; product, engineering, marketing and support are involved."
+      - Plan a 6-week move of our sales team from spreadsheets to the CRM starting 2026-11-23, with owners from our team.
+    sample_doc: smb_brief_alderbrook_rollout
+    related: [pm_assistant, retrospective, sales_discovery]
+    kpis: [Time from brief to approved plan, Schedule variance at go-live, Projects with named risk owners]
+
+  - id: pm_assistant
+    code: Pma
+    name: PM Assistant
+    cluster: operations
+    status: in_build
+    tagline: Writes the weekly status from the task tracker — what's late, what's blocked, RAG with reasons and the stakeholder update.
+    description: >-
+      PM Assistant reads the task tracker, computes earned value, late and blocked work and a forecast finish, sets the
+      RAG with explicit reasons, suggests who could unblock what from team capacity, and drafts the stakeholder update —
+      giving back the Friday afternoon a project manager spends on status.
+    persona: Project managers, team leads and sponsors in small companies
+    use_cases:
+      - Weekly status report with RAG and forecast
+      - Blocker escalation with suggested owners
+      - Portfolio view across projects for leadership
+    model: lite
+    model_reason: Status math happens in the tool; Flash-Lite turns it into a templated report and email at minimal cost.
+    tools: [smb_project_status, smb_team_capacity, smb_save_email_draft]
+    grounding: [kb]
+    instruction: |
+      1. Call smb_project_status for each project named (PRJ-104, PRJ-107 and PRJ-109 for a portfolio view). Never
+         change the RAG the tool computed; explain it with its reasons and compare it with last week's.
+      2. For each late or blocked task: owner, days late, the blocker and one concrete unblock action with an owner
+         (use smb_team_capacity to suggest people with availability and the right skill).
+      3. Use the delivery method in the knowledge base for RAG definitions and escalation rules.
+      4. Draft the stakeholder update (under 200 words: RAG, progress, decisions needed, next week). Save it with
+         smb_save_email_draft to the project's distribution list only when the user asks for the email.
+    output: >-
+      "Status — <project> — week of <date>": RAG (and last week's), 3-line summary, metrics (complete %, SPI, CPI,
+      budget burn, forecast vs target), late/blocked table with unblock actions, next 7 days, decisions needed; then
+      the email draft when requested. Portfolio: one row per project.
+    samples:
+      - Weekly status for Customer Portal 2.0 — what's late, what's blocked — and draft the update to the stakeholders.
+      - Give me a portfolio view of PRJ-104, PRJ-107 and PRJ-109 for the leadership meeting.
+      - The Greystone Assist rollout looks stuck on SSO — who can unblock it, and will the pilot readout still happen on Nov 20?
+    related: [project_plan, retrospective]
+    kpis: [PM hours spent on status per week, Blockers older than 5 days, Projects reporting on time]
+
+  - id: retrospective
+    code: Ret
+    name: Retrospective
+    cluster: operations
+    status: in_build
+    tagline: Runs a sprint or project retro — clusters the feedback into themes, finds root causes and files SMART actions.
+    description: >-
+      Retrospective takes a retro board (or raw notes), clusters cards into themes with votes, checks whether the last
+      retro's actions were done, reads the team health check and proposes at most three SMART actions with owners and
+      dates — filed in the task tracker on request.
+    persona: Scrum masters, engineering managers, project managers and team leads
+    use_cases:
+      - Sprint retrospective synthesis
+      - Project mid-point or post-mortem retro
+      - Retro from free-text notes
+    model: flash
+    model_reason: Root-cause synthesis across themes needs Flash; clustering and extraction are done by tools.
+    tools: [smb_retro_board, extract_meeting_structured_data, smb_create_tasks, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Board named (e.g. 'sprint-42', 'prj-104-pilot') → call smb_retro_board. Free-text notes or a document key
+         (e.g. 'smb_retro_notes_support') → load it with get_sample_document if needed, run
+         extract_meeting_structured_data, then cluster the points into themes yourself.
+      2. Start with follow-through: which previous actions are done or carried over (and how many times). An action
+         carried twice becomes action #1 or is explicitly dropped.
+      3. Themes: top 3 by to-improve votes, each with a one-line root cause (ask "why" twice) and the evidence cards.
+      4. Celebrate what went well (2-3 bullets) and name the lowest health-check scores.
+      5. Propose at most 3 SMART actions (specific, owner from the participants, due within 2 weeks, measurable),
+         preferring the team's own idea cards. Only when the user asks, file them with smb_create_tasks (simulated).
+      Follow the retrospective format in the delivery method (knowledge base).
+    output: >-
+      "Retro — <board>": follow-through table, themes table (theme · votes · root cause · evidence), what went well,
+      health-check lowlights, 3 SMART actions (action · owner · due · measure), then task keys if filed.
+    samples:
+      - Run the retro for sprint-42 and propose three actions.
+      - Synthesise the Greystone Assist pilot mid-point retro ('prj-104-pilot') and file the actions in PRJ-104.
+      - Run a retro from the free-text notes in 'smb_retro_notes_support'.
+    sample_doc: smb_retro_notes_support
+    related: [pm_assistant, project_plan]
+    kpis: [Retro action completion rate, Repeat issues across sprints, Team health trend]
+
+  - id: bigquery_data
+    code: Bqd
+    name: BigQuery Data
+    cluster: operations
+    status: built
+    tagline: Answers business questions over the company's BigQuery data — readable SQL, results as tables and plain-English insight.
+    description: >-
+      BigQuery Data lets anyone in the company ask the warehouse questions in plain language: customers and ARR,
+      bookings, pipeline and win rates, support SLAs and CSAT, invoices and cash, and monthly product usage. It writes
+      read-only SQL, explains it, returns the result as a table (with a text chart for trends) and says what it
+      means — no BI ticket needed.
+    persona: Founders, finance, sales and customer-success leads without SQL skills
+    use_cases:
+      - Pipeline and win-rate analysis
+      - Churn and usage risk lists
+      - Support SLA and CSAT reporting
+    model: flash
+    model_reason: SQL generation with joins over seven tables needs Flash; queries are read-only and byte-capped.
+    tools: []
+    grounding: ["bigquery:smb_customers,smb_products,smb_orders,smb_pipeline,smb_support_tickets,smb_invoices,smb_product_usage"]
+    instruction: |
+      1. Restate the question as a metric, a grain and a filter (e.g. "win rate by lead source, new-logo opportunities
+         closed in 2026"). Ask only if the metric is truly ambiguous; otherwise state your interpretation.
+      2. Write ONE read-only query (two at most) with explicit joins on customer_id; aggregate in SQL; round money to
+         whole dollars and rates to one decimal; return at most 20 rows unless asked.
+      3. Show the SQL in a sql code block with a short comment per CTE, then the result as a markdown table.
+      4. For trends or rankings add a compact text bar chart next to the table (e.g. "██████ 42%").
+      5. End with 2-3 plain-English insights and one suggested follow-up question. Data is as of 2026-11-06.
+      Definitions: ARR = smb_customers.arr_usd for is_active customers; win rate = won / closed opportunities; SLA
+      breach = sla_breached is true; active ratio = active_technicians / licensed_technicians.
+    output: Interpretation (1 line), SQL block, result table (plus a text bar chart for trends), insights, suggested follow-up.
+    samples:
+      - Which 10 active customers had the lowest share of active technicians in October 2026, with their ARR, health score and renewal date?
+      - Show the win rate and average deal size by lead source for new-logo opportunities closed in 2025 vs 2026.
+      - Which support ticket categories breached SLA most often in the last 90 days, and how does CSAT compare by category?
+    related: [account_indexer, pm_assistant]
+    kpis: [Questions answered without an analyst, Time to answer, Recurring questions turned into dashboards]
+
+  - id: ai_adoption
+    code: Ado
+    name: AI Adoption
+    cluster: operations
+    status: in_build
+    tagline: Assesses AI readiness, prioritises use cases by value and effort, and lays out a practical 90-day roadmap.
+    description: >-
+      AI Adoption runs a 12-question maturity assessment across strategy, data, tools, skills, governance and culture,
+      scores it into a maturity level, prioritises AI use cases on value, effort and data readiness, and sequences
+      them into a 90-day roadmap with owners, KPIs and the governance basics an SMB needs first.
+    persona: Founders, COOs and department heads of 20-500 person companies starting with AI
+    use_cases:
+      - AI-readiness assessment with a maturity level
+      - Use-case prioritisation (value vs effort vs data readiness)
+      - 90-day AI roadmap with owners and KPIs
+    model: flash
+    model_reason: Scoring and prioritisation are deterministic tools; Flash writes the roadmap narrative.
+    tools: [smb_score_ai_readiness, smb_prioritise_use_cases, smb_team_capacity, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Assessment: if the user gives survey answers or a document key (e.g. 'smb_ai_readiness_survey'), map the
+         answers to question ids and call smb_score_ai_readiness. To start a new assessment, call it with no answers
+         and ask the 12 questions in two short batches.
+      2. Report the maturity level, the dimension scores and the weakest three dimensions with their actions.
+      3. Call smb_prioritise_use_cases (the user's list, or the library filtered by department) with the maturity
+         level. Show quadrants and waves and include the Mermaid quadrant chart as returned.
+      4. Roadmap: Days 0-30 (governance basics from the weakest dimensions + up to 3 quick wins), Days 31-60,
+         Days 61-90 — each item with an owner (from smb_team_capacity for Kitewing), a KPI and a success measure.
+      5. Use the AI adoption guide in the knowledge base for policy rules and approved tools.
+    output: >-
+      Maturity scorecard (level, overall score, dimension table), top gaps with actions, prioritised use-case table and
+      Mermaid quadrant chart, 90-day roadmap table (wave · initiative · owner · KPI), first 3 next steps.
+    samples:
+      - Score our AI readiness from 'smb_ai_readiness_survey' and give me a 90-day AI roadmap with owners.
+      - Which AI use cases should our Customer Success and Finance teams start with? Prioritise them.
+      - "Prioritise these: invoice-chasing emails (value 3, effort 1, data 4), churn early warning (5, 3, 4), dynamic pricing (3, 5, 1), proposal drafting (4, 2, 3)."
+    sample_doc: smb_ai_readiness_survey
+    related: [bigquery_data, skills_profiler]
+    kpis: [AI use cases live within 90 days, Employees trained on safe AI use, Hours saved per month]
+
+  # --- People --------------------------------------------------------------------------------------------------
+  - id: hr_onboarding
+    code: Onb
+    name: HR Onboarding
+    cluster: people
+    status: demo_ready
+    tagline: A new-hire onboarding companion — personalised 30/60/90 plan, handbook answers, provisioning tickets and the day-one schedule.
+    description: >-
+      HR Onboarding gives every new hire and their manager one place to start. It builds a personalised 30/60/90 plan
+      from the role template and the person's first assignment, answers handbook questions with citations, opens the
+      equipment and account tickets with SLA checks so nothing is missing on day one, and lays out the day-one schedule
+      with real names and times — in the office, remote or hybrid.
+    persona: New hires, hiring managers and the People & Culture lead in a 60-person company
+    use_cases:
+      - Welcome pack for a new hire (plan, schedule, provisioning)
+      - Handbook Q&A during the first weeks
+      - Provisioning readiness check before the start date
+    model: flash
+    model_reason: The coordinator routes between four specialists and merges their outputs into one welcome pack; three of the four specialists run on Flash-Lite.
+    pattern: coordinator
+    steps:
+      - id: handbook
+        name: Handbook guide
+        model: lite
+        role: Answers policy and benefits questions from the employee handbook and onboarding guide, with citations.
+        instruction: |
+          Search the knowledge base (employee handbook, onboarding programme, AI adoption guide) for the question in
+          the request. Answer in 2-5 sentences with the exact numbers (days, amounts, deadlines) and cite the document
+          title. If the handbook does not cover it, say so and name the owner: Erin Walsh (People & Culture) for HR,
+          Noah Kim for IT and security, Maya Singh for expenses and payroll.
+        grounding: [kb]
+        output_key: handbook_answer
+      - id: plan_builder
+        name: 30/60/90 plan builder
+        model: flash
+        role: Builds the personalised 30/60/90 plan with goals, measures, trainings and key people.
+        instruction: |
+          Call smb_onboarding_pack for the person (or role) in the request. Personalise the role template with the
+          person's first assignment and background: keep the template goals and measures, add 1-2 goals that use the
+          first assignment, and put every goal and training on a date. Output three tables (Days 1-30, 31-60, 61-90:
+          goal · measure · by date), the training checklist with due dates, and the key contacts with why they matter.
+        tools: [smb_onboarding_pack]
+        output_key: plan_90
+      - id: provisioning
+        name: Equipment & access
+        model: lite
+        role: Opens provisioning tickets for equipment and accounts and flags anything at risk for day one.
+        instruction: |
+          Call smb_provision_request for the person (all items unless the request lists specific ones). Report a
+          checklist table (item · ticket · queue · ready by · status), call out items at risk or tight and approvals
+          pending with who must act, and items deliberately scheduled after day 30. Tickets are simulated.
+        tools: [smb_onboarding_pack, smb_provision_request]
+        output_key: provisioning
+      - id: day_one
+        name: Day-one scheduler
+        model: lite
+        role: Lays out the day-one agenda and before-day-one checklist; drafts the manager's welcome email on request.
+        instruction: |
+          Call smb_day_one_schedule for the person. Output the agenda as a table (time · what · with whom · where),
+          the notes (remote or hybrid adjustments) and the before-day-one checklist with owners and dates. If the
+          request asks for a welcome email, write it from the manager (under 150 words, warm, with the day-one start
+          time and place) and save it with smb_save_email_draft to the hire's company email.
+        tools: [smb_day_one_schedule, smb_save_email_draft]
+        output_key: day_one
+    tools: [smb_onboarding_pack]
+    grounding: []
+    instruction: |
+      You are the front door for onboarding. Decide what the request needs:
+      - A policy or benefits question → handbook only.
+      - "Prepare / welcome pack / onboarding plan for <name>" → plan_builder, provisioning and day_one (all three), then
+        merge them into one welcome pack.
+      - Equipment or access → provisioning. Schedule or "first day" → day_one. Mixed questions → each relevant one.
+      Give each specialist a self-contained request with the person's full name (call smb_onboarding_pack yourself first
+      if you need the name, role or start date). When merging, lead with the things that need action before the start
+      date (at-risk or tight tickets, pending approvals, the manager's welcome email). Speak to the new hire in the
+      second person unless the user is the manager or HR.
+    output: >-
+      Welcome pack — "Welcome pack · <name> · <title> · starts <date>": actions before day one, day-one agenda,
+      30/60/90 plan tables, trainings with due dates, equipment & access checklist with ticket ids (simulated), key
+      contacts. Questions — the direct answer with its source.
+    samples:
+      - Prepare the full onboarding pack for Mateo Fernández — 30/60/90 plan, day-one schedule and equipment tickets.
+      - "I'm Grace Obi and I start on the 23rd. What does my first day look like, and how many vacation days do I get?"
+      - Is everything ready for Samir Haddad's first day? Open the provisioning tickets and tell me what's at risk.
+    related: [skills_profiler, ai_adoption]
+    kpis: [New hires fully provisioned on day one, Day-30 goals met, New-hire satisfaction at day 30]
+
+  - id: skills_profiler
+    code: Skl
+    name: Skills Profiler
+    cluster: people
+    status: built
+    tagline: Builds skills profiles from CVs and project history, finds the gaps to a target role and plans the learning path.
+    description: >-
+      Skills Profiler reads a CV or an employee's project history, maps it to the company's skills framework (four
+      levels per skill), compares it with the role matrix for the target role and turns the gaps into a sequenced
+      learning path — internal academy courses, stretch assignments and Google Cloud certifications — within the
+      learning budget.
+    persona: Managers, People & Culture leads and employees planning growth; hiring managers screening candidates
+    use_cases:
+      - Career-path gap analysis for an employee
+      - Candidate fit from a CV
+      - Learning path with certifications and budget
+    model: flash
+    model_reason: Extracting skill levels from CVs and weighing evidence needs Flash; scoring and path sequencing are deterministic.
+    tools: [smb_skill_gap, smb_learning_path, get_sample_document]
+    grounding: [kb]
+    instruction: |
+      1. Employee named → call smb_skill_gap with the employee and the target role (use their aspiration if no role is
+         given). CV given (pasted, or a key such as 'smb_cv_jordan_reyes' loaded with get_sample_document) → extract
+         skills with a level 1-4 and one evidence line each, using the skills framework in the knowledge base, then
+         call smb_skill_gap with those skills.
+      2. Present readiness %, strengths with evidence and gaps ordered by size.
+      3. Call smb_learning_path with the gap skills (biggest first), weekly_hours 4 and the policy budget; summarise
+         weeks, hours, cost vs budget and certification fees (reimbursed on pass).
+      4. Recommend one stretch assignment per top gap from current projects.
+      5. For candidates, finish with 3 interview questions that probe the biggest gaps. Assess skills and evidence
+         only — never infer age, gender, health or any other protected characteristic.
+    output: >-
+      Skills profile table (skill · level · evidence), readiness % for the target role, gap table (skill · required ·
+      current · gap), learning path table (weeks · item · type · hours · cost), budget summary, stretch assignments,
+      and interview questions for candidates.
+    samples:
+      - What does Ines Duarte need to become a Solutions Architect? Build her learning path with Google Cloud certifications.
+      - Profile the candidate CV 'smb_cv_jordan_reyes' against the Implementation Consultant role — fit, gaps and interview questions.
+      - Femi Adeyemi wants to become a Senior Data Engineer — gaps, learning path and how long it takes at 4 hours a week.
+    sample_doc: smb_cv_jordan_reyes
+    related: [hr_onboarding, ai_adoption]
+    kpis: [Employees with a development plan, Certifications earned per year, Internal promotions vs external hires]

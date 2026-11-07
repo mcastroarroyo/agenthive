@@ -1,0 +1,219 @@
+{
+ "note": "Illustrative crosswalk for demos only. Codes must be validated by a certified coder against the current code sets and payer rules.",
+ "icd10": [
+  {
+   "keywords": [
+    "acute on chronic",
+    "systolic",
+    "heart failure"
+   ],
+   "code": "I50.23",
+   "description": "Acute on chronic systolic (congestive) heart failure"
+  },
+  {
+   "keywords": [
+    "chronic",
+    "systolic",
+    "heart failure"
+   ],
+   "code": "I50.22",
+   "description": "Chronic systolic (congestive) heart failure"
+  },
+  {
+   "keywords": [
+    "systolic",
+    "heart failure"
+   ],
+   "code": "I50.20",
+   "description": "Unspecified systolic (congestive) heart failure",
+   "specificity_note": "Acuity not documented \u2014 query: acute, chronic or acute on chronic?"
+  },
+  {
+   "keywords": [
+    "heart failure"
+   ],
+   "code": "I50.9",
+   "description": "Heart failure, unspecified",
+   "specificity_note": "Unspecified \u2014 query the clinician for type (systolic/diastolic) and acuity."
+  },
+  {
+   "keywords": [
+    "hypertension"
+   ],
+   "code": "I10",
+   "description": "Essential (primary) hypertension"
+  },
+  {
+   "keywords": [
+    "type 2 diabetes",
+    "chronic kidney disease"
+   ],
+   "code": "E11.22",
+   "description": "Type 2 diabetes mellitus with diabetic chronic kidney disease",
+   "specificity_note": "Add N18.x for the CKD stage."
+  },
+  {
+   "keywords": [
+    "type 2 diabetes",
+    "hyperglycemia"
+   ],
+   "code": "E11.65",
+   "description": "Type 2 diabetes mellitus with hyperglycemia"
+  },
+  {
+   "keywords": [
+    "type 2 diabetes",
+    "hypoglycemia"
+   ],
+   "code": "E11.649",
+   "description": "Type 2 diabetes mellitus with hypoglycemia without coma"
+  },
+  {
+   "keywords": [
+    "type 2 diabetes"
+   ],
+   "code": "E11.9",
+   "description": "Type 2 diabetes mellitus without complications"
+  },
+  {
+   "keywords": [
+    "chronic kidney disease",
+    "stage 3a"
+   ],
+   "code": "N18.31",
+   "description": "Chronic kidney disease, stage 3a"
+  },
+  {
+   "keywords": [
+    "chronic kidney disease",
+    "stage 3b"
+   ],
+   "code": "N18.32",
+   "description": "Chronic kidney disease, stage 3b"
+  },
+  {
+   "keywords": [
+    "copd",
+    "exacerbation"
+   ],
+   "code": "J44.1",
+   "description": "Chronic obstructive pulmonary disease with (acute) exacerbation"
+  },
+  {
+   "keywords": [
+    "copd"
+   ],
+   "code": "J44.9",
+   "description": "Chronic obstructive pulmonary disease, unspecified"
+  },
+  {
+   "keywords": [
+    "strep",
+    "pharyngitis"
+   ],
+   "code": "J02.0",
+   "description": "Streptococcal pharyngitis"
+  },
+  {
+   "keywords": [
+    "pharyngitis"
+   ],
+   "code": "J02.9",
+   "description": "Acute pharyngitis, unspecified"
+  },
+  {
+   "keywords": [
+    "atrial fibrillation",
+    "permanent"
+   ],
+   "code": "I48.21",
+   "description": "Permanent atrial fibrillation"
+  },
+  {
+   "keywords": [
+    "atrial fibrillation"
+   ],
+   "code": "I48.91",
+   "description": "Unspecified atrial fibrillation"
+  },
+  {
+   "keywords": [
+    "edema"
+   ],
+   "code": "R60.0",
+   "description": "Localized edema",
+   "specificity_note": "Symptom code \u2014 do not report separately when integral to a confirmed HF exacerbation."
+  },
+  {
+   "keywords": [
+    "underdosing",
+    "financial"
+   ],
+   "code": "Z91.120",
+   "description": "Patient's intentional underdosing of medication regimen due to financial hardship"
+  },
+  {
+   "keywords": [
+    "noncompliance",
+    "medication"
+   ],
+   "code": "Z91.148",
+   "description": "Patient's other noncompliance with medication regimen for other reason"
+  },
+  {
+   "keywords": [
+    "missed doses"
+   ],
+   "code": "Z91.148",
+   "description": "Patient's other noncompliance with medication regimen for other reason"
+  },
+  {
+   "keywords": [
+    "long-term insulin"
+   ],
+   "code": "Z79.4",
+   "description": "Long term (current) use of insulin"
+  },
+  {
+   "keywords": [
+    "hip replacement",
+    "aftercare"
+   ],
+   "code": "Z47.1",
+   "description": "Aftercare following joint replacement surgery"
+  },
+  {
+   "keywords": [
+    "former smoker"
+   ],
+   "code": "Z87.891",
+   "description": "Personal history of nicotine dependence"
+  }
+ ],
+ "em": {
+  "established_office": {
+   "straightforward": "99212",
+   "low": "99213",
+   "moderate": "99214",
+   "high": "99215"
+  },
+  "new_office": {
+   "straightforward": "99202",
+   "low": "99203",
+   "moderate": "99204",
+   "high": "99205"
+  }
+ },
+ "tcm": {
+  "moderate": {
+   "code": "99495",
+   "face_to_face_within_days": 14
+  },
+  "high": {
+   "code": "99496",
+   "face_to_face_within_days": 7
+  },
+  "note": "Transitional care management requires interactive contact within 2 business days of discharge and a face-to-face visit within the window; report once per 30-day period."
+ },
+ "telehealth_note": "Telehealth E/M: payer-specific place of service (e.g. 02/10) and modifier (e.g. 95) rules apply."
+}

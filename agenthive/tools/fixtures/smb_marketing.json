@@ -1,0 +1,29 @@
+{
+  "news": [
+    {"id": "N-101", "date": "2026-11-03", "kind": "product", "headline": "Kitewing Assist now answers technicians in Spanish (beta)", "details": "Spanish-language troubleshooting answers and job summaries in Kitewing Assist, requested by technicians at Greystone Facilities Group during their pilot. Beta for Growth and Enterprise customers from 2026-11-17.", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-102", "date": "2026-10-28", "kind": "customer_story", "headline": "Greystone Facilities Group reaches 86% first-time-fix across five branches", "details": "Up from 71% before Kitewing FieldOps; overtime down 22% and invoices out in 2 days instead of 9 (case study CS-01). Quote from Walter Ashby, VP Field Operations: 'We finally run five branches as one company.'", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-103", "date": "2026-10-24", "kind": "product", "headline": "Route Optimizer live re-sequencing is generally available", "details": "Routes now re-sequence automatically when traffic or a cancelled job changes the day. Copperline Plumbing & Drain cut drive time per job by 18% (CS-02).", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-104", "date": "2026-10-21", "kind": "culture", "headline": "Kitewing is a finalist for 'Best Small Workplace' (Cedar Harbor Business Journal)", "details": "62 people, 2 offices, meeting-free 'focus Friday' afternoons, a $1,500 learning budget per person. Winners announced 2026-12-04.", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-105", "date": "2026-10-14", "kind": "event", "headline": "Webinar recap: Beating the spring rush", "details": "240 registrants, 131 live attendees. Top tip: book maintenance visits in the shoulder season to flatten the March peak. Recording on the Kitewing resources page.", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-106", "date": "2026-11-19", "kind": "event", "headline": "Meet Kitewing at the Regional Service Contractors Summit (Nov 19-20, booth 14)", "details": "Live demos of Assist in Spanish and Route Optimizer; Sofia Petrov (Product Manager) speaks on 'AI on the van' on Nov 20 at 11:00.", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-107", "date": "2026-11-16", "kind": "culture", "headline": "Three new Kitewingers join sales, engineering and implementation", "details": "Mateo Fernández (Account Executive) and Grace Obi (Implementation Consultant) agreed to be named publicly; our new backend engineer prefers not to be named.", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-108", "date": "2026-10-30", "kind": "insight", "headline": "Blog: 5 numbers every service manager should know", "details": "First-time-fix rate, drive time per job, overtime share, job-to-invoice lag and DSO — with segment benchmarks from Kitewing customers (customer-reported medians).", "approved_for_social": true, "customer_permission": true},
+    {"id": "N-109", "date": "2026-11-05", "kind": "pipeline", "headline": "Alderbrook Home Services and Silverline Security Systems evaluating Kitewing", "details": "INTERNAL ONLY — prospects are never named publicly.", "approved_for_social": false, "customer_permission": false},
+    {"id": "N-110", "date": "2026-11-03", "kind": "customer_story", "headline": "Harbor & Pine Mechanical dispatch story (2024)", "details": "INTERNAL ONLY — customer withdrew permission for public use in 2026.", "approved_for_social": false, "customer_permission": false}
+  ],
+  "brand": {
+    "voice": "Practical, warm and plain-spoken — we sound like a great dispatcher: calm, clear, specific. Lead with the customer's outcome, not our features.",
+    "banned_words": ["revolutionary", "revolutionize", "game-changer", "game changer", "synergy", "disrupt", "disruptive", "best-in-class", "world-class", "cutting-edge", "leverage", "unlock", "seamless", "seamlessly", "next-gen", "supercharge", "10x", "robust", "rockstar", "ninja"],
+    "product_names": {"Kitewing FieldOps": "full name on first mention", "Kitewing Assist": "never 'Kitewing AI' or 'the bot'", "Route Optimizer": "two words, capitalised", "Insights": "capitalised"},
+    "approved_hashtags": ["#FieldService", "#ServiceTechs", "#HVAC", "#Plumbing", "#FacilitiesManagement", "#FireProtection", "#PestControl", "#SmallBusiness", "#Kitewing", "#AIatWork", "#Hiring"],
+    "max_hashtags": 3,
+    "max_emojis": 2,
+    "max_exclamations": 1,
+    "linkedin": {"ideal_min_chars": 400, "ideal_max_chars": 1300, "hard_max_chars": 3000, "hook_max_chars": 140},
+    "cta_markers": ["learn more", "read", "watch", "register", "join us", "see", "comment", "tell us", "link in", "book", "visit", "download", "apply", "come say"],
+    "unapproved_names": ["Harbor & Pine", "Harbor and Pine", "Bluefin", "Alderbrook", "Silverline", "Prairie Bloom", "Ironwood", "Samir Haddad"],
+    "claims_rule": "Any number about results must name the customer story it comes from (approved customers only) or be labelled 'customer-reported'.",
+    "pillars": [{"name": "Customer outcomes", "share_pct": 40}, {"name": "Product & how-to", "share_pct": 25}, {"name": "People & culture", "share_pct": 20}, {"name": "Industry insight", "share_pct": 15}],
+    "cadence": "LinkedIn company page: 3 posts per week (Tue, Wed, Thu at 08:30). One employee-advocacy post per week."
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "frameworks": {
+    "MEDDICC": {
+      "description": "Kitewing's default qualification framework for deals above $25k ACV. Score each criterion 0-3: 0 unknown, 1 weak/assumed, 2 partially confirmed, 3 confirmed by the buyer.",
+      "criteria": [
+        {"id": "metrics", "name": "Metrics", "weight": 15, "definition": "Quantified outcomes the buyer expects (overtime, first-time-fix, drive time, invoice lag, DSO).",
+         "questions": ["If we fixed this, what number would move — and from what to what?", "How do you measure technician productivity today (jobs per tech per day, first-time-fix)?", "What does one extra hour of overtime cost you fully loaded?", "How many days after a job does the invoice go out?"],
+         "listen_for": ["Baseline numbers", "A target with a date", "Who owns the metric"]},
+        {"id": "economic_buyer", "name": "Economic buyer", "weight": 15, "definition": "The person who can approve the spend and say yes when everyone else says no.",
+         "questions": ["Who signs off on a software investment of this size?", "Has this person approved a similar project before? How did it go?", "What would they need to see to say yes?"],
+         "listen_for": ["A named person with budget authority", "Access: will they join a call?", "Approval thresholds (e.g. above $200k goes to the board)"]},
+        {"id": "decision_criteria", "name": "Decision criteria", "weight": 10, "definition": "The technical, commercial and vendor criteria the buyer will use to choose.",
+         "questions": ["What must the new system do on day one that the current one can't?", "How important is offline mobile for your technicians?", "Are there integration must-haves (accounting, identity, parts suppliers)?", "Is there a price-per-technician ceiling you are working to?"],
+         "listen_for": ["Must-haves vs nice-to-haves", "Who wrote the criteria", "Criteria that favour a competitor"]},
+        {"id": "decision_process", "name": "Decision process (incl. paper process)", "weight": 15, "definition": "The steps, people and dates between today and a signed contract, including legal, security and procurement.",
+         "questions": ["Walk me through how you will make this decision and by when.", "Who else needs to see a demo or a reference?", "What does legal and security review look like, and how long does it usually take?", "What happens if the decision slips past your target date?"],
+         "listen_for": ["Dated steps", "Security questionnaire / MSA review", "A compelling event (end of support, peak season, renewal)"]},
+        {"id": "identify_pain", "name": "Identify pain", "weight": 20, "definition": "The business pain, its cost, and why it must be solved now.",
+         "questions": ["What happens on your worst dispatch day?", "What has this cost you in the last 12 months — lost contracts, overtime, late invoices?", "Why solve it now rather than next year?", "What have you tried already?"],
+         "listen_for": ["Cost of inaction", "Personal pain for the champion", "A deadline outside your control"]},
+        {"id": "champion", "name": "Champion", "weight": 15, "definition": "An insider with influence who sells for us when we are not in the room and has something to gain.",
+         "questions": ["What would a successful project mean for you personally?", "Who would push back, and how would you handle it?", "Can you get us 20 minutes with the economic buyer?"],
+         "listen_for": ["Offers access", "Shares internal information", "Has influence, not just enthusiasm"]},
+        {"id": "competition", "name": "Competition", "weight": 10, "definition": "Other vendors, in-house builds and the status quo.",
+         "questions": ["Who else are you looking at?", "What do you like about them?", "What happens if you do nothing and extend the current system?"],
+         "listen_for": ["Named competitors and quotes", "Status-quo risk", "Criteria written for a competitor"]}
+      ]
+    },
+    "BANT": {
+      "description": "Lightweight framework for Starter deals and SDR qualification (below $25k ACV). Score each criterion 0-3.",
+      "criteria": [
+        {"id": "budget", "name": "Budget", "weight": 25, "definition": "Money is available or can be found.", "questions": ["Is there a budget set aside for this?", "What do you spend today on the current tools and workarounds?"], "listen_for": ["A range", "Who holds it"]},
+        {"id": "authority", "name": "Authority", "weight": 25, "definition": "We are talking to, or have access to, the decision maker.", "questions": ["Who besides you is involved in the decision?", "Who signs?"], "listen_for": ["Named decision maker"]},
+        {"id": "need", "name": "Need", "weight": 30, "definition": "A real business problem we solve.", "questions": ["What is the biggest scheduling or dispatch headache today?", "What does it cost you?"], "listen_for": ["Specific, costly pain"]},
+        {"id": "timeline", "name": "Timeline", "weight": 20, "definition": "A date by which they need a solution.", "questions": ["When do you need this live?", "What is driving that date?"], "listen_for": ["Compelling event"]}
+      ]
+    }
+  },
+  "segments": {
+    "hvac_plumbing": {
+      "name": "HVAC, plumbing & home services",
+      "pains": ["Peak-season overtime and Saturday dispatch shifts", "Repeat visits because the wrong part was on the truck", "Invoices sent days after the job", "Maintenance agreements tracked in spreadsheets"],
+      "hypotheses": ["Overtime above 10% of tech hours in peak season", "First-time-fix below 80%", "Invoice lag of 5+ days drives DSO above 45 days", "Legacy dispatch tool nearing end of support"],
+      "proof_points": ["CS-01", "CS-02"],
+      "metrics_to_ask": ["technicians", "jobs per tech per day", "first-time-fix %", "overtime % of hours", "drive hours per tech per day", "invoice lag days", "DSO"]
+    },
+    "facilities": {
+      "name": "Facilities management",
+      "pains": ["Multi-site SLAs with penalty clauses", "Subcontractor coordination", "Compliance evidence for clients"],
+      "hypotheses": ["SLA penalties paid in the last year", "Technicians spend 20%+ of time on paperwork"],
+      "proof_points": ["CS-01"],
+      "metrics_to_ask": ["sites", "SLA breach rate", "first-time-fix %", "overtime %"]
+    },
+    "fire_security": {
+      "name": "Fire protection, alarm & security",
+      "pains": ["Statutory inspection deadlines", "Multi-visit installation projects", "Recurring monitoring contracts billed manually"],
+      "hypotheses": ["Missed or late inspections create liability", "Inspection reports take days to reach customers"],
+      "proof_points": ["CS-03"],
+      "metrics_to_ask": ["inspections per month", "missed inspections", "report turnaround days", "DSO"]
+    },
+    "elevator": {
+      "name": "Elevator & escalator maintenance",
+      "pains": ["Maintenance contract renewals missed", "Statutory inspection tracking", "Parts lead times"],
+      "hypotheses": ["Contract renewal rate below 90%", "Inspection deadlines tracked in spreadsheets"],
+      "proof_points": ["CS-04"],
+      "metrics_to_ask": ["units under contract", "contract renewal rate", "callbacks per unit"]
+    },
+    "pest_landscaping": {
+      "name": "Pest control, landscaping & route-based services",
+      "pains": ["Dense recurring routes", "Seasonal crews", "Weather-driven rescheduling"],
+      "hypotheses": ["Office admin time above 10 hours a week on rescheduling", "Seasonal headcount swings of 2x"],
+      "proof_points": ["CS-05"],
+      "metrics_to_ask": ["stops per route", "seasonal headcount", "admin hours per week"]
+    }
+  },
+  "stages": [
+    {"name": "Prospecting", "probability_pct": 5, "exit_criteria": "Meeting booked with someone who feels the pain."},
+    {"name": "Discovery", "probability_pct": 10, "exit_criteria": "Pain, metrics and a compelling event confirmed; economic buyer identified."},
+    {"name": "Solution Validation", "probability_pct": 30, "exit_criteria": "Tailored demo done; decision criteria and process confirmed; champion tested."},
+    {"name": "Proposal", "probability_pct": 50, "exit_criteria": "Proposal and ROI reviewed with the economic buyer."},
+    {"name": "Negotiation", "probability_pct": 75, "exit_criteria": "Verbal yes; legal and security review under way."},
+    {"name": "Closed Won", "probability_pct": 100, "exit_criteria": "Order form signed."},
+    {"name": "Closed Lost", "probability_pct": 0, "exit_criteria": "Loss reason recorded."}
+  ],
+  "call_agenda_30min": [
+    "0-3 min: introductions, purpose, agenda and time check",
+    "3-15 min: current process, worst-day story, pain and what has been tried",
+    "15-22 min: impact — baseline metrics and cost of inaction",
+    "22-27 min: decision process, people, timeline and compelling event",
+    "27-30 min: agree a dated next step (demo, ROI workshop, meeting with the economic buyer)"
+  ],
+  "competitors": {
+    "Fieldnest": {"positioning": "Low-cost tool for small contractors (sweet spot under 40 technicians).", "list_price": "about $59 per technician per month (public pricing page)", "weaknesses": ["Limited offline mobile (no offline photos)", "No maintenance-agreement billing", "No multi-branch permissions"], "landmine_questions": ["What happens to photos and signatures when a technician has no signal?", "How will you bill 1,800 maintenance agreements every month?"]},
+    "ServiceGrid Pro": {"positioning": "Enterprise suite for 500+ technician operations.", "list_price": "custom; typically $140+ per technician per month", "weaknesses": ["6-9 month implementations", "Heavy services dependency"], "landmine_questions": ["Can you be live before your next peak season?"]},
+    "DispatchPro 7": {"positioning": "Legacy on-premise dispatch software.", "list_price": "maintenance contract", "weaknesses": ["End of support 2027-06-30", "No modern mobile app", "Server hardware on premises"], "landmine_questions": ["What is your plan for June 2027 when support ends?"]}
+  },
+  "follow_up_rules": [
+    "Send the recap email within 24 hours of the call.",
+    "Recap = their words for the pain, the metrics they gave, what we heard about the decision process, and one dated next step.",
+    "Never attach pricing to a first recap; offer a ballpark range only if they asked.",
+    "Attach at most one case study, matched to their segment."
+  ]
+}

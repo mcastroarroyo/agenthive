@@ -1,0 +1,89 @@
+{
+  "_note": "Synthetic meeting registry (Google Meet recordings + transcripts). Recording URIs point to a fictional demo bucket; one-click demos use the transcript document keys.",
+  "today": "2026-11-06",
+  "meetings": [
+    {
+      "id": "MTG-2026-1104-TBL", "account_id": "ACC-1042", "account": "Tallbridge Logistics", "project_key": "TBL",
+      "title": "Project Lighthouse · Steering Committee #6", "type": "steering_committee", "date": "2026-11-04",
+      "duration_min": 41, "transcript_doc": "ops_transcript_tallbridge_steerco",
+      "recording_uri": "gs://hive-demo-recordings/tallbridge/steerco-06.mp4",
+      "pm": "Dana Whitfield", "pm_email": "dana.whitfield@wursta.example",
+      "invited": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Tomás Ibarra", "Leah Brandt", "Grace Okafor", "Helen Marsh", "Owen Castillo", "Farah Haddad", "Victor Lindqvist"],
+      "attended": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Tomás Ibarra", "Leah Brandt", "Owen Castillo", "Farah Haddad", "Victor Lindqvist"],
+      "exec_sponsor": "Helen Marsh", "sentiment_score": -0.38, "sentiment_source": "nightly lexicon baseline (not yet audited by Helios)",
+      "indexed_in_kb": false, "next_meeting": "2026-11-18"
+    },
+    {
+      "id": "MTG-2026-1021-TBL", "account_id": "ACC-1042", "account": "Tallbridge Logistics", "project_key": "TBL",
+      "title": "Project Lighthouse · Steering Committee #5", "type": "steering_committee", "date": "2026-10-21",
+      "duration_min": 45, "transcript_doc": null, "recording_uri": "gs://hive-demo-recordings/tallbridge/steerco-05.mp4",
+      "pm": "Dana Whitfield", "pm_email": "dana.whitfield@wursta.example",
+      "invited": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Helen Marsh", "Owen Castillo", "Farah Haddad"],
+      "attended": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Owen Castillo", "Farah Haddad"],
+      "exec_sponsor": "Helen Marsh", "sentiment_score": -0.05, "sentiment_source": "Helios audit",
+      "indexed_in_kb": true, "next_meeting": "2026-11-04"
+    },
+    {
+      "id": "MTG-2026-1007-TBL", "account_id": "ACC-1042", "account": "Tallbridge Logistics", "project_key": "TBL",
+      "title": "Project Lighthouse · Steering Committee #4", "type": "steering_committee", "date": "2026-10-07",
+      "duration_min": 50, "transcript_doc": null, "recording_uri": "gs://hive-demo-recordings/tallbridge/steerco-04.mp4",
+      "pm": "Dana Whitfield", "pm_email": "dana.whitfield@wursta.example",
+      "invited": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Helen Marsh", "Owen Castillo", "Farah Haddad"],
+      "attended": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Helen Marsh", "Owen Castillo", "Farah Haddad"],
+      "exec_sponsor": "Helen Marsh", "sentiment_score": 0.18, "sentiment_source": "Helios audit",
+      "indexed_in_kb": true, "next_meeting": "2026-10-21"
+    },
+    {
+      "id": "MTG-2026-0923-TBL", "account_id": "ACC-1042", "account": "Tallbridge Logistics", "project_key": "TBL",
+      "title": "Project Lighthouse · Steering Committee #3", "type": "steering_committee", "date": "2026-09-23",
+      "duration_min": 55, "transcript_doc": null, "recording_uri": "gs://hive-demo-recordings/tallbridge/steerco-03.mp4",
+      "pm": "Dana Whitfield", "pm_email": "dana.whitfield@wursta.example",
+      "invited": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Helen Marsh", "Owen Castillo"],
+      "attended": ["Dana Whitfield", "Marco Ruiz", "Priya Nair", "Helen Marsh", "Owen Castillo"],
+      "exec_sponsor": "Helen Marsh", "sentiment_score": 0.42, "sentiment_source": "Helios audit",
+      "indexed_in_kb": false, "next_meeting": "2026-10-07"
+    },
+    {
+      "id": "MTG-2026-1103-CFI", "account_id": "ACC-1017", "account": "Calder & Finch Insurance", "project_key": "CFI",
+      "title": "Claims Assistant · Weekly Sync", "type": "weekly_sync", "date": "2026-11-03",
+      "duration_min": 28, "transcript_doc": "ops_transcript_calder_weekly",
+      "recording_uri": "gs://hive-demo-recordings/calder-finch/weekly-2026-11-03.mp4",
+      "pm": "Ethan Brooks", "pm_email": "ethan.brooks@wursta.example",
+      "invited": ["Ethan Brooks", "Priya Nair", "Leah Brandt", "Rosa Delgado", "Arjun Mehta", "Claire Beaumont"],
+      "attended": ["Ethan Brooks", "Priya Nair", "Leah Brandt", "Rosa Delgado", "Arjun Mehta", "Claire Beaumont"],
+      "exec_sponsor": "Rosa Delgado", "sentiment_score": 0.74, "sentiment_source": "nightly lexicon baseline (not yet audited by Helios)",
+      "indexed_in_kb": false, "next_meeting": "2026-11-10"
+    },
+    {
+      "id": "MTG-2026-1027-CFI", "account_id": "ACC-1017", "account": "Calder & Finch Insurance", "project_key": "CFI",
+      "title": "Claims Assistant · Weekly Sync", "type": "weekly_sync", "date": "2026-10-27",
+      "duration_min": 30, "transcript_doc": null, "recording_uri": "gs://hive-demo-recordings/calder-finch/weekly-2026-10-27.mp4",
+      "pm": "Ethan Brooks", "pm_email": "ethan.brooks@wursta.example",
+      "invited": ["Ethan Brooks", "Priya Nair", "Rosa Delgado", "Arjun Mehta", "Claire Beaumont"],
+      "attended": ["Ethan Brooks", "Priya Nair", "Rosa Delgado", "Arjun Mehta", "Claire Beaumont"],
+      "exec_sponsor": "Rosa Delgado", "sentiment_score": 0.68, "sentiment_source": "Helios audit",
+      "indexed_in_kb": true, "next_meeting": "2026-11-03"
+    },
+    {
+      "id": "MTG-2026-1030-VAC", "account_id": "ACC-1088", "account": "Verdant Agro Cooperative", "project_key": "VAC",
+      "title": "Farmer Advisory Assistant · Design Workshop", "type": "workshop", "date": "2026-10-30",
+      "duration_min": 180, "transcript_doc": "ops_notes_verdant_workshop",
+      "recording_uri": "gs://hive-demo-recordings/verdant/design-workshop.mp4",
+      "pm": "Sam Oduya", "pm_email": "sam.oduya@wursta.example",
+      "invited": ["Sam Oduya", "Priya Nair", "Lucía Ferrer", "Joaquín Reyes", "Amara Nwosu", "Ben Hollis"],
+      "attended": ["Sam Oduya", "Priya Nair", "Lucía Ferrer", "Joaquín Reyes", "Amara Nwosu", "Ben Hollis"],
+      "exec_sponsor": "Joaquín Reyes", "sentiment_score": 0.31, "sentiment_source": "Helios audit",
+      "indexed_in_kb": false, "next_meeting": "2026-11-13"
+    },
+    {
+      "id": "MTG-2026-1028-KMG", "account_id": "ACC-1150", "account": "Kestrel Media Group", "project_key": "KMG",
+      "title": "Analytics Managed Services · Monthly Review", "type": "monthly_review", "date": "2026-10-28",
+      "duration_min": 35, "transcript_doc": null, "recording_uri": "gs://hive-demo-recordings/kestrel/monthly-2026-10.mp4",
+      "pm": "Sam Oduya", "pm_email": "sam.oduya@wursta.example",
+      "invited": ["Sam Oduya", "Nora Quinlan", "Mateo Silva", "Lars Bergman", "Hanna Virtanen"],
+      "attended": ["Sam Oduya", "Nora Quinlan", "Hanna Virtanen"],
+      "exec_sponsor": "Lars Bergman", "sentiment_score": -0.12, "sentiment_source": "Helios audit",
+      "indexed_in_kb": false, "next_meeting": "2026-11-25"
+    }
+  ]
+}

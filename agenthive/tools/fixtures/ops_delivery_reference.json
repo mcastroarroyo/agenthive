@@ -1,0 +1,30 @@
+{
+  "_note": "Synthetic delivery reference data for SOW outlines: an illustrative rate card (demo values, not a price list) and phase templates.",
+  "currency": "USD",
+  "rate_card_hourly": {
+    "Engagement Lead": 240, "Solution Architect": 225, "Senior Engineer": 195, "Engineer": 165,
+    "UX Designer": 170, "Project Manager": 160, "Conversation Designer": 160, "Data Engineer": 185
+  },
+  "phases": [
+    {"id": "P1", "name": "Discovery & design sprint", "base_weeks": 2,
+     "roles_hours_per_week": {"Engagement Lead": 6, "Solution Architect": 20, "UX Designer": 24, "Project Manager": 8},
+     "deliverables": ["Validated user journeys", "Clickable prototype v2", "Solution architecture", "MVP backlog"]},
+    {"id": "P2", "name": "MVP build", "base_weeks": 6,
+     "roles_hours_per_week": {"Solution Architect": 8, "Senior Engineer": 40, "Engineer": 40, "UX Designer": 8, "Project Manager": 10},
+     "deliverables": ["MVP in a non-production environment", "Integration with agreed systems", "Test evidence"]},
+    {"id": "P3", "name": "Pilot & hardening", "base_weeks": 3,
+     "roles_hours_per_week": {"Senior Engineer": 30, "Engineer": 20, "Project Manager": 10},
+     "deliverables": ["Pilot with up to 50 users", "Security review and guardrails", "Runbook"]},
+    {"id": "P4", "name": "Handover", "base_weeks": 1,
+     "roles_hours_per_week": {"Solution Architect": 10, "Senior Engineer": 16, "Project Manager": 8},
+     "deliverables": ["Knowledge transfer", "Operations handbook", "Backlog for phase 2"]}
+  ],
+  "sizing": {"screens_included": 4, "weeks_per_extra_screen": 0.5, "weeks_per_integration": 1.0, "contingency_pct": 15},
+  "standard_assumptions": [
+    "The client provides a product owner available 4 hours per week and timely access to systems and test data.",
+    "Integrations use documented, available APIs; credentials are provided by the client within 5 business days of kickoff.",
+    "The MVP runs in a non-production environment; production rollout is a separate change request.",
+    "Acceptance: each deliverable is reviewed within 10 business days against the acceptance criteria and is deemed accepted if no material defects are reported."
+  ],
+  "standard_out_of_scope": ["Production support and SLAs", "Data migration of historical records", "Native mobile app store publishing", "Licences and cloud consumption"]
+}

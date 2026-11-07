@@ -1,0 +1,23 @@
+{
+  "gov_311_requests": {
+    "description": "Synthetic sample of City of Port Alder 311 service requests created 2025-01-01 to 2026-10-31 (one row per request; open requests have no closed_at). Fictional data.",
+    "columns": [
+      {"name": "request_id", "type": "STRING", "description": "Tracking number of the request (historical sample ids start with SR-H)."},
+      {"name": "created_at", "type": "TIMESTAMP", "description": "When the request was received (city local time)."},
+      {"name": "closed_at", "type": "TIMESTAMP", "description": "When the request was closed; NULL while open."},
+      {"name": "category", "type": "STRING", "description": "Category code: POTHOLE, STREETLIGHT_OUT, MISSED_COLLECTION, BULKY_ITEM, ILLEGAL_DUMPING, GRAFFITI, TRAFFIC_SIGNAL, SIGN_DAMAGE, WATER_LEAK, TREE_DOWN, ABANDONED_VEHICLE, SIDEWALK_DAMAGE, DEAD_ANIMAL."},
+      {"name": "department", "type": "STRING", "description": "Owning department code: PW-STR, PW-LGT, SAN, TRN, PRK, CDE, WTR, ANS, PKE."},
+      {"name": "district", "type": "STRING", "description": "Council district D1-D7."},
+      {"name": "neighborhood", "type": "STRING", "description": "Neighbourhood name."},
+      {"name": "channel", "type": "STRING", "description": "Intake channel: phone, app, web, messaging, walk_in."},
+      {"name": "priority", "type": "STRING", "description": "P1 (urgent), P2 (standard) or P3 (scheduled)."},
+      {"name": "status", "type": "STRING", "description": "closed or open (as of 2026-10-31)."},
+      {"name": "sla_hours", "type": "INT64", "description": "Target hours to close for the category and priority (311 Service Standards)."},
+      {"name": "hours_to_close", "type": "FLOAT64", "description": "Hours from created_at to closed_at; NULL while open."},
+      {"name": "sla_met", "type": "BOOL", "description": "TRUE if closed within sla_hours; FALSE if closed late or still open past its due time; NULL if open and not yet due."},
+      {"name": "is_duplicate", "type": "BOOL", "description": "TRUE if the report was merged into an existing request as a follower."},
+      {"name": "reopened", "type": "BOOL", "description": "TRUE if the resident reopened the request after closure."},
+      {"name": "satisfaction_score", "type": "INT64", "description": "Post-closure survey score 1-5; NULL when the resident did not answer."}
+    ]
+  }
+}

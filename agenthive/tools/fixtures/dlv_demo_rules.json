@@ -1,0 +1,7 @@
+{
+  "min_buffer_pct": 10,
+  "min_live_pct": 40,
+  "max_context_pct": 20,
+  "min_qa_minutes": 4,
+  "max_talk_segment_minutes": 6
+}

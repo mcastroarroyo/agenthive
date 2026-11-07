@@ -1,0 +1,171 @@
+title: The Wursta Agent Hive
+subtitle: Every Wursta agent in one place — pick a use case, open an agent, and watch it work live on Google Cloud.
+
+statuses:
+  demo_ready: {label: Demo ready, description: "Polished, client-presentable demo."}
+  built: {label: "Built — demo needed", description: "Agent exists; demo storyline still being polished."}
+  in_build: {label: In build, description: "Under active development; prototype demo available here."}
+  library: {label: "Library — not built yet", description: "Designed pattern; this hive runs a reference prototype."}
+
+realms:
+  - id: platform
+    name: Platform Core
+    kind: internal
+    color: "#13906a"
+    blurb: >-
+      Horizontal agents every engagement reuses — knowledge, research, productivity and the Pantheon advisory suite
+      that designs and de-risks client transformations.
+    clusters:
+      - {id: core, name: "Core platform", blurb: "Knowledge, research, productivity and engineering agents."}
+      - {id: pantheon, name: "Pantheon advisory suite", blurb: "Hermes coordinates five specialists to turn raw client material into a strategy."}
+
+  - id: government
+    name: Government
+    kind: user
+    color: "#5d4fc7"
+    blurb: >-
+      Public-sector agents for citizen services, permits, records and policy — plus a citizen-services framework
+      that composes them for national programmes.
+    clusters:
+      - {id: public_services, name: "Public services", blurb: "Front-door services residents and businesses use every day."}
+      - {id: records_legal, name: "Records, legal & procurement", blurb: "Back-office agents for transparency, legal review and buying."}
+      - {id: citizen_framework, name: "Citizen Services Framework", blurb: "Proposed national composition: messaging front-end, identity federation and specialised agents."}
+
+  - id: enterprise
+    name: Enterprise
+    kind: user
+    color: "#2b78d0"
+    blurb: Industry agents for financial services, healthcare, telco, retail and logistics.
+    clusters:
+      - {id: financial, name: "Financial services", blurb: "Wealth, compliance, FP&A and executive analytics for banks and wealth managers."}
+      - {id: healthcare, name: "Healthcare", blurb: "Post-discharge care, trial pre-screening, denials and clinical documentation."}
+      - {id: telco, name: "Telco & media", blurb: "SLA assurance, campaign analytics, on-brand content and localisation."}
+      - {id: retail, name: "Retail & CPG", blurb: "Inventory risk, fulfilment, promotions, campaigns and customer support."}
+      - {id: logistics, name: "Logistics & manufacturing", blurb: "Control tower, replenishment, shipment briefs, orchestration and quality."}
+
+  - id: smb
+    name: SMB
+    kind: user
+    color: "#cf5528"
+    blurb: Practical agents for small and mid-size businesses — sell more, run projects, onboard people, adopt AI.
+    clusters:
+      - {id: growth, name: "Growth & sales", blurb: "Discovery, presales, account intelligence, ROI and social presence."}
+      - {id: operations, name: "Operations & data", blurb: "Plans, status, retros, data questions and AI adoption."}
+      - {id: people, name: "People", blurb: "Onboarding and skills development."}
+
+  - id: delivery
+    name: Wursta Delivery Engine
+    kind: internal
+    color: "#6e6c66"
+    blurb: >-
+      WurstaBots — the internal operations engine that automates Wursta's own delivery, migrations, client care,
+      sales and the innovation pipeline.
+    clusters:
+      - {id: delivery_engine, name: "Delivery engine", blurb: "SOWs, scope, enablement, certifications and migration readiness."}
+      - {id: atlas, name: "Atlas migration suite", blurb: "Seven agents that run a Workspace migration end to end."}
+      - {id: client_delivery, name: "Client delivery & P&C", blurb: "Meeting health, actions, presentations and partner content."}
+      - {id: sales_marketing, name: "Sales & marketing", blurb: "RFPs, competitive intel and social campaigns."}
+      - {id: innovation, name: "Innovation pipeline", blurb: "Next-generation agents in build."}
+
+compositions:
+  - id: pantheon_engagement
+    name: Pantheon strategy engagement
+    kind: workflow
+    status: Demo ready
+    summary: >-
+      Hermes ingests discovery material and decides which specialists to call — Xenophon (backlog), Daedalus (cloud
+      architecture), Ariadne (data), Prometheus (risk & schedule), Proteus (value) — then synthesises one executive
+      deliverable.
+    agents: [hermes, xenophon, daedalus, ariadne, prometheus, proteus, pantheon]
+    flow:
+      - Discovery notes / transcript / whiteboard photo in
+      - Hermes (Argon) decomposes the problem
+      - Specialists run as AgentTools (Flash, Daedalus on Argon)
+      - Hermes synthesises executive summary, risks, plan and next steps
+    blocks:
+      models: Argon for the coordinator and the architect; Flash for the other specialists; Flash-Lite for extraction skills.
+      runtime: One Agent Engine (Platform Core); specialists are in-process AgentTools — one session, one trace.
+      tools: Jira backlog (simulated), GCP cost estimator, ERD/DDL tools, CPM scheduler, ROI calculator.
+      grounding: Platform knowledge base (Architecture Framework notes, delivery playbooks) + Google Search.
+
+  - id: atlas_migration
+    name: Atlas Workspace migration pipeline
+    kind: workflow
+    status: Shipped
+    summary: Seven Atlas agents run a legacy-email-to-Google-Workspace migration from pre-flight audit to daily status.
+    agents: [atlas_preflight, atlas_batch_planner, atlas_user_comms, atlas_data_mover, atlas_delta_sync, atlas_validator, atlas_status]
+    flow:
+      - Pre-flight audit of the legacy tenant
+      - Wave planning by department and data complexity
+      - Personalised user comms per wave
+      - Bulk data transfer, then delta sync before cutover
+      - Post-migration validation and daily status report
+    blocks:
+      models: Flash-Lite for comms and status; Flash for planning and validation.
+      runtime: Wursta Delivery Engine Agent Engine; each Atlas agent can run alone or as a stage.
+      tools: Synthetic tenant inventory, wave planner, transfer and checksum simulators.
+      grounding: Delivery knowledge base (migration runbook, cutover checklist).
+
+  - id: citizen_services_framework
+    name: Citizen Services Framework
+    kind: framework
+    status: Proposed — PoC design (not deployed)
+    summary: >-
+      A sovereign-cloud-ready blueprint for national digital services: a messaging front-end (e.g. WhatsApp), citizen
+      sign-in through the national identity provider via Workforce Identity Federation, and specialised agents that
+      reuse hive patterns. The agents here are reference prototypes, not a deployed client system.
+    agents: [farmer_desk, business_registry, housing_credit, citizen_311, policy_qa]
+    flow:
+      - Citizen writes on the messaging channel
+      - Identity verified with the national IdP (OIDC + Workforce Identity Federation)
+      - "Farmer Desk (Citizen Desk pattern) · Business Registry (Action Tracker pattern) · Housing & Credit (RFP Analyst pattern)"
+      - Governance layer logs every turn (telemetry, DLP, Model Armor)
+    blocks:
+      models: Flash-Lite for intake and routing; Flash for eligibility and comparisons.
+      runtime: Agent Engine per programme; messaging gateway on Cloud Run.
+      tools: Registration checklists, eligibility rules, financial-product comparison.
+      grounding: Government knowledge base (programme rules, requirements) — synthetic in this demo.
+
+  - id: realestate_sync_proposal
+    name: Real-estate enterprise sync (proposal)
+    kind: proposal
+    status: Proposed architecture — not built
+    summary: >-
+      How Vulcan would remove double data entry between a CRM, a construction-management platform and BigQuery for a
+      real-estate developer — designed with Ariadne (data model) and Daedalus (cloud architecture).
+    agents: [vulcan, ariadne, daedalus]
+    flow:
+      - Vulcan maps CRM deals and construction projects to one canonical model
+      - Ariadne designs the BigQuery star schema and sync DDL
+      - Daedalus sizes Cloud Run + Pub/Sub + BigQuery and estimates cost
+    blocks:
+      models: Flash for mapping; Argon for the architecture decision record.
+      runtime: Proposed Cloud Run middleware + Agent Engine for the agents.
+      tools: Field-mapping and conflict-resolution simulators, ERD and cost tools.
+      grounding: Platform knowledge base + vendor API docs via Google Search.
+
+  - id: meeting_intelligence
+    name: Meeting intelligence loop
+    kind: workflow
+    status: Shipped + in build
+    summary: Every client meeting becomes knowledge, alerts, tasks and a churn signal.
+    agents: [janus, helios, athena, oracle]
+    flow:
+      - Janus turns the recording into an OKF knowledge record
+      - Helios scores sentiment, scope creep and disengagement
+      - Athena creates tasks with owners and due dates
+      - Oracle updates the account's churn-risk score
+    blocks:
+      models: "Flash-Lite for Janus and Athena, Flash for Helios and Oracle; the skills themselves run on Flash-Lite."
+      runtime: Wursta Delivery Engine Agent Engine.
+      tools: extract-video-to-okf, detect-meeting-sentiment-risk, extract-meeting-structured-data skills.
+      grounding: Engagement history (synthetic) + delivery knowledge base.
+
+skills:
+  - {id: detect-meeting-sentiment-risk, tool: detect_meeting_sentiment_risk, description: "Evaluates transcripts for dissatisfaction, scope creep, disengagement and timeline risk."}
+  - {id: extract-meeting-structured-data, tool: extract_meeting_structured_data, description: "Pulls action items, owners, due dates and decisions from text."}
+  - {id: extract-video-to-okf, tool: extract_video_to_okf, description: "Deconstructs a recording into a searchable Open Knowledge Framework record."}
+  - {id: drive-organization, tool: drive_organization, description: "Proposes a clean Google Drive taxonomy with moves, renames, dedupes and archives."}
+  - {id: partner-advantage-cataloger, tool: partner_advantage_cataloger, description: "Grades and tags partner content for AI-ingestion readiness."}
+  - {id: ocr-document-text, tool: ocr_document_text, description: "Extracts text and key fields from scanned documents and images."}
+  - {id: route-incoming-email, tool: route_incoming_email, description: "Classifies and routes emails by intent with priority and draft reply."}

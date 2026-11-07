@@ -1,0 +1,164 @@
+{
+  "tel_sla_contracts": {
+    "description": "Kestrava Telecom (fictional) enterprise SLA contracts: one row per contracted service with tier targets and monthly recurring charge. Fictional data.",
+    "columns": [
+      {"name": "customer_id", "type": "STRING", "description": "Enterprise customer id, e.g. ENT-1004."},
+      {"name": "customer_name", "type": "STRING", "description": "Customer name (fictional)."},
+      {"name": "industry", "type": "STRING", "description": "Customer industry."},
+      {"name": "tier", "type": "STRING", "description": "SLA tier: platinum, gold or silver."},
+      {"name": "service_id", "type": "STRING", "description": "Contracted service id, e.g. SVC-1004-P5G."},
+      {"name": "service_type", "type": "STRING", "description": "Service type (MPLS VPN, SD-WAN, Dedicated Internet Access, Private 5G, Cloud Voice)."},
+      {"name": "sites", "type": "INT64", "description": "Number of sites covered; availability is site-weighted."},
+      {"name": "mrc_usd", "type": "FLOAT64", "description": "Monthly recurring charge in USD (base for service credits)."},
+      {"name": "availability_target_pct", "type": "FLOAT64", "description": "Monthly availability target in percent (platinum 99.98, gold 99.95, silver 99.9)."},
+      {"name": "restore_target_p1_hours", "type": "FLOAT64", "description": "Time-to-restore target for P1 incidents in hours."},
+      {"name": "restore_target_p2_hours", "type": "FLOAT64", "description": "Time-to-restore target for P2 incidents in hours."},
+      {"name": "credit_cap_pct", "type": "FLOAT64", "description": "Maximum monthly service credit as percent of MRC."},
+      {"name": "account_manager", "type": "STRING", "description": "Kestrava account manager (fictional)."}
+    ]
+  },
+  "tel_incidents": {
+    "description": "Kestrava Telecom (fictional) enterprise service incidents 2025-11-01 to 2026-11-06 10:00 (one row per incident; open incidents have no restored_at). Site-minutes = outage_minutes x sites_affected; excluded incidents do not count against the SLA. Fictional data.",
+    "columns": [
+      {"name": "incident_id", "type": "STRING", "description": "Incident id, e.g. INC-2611-0047 (historical ids start with INC-H)."},
+      {"name": "customer_id", "type": "STRING", "description": "Enterprise customer id (joins tel_sla_contracts)."},
+      {"name": "service_id", "type": "STRING", "description": "Affected service id (joins tel_sla_contracts)."},
+      {"name": "month", "type": "DATE", "description": "First day of the month the incident opened (SLA measurement month)."},
+      {"name": "severity", "type": "STRING", "description": "P1, P2 or P3."},
+      {"name": "opened_at", "type": "TIMESTAMP", "description": "When the incident opened."},
+      {"name": "restored_at", "type": "TIMESTAMP", "description": "When service was restored; NULL while open."},
+      {"name": "outage_minutes", "type": "INT64", "description": "Outage duration in minutes (to 2026-11-06 10:00 for open incidents)."},
+      {"name": "sites_affected", "type": "INT64", "description": "Number of sites affected."},
+      {"name": "site_minutes", "type": "INT64", "description": "outage_minutes x sites_affected (downtime budget consumed when not excluded)."},
+      {"name": "category", "type": "STRING", "description": "Cause category: fiber_cut, hardware, software, config, power, ddos, third_party, planned_maintenance, customer_caused."},
+      {"name": "cause", "type": "STRING", "description": "Short cause description."},
+      {"name": "excluded", "type": "BOOL", "description": "TRUE when excluded from SLA (planned maintenance with notice, customer-caused)."},
+      {"name": "restore_hours", "type": "FLOAT64", "description": "Hours from open to restore (NULL while open)."},
+      {"name": "restore_target_met", "type": "BOOL", "description": "Restored within the tier target for its severity (NULL while open)."},
+      {"name": "customer_notified_after_min", "type": "INT64", "description": "Minutes from open to first customer notice."}
+    ]
+  },
+  "tel_campaign_results": {
+    "description": "Kestrava Telecom (fictional) consumer marketing campaign results by week, segment and arm (treatment vs holdout control). Totals per campaign match the campaign scorecard. Fictional data.",
+    "columns": [
+      {"name": "campaign_id", "type": "STRING", "description": "Campaign id, e.g. CMP-2610-SAVE02."},
+      {"name": "campaign_name", "type": "STRING", "description": "Campaign name."},
+      {"name": "campaign_type", "type": "STRING", "description": "churn_save, cross_sell or win_back."},
+      {"name": "week_start", "type": "DATE", "description": "Monday of the reporting week."},
+      {"name": "segment", "type": "STRING", "description": "Customer segment: Young digital, Families, Price-sensitive, Small business, Rural fiber, Premium."},
+      {"name": "arm", "type": "STRING", "description": "treatment (contacted) or control (holdout, not contacted)."},
+      {"name": "targeted", "type": "INT64", "description": "Customers assigned to this arm in the week and segment."},
+      {"name": "reached", "type": "INT64", "description": "Customers actually contacted (0 for control)."},
+      {"name": "responded", "type": "INT64", "description": "Customers who responded (opened, clicked or answered)."},
+      {"name": "accepted", "type": "INT64", "description": "Offers accepted (treatment) or organic conversions (control, cross-sell/win-back)."},
+      {"name": "churned", "type": "INT64", "description": "Customers who churned within the read window (churn_save campaigns only)."},
+      {"name": "offer_cost_usd", "type": "FLOAT64", "description": "Cost of accepted offers."},
+      {"name": "contact_cost_usd", "type": "FLOAT64", "description": "Contact cost (calls, SMS, email)."}
+    ]
+  },
+  "ret_stores": {
+    "description": "Larkspur Home & Tech (fictional) stores. Fictional data.",
+    "columns": [
+      {"name": "store_id", "type": "STRING", "description": "Store id S01-S16."},
+      {"name": "store_name", "type": "STRING", "description": "Store name."},
+      {"name": "city", "type": "STRING", "description": "City (fictional)."},
+      {"name": "region", "type": "STRING", "description": "Region: North, Coast, Central or South."},
+      {"name": "format", "type": "STRING", "description": "flagship, standard, compact or outlet."},
+      {"name": "opened_date", "type": "DATE", "description": "Store opening date."}
+    ]
+  },
+  "ret_products": {
+    "description": "Larkspur Home & Tech (fictional) product catalog: cost, list price and lifecycle per SKU. Fictional data.",
+    "columns": [
+      {"name": "sku", "type": "STRING", "description": "SKU, e.g. LUM-55Q8."},
+      {"name": "product_name", "type": "STRING", "description": "Product name."},
+      {"name": "brand", "type": "STRING", "description": "Brand (fictional)."},
+      {"name": "category", "type": "STRING", "description": "TV & Home Theater, Computing, Audio, Smart Home, Kitchen, Gaming, Networking or Wearables."},
+      {"name": "unit_cost_usd", "type": "FLOAT64", "description": "Unit cost in USD."},
+      {"name": "list_price_usd", "type": "FLOAT64", "description": "Regular selling price in USD."},
+      {"name": "lifecycle", "type": "STRING", "description": "core, seasonal or end_of_life."},
+      {"name": "eol_date", "type": "DATE", "description": "End-of-life date (successor launch); NULL for core items."},
+      {"name": "successor", "type": "STRING", "description": "Successor model, if any."},
+      {"name": "ship_class", "type": "STRING", "description": "parcel, large or white_glove."}
+    ]
+  },
+  "ret_inventory_snapshot": {
+    "description": "Larkspur (fictional) weekly store inventory snapshots (Fridays 2026-10-16 to 2026-11-06), one row per store and SKU. Days of cover = on_hand / avg_daily_sales_28d. Fictional data.",
+    "columns": [
+      {"name": "snapshot_date", "type": "DATE", "description": "Snapshot date (latest is 2026-11-06)."},
+      {"name": "store_id", "type": "STRING", "description": "Store id (joins ret_stores)."},
+      {"name": "sku", "type": "STRING", "description": "SKU (joins ret_products)."},
+      {"name": "on_hand", "type": "INT64", "description": "Units on hand."},
+      {"name": "on_order", "type": "INT64", "description": "Units on order to the store."},
+      {"name": "on_order_eta", "type": "DATE", "description": "Expected arrival of the on-order units; NULL if none."},
+      {"name": "avg_daily_sales_28d", "type": "FLOAT64", "description": "Average daily unit sales over the 28 days before the snapshot."},
+      {"name": "days_of_cover", "type": "FLOAT64", "description": "on_hand / avg_daily_sales_28d (999 when no sales)."}
+    ]
+  },
+  "ret_sales_weekly": {
+    "description": "Larkspur (fictional) weekly unit sales by store and SKU, 12 weeks from 2026-08-10 to 2026-11-01, with promotion flags and margin. Fictional data.",
+    "columns": [
+      {"name": "week_start", "type": "DATE", "description": "Monday of the sales week."},
+      {"name": "store_id", "type": "STRING", "description": "Store id (joins ret_stores)."},
+      {"name": "sku", "type": "STRING", "description": "SKU (joins ret_products)."},
+      {"name": "units", "type": "INT64", "description": "Units sold."},
+      {"name": "net_sales_usd", "type": "FLOAT64", "description": "Revenue after discounts."},
+      {"name": "gross_margin_usd", "type": "FLOAT64", "description": "net_sales_usd - units x unit cost."},
+      {"name": "promo_flag", "type": "BOOL", "description": "TRUE when the SKU was on promotion that week."},
+      {"name": "avg_discount_pct", "type": "FLOAT64", "description": "Average discount off list price in percent (0 when no promotion)."}
+    ]
+  },
+  "log_shipments": {
+    "description": "Halvard Logistics (fictional 3PL) shipments 2026-05-11 to 2026-11-06: delivered history plus the shipments active on 2026-11-06 07:00 (delivered_at NULL). Fictional data.",
+    "columns": [
+      {"name": "shipment_id", "type": "STRING", "description": "Shipment id (active ones look like HLV-SH-260552; history starts with HLV-H)."},
+      {"name": "shipper_id", "type": "STRING", "description": "Shipper id: C-LRK, C-VAN, C-ORL, C-GRF, C-SBR, C-PNC."},
+      {"name": "shipper_name", "type": "STRING", "description": "Shipper name (fictional)."},
+      {"name": "shipper_tier", "type": "INT64", "description": "Customer tier 1-3."},
+      {"name": "lane_id", "type": "STRING", "description": "Lane id L01-L14 (joins log_lane_performance)."},
+      {"name": "origin", "type": "STRING", "description": "Origin site."},
+      {"name": "destination", "type": "STRING", "description": "Destination."},
+      {"name": "mode", "type": "STRING", "description": "FTL, LTL, parcel, final_mile, drayage, ocean (reefer variants included)."},
+      {"name": "carrier", "type": "STRING", "description": "Carrier (fictional)."},
+      {"name": "ship_date", "type": "DATE", "description": "Date shipped."},
+      {"name": "promised_at", "type": "TIMESTAMP", "description": "Promised delivery time."},
+      {"name": "eta_at", "type": "TIMESTAMP", "description": "Current ETA for active shipments; equals delivered_at for history."},
+      {"name": "delivered_at", "type": "TIMESTAMP", "description": "Actual delivery time; NULL while active."},
+      {"name": "status", "type": "STRING", "description": "delivered, in_transit, held, at_anchor, customs_hold, tender_rejected, picking, loading, delayed, out_for_delivery."},
+      {"name": "on_time", "type": "BOOL", "description": "Delivered by the promised time (NULL while active)."},
+      {"name": "delay_hours", "type": "FLOAT64", "description": "Hours late vs promise (actual for history, ETA-based for active; 0 if early)."},
+      {"name": "exception_code", "type": "STRING", "description": "WX weather, PORT port congestion, CAP carrier capacity, DC facility backlog, MECH breakdown, DOCS documentation; NULL if none."},
+      {"name": "value_usd", "type": "FLOAT64", "description": "Declared value of goods."},
+      {"name": "weight_kg", "type": "FLOAT64", "description": "Gross weight."},
+      {"name": "temperature_controlled", "type": "BOOL", "description": "TRUE for reefer / 2-8 C cargo."}
+    ]
+  },
+  "log_lane_performance": {
+    "description": "Halvard Logistics (fictional) weekly lane scorecard 2026-05-11 to 2026-11-02, aggregated from delivered shipments: volume, on-time %, transit time, cost and claims. Fictional data.",
+    "columns": [
+      {"name": "week_start", "type": "DATE", "description": "Monday of the week."},
+      {"name": "lane_id", "type": "STRING", "description": "Lane id L01-L14."},
+      {"name": "origin", "type": "STRING", "description": "Origin site."},
+      {"name": "destination", "type": "STRING", "description": "Destination."},
+      {"name": "mode", "type": "STRING", "description": "Transport mode."},
+      {"name": "carrier", "type": "STRING", "description": "Carrier (fictional)."},
+      {"name": "shipments", "type": "INT64", "description": "Shipments delivered that week."},
+      {"name": "on_time_pct", "type": "FLOAT64", "description": "Percent delivered by the promised time."},
+      {"name": "avg_transit_days", "type": "FLOAT64", "description": "Average door-to-door transit days."},
+      {"name": "avg_delay_hours", "type": "FLOAT64", "description": "Average hours late across late shipments (0 if none)."},
+      {"name": "cost_per_kg_usd", "type": "FLOAT64", "description": "Average freight cost per kg."},
+      {"name": "claims", "type": "INT64", "description": "Damage or loss claims filed."}
+    ]
+  },
+  "log_dc_demand_daily": {
+    "description": "Halvard-operated DCs and the Vantor plant (fictional): daily demand and shipments per site and SKU, 2026-08-14 to 2026-11-05. Used for demand-driven replenishment. Fictional data.",
+    "columns": [
+      {"name": "date", "type": "DATE", "description": "Calendar date."},
+      {"name": "dc", "type": "STRING", "description": "Site: AVD (Ashford Vale DC), RMD (Redmarsh DC), BRK (Vantor Brackwater plant)."},
+      {"name": "sku", "type": "STRING", "description": "SKU or material (RES-ABS-PC is resin in kg)."},
+      {"name": "units_demanded", "type": "INT64", "description": "Units ordered by stores, e-commerce or production that day."},
+      {"name": "units_shipped", "type": "INT64", "description": "Units shipped (lower than demand on stock-out days)."},
+      {"name": "stockout", "type": "BOOL", "description": "TRUE when demand could not be fully served."}
+    ]
+  }
+}

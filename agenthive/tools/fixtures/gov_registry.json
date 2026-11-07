@@ -1,0 +1,63 @@
+{
+  "agency": "National Business Registry Agency (NBRA), Republic of Valdoria (fictional business registry agency)",
+  "name_reservation": {"fee": 10, "valid_days": 30},
+  "restricted_words": ["bank", "insurance", "republic", "national", "ministry", "university", "trust company", "stock exchange", "government"],
+  "ignored_in_name_comparison": ["the", "and", "&", "co", "company", "sp", "slc", "llc", "ltd", "inc", "of"],
+  "entity_types": {
+    "SP": {"name": "Sole Proprietorship (individual merchant)", "registration_fee": 25, "agency_review_business_days": 3,
+           "owners": "1 natural person", "liability": "Unlimited - the owner is personally liable",
+           "documents": ["Identity verified through the national identity provider", "Business address (lease or utility bill)", "Main activity code (ISIC-style list)"]},
+    "SLC": {"name": "Simplified Limited Company", "registration_fee": 75, "agency_review_business_days": 3,
+            "owners": "1 to 50 shareholders, natural or legal persons; no minimum capital", "liability": "Limited to contributed capital",
+            "documents": ["Identity of every shareholder verified through the national identity provider", "Standard articles of incorporation (template) e-signed by all shareholders",
+                          "Beneficial ownership declaration for everyone owning 25% or more", "Registered business address", "Main activity code"]},
+    "LLC": {"name": "Limited Liability Company", "registration_fee": 150, "agency_review_business_days": 5,
+            "owners": "2 to 50 partners; minimum paid-in capital $1,000", "liability": "Limited to contributed capital",
+            "documents": ["Notarised deed of incorporation", "Proof of paid-in capital (bank letter)", "Beneficial ownership declaration", "Registered business address", "Main activity code"]}
+  },
+  "steps": [
+    {"id": "S1", "name": "Verify identity with the national identity provider", "owner": "applicant", "fee": 0, "time": "minutes"},
+    {"id": "S2", "name": "Reserve the business name", "owner": "applicant", "fee": 10, "time": "instant if available; valid 30 days"},
+    {"id": "S3", "name": "Complete the registration form and sign the articles (SLC/LLC)", "owner": "applicant", "fee": 0, "time": "1 day"},
+    {"id": "S4", "name": "Pay the registration fee", "owner": "applicant", "fee": "by entity type", "time": "instant"},
+    {"id": "S5", "name": "Agency review and registration certificate (BRN)", "owner": "agency", "fee": 0, "time": "by entity type"},
+    {"id": "S6", "name": "Tax ID issued automatically by the Revenue Service", "owner": "revenue service", "fee": 0, "time": "1 business day after registration"},
+    {"id": "S7", "name": "Employer registration with Social Security (only if hiring) - within 10 days of the first hire", "owner": "applicant", "fee": 0, "time": "1 day"},
+    {"id": "S8", "name": "Municipal business licence where the business operates (e.g. Port Alder General Business Licence)", "owner": "applicant", "fee": "set by the municipality", "time": "about 5 business days"}
+  ],
+  "registered_names": [
+    "Tidewater Coffee Roasters LLC", "Bayside Taco Truck SP", "Harborline Telematics SLC", "Coastline Paving Co. LLC", "Golden Lantern Noodle House SLC",
+    "Marisol's Bakery SP", "Green Valley Agro Supplies SLC", "Alto Verde Coffee Cooperative", "The Golden Crust Bakeries SLC", "Kestrel Builders Inc. LLC",
+    "Saltmarsh Seafood Kitchen SLC", "Brightline Bookkeeping SP", "Northpoint Roofing & Gutters LLC", "Juniper Print House SP", "Riverbend Fresh Produce SLC"
+  ],
+  "applications": [
+    {"id": "BRA-2026-55120", "business_name": "Kestrel Print & Design SLC", "entity_type": "SLC", "applicant": "Yusuf Adeyemi", "status": "in_progress",
+     "shareholders": [{"name": "Yusuf Adeyemi", "pct": 60, "identity_verified": true, "signed": true}, {"name": "Mira Solberg", "pct": 40, "identity_verified": true, "signed": false}],
+     "actions": [
+       {"id": "A1", "step": "S1", "task": "Identity verified for both shareholders", "owner": "applicant", "status": "done", "done": "2026-10-20"},
+       {"id": "A2", "step": "S2", "task": "Name 'Kestrel Print & Design' reserved", "owner": "applicant", "status": "done", "done": "2026-10-20", "expires": "2026-11-19"},
+       {"id": "A3", "step": "S4", "task": "Registration fee $75 and reservation fee $10 paid", "owner": "applicant", "status": "done", "done": "2026-10-22"},
+       {"id": "A4", "step": "S3", "task": "Articles e-signed by every shareholder - Mira Solberg has not signed", "owner": "Mira Solberg", "status": "pending", "due": "2026-11-19", "blocking": true},
+       {"id": "A5", "step": "S3", "task": "Beneficial ownership declaration (Yusuf Adeyemi 60%, Mira Solberg 40%)", "owner": "Yusuf Adeyemi", "status": "pending", "due": "2026-11-19", "blocking": true},
+       {"id": "A6", "step": "S5", "task": "Agency review (3 business days after A4 and A5 are complete)", "owner": "agency", "status": "waiting"},
+       {"id": "A7", "step": "S6", "task": "Tax ID issued automatically", "owner": "revenue service", "status": "waiting"},
+       {"id": "A8", "step": "S8", "task": "Port Alder General Business Licence", "owner": "Yusuf Adeyemi", "status": "not_started"}],
+     "reminders_sent": [{"date": "2026-11-02", "to": "Mira Solberg", "channel": "email"}]},
+    {"id": "BRA-2026-55187", "business_name": "Juniper Flats Bike Repair SP", "entity_type": "SP", "applicant": "Andres Kahale", "status": "under_review",
+     "actions": [
+       {"id": "A1", "step": "S1", "task": "Identity verified", "owner": "applicant", "status": "done", "done": "2026-11-03"},
+       {"id": "A2", "step": "S2", "task": "Name reserved", "owner": "applicant", "status": "done", "done": "2026-11-03", "expires": "2026-12-03"},
+       {"id": "A3", "step": "S4", "task": "Registration fee $25 paid", "owner": "applicant", "status": "done", "done": "2026-11-04"},
+       {"id": "A4", "step": "S5", "task": "Agency review - submitted 2026-11-04, due by 2026-11-09", "owner": "agency", "status": "in_progress", "due": "2026-11-09"},
+       {"id": "A5", "step": "S6", "task": "Tax ID issued automatically", "owner": "revenue service", "status": "waiting"},
+       {"id": "A6", "step": "S8", "task": "Port Alder General Business Licence plus Home Occupation Permit (repairs from home garage)", "owner": "Andres Kahale", "status": "not_started"}]},
+    {"id": "BRA-2026-54998", "business_name": "Saltmarsh Seafood Kitchen SLC", "entity_type": "SLC", "applicant": "Teresa Lund", "status": "registered", "brn": "VBR-2026-0918834",
+     "actions": [
+       {"id": "A1", "step": "S5", "task": "Registration certificate issued", "owner": "agency", "status": "done", "done": "2026-10-28"},
+       {"id": "A2", "step": "S6", "task": "Tax ID issued", "owner": "revenue service", "status": "done", "done": "2026-10-29"},
+       {"id": "A3", "step": "S7", "task": "Employer registration with Social Security - first hire planned 2026-11-16, register by 2026-11-26", "owner": "Teresa Lund", "status": "pending", "due": "2026-11-26"},
+       {"id": "A4", "step": "S8", "task": "Port Alder General Business Licence (6-20 employees: $250)", "owner": "Teresa Lund", "status": "pending"},
+       {"id": "A5", "step": "S8", "task": "Port Alder Food Service Establishment Permit with pre-opening health inspection", "owner": "Teresa Lund", "status": "pending"},
+       {"id": "A6", "step": "S8", "task": "Alcohol Beverage Service Endorsement (only if serving alcohol; 30 business days)", "owner": "Teresa Lund", "status": "optional"}]}
+  ]
+}
