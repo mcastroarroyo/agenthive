@@ -92,7 +92,7 @@ if gcloud iam workload-identity-pools providers describe "$PROVIDER" --project "
     --workload-identity-pool "$POOL" --attribute-mapping "$MAPPING" --attribute-condition "$CONDITION" --quiet
 else
   gcloud iam workload-identity-pools providers create-oidc "$PROVIDER" --project "$P" --location global \
-    --workload-identity-pool "$POOL" --display-name "GitHub ($REPO main)" \
+    --workload-identity-pool "$POOL" --display-name "GitHub Actions (main)" \
     --issuer-uri https://token.actions.githubusercontent.com \
     --attribute-mapping "$MAPPING" --attribute-condition "$CONDITION"
 fi
