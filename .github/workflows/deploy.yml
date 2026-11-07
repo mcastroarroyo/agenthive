@@ -1,0 +1,140 @@
+name: deploy
+# main -> tests -> redeploy only what the push changed (deploy/changes.py): the web app (Cloud Run behind IAP), the
+# affected realm engines (Agent Engine, one job per realm), the KB corpus (Vertex AI Search), the BigQuery seed.
+# Auth is keyless (Workload Identity Federation; see deploy/setup_cicd.sh). Project values live in repo secrets, so
+# they are masked in these public logs.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: "auto (changed paths), all, or a list: web, engines, kb, bq, or realm ids (platform, smb, ...)"
+        default: auto
+permissions:
+  contents: read
+concurrency:
+  group: agenthive-deploy
+  cancel-in-progress: false
+env:
+  HIVE_REGION: us-central1
+  HIVE_ENGINE_REGION: us-east4
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yml
+
+  plan:
+    needs: ci
+    runs-on: ubuntu-latest
+    outputs:
+      web: ${{ steps.plan.outputs.web }}
+      realms: ${{ steps.plan.outputs.realms }}
+      kb: ${{ steps.plan.outputs.kb }}
+      bq: ${{ steps.plan.outputs.bq }}
+      configured: ${{ steps.plan.outputs.configured }}
+    steps:
+      - uses: actions/checkout@v7
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.13", cache: pip}
+      - run: pip install -e .
+      - id: plan
+        env:
+          BEFORE: ${{ github.event.before }}
+          TARGETS: ${{ inputs.targets || 'auto' }}
+          WIF: ${{ secrets.GCP_WIF_PROVIDER }}
+        run: |
+          if [ "$TARGETS" = auto ]; then python deploy/changes.py "$BEFORE" "$GITHUB_SHA"
+          else python deploy/changes.py --targets "$TARGETS"; fi | tee plan.txt >> "$GITHUB_OUTPUT"
+          echo "configured=$([ -n "$WIF" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+          { echo "### Deploy plan"; echo '```'; cat plan.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+          [ -n "$WIF" ] || echo "::notice::GCP secrets not set (run deploy/setup_cicd.sh) — deploy jobs skipped"
+
+  web:
+    needs: plan
+    if: needs.plan.outputs.configured == 'true' && needs.plan.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    permissions: {contents: read, id-token: write}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - &mask
+        name: Mask project number
+        env: {WIF: "${{ secrets.GCP_WIF_PROVIDER }}"}
+        run: echo "::add-mask::$(echo "$WIF" | cut -d/ -f2)"
+      - &auth
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WIF_PROVIDER }}
+          service_account: ${{ secrets.GCP_DEPLOYER_SA }}
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Build and push the image
+        env: {P: "${{ secrets.GCP_PROJECT }}"}
+        run: |
+          IMAGE="$HIVE_REGION-docker.pkg.dev/$P/agenthive/web:$GITHUB_SHA"
+          gcloud auth configure-docker "$HIVE_REGION-docker.pkg.dev" --quiet
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+          echo "HIVE_WEB_IMAGE=$IMAGE" >> "$GITHUB_ENV"
+      - name: Deploy to Cloud Run (IAP and access settings are left as they are)
+        env: {HIVE_PROJECT: "${{ secrets.GCP_PROJECT }}"}
+        run: deploy/deploy_web.sh
+
+  engines:
+    needs: plan
+    if: needs.plan.outputs.configured == 'true' && needs.plan.outputs.realms != '[]'
+    runs-on: ubuntu-latest
+    permissions: {contents: read, id-token: write}
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        realm: ${{ fromJSON(needs.plan.outputs.realms) }}
+    name: engine (${{ matrix.realm }})
+    steps:
+      - uses: actions/checkout@v7
+      - *mask
+      - *auth
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.13", cache: pip}
+      - run: pip install -e .
+      - name: Update the Agent Engine and probe it
+        env:
+          HIVE_PROJECT: ${{ secrets.GCP_PROJECT }}
+          REALM: ${{ matrix.realm }}
+        run: python deploy/deploy_engines.py "$REALM" --probe
+
+  kb:
+    needs: plan
+    if: needs.plan.outputs.configured == 'true' && needs.plan.outputs.kb != '[]'
+    runs-on: ubuntu-latest
+    permissions: {contents: read, id-token: write}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - *mask
+      - *auth
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Sync the corpus to Vertex AI Search
+        env:
+          HIVE_PROJECT: ${{ secrets.GCP_PROJECT }}
+          KB: ${{ needs.plan.outputs.kb }}
+        run: |
+          mapfile -t REALMS < <(jq -r '.[]' <<< "$KB")
+          python3 deploy/sync_kb.py "${REALMS[@]}"
+
+  bq:
+    needs: plan
+    if: needs.plan.outputs.configured == 'true' && needs.plan.outputs.bq == 'true'
+    runs-on: ubuntu-latest
+    permissions: {contents: read, id-token: write}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - *mask
+      - *auth
+      - uses: google-github-actions/setup-gcloud@v3
+      - name: Reload the synthetic warehouse
+        env: {HIVE_PROJECT: "${{ secrets.GCP_PROJECT }}"}
+        run: python3 deploy/seed_bigquery.py

@@ -4,6 +4,7 @@
         .venv/bin/python deploy/deploy_engines.py [realm ...] [--min-instances 0]
     ... deploy/deploy_engines.py --list
     ... deploy/deploy_engines.py --ask platform workspace_pro "Triage my inbox"
+    ... deploy/deploy_engines.py smb --probe      # deploy, then check the engine answers (CI does this)
 
 Each engine hosts a HiveRouter with every agent of the realm (AdkApp, managed sessions). Engines are found by display
 name ("Agent Hive · <Realm>"), so re-running updates the same resource and keeps its URL/ID stable.
@@ -14,6 +15,7 @@ import argparse
 import json
 import os
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +45,13 @@ def credentials():
     cred = Credentials(token=token)
     google.auth.default = lambda *a, **k: (cred, P)   # SDK paths that call ADC directly (staging upload)
     return cred
+
+
+CI = bool(os.environ.get("GITHUB_ACTIONS"))   # public logs: print short engine ids only
+
+
+def shown(resource_name: str) -> str:
+    return resource_name.split("/locations/")[-1] if CI else resource_name
 
 
 def display_name(realm_name: str) -> str:
@@ -87,8 +96,35 @@ def deploy(realm_id: str, min_instances: int) -> str:
     )
     existing = engines().get(display_name(realm.name))
     eng = agent_engines.update(resource_name=existing, **kwargs) if existing else agent_engines.create(**kwargs)
-    print(f"{realm_id}: {eng.resource_name}", flush=True)
+    print(f"{realm_id}: {shown(eng.resource_name)}", flush=True)
     return eng.resource_name
+
+
+def probe(realm_id: str, tries: int = 3) -> None:
+    """One cheap turn through the realm concierge (Flash-Lite): the engine starts, routes and reaches Gemini."""
+    from vertexai import agent_engines
+
+    from agenthive.catalog import load_catalog
+
+    eng = agent_engines.get(engines()[display_name(load_catalog().realm(realm_id).name)])
+    for attempt in range(1, tries + 1):
+        t0, text, err = time.time(), "", ""
+        try:
+            s = eng.create_session(user_id="ci-probe")
+            for ev in eng.stream_query(user_id="ci-probe", session_id=s["id"],
+                                       message="In one sentence: which agents can you route me to?"):
+                err = err or ev.get("error_message") or ""
+                text += "".join(p.get("text", "") for p in (ev.get("content") or {}).get("parts", [])
+                                if not p.get("thought"))
+            eng.delete_session(user_id="ci-probe", session_id=s["id"])
+        except Exception as e:  # noqa: BLE001 — cold starts right after an update can fail once
+            err = f"{type(e).__name__}: {e}"
+        if text and not err:
+            print(f"{realm_id}: probe ok in {time.time() - t0:.0f}s — {text.strip()[:160]}", flush=True)
+            return
+        print(f"{realm_id}: probe attempt {attempt} failed: {(err or 'empty answer')[:300]}", flush=True)
+        time.sleep(20)
+    raise SystemExit(f"{realm_id}: engine did not answer after {tries} attempts")
 
 
 def ask(realm_id: str, agent_id: str, message: str) -> None:
@@ -113,6 +149,8 @@ def main():
     ap.add_argument("realms", nargs="*")
     ap.add_argument("--min-instances", type=int, default=0)
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--probe", action="store_true", help="after deploying, check each engine answers")
+    ap.add_argument("--no-deploy", action="store_true", help="with --probe: only probe the running engines")
     ap.add_argument("--ask", nargs=3, metavar=("REALM", "AGENT", "MESSAGE"))
     a = ap.parse_args()
 
@@ -128,8 +166,11 @@ def main():
     from agenthive.catalog import load_catalog
 
     realms = a.realms or [r.id for r in load_catalog().realms if r.agents]
-    out = {r: deploy(r, a.min_instances) for r in realms}
-    print(json.dumps(out, indent=2))
+    if not a.no_deploy:
+        out = {r: shown(deploy(r, a.min_instances)) for r in realms}
+        print(json.dumps(out, indent=2))
+    for r in realms if a.probe else []:
+        probe(r)
 
 
 if __name__ == "__main__":

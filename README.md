@@ -56,7 +56,30 @@ deploy/bootstrap.sh                                            # APIs, service a
 .venv/bin/python deploy/seed_bigquery.py                       # synthetic warehouse -> BigQuery
 GCLOUD_ACCESS_TOKEN=$(gcloud auth print-access-token) .venv/bin/python deploy/deploy_engines.py   # 1 engine / realm
 HIVE_IAP_MEMBERS=domain:<your-domain> deploy/deploy_web.sh      # UI on Cloud Run + IAP
+HIVE_GH_REPO=<owner>/<repo> deploy/setup_cicd.sh                # keyless GitHub Actions deploys (below)
 ```
+
+### Auto-deploy
+
+Every push to `main` runs the tests, then [`deploy.yml`](.github/workflows/deploy.yml) redeploys only what changed
+([`deploy/changes.py`](deploy/changes.py)):
+
+| Change | Redeploys |
+|---|---|
+| `web/`, `Dockerfile`, anything in `agenthive/` but the corpus | web app: image built in Actions, new Cloud Run revision (IAP and access untouched, then checked) |
+| `catalog/realms/<realm>*.yaml` | that realm's engine |
+| `tools/<module>.py` | engines of the realms whose agents use that module's tools |
+| shared code (factory, router, models, grounding, fixtures, `hive.yaml`) | all five engines |
+| `grounding/corpus/<realm>/` | that realm's Vertex AI Search data store |
+| `deploy/seed/`, `grounding/bq/` | the BigQuery demo warehouse |
+| `README.md`, `docs/`, `tests/` | nothing |
+
+Engines deploy in parallel (one job per realm) and each is probed with one Flash-Lite turn before the job passes.
+Run it by hand from the Actions tab with `targets` = `all`, `web`, `engines`, `kb`, `bq` or realm ids.
+Auth is Workload Identity Federation: only `refs/heads/main` of this repository can impersonate the deployer, which
+can roll out revisions, engines and demo data but cannot change IAM, IAP or any other Cloud Run service. Project values are repository
+secrets (`GCP_PROJECT`, `GCP_WIF_PROVIDER`, `GCP_DEPLOYER_SA`), masked in the public logs; without them the deploy
+jobs are skipped.
 
 Try one agent locally through the same router:
 
