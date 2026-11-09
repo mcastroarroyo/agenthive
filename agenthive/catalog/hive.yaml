@@ -280,11 +280,11 @@ security_layers:
           show up in SecOps alerts and in what users send to the agents.
   - id: waisentry
     name: WAISentry 24/7 SOC
-    realms: [smb, platform, delivery]
+    realms: [smb, workforce, platform, delivery]
     note: Wursta managed service; the agents in the WAISentry cluster prototype each stage on synthetic telemetry.
     summary: >-
-      Wursta's managed security operations, protecting SMB clients and Wursta's own internal agents: Gemini triage
-      plus certified analysts around the clock, sub-60-second containment, and zero-PII by design.
+      Wursta's managed security operations, protecting SMB clients, Agent Workforce and Wursta's own internal agents:
+      Gemini triage plus certified analysts around the clock, sub-60-second containment, and zero-PII by design.
     controls:
       - {name: AI triage + 24/7 human SOC, short: 24/7 SOC, role: "Gemini removes ~99% of noise in seconds; certified Wursta analysts verify every real threat."}
       - {name: Active containment, short: "< 60 s containment", role: "Pre-approved playbooks end sessions, revoke OAuth apps, suspend accounts and quarantine Drive links."}

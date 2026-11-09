@@ -13,7 +13,7 @@ Tools, Grounding** — light up as it plans, calls tools and retrieves knowledge
   (proposal), meeting-intelligence loop.
 - **Security layers** (`security_layers` in `hive.yaml`, shown on the realm cards): Google Security Operations,
   Model Armor and Google Threat Intelligence around Government and Enterprise — a reference architecture, not enforced
-  in this demo — and WAISentry around SMB and the internal realms (Platform Core, Wursta Delivery Engine).
+  in this demo — and WAISentry around SMB, Agent Workforce and the internal realms (Platform Core, Wursta Delivery Engine).
 - **Skill library**: the seven `wco-ge-skills`, reused by agents and exposed over MCP.
 
 All organisations, people and records in this repository are **synthetic**.
