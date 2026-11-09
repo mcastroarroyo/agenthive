@@ -11,7 +11,7 @@ agents:
     code: Awf
     name: Agent Workforce
     cluster: workforce_platform
-    status: built
+    status: demo_ready
     tagline: Runs a whole job like a staffing agency — scopes the brief, shows the cost upfront, assigns specialists, QA-checks and delivers the branded file.
     description: >-
       Agent Workforce is the orchestrator of Wursta's AI staffing marketplace. A customer briefs it in plain English
@@ -89,7 +89,7 @@ agents:
     code: Wgd
     name: Marketplace Guide
     cluster: workforce_platform
-    status: built
+    status: demo_ready
     tagline: Helps you browse the 10 departments and pick the right specialist — and explains how Agent Workforce works.
     description: >-
       The Marketplace Guide is the front desk of the Agent Workforce marketplace. It maps a need in plain English to
@@ -131,7 +131,7 @@ agents:
     code: Wes
     name: Brief & Estimate
     cluster: workforce_platform
-    status: built
+    status: demo_ready
     tagline: Turns a plain-English brief into a scoped job and shows the cost upfront for every priority tier.
     description: >-
       Brief & Estimate reads a job brief like a good agency account manager: which deliverables, in which format, for
@@ -172,7 +172,7 @@ agents:
     code: Wbi
     name: Brand Intelligence
     cluster: workforce_platform
-    status: built
+    status: demo_ready
     tagline: Learns your brand from your guidelines — fonts, colours, tone, rules, names — and checks any draft against it.
     description: >-
       Brand Intelligence turns uploaded brand guidelines into a stored brand profile with a stable brand id: fonts and
@@ -216,7 +216,7 @@ agents:
     code: Wqa
     name: QA & Fact-Check
     cluster: workforce_platform
-    status: built
+    status: demo_ready
     tagline: Reviews every deliverable against the brief and the brand, fact-checks its claims and returns a corrected version.
     description: >-
       QA & Fact-Check is the quality gate between a specialist's draft and the customer. It runs the rule-based brand
@@ -265,7 +265,7 @@ agents:
     code: Wds
     name: Document Studio
     cluster: workforce_platform
-    status: built
+    status: demo_ready
     tagline: Renders the final deliverable into a real brand-styled Word, PowerPoint or Excel file — and a new version on every revision.
     description: >-
       Document Studio is the delivery desk. It turns approved content into a real file styled with the customer's brand
@@ -313,7 +313,7 @@ agents:
     name: SEO Strategist
     cluster: marketing_sales
     industry: MARKETING
-    status: built
+    status: demo_ready
     tagline: Audits your website for search and writes blog post briefs that can rank — delivered as a branded Word report.
     description: >-
       The SEO Strategist from the Marketing department audits the customer's connected website (crawl and Search
@@ -361,7 +361,7 @@ agents:
     name: Social Media Planner
     cluster: marketing_sales
     industry: SOCIAL
-    status: built
+    status: demo_ready
     tagline: Plans and writes your LinkedIn and Instagram content calendar on brand — delivered as an Excel workbook.
     description: >-
       The Social Media Planner (covering the LinkedIn Content Builder and Instagram Specialist work of the Social
@@ -409,7 +409,7 @@ agents:
     name: Proposal Writer
     cluster: marketing_sales
     industry: SALES
-    status: built
+    status: demo_ready
     tagline: Writes the client proposal or pitch deck from your deal notes — in the client's words, on brand, prices exactly as quoted.
     description: >-
       The Proposal Writer from the Sales department turns a deal brief into a client-ready proposal (.docx) or pitch
@@ -457,7 +457,7 @@ agents:
     name: SOP Builder
     cluster: ops_strategy
     industry: OPERATIONS
-    status: built
+    status: demo_ready
     tagline: Turns rough process notes into a clear standard operating procedure with a RACI and checked steps.
     description: >-
       The SOP Builder from the Operations department turns rough notes ("the AE is supposed to fill in the handoff
@@ -501,7 +501,7 @@ agents:
     name: Go-To-Market Strategist
     cluster: ops_strategy
     industry: STRATEGY
-    status: built
+    status: demo_ready
     tagline: Builds a go-to-market plan with sourced market sizing, positioning, launch phases and KPIs — as a branded deck.
     description: >-
       The Go-To-Market Strategist from the Strategy department turns a launch or expansion brief into a GTM plan:
@@ -551,7 +551,7 @@ agents:
     name: Long-Form Writer
     cluster: ops_strategy
     industry: WRITING
-    status: built
+    status: demo_ready
     tagline: Writes press releases, whitepapers and one-pagers in your brand voice, with facts that match your approved sources.
     description: >-
       The Long-Form Writer from the Writing department writes and rewrites long-form content — press releases,

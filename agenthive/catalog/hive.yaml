@@ -226,7 +226,7 @@ compositions:
   - id: workforce_job
     name: Agent Workforce job
     kind: workflow
-    status: Wursta product — prototype here
+    status: Demo ready
     summary: >-
       "Hire an AI expert. Get a finished, branded document. Pay per job." The orchestrator scopes the brief, shows the
       estimate, splits the work across specialists, runs QA and fact-checking, applies the customer's brand and
