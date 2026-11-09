@@ -9,7 +9,7 @@ agents:
     code: Frg
     name: Agent Forge
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Turns a plain-English request into a planned, built, tested and sandbox-deployed agent wired to a client's systems.
     description: >-
       Agent Forge is the coordinator of Wursta's agent factory. A builder describes the agent in plain English and
@@ -90,7 +90,7 @@ agents:
     code: Fpl
     name: Forge Architect
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Turns a loose plain-English request into a validated agent spec - and asks the builder when unsure.
     description: >-
       The Forge Architect is the Plan stage of Agent Forge. It turns a request like "an agent that gets data from
@@ -140,7 +140,7 @@ agents:
     code: Fcn
     name: Connector Smith
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Researches a vendor API from its docs and builds a reusable, tested connector any agent can attach.
     description: >-
       The Connector Smith gives every client stack an authenticated API client once, so every later agent and client
@@ -189,7 +189,7 @@ agents:
     code: Fbd
     name: Forge Builder
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Generates the ADK agent and its pytest suite from a spec and proves them with a real static check.
     description: >-
       The Forge Builder is the Build stage of Agent Forge. From a spec - or a plain-English change request on an
@@ -246,7 +246,7 @@ agents:
     code: Fts
     name: Test Bench
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Runs an agent version's tests in the test pane with session secrets and turns failures into plain-English fixes.
     description: >-
       The Test Bench is the Test stage of Agent Forge. It runs a version's suite in the forge test pane, where the
@@ -287,7 +287,7 @@ agents:
     code: Frl
     name: Release Manager
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Versioned deploys to sandbox, gated promotion to the client, version history, diffs and release notes.
     description: >-
       The Release Manager runs the Deploy stages of Agent Forge. Every version (v1, v2, v3...) goes to the sandbox
@@ -330,7 +330,7 @@ agents:
     code: Fjb
     name: Jobs & Tune-up
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Analyses the forge job log and checks older agents against current forge standards for tune-ups.
     description: >-
       Jobs & Tune-up reads the forge's durable job log - create, modify, fork, deploy, connector and connector_modify
@@ -370,7 +370,7 @@ agents:
     code: Fgv
     name: Forge Governance
     cluster: forge
-    status: built
+    status: demo_ready
     tagline: Reviews forge access - roles, client-scoped demo access, IAP - and redacts secrets from job prompts and logs.
     description: >-
       Forge Governance keeps the factory governed by default. It reviews who can do what - admins, builders and demo

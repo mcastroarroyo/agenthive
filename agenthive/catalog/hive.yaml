@@ -180,7 +180,7 @@ compositions:
   - id: agent_forge_flow
     name: Agent Forge build flow
     kind: workflow
-    status: Live internal app — prototype here
+    status: Demo ready
     summary: >-
       One plain-English request becomes a tested, deployed agent, and every later change goes through the same path.
       The Forge coordinator runs the stages as specialists; connectors it builds become reusable assets for the next
