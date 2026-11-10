@@ -868,6 +868,7 @@ agents:
     kpis: [Cutovers inside the window, Rollbacks, Delta size vs estimate]
 
   - id: atlas_validator
+    short_name: Migration Validator
     code: Apv
     name: Atlas Post-Migration Validator
     aka: Atlas 6

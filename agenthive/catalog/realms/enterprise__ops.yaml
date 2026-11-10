@@ -803,7 +803,7 @@ agents:
     code: Mqa
     name: Mfg Quality
     cluster: logistics
-    industry: MANUFACTURING
+    industry: INDUSTRIAL
     status: library
     tagline: Manufacturing quality — defect trends, SPC rule checks, 5-why and fishbone root cause, and a CAPA/8D draft.
     description: >-

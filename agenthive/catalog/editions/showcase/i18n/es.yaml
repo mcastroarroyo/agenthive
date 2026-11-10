@@ -10,6 +10,21 @@ statuses:
   in_build: {label: Demo en vivo, description: "Corre en vivo en Vertex AI Agent Engine con datos sintéticos."}
   library: {label: Demo en vivo, description: "Corre en vivo en Vertex AI Agent Engine con datos sintéticos."}
 
+industries:
+  FINANCIAL: FINANZAS
+  HEALTHCARE: SALUD
+  TELCO: TELCO
+  RETAIL: RETAIL
+  LOGISTICS: LOGÍSTICA
+  INDUSTRIAL: INDUSTRIA
+  SECURITY: SEGURIDAD
+  MARKETING: MARKETING
+  SALES: VENTAS
+  SOCIAL: REDES
+  STRATEGY: ESTRATEGIA
+  OPERATIONS: OPERACIÓN
+  WRITING: REDACCIÓN
+
 segments:
   government:
     name: Gobierno

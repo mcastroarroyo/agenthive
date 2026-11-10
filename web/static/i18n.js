@@ -138,6 +138,7 @@ function localize(cat, lang) {
   const pick = (dst, src, keys) => { if (src) for (const k of keys) if (src[k] != null && src[k] !== "") dst[k] = src[k]; };
   pick(c, tr, ["title", "subtitle"]);
   for (const [k, v] of Object.entries(tr.statuses || {})) if (c.statuses[k]) pick(c.statuses[k], v, ["label", "description"]);
+  for (const a of c.realms.flatMap((r) => r.agents)) if (a.industry && (tr.industries || {})[a.industry]) a.industry_label = tr.industries[a.industry];
   for (const r of c.realms) {
     const sr = (tr.segments || {})[r.id];
     pick(r, sr, ["name", "blurb"]);
@@ -145,7 +146,7 @@ function localize(cat, lang) {
     for (const a of r.agents) {
       const ta = (tr.agents || {})[a.id];
       if (!ta) continue;
-      pick(a, ta, ["name", "tagline", "description", "persona", "use_cases", "output", "samples", "kpis", "model_reason"]);
+      pick(a, ta, ["name", "short_name", "tagline", "description", "persona", "use_cases", "output", "samples", "kpis", "model_reason"]);
       if (ta.model_reason) a.blocks.model.why = ta.model_reason;
       for (const s of a.steps || []) pick(s, (ta.steps || {})[s.id], ["name", "role"]);
       for (const s of a.blocks.runtime.steps || []) pick(s, (ta.steps || {})[s.id], ["name", "role"]);

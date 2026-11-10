@@ -401,6 +401,7 @@ agents:
     kpis: [Seconds from authorisation to containment, Share of incidents contained without waiting for the client, Escalations resolved within the runbook target]
 
   - id: sentry_compliance
+    short_name: Compliance & Insurance
     code: Wcm
     name: Compliance & Cyber-Insurance
     cluster: security

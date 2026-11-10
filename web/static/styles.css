@@ -106,7 +106,7 @@ main { max-width: 1640px; margin: 0 auto; padding: 6px 32px 30px; }
 .hex:hover .shape, .hex:focus-visible .shape { transform: scale(1.07); filter: drop-shadow(0 4px 10px rgba(0,0,0,.18)); }
 .hex:focus-visible .shape { stroke-width: 3.5; }
 .hex text { pointer-events: none; font-family: var(--font); stroke: none; }
-.hex .code { font-weight: 800; font-size: 19px; }
+.hex .code { font-weight: 800; font-size: 18px; }
 .hex .nm { font-size: 9.6px; font-weight: 500; }
 .hex .ind { font-size: 6.8px; font-weight: 700; letter-spacing: .1em; }
 .hex.dim { opacity: .14; }

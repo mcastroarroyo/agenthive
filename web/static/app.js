@@ -66,15 +66,47 @@ function hexPoints(cx, cy, r) {
     return `${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`;
   }).join(" ");
 }
-function wrapName(name, max = 12) {
-  const words = name.replace(/·.*$/, "").trim().split(/\s+/);
-  const lines = [""];
-  for (const w of words) {
-    const cur = lines[lines.length - 1];
-    if ((cur + " " + w).trim().length > max && cur) { if (lines.length === 2) { lines[1] += "…"; break; } lines.push(w); }
-    else lines[lines.length - 1] = (cur + " " + w).trim();
+/* ---------------- fitting text inside a pointy-top hexagon ---------------- */
+const MEASURE = document.createElement("canvas").getContext("2d");
+const FONT_STACK = 'Figtree, system-ui, -apple-system, "Segoe UI", sans-serif';
+function textW(text, px, weight, spacingEm = 0) {
+  MEASURE.font = `${weight} ${px}px ${FONT_STACK}`;
+  return MEASURE.measureText(text).width + spacingEm * px * Math.max(text.length - 1, 0);
+}
+/* half-width of a pointy-top hexagon (circumradius rr) at vertical offset dy from its centre */
+function hexHalfW(rr, dy) { const a = Math.abs(dy); return a <= rr / 2 ? rr * SQ3 / 2 : Math.max(0, (rr - a) * SQ3); }
+/* usable width for a line whose glyphs span [top, bottom] (offsets from the centre), with side padding */
+function room(rr, top, bottom, pad = 3.5) { return 2 * Math.min(hexHalfW(rr, top), hexHalfW(rr, bottom)) - 2 * pad; }
+function ellipsize(text, px, weight, spacing, max) {
+  if (textW(text, px, weight, spacing) <= max) return text;
+  let t = text;
+  while (t.length > 1 && textW(t + "…", px, weight, spacing) > max) t = t.slice(0, -1);
+  return t.trimEnd() + "…";
+}
+/* shrink to fit (down to minPx), then ellipsize */
+function fitLine(text, px, minPx, weight, spacing, max) {
+  let p = px;
+  while (p > minPx && textW(text, p, weight, spacing) > max) p = Math.round((p - 0.2) * 10) / 10;
+  return { text: ellipsize(text, p, weight, spacing, max), px: p };
+}
+/* Up to two name lines, greedy by measured width; the second line sits lower, where the hexagon narrows. */
+function fitName(name, rooms, px = 9.6, minPx = 7.8) {
+  const words = name.trim().split(/\s+/);
+  for (let p = px; p >= minPx - 1e-9; p = Math.round((p - 0.2) * 10) / 10) {
+    const l1 = [];
+    let i = 0;
+    while (i < words.length && textW([...l1, words[i]].join(" "), p, 500) <= rooms[0]) l1.push(words[i++]);
+    if (!l1.length) continue;                                    // first word too long at this size
+    const rest = words.slice(i).join(" ");
+    if (!rest) return { lines: [l1.join(" ")], px: p };
+    if (textW(rest, p, 500) <= rooms[1]) return { lines: [l1.join(" "), rest], px: p };
   }
-  return lines;
+  const p = minPx, l1 = [];
+  let i = 0;
+  while (i < words.length && textW([...l1, words[i]].join(" "), p, 500) <= rooms[0]) l1.push(words[i++]);
+  if (!l1.length) return { lines: [ellipsize(words[0], p, 500, 0, rooms[0])], px: p };
+  const rest = words.slice(i).join(" ");
+  return { lines: rest ? [l1.join(" "), ellipsize(rest, p, 500, 0, rooms[1])] : [l1.join(" ")], px: p };
 }
 function hexStyle(a, color) {
   const d = dark();
@@ -86,14 +118,24 @@ function hexStyle(a, color) {
 }
 function hexSVG(a, color, cx, cy, r = R, opts = {}) {
   const s = hexStyle(a, color);
-  const lines = wrapName(a.name.split(" · ")[0]);
-  const ind = a.industry ? `<text class="ind" x="${cx}" y="${cy - r * 0.6}" text-anchor="middle" fill="${s.sub}">${esc(a.industry)}</text>` : "";
+  const rr = r - 2;                                              // the drawn polygon's circumradius
+  const hasInd = !!a.industry;
+  // vertical layout (offsets from the centre): industry label, code, two name lines
+  const L = hasInd ? { ind: -20.5, code: -0.5, n1: 12, n2: 21.2 } : { code: -3, n1: 10.5, n2: 19.7 };
+  const label = a.short_name || a.name.split(" · ")[0];
+  const name = fitName(label, [room(rr, L.n1 - 7.5, L.n1 + 2.4), room(rr, L.n2 - 7.5, L.n2 + 2.4)]);
+  const lines = name.lines;
+  let ind = "";
+  if (hasInd) {
+    const f = fitLine(a.industry_label || a.industry, 6.8, 5.4, 700, 0.1, room(rr, L.ind - 5.2, L.ind, 3));
+    ind = `<text class="ind" x="${cx}" y="${cy + L.ind}" text-anchor="middle" fill="${s.sub}" style="font-size:${f.px}px">${esc(f.text)}</text>`;
+  }
   const dot = a.status === "built" ? `<circle class="live" cx="${cx + r * 0.6}" cy="${cy - r * 0.68}" r="5.5" fill="var(--warn)" stroke="var(--surface)" stroke-width="1.5"/><text x="${cx + r * 0.6}" y="${cy - r * 0.68 + 3}" text-anchor="middle" font-size="8" font-weight="800" fill="#fff">!</text>` : "";
   return `<g class="hex" tabindex="0" role="button" data-id="${a.id}" aria-label="${esc(a.name)} — ${esc(S.cat.statuses[a.status].label)}">
     <polygon class="shape" points="${hexPoints(cx, cy, r - 2)}" fill="${s.fill}" stroke="${s.stroke}" stroke-width="2" stroke-dasharray="${s.dash}"/>
     ${ind}
-    <text class="code" x="${cx}" y="${cy + (a.industry ? 1 : -2)}" text-anchor="middle" fill="${s.text}">${esc(a.code)}</text>
-    ${lines.map((l, i) => `<text class="nm" x="${cx}" y="${cy + 14 + i * 10.5 + (a.industry ? 2 : 0)}" text-anchor="middle" fill="${s.sub}">${esc(l)}</text>`).join("")}
+    <text class="code" x="${cx}" y="${cy + L.code}" text-anchor="middle" fill="${s.text}">${esc(a.code)}</text>
+    ${lines.map((l, i) => `<text class="nm" x="${cx}" y="${cy + (i ? L.n2 : L.n1)}" text-anchor="middle" fill="${s.sub}" style="font-size:${name.px}px">${esc(l)}</text>`).join("")}
     ${dot}</g>`;
 }
 function clusterSVG(agents, color) {
@@ -724,6 +766,7 @@ async function init() {
   if (S.raw.edition && S.raw.edition !== "internal") setLang(LANG); else LANG = "en";
   useCatalog();
   renderUser();
+  if (document.fonts && document.fonts.status !== "loaded") document.fonts.ready.then(() => renderHive());
 
   $$(".views button").forEach((b) => b.onclick = () => setView(b.dataset.view));
   $("#q").addEventListener("input", (e) => { S.filters.q = e.target.value.trim(); applyFilters(); });

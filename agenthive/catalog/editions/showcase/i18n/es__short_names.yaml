@@ -1,0 +1,15 @@
+# Short Spanish labels for the hexagons, where the full name does not fit (the panel keeps the full name).
+agents:
+  foia_records: {short_name: Acceso a la Información}
+  housing_credit: {short_name: Vivienda y Crédito}
+  sentry_identity: {short_name: Amenazas de identidad}
+  sentry_fleet: {short_name: Monitor de equipos}
+  sentry_posture: {short_name: Postura y apps}
+  sentry_compliance: {short_name: Cumplimiento y seguros}
+  wf_longform_writer: {short_name: Textos largos}
+  replenishment: {short_name: Reposición}
+  pantheon: {short_name: Pantheon Rápido}
+  migration_cm: {short_name: Gestión del cambio}
+  atlas_validator: {short_name: Validador de migración}
+  sentry_oauth: {short_name: OAuth y SaaS}
+  wf_social_planner: {short_name: Redes sociales}

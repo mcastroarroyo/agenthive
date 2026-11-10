@@ -45,6 +45,7 @@ class Agent(BaseModel):
     realm: str = ""
     cluster: str
     industry: Optional[str] = None           # small label on the hex (e.g. FINANCIAL)
+    short_name: Optional[str] = None         # shorter label for the hex when the name does not fit
     status: Status
     tagline: str
     description: str
@@ -228,7 +229,12 @@ def load_i18n(edition: str, lang: str) -> dict:
         doc = yaml.safe_load(p.read_text()) or {}
         for k, v in doc.items():
             if isinstance(v, dict):
-                out.setdefault(k, {}).update(v)
+                section = out.setdefault(k, {})
+                for item, val in v.items():      # merge per item: files may add fields to the same agent
+                    if isinstance(val, dict) and isinstance(section.get(item), dict):
+                        section[item] = {**section[item], **val}
+                    else:
+                        section[item] = val
             else:
                 out[k] = v
     return out
