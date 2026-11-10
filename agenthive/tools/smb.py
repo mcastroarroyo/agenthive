@@ -488,7 +488,8 @@ def smb_security_answer(question: str) -> dict:
     """Answer a security-questionnaire question from Kitewing's approved answer bank, with confidence and owner.
 
     Args:
-        question: The customer's question, e.g. 'Do you support SAML SSO?' or 'Is our data used to train AI models?'.
+        question: The customer's question in English (translate it first if it is in another language), e.g. 'Do
+            you support SAML SSO?' or 'Is our data used to train AI models?'.
 
     Returns:
         The best 1-2 approved answers with topic, id and confidence (high / medium / low); low confidence means

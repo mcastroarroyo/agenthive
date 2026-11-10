@@ -105,5 +105,67 @@
    "max_exclamations": 1,
    "needs_cta": true
   }
+ },
+ "spanish": {
+  "note": "Copy written in Spanish for Spanish-speaking customers (US Hispanic and es-419 markets) is checked with these equivalents; product names stay in English.",
+  "banned_terms": [
+   "revolucionario",
+   "revolucionaria",
+   "garantizado",
+   "garantizada",
+   "barato",
+   "barata",
+   "imperdible",
+   "brutal",
+   "actúa ya",
+   "actua ya"
+  ],
+  "claims_needing_source": [
+   "el más rápido",
+   "la más rápida",
+   "el mas rapido",
+   "la mas rapida",
+   "número uno",
+   "la mejor red",
+   "la más confiable",
+   "el precio más bajo"
+  ],
+  "conditional_lines": {
+   "unlimited": "Aplica política de uso razonable.",
+   "price_short": "Aplican términos y condiciones.",
+   "price_email": "Impuestos y cargos no incluidos. Aplican términos y condiciones."
+  },
+  "cta_verbs": [
+   "Mejora",
+   "Pásate",
+   "Pasate",
+   "Obtén",
+   "Obten",
+   "Cámbiate",
+   "Cambiate",
+   "Consulta",
+   "Descubre",
+   "Únete",
+   "Unete",
+   "Prueba",
+   "Mira",
+   "Reserva",
+   "Reclama",
+   "Contrata",
+   "Activa",
+   "Aprovecha",
+   "Pide",
+   "Pídelo",
+   "Pidelo",
+   "Contrátalo",
+   "Contratalo",
+   "Consigue",
+   "Llévate",
+   "Llevate",
+   "Disfruta",
+   "Conoce",
+   "Elige"
+  ],
+  "sms_opt_out": "Responde STOP para no recibir más mensajes"
  }
 }

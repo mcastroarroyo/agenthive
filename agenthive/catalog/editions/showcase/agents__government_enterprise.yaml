@@ -1,0 +1,93 @@
+# Showcase overrides for the Government segment and the Enterprise industry agents (financial, healthcare, telco,
+# retail, logistics). These agents keep their realm id as segment and their cluster; only client-facing texts that
+# describe them as reference designs or use catalogue jargon are replaced with live-demo wording.
+agents:
+  # ------------------------------------------------------------------------------------------------ Government
+  citizen_311:
+    description: >-
+      A citizen desk for a city's 311 line: residents report potholes, dark streetlights, missed collections or
+      dumping in their own words on any channel. The desk classifies the issue, sets priority and SLA from the
+      published service standards, merges duplicates on the same block, files the work order and answers status
+      questions honestly — including breached SLAs. Supervisors can ask the built-in Operations Analyst for volumes and
+      SLA performance from the 311 warehouse. Live demo on synthetic City of Port Alder data.
+  benefits:
+    description: >-
+      Benefits gives residents and caseworkers a fast, consistent pre-screening across the city's social programmes:
+      it checks income limits by household size, explains why a programme fits or not, estimates the benefit, merges
+      the document requirements into one checklist and tracks applications through missing documents, decisions and
+      appeal deadlines. Live demo on synthetic Port Alder Department of Human Services rules.
+  grants:
+    description: >-
+      Grants serves both sides of a city grant programme. Applicants describe their organisation and project and get
+      the open opportunities they qualify for, with deadlines, match requirements and the rubric criteria to address.
+      Programme officers get a first-pass review: threshold checks, missing attachments and an evidence-backed rubric
+      score — drafted by a reviewer and checked by a critic until every criterion is evidenced and the arithmetic
+      matches. Live demo on synthetic Office of Community & Economic Development programmes.
+  licensing:
+    description: >-
+      Licensing answers the questions that fill a city clerk's counter: which business or professional licences a
+      venture needs, the prerequisites (registry number, zoning clearance), inspections, fees and processing times —
+      and, for existing licences, whether the renewal window is open, the late penalty owed today or whether the
+      licence has lapsed and needs a new application. Live demo on synthetic City of Port Alder licensing rules.
+  permits:
+    description: >-
+      Permits is a pre-application desk for the Permit Center. It checks a project against the parcel's zoning,
+      ADU standards and overlays (historic district, flood zone), estimates every fee line, lists the documents and the
+      plan-review checklist, reads scanned applications, plans special events (lead time, insurance, toilets, security)
+      and books inspections in the right sequence. Fewer incomplete submissions, fewer correction cycles. Live demo on
+      synthetic Port Alder zoning and fee schedules.
+  foia_records:
+    description: >-
+      FOIA / Records runs the public-records desk end to end: it clarifies scope, searches the records index by
+      keyword, custodian and date, separates responsive from non-responsive records, suggests redactions with the
+      exemption code for each (personal data, privilege, deliberative opinions, proprietary bid data), and drafts the
+      response, extension or clarification letter while tracking business-day deadlines and holidays. Analysts approve
+      every release. Live demo on a synthetic City of Port Alder records index.
+  legal_case_review:
+    description: >-
+      Legal Case Review is a three-stage pipeline for a City Attorney's office. A chronology builder assembles the
+      case file into a dated timeline with intervals, statutory deadlines, linked 311 and procurement records and the
+      gaps in the record; an issue analyst identifies the legal issues and applies the rules and precedents in the
+      office's knowledge base; a memo writer produces a privileged case review with exposure range, deadlines, evidence
+      to preserve and a recommended strategy. Live demo on synthetic claims and precedents — not legal advice.
+    model_reason: >-
+      Flash builds the chronology and writes the memo; the issue-and-precedent step runs on Argon because applying
+      precedents to contested facts is the product here.
+  policy_qa:
+    tagline: Answers questions about city ordinances and staff policy with the exact rule and its citation.
+    description: >-
+      Policy Q&A is the cited answer desk for the municipal code and the administrative policy manual. Residents ask
+      about noise hours, trash set-out, parking or short-term rentals; staff ask about gifts, procurement ethics,
+      telework, travel or using AI tools. Every answer quotes the rule, the section and the document it comes from, and
+      says plainly when the knowledge base does not cover the question. Live demo on a synthetic Port Alder ordinance
+      digest and staff policy manual.
+  public_procurement:
+    description: >-
+      Public Procurement gives buyers and the Chief Procurement Officer a pre-award compliance review in one pass.
+      Three specialists work in parallel: one checks the threshold band, method, advertising period and approvals;
+      one recomputes the evaluation matrix (weighted RFP scores, ITB responsiveness and local preference) and flags
+      outlier evaluators; one cross-checks evaluators against HR family declarations, prior employment, the gift
+      register and cone-of-silence contacts. A synthesis step issues the verdict and the corrective actions. Live demo
+      on synthetic City of Port Alder solicitations.
+    persona: Buyers, the Chief Procurement Officer, evaluation committee chairs and municipal auditors
+  farmer_desk:
+    description: >-
+      Farmer Desk is a citizen desk for an agriculture ministry: a producer writes on a messaging channel, is
+      identified through the national identity provider, and gets short, step-by-step help — checking registry
+      records, registering a new plantation or crop plot, and finding out which input, insurance and credit programmes
+      they qualify for before the enrolment deadline. Part of the proposed Citizen Services Framework; live demo on
+      synthetic Republic of Valdoria data.
+  business_registry:
+    description: >-
+      Business Registry is an action tracker for a business registry agency: it plans the registration for the chosen
+      entity type (steps, owners, fees, timeline), checks the business name against the register, then tracks each
+      application's pending actions — who owes what, by when, and what is blocking — until the business is registered
+      and has its tax ID, social-security and municipal licences. Part of the proposed Citizen Services Framework; live
+      demo on synthetic Republic of Valdoria data.
+  housing_credit:
+    description: >-
+      Housing & Credit Advisor reviews household finance the way a buyer reviews proposals: the family's situation
+      becomes the requirements, every public and partner-lender product is evaluated against them, and the result is a
+      requirements matrix, affordability ratios, monthly payments and total cost — with the first-home subsidy applied
+      where it qualifies. It informs; lenders decide. Part of the proposed Citizen Services Framework; live demo on
+      synthetic Republic of Valdoria products.

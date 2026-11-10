@@ -1,0 +1,129 @@
+{
+  "design_review": {
+    "title": "Design Review document (VDR-DR template v2.3)",
+    "required_sections": [
+      {
+        "name": "Document control",
+        "pattern": "document control"
+      },
+      {
+        "name": "Revision history",
+        "pattern": "revision history|change log"
+      },
+      {
+        "name": "Executive summary",
+        "pattern": "executive summary|summary"
+      },
+      {
+        "name": "Scope and requirements traceability",
+        "pattern": "scope|requirements"
+      },
+      {
+        "name": "Current state",
+        "pattern": "current state|as-is|source environment"
+      },
+      {
+        "name": "Target design",
+        "pattern": "target design|target architecture|to-be|solution design"
+      },
+      {
+        "name": "Security and compliance",
+        "pattern": "security|compliance"
+      },
+      {
+        "name": "Migration / implementation approach",
+        "pattern": "migration approach|implementation approach|approach"
+      },
+      {
+        "name": "Risks, assumptions and dependencies",
+        "pattern": "risks|raid"
+      },
+      {
+        "name": "Testing and validation approach",
+        "pattern": "testing|validation approach"
+      },
+      {
+        "name": "Operations and support handover",
+        "pattern": "operations|handover|support model"
+      },
+      {
+        "name": "Sign-off",
+        "pattern": "sign-?off|approvals"
+      }
+    ],
+    "control_fields": [
+      "Version",
+      "Date",
+      "Author",
+      "Status",
+      "Client"
+    ],
+    "signoff_roles": [
+      "Sablewood Delivery Lead",
+      "Sablewood Solutions Architect",
+      "Client Project Sponsor",
+      "Client IT Owner"
+    ]
+  },
+  "validation_report": {
+    "title": "Validation Report (VDR-VR template v1.6)",
+    "required_sections": [
+      {
+        "name": "Document control",
+        "pattern": "document control"
+      },
+      {
+        "name": "Revision history",
+        "pattern": "revision history|change log"
+      },
+      {
+        "name": "Summary of results",
+        "pattern": "summary"
+      },
+      {
+        "name": "Test scope",
+        "pattern": "test scope|scope"
+      },
+      {
+        "name": "Test environment and data",
+        "pattern": "environment"
+      },
+      {
+        "name": "Test cases and results",
+        "pattern": "test cases|results"
+      },
+      {
+        "name": "Defects",
+        "pattern": "defects"
+      },
+      {
+        "name": "Deviations and waivers",
+        "pattern": "deviations|waivers"
+      },
+      {
+        "name": "Data validation evidence",
+        "pattern": "data validation|evidence|reconciliation"
+      },
+      {
+        "name": "Recommendation (go / no-go)",
+        "pattern": "recommendation"
+      },
+      {
+        "name": "Sign-off",
+        "pattern": "sign-?off|approvals"
+      }
+    ],
+    "control_fields": [
+      "Version",
+      "Date",
+      "Author",
+      "Status",
+      "Client"
+    ],
+    "signoff_roles": [
+      "Sablewood QA Lead",
+      "Sablewood Delivery Lead",
+      "Client Business Owner"
+    ]
+  }
+}

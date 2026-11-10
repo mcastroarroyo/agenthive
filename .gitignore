@@ -7,6 +7,7 @@ __pycache__/
 !.env.example
 deploy/out/
 web/static/catalog.json
+web/static/catalog-*.json
 *.egg-info/
 .DS_Store
 .claude/

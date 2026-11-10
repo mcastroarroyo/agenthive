@@ -1,0 +1,307 @@
+# Spanish (neutral Latin American) for the Government segment — showcase edition.
+# Same intent, document keys, IDs, amounts and dates as the English samples; product and persona names unchanged.
+agents:
+  citizen_311:
+    name: Atención Ciudadana 311
+    tagline: Recibe los reportes de los vecinos, detecta duplicados, los envía a la cuadrilla correcta con su SLA y responde "¿en qué va mi solicitud?".
+    description: >-
+      Un mostrador ciudadano para la línea 311 de una ciudad: los vecinos reportan baches, luminarias apagadas,
+      basura sin recoger o vertidos ilegales con sus propias palabras y por cualquier canal. El mostrador clasifica el
+      problema, fija la prioridad y el SLA según los estándares de servicio publicados, fusiona los duplicados de la
+      misma cuadra, crea la orden de trabajo y responde con honestidad a las consultas de estado, incluidos los SLA
+      vencidos. Los supervisores pueden pedirle al Analista de Operaciones integrado volúmenes y desempeño de SLA del
+      almacén de datos del 311. Demo en vivo con datos sintéticos de la Ciudad de Port Alder.
+    persona: Vecinos de Port Alder; agentes del centro de llamadas 311; supervisores de Obras Públicas y la oficina del administrador municipal
+    use_cases:
+      - Reportar un problema con palabras sencillas y recibir número de seguimiento, departamento y fecha objetivo
+      - Fusionar reportes duplicados para que las cuadrillas vean una sola orden de trabajo con seguidores
+      - Análisis de cumplimiento de SLA y de pendientes por distrito y categoría para supervisores
+    output: >-
+      Vecinos: número de seguimiento (o la solicitud existente que ahora siguen), departamento, prioridad, fecha
+      objetivo y próximos pasos, o una actualización de estado en lenguaje sencillo. Personal municipal: tabla,
+      hallazgos y una recomendación.
+    samples:
+      - Hay un bache profundo frente al 1427 Harbor Street; esta mañana casi se me revienta una llanta. Por favor repórtalo.
+      - ¿Qué pasa con la SR-2026-117952? La luminaria de Kestrel Avenue lleva más de una semana apagada.
+      - "Para el administrador municipal: cumplimiento del SLA de baches por distrito del concejo en el T3 2026 frente al T2 2026. ¿Dónde estamos fallando?"
+    kpis: [Solicitudes duplicadas fusionadas en la recepción, "% de solicitudes cerradas dentro del SLA", Tiempo promedio de primera respuesta]
+    steps:
+      ops_analyst:
+        name: Analista de Operaciones
+        role: Responde preguntas de volumen, pendientes y desempeño de SLA de las solicitudes 311 con BigQuery.
+
+  benefits:
+    name: Beneficios
+    tagline: Evalúa a los hogares para programas de alimentación, servicios, renta, cuidado infantil y transporte, y arma una sola lista de documentos.
+    description: >-
+      Beneficios ofrece a los vecinos y a los trabajadores sociales una preevaluación rápida y consistente de los
+      programas sociales de la ciudad: revisa los límites de ingreso según el tamaño del hogar, explica por qué un
+      programa aplica o no, estima el beneficio, reúne los requisitos de documentos en una sola lista y da seguimiento a
+      las solicitudes: documentos faltantes, decisiones y plazos de apelación. Demo en vivo con reglas sintéticas del
+      Departamento de Servicios Humanos de Port Alder.
+    persona: Vecinos que solicitan apoyo; trabajadores sociales del DHS y orientadores comunitarios
+    use_cases:
+      - Preevaluación de elegibilidad para varios programas en una sola conversación
+      - Una sola lista combinada de documentos en lugar de cinco formularios
+      - Estado de la solicitud, documentos faltantes y plazos de apelación
+    output: >-
+      Tabla de programas (programa, resultado, motivo, beneficio estimado, tiempo de trámite), una lista combinada de
+      documentos y luego "Próximos pasos".
+    samples:
+      - Soy mamá soltera con dos hijos (de 3 y 7 años). Gano $2,900 al mes trabajando 32 horas a la semana, la renta es de $1,150 y la semana pasada recibí un aviso de desalojo. Vivimos en Port Alder desde hace 3 años. ¿A qué puedo aplicar?
+      - ¿Cuál es el estado de la solicitud BEN-2026-04417 y qué documentos faltan todavía?
+      - Mi papá tiene 68 años y vive solo en la casa que es suya, con una pensión de $1,850 al mes. ¿Para qué programas califica y qué debe llevar?
+    kpis: [Preevaluaciones completadas por hora de trabajador social, Solicitudes rechazadas por documentos faltantes, Tiempo desde el primer contacto hasta la solicitud completa]
+
+  grants:
+    name: Subvenciones
+    tagline: Conecta a organizaciones sin fines de lucro y pequeñas empresas con subvenciones abiertas y revisa las solicitudes con la rúbrica de evaluación.
+    description: >-
+      Subvenciones atiende a las dos partes de un programa municipal de subvenciones. Los solicitantes describen su
+      organización y su proyecto y reciben las convocatorias abiertas para las que califican, con plazos, requisitos de
+      contrapartida y los criterios de la rúbrica que deben atender. Los responsables del programa reciben una primera
+      revisión: requisitos mínimos, anexos faltantes y una puntuación de la rúbrica respaldada con evidencia, redactada
+      por un revisor y verificada por un crítico hasta que cada criterio tenga evidencia y la aritmética cuadre. Demo en
+      vivo con programas sintéticos de la Oficina de Desarrollo Comunitario y Económico.
+    persona: Organizaciones sin fines de lucro y pequeñas empresas solicitantes; responsables de programas de subvenciones y comités de evaluación
+    use_cases:
+      - Búsqueda de convocatorias con motivos de elegibilidad y plazos
+      - Puntuación de una solicitud con la rúbrica, respaldada con evidencia
+      - Revisión de completitud y requisitos mínimos antes de que sesione el comité
+    output: >-
+      Solicitantes: tabla de opciones (convocatoria, ajuste, rango del monto, contrapartida, plazo) y consejos.
+      Responsables: elegibilidad y completitud, tabla de la rúbrica con evidencia, total y banda, fortalezas,
+      debilidades y la recomendación.
+    samples:
+      - Somos un club deportivo juvenil sin fines de lucro en Eastgate (8 años de antigüedad, presupuesto anual de $340,000) y buscamos unos $40,000 para un programa de empleo de verano para adolescentes. ¿Qué subvenciones abiertas nos sirven?
+      - Revisa la solicitud GA-2026-0147 (Harbor Youth Rowing Collective) con la rúbrica del Youth Opportunity Fund y recomienda una puntuación.
+      - ¿Está lista la solicitud GA-2026-0160 de Marisol's Bakery para el Storefront Improvement Grant? ¿Qué le falta?
+    kpis: [Horas de revisión por solicitud, Solicitudes devueltas por estar incompletas, Variación de puntuación entre evaluadores]
+    steps:
+      reviewer:
+        name: Revisor de subvenciones
+        role: Redacta la lista de convocatorias o la revisión con la rúbrica usando las herramientas de subvenciones.
+      critic:
+        name: Crítico de la revisión
+        role: Verifica la evidencia, la aritmética y la coherencia de la elegibilidad en el borrador.
+
+  licensing:
+    name: Licencias
+    tagline: Le dice a cada negocio exactamente qué licencias necesita, cuánto cuestan y cuánto debe al renovar.
+    description: >-
+      Licencias responde las preguntas que llenan la ventanilla municipal: qué licencias comerciales o profesionales
+      necesita un emprendimiento, los requisitos previos (número de registro, visto bueno de zonificación),
+      inspecciones, tarifas y tiempos de trámite; y, para las licencias existentes, si la ventana de renovación está
+      abierta, la multa por atraso que se debe hoy o si la licencia caducó y requiere una nueva solicitud. Demo en vivo
+      con reglas sintéticas de licencias de la Ciudad de Port Alder.
+    persona: Dueños de negocios, operadores de food trucks, contratistas, anfitriones de rentas de corto plazo; personal de licencias
+    use_cases:
+      - Requisitos de licencia y costo del primer año para un nuevo negocio
+      - Monto de renovación con multas por atraso
+      - Licencias caducadas y sus efectos (permisos abiertos, sanciones)
+    output: Primero una respuesta corta, luego una lista de verificación y una tabla de tarifas (concepto, monto) con el total; al final, el siguiente paso.
+    samples:
+      - ¿Qué necesito para abrir un food truck en Port Alder con 3 empleados y cuánto me costará el primer año?
+      - Tidewater Coffee Roasters (licencia LIC-GBL-2023-04411) no renovó a tiempo. ¿Cuánto debemos hoy?
+      - ¿Northpoint Roofing & Gutters todavía puede renovar su registro de contratista LIC-CTR-2022-00561?
+    kpis: [Visitas a ventanilla evitadas, Renovaciones completadas antes del vencimiento, Tiempo promedio de trámite de licencias]
+
+  permits:
+    name: Permisos
+    tagline: Revisa previamente los permisos de construcción y de eventos (zonificación, documentos, lista de revisión de planos, tarifas) y agenda inspecciones.
+    description: >-
+      Permisos es una ventanilla de revisión previa para el Centro de Permisos. Verifica un proyecto contra la
+      zonificación del predio, las normas para unidades de vivienda accesorias (ADU) y las zonas especiales (distrito
+      histórico, zona inundable), estima cada línea de tarifa, enumera los documentos y la lista de revisión de planos,
+      lee solicitudes escaneadas, planifica eventos especiales (anticipación, seguro, sanitarios, seguridad) y agenda
+      inspecciones en el orden correcto. Menos solicitudes incompletas y menos ciclos de corrección. Demo en vivo con
+      zonificación y tarifas sintéticas de Port Alder.
+    persona: Propietarios, contratistas, arquitectos y organizadores de eventos; técnicos del Centro de Permisos
+    use_cases:
+      - Viabilidad de zonificación y de una ADU antes de pagar los planos
+      - Estimación de tarifas, lista de documentos y lista de revisión de planos
+      - Requisitos para eventos especiales y agenda de inspecciones
+    output: >-
+      Primero el veredicto (cumple / cumple con condiciones / no cumple), luego una tabla de verificaciones, una tabla de
+      tarifas con el total (estimado), la lista de documentos y los próximos pasos, o la confirmación de la inspección.
+    samples:
+      - "Quiero construir una ADU de 640 sq ft en el patio trasero del 2218 Willow Terrace (predio 104-221-017): 18 ft de altura, a 5 ft del lindero lateral y a 6 ft del trasero, con una valuación de $148,000. ¿Lo permite la zonificación y cuánto costará el permiso?"
+      - Agenda la inspección preliminar eléctrica y de plomería del permiso BP-2026-04127 para el próximo martes en la mañana.
+      - Estamos organizando el Harborfest Night Market en Bayfront Park el 2027-02-20 para 3,000 personas, con cierre de 2 cuadras de Ferry Lane, 24 vendedores de comida, venta de cerveza y música en vivo. ¿Qué permisos, anticipación, seguro y tarifas aplican?
+    kpis: [Tasa de solicitudes completas en la primera entrega, Ciclos de corrección en la revisión de planos, Días desde la solicitud hasta la emisión]
+
+  foia_records:
+    name: Acceso a la Información / Registros
+    tagline: Delimita las solicitudes de información pública, encuentra los registros pertinentes, sugiere testados y controla cada plazo legal.
+    description: >-
+      Acceso a la Información / Registros gestiona de principio a fin la ventanilla de información pública: aclara el
+      alcance, busca en el índice de registros por palabra clave, custodio y fecha, separa los registros pertinentes de
+      los que no lo son, sugiere testados con el código de excepción de cada uno (datos personales, privilegio,
+      opiniones deliberativas, datos propietarios de ofertas) y redacta la carta de respuesta, prórroga o aclaración
+      mientras controla los plazos en días hábiles y los feriados. Los analistas aprueban cada entrega. Demo en vivo con
+      un índice de registros sintético de la Ciudad de Port Alder.
+    persona: Analistas de registros de la secretaría municipal, coordinadores de registros de los departamentos y la oficina del Abogado de la Ciudad
+    use_cases:
+      - Control de plazos de todas las solicitudes abiertas
+      - Búsqueda de registros pertinentes con alertas de excepciones
+      - Sugerencias de testado y redacción de la carta de respuesta
+    output: >-
+      Recuadro de plazos (recibida, vence, días hábiles restantes, riesgo), tabla de registros pertinentes, bitácora de
+      testados y luego el borrador de la carta en un bloque de cita.
+    samples:
+      - "Procesa la PRR-2026-0418: encuentra los registros pertinentes, sugiere testados y redacta la carta de respuesta."
+      - ¿Qué solicitudes de información pública vencen o están en riesgo esta semana y qué debe hacer hoy cada analista?
+      - "Delimita la solicitud de 'gov_foia_request_letter': ¿quién tiene los registros, es demasiado amplia y qué aclaración deberíamos enviar?"
+    kpis: ["% de solicitudes respondidas dentro del plazo legal", Horas de analista por solicitud, Errores de testado detectados antes de la entrega]
+
+  legal_case_review:
+    name: Revisión de Casos Legales
+    tagline: Convierte un expediente de reclamación o litigio en una cronología, un análisis de cuestiones y precedentes y un memorando de recomendación.
+    description: >-
+      Revisión de Casos Legales es un flujo de tres etapas para la oficina del Abogado de la Ciudad. Un constructor de
+      cronologías arma el expediente en una línea de tiempo fechada con intervalos, plazos legales, registros vinculados
+      del 311 y de compras, y los vacíos del expediente; un analista identifica las cuestiones jurídicas y aplica las
+      reglas y los precedentes de la base de conocimiento de la oficina; un redactor elabora una revisión privilegiada
+      del caso con rango de exposición, plazos, evidencia que preservar y una estrategia recomendada. Demo en vivo con
+      reclamaciones y precedentes sintéticos; no es asesoría legal.
+    persona: Abogados adjuntos de la ciudad, gerentes de riesgos y ajustadores de reclamaciones
+    use_cases:
+      - Revisión de responsabilidad y recomendación de acuerdo para una reclamación contra el gobierno
+      - Evaluación de una impugnación de licitación y de una petición de mandamiento judicial
+      - Lista de conservación de evidencia (litigation hold) a partir de los vacíos del expediente
+    output: Un memorando privilegiado de revisión del caso con las siete secciones del formato.
+    samples:
+      - Revisa la reclamación CLM-2026-0083 (daños por bache de Okafor) y recomienda si conviene llegar a un acuerdo.
+      - Evalúa la impugnación de licitación y la petición de mandamiento LIT-2026-0012 de Granite Ridge Construction. ¿Qué tan sólida es y cuáles son nuestros plazos?
+      - "Arma la cronología y la lista de cuestiones del expediente 'gov_case_file_clm_2026_0083' y enumera la evidencia que debemos preservar."
+    kpis: [Horas de abogado por revisión de caso, Reclamaciones resueltas antes de una demanda, Plazos legales incumplidos]
+    steps:
+      chronology:
+        name: Constructor de cronología
+        role: Arma el expediente en una cronología fechada con plazos, registros vinculados y vacíos.
+      issues:
+        name: Analista de cuestiones y precedentes
+        role: Identifica las cuestiones jurídicas y aplica a los hechos las reglas y los precedentes de la base de conocimiento.
+
+  policy_qa:
+    name: Consultas de Normativa
+    tagline: Responde preguntas sobre ordenanzas municipales y políticas para el personal con la regla exacta y su cita.
+    description: >-
+      Consultas de Normativa es el mostrador de respuestas citadas del código municipal y del manual de políticas
+      administrativas. Los vecinos preguntan por horarios de ruido, sacar la basura, estacionamiento o rentas de corto
+      plazo; el personal pregunta por regalos, ética en compras, teletrabajo, viajes o el uso de herramientas de IA.
+      Cada respuesta cita la regla, la sección y el documento de origen, y dice con claridad cuando la base de
+      conocimiento no cubre la pregunta. Demo en vivo con un compendio sintético de ordenanzas y un manual de políticas
+      para el personal de Port Alder.
+    persona: Vecinos, personal de atención al público, supervisores y nuevos empleados municipales
+    use_cases:
+      - Preguntas sobre ordenanzas con cita de la sección
+      - Respuestas sobre ética y políticas administrativas para el personal
+      - Derivación al agente o la oficina que puede actuar
+    output: Respuesta directa, la regla citada con su referencia, cualquier excepción y "Qué puedes hacer ahora".
+    samples:
+      - Mi vecino usa un soplador de hojas a las 7:15 los sábados en la mañana. ¿Eso está permitido por la ordenanza de ruido?
+      - Trabajo para la ciudad. ¿Puedo aceptar una canasta navideña de $75 de una empresa que participa en una de nuestras licitaciones abiertas?
+      - ¿Puedo pegar las notas del caso de un vecino en un chatbot de IA público para que las resuma?
+    kpis: ["% de respuestas con cita", Consultas de normativa resueltas sin escalar, Tiempo de respuesta]
+
+  public_procurement:
+    name: Compras Públicas
+    tagline: Ejecuta en paralelo la revisión de cumplimiento previa a la adjudicación (umbrales y método, matriz de evaluación y conflictos de interés).
+    description: >-
+      Compras Públicas da a los compradores y al Director de Compras una revisión de cumplimiento previa a la
+      adjudicación en una sola pasada. Tres especialistas trabajan en paralelo: uno verifica la banda de umbral, el
+      método, el periodo de publicación y las aprobaciones; otro recalcula la matriz de evaluación (puntajes ponderados
+      de RFP, cumplimiento de ITB y preferencia local) y señala a los evaluadores atípicos; otro cruza a los
+      evaluadores con las declaraciones familiares de RR. HH., empleos anteriores, el registro de regalos y los
+      contactos durante el periodo de silencio. Un paso de síntesis emite el veredicto y las acciones correctivas. Demo
+      en vivo con licitaciones sintéticas de la Ciudad de Port Alder.
+    persona: Compradores, el Director de Compras, presidentes de comités de evaluación y auditores municipales
+    use_cases:
+      - Método y ruta de aprobación para una nueva compra
+      - Revisión previa a la adjudicación de un RFP o un ITB
+      - Revisión de conflictos de interés y del periodo de silencio
+    output: >-
+      Línea de veredicto, tabla de hallazgos (área, hallazgo, regla, estado), clasificación corregida cuando cambia,
+      acciones numeradas con responsables y ruta de aprobación.
+    samples:
+      - Ejecuta la revisión de cumplimiento previa a la adjudicación del RFP-2026-031 (telemetría de flota).
+      - "Confirma la adjudicación del ITB-2026-044 Harbor Street Repaving Phase 2: el postor responsivo más bajo, la preferencia local y cualquier problema de integridad."
+      - ¿Qué método de compra y qué aprobaciones necesitamos para un contrato de mesa de ayuda de TI de $180,000 por dos años, con un año opcional adicional de $95,000?
+    kpis: [Tiempo de ciclo de la revisión previa a la adjudicación, Impugnaciones de licitación procedentes, Conflictos no declarados detectados antes de adjudicar]
+    steps:
+      method:
+        name: Verificación de método y umbral
+        role: Determina el método y las aprobaciones requeridas y revisa la publicación, las garantías y la conformación del comité.
+      evaluation:
+        name: Evaluación de ofertas
+        role: Recalcula la matriz de evaluación e identifica a los evaluadores atípicos.
+      integrity:
+        name: Integridad y conflictos de interés
+        role: Revisa a evaluadores y contactos de proveedores en busca de conflictos de interés e incumplimientos del periodo de silencio.
+
+  farmer_desk:
+    name: Mesa del Productor
+    tagline: Guía a los productores en el registro de parcelas y en los programas agrícolas por un canal de mensajería.
+    description: >-
+      Mesa del Productor es un mostrador ciudadano para un ministerio de agricultura: el productor escribe por un
+      canal de mensajería, se identifica con el proveedor nacional de identidad y recibe ayuda breve y paso a paso:
+      consultar su registro, registrar una nueva plantación o parcela de cultivo y saber a qué programas de insumos,
+      seguros y crédito califica antes del cierre de inscripción. Parte del Marco de Servicios Ciudadanos propuesto; demo
+      en vivo con datos sintéticos de la República de Valdoria.
+    persona: Pequeños y medianos productores; técnicos de los centros de servicios agropecuarios
+    use_cases:
+      - Registro de parcelas o plantaciones en un chat guiado
+      - Elegibilidad y plazos de los programas para cada productor
+      - Resolver problemas de verificación de identidad antes de que cierre la temporada
+    output: Respuestas breves tipo mensajería con opciones numeradas; una tarjeta de confirmación (número de trámite, cultivo, superficie, próximos pasos) tras el registro.
+    samples:
+      - Hola, soy Grace Atieno (productora NPR-2025-022417). Quiero registrar una nueva parcela de maíz de 1.5 ha que alquilo en Riverbend para la temporada lluviosa 2027. La identificación de la dueña es VID 0904-1187-2.
+      - Habla el productor NPR-2024-018832. ¿A qué programas todavía puedo inscribirme esta temporada y puedo obtener el crédito de renovación de café?
+      - ¿Qué documentos necesito para registrar una parcela que cultivo en tierra familiar sin título?
+    kpis: [Parcelas registradas por técnico, Registros completados sin visita a la oficina, Inscripción a programas antes del cierre]
+
+  business_registry:
+    name: Registro de Empresas
+    tagline: Acompaña paso a paso a las micro y pequeñas empresas en su registro y da seguimiento a cada acción pendiente hasta completarla.
+    description: >-
+      Registro de Empresas es un seguimiento de acciones para una agencia de registro mercantil: planifica el registro
+      según el tipo de sociedad (pasos, responsables, tarifas, plazos), verifica el nombre comercial en el registro y
+      luego da seguimiento a las acciones pendientes de cada solicitud (quién debe qué, para cuándo y qué está
+      bloqueando) hasta que la empresa queda registrada y tiene su número de identificación tributaria, su registro en
+      seguridad social y sus licencias municipales. Parte del Marco de Servicios Ciudadanos propuesto; demo en vivo con
+      datos sintéticos de la República de Valdoria.
+    persona: Emprendedores y dueños de micro y pequeñas empresas; personal de atención de la agencia de registro
+    use_cases:
+      - Plan de registro paso a paso con tarifas y verificación del nombre
+      - Seguimiento de acciones pendientes con responsables, fechas límite y bloqueos
+      - Obligaciones posteriores al registro (identificación tributaria, seguridad social, licencia municipal)
+    output: Plan de pasos numerado o una tabla de seguimiento (acción, responsable, fecha límite, estado), bloqueos y la siguiente mejor acción.
+    samples:
+      - Quiero registrar una panadería como Sociedad Limitada Simplificada llamada 'Golden Crust Bakery', con mi hermana como segunda accionista, y vamos a contratar a 3 personas. Explícame el proceso.
+      - ¿Qué sigue pendiente en la solicitud BRA-2026-55120 y qué pasa si no cumplimos el plazo?
+      - Saltmarsh Seafood Kitchen ya está registrada (solicitud BRA-2026-54998). ¿Qué nos falta antes de abrir y contratar a nuestro primer cocinero?
+    kpis: [Días desde el inicio hasta el registro, Solicitudes abandonadas a medio camino, Acciones pendientes cerradas antes de su fecha límite]
+
+  housing_credit:
+    name: Asesor de Vivienda y Crédito
+    tagline: Compara créditos de vivienda y de consumo de entidades públicas y aliadas según las necesidades y la capacidad de pago de cada hogar.
+    description: >-
+      Asesor de Vivienda y Crédito analiza las finanzas del hogar como quien evalúa propuestas: la situación de la
+      familia se convierte en los requisitos, cada producto de las entidades públicas y aliadas se evalúa contra ellos,
+      y el resultado es una matriz de requisitos, razones de capacidad de pago, cuotas mensuales y costo total, con el
+      subsidio de primera vivienda aplicado cuando corresponde. Informa; las entidades deciden. Parte del Marco de
+      Servicios Ciudadanos propuesto; demo en vivo con productos sintéticos de la República de Valdoria.
+    persona: Compradores de primera vivienda, propietarios que planean reparaciones y asesores del fondo de vivienda
+    use_cases:
+      - Comparación de hipotecas con subsidio y verificación de capacidad de pago
+      - Precio máximo de vivienda alcanzable por producto
+      - Comparación entre crédito para mejoras de vivienda y préstamo personal
+    output: >-
+      Primero la recomendación, luego la matriz de requisitos, una tabla comparativa (producto, tasa, cuota, razones,
+      efectivo inicial, costo total) y la lista de documentos para la precalificación.
+    samples:
+      - Ganamos $3,400 al mes, pagamos $280 de un crédito automotriz y tenemos $7,000 ahorrados. Somos compradores de primera vivienda y estamos viendo una casa de $78,000. Compara nuestras opciones de hipoteca.
+      - ¿Qué precio de casa puedo pagar con $2,300 al mes y sin deudas? Compro mi primera vivienda.
+      - Necesito $6,000 para arreglar el techo y gano $1,900 al mes. Compara las opciones de crédito para mejoras de vivienda y de préstamo personal.
+    kpis: [Tiempo del asesor por hogar, Solicitudes precalificadas por mes, "% de hogares asignados a un producto subsidiado"]

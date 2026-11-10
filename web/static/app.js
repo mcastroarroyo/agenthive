@@ -8,10 +8,13 @@ const SQ3 = Math.sqrt(3);
 const R = 42; // hex radius in px
 
 const S = {
-  cat: null, agents: new Map(), realmOf: new Map(), view: "hive",
+  cat: null, raw: null, agents: new Map(), realmOf: new Map(), view: "hive",
   filters: { q: "", status: new Set(), tier: new Set() },
   open: null, sessions: new Map(), running: false, files: [], warm: new Map(),
+  me: null, auth: null, ran: new Set(), rated: new Set(), sample: false,
 };
+const SHOWCASE = () => S.cat && S.cat.edition && S.cat.edition !== "internal";
+const TERM = () => t("term." + ((S.cat && S.cat.term) || "realm"));
 
 const STATUS_ORDER = ["demo_ready", "built", "in_build", "library"];
 const TIER_LABEL = { lite: "Flash-Lite", flash: "Flash", argon: "Argon" };
@@ -26,9 +29,9 @@ const firstSentence = (t) => (String(t).match(/^.*?[.!?](\s|$)/) || [t])[0].trim
 function securityBand(realmId) {
   return layersFor(realmId).map((l) => {
     const color = LAYER_COLORS[l.id] || "#5f5d57";
-    const label = l.id === "waisentry" ? "Protected by WAISentry" : "Security layer";
+    const label = l.id === "waisentry" ? t("sec.waisentry") : t("sec.layer");
     const open = l.id === "waisentry" && S.agents.has("waisentry")
-      ? `<button class="ghost small" data-open="waisentry">Open the WAISentry SOC demo</button>` : "";
+      ? `<button class="ghost small" data-open="waisentry">${esc(t("sec.open"))}</button>` : "";
     return `<button class="sec-band" style="--sec:${color}" aria-expanded="false" title="${esc(l.name)}">${SHIELD}
         <span class="sec-label">${esc(label)}</span>${l.controls.map((c) => `<span class="sec-chip" title="${esc(c.name)}">${esc(c.short)}</span>`).join("")}${CHEV}</button>
       <div class="sec-detail" style="--sec:${color}" hidden><p>${esc(l.summary)}</p>
@@ -151,21 +154,24 @@ function renderHeader() {
   const c = S.cat.counts;
   $("#subtitle").textContent = S.cat.subtitle;
   const engines = S.cat.realms.filter((r) => r.agents.length).length;
-  $("#stats").innerHTML = [
-    [c.agents, "agents"], [c.user_realms, "user realms + " + (c.realms - c.user_realms) + " internal"],
-    [c.status.demo_ready || 0, "demo-ready"], [c.status.built || 0, "built, need demo"],
-    [c.status.in_build || 0, "in build"], [c.status.library || 0, "library"],
-    [engines, "Agent Engines"], [c.tools, "function tools"],
-  ].map(([n, l]) => `<div class="stat"><b>${n}</b><span>${esc(l)}</span></div>`).join("");
-  const t = c.tier;
+  const stats = SHOWCASE()
+    ? [[c.agents, t("stat.agents")], [c.realms, t("stat.segments")], [c.agents, t("stat.live")],
+       [engines, t("stat.engines")], [c.tools, t("stat.tools")]]
+    : [[c.agents, "agents"], [c.user_realms, "user realms + " + (c.realms - c.user_realms) + " internal"],
+       [c.status.demo_ready || 0, "demo-ready"], [c.status.built || 0, "built, need demo"],
+       [c.status.in_build || 0, "in build"], [c.status.library || 0, "library"],
+       [engines, "Agent Engines"], [c.tools, "function tools"]];
+  $("#stats").innerHTML = stats.map(([n, l]) => `<div class="stat"><b>${n}</b><span>${esc(l)}</span></div>`).join("");
+  const tier = c.tier;
   const multi = Object.entries(c.pattern).filter(([k]) => k !== "single").reduce((s, [, v]) => s + v, 0);
+  const term = TERM();
   $("#blocks-intro").innerHTML = [
-    ["model", "Models", `Gemini tiers by cost: Flash-Lite ${t.lite || 0} · Flash ${t.flash || 0} · Argon ${t.argon || 0} (only where deep reasoning is the product).`],
-    ["runtime", "Runtime", `${engines} Vertex AI Agent Engines (one per realm) with managed sessions; ${multi} multi-agent workflows (sequential, parallel, loop, coordinator).`],
-    ["tools", "Tools", `${c.tools} typed function tools incl. the 7 wco-ge-skills; side effects are simulated so every demo is safe.`],
-    ["grounding", "Grounding", "Vertex AI Search knowledge base per realm, Grounding with Google Search, BigQuery demo warehouse and synthetic systems of record."],
+    ["model", t("bi.models"), t("bi.models.p", { lite: tier.lite || 0, flash: tier.flash || 0, argon: tier.argon || 0 })],
+    ["runtime", t("bi.runtime"), t("bi.runtime.p", { engines, term, multi })],
+    ["tools", t("bi.tools"), t("bi.tools.p", { tools: c.tools })],
+    ["grounding", t("bi.grounding"), t("bi.grounding.p", { term })],
   ].map(([k, h, p]) => `<div class="bi"><h3><span class="dot" style="background:${BLOCK_COLORS[k]}"></span>${h}</h3><p>${esc(p)}</p></div>`).join("");
-  $("#legend").innerHTML = STATUS_ORDER.map((k) => `<span>${legendHex(k, "#5f5d57").replace('width="14" height="15"', 'width="20" height="22"')}${esc(S.cat.statuses[k].label)}</span>`).join("")
+  $("#legend").innerHTML = (SHOWCASE() ? "" : STATUS_ORDER.map((k) => `<span>${legendHex(k, "#5f5d57").replace('width="14" height="15"', 'width="20" height="22"')}${esc(S.cat.statuses[k].label)}</span>`).join(""))
     + S.cat.realms.map((r) => `<span><i style="width:12px;height:12px;border-radius:3px;background:${r.color};display:inline-block"></i>${esc(r.name)}${r.kind === "internal" ? " (internal)" : ""}</span>`).join("");
 }
 
@@ -178,13 +184,15 @@ function renderHive() {
       return `<div class="cluster">${clusterSVG(ag, r.color)}<div class="cluster-label" title="${esc(c.blurb)}">${esc(c.name)}</div></div>`;
     }).join("");
     return `<section class="realm" data-realm="${r.id}" style="border-top:4px solid ${r.color}">
-      <div class="realm-head"><h2 style="color:${r.color}">${esc(r.name)}</h2><span class="muted">${n} agents · ${d} demo-ready</span><span class="kind" style="color:${r.color}">${r.kind}</span></div>
+      <div class="realm-head"><h2 style="color:${r.color}">${esc(r.name)}</h2><span class="muted">${esc(t("realm.agents", { n }))}${SHOWCASE() ? "" : " · " + esc(t("realm.demo", { n: d }))}</span>${SHOWCASE() ? "" : `<span class="kind" style="color:${r.color}">${r.kind}</span>`}</div>
       <p class="realm-blurb">${esc(r.blurb)}</p>${securityBand(r.id)}<div class="clusters">${clusters}</div></section>`;
   };
   const by = Object.fromEntries(S.cat.realms.map((r) => [r.id, r]));
-  const left = ["platform", "government", "smb"].filter((k) => by[k]).map((k) => realm(by[k])).join("");
-  const right = ["enterprise", "delivery"].filter((k) => by[k]).map((k) => realm(by[k])).join("");
-  const extra = S.cat.realms.filter((r) => !["platform", "government", "smb", "enterprise", "delivery"].includes(r.id)).map(realm).join("");
+  const lay = (S.cat.layout && S.cat.layout.left) ? S.cat.layout : { left: ["platform", "government", "smb"], right: ["enterprise", "delivery"] };
+  const placed = new Set([...lay.left, ...lay.right]);
+  const left = lay.left.filter((k) => by[k]).map((k) => realm(by[k])).join("");
+  const right = lay.right.filter((k) => by[k]).map((k) => realm(by[k])).join("");
+  const extra = S.cat.realms.filter((r) => !placed.has(r.id)).map(realm).join("");
   $("#view-hive").innerHTML = `<div class="hive"><div class="hive-col">${left}${extra}</div><div class="hive-col">${right}</div></div>`;
   $$(".sec-band", $("#view-hive")).forEach((b) => b.onclick = () => {
     const open = b.getAttribute("aria-expanded") !== "true";
@@ -204,7 +212,7 @@ function wireHexes(root) {
     g.addEventListener("click", () => openAgent(a.id));
     g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openAgent(a.id); } });
     g.addEventListener("mouseenter", () => {
-      tip.innerHTML = `<b>${esc(a.name)}</b>${esc(a.tagline)}<div class="t-meta">${esc(S.cat.statuses[a.status].label)} · ${TIER_LABEL[a.model]} · ${a.pattern}${a.aka ? " · " + esc(a.aka) : ""}</div>`;
+      tip.innerHTML = `<b>${esc(a.name)}</b>${esc(a.tagline)}<div class="t-meta">${SHOWCASE() ? "" : esc(S.cat.statuses[a.status].label) + " · "}${TIER_LABEL[a.model]} · ${a.pattern}${a.aka ? " · " + esc(a.aka) : ""}</div>`;
       tip.hidden = false;
     });
     g.addEventListener("mousemove", (e) => {
@@ -222,8 +230,8 @@ function agentCard(a) {
     <div class="row">${miniHex(a)}<div><h3>${esc(a.name)}</h3><div class="muted small">${esc(r.name)} · ${esc(cl?.name || a.cluster)}</div></div></div>
     <div>${esc(a.tagline)}</div>
     <ul>${(a.use_cases || []).slice(0, 3).map((u) => `<li>${esc(u)}</li>`).join("")}</ul>
-    <div class="foot"><span class="tag ${a.model}">${TIER_LABEL[a.model]}</span><span class="tag">${esc(a.pattern)}</span><span class="tag">${esc(S.cat.statuses[a.status].label.split(" —")[0])}</span>
-    <button class="primary" style="margin-left:auto;padding:5px 14px" data-open="${a.id}">Open demo</button></div></article>`;
+    <div class="foot"><span class="tag ${a.model}">${TIER_LABEL[a.model]}</span><span class="tag">${esc(a.pattern)}</span>${SHOWCASE() ? "" : `<span class="tag">${esc(S.cat.statuses[a.status].label.split(" —")[0])}</span>`}
+    <button class="primary" style="margin-left:auto;padding:5px 14px" data-open="${a.id}">${esc(t("card.open"))}</button></div></article>`;
 }
 function renderNavigator() {
   const list = [...S.agents.values()].filter(matches);
@@ -232,7 +240,7 @@ function renderNavigator() {
     if (!ag.length) return "";
     return `<h2 class="group-title" style="color:${r.color}">${esc(r.name)} <span class="muted">(${ag.length})</span></h2><div class="cards">${ag.map(agentCard).join("")}</div>`;
   }).join("");
-  $("#view-navigator").innerHTML = (list.length ? `<p class="muted">Showing ${list.length} of ${S.agents.size} agents. Search by industry, persona, problem or tool — e.g. “churn”, “permits”, “BigQuery”, “migration”.</p>` : `<p class="muted">No agents match these filters.</p>`) + groups;
+  $("#view-navigator").innerHTML = (list.length ? `<p class="muted">${esc(t("nav.showing", { n: list.length, m: S.agents.size }))}</p>` : `<p class="muted">${esc(t("nav.none"))}</p>`) + groups;
   $$("[data-open]", $("#view-navigator")).forEach((b) => b.onclick = () => openAgent(b.dataset.open));
 }
 function chip(id) {
@@ -241,7 +249,7 @@ function chip(id) {
   return `<button class="agent-chip" data-open="${id}"><i style="background:${c}">${esc(a.code)}</i>${esc(a.name.split(" · ")[0])}</button>`;
 }
 function renderCompositions() {
-  $("#view-compositions").innerHTML = `<p class="muted">Compositions show how hive agents are assembled into client solutions and internal workflows.</p>` + S.cat.compositions.map((c) => `
+  $("#view-compositions").innerHTML = `<p class="muted">${esc(t(SHOWCASE() ? "comp.intro" : "comp.intro.internal"))}</p>` + S.cat.compositions.map((c) => `
     <article class="comp"><div class="row" style="display:flex;gap:10px;align-items:baseline;flex-wrap:wrap"><h3>${esc(c.name)}</h3><span class="tag">${esc(c.kind)}</span><span class="tag">${esc(c.status)}</span></div>
     <p>${esc(c.summary)}</p>
     <div class="flow">${c.flow.map((s, i) => `${i ? '<span class="arrow">→</span>' : ""}<div class="step">${esc(s)}</div>`).join("")}</div>
@@ -250,10 +258,10 @@ function renderCompositions() {
   $$("[data-open]", $("#view-compositions")).forEach((b) => b.onclick = () => openAgent(b.dataset.open));
 }
 function renderSkills() {
-  $("#view-skills").innerHTML = `<p class="muted">wco-ge-skills — atomic, reusable functions that underpin higher-level agents. Each runs on the cheapest model that can do the job (Flash-Lite with a JSON schema) or no model at all, and is also exposed over MCP.</p><div class="cards">` + S.cat.skills.map((s) => `
+  $("#view-skills").innerHTML = `<p class="muted">${esc(t("skills.intro"))}</p><div class="cards">` + S.cat.skills.map((s) => `
     <article class="card"><h3><code>${esc(s.id)}</code></h3><div>${esc(s.description)}</div>
-    <div class="muted small">Tool: <code>${esc(s.tool)}</code></div>
-    <div class="agent-chips">${s.used_by.map(chip).join("") || '<span class="muted small">not used yet</span>'}</div></article>`).join("") + `</div>`;
+    <div class="muted small">${esc(t("skills.tool"))}: <code>${esc(s.tool)}</code></div>
+    <div class="agent-chips">${s.used_by.map(chip).join("") || `<span class="muted small">${esc(t("skills.unused"))}</span>`}</div></article>`).join("") + `</div>`;
   $$("[data-open]", $("#view-skills")).forEach((b) => b.onclick = () => openAgent(b.dataset.open));
 }
 function setView(v) {
@@ -271,8 +279,8 @@ function setView(v) {
 function stepName(a, author) {
   if (!author) return a.name;
   if (author === a.adk_name) return a.name;
-  if (author.endsWith("_concierge")) return "Realm concierge";
-  if (author.endsWith("__loader")) return "Workflow loader";
+  if (author.endsWith("_concierge")) { const term = TERM(); return t("step.concierge", { term, Term: term[0].toUpperCase() + term.slice(1) }); }
+  if (author.endsWith("__loader")) return t("step.loader");
   const m = author.match(/__(\w+?)$/);
   if (m) {
     if (m[1] === "final" || m[1] === "synthesis") return a.name + " · " + (m[1] === "final" ? "final" : "synthesis");
@@ -284,27 +292,27 @@ function stepName(a, author) {
 
 function renderBlocks(a) {
   const b = a.blocks;
-  const tools = b.tools.map((t) => `<div class="item" data-tool="${esc(t.name)}"><div><code>${esc(t.name)}</code>${t.kind !== "function" ? ` <span class="kind">${esc(t.kind)}</span>` : ""}${t.step ? ` <span class="kind">${esc(t.step)}</span>` : ""}<div class="desc">${esc(t.summary)}</div></div><span class="cnt"></span></div>`).join("") || `<p class="muted">No function tools — this agent reasons over grounding and its specialists.</p>`;
+  const tools = b.tools.map((t) => `<div class="item" data-tool="${esc(t.name)}"><div><code>${esc(t.name)}</code>${t.kind !== "function" ? ` <span class="kind">${esc(t.kind)}</span>` : ""}${t.step ? ` <span class="kind">${esc(t.step)}</span>` : ""}<div class="desc">${esc(t.summary)}</div></div><span class="cnt"></span></div>`).join("") || `<p class="muted">${esc(t("blk.notools"))}</p>`;
   const groundKey = (g) => g.kind;
-  const grounding = b.grounding.map((g) => `<div class="item" data-ground="${groundKey(g)}"><div><b>${esc(g.label)}</b>${g.step ? ` <span class="kind">${esc(g.step)}</span>` : ""}<div class="desc">${esc(g.detail)}</div></div><span class="cnt"></span></div>`).join("") || `<p class="muted">Grounded in the conversation and its tools only.</p>`;
+  const grounding = b.grounding.map((g) => `<div class="item" data-ground="${groundKey(g)}"><div><b>${esc(g.label)}</b>${g.step ? ` <span class="kind">${esc(g.step)}</span>` : ""}<div class="desc">${esc(g.detail)}</div></div><span class="cnt"></span></div>`).join("") || `<p class="muted">${esc(t("blk.noground"))}</p>`;
   const steps = b.runtime.steps.length ? `<div class="steps">${b.runtime.steps.map((s) => `<div class="item" data-step="${esc(s.id)}"><div><b>${esc(s.name)}</b> <span class="tag ${s.model}">${TIER_LABEL[s.model]}</span>${s.agent_ref ? ` <span class="kind">AgentTool</span>` : ""}<div class="desc">${esc(s.role)}</div></div><span class="cnt"></span></div>`).join("")}</div>` : "";
-  const patternDesc = { single: "LlmAgent with tools", sequential: "SequentialAgent pipeline", parallel: "ParallelAgent fan-out + synthesis", coordinator: "Coordinator LlmAgent calling specialists as AgentTools", loop: "LoopAgent draft ↔ critic" }[b.runtime.pattern];
+  const patternDesc = t("pat." + b.runtime.pattern);
   $("#p-blocks").innerHTML = `
-    <div class="blk" id="blk-model"><h3><span class="sw" style="background:${BLOCK_COLORS.model}"></span>Model<span class="n" id="tok"></span></h3>
+    <div class="blk" id="blk-model"><h3><span class="sw" style="background:${BLOCK_COLORS.model}"></span>${esc(t("blk.model"))}<span class="n" id="tok"></span></h3>
       <p><span class="tag ${b.model.tier}">${esc(b.model.label)}</span> <code>${esc(b.model.model_id)}</code></p>
       <p class="muted">${esc(b.model.why)}</p>
-      ${b.model.also_uses.length ? `<p class="small">Steps also use: ${b.model.also_uses.map(esc).join(", ")}</p>` : ""}
-      <p class="small muted">Tier policy: ${esc(b.model.policy)}</p></div>
-    <div class="blk" id="blk-runtime"><h3><span class="sw" style="background:${BLOCK_COLORS.runtime}"></span>Runtime<span class="n" id="rt-n"></span></h3>
-      <dl class="kv"><dt>Platform</dt><dd>${esc(b.runtime.label)}</dd><dt>Engine</dt><dd id="rt-engine">${esc(b.runtime.engine)}</dd>
-      <dt>Region</dt><dd>${esc(b.runtime.region)}</dd><dt>Pattern</dt><dd>${esc(patternDesc)}</dd><dt>Sessions</dt><dd id="rt-session">${esc(b.runtime.sessions)}</dd></dl>${steps}</div>
-    <div class="blk" id="blk-tools"><h3><span class="sw" style="background:${BLOCK_COLORS.tools}"></span>Tools<span class="n">${b.tools.length}</span></h3>${tools}</div>
-    <div class="blk" id="blk-grounding"><h3><span class="sw" style="background:${BLOCK_COLORS.grounding}"></span>Grounding<span class="n">${b.grounding.length}</span></h3>${grounding}<div class="sources small" id="sources"></div></div>
-    ${layersFor(a.realm).filter((l) => l.id === "google_security").map((l) => `<div class="blk blk-sec" style="--sec:${LAYER_COLORS[l.id]}"><h3>${SHIELD}${esc(l.name)}<span class="n">reference</span></h3>
+      ${b.model.also_uses.length ? `<p class="small">${esc(t("blk.also"))} ${b.model.also_uses.map(esc).join(", ")}</p>` : ""}
+      <p class="small muted">${esc(t("blk.policy"))} ${esc(b.model.policy)}</p></div>
+    <div class="blk" id="blk-runtime"><h3><span class="sw" style="background:${BLOCK_COLORS.runtime}"></span>${esc(t("blk.runtime"))}<span class="n" id="rt-n"></span></h3>
+      <dl class="kv"><dt>${esc(t("blk.platform"))}</dt><dd>${esc(b.runtime.label)}</dd><dt>${esc(t("blk.engine"))}</dt><dd id="rt-engine">${esc(b.runtime.engine)}</dd>
+      <dt>${esc(t("blk.region"))}</dt><dd>${esc(b.runtime.region)}</dd><dt>${esc(t("blk.pattern"))}</dt><dd>${esc(patternDesc)}</dd><dt>${esc(t("blk.sessions"))}</dt><dd id="rt-session">${esc(b.runtime.sessions)}</dd></dl>${steps}</div>
+    <div class="blk" id="blk-tools"><h3><span class="sw" style="background:${BLOCK_COLORS.tools}"></span>${esc(t("blk.tools"))}<span class="n">${b.tools.length}</span></h3>${tools}</div>
+    <div class="blk" id="blk-grounding"><h3><span class="sw" style="background:${BLOCK_COLORS.grounding}"></span>${esc(t("blk.grounding"))}<span class="n">${b.grounding.length}</span></h3>${grounding}<div class="sources small" id="sources"></div></div>
+    ${layersFor(a.realm).filter((l) => l.id === "google_security").map((l) => `<div class="blk blk-sec" style="--sec:${LAYER_COLORS[l.id]}"><h3>${SHIELD}${esc(l.name)}<span class="n">${esc(t("sec.reference"))}</span></h3>
       ${l.controls.map((c) => `<div class="item"><div><b>${esc(c.name)}</b><div class="desc">${esc(c.brief || firstSentence(c.role))}</div></div></div>`).join("")}
       <p class="small muted">${esc(l.note)}</p></div>`).join("")}
-    ${a.kpis?.length ? `<div class="blk"><h3>Business KPIs</h3><ul class="small" style="margin:0;padding-left:18px">${a.kpis.map((k) => `<li>${esc(k)}</li>`).join("")}</ul></div>` : ""}
-    ${a.related?.length ? `<div class="blk"><h3>Related agents</h3><div class="agent-chips">${a.related.map(chip).join("")}</div></div>` : ""}`;
+    ${a.kpis?.length ? `<div class="blk"><h3>${esc(t("blk.kpis"))}</h3><ul class="small" style="margin:0;padding-left:18px">${a.kpis.map((k) => `<li>${esc(k)}</li>`).join("")}</ul></div>` : ""}
+    ${a.related?.length ? `<div class="blk"><h3>${esc(t("blk.related"))}</h3><div class="agent-chips">${a.related.map(chip).join("")}</div></div>` : ""}`;
   $$("[data-open]", $("#p-blocks")).forEach((x) => x.onclick = () => openAgent(x.dataset.open));
 }
 
@@ -320,20 +328,21 @@ function pulse(sel, blockId) {
 
 function openAgent(id) {
   const a = S.agents.get(id); if (!a) return;
+  if (S.open && S.open !== id) { const prev = S.open; saveChat(); maybeFeedback(prev); }
   const r = S.realmOf.get(id);
   const cl = r.clusters.find((c) => c.id === a.cluster);
   S.open = id; S.files = []; renderFiles();
   $("#p-hex").innerHTML = miniHex(a, 54);
   $("#p-name").textContent = a.name;
   $("#p-tagline").textContent = a.tagline;
-  $("#p-meta").innerHTML = `<span class="tag" style="color:${r.color}">${esc(r.name)}</span><span class="tag">${esc(cl?.name || a.cluster)}</span><span class="tag">${legendHex(a.status, r.color)} ${esc(S.cat.statuses[a.status].label)}</span>${a.aka ? `<span class="tag">${esc(a.aka)}</span>` : ""}<span class="tag ${a.model}">${TIER_LABEL[a.model]}</span>`;
-  $("#p-about").innerHTML = `<summary>About this agent — ${esc(a.persona)}</summary><p>${esc(a.description)}</p><b class="small">Use cases</b><ul>${a.use_cases.map((u) => `<li>${esc(u)}</li>`).join("")}</ul><b class="small">Output</b><p>${esc(a.output)}</p>`;
+  $("#p-meta").innerHTML = `<span class="tag" style="color:${r.color}">${esc(r.name)}</span><span class="tag">${esc(cl?.name || a.cluster)}</span>${SHOWCASE() ? "" : `<span class="tag">${legendHex(a.status, r.color)} ${esc(S.cat.statuses[a.status].label)}</span>`}${a.aka ? `<span class="tag">${esc(a.aka)}</span>` : ""}<span class="tag ${a.model}">${TIER_LABEL[a.model]}</span>`;
+  $("#p-about").innerHTML = `<summary>${esc(t("about", { persona: a.persona }))}</summary><p>${esc(a.description)}</p><b class="small">${esc(t("about.uses"))}</b><ul>${a.use_cases.map((u) => `<li>${esc(u)}</li>`).join("")}</ul><b class="small">${esc(t("about.output"))}</b><p>${esc(a.output)}</p>`;
   $("#samples").innerHTML = a.samples.map((s) => `<button class="sample" type="button">${esc(s)}</button>`).join("");
-  $$("#samples .sample").forEach((b, i) => b.onclick = () => { $("#msg").value = a.samples[i]; send(); });
+  $$("#samples .sample").forEach((b, i) => b.onclick = () => { $("#msg").value = a.samples[i]; S.sample = true; send(); });
   $("#doc-btn").hidden = !a.sample_doc;
   renderBlocks(a);
   const sess = S.sessions.get(id);
-  $("#chat").innerHTML = sess?.html || `<div class="empty-chat"><b>Live demo</b><br>Pick a sample prompt or write your own. The agent runs on Vertex AI Agent Engine; watch the building blocks on the right light up as it plans, calls tools and retrieves grounding.</div>`;
+  $("#chat").innerHTML = sess?.html || `<div class="empty-chat">${t("chat.empty")}</div>`;
   $("#runtime-line").textContent = sess?.line || "";
   $("#panel").hidden = false; $("#scrim").hidden = false;
   document.body.style.overflow = "hidden";
@@ -343,10 +352,12 @@ function openAgent(id) {
 }
 function closeAgent() {
   saveChat();
+  const prev = S.open;
   S.open = null;
   $("#panel").hidden = true; $("#scrim").hidden = true;
   document.body.style.overflow = "";
   history.replaceState(null, "", S.view === "hive" ? location.pathname : "#view=" + S.view);
+  if (prev) maybeFeedback(prev);
 }
 function saveChat() {
   if (!S.open) return;
@@ -358,13 +369,13 @@ async function warm(realm) {
   if (S.warm.has(realm)) return;
   S.warm.set(realm, "warming");
   const line = $("#runtime-line");
-  if (!line.textContent) line.textContent = "Waking the realm's Agent Engine…";
+  if (!line.textContent) line.textContent = t("rt.waking", { term: TERM() });
   try {
     const r = await fetch(`/api/warm/${realm}`, { method: "POST" });
     const j = await r.json();
     S.warm.set(realm, r.ok ? "ready" : "error");
-    if (S.open && S.agents.get(S.open).realm === realm && line.textContent.startsWith("Waking")) {
-      line.textContent = r.ok ? `Agent Engine ready (${j.seconds}s)` : `Engine: ${j.detail || "unavailable"}`;
+    if (S.open && S.agents.get(S.open).realm === realm && line.textContent === t("rt.waking", { term: TERM() })) {
+      line.textContent = r.ok ? t("rt.ready", { s: j.seconds }) : t("rt.engine", { x: j.detail || "unavailable" });
     }
   } catch { S.warm.delete(realm); }
 }
@@ -379,7 +390,7 @@ async function ensureSession(a) {
   s = { id: j.session_id, engine: j.engine, html: "", line: "" };
   S.sessions.set(a.id, s);
   $("#rt-engine").textContent = `${a.blocks.runtime.engine} · ${j.engine}`;
-  $("#rt-session").textContent = `Session ${j.session_id.slice(0, 12)}… (managed)`;
+  $("#rt-session").textContent = t("sess.managed", { id: j.session_id.slice(0, 12) });
   return s;
 }
 
@@ -395,7 +406,7 @@ function md(text) {
       code.parentElement.replaceWith(box);
     } else if (lang === "html") {
       const btn = document.createElement("button");
-      btn.className = "ghost small preview-btn"; btn.type = "button"; btn.textContent = "Preview"; btn.dataset.preview = "1";
+      btn.className = "ghost small preview-btn"; btn.type = "button"; btn.textContent = t("prev.btn"); btn.dataset.preview = "1";
       code.parentElement.appendChild(btn);
     }
   });
@@ -426,7 +437,7 @@ function turnContainer() {
   const chat = $("#chat");
   const work = document.createElement("details");
   work.className = "work"; work.open = true;
-  work.innerHTML = `<summary>Agent work <span class="muted" data-sum></span></summary><div class="work-list"></div><div class="typing"><i></i><i></i><i></i></div>`;
+  work.innerHTML = `<summary>${esc(t("work.title"))} <span class="muted" data-sum></span></summary><div class="work-list"></div><div class="typing"><i></i><i></i><i></i></div>`;
   chat.appendChild(work);
   return work;
 }
@@ -452,6 +463,7 @@ async function send() {
   const text = $("#msg").value.trim();
   if (!text) return;
   const files = S.files.slice();
+  const sample = S.sample; S.sample = false;
   S.running = true; $("#send").disabled = true;
   $("#msg").value = ""; S.files = []; renderFiles();
   addUser(text, files);
@@ -460,12 +472,12 @@ async function send() {
   const tokens = { prompt: 0, output: 0, thoughts: 0 };
   let lastAuthor = null, nEvents = 0, gotText = false;
   try {
-    line.textContent = "Creating managed session…";
+    line.textContent = t("rt.session");
     const sess = await ensureSession(a);
-    line.textContent = "Running on Agent Engine…";
+    line.textContent = t("rt.running");
     const resp = await fetch("/api/run", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ agent_id: a.id, session_id: sess.id, message: text, files }),
+      body: JSON.stringify({ agent_id: a.id, session_id: sess.id, message: text, files, lang: LANG, sample }),
     });
     if (!resp.ok) { const j = await resp.json().catch(() => ({})); throw new Error(j.detail || resp.statusText); }
     const reader = resp.body.getReader();
@@ -485,20 +497,21 @@ async function send() {
         if (ev.author && ev.author !== lastAuthor && ["call", "text", "result", "grounding"].includes(ev.type)) {
           lastAuthor = ev.author;
           const nm = stepName(a, ev.author);
-          addEv(work, "agent", `<b>${esc(nm)}</b> <span class="muted">is working</span>`);
+          addEv(work, "agent", `<b>${esc(nm)}</b> <span class="muted">${esc(t("work.working"))}</span>`);
           const m = ev.author.match(/__(\w+?)$/);
           if (m) pulse(`[data-step="${m[1]}"]`, "blk-runtime"); else pulse("#none", "blk-runtime");
         }
         handleEvent(a, work, ev, tokens, () => { gotText = true; });
       }
     }
-    if (!gotText) addEv(work, "error", "The agent finished without a text answer.");
+    if (!gotText) addEv(work, "error", esc(t("work.notext")));
+    else S.ran.add(a.id);
   } catch (e) {
-    addEv(work, "error", `<b>Error</b> ${esc(e.message)}`);
+    addEv(work, "error", `<b>${esc(t("work.error"))}</b> ${esc(e.message)}`);
     if (String(e.message).includes("session")) S.sessions.delete(a.id);
   } finally {
     $(".typing", work)?.remove();
-    $("[data-sum]", work).textContent = `· ${$$(".ev", work).length} steps`;
+    $("[data-sum]", work).textContent = t("work.steps", { n: $$(".ev", work).length });
     if ($$(".ev.call", work).length === 0 && $$(".ev.error", work).length === 0) work.open = false;
     S.running = false; $("#send").disabled = false;
     const sess = S.sessions.get(a.id); if (sess) { sess.html = $("#chat").innerHTML; sess.line = line.textContent; }
@@ -509,7 +522,7 @@ async function send() {
     const chat = $("#chat");
     switch (ev.type) {
       case "runtime":
-        line.textContent = `Agent Engine · first event ${ev.first_event_s}s`; break;
+        line.textContent = t("rt.first", { s: ev.first_event_s }); break;
       case "call": {
         const args = JSON.stringify(ev.args || {});
         addEv(work, "call", `<details><summary><code>${esc(ev.name)}</code> <span class="muted">${esc(args.length > 90 ? args.slice(0, 90) + "…" : args)}</span></summary><pre>${esc(JSON.stringify(ev.args, null, 2))}</pre></details>`);
@@ -524,23 +537,23 @@ async function send() {
         let pretty = ev.response;
         try { pretty = JSON.stringify(JSON.parse(ev.response), null, 2); } catch {}
         const status = (ev.response.match(/"status":\s*"(\w+)"/) || [])[1];
-        addEv(work, "result", `<details><summary><code>${esc(ev.name)}</code> returned ${status ? `<b>${esc(status)}</b>` : ""}${/simulated":\s*true/.test(ev.response) ? ' <span class="kind">simulated</span>' : ""}</summary><pre>${esc(pretty)}${ev.truncated ? "\n…" : ""}</pre></details>`);
+        addEv(work, "result", `<details><summary><code>${esc(ev.name)}</code> ${esc(t("work.returned"))} ${status ? `<b>${esc(status)}</b>` : ""}${/simulated":\s*true/.test(ev.response) ? ` <span class="kind">${esc(t("work.simulated"))}</span>` : ""}</summary><pre>${esc(pretty)}${ev.truncated ? "\n…" : ""}</pre></details>`);
         break;
       }
       case "grounding": {
         pulse(`[data-ground="${ev.kind}"]`, "blk-grounding");
         const src = ev.sources.map((s) => s.uri ? `<a href="${esc(s.uri)}" target="_blank" rel="noopener noreferrer">${esc(s.title || s.uri)}</a>` : esc(s.title)).join(" · ");
-        addEv(work, "grounding", `<b>${ev.kind === "kb" ? "Knowledge base" : "Google Search"}</b> ${ev.queries?.length ? `<span class="muted">“${esc(ev.queries.join("”, “"))}”</span>` : ""}<div class="sources">${src}</div>`);
-        if (src) $("#sources").innerHTML = `<b>Latest sources:</b> ${src}`;
+        addEv(work, "grounding", `<b>${esc(ev.kind === "kb" ? t("work.kb") : t("work.gs"))}</b> ${ev.queries?.length ? `<span class="muted">“${esc(ev.queries.join("”, “"))}”</span>` : ""}<div class="sources">${src}</div>`);
+        if (src) $("#sources").innerHTML = `<b>${esc(t("work.sources"))}</b> ${src}`;
         break;
       }
       case "usage":
         tokens.prompt += ev.prompt; tokens.output += ev.output; tokens.thoughts += ev.thoughts || 0;
-        $("#tok").textContent = `${(tokens.prompt + tokens.output + tokens.thoughts).toLocaleString()} tokens this turn`;
+        $("#tok").textContent = t("tok.turn", { n: (tokens.prompt + tokens.output + tokens.thoughts).toLocaleString() });
         pulse("#none", "blk-model");
         break;
       case "thought":
-        addEv(work, "usage", `<details><summary class="muted">thinking</summary><pre>${esc(ev.text)}</pre></details>`); break;
+        addEv(work, "usage", `<details><summary class="muted">${esc(t("work.thinking"))}</summary><pre>${esc(ev.text)}</pre></details>`); break;
       case "text": {
         onText();
         const d = document.createElement("div");
@@ -560,20 +573,26 @@ async function send() {
         const d = document.createElement("div");
         d.className = "msg agent file-card";
         d.dataset.file = ev.id;
-        d.innerHTML = `<span class="file-ext">${esc(ext)}</span><div><b>${esc(ev.name)}</b><div class="muted small">${(ev.size / 1024).toFixed(1)} KB · rendered by ${esc(stepName(a, ev.author))}</div></div><a class="primary" href="${url}" download="${esc(ev.name)}">Download</a>`;
+        d.innerHTML = `<span class="file-ext">${esc(ext)}</span><div><b>${esc(ev.name)}</b><div class="muted small">${(ev.size / 1024).toFixed(1)} KB · ${esc(t("file.by", { who: stepName(a, ev.author) }))}</div></div><a class="primary" href="${url}" download="${esc(ev.name)}">${esc(t("file.download"))}</a>`;
         chat.insertBefore(d, null);
-        addEv(work, "result", `<b>Deliverable</b> <code>${esc(ev.name)}</code> <span class="muted">saved to session state and offered for download</span>`);
+        addEv(work, "result", `<b>${esc(t("work.deliverable"))}</b> <code>${esc(ev.name)}</code> <span class="muted">${esc(t("work.saved"))}</span>`);
         chat.scrollTop = chat.scrollHeight;
         break;
       }
       case "state":
-        if (ev.keys.includes("client_material")) addEv(work, "grounding", `<b>Workflow loader</b> <span class="muted">put the referenced sample document into session state for every step</span>`);
+        if (ev.keys.includes("client_material")) addEv(work, "grounding", `<b>${esc(t("step.loader"))}</b> <span class="muted">${esc(t("work.loader"))}</span>`);
         break;
       case "error":
-        addEv(work, "error", `<b>Error</b> ${esc(ev.message)}`); break;
-      case "done":
-        line.textContent = `Agent Engine · ${ev.seconds}s · ${(tokens.prompt + tokens.output + tokens.thoughts).toLocaleString()} tokens (in ${tokens.prompt.toLocaleString()}, out ${tokens.output.toLocaleString()}${tokens.thoughts ? `, thinking ${tokens.thoughts.toLocaleString()}` : ""})`;
+        addEv(work, "error", `<b>${esc(t("work.error"))}</b> ${esc(ev.message)}`); break;
+      case "budget":
+        S.budget = ev; break;
+      case "done": {
+        const n = Math.max(ev.tokens || 0, tokens.prompt + tokens.output + tokens.thoughts);
+        line.textContent = t("rt.done", { s: ev.seconds, tok: n.toLocaleString() })
+          + (S.budget && S.budget.limit ? " · " + t("rt.budget", { used: (S.budget.session_tokens || 0).toLocaleString(), limit: S.budget.limit.toLocaleString() }) : "");
+        S.budget = null;
         break;
+      }
     }
   }
 }
@@ -589,13 +608,122 @@ function renderFiles() {
 }
 
 /* ---------------- init ---------------- */
+function useCatalog() {
+  S.cat = localize(S.raw, LANG);
+  S.agents.clear(); S.realmOf.clear();
+  for (const r of S.cat.realms) for (const a of r.agents) { S.agents.set(a.id, a); S.realmOf.set(a.id, r); }
+  $("#title").textContent = S.cat.title;
+  document.title = S.cat.title;
+  applyStatic();
+  $("#filter-status").hidden = SHOWCASE();
+  renderHeader(); renderFilterChips(); renderHive();
+  if (S.view !== "hive") setView(S.view);
+}
+
+function renderUser() {
+  const box = $("#user");
+  if (!box) return;
+  const langs = SHOWCASE() ? `<div class="lang" role="group" aria-label="${esc(t("lang"))}">${["en", "es"].map((l) => `<button data-lang="${l}" aria-pressed="${l === LANG}">${l.toUpperCase()}</button>`).join("")}</div>` : "";
+  const me = S.me ? `<span class="me" title="${esc(S.me.email)}">${S.me.picture ? `<img src="${esc(S.me.picture)}" alt="" referrerpolicy="no-referrer">` : ""}<span>${esc(S.me.name || S.me.email)}</span></span>`
+    + (S.me.admin ? `<a class="ghost small" href="/admin">${esc(t("user.admin"))}</a>` : "")
+    + `<button class="ghost small" id="signout">${esc(t("user.signout"))}</button>` : "";
+  box.innerHTML = langs + me;
+  $$("[data-lang]", box).forEach((b) => b.onclick = () => {
+    setLang(b.dataset.lang);
+    const open = S.open; if (open) saveChat();
+    useCatalog(); renderUser();
+    if (open) openAgent(open);
+  });
+  const so = $("#signout", box);
+  if (so) so.onclick = async () => { await fetch("/api/auth/logout", { method: "POST" }); location.reload(); };
+}
+
+async function authGate() {
+  const r = await fetch("/api/auth/config");
+  if (!r.ok) return true;                         // internal edition: IAP in front, no app sign-in
+  S.auth = await r.json();
+  const me = await fetch("/api/me");
+  if (me.ok) { S.me = await me.json(); return true; }
+  showLogin();
+  return false;
+}
+
+function showLogin() {
+  setLang(LANG);
+  const box = $("#login");
+  box.hidden = false;
+  applyStatic(box);
+  $$("[data-lang]", box).forEach((b) => {
+    b.setAttribute("aria-pressed", b.dataset.lang === LANG);
+    b.onclick = () => { setLang(b.dataset.lang); showLogin(); };
+  });
+  const render = () => {
+    google.accounts.id.initialize({ client_id: S.auth.client_id, callback: onCredential, ux_mode: "popup", auto_select: false, context: "signin" });
+    $("#gsi").innerHTML = "";
+    google.accounts.id.renderButton($("#gsi"), { theme: "outline", size: "large", shape: "pill", text: "signin_with", locale: LANG, width: 280 });
+  };
+  if (window.google?.accounts?.id) render();
+  else {
+    const sc = document.createElement("script");
+    sc.src = "https://accounts.google.com/gsi/client"; sc.async = true; sc.onload = render;
+    document.head.appendChild(sc);
+  }
+}
+
+async function onCredential(resp) {
+  $("#login-status").textContent = t("login.busy");
+  const r = await fetch("/api/auth/google", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ credential: resp.credential, lang: LANG }) });
+  if (!r.ok) { const j = await r.json().catch(() => ({})); $("#login-status").textContent = t("login.failed", { e: j.detail || r.statusText }); return; }
+  location.reload();
+}
+
+/* ---------------- feedback ---------------- */
+const FACES = [
+  ["#d64545", "M8 16.5c1.2-1.6 2.5-2.3 4-2.3s2.8.7 4 2.3"],
+  ["#e8833a", "M8.5 16c1-1 2.2-1.4 3.5-1.4s2.5.4 3.5 1.4"],
+  ["#e3b21c", "M8.5 15.5h7"],
+  ["#7cb342", "M8.5 14.5c1 1.1 2.2 1.6 3.5 1.6s2.5-.5 3.5-1.6"],
+  ["#2e9e5b", "M7.8 13.8c1.1 1.9 2.5 2.8 4.2 2.8s3.1-.9 4.2-2.8"],
+];
+function faceSVG(i) {
+  const [c, mouth] = FACES[i];
+  return `<svg viewBox="0 0 24 24" aria-hidden="true" style="color:${c}"><circle cx="12" cy="12" r="10" fill="${c}" fill-opacity=".14" stroke="currentColor"/><circle cx="9" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="15" cy="10" r="1.1" fill="currentColor" stroke="none"/><path d="${mouth}" stroke="currentColor" fill="none"/></svg>`;
+}
+function maybeFeedback(agentId) {
+  if (!SHOWCASE() || !S.me || !S.ran.has(agentId) || S.rated.has(agentId)) return;
+  S.rated.add(agentId);
+  const a = S.agents.get(agentId);
+  const box = $("#feedback");
+  let rating = 0;
+  box.innerHTML = `<div class="modal-box fb-box" role="dialog" aria-modal="true" aria-labelledby="fb-title">
+    <h3 id="fb-title">${esc(t("fb.title"))}</h3><p class="muted">${esc(a.name)}</p>
+    <div class="faces">${[1, 2, 3, 4, 5].map((n) => `<button type="button" class="face" data-n="${n}" aria-label="${n} — ${esc(t("fb." + n))}">${faceSVG(n - 1)}<span>${esc(t("fb." + n))}</span></button>`).join("")}</div>
+    <textarea id="fb-comment" rows="2" maxlength="1000" placeholder="${esc(t("fb.comment"))}"></textarea>
+    <div class="fb-actions"><button type="button" class="ghost" id="fb-skip">${esc(t("fb.skip"))}</button><button type="button" class="primary" id="fb-send" disabled>${esc(t("fb.send"))}</button></div></div>`;
+  box.hidden = false;
+  $$(".face", box).forEach((b) => b.onclick = () => {
+    rating = +b.dataset.n;
+    $$(".face", box).forEach((x) => x.setAttribute("aria-pressed", x === b));
+    $("#fb-send").disabled = false;
+  });
+  const close = () => { box.hidden = true; box.innerHTML = ""; };
+  $("#fb-skip").onclick = close;
+  $("#fb-send").onclick = async () => {
+    const sess = S.sessions.get(agentId);
+    await fetch("/api/feedback", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ agent_id: agentId, rating, comment: $("#fb-comment").value.trim(), session_id: sess?.id || "", lang: LANG }) }).catch(() => {});
+    box.querySelector(".fb-box").innerHTML = `<h3>${esc(t("fb.thanks"))}</h3>`;
+    setTimeout(close, 1200);
+  };
+}
+
 async function init() {
   mermaid.initialize({ startOnLoad: false, theme: "neutral", securityLevel: "strict" });
-  const cat = await (await fetch("/api/catalog")).json();
-  S.cat = cat;
-  for (const r of cat.realms) for (const a of r.agents) { S.agents.set(a.id, a); S.realmOf.set(a.id, r); }
-  $("#title").textContent = cat.title;
-  renderHeader(); renderFilterChips(); renderHive();
+  if (!(await authGate())) return;
+  S.raw = await (await fetch("/api/catalog")).json();
+  if (S.raw.edition && S.raw.edition !== "internal") setLang(LANG); else LANG = "en";
+  useCatalog();
+  renderUser();
 
   $$(".views button").forEach((b) => b.onclick = () => setView(b.dataset.view));
   $("#q").addEventListener("input", (e) => { S.filters.q = e.target.value.trim(); applyFilters(); });
@@ -606,14 +734,14 @@ async function init() {
   $("#p-close").onclick = closeAgent; $("#scrim").onclick = closeAgent;
   $("#preview-close").onclick = () => { $("#preview").hidden = true; $("#preview-frame").srcdoc = ""; };
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") { if (!$("#preview").hidden) $("#preview-close").click(); else if (S.open) closeAgent(); }
+    if (e.key === "Escape") { if (!$("#feedback").hidden) $("#fb-skip")?.click(); else if (!$("#preview").hidden) $("#preview-close").click(); else if (S.open) closeAgent(); }
   });
   $("#composer").addEventListener("submit", (e) => { e.preventDefault(); send(); });
   $("#msg").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } });
   $("#new-session").onclick = () => {
     if (!S.open) return;
     S.sessions.delete(S.open);
-    $("#chat").innerHTML = `<div class="empty-chat">New session — the agent starts with a clean state.</div>`;
+    $("#chat").innerHTML = `<div class="empty-chat">${esc(t("chat.new"))}</div>`;
     $("#runtime-line").textContent = "";
   };
   $("#doc-btn").onclick = async () => {
@@ -621,12 +749,12 @@ async function init() {
     const r = await fetch(`/api/doc/${a.sample_doc}`);
     if (!r.ok) return;
     const j = await r.json();
-    $("#msg").value = ($("#msg").value ? $("#msg").value + "\n\n" : `Here is the document "${j.title}":\n\n`) + j.text;
+    $("#msg").value = ($("#msg").value ? $("#msg").value + "\n\n" : t("msg.docintro", { t: j.title }) + "\n\n") + j.text;
     $("#msg").focus();
   };
   $("#file").addEventListener("change", async (e) => {
     for (const f of e.target.files) {
-      if (f.size > 7 * 1024 * 1024) { alert(`${f.name} is larger than 7 MB`); continue; }
+      if (f.size > 7 * 1024 * 1024) { alert(t("msg.toobig", { f: f.name })); continue; }
       const data = await new Promise((res) => { const fr = new FileReader(); fr.onload = () => res(fr.result.split(",")[1]); fr.readAsDataURL(f); });
       S.files.push({ name: f.name, mime_type: f.type || "application/octet-stream", data });
     }
@@ -638,4 +766,4 @@ async function init() {
   if (h.startsWith("view=")) setView(h.slice(5));
   else if (h && S.agents.has(h)) openAgent(h);
 }
-init().catch((e) => { document.body.insertAdjacentHTML("afterbegin", `<p style="padding:20px;color:var(--danger)">Could not load the hive: ${esc(e.message)}</p>`); });
+init().catch((e) => { document.body.insertAdjacentHTML("afterbegin", `<p style="padding:20px;color:var(--danger)">${esc(t("load.fail", { e: e.message }))}</p>`); });

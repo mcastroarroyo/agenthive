@@ -1,0 +1,168 @@
+{
+  "_note": "Synthetic competitive watchlist. All competitor names are invented; sources use reserved .example domains.",
+  "today": "2026-11-06",
+  "competitors": {
+    "Cobalt Cloud Partners": {
+      "alias": "Competitor A",
+      "type": "Google Cloud partner — Workspace migration specialist",
+      "positioning": "Lowest-cost Workspace migrations at volume; offshore delivery centre.",
+      "strengths": [
+        "Aggressive per-user migration pricing",
+        "Large migration factory",
+        "Fast mobilisation"
+      ],
+      "weaknesses": [
+        "Thin post-migration change management",
+        "Little AI/agent delivery experience",
+        "Forum complaints about support after cutover"
+      ],
+      "last_known_pricing": {
+        "workspace_migration_per_user_usd": 32,
+        "previous_per_user_usd": 45,
+        "minimum_seats": 1000
+      },
+      "how_we_win": "Sell outcomes after cutover: floor-walkers, adoption and Gemini enablement; quote total cost of a failed adoption, not just migration price."
+    },
+    "Stratonix Consulting": {
+      "alias": "Competitor B",
+      "type": "Multi-cloud systems integrator with an AI agents practice",
+      "positioning": "Enterprise-scale 'agent factory' across clouds.",
+      "strengths": [
+        "Brand recognition with large enterprises",
+        "Big bench",
+        "Packaged agent pilots"
+      ],
+      "weaknesses": [
+        "Multi-cloud generalists — fewer Google-specific specialisations",
+        "High day rates",
+        "Long mobilisation"
+      ],
+      "last_known_pricing": {
+        "agent_pilot_fixed_usd": 60000,
+        "pilot_weeks": 6,
+        "discovery_workshop_usd": 0
+      },
+      "how_we_win": "Google-native depth, a library of working AI agents to demo on day one, and pilots that reuse production-ready patterns."
+    },
+    "Quillon Digital": {
+      "alias": "Competitor C",
+      "type": "Boutique GenAI agency",
+      "positioning": "Creative GenAI prototypes and marketing use cases.",
+      "strengths": [
+        "Fast, polished prototypes",
+        "Strong design team"
+      ],
+      "weaknesses": [
+        "Limited security and governance practice",
+        "Few production deployments"
+      ],
+      "last_known_pricing": {
+        "prototype_sprint_usd": 25000
+      },
+      "how_we_win": "Prototype-to-production path with guardrails (Model Armor, DLP) and an operating model, not just a demo."
+    },
+    "Halcyon Data Works": {
+      "alias": "Competitor D",
+      "type": "Data platform specialist",
+      "positioning": "BigQuery and Looker modernisation for mid-market.",
+      "strengths": [
+        "Deep BigQuery expertise",
+        "Fixed-price warehouse migrations"
+      ],
+      "weaknesses": [
+        "No Workspace or collaboration practice",
+        "Limited GenAI assistants experience"
+      ],
+      "last_known_pricing": {
+        "warehouse_migration_fixed_from_usd": 180000
+      },
+      "how_we_win": "Integrated bids: data platform + AI assistant + collaboration, one accountable partner."
+    }
+  },
+  "events": [
+    {
+      "id": "CI-2311",
+      "competitor": "Cobalt Cloud Partners",
+      "date": "2026-11-04",
+      "source_type": "pricing page",
+      "source": "cobaltcloud.example/pricing",
+      "change_type": "pricing",
+      "impact": "high",
+      "confidence": "high",
+      "summary": "Cut Workspace migration list price from $45 to $32 per user for deals above 1,000 seats.",
+      "suggested_response": "In active migration deals, reframe around adoption outcomes and floor-walker support; do not match price below our floor."
+    },
+    {
+      "id": "CI-2312",
+      "competitor": "Stratonix Consulting",
+      "date": "2026-11-03",
+      "source_type": "press release",
+      "source": "stratonix.example/newsroom",
+      "change_type": "offering",
+      "impact": "high",
+      "confidence": "high",
+      "summary": "Launched 'AgentOps Factory': 6-week fixed-price agent pilots at $60k, multi-cloud, with a free discovery workshop.",
+      "suggested_response": "Counter with a live agent demo and a 4-week Google-native pilot; highlight production guardrails and reuse."
+    },
+    {
+      "id": "CI-2313",
+      "competitor": "Quillon Digital",
+      "date": "2026-11-02",
+      "source_type": "job postings",
+      "source": "quillon.example/careers",
+      "change_type": "hiring",
+      "impact": "medium",
+      "confidence": "medium",
+      "summary": "Eight new openings for 'Gemini Enterprise engineers' and two for 'AI security consultants'.",
+      "suggested_response": "Expect Quillon in Gemini Enterprise rollouts within 2 quarters; lead with our adoption case studies (CS-006)."
+    },
+    {
+      "id": "CI-2314",
+      "competitor": "Cobalt Cloud Partners",
+      "date": "2026-11-01",
+      "source_type": "forum",
+      "source": "admins-forum.example/thread/88412",
+      "change_type": "reputation",
+      "impact": "medium",
+      "confidence": "low",
+      "summary": "Forum thread from IT admins complaining about slow post-cutover support from a Cobalt migration (unverified).",
+      "suggested_response": "Do not cite the thread; ask prospects how post-cutover support is staffed and offer references (CS-009)."
+    },
+    {
+      "id": "CI-2315",
+      "competitor": "Halcyon Data Works",
+      "date": "2026-10-30",
+      "source_type": "press release",
+      "source": "halcyondata.example/news",
+      "change_type": "partnership",
+      "impact": "medium",
+      "confidence": "high",
+      "summary": "Announced a partnership with a CRM vendor to sell packaged CRM-to-BigQuery sync.",
+      "suggested_response": "Position Vulcan-style multi-system sync (CRM + construction + BigQuery) for real-estate and construction prospects."
+    },
+    {
+      "id": "CI-2316",
+      "competitor": "Stratonix Consulting",
+      "date": "2026-10-29",
+      "source_type": "webinar",
+      "source": "stratonix.example/events",
+      "change_type": "messaging",
+      "impact": "low",
+      "confidence": "medium",
+      "summary": "Webinar messaging shifted to 'agent governance' and evaluation frameworks.",
+      "suggested_response": "Share BLOG-109 (Model Armor in practice) with security stakeholders."
+    },
+    {
+      "id": "CI-2301",
+      "competitor": "Quillon Digital",
+      "date": "2026-10-21",
+      "source_type": "website",
+      "source": "quillon.example/services",
+      "change_type": "pricing",
+      "impact": "low",
+      "confidence": "high",
+      "summary": "Published a $25k fixed-price prototype sprint.",
+      "suggested_response": "Morpheus dream-to-demo answers this in hours; position the sprint as step one of a production path."
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-"""Wursta Delivery Engine (WurstaBots) — client delivery, sales & marketing and innovation-pipeline tools.
+"""Delivery Engine — client delivery, sales & marketing and operations / risk / AI-governance tools.
 
 Deterministic, stdlib-only functions over synthetic fixtures (fixtures/ops_*.json and fixtures/docs/ops_*.md).
 Every organisation and person is fictional. Tools with side effects are simulated and return simulated=True.
@@ -159,7 +159,7 @@ def ops_send_pm_alert(meeting_id: str, severity: str, headline: str, body: str,
 
 @hive_tool(MODULE)
 def ops_pm_project_roster(project_key: str) -> dict:
-    """Read a project in the PM system: team members (Wursta and client), open tasks with overdue flags, decision log.
+    """Read a project in the PM system: team members (delivery firm and client), open tasks with overdue flags, decisions.
 
     Args:
         project_key: Project key, e.g. 'TBL' (Tallbridge Logistics), 'CFI' (Calder & Finch) or 'VAC' (Verdant Agro).
@@ -168,6 +168,7 @@ def ops_pm_project_roster(project_key: str) -> dict:
         Members with PM usernames and org, open tasks (overdue and client-owned flagged) and recent decisions.
     """
     pm = fixture("ops_pm")
+    firm = pm.get("firm", "Wursta")   # the delivery firm's org name in the roster (editions name their own)
     proj = pm["projects"].get(project_key.upper().strip())
     if not proj:
         return err(f"unknown project {project_key!r}", available=sorted(pm["projects"]))
@@ -175,7 +176,7 @@ def ops_pm_project_roster(project_key: str) -> dict:
     tasks = []
     for t in proj["open_tasks"]:
         overdue = t["status"] != "Done" and t["due"] < TODAY.isoformat()
-        tasks.append({**t, "overdue": overdue, "client_owned": orgs.get(t["owner"], "Wursta") != "Wursta",
+        tasks.append({**t, "overdue": overdue, "client_owned": orgs.get(t["owner"], firm) != firm,
                       "days_overdue": (TODAY - dt.date.fromisoformat(t["due"])).days if overdue else 0})
     return ok(project=project_key.upper(), name=proj["name"], account=proj["account"], pm=proj["pm"],
               last_meeting=proj["last_meeting"], last_meeting_date=proj["last_meeting_date"],
@@ -264,6 +265,7 @@ def ops_create_pm_tasks(project_key: str, tasks: list[dict], decisions: list[str
         items that need an owner; decision-log ids.
     """
     pm = fixture("ops_pm")
+    firm = pm.get("firm", "Wursta")
     proj = pm["projects"].get(project_key.upper().strip())
     if not proj:
         return err(f"unknown project {project_key!r}", available=sorted(pm["projects"]))
@@ -308,9 +310,9 @@ def ops_create_pm_tasks(project_key: str, tasks: list[dict], decisions: list[str
                "due": due.isoformat() if due else None, "due_rule": rule,
                "priority": item.get("priority", "P2"),
                "labels": ["meeting-action", (mt or {}).get("id", "manual")]
-               + (["client-owned"] if assignee["org"] != "Wursta" else [])
+               + (["client-owned"] if assignee["org"] != firm else [])
                + ([] if resolved else ["needs-owner"]) + ([] if due else ["needs-due-date"])}
-        if assignee["org"] != "Wursta":
+        if assignee["org"] != firm:
             rec["watchers"].append(proj["pm"])
         if not resolved:
             needs_owner.append({"key": key, "task": title, "stated_owner": item.get("owner") or "none",
@@ -351,10 +353,11 @@ def ops_index_knowledge_asset(meeting_id: str, title: str, summary: str, tags: l
         return err("access must be project_team, account_team or company")
     if len(summary.split()) < 15 or not tags:
         return err("summary (15+ words) and at least one tag are required")
+    firm = fixture("ops_pm").get("firm", "Wursta")
     pm = fixture("ops_pm")["projects"].get(m["project_key"], {})
-    acl = {"project_team": [p["name"] for p in pm.get("members", []) if p["org"] == "Wursta"] or [m["pm"]],
+    acl = {"project_team": [p["name"] for p in pm.get("members", []) if p["org"] == firm] or [m["pm"]],
            "account_team": ["Account team (PM, CSM, AE, engagement lead)"],
-           "company": ["All Wursta employees"]}[access]
+           "company": [f"All {firm} employees"]}[access]
     warnings = []
     if access == "company" and m["type"] in ("steering_committee", "monthly_review"):
         warnings.append("Steering/commercial meetings usually contain client-confidential details — prefer account_team.")
@@ -379,7 +382,7 @@ _CLAIM_TERMS = ["guarantee", "guaranteed", "100%", "best-in-class", "world-class
 
 @hive_tool(MODULE)
 def ops_content_library(kind: str = "", query: str = "", external_only: bool = False) -> dict:
-    """Search the content & evidence library: case studies, blogs, Hive agent capabilities, past SOWs, capabilities.
+    """Search the content & evidence library: case studies, blogs, agent/solution offerings, past SOWs, capabilities.
 
     Args:
         kind: Optional filter — 'case_study', 'blog', 'agent', 'past_sow' or 'capability'.
@@ -420,7 +423,7 @@ def ops_content_library(kind: str = "", query: str = "", external_only: bool = F
 
 @hive_tool(MODULE)
 def ops_brand_deck_check(slides: list[dict], audience: str = "client") -> dict:
-    """Check a slide-by-slide deck outline against Wursta's presentation & brand standards.
+    """Check a slide-by-slide deck outline against the presentation & brand standards.
 
     Args:
         slides: List of {"title": str, "bullets": [str], "notes": str, "source": str} in slide order
@@ -490,28 +493,33 @@ def ops_brand_deck_check(slides: list[dict], audience: str = "client") -> dict:
 
 
 @hive_tool(MODULE, kind="action")
-def ops_create_slides_deck(title: str, slides: list[dict], template: str = "wursta_client_2026",
+def ops_create_slides_deck(title: str, slides: list[dict], template: str = "",
                            share_with: list[str] | None = None) -> dict:
     """Create the Google Slides deck from an approved outline (simulated). Refuses decks with brand-check errors.
 
     Args:
         title: Deck title.
         slides: Slide outline, same shape as for ops_brand_deck_check.
-        template: Slides template: 'wursta_client_2026', 'wursta_executive_2026' or 'wursta_workshop_2026'.
-        share_with: Optional editor emails (internal only).
+        template: Slides template id from the presentation standards (client, executive or workshop template);
+            empty = the client template. An unknown id returns the available templates.
+        share_with: Optional editor emails (the firm's own accounts only).
 
     Returns:
         Deck id, simulated link, slide count, template and the brand score.
     """
-    if template not in ("wursta_client_2026", "wursta_executive_2026", "wursta_workshop_2026"):
-        return err("unknown template", available=["wursta_client_2026", "wursta_executive_2026", "wursta_workshop_2026"])
+    lib = fixture("ops_content")
+    templates = lib.get("slide_templates") or ["wursta_client_2026", "wursta_executive_2026", "wursta_workshop_2026"]
+    template = template or templates[0]
+    if template not in templates:
+        return err("unknown template", available=templates)
     check = ops_brand_deck_check(slides, "executive" if "executive" in template else "client")
     if check["status"] != "ok":
         return check
     if check["counts"]["error"]:
         return err("deck has brand-check errors — fix them before creating the file",
                    issues=[i for i in check["issues"] if i["level"] == "error"])
-    external = [e for e in (share_with or []) if not e.lower().endswith("@wursta.example")]
+    domain = "@" + lib.get("internal_domain", "wursta.example")
+    external = [e for e in (share_with or []) if not e.lower().endswith(domain)]
     if external:
         return err("drafts can only be shared internally; share with the client after review", external=external)
     deck_id = _sid("DECK", title, len(slides))
@@ -1222,7 +1230,7 @@ _WEIGHTS = {"attendance": 0.10, "sponsor": 0.15, "sentiment_level": 0.15, "senti
             "support": 0.12, "adoption": 0.10, "finance": 0.10, "delivery": 0.10, "nps": 0.08}
 _BANDS = [(70, "critical"), (50, "high"), (30, "watch"), (0, "healthy")]
 _PLAYS = {
-    "critical": "Executive save plan within 5 business days: Wursta executive call with the sponsor, recovery plan "
+    "critical": "Executive save plan within 5 business days: executive-to-executive call with the sponsor, recovery plan "
                 "with dated milestones, commercial goodwill review, weekly health check until green.",
     "high": "Account review (CSM + engagement lead) within 10 business days; re-engage the sponsor; fix the top two "
             "drivers and re-score after the next meeting.",
@@ -1916,7 +1924,7 @@ def ops_sow_clause_scan(sow: str) -> dict:
 
 @hive_tool(MODULE)
 def ops_control_lookup(query: str = "", framework: str = "") -> dict:
-    """Look up Wursta's internal security controls (synthetic) and their SOC 2 / ISO 27001 reference mapping.
+    """Look up the organisation's own security controls (synthetic) and their SOC 2 / ISO 27001 reference mapping.
 
     Args:
         query: Keyword, control id or framework reference, e.g. 'access review', 'offboarding', 'WC-AI-01',

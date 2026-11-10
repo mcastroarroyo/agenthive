@@ -436,8 +436,11 @@ def tel_check_copy_compliance(text: str, channel: str = "email") -> dict:
 
     Returns:
         pass (no blocker/major issues), score 0-100, issues (severity, rule, detail, fix) and the channel rules.
+        Copy written in Spanish is checked with the Spanish equivalents of the legal lines, CTA verbs and banned
+        terms (tel_brand.json "spanish").
     """
     brand = fixture("tel_brand")
+    es = brand.get("spanish", {})
     ch = channel.strip().lower()
     rules = brand["channels"].get(ch)
     if not rules:
@@ -474,26 +477,38 @@ def tel_check_copy_compliance(text: str, channel: str = "email") -> dict:
         add("major", "emoji", f"{emojis} emoji (max {rules['max_emojis']} on {ch})", "Remove extra emoji")
     if text.count("!") > rules["max_exclamations"]:
         add("minor", "tone", f"{text.count('!')} exclamation marks (max {rules['max_exclamations']})", "Keep one at most")
-    for term in brand["banned_terms"]:
+    spanish = bool(es) and len(re.findall(r"\b(el|la|los|las|tu|tus|con|para|por|sin|de|del|y|en|al|más|mes|que|hoy)\b",
+                                          low)) >= 3
+    es_lines = es.get("conditional_lines", {})
+    for term in brand["banned_terms"] + es.get("banned_terms", []):
         if re.search(r"(?<!\w)" + re.escape(term) + r"(?!\w)", low):
             add("blocker", "banned_term", f"Banned term '{term}'", "Replace with a concrete, provable benefit")
     for wrong, right in brand["misspellings"].items():
         if re.search(r"(?<!\w)" + re.escape(wrong) + r"(?!\w)", text):
             add("major", "product_name", f"'{wrong}' should be '{right}'", f"Use '{right}'")
-    for claim in brand["claims_needing_source"]:
-        if claim in low and not ("*" in text and "source:" in low):
+    for claim in brand["claims_needing_source"] + es.get("claims_needing_source", []):
+        if claim in low and not ("*" in text and ("source:" in low or "fuente:" in low)):
             add("blocker", "substantiation", f"Claim '{claim}' without a footnote and 'Source:' line",
                 "Add '*' and a 'Source:' line, or remove the claim")
+    fair_es = es_lines.get("unlimited", "").lower().rstrip(".")
     if re.search(r"\bunlimited\b", low) and "fair use policy applies" not in low:
         add("blocker", "legal_line", "'Unlimited' without 'Fair use policy applies.'", "Add the fair-use line")
+    if fair_es and re.search(r"\bilimitad[oa]s?\b", low) and fair_es not in low and "fair use policy applies" not in low:
+        add("blocker", "legal_line", f"'Ilimitado' without '{es_lines['unlimited']}'", "Add the fair-use line")
     if re.search(r"\$\s?\d", text):
-        need = brand["conditional_lines"]["price_email" if ch == "email" else "price_short"]
-        if need.split(".")[0].lower() not in low:
-            add("major", "legal_line", f"Price shown without '{need}'", f"Add '{need}'")
-    if ch == "sms" and rules.get("required_text", "").lower() not in low:
-        add("blocker", "opt_out", "SMS without 'Reply STOP to opt out'", "Append 'Reply STOP to opt out'")
-    if rules.get("needs_cta") and not any(re.search(rf"\b{v}\b", text, re.I) for v in brand["cta_verbs"]):
-        add("major", "cta", "No call to action", f"Start the CTA with one of: {', '.join(brand['cta_verbs'][:6])}")
+        key = "price_email" if ch == "email" else "price_short"
+        need, need_es = brand["conditional_lines"][key], es_lines.get(key, "")
+        if need.split(".")[0].lower() not in low and not (need_es and need_es.split(".")[0].lower() in low):
+            line = need_es if spanish and need_es else need
+            add("major", "legal_line", f"Price shown without '{line}'", f"Add '{line}'")
+    opt_es = es.get("sms_opt_out", "")
+    if ch == "sms" and rules.get("required_text", "").lower() not in low and not (opt_es and opt_es.lower() in low):
+        line = opt_es if spanish and opt_es else "Reply STOP to opt out"
+        add("blocker", "opt_out", f"SMS without '{line}'", f"Append '{line}'")
+    verbs = brand["cta_verbs"] + es.get("cta_verbs", [])
+    if rules.get("needs_cta") and not any(re.search(rf"(?<!\w){v}(?!\w)", text, re.I) for v in verbs):
+        shown = es.get("cta_verbs", [])[:6] if spanish else brand["cta_verbs"][:6]
+        add("major", "cta", "No call to action", f"Start the CTA with one of: {', '.join(shown)}")
     shouts = [w for w in re.findall(r"\b[A-Z]{4,}\b", text) if w not in brand["allowed_caps"]]
     if shouts:
         add("minor", "tone", f"ALL-CAPS words: {', '.join(sorted(set(shouts))[:5])}", "Use sentence case")
@@ -505,7 +520,10 @@ def tel_check_copy_compliance(text: str, channel: str = "email") -> dict:
     if sentences and mean(len(s.split()) for s in sentences) > 20:
         add("minor", "readability", "Average sentence longer than 20 words", "Split long sentences")
     you = len(re.findall(r"\byou(r|rs)?\b", low))
-    we = len(re.findall(r"\b(we|our|us)\b", low))
+    we = len(re.findall(r"\b(we|our|us)\b(?!\$)", low))   # 'US$65' is a price, not 'us'
+    if spanish:
+        you += len(re.findall(r"\b(tú|tu|tus|te|ti)\b", low))
+        we += len(re.findall(r"\b(nosotros|nuestro|nuestra|nuestros|nuestras)\b", low))
     if we > you:
         add("minor", "voice", f"'we/our' ({we}) outnumbers 'you/your' ({you})", "Rewrite from the customer's side")
     sev = {"blocker": 25, "major": 10, "minor": 3}
@@ -1150,12 +1168,24 @@ def ret_product_compare(skus: str = "", category: str = "", max_price: float = 0
         (end of life / successor) and the matched features.
     """
     prods = _cat()["products"]
+    note = None
     if skus:
-        wanted = [s.upper() for s in _csv(skus)]
-        sel = [p for p in prods if p["sku"] in wanted]
-        missing = [s for s in wanted if s not in {p["sku"] for p in sel}]
+        known = [p["sku"] for p in prods]
+        wanted, fixed = [], {}
+        for s in (x.upper() for x in _csv(skus)):
+            if s not in known:   # tolerate a mistyped brand prefix only (e.g. 'CRV-AIR14' -> 'CVX-AIR14')
+                same = [k for k in known if k.split("-", 1)[-1] == s.split("-", 1)[-1]]
+                if len(same) == 1:
+                    fixed[s] = same[0]
+                    s = same[0]
+            wanted.append(s)
+        missing = [s for s in wanted if s not in known]
         if missing:
-            return err(f"unknown SKUs {missing}")
+            return err(f"unknown SKUs {missing}", hint="Search by category to get the SKUs.",
+                       categories=sorted({p["category"] for p in prods}))
+        sel = [p for p in prods if p["sku"] in wanted]
+        if fixed:
+            note = f"SKUs resolved to the closest catalog SKU: {fixed}"
     else:
         if not category:
             return err("pass skus or a category", categories=sorted({p["category"] for p in prods}))
@@ -1163,14 +1193,22 @@ def ret_product_compare(skus: str = "", category: str = "", max_price: float = 0
     if max_price:
         sel = [p for p in sel if p["list_price_usd"] <= max_price]
     feats = [f.lower() for f in _csv(must_have)]
-    if feats:
-        def norm(x: str) -> str:
-            return re.sub(r"[\s._\-]", "", x.lower())
 
-        def has(p, f):
-            parts = [k if v is True else f"{k} {v}" for k, v in p["specs"].items() if v not in (False, 0, None)]
-            return norm(f) in norm(" ".join(parts))
+    def norm(x: str) -> str:
+        return re.sub(r"[\s._\-]", "", x.lower())
+
+    def has(p, f):
+        parts = [k if v is True else f"{k} {v}" for k, v in p["specs"].items() if v not in (False, 0, None)]
+        return norm(f) in norm(" ".join([p["name"], p["brand"], *parts]))
+
+    if feats and not skus:   # named SKUs are always compared; features then show as matched / missing per product
+        pool = sel
         sel = [p for p in sel if all(has(p, f) for f in feats)]
+        if not sel and pool:  # nothing has every feature: show the closest matches and what each one lacks
+            best = max(sum(has(p, f) for f in feats) for p in pool)
+            sel = [p for p in pool if sum(has(p, f) for f in feats) == best]
+            note = ("No product has every must_have feature; showing the closest matches with missing_features. "
+                    "Spec words that match: earc, hdmi21, vrr, usb4, dolby atmos, wifi 7, matter.")
     if not sel:
         return err("no products match")
     inv = fixture("ret_inventory")["positions"]
@@ -1187,8 +1225,9 @@ def ret_product_compare(skus: str = "", category: str = "", max_price: float = 0
                      "key_specs": {k: p["specs"][k] for k in _SPEC_KEYS if k in p["specs"]},
                      "other_specs": {k: v for k, v in p["specs"].items() if k not in _SPEC_KEYS},
                      "stock": {"units": units, "stores_with_stock": stores_with}, "careplus": _careplus(p["list_price_usd"]),
-                     "lifecycle_note": life})
-    return ok(products=rows, matched_features=feats, count=len(sel))
+                     "lifecycle_note": life,
+                     **({"missing_features": [f for f in feats if not has(p, f)]} if feats and (skus or note) else {})})
+    return ok(products=rows, matched_features=feats, count=len(sel), **({"note": note} if note else {}))
 
 
 def _compat(a: dict, b: dict) -> tuple[str, str]:
@@ -1326,11 +1365,13 @@ def ret_simulate_promotion(sku: str, discount_pct: float, weeks: int = 2, segmen
     if not p:
         return err(f"unknown sku {sku!r}")
     if not 0 < discount_pct < 90 or not 1 <= weeks <= 6:
-        return err("discount_pct must be between 0 and 90 and weeks between 1 and 6")
+        return err("discount_pct must be above 0 and below 90 and weeks between 1 and 6",
+                   hint="For a bundle-led offer keep a small discount on the main SKU (e.g. 5) and put the rest in "
+                        "bundle_discount_pct.")
     if targeted_only and not segment_id:
         return err("targeted_only needs a segment_id")
     try:
-        start = dt.date.fromisoformat(start_date)
+        start = dt.date.fromisoformat(str(start_date).strip()[:10])
     except ValueError:
         return err("start_date must be YYYY-MM-DD")
     cat, segd = _cat(), fixture("ret_segments")

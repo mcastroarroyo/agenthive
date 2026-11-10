@@ -1,0 +1,293 @@
+{
+  "jira_labels": ["transformation", "pantheon"],
+  "velocity": 34,
+  "velocity_note": "Points per two-week sprint for a standard team of 5 (2 engineers, 1 data/AI engineer, 1 analyst, 1 lead); replace with measured velocity after sprint 2.",
+  "reference_stories": [
+    {
+      "story": "As an employee, I want my Exchange mailbox migrated with mail, calendar and contacts, so that I lose nothing at cutover.",
+      "points": 5,
+      "keywords": [
+        "mailbox",
+        "mailboxes",
+        "migrate",
+        "migrated",
+        "migration",
+        "exchange",
+        "email",
+        "mail",
+        "calendar",
+        "contacts",
+        "cutover"
+      ]
+    },
+    {
+      "story": "As an IT admin, I want users and groups synced from Active Directory, so that accounts are provisioned automatically.",
+      "points": 5,
+      "keywords": [
+        "directory",
+        "sync",
+        "users",
+        "groups",
+        "provision",
+        "provisioned",
+        "provisioning",
+        "accounts",
+        "active",
+        "identity"
+      ]
+    },
+    {
+      "story": "As an employee, I want single sign-on with 2-Step Verification, so that I sign in securely once.",
+      "points": 3,
+      "keywords": [
+        "sso",
+        "sign",
+        "login",
+        "single",
+        "authentication",
+        "mfa",
+        "verification",
+        "securely",
+        "password"
+      ]
+    },
+    {
+      "story": "As a team lead, I want department file shares moved to shared drives with the right permissions, so that my team finds files in one place.",
+      "points": 8,
+      "keywords": [
+        "file",
+        "files",
+        "shares",
+        "shared",
+        "drive",
+        "drives",
+        "folders",
+        "permissions",
+        "department",
+        "sharepoint"
+      ]
+    },
+    {
+      "story": "As a compliance officer, I want DLP rules that block sharing of policy numbers and SSNs outside the company, so that PII does not leak.",
+      "points": 5,
+      "keywords": [
+        "dlp",
+        "pii",
+        "compliance",
+        "sharing",
+        "block",
+        "leak",
+        "sensitive",
+        "ssn",
+        "rules",
+        "outside"
+      ]
+    },
+    {
+      "story": "As a claims adjuster, I want a summary of the claim file with key dates, amounts and open tasks, so that I understand a claim in under a minute.",
+      "points": 8,
+      "keywords": [
+        "claim",
+        "claims",
+        "summary",
+        "summarise",
+        "summarize",
+        "adjuster",
+        "adjusters",
+        "notes",
+        "documents",
+        "assistant"
+      ]
+    },
+    {
+      "story": "As a claims handler, I want the assistant to draft the customer letter for my review, so that I spend less time writing.",
+      "points": 5,
+      "keywords": [
+        "draft",
+        "drafts",
+        "letter",
+        "letters",
+        "customer",
+        "handler",
+        "handlers",
+        "write",
+        "writing",
+        "template"
+      ]
+    },
+    {
+      "story": "As a reviewer, I want a queue of AI-drafted outputs to approve or reject with a reason, so that a human decides every customer-facing action.",
+      "points": 5,
+      "keywords": [
+        "review",
+        "approve",
+        "reject",
+        "queue",
+        "human",
+        "approval",
+        "reviewer",
+        "audit",
+        "decision"
+      ]
+    },
+    {
+      "story": "As a field technician, I want today's work orders available offline on my phone, so that I can work without coverage.",
+      "points": 8,
+      "keywords": [
+        "field",
+        "technician",
+        "technicians",
+        "work",
+        "orders",
+        "offline",
+        "mobile",
+        "phone",
+        "today",
+        "app"
+      ]
+    },
+    {
+      "story": "As a field technician, I want to capture photos and attach them to the work order, so that evidence is recorded on site.",
+      "points": 3,
+      "keywords": [
+        "photo",
+        "photos",
+        "capture",
+        "attach",
+        "camera",
+        "image",
+        "images",
+        "evidence",
+        "site",
+        "field",
+        "technician",
+        "technicians"
+      ]
+    },
+    {
+      "story": "As an operations manager, I want a dashboard of KPIs refreshed daily, so that I can spot problems early.",
+      "points": 5,
+      "keywords": [
+        "dashboard",
+        "report",
+        "reports",
+        "kpi",
+        "kpis",
+        "metrics",
+        "looker",
+        "manager",
+        "analytics",
+        "sla"
+      ]
+    },
+    {
+      "story": "As a data engineer, I want a daily pipeline that loads source extracts into BigQuery, so that analytics use fresh data.",
+      "points": 8,
+      "keywords": [
+        "pipeline",
+        "load",
+        "ingest",
+        "bigquery",
+        "data",
+        "extract",
+        "extracts",
+        "daily",
+        "warehouse",
+        "etl"
+      ]
+    },
+    {
+      "story": "As a store manager, I want a 14-day demand forecast per SKU, so that I order the right stock.",
+      "points": 8,
+      "keywords": [
+        "forecast",
+        "forecasting",
+        "demand",
+        "inventory",
+        "stock",
+        "sku",
+        "store",
+        "stores",
+        "replenishment"
+      ]
+    },
+    {
+      "story": "As a citizen, I want to report an issue through WhatsApp and get a tracking number, so that I know it was received.",
+      "points": 5,
+      "keywords": [
+        "citizen",
+        "citizens",
+        "whatsapp",
+        "chatbot",
+        "chat",
+        "issue",
+        "request",
+        "requests",
+        "tracking",
+        "bot"
+      ]
+    },
+    {
+      "story": "As an employee, I want to ask questions about policies and get cited answers from the knowledge base, so that I don't wait for an expert.",
+      "points": 3,
+      "keywords": [
+        "question",
+        "questions",
+        "ask",
+        "answers",
+        "knowledge",
+        "search",
+        "faq",
+        "coverage",
+        "wording",
+        "wordings",
+        "policies"
+      ]
+    },
+    {
+      "story": "As a user, I want an email notification when the status of my request changes, so that I don't need to check manually.",
+      "points": 2,
+      "keywords": [
+        "notification",
+        "notifications",
+        "notify",
+        "status",
+        "alert",
+        "alerts",
+        "changes",
+        "sms"
+      ]
+    },
+    {
+      "story": "As an administrator, I want role-based access to the admin screens, so that only authorised staff change settings.",
+      "points": 3,
+      "keywords": [
+        "role",
+        "roles",
+        "access",
+        "admin",
+        "administrator",
+        "permission",
+        "settings",
+        "authorised",
+        "authorized"
+      ]
+    },
+    {
+      "story": "As a sales rep, I want order status synced from the ERP to the CRM, so that I answer customers without calling the warehouse.",
+      "points": 8,
+      "keywords": [
+        "erp",
+        "crm",
+        "integration",
+        "integrate",
+        "api",
+        "order",
+        "synced",
+        "rep",
+        "distributor",
+        "edi"
+      ]
+    }
+  ]
+}

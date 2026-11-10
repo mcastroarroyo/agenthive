@@ -1,0 +1,220 @@
+{
+ "as_of": "2026-11-06",
+ "note": "Synthetic Agent Forge users, roles and business-unit access at Halvern Group. All people and domains are fictional. In the forge records a business unit is called a 'client'.",
+ "roles": {
+  "admin": {
+   "description": "AI Centre of Excellence platform owners: users, roles, business units and everything a builder can do.",
+   "actions": [
+    "view",
+    "build",
+    "test",
+    "deploy_sandbox",
+    "deploy_client",
+    "manage_connectors",
+    "manage_users",
+    "view_jobs"
+   ],
+   "client_scope": "all"
+  },
+  "builder": {
+   "description": "AI CoE engineers and certified Group IT builders: create, modify, test and deploy agents and connectors for every business unit.",
+   "actions": [
+    "view",
+    "build",
+    "test",
+    "deploy_sandbox",
+    "deploy_client",
+    "manage_connectors",
+    "view_jobs"
+   ],
+   "client_scope": "all"
+  },
+  "stakeholder": {
+   "description": "Business-unit stakeholders: preview and try only the agents of the business units they are assigned to.",
+   "actions": [
+    "view",
+    "try_in_sandbox"
+   ],
+   "client_scope": "assigned business units only"
+  }
+ },
+ "users": [
+  {
+   "email": "elena.marsh@halvern.example",
+   "name": "Elena Marsh",
+   "role": "admin",
+   "status": "active",
+   "last_active": "2026-11-06",
+   "clients": [
+    "*"
+   ]
+  },
+  {
+   "email": "kofi.mensah@halvern.example",
+   "name": "Kofi Mensah",
+   "role": "admin",
+   "status": "active",
+   "last_active": "2026-11-04",
+   "clients": [
+    "*"
+   ]
+  },
+  {
+   "email": "ravi.desai@halvern.example",
+   "name": "Ravi Desai",
+   "role": "builder",
+   "status": "active",
+   "last_active": "2026-11-06",
+   "clients": [
+    "*"
+   ]
+  },
+  {
+   "email": "marta.quintero@halvern.example",
+   "name": "Marta Quintero",
+   "role": "builder",
+   "status": "active",
+   "last_active": "2026-11-06",
+   "clients": [
+    "*"
+   ]
+  },
+  {
+   "email": "jonah.pike@halvern.example",
+   "name": "Jonah Pike",
+   "role": "builder",
+   "status": "active",
+   "last_active": "2026-11-05",
+   "clients": [
+    "*"
+   ]
+  },
+  {
+   "email": "lena.fischer@halvern.example",
+   "name": "Lena Fischer",
+   "role": "builder",
+   "status": "active",
+   "last_active": "2026-11-03",
+   "clients": [
+    "*"
+   ]
+  },
+  {
+   "email": "sofia.ruiz@halvern.example",
+   "name": "Sofia Ruiz",
+   "role": "builder",
+   "status": "active",
+   "last_active": "2026-08-21",
+   "clients": [
+    "*"
+   ],
+   "note": "moved to the Finance systems team in August"
+  },
+  {
+   "email": "dev.contractor@freelance-studio.example",
+   "name": "Casey Lund",
+   "role": "builder",
+   "status": "active",
+   "last_active": "2026-10-30",
+   "clients": [
+    "*"
+   ],
+   "note": "external contractor for the video agent"
+  },
+  {
+   "email": "dana.cole@ridgeline.halvern.example",
+   "name": "Dana Cole",
+   "role": "stakeholder",
+   "status": "active",
+   "last_active": "2026-11-05",
+   "clients": [
+    "ridgeline_outfitters"
+   ],
+   "assignment_expires": "2027-03-31"
+  },
+  {
+   "email": "m.ortega@copperline.halvern.example",
+   "name": "Miguel Ortega",
+   "role": "stakeholder",
+   "status": "active",
+   "last_active": "2026-11-02",
+   "clients": [
+    "copperline_auto"
+   ],
+   "assignment_expires": "2027-01-31"
+  },
+  {
+   "email": "jbaker@summittire.example",
+   "name": "Jordan Baker",
+   "role": "stakeholder",
+   "status": "active",
+   "last_active": "2026-11-01",
+   "clients": [
+    "summit_tire"
+   ],
+   "assignment_expires": "2026-11-30"
+  },
+  {
+   "email": "a.lindqvist@northpass.halvern.example",
+   "name": "Astrid Lindqvist",
+   "role": "stakeholder",
+   "status": "active",
+   "last_active": "2026-10-28",
+   "clients": [
+    "northpass_capital"
+   ],
+   "assignment_expires": "2027-02-28"
+  },
+  {
+   "email": "pat.nguyen@northpass.halvern.example",
+   "name": "Pat Nguyen",
+   "role": "stakeholder",
+   "status": "active",
+   "last_active": "2026-10-20",
+   "clients": [
+    "northpass_capital",
+    "ridgeline_outfitters"
+   ],
+   "assignment_expires": "2027-02-28",
+   "note": "assigned to Ridgeline Outfitters for a joint pricing review - crosses the Northpass information barrier"
+  },
+  {
+   "email": "ops.lead@stonebridge.halvern.example",
+   "name": "Robin Hale",
+   "role": "stakeholder",
+   "status": "active",
+   "last_active": "2026-09-30",
+   "clients": [
+    "stonebridge_facilities"
+   ],
+   "assignment_expires": "2026-10-31"
+  },
+  {
+   "email": "t.okafor@harlowpartners.example",
+   "name": "Tobi Okafor",
+   "role": "stakeholder",
+   "status": "active",
+   "last_active": "2026-10-12",
+   "clients": [],
+   "note": "integration adviser from the Summit Tire & Auto acquisition deal team; no business unit assigned yet"
+  }
+ ],
+ "client_domains": {
+  "ridgeline_outfitters": "ridgeline.halvern.example",
+  "copperline_auto": "copperline.halvern.example",
+  "summit_tire": "summittire.example",
+  "northpass_capital": "northpass.halvern.example",
+  "stonebridge_facilities": "stonebridge.halvern.example",
+  "halvern_corporate": "halvern.example"
+ },
+ "iap": {
+  "enabled": true,
+  "sign_in": "Google Identity-Aware Proxy in front of the forge web app (Cloud Run)",
+  "staff_domain": "halvern.example",
+  "staff_label": "Halvern staff on halvern.example (AI CoE or Group IT)",
+  "external_access": "individual IAP grants per business-unit stakeholder (no public access)",
+  "context_aware_access": "not configured",
+  "session_length_hours": 12
+ },
+ "org_label": "business unit"
+}

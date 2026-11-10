@@ -1,12 +1,14 @@
-"""Decide what a push needs to redeploy: the web app, which realm engines, the KB corpus, the BigQuery seed.
+"""Decide what a push needs to redeploy: the web apps, which engines (both editions), the KB stores, the BigQuery seed.
 
-    python deploy/changes.py <base-sha> <head-sha>          # from git diff
-    python deploy/changes.py --targets all|web,platform,kb  # explicit (workflow_dispatch)
+    python deploy/changes.py <base-sha> <head-sha>                      # from git diff
+    python deploy/changes.py --targets all|web,engines,showcase,platform,sc:services,kb,bq   # explicit
 
-Prints `key=value` lines for $GITHUB_OUTPUT: web, realms (JSON list), kb (JSON list of realms), bq, any.
-A realm engine is redeployed when its own YAML changes, when a tool module used by one of its agents changes, or when
-shared code (factory, router, models, grounding, fixtures, requirements) changes. Unknown base (first push, force
-push) means everything.
+Prints `key=value` lines for $GITHUB_OUTPUT: web, realms (internal engines), showcase (showcase segment engines),
+engines (matrix include list of {edition, realm}), kb (data stores = internal realm ids), bq, any.
+An engine is redeployed when its agents' YAML changes, when a tool module one of its agents uses changes, or when shared
+code (factory, router, models, grounding, fixtures, requirements) changes; a showcase segment also follows the internal
+realms its agents come from and every change under the showcase edition's files. Unknown base (first push, force push)
+means everything.
 """
 from __future__ import annotations
 
@@ -28,7 +30,7 @@ def realms_and_modules() -> tuple[list[str], dict[str, set[str]]]:
     from agenthive.catalog import load_catalog
     from agenthive.tools import REGISTRY       # importing the package registers every tool module
 
-    cat = load_catalog()
+    cat = load_catalog("internal")
 
     def tool_names(a, seen=()) -> set[str]:
         names = set(a.tools) | {t for s in a.steps for t in s.tools}
@@ -45,17 +47,53 @@ def realms_and_modules() -> tuple[list[str], dict[str, set[str]]]:
     return [r.id for r in cat.realms if r.agents], uses
 
 
+def showcase_map() -> tuple[list[str], dict[str, set[str]], dict[str, str], dict[str, set[str]]]:
+    """Showcase segment ids; internal realm -> segments holding its agents; segment -> KB store; realm corpus ->
+    stores that include it."""
+    from agenthive.catalog import load_catalog
+
+    internal = {a.id: a.realm for a in load_catalog("internal").agents()}
+    sc = load_catalog("showcase")
+    by_realm: dict[str, set[str]] = {}
+    for a in sc.agents():
+        by_realm.setdefault(internal[a.id], set()).add(a.realm)
+    store = {seg.id: seg.kb_store or seg.id for seg in sc.realms}
+    corpus_stores: dict[str, set[str]] = {}
+    for seg in sc.realms:
+        for src in seg.kb_sources:
+            corpus_stores.setdefault(src, set()).add(store[seg.id])
+    return [seg.id for seg in sc.realms if seg.agents], by_realm, store, corpus_stores
+
+
+def _finish(web: bool, realms: set[str], showcase: set[str], kb: set[str], bq: bool) -> dict:
+    engines = [{"edition": "internal", "realm": r} for r in sorted(realms)]
+    engines += [{"edition": "showcase", "realm": s} for s in sorted(showcase)]
+    return {"web": web, "realms": sorted(realms), "showcase": sorted(showcase), "engines": engines,
+            "kb": sorted(kb), "bq": bq}
+
+
 def plan(files: list[str]) -> dict:
     realm_ids, uses = realms_and_modules()
-    web, realms, kb, bq = False, set(), set(), False
+    segments, seg_by_realm, seg_store, corpus_stores = showcase_map()
+    web, realms, showcase, kb, bq = False, set(), set(), set(), False
     for f in files:
         if f.startswith(NOT_DEPLOYED):
+            continue
+        if f.startswith("agenthive/grounding/editions/showcase/corpus/"):
+            seg = f.split("/")[5]
+            kb |= {seg_store[seg]} if seg in seg_store else set(realm_ids)
+            continue
+        if f.startswith(("agenthive/catalog/editions/showcase/", "agenthive/tools/fixtures/editions/showcase/")):
+            web = True
+            showcase |= set(segments)
+            if f.startswith("agenthive/catalog/editions/showcase/hive.yaml"):
+                kb |= set(realm_ids)                  # kb_store / kb_sources may have moved
             continue
         if f.startswith("web/") or f in {"Dockerfile", ".dockerignore", "deploy/deploy_web.sh"}:
             web = True
         if f.startswith("agenthive/grounding/corpus/"):
             realm = f.split("/")[3]
-            kb |= {realm} if realm in realm_ids else set(realm_ids)
+            kb |= ({realm} | corpus_stores.get(realm, set())) if realm in realm_ids else set(realm_ids)
             continue
         if f == "deploy/sync_kb.py":
             kb |= set(realm_ids)
@@ -78,19 +116,24 @@ def plan(files: list[str]) -> dict:
             realms |= set(realm_ids) if mod in SHARED_TOOL_MODULES else uses.get(mod, set())
         else:
             realms |= set(realm_ids)                  # shared code, fixtures, hive.yaml, schemas
-    return {"web": web, "realms": sorted(realms), "kb": sorted(kb), "bq": bq}
+    for r in list(realms):
+        showcase |= seg_by_realm.get(r, set())
+    return _finish(web, realms, showcase, kb, bq)
 
 
 def explicit(targets: str) -> dict:
     realm_ids, _ = realms_and_modules()
+    segments = showcase_map()[0]
     want = {t.strip() for t in targets.split(",") if t.strip()}
     if "all" in want:
-        return {"web": True, "realms": realm_ids, "kb": realm_ids, "bq": True}
-    bad = want - set(realm_ids) - {"web", "engines", "kb", "bq"}
+        return _finish(True, set(realm_ids), set(segments), set(realm_ids), True)
+    sc_named = {t.removeprefix("sc:") for t in want if t.startswith("sc:")}
+    bad = (want - set(realm_ids) - {"web", "engines", "showcase", "kb", "bq"} - {f"sc:{s}" for s in segments})
     if bad:
         raise SystemExit(f"unknown targets: {sorted(bad)}")
-    realms = realm_ids if "engines" in want else sorted(want & set(realm_ids))
-    return {"web": "web" in want, "realms": realms, "kb": realm_ids if "kb" in want else [], "bq": "bq" in want}
+    realms = set(realm_ids) if "engines" in want else want & set(realm_ids)
+    showcase = set(segments) if want & {"engines", "showcase"} else sc_named
+    return _finish("web" in want, realms, showcase, set(realm_ids) if "kb" in want else set(), "bq" in want)
 
 
 def changed(base: str, head: str) -> list[str] | None:
@@ -110,7 +153,7 @@ def main(argv: list[str]) -> None:
     else:
         files = changed(*argv[:2]) if len(argv) >= 2 else None
         result = explicit("all") if files is None else plan(files)
-    result["any"] = bool(result["web"] or result["realms"] or result["kb"] or result["bq"])
+    result["any"] = bool(result["web"] or result["engines"] or result["kb"] or result["bq"])
     for k, v in result.items():
         print(f"{k}={json.dumps(v)}")
 

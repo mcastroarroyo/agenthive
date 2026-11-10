@@ -1,0 +1,125 @@
+# Spanish for the compositions owned by the catalog lead, and the skill library.
+compositions:
+  citizen_services_framework:
+    name: Marco de Servicios Ciudadanos
+    status: Arquitectura de referencia — los agentes corren en vivo con datos sintéticos
+    summary: >-
+      Un modelo listo para nube soberana para servicios digitales nacionales: un canal de mensajería (p. ej.
+      WhatsApp), inicio de sesión ciudadano con el proveedor de identidad nacional mediante Workforce Identity
+      Federation y agentes especializados para cada programa. Aquí los agentes corren en vivo con datos sintéticos.
+    flow:
+      - El ciudadano escribe por el canal de mensajería
+      - La identidad se verifica con el IdP nacional (OIDC + Workforce Identity Federation)
+      - "Mesa del Productor · Registro de Empresas · Vivienda y Crédito responden, revisan requisitos y actúan"
+      - La capa de gobierno registra cada turno (telemetría, DLP, Model Armor)
+    blocks:
+      models: Flash-Lite para recepción y enrutamiento; Flash para requisitos y comparaciones.
+      runtime: Un Agent Engine por programa; pasarela de mensajería en Cloud Run.
+      tools: Listas de requisitos de registro, reglas de elegibilidad, comparación de productos financieros.
+      grounding: Base de conocimiento de gobierno (reglas y requisitos de programas), sintética en esta demo.
+  waisentry_soc:
+    name: Operaciones de seguridad 24/7 WAISentry
+    status: Demo en vivo · servicio gestionado por Wursta
+    summary: >-
+      Operaciones de seguridad para PyMEs que trabajan en la nube y en entornos híbridos. La telemetría se evalúa
+      dentro del propio tenant de Google Cloud del cliente y se tokeniza antes de que una alerta salga; el triage con
+      Gemini elimina el ruido, analistas certificados de Wursta verifican y playbooks preaprobados contienen la
+      amenaza en menos de un minuto.
+    flow:
+      - Tu entorno — Google Workspace, laptops distribuidas, servidores híbridos y SaaS
+      - Pipeline de telemetría en tu tenant — evaluación y correlación de logs por API; tokenización sin datos personales
+      - Fase 1 · Triage con IA (0–15 s) — Gemini califica miles de eventos y descarta ~99% del ruido normal
+      - Fase 2 · Investigación humana (1–3 min) — un analista certificado reconstruye la ruta del ataque
+      - Fase 3 · Contención coordinada (< 5 min) — playbooks preaprobados y luego un informe ejecutivo del incidente
+    blocks:
+      models: Flash-Lite para el triage de alto volumen y la tokenización; Flash para investigación, contención y cumplimiento.
+      runtime: Agent Engine del segmento PyMEs; el pipeline de incidentes es un SequentialAgent (triage → investigar → contener → informar).
+      tools: 27 herramientas sentry_* sobre telemetría sintética de Workspace, endpoints, SaaS y firewall; las 5 acciones de contención son simuladas.
+      grounding: >-
+        El pipeline lee telemetría sintética; los agentes del grupo suman los runbooks y mapas de cumplimiento de
+        WAISentry en la base de conocimiento de PyMEs y 30 días de eventos de seguridad en BigQuery.
+  workforce_job:
+    name: Trabajo en Agent Workforce
+    status: Demo en vivo
+    summary: >-
+      "Contrata a un experto en IA. Recibe un documento terminado con tu marca. Paga por trabajo." El orquestador
+      acota el encargo, muestra la estimación, reparte el trabajo entre especialistas, hace QA y verificación de datos,
+      aplica la marca del cliente y entrega el archivo; las revisiones vuelven por el mismo camino.
+    flow:
+      - 1 Explorar — 70 agentes especialistas en 10 departamentos
+      - 2 Encargar — lo que necesitas en lenguaje natural, como a un contratista
+      - 3 Estimar — el costo antes de comprometerte (por trabajo, según prioridad)
+      - 4 Ejecutar — el orquestador divide el trabajo; los especialistas colaboran
+      - QA y verificación de datos antes de que llegue al cliente
+      - 5 Entregar — .docx, .pptx o .xlsx con tu marca (PDF, CSV y Markdown en el producto); revisiones a pedido
+    blocks:
+      models: Flash para el orquestador, los especialistas y QA; Flash-Lite para explorar, estimar y generar archivos.
+      runtime: >-
+        Agent Engine de Agent Workforce; los especialistas corren como AgentTools del orquestador y se pasan los
+        borradores en el estado de la sesión. En producción los mismos agentes corren en la infraestructura de Wursta,
+        detrás de una app SaaS y del Marketplace de agentes de Gemini Enterprise (A2A).
+      tools: >-
+        Catálogo de especialistas, estimador de trabajos (precios ilustrativos), aprendizaje y reglas de marca,
+        extracción de afirmaciones para QA, auditoría SEO, planificador de publicaciones, revisor de SOPs, dimensionamiento
+        de mercado y un generador real de documentos (Word, PowerPoint, Excel) que se ofrecen para descargar.
+      grounding: Base de conocimiento de Workforce (playbooks por departamento, guías de marca, posicionamiento) + Google Search para verificar datos.
+  pantheon_engagement:
+    name: Estrategia de transformación Pantheon
+    status: Demo en vivo
+    summary: >-
+      Hermes recibe el material de descubrimiento de la oficina de transformación y decide a qué especialistas llamar —
+      Xenophon (backlog), Daedalus (arquitectura cloud), Ariadne (datos), Prometheus (riesgo y cronograma), Proteus
+      (valor)— y luego sintetiza un solo informe de estrategia para el comité directivo.
+    flow:
+      - Entran notas del taller de descubrimiento / transcripción / foto de la pizarra
+      - Hermes (Argon) descompone el problema
+      - Los especialistas corren como AgentTools (Flash; Daedalus en Argon)
+      - Hermes sintetiza resumen ejecutivo, arquitectura, riesgos, plan, caso de negocio y próximos pasos
+    blocks:
+      models: Argon para el coordinador y el arquitecto; Flash para los demás especialistas; Flash-Lite para las skills de extracción.
+      runtime: Segmento Enterprise en Vertex AI Agent Engine; los especialistas son AgentTools en el mismo proceso — una sesión, una traza.
+      tools: Backlog en Jira (simulado), estimador de costos de GCP, herramientas de ERD/DDL, planificador de ruta crítica, calculadora de ROI.
+      grounding: Base de conocimiento Enterprise (notas de arquitectura, estándares de programa, el método Pantheon) + Google Search.
+  agent_forge_flow:
+    name: Flujo de construcción de Agent Forge
+    status: Demo en vivo
+    summary: >-
+      La solicitud en lenguaje natural de una unidad de negocio se convierte en un agente probado y desplegado, y cada
+      cambio posterior pasa por el mismo camino. El coordinador de la fábrica ejecuta las etapas como especialistas; los
+      conectores que construye se reutilizan en el siguiente agente y la siguiente unidad de negocio.
+    flow:
+      - 1 Describir — solicitud en lenguaje natural; se eligen la unidad de negocio y los conectores
+      - 2 Planificar — el Arquitecto redacta la especificación y pregunta cuando tiene dudas
+      - 3 Construir — se generan el código y las pruebas; el Connector Smith crea los conectores que falten
+      - 4 Probar — el panel de pruebas corre con secretos de sesión; todas las pruebas deben pasar
+      - 5 Desplegar en sandbox — versionado (v1, v2, v3) y revisado con la unidad de negocio antes de publicar
+      - 6 Desplegar en producción — en vivo para la unidad de negocio; secretos en Secret Manager
+      - Los cambios en lenguaje natural vuelven al ciclo: nueva versión, nuevas pruebas, nuevo despliegue — cada ejecución queda registrada
+    blocks:
+      models: Flash para el coordinador, la especificación, el código, los conectores y el gobierno; Flash-Lite para pruebas, publicaciones y analítica de trabajos.
+      runtime: Segmento Enterprise en Vertex AI Agent Engine; cada etapa es un AgentTool del coordinador (una sesión, una traza).
+      tools: Registro de conectores y validador de especificaciones, revisión estática real del código (nunca se ejecuta) y redacción real de secretos; pruebas, despliegues y trabajos simulados.
+      grounding: Estándares de la fábrica y guías de conectores en la base de conocimiento Enterprise + Google Search para la documentación de APIs.
+  realestate_sync_proposal:
+    name: Sincronización empresarial inmobiliaria (propuesta)
+    status: Arquitectura propuesta — los agentes corren en vivo como prototipos
+    summary: >-
+      Cómo Vulcan eliminaría la doble captura de datos entre el CRM de una desarrolladora inmobiliaria, su plataforma de
+      gestión de obras y BigQuery, con el diseño de Ariadne (modelo de datos) y Daedalus (arquitectura cloud).
+    flow:
+      - Vulcan mapea negocios del CRM y proyectos de obra a un solo modelo canónico
+      - Ariadne diseña el esquema estrella en BigQuery y el DDL de sincronización
+      - Daedalus dimensiona Cloud Run + Pub/Sub + BigQuery y estima el costo
+    blocks:
+      models: Flash para el mapeo; Argon para el registro de decisión de arquitectura.
+      runtime: Middleware propuesto en Cloud Run + Agent Engine para los agentes.
+      tools: Simuladores de mapeo de campos y resolución de conflictos, herramientas de ERD y de costos.
+      grounding: Bases de conocimiento de los segmentos + documentación de APIs de proveedores vía Google Search.
+skills:
+  detect-meeting-sentiment-risk: Evalúa transcripciones para detectar insatisfacción, cambios de alcance, desinterés y riesgos de plazo.
+  extract-meeting-structured-data: Extrae acciones, responsables, fechas y decisiones de un texto.
+  extract-video-to-okf: Descompone una grabación en un registro consultable del Open Knowledge Framework.
+  drive-organization: Propone una taxonomía limpia de Google Drive con movimientos, renombres, duplicados y archivado.
+  partner-advantage-cataloger: Califica y etiqueta contenido de partners según qué tan listo está para la IA.
+  ocr-document-text: Extrae texto y campos clave de documentos escaneados e imágenes.
+  route-incoming-email: Clasifica y enruta correos por intención, con prioridad y borrador de respuesta.

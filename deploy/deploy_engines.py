@@ -58,13 +58,18 @@ def shown(resource_name: str) -> str:
 
 
 def display_name(realm_name: str) -> str:
-    return f"Agent Hive · {realm_name}"
+    from agenthive.settings import get_settings
+
+    return f"{get_settings().engine_prefix}{realm_name}"
 
 
 def engines() -> dict[str, str]:
     from vertexai import agent_engines
 
-    return {e.display_name: e.resource_name for e in agent_engines.list() if e.display_name.startswith("Agent Hive · ")}
+    from agenthive.settings import get_settings
+
+    prefix = get_settings().engine_prefix
+    return {e.display_name: e.resource_name for e in agent_engines.list() if e.display_name.startswith(prefix)}
 
 
 def deploy(realm_id: str, min_instances: int) -> str:
@@ -73,17 +78,22 @@ def deploy(realm_id: str, min_instances: int) -> str:
     from agenthive.catalog import load_catalog
     from agenthive.router import build_realm_root
 
+    from agenthive.settings import get_settings
+
+    s = get_settings()
     realm = load_catalog().realm(realm_id)
     root = build_realm_root(realm_id)
     app = agent_engines.AdkApp(agent=root)
     os.chdir(ROOT)  # extra_packages are relative paths
+    staging_dir = f"agent_engine/{realm_id}" if s.edition == "internal" else f"agent_engine/{s.edition}/{realm_id}"
     kwargs = dict(
         agent_engine=app,
         requirements=REQUIREMENTS,
         extra_packages=["agenthive"],
-        gcs_dir_name=f"agent_engine/{realm_id}",   # per-realm staging so realms can deploy in parallel
+        gcs_dir_name=staging_dir,   # per realm/segment staging so they can deploy in parallel
         display_name=display_name(realm.name),
-        description=f"Wursta Agent Hive — {realm.name}: {len(realm.agents)} agents. {realm.blurb}"[:1000],
+        description=(f"Wursta Agent Hive{'' if s.edition == 'internal' else ' Showcase'} — {realm.name}: "
+                     f"{len(realm.agents)} agents. {realm.blurb}")[:1000],
         service_account=RUNTIME_SA,
         min_instances=min_instances,
         max_instances=3,
@@ -93,7 +103,8 @@ def deploy(realm_id: str, min_instances: int) -> str:
             "HIVE_ENGINE_REGION": ENGINE_REGION,
             "HIVE_MODEL_LOCATION": os.environ.get("HIVE_MODEL_LOCATION", "global"),
             "HIVE_BQ_DATASET": os.environ.get("HIVE_BQ_DATASET", "agenthive_demo"),
-            "HIVE_KB_PREFIX": os.environ.get("HIVE_KB_PREFIX", "agenthive-kb"),
+            "HIVE_EDITION": s.edition,
+            "HIVE_KB_PREFIX": s.kb_prefix,
             "GOOGLE_CLOUD_AGENT_ENGINE_ENABLE_TELEMETRY": "true",
         },
     )

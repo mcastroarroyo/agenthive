@@ -990,7 +990,8 @@ def hlt_triage_symptoms(patient_id: str, symptoms: list[str], weight_kg: float =
 
     Args:
         patient_id: Synthetic patient id, e.g. 'SYN-A101'.
-        symptoms: Symptoms the patient HAS, in plain words (e.g. ['ankles swollen', 'more breathless walking']).
+        symptoms: Symptoms the patient HAS, in plain English words (translate if the patient wrote in another
+            language), e.g. ['ankles swollen', 'more breathless walking'].
             Do not include negated symptoms ('no chest pain'); they are ignored if passed.
         weight_kg: Today's weight in kg (0 if not reported).
         temperature_c: Temperature in Celsius (0 if not reported).
@@ -1688,27 +1689,32 @@ def hlt_draft_appeal_letter(claim_id: str, arguments: list[str], requested_actio
 # Clinical Docs — documentation completeness and illustrative coding
 # =================================================================================================================
 
-_DOC_ELEMENTS = [
-    ("subjective_section", 1, True, r"(^|\n)\W*(s:|subjective)"),
-    ("objective_section", 1, True, r"(^|\n)\W*(o:|objective)"),
-    ("assessment_section", 1, True, r"(^|\n)\W*(a:|assessment)"),
+_DOC_ELEMENTS = [   # English patterns first; Spanish alternatives let notes written in Spanish be scored too
+    ("subjective_section", 1, True, r"(^|\n)\W*(s:|subjective|subjetivo)"),
+    ("objective_section", 1, True, r"(^|\n)\W*(o:|objective|objetivo)"),
+    ("assessment_section", 1, True, r"(^|\n)\W*(a:|assessment|evaluaci[oó]n|valoraci[oó]n|an[aá]lisis)"),
     ("plan_section", 1, True, r"(^|\n)\W*(p:|plan)"),
-    ("chief_complaint", 1, True, r"chief complaint|\bcc\b|reason for visit"),
-    ("history_of_present_illness", 2, True, r"history of present illness|\bhpi\b"),
-    ("review_of_systems", 1, False, r"review of systems|\bros\b"),
-    ("vital_signs", 2, True, r"\b\d{2,3}/\d{2,3}\b|blood pressure|\bbp\b"),
-    ("physical_exam", 2, True, r"exam(ination)?\b"),
-    ("medication_reconciliation", 2, True, r"medication reconciliation|med(ication)?s? reconciled|reconcil"),
-    ("allergies", 1, True, r"allerg|nkda|no known drug allergies"),
-    ("diagnoses_in_assessment", 2, True, r"(a:|assessment)[\s\S]{0,400}?\b(failure|diabetes|copd|hypertension|"
-                                          r"pharyngitis|fibrillation|disease|pain|infection|exacerbation)\b"),
-    ("follow_up_interval", 1, True, r"follow[- ]?up|return (in|if)|\brtc\b|recheck"),
-    ("patient_education", 1, False, r"educat|teach[- ]?back|counsel"),
-    ("mdm_or_time", 1, False, r"medical decision making|\bmdm\b|total time|minutes"),
+    ("chief_complaint", 1, True, r"chief complaint|\bcc\b|reason for visit|motivo de (la )?consulta"),
+    ("history_of_present_illness", 2, True, r"history of present illness|\bhpi\b|enfermedad actual|padecimiento actual"),
+    ("review_of_systems", 1, False, r"review of systems|\bros\b|revisi[oó]n (por|de) (sistemas|aparatos)"),
+    ("vital_signs", 2, True, r"\b\d{2,3}/\d{2,3}\b|blood pressure|\bbp\b|presi[oó]n arterial|tensi[oó]n arterial"),
+    ("physical_exam", 2, True, r"exam(ination)?\b|examen|exploraci[oó]n f[ií]sica"),
+    ("medication_reconciliation", 2, True, r"medication reconciliation|med(ication)?s? reconciled|reconcil|conciliaci[oó]n"),
+    ("allergies", 1, True, r"allerg|nkda|no known drug allergies|alerg"),
+    ("diagnoses_in_assessment", 2, True, r"(\ba:|assessment|evaluaci[oó]n|valoraci[oó]n|an[aá]lisis)[\s\S]{0,400}?\b(failure|"
+                                          r"diabetes|copd|hypertension|pharyngitis|fibrillation|disease|pain|infection|"
+                                          r"exacerbation|insuficiencia|epoc|hipertensi[oó]n|faringitis|fibrilaci[oó]n|"
+                                          r"enfermedad|dolor|infecci[oó]n|exacerbaci[oó]n)\b"),
+    ("follow_up_interval", 1, True, r"follow[- ]?up|return (in|if)|\brtc\b|recheck|seguimiento|control en|regresar|"
+                                    r"volver (en|si)"),
+    ("patient_education", 1, False, r"educat|teach[- ]?back|counsel|educaci[oó]n|educad|orientaci[oó]n"),
+    ("mdm_or_time", 1, False, r"medical decision making|\bmdm\b|total time|minutes|toma de decisiones|tiempo total|minutos"),
 ]
 _TELEHEALTH = [("telehealth_consent", 1, True, r"consent"),
-               ("telehealth_modality", 1, True, r"\bvideo\b|audio[- ]only|telephone"),
-               ("patient_location", 1, True, r"patient (is )?(located|at home|location)|from (her|his|their) home")]
+               ("telehealth_modality", 1, True, r"\bvideo\b|audio[- ]only|telephone|videollamada|solo audio|tel[eé]fono"),
+               ("patient_location", 1, True, r"patient (is )?(located|at home|location)|from (her|his|their) home|"
+                                             r"paciente (se encuentra|ubicad|en (su )?casa)|desde (su )?casa|domicilio")]
+_NOT_DOC = ("[not documented", "[no documentado")
 
 
 @hive_tool("enterprise")
@@ -1734,13 +1740,14 @@ def hlt_documentation_completeness(note_text: str, encounter_type: str = "outpat
         total += weight
         m = re.search(pat, text)
         clause = re.split(r"\.\s|\n", text[m.start():], maxsplit=1)[0] if m else ""
-        if m and "[not documented" not in clause:
+        if m and not any(x in clause for x in _NOT_DOC):
             present.append(name)
             got += weight
         else:
             missing.append({"element": name, "critical": critical,
                             **({"marked_not_documented": True} if m else {})})
-    placeholders = re.findall(r"\[(not documented[^\]]*|to be confirmed[^\]]*|clinician to confirm[^\]]*)\]", text)
+    placeholders = re.findall(r"\[(not documented[^\]]*|no documentado[^\]]*|to be confirmed[^\]]*|"
+                              r"clinician to confirm[^\]]*|por confirmar[^\]]*)\]", text)
     score = round(got / total * 100)
     critical_missing = [m["element"] for m in missing if m["critical"] and not m.get("marked_not_documented")]
     marked = [m["element"] for m in missing if m.get("marked_not_documented")]
@@ -1755,8 +1762,23 @@ def hlt_documentation_completeness(note_text: str, encounter_type: str = "outpat
 _ALIASES = [(r"\bhfref\b|reduced ejection fraction", "systolic heart failure"), (r"\bchf\b", "heart failure"),
             (r"\bt2dm?\b|type ii diabetes|\bdm2\b|diabetes mellitus type 2", "type 2 diabetes"),
             (r"\bhtn\b", "hypertension"), (r"\bckd\b", "chronic kidney disease"), (r"\ba-?fib\b", "atrial fibrillation"),
-            (r"strep throat", "strep pharyngitis"), (r"oedema", "edema"), (r"hypoglycaemia", "hypoglycemia"),
-            (r"hyperglycaemia", "hyperglycemia"), (r"\b3a\b", "stage 3a"), (r"\b3b\b", "stage 3b")]
+            (r"strep throat", "strep pharyngitis"), (r"chronic obstructive pulmonary disease", "copd"), (r"oedema", "edema"), (r"hypoglycaemia", "hypoglycemia"),
+            (r"hyperglycaemia", "hyperglycemia"), (r"\b3a\b", "stage 3a"), (r"\b3b\b", "stage 3b"),
+            # Spanish problem wording -> the crosswalk's English keywords
+            (r"(agudizaci[oó]n|descompensaci[oó]n aguda) de (la |una )?insuficiencia card[ií]aca cr[oó]nica|"
+             r"insuficiencia card[ií]aca cr[oó]nica (agudizada|descompensada)", "acute on chronic heart failure"),
+            (r"fracci[oó]n de eyecci[oó]n reducida|\bicfer\b", "systolic"),
+            (r"insuficiencia card[ií]aca", "heart failure"), (r"sist[oó]lica", "systolic"),
+            (r"enfermedad renal cr[oó]nica|\berc\b", "chronic kidney disease"), (r"estadio 3a", "stage 3a"),
+            (r"estadio 3b", "stage 3b"), (r"cr[oó]nica|cr[oó]nico", "chronic"),
+            (r"hipertensi[oó]n( arterial)?", "hypertension"), (r"diabetes (mellitus )?tipo 2|\bdm ?2\b", "type 2 diabetes"),
+            (r"hiperglucemia", "hyperglycemia"), (r"hipoglucemia", "hypoglycemia"), (r"\bepoc\b", "copd"),
+            (r"exacerbaci[oó]n|reagudizaci[oó]n", "exacerbation"),
+            (r"faringitis estreptoc[oó]cica|faringoamigdalitis estreptoc[oó]cica", "strep pharyngitis"),
+            (r"faringitis|faringoamigdalitis", "pharyngitis"), (r"estreptococ", "strep"),
+            (r"fibrilaci[oó]n auricular", "atrial fibrillation"), (r"permanente", "permanent"), (r"edema", "edema"),
+            (r"exfumador(a)?", "former smoker"), (r"insulina a largo plazo|uso prolongado de insulina", "long-term insulin"),
+            (r"dosis omitidas|olvido de dosis", "missed doses")]
 
 
 @hive_tool("enterprise")

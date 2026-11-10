@@ -17,6 +17,7 @@ from __future__ import annotations
 import base64
 import csv
 import datetime as dt
+import contextvars
 import hashlib
 import io
 import json
@@ -43,6 +44,48 @@ MIME = {
     "csv": "text/csv",
 }
 _KEY = re.compile(r"^[a-z][a-z0-9_]{3,79}$")
+
+# Fixed labels the renderer adds to a file (title page, footer, About sheet) in the document's language.
+_LABELS = {
+    "en": {"prepared_for": "Prepared for", "version": "Version", "job": "Job", "confidential": "Confidential",
+           "page": "Page", "delivered_by": "Delivered by", "brand_profile": "brand profile", "cont": "(cont.)",
+           "about": "About", "date": "Date", "brand_profile_cap": "Brand profile", "section": "Section",
+           "content": "Content", "sheet": "Sheet"},
+    "es": {"prepared_for": "Preparado para", "version": "Versión", "job": "Trabajo", "confidential": "Confidencial",
+           "page": "Página", "delivered_by": "Entregado por", "brand_profile": "perfil de marca", "cont": "(cont.)",
+           "about": "Acerca de", "date": "Fecha", "brand_profile_cap": "Perfil de marca", "section": "Sección",
+           "content": "Contenido", "sheet": "Hoja"},
+}
+_MONTHS_ES = ("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre",
+              "noviembre", "diciembre")
+_LANG: contextvars.ContextVar[str] = contextvars.ContextVar("wf_render_lang", default="en")
+_ES_WORDS = {"el", "la", "los", "las", "de", "del", "que", "y", "en", "para", "con", "por", "una", "un", "es", "su",
+             "sus", "se", "al", "más", "como", "nuestro", "nuestra", "sin", "cada", "también", "está", "son"}
+_EN_WORDS = {"the", "and", "of", "to", "for", "with", "is", "on", "your", "that", "in", "by", "are", "as", "be",
+             "our", "this", "from", "at", "it", "we", "can", "will", "each"}
+
+
+def _t(key: str) -> str:
+    return _LABELS.get(_LANG.get(), _LABELS["en"])[key]
+
+
+def _today_label() -> str:
+    if _LANG.get() == "es":
+        return f"{TODAY.day} de {_MONTHS_ES[TODAY.month - 1]} de {TODAY.year}"
+    return TODAY.strftime("%d %B %Y").lstrip("0")
+
+
+def _language(language: str, *texts: Any) -> str:
+    """'es' or 'en': the explicit language if given, otherwise detected from the content (Spanish vs English
+    function words), so a Spanish deliverable gets Spanish title-page, footer and About labels."""
+    lang = _norm(language)
+    if lang:
+        return "es" if lang.startswith(("es", "spa")) else "en"
+    words = re.findall(r"[a-záéíóúñü]+", " ".join(json.dumps(t, ensure_ascii=False, default=str)
+                                                  for t in texts if t).lower())[:4000]
+    es = sum(w in _ES_WORDS for w in words)
+    en = sum(w in _EN_WORDS for w in words)
+    return "es" if es >= 3 and es > en * 1.2 else "en"
 
 
 # --- helpers ------------------------------------------------------------------------------------------------------
@@ -130,7 +173,7 @@ def _sentences(text: str) -> list[str]:
         if s.startswith("|"):
             s = " ".join(c.strip() for c in s.strip("|").split("|"))
         parts: list[str] = []
-        for part in re.split(r"(?<=[.!?])\s+(?=[A-Z0-9\"'(])", s):
+        for part in re.split(r"(?<=[.!?])\s+(?=[A-Z0-9ÁÉÍÓÚÑ¿¡\"'(])", s):
             if parts and _ABBR.search(parts[-1]):
                 parts[-1] += " " + part
             elif part.strip():
@@ -170,6 +213,7 @@ _NUM = re.compile(r"\$?\d[\d,]*(?:\.\d+)?%?")
 
 def _numbers(text: str) -> set[float]:
     t = re.sub(r"\b\d{4}-\d{2}-\d{2}\b", " ", text)                 # ISO dates
+    t = re.sub(r"\b\d{1,2}:\d{2}\b", " ", t)                          # times (calendar rows: 08:30)
     t = re.sub(r"\b(19|20)\d{2}\b", " ", t)                          # years
     out = set()
     for m in _NUM.findall(t):
@@ -264,14 +308,15 @@ def wf_marketplace(department: str = "", need: str = "") -> dict:
 # --- brief & estimate ---------------------------------------------------------------------------------------------
 
 _FORMAT_WORDS = [
-    ("pptx", r"\.pptx|powerpoint|\bdeck\b|\bslides?\b|presentation"),
-    ("xlsx", r"\.xlsx|excel|spreadsheet|workbook"),
+    ("pptx", r"\.pptx|powerpoint|\bdeck\b|\bslides?\b|presentation|presentaci[oó]n|diapositivas?"),
+    ("xlsx", r"\.xlsx|excel|spreadsheet|workbook|hoja de c[aá]lculo"),
     ("csv", r"\.csv|\bcsv\b"),
     ("pdf", r"\.pdf|\bpdf\b"),
     ("md", r"\.md\b|markdown"),
-    ("docx", r"\.docx|\bword (doc|document|file)\b|\bms word\b|google doc"),
+    ("docx", r"\.docx|\bword (doc|document|file)\b|\bms word\b|google doc|(documento|archivo) (de|en) word|\ben word\b"),
 ]
-_QTY = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "a": 1, "an": 1}
+_QTY = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "a": 1, "an": 1,
+        "un": 1, "una": 1, "dos": 2, "tres": 3, "cuatro": 4, "cinco": 5, "seis": 6}
 
 
 def _scope(text: str) -> str:
@@ -1140,8 +1185,8 @@ def _font(p: dict, role: str, default: str) -> str:
 
 
 def _meta_line(prepared_for: str, version: int, job_id: str) -> str:
-    bits = [f"Prepared for {prepared_for}" if prepared_for else "", TODAY.strftime("%d %B %Y").lstrip("0"),
-            f"Version {version}", f"Job {job_id}" if job_id else ""]
+    bits = [f"{_t('prepared_for')} {prepared_for}" if prepared_for else "", _today_label(),
+            f"{_t('version')} {version}", f"{_t('job')} {job_id}" if job_id else ""]
     return " · ".join(b for b in bits if b)
 
 
@@ -1299,10 +1344,10 @@ def _docx(title: str, subtitle: str, sections: list[dict], p: dict, prepared_for
     set_font(r.font, bf, 10, muted)
     if confidential:
         par = doc.add_paragraph()
-        r = par.add_run("Confidential")
+        r = par.add_run(_t("confidential"))
         set_font(r.font, hf, 10, accent, True)
     par = doc.add_paragraph()
-    r = par.add_run(f"Delivered by Agent Workforce · brand profile {p['brand_id']}")
+    r = par.add_run(f"{_t('delivered_by')} Agent Workforce · {_t('brand_profile')} {p['brand_id']}")
     set_font(r.font, bf, 8, "8A94A6")
     doc.add_paragraph().add_run().add_break(WD_BREAK.PAGE)
 
@@ -1345,7 +1390,7 @@ def _docx(title: str, subtitle: str, sections: list[dict], p: dict, prepared_for
         set_font(r.font, hf, 8, primary, True)
         for ft in (sec.footer, sec.first_page_footer):
             fp = ft.paragraphs[0]
-            r = fp.add_run(footer_txt + (" · Confidential" if confidential else "") + " · Page ")
+            r = fp.add_run(footer_txt + (f" · {_t('confidential')}" if confidential else "") + f" · {_t('page')} ")
             set_font(r.font, bf, 8, "6B7280")
             field(fp, "PAGE")
     cp = doc.core_properties
@@ -1425,7 +1470,8 @@ def _pptx(title: str, subtitle: str, sections: list[dict], p: dict, prepared_for
         tf = box(s, 0.7, 4.4, 11.9, 1.2)
         write(tf.paragraphs[0], subtitle, bf, 20, on_primary)
     tf = box(s, 0.7, 6.55, 11.9, 0.5)
-    write(tf.paragraphs[0], _meta_line(prepared_for, version, job_id) + (" · Confidential" if confidential else ""),
+    write(tf.paragraphs[0], _meta_line(prepared_for, version, job_id) + (f" · {_t('confidential')}" if confidential
+                                                                          else ""),
           bf, 12, on_primary)
 
     n_slide = 1
@@ -1470,7 +1516,7 @@ def _pptx(title: str, subtitle: str, sections: list[dict], p: dict, prepared_for
                     write(par, _plain(txt) if i == 0 else txt, hf if i == 0 else bf, 12 if len(table) < 8 else 11,
                           "FFFFFF" if i == 0 else ink, i == 0)
         ft = box(sl, 0.7, 6.95, 9.5, 0.35)
-        write(ft.paragraphs[0], footer_txt + (" · Confidential" if confidential else ""), bf, 10, secondary)
+        write(ft.paragraphs[0], footer_txt + (f" · {_t('confidential')}" if confidential else ""), bf, 10, secondary)
         ft = box(sl, 10.4, 6.95, 2.2, 0.35)
         ft.paragraphs[0].alignment = PP_ALIGN.RIGHT
         write(ft.paragraphs[0], f"{wm}   {n_slide}", hf, 10, primary, True)
@@ -1499,15 +1545,16 @@ def _pptx(title: str, subtitle: str, sections: list[dict], p: dict, prepared_for
             last = ci == len(chunks) - 1
             tbl = tables[0] if (last and tables) else []
             if tbl and len(tbl) > 9:
-                content_slide(heading + (" (cont.)" if ci else ""), chunk, tbl[:9], sec["notes"] if ci == 0 else "")
+                content_slide(heading + (f" {_t('cont')}" if ci else ""), chunk, tbl[:9],
+                              sec["notes"] if ci == 0 else "")
                 rest = tbl[9:]
                 while rest:
-                    content_slide(heading + " (cont.)", [], [tbl[0]] + rest[:8], "")
+                    content_slide(f"{heading} {_t('cont')}", [], [tbl[0]] + rest[:8], "")
                     rest = rest[8:]
             else:
-                content_slide(heading + (" (cont.)" if ci else ""), chunk, tbl, sec["notes"] if ci == 0 else "")
+                content_slide(heading + (f" {_t('cont')}" if ci else ""), chunk, tbl, sec["notes"] if ci == 0 else "")
         for extra in tables[1:]:
-            content_slide(heading + " (cont.)", [], extra[:9], "")
+            content_slide(f"{heading} {_t('cont')}", [], extra[:9], "")
     cp = prs.core_properties
     cp.title, cp.subject, cp.author = title[:250], subtitle[:250], "Agent Workforce"
     cp.keywords = " ".join(x for x in (job_id, p["brand_id"]) if x)
@@ -1546,7 +1593,8 @@ def _xlsx(title: str, subtitle: str, sheets: list[dict], p: dict, prepared_for: 
     outline = []
     for i, sh in enumerate(sheets):
         ws = wb.active if i == 0 else wb.create_sheet()
-        name = re.sub(r"[\[\]:*?/\\]", "", str(sh.get("name") or f"Sheet{i + 1}"))[:31] or f"Sheet{i + 1}"
+        default = f"{_t('sheet')}{i + 1}"
+        name = re.sub(r"[\[\]:*?/\\]", "", str(sh.get("name") or default))[:31] or default
         base, k = name, 2
         while name.lower() in used:
             name = f"{base[:28]} {k}"
@@ -1583,7 +1631,7 @@ def _xlsx(title: str, subtitle: str, sheets: list[dict], p: dict, prepared_for: 
             ws.freeze_panes = "A2"
             ws.auto_filter.ref = ws.dimensions
         ws.sheet_properties.tabColor = primary
-    about = wb.create_sheet("About")
+    about = wb.create_sheet(_t("about")[:31])
     about["A1"] = title
     about["A1"].font = Font(name=hf, bold=True, size=16, color=primary)
     r = 2
@@ -1591,9 +1639,9 @@ def _xlsx(title: str, subtitle: str, sheets: list[dict], p: dict, prepared_for: 
         about["A2"] = subtitle
         about["A2"].font = Font(name=bf, size=12, color=ink)
         r = 3
-    for label, val in (("Prepared for", prepared_for), ("Date", TODAY.isoformat()), ("Version", version),
-                       ("Job", job_id or "—"), ("Brand profile", f"{p['name']} ({p['brand_id']})"),
-                       ("Delivered by", "Agent Workforce")):
+    for label, val in ((_t("prepared_for"), prepared_for), (_t("date"), TODAY.isoformat()), (_t("version"), version),
+                       (_t("job"), job_id or "—"), (_t("brand_profile_cap"), f"{p['name']} ({p['brand_id']})"),
+                       (_t("delivered_by"), "Agent Workforce")):
         r += 1
         about.cell(row=r, column=1, value=label).font = Font(name=hf, bold=True, color=primary)
         about.cell(row=r, column=2, value=val).font = Font(name=bf, color=ink)
@@ -1624,7 +1672,7 @@ def _md(title: str, subtitle: str, sections: list[dict], p: dict, prepared_for: 
             t = s["table"]
             lines += ["| " + " | ".join(t[0]) + " |", "|" + "---|" * len(t[0])]
             lines += ["| " + " | ".join(r) + " |" for r in t[1:]] + [""]
-    lines += ["---", f"{p['layout'].get('footer') or p['name']} · Delivered by Agent Workforce"]
+    lines += ["---", f"{p['layout'].get('footer') or p['name']} · {_t('delivered_by')} Agent Workforce"]
     return "\n".join(lines).encode(), {"outline": [s["heading"] for s in sections if s["heading"]]}
 
 
@@ -1648,24 +1696,24 @@ def _sheets_from(sheets: list[dict] | None, sections: list[dict]) -> list[dict]:
     for s in sections:
         tables = ([s["table"]] if s["table"] else []) + [b[1] for b in _blocks(s["body"]) if b[0] == "table"]
         for j, t in enumerate(tables):
-            out.append({"name": (_plain(s["heading"]) or "Sheet") + (f" {j + 1}" if j else ""), "rows": t})
+            out.append({"name": (_plain(s["heading"]) or _t("sheet")) + (f" {j + 1}" if j else ""), "rows": t})
     if not out and sections:
-        rows = [["Section", "Content"]]
+        rows = [[_t("section"), _t("content")]]
         for s in sections:
             for b in _blocks(s["body"]):
                 txt = b[1] if b[0] in ("p", "quote") else "; ".join(t for _, t in b[1]) if b[0] in ("ul", "ol") \
                     else b[2] if b[0] == "h" else ""
                 if txt:
                     rows.append([_plain(s["heading"]), _plain(txt)])
-        out.append({"name": "Content", "rows": rows})
+        out.append({"name": _t("content"), "rows": rows})
     return out
 
 
 @hive_tool("workforce", kind="action")
 def wf_render_document(title: str, output_format: str = "", subtitle: str = "", sections: list[dict] | None = None,
                        markdown: str = "", sheets: list[dict] | None = None, brand: str = "kitewing",
-                       prepared_for: str = "", job_id: str = "", version: int = 1, confidential: bool = False, *,
-                       tool_context: ToolContext) -> dict:
+                       prepared_for: str = "", job_id: str = "", version: int = 1, confidential: bool = False,
+                       language: str = "", *, tool_context: ToolContext) -> dict:
     """Render the final deliverable as a real brand-styled file (Word, PowerPoint, Excel, Markdown or CSV).
 
     Give the content EITHER as `markdown` (a full document: '# Title', '## Section' per section or slide, paragraphs,
@@ -1688,6 +1736,8 @@ def wf_render_document(title: str, output_format: str = "", subtitle: str = "", 
         job_id: Agent Workforce job id, if any.
         version: 1 for the first delivery; increase by one for each revision.
         confidential: True for proposals and internal documents (adds 'Confidential').
+        language: Language of the deliverable ('en' or 'es') for the labels the file adds (title page, footer,
+            About sheet). Empty = detected from the content.
 
     Returns:
         file_id, file name, format, size in bytes, page/slide/sheet count and the outline. The file itself is
@@ -1708,43 +1758,47 @@ def wf_render_document(title: str, output_format: str = "", subtitle: str = "", 
     title, subtitle, secs = _spec(title, (subtitle or "").strip(), sections, markdown)
     if not title:
         return err("title is required")
-    xl = _sheets_from(sheets, secs) if fmt in ("xlsx", "csv") else []
-    if fmt in ("xlsx", "csv") and not xl:
-        return err("no rows to put in the spreadsheet — give sheets or tables")
-    if fmt not in ("xlsx", "csv") and not any(s["body"] or s["table"] for s in secs):
-        return err("no content — give markdown or sections with a body")
-    st = _state(tool_context)
-    if st is None:
-        return err("no session state to attach the file to")
-    version = max(1, int(version or 1))
-    prepared_for = (prepared_for or p["name"]).strip()
-    version_tag = f"-v{version}" if version > 1 else ""
+    token = _LANG.set(_language(language, title, subtitle, secs, sheets))   # labels in the document's language
     try:
-        if fmt == "docx":
-            data, info = _docx(title, subtitle, secs, p, prepared_for, version, job_id, confidential)
-        elif fmt == "pptx":
-            data, info = _pptx(title, subtitle, secs, p, prepared_for, version, job_id, confidential)
-        elif fmt == "xlsx":
-            data, info = _xlsx(title, subtitle, xl, p, prepared_for, version, job_id)
-        elif fmt == "md":
-            data, info = _md(title, subtitle, secs, p, prepared_for, version, job_id)
-        else:
-            sio = io.StringIO()
-            csv.writer(sio).writerows([[_plain(c) for c in r] for r in xl[0]["rows"]])
-            data, info = sio.getvalue().encode(), {"rows": len(xl[0]["rows"]) - 1, "outline": [xl[0]["name"]]}
-    except Exception as e:  # noqa: BLE001 — tools must not raise
-        return err(f"render failed: {type(e).__name__}: {e}"[:300])
-    if len(data) > MAX_FILE_BYTES:
-        return err(f"file too large ({len(data)} bytes, limit {MAX_FILE_BYTES}) — shorten the content")
-    file_id = "wf-" + _h(fmt, title, subtitle, secs, xl, p["brand_id"], prepared_for, job_id, version, confidential,
-                         n=12)
-    name = f"{_slug(title)}{version_tag}.{fmt}"
-    st[f"hive_file:{file_id}"] = {"name": name, "mime": MIME[fmt], "size": len(data),
-                                  "b64": base64.b64encode(data).decode()}
-    counts = {k: info[k] for k in ("pages_est", "slides", "sheets", "rows", "words") if k in info}
-    return ok(file_id=file_id, name=name, format=fmt, size=len(data), **counts, outline=info["outline"][:15],
-              version=version, brand=p["name"], brand_id=p["brand_id"], job_id=job_id or None, note=note,
-              delivered="attached to this session for download")
+        xl = _sheets_from(sheets, secs) if fmt in ("xlsx", "csv") else []
+        if fmt in ("xlsx", "csv") and not xl:
+            return err("no rows to put in the spreadsheet — give sheets or tables")
+        if fmt not in ("xlsx", "csv") and not any(s["body"] or s["table"] for s in secs):
+            return err("no content — give markdown or sections with a body")
+        st = _state(tool_context)
+        if st is None:
+            return err("no session state to attach the file to")
+        version = max(1, int(version or 1))
+        prepared_for = (prepared_for or p["name"]).strip()
+        version_tag = f"-v{version}" if version > 1 else ""
+        try:
+            if fmt == "docx":
+                data, info = _docx(title, subtitle, secs, p, prepared_for, version, job_id, confidential)
+            elif fmt == "pptx":
+                data, info = _pptx(title, subtitle, secs, p, prepared_for, version, job_id, confidential)
+            elif fmt == "xlsx":
+                data, info = _xlsx(title, subtitle, xl, p, prepared_for, version, job_id)
+            elif fmt == "md":
+                data, info = _md(title, subtitle, secs, p, prepared_for, version, job_id)
+            else:
+                sio = io.StringIO()
+                csv.writer(sio).writerows([[_plain(c) for c in r] for r in xl[0]["rows"]])
+                data, info = sio.getvalue().encode(), {"rows": len(xl[0]["rows"]) - 1, "outline": [xl[0]["name"]]}
+        except Exception as e:  # noqa: BLE001 — tools must not raise
+            return err(f"render failed: {type(e).__name__}: {e}"[:300])
+        if len(data) > MAX_FILE_BYTES:
+            return err(f"file too large ({len(data)} bytes, limit {MAX_FILE_BYTES}) — shorten the content")
+        file_id = "wf-" + _h(fmt, title, subtitle, secs, xl, p["brand_id"], prepared_for, job_id, version, confidential,
+                             n=12)
+        name = f"{_slug(title)}{version_tag}.{fmt}"
+        st[f"hive_file:{file_id}"] = {"name": name, "mime": MIME[fmt], "size": len(data),
+                                      "b64": base64.b64encode(data).decode()}
+        counts = {k: info[k] for k in ("pages_est", "slides", "sheets", "rows", "words") if k in info}
+        return ok(file_id=file_id, name=name, format=fmt, size=len(data), **counts, outline=info["outline"][:15],
+                  version=version, brand=p["name"], brand_id=p["brand_id"], job_id=job_id or None, note=note,
+                  delivered="attached to this session for download")
+    finally:
+        _LANG.reset(token)
 
 
 # --- specialists: SEO -----------------------------------------------------------------------------------------------

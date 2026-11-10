@@ -91,6 +91,7 @@ class Cluster(BaseModel):
 
 
 class Realm(BaseModel):
+    """A realm (internal edition) or customer segment (showcase edition): one Agent Engine and one KB each."""
     id: str
     name: str
     kind: Literal["user", "internal"]
@@ -98,6 +99,9 @@ class Realm(BaseModel):
     blurb: str
     clusters: list[Cluster]
     agents: list[Agent] = Field(default_factory=list)
+    kb_store: str = ""                                    # editions: internal realm whose data store hosts this KB
+    kb_sources: list[str] = Field(default_factory=list)   # editions: base corpus folders composed into this KB
+    kb_exclude: list[str] = Field(default_factory=list)   # editions: corpus file names left out
 
 
 class Composition(BaseModel):
@@ -136,6 +140,9 @@ class Catalog(BaseModel):
     compositions: list[Composition]
     skills: list[dict[str, str]]
     security_layers: list[SecurityLayer] = Field(default_factory=list)
+    edition: str = "internal"
+    term: str = "realm"                       # what the UI calls a realm: realm | segment
+    layout: dict[str, list[str]] = Field(default_factory=dict)   # optional {"left": [...], "right": [...]}
 
     def agents(self) -> list[Agent]:
         return [a for r in self.realms for a in r.agents]
@@ -153,20 +160,78 @@ class Catalog(BaseModel):
         raise KeyError(realm_id)
 
 
-@lru_cache(maxsize=1)
-def load_catalog() -> Catalog:
-    base = yaml.safe_load((HERE / "hive.yaml").read_text())
-    realms = []
+EDITIONS_DIR = HERE / "editions"
+
+
+def _realm_agents(realm_id: str) -> list[dict]:
+    """A realm may be split across files: realms/<realm>.yaml and realms/<realm>__<part>.yaml."""
+    paths = sorted([*(HERE / "realms").glob(f"{realm_id}.yaml"), *(HERE / "realms").glob(f"{realm_id}__*.yaml")])
+    return [a for p in paths for a in (yaml.safe_load(p.read_text()) or {}).get("agents", [])]
+
+
+def _edition_overlay(base: dict, edition: str) -> dict:
+    """Apply editions/<edition>/: hive.yaml replaces realms (segments), compositions, layers and texts;
+    agents*.yaml move agents into segments and replace fields; `exclude` drops agents."""
+    ed_dir = EDITIONS_DIR / edition
+    ed = yaml.safe_load((ed_dir / "hive.yaml").read_text())
+    overrides: dict[str, dict] = {}
+    comp_over: dict[str, dict] = {}
+    excluded: set[str] = set()
+    for p in sorted(ed_dir.glob("agents*.yaml")):
+        doc = yaml.safe_load(p.read_text()) or {}
+        for aid, o in (doc.get("agents") or {}).items():
+            if aid in overrides:
+                raise ValueError(f"{edition}: agent {aid} overridden in more than one file")
+            overrides[aid] = o or {}
+        comp_over.update(doc.get("compositions") or {})
+        excluded |= set(doc.get("exclude") or [])
+    segments = {s["id"]: {**s, "agents": []} for s in ed["realms"]}
     for r in base["realms"]:
-        # a realm may be split across files: realms/<realm>.yaml and realms/<realm>__<part>.yaml
-        paths = sorted([*(HERE / "realms").glob(f"{r['id']}.yaml"), *(HERE / "realms").glob(f"{r['id']}__*.yaml")])
-        agents = [a for p in paths for a in (yaml.safe_load(p.read_text()) or {}).get("agents", [])]
-        for a in agents:
-            a["realm"] = r["id"]
-        realms.append({**r, "agents": agents})
-    cat = Catalog(**{**base, "realms": realms})
+        for a in _realm_agents(r["id"]):
+            if a["id"] in excluded:
+                continue
+            o = overrides.pop(a["id"], {})
+            a = {**a, **o}
+            seg = o.get("realm", r["id"])
+            if seg not in segments:
+                raise ValueError(f"{edition}: agent {a['id']} (realm {r['id']}) needs a segment in agents*.yaml")
+            if ed.get("force_status"):
+                a["status"] = ed["force_status"]
+            segments[seg]["agents"].append({**a, "realm": seg})
+    if overrides:
+        raise ValueError(f"{edition}: overrides for unknown agents {sorted(overrides)}")
+    comps = [{**c, **comp_over.get(c["id"], {})} for c in ed.get("compositions", base["compositions"])]
+    keep = {k: v for k, v in ed.items() if k not in ("realms", "compositions", "force_status")}
+    return {**base, **keep, "realms": list(segments.values()), "compositions": comps, "edition": edition}
+
+
+@lru_cache(maxsize=4)
+def load_catalog(edition: str | None = None) -> Catalog:
+    from ..settings import get_settings
+
+    edition = edition or get_settings().edition
+    base = yaml.safe_load((HERE / "hive.yaml").read_text())
+    if edition == "internal":
+        data = {**base, "realms": [{**r, "agents": [{**a, "realm": r["id"]} for a in _realm_agents(r["id"])]}
+                                   for r in base["realms"]]}
+    else:
+        data = _edition_overlay(base, edition)
+    cat = Catalog(**data)
     _validate(cat)
     return cat
+
+
+def load_i18n(edition: str, lang: str) -> dict:
+    """Merge editions/<edition>/i18n/<lang>*.yaml (UI translations of the catalog texts)."""
+    out: dict = {}
+    for p in sorted((EDITIONS_DIR / edition / "i18n").glob(f"{lang}*.yaml")):
+        doc = yaml.safe_load(p.read_text()) or {}
+        for k, v in doc.items():
+            if isinstance(v, dict):
+                out.setdefault(k, {}).update(v)
+            else:
+                out[k] = v
+    return out
 
 
 def _validate(cat: Catalog) -> None:

@@ -67,6 +67,22 @@ def _date(s: str) -> dt.date | None:
         return None
 
 
+_WEEKDAYS = {"monday": 0, "tuesday": 1, "wednesday": 2, "thursday": 3, "friday": 4, "saturday": 5, "sunday": 6,
+             "lunes": 0, "martes": 1, "miercoles": 2, "miércoles": 2, "jueves": 3, "viernes": 4, "sabado": 5,
+             "sábado": 5, "domingo": 6}
+
+
+def _weekday_date(s: str) -> dt.date | None:
+    """'next Tuesday', 'Tuesday', 'el martes' -> the first such day after the demo clock's today."""
+    t = (s or "").lower()
+    for name, wd in _WEEKDAYS.items():
+        if re.search(rf"\b{name}\b", t):
+            return _today() + dt.timedelta(days=(wd - _today().weekday() - 1) % 7 + 1)
+    if "tomorrow" in t or re.match(r"\s*(pasado\s+)?mañana\b", t):
+        return _today() + dt.timedelta(days=2 if "pasado" in t else 1)
+    return None
+
+
 def _add_months(d: dt.date, months: int) -> dt.date:
     y, m = divmod(d.month - 1 + months, 12)
     year, month = d.year + y, m + 1
@@ -917,7 +933,8 @@ def gov_permit_schedule_inspection(permit_number: str, inspection_type: str, pre
     Args:
         permit_number: Permit number, e.g. 'BP-2026-04127'.
         inspection_type: e.g. 'rough electrical/plumbing' (rough_mep), 'framing', 'insulation', 'final'.
-        preferred_date: YYYY-MM-DD (default: earliest available business day).
+        preferred_date: YYYY-MM-DD, or a weekday such as 'next Tuesday' / 'martes' (resolved against the demo
+            clock); default: earliest available business day.
         preferred_window: 'AM' (08:00-12:00) or 'PM' (12:30-16:00).
 
     Returns:
@@ -947,7 +964,7 @@ def gov_permit_schedule_inspection(permit_number: str, inspection_type: str, pre
         return err(f"prerequisite inspections not passed yet: {', '.join(missing)}", sequence=seq)
     cal = pm["inspection_calendar"]
     earliest = _next_business_day(_today() + dt.timedelta(days=1))
-    want = _date(preferred_date) if preferred_date else earliest
+    want = (_date(preferred_date) or _weekday_date(preferred_date)) if preferred_date else earliest
     want = max(want or earliest, earliest)
     win = "PM" if preferred_window.strip().upper().startswith("P") else "AM"
     notes = []
@@ -1071,7 +1088,8 @@ def gov_foia_search_records(query: str, date_from: str = "", date_to: str = "", 
     """Search the city's records index (emails, memos, reports, bid files) for records responsive to a request.
 
     Args:
-        query: Keywords from the request, e.g. 'Harbor Street Coastline Paving repaving'.
+        query: Keywords from the request in English (the index is in English; translate other languages), e.g.
+            'Harbor Street Coastline Paving repaving'.
         date_from: Earliest record date YYYY-MM-DD (optional).
         date_to: Latest record date YYYY-MM-DD (optional).
         custodian: Restrict to one custodian, e.g. 'Gordon Achterberg' (optional).

@@ -1,0 +1,251 @@
+{
+  "date": "2026-11-09",
+  "owner": "Alex Morgan, VP Client Services, Stonebridge Facilities (Halvern Group)",
+  "meetings": [
+    {
+      "time": "08:30",
+      "end": "09:00",
+      "title": "Client services stand-up",
+      "account": "Stonebridge (team)",
+      "external": false,
+      "attendees": [
+        {
+          "name": "Ana Torres",
+          "role": "Account Director",
+          "cares_about": "Brightwater recovery plan and covering her Wednesday PTO"
+        },
+        {
+          "name": "Diego Salas",
+          "role": "Head of Smart Buildings",
+          "cares_about": "Showing Marbury's sensor installation as a separate proposal line"
+        },
+        {
+          "name": "Priya Raman",
+          "role": "Service Quality Lead",
+          "cares_about": "Brightwater mobilisation gate on Wednesday — needs an approver"
+        }
+      ],
+      "last_interaction": "Friday stand-up: Brightwater recovery plan v1 drafted; Marbury proposal v3 sent to the customer; Larkspur readout deck ready.",
+      "prep": "Confirm who covers Ana's Brightwater items on Wednesday; ask Diego for the 120-store sensor run-cost number for the 11:00."
+    },
+    {
+      "time": "10:00",
+      "end": "10:45",
+      "title": "Marbury Mutual — IFM proposal v3 review",
+      "account": "Marbury Mutual",
+      "external": true,
+      "attendees": [
+        {
+          "name": "Joanna Pell",
+          "role": "Head of Workplace & Real Estate (contract sponsor)",
+          "cares_about": "US-only storage of access-control and CCTV data; a small workplace team that cannot absorb surprises; replacing an under-performing incumbent"
+        },
+        {
+          "name": "Martin Okoye",
+          "role": "COO",
+          "cares_about": "Uptime of the claims floors before the spring storm season"
+        },
+        {
+          "name": "Rhea Santos",
+          "role": "Chief Compliance & Privacy Officer",
+          "cares_about": "Escorted access to restricted rooms, an audit trail, and human approval of every automated dispatch"
+        }
+      ],
+      "last_interaction": "2026-11-06: proposal v3 sent. 2026-11-09 07:48: Joanna emailed asking for explicit 'US-only' data wording and 20/40/40 mobilisation payments before the CFO review on Wednesday.",
+      "prep": "Bring the proposed data clause; decide the payment position in advance; push for the overdue asset register export (due 2026-10-31); signature needed by 2026-11-20 for a 2026-12-01 start."
+    },
+    {
+      "time": "11:00",
+      "end": "12:00",
+      "title": "Larkspur Outfitters — Predictive maintenance pilot readout",
+      "account": "Larkspur Outfitters",
+      "external": true,
+      "attendees": [
+        {
+          "name": "Beatriz Lowell",
+          "role": "COO (economic buyer)",
+          "cares_about": "Store downtime and maintenance cost; wants a go/no-go on rolling out to all 120 stores"
+        },
+        {
+          "name": "Kofi Mensah",
+          "role": "Head of Store Operations",
+          "cares_about": "Fewer emergency call-outs; wants the 6 new Northeast stores included"
+        },
+        {
+          "name": "Jonah Pratt",
+          "role": "Facilities Systems Manager",
+          "cares_about": "Sensor gateway reliability (drop-outs at 3 stores) and data-platform cost"
+        }
+      ],
+      "last_interaction": "2026-10-29 mid-pilot check-in: emergency call-outs falling; Jonah flagged gateway drop-outs at 3 stores. 2026-11-09 06:55: Kofi asked to add 6 new stores to the readout.",
+      "prep": "Lead with emergency HVAC call-outs down 27% and HVAC-related store downtime down 18%; have an answer for new stores with only 8 weeks of sensor data; acknowledge the +34% data-platform spend and the partitioning fix; group framework pricing expires 2026-11-13."
+    },
+    {
+      "time": "13:00",
+      "end": "14:00",
+      "title": "Pipeline review",
+      "account": "Stonebridge (team)",
+      "external": false,
+      "attendees": [
+        {
+          "name": "Lucia Ferrer",
+          "role": "Business Development Manager",
+          "cares_about": "Approval of the 12% discount for Ashgrove Bank and a competitor comparison by Wednesday"
+        },
+        {
+          "name": "Marcus Bell",
+          "role": "Sales Director",
+          "cares_about": "New-logo proposals per week and the Port Alder tender"
+        }
+      ],
+      "last_interaction": "Last week's review: Marbury moved to Commit; Ashgrove proposal in progress.",
+      "prep": "Decide on the Ashgrove discount; agree who leads the Port Alder site survey after today's workshop."
+    },
+    {
+      "time": "14:30",
+      "end": "15:30",
+      "title": "City of Port Alder — Municipal buildings discovery workshop",
+      "account": "City of Port Alder",
+      "external": true,
+      "attendees": [
+        {
+          "name": "Imani Carter",
+          "role": "Deputy City Manager",
+          "cares_about": "Consolidating 9 maintenance contracts; budget cycle that starts in July"
+        },
+        {
+          "name": "Luis Ortega",
+          "role": "Facilities Operations Manager",
+          "cares_about": "SLA visibility by department and duplicate work orders"
+        },
+        {
+          "name": "Ruth Abernathy",
+          "role": "Privacy Officer",
+          "cares_about": "Personal data in CCTV and access logs, and records retention"
+        }
+      ],
+      "last_interaction": "2026-10-30 intro call: 38 buildings, ~21k work orders a year across 9 contractors; tender expected in Q1 2027. 2026-11-09 08:05: room moved to 4B, City Hall.",
+      "prep": "Room 4B, 3rd floor, City Hall. Show the smart-building dashboard concept; ask for a work-order extract and the department SLA sheets; agree privacy ground rules with Ruth."
+    },
+    {
+      "time": "16:00",
+      "end": "16:45",
+      "title": "Brightwater Distribution — recovery call",
+      "account": "Brightwater Distribution",
+      "external": true,
+      "attendees": [
+        {
+          "name": "Gregory Haines",
+          "role": "VP Operations (executive sponsor)",
+          "cares_about": "One defensible go-live date for Thursday's board"
+        },
+        {
+          "name": "Wendy Cho",
+          "role": "PMO Lead",
+          "cares_about": "Change control for the dock-door request"
+        },
+        {
+          "name": "Raj Iyer",
+          "role": "IT Director",
+          "cares_about": "Getting WMS API credentials from the vendor"
+        }
+      ],
+      "last_interaction": "2026-09-24 Q3 service review: sponsor frustrated by the slipped go-live, dock-door maintenance raised as an addition. 2026-11-08 21:15: Gregory emailed that he is 'frustrated that we are here again'.",
+      "prep": "Present the re-baselined go-live 2027-02-15 with customer dependencies (WMS credentials by 2026-11-14, site contacts by 2026-11-16); propose dock doors as change request CR-07; ask Gregory to escalate with the WMS vendor."
+    }
+  ],
+  "emails": [
+    {
+      "from": "Joanna Pell (Marbury Mutual)",
+      "subject": "IFM proposal v3 — data wording before Wednesday's CFO review",
+      "needs": "Decision on the data clause wording and the mobilisation payment position (customer asks 20/40/40)",
+      "deadline": "2026-11-09 17:00"
+    },
+    {
+      "from": "Gregory Haines (Brightwater Distribution)",
+      "subject": "Timeline — I need a straight answer before Thursday's board",
+      "needs": "Reply with one go-live date and the customer dependencies, after the 16:00 call",
+      "deadline": "2026-11-10 12:00"
+    },
+    {
+      "from": "Kofi Mensah (Larkspur Outfitters)",
+      "subject": "Pilot readout — can we add the 6 new Northeast stores?",
+      "needs": "Decide whether new stores are in pilot scope; answer in the 11:00 meeting",
+      "deadline": "2026-11-09 11:00"
+    },
+    {
+      "from": "Finance Approvals (Stonebridge)",
+      "subject": "Approval needed: 12% discount — Ashgrove Bank branch facilities proposal",
+      "needs": "Approve or reject a USD 28,800 discount",
+      "deadline": "2026-11-11"
+    },
+    {
+      "from": "Priya Raman (Stonebridge)",
+      "subject": "Brightwater re-baseline — mobilisation gate needs your sign-off by Wednesday",
+      "needs": "Agree to approve the mobilisation gate as 'pass with conditions'",
+      "deadline": "2026-11-11"
+    },
+    {
+      "from": "Halvern Procurement Desk",
+      "subject": "Reminder: framework pricing for Larkspur Outfitters expires Nov 13",
+      "needs": "Update the opportunity with next step and expected close date",
+      "deadline": "2026-11-13"
+    }
+  ],
+  "signals": [
+    {
+      "account": "Brightwater Distribution",
+      "type": "escalation",
+      "detail": "Executive sponsor email (2026-11-08) expresses frustration; service-review sentiment negative since Q3; go-live has slipped twice.",
+      "severity": "high"
+    },
+    {
+      "account": "Brightwater Distribution",
+      "type": "renewal",
+      "detail": "Facilities services renewal (USD 180k/year) due 2027-01-31; renewal owner rates it at risk.",
+      "severity": "high"
+    },
+    {
+      "account": "Marbury Mutual",
+      "type": "pipeline_change",
+      "detail": "IFM contract (USD 386k/year) moved to Commit with close date 2026-11-20; the customer can extend its incumbent contract to 2027-03-31, so an extension remains their fallback.",
+      "severity": "medium"
+    },
+    {
+      "account": "Larkspur Outfitters",
+      "type": "usage_trend",
+      "detail": "Sensor data-platform spend +34% month over month in the pilot, driven by unpartitioned queries on the sensor readings table.",
+      "severity": "medium"
+    },
+    {
+      "account": "Larkspur Outfitters",
+      "type": "pipeline_change",
+      "detail": "Expansion opportunity (USD 240k/year, 120 stores) created; group framework pricing expires 2026-11-13.",
+      "severity": "medium"
+    },
+    {
+      "account": "Ashgrove Bank",
+      "type": "pipeline_change",
+      "detail": "Branch facilities proposal due 2026-11-13; 12% discount pending approval; incumbent provider bundled into their landlord service charges.",
+      "severity": "medium"
+    },
+    {
+      "account": "City of Port Alder",
+      "type": "pipeline_change",
+      "detail": "New opportunity: maintenance for 38 municipal buildings plus a work-order data platform; tender expected Q1 2027; budget cycle starts in July.",
+      "severity": "low"
+    },
+    {
+      "account": "Pellmont Logistics",
+      "type": "support_escalation",
+      "detail": "P2 service ticket open 6 days: dock leveller at the Reno distribution centre out of service; replacement part on back order.",
+      "severity": "medium"
+    },
+    {
+      "account": "Corvane Health",
+      "type": "usage_trend",
+      "detail": "Service portal adoption steady: 42 clinic sites, ~3,900 work orders a month raised through the portal (+6% month over month).",
+      "severity": "low"
+    }
+  ]
+}

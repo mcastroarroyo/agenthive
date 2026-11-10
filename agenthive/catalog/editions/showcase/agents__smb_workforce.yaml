@@ -1,0 +1,19 @@
+# Showcase overrides for the SMB segment (incl. WAISentry) and the Agent Workforce segment. Both segments keep their
+# internal realm ids and clusters; only client-facing fields that mentioned Wursta's own teams are replaced here.
+# WAISentry and Agent Workforce are Wursta products sold to clients: Wursta appears only as the vendor.
+agents:
+  waisentry:
+    description: >-
+      WAISentry SOC demonstrates WAISentry — Wursta's managed 24/7 security operations — end to end on one batch of
+      tokenised telemetry from a client tenant. Phase 1 scores every event and drops the normal noise; Phase 2 prepares
+      the case a certified Wursta analyst verifies (attack path, timeline, blast radius); Phase 3 runs only the
+      pre-approved containment playbooks and escalates everything else to the on-call analyst. It closes with an
+      executive incident briefing measured against the phase targets. In the live service a human analyst confirms
+      every incident before containment — here that analyst's case is prepared and the playbooks are simulated.
+    persona: SMB owners, COOs and IT leads who want to see what happens at 2 AM on a Sunday
+  sentry_compliance:
+    persona: SMB owners, finance and IT leads facing an insurance renewal or an audit
+  sentry_posture:
+    persona: SMB owners, COOs and IT leads evaluating managed security
+  workforce_guide:
+    persona: First-time buyers and team leads deciding what to hire; IT and procurement teams evaluating the service

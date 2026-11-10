@@ -1,4 +1,5 @@
 {
+  "jira_labels": ["wursta", "pantheon"],
   "velocity": 34,
   "velocity_note": "Points per two-week sprint for a standard team of 5 (2 engineers, 1 data/AI engineer, 1 analyst, 1 lead); replace with measured velocity after sprint 2.",
   "reference_stories": [

@@ -37,6 +37,7 @@ agents:
              support) and cite them as [title](url).
           3. Call smb_find_case_studies for the prospect's industry and pick the one most relevant proof point.
           4. Finish with 3 pain hypotheses to test, each tied to a CRM fact, and the compelling event if there is one.
+          Write in the language the request names (default English).
         tools: [smb_crm_lookup, smb_find_case_studies]
         grounding: [google_search]
         output_key: prospect_brief
@@ -53,6 +54,7 @@ agents:
             dates) and tagged with the letter they test. Pain and metrics questions first.
           - 2 competitor landmine questions and 1 proof point to drop (customer + metric).
           - What a "qualified" answer sounds like for Economic buyer and Decision process.
+          Write in the language the request names (default English).
         tools: [smb_discovery_playbook]
         output_key: call_plan
       - id: qualifier
@@ -69,7 +71,7 @@ agents:
           4. Call smb_log_opportunity with the recommended stage, ACV, the close date implied by the notes, the agreed
              next step and the score (simulated CRM update).
           Return the score table with evidence, verdict, red flags, gaps with next questions, quote summary and the
-          CRM update result.
+          CRM update result, in the language the request names (default English).
         tools: [smb_score_qualification, smb_price_quote, smb_log_opportunity, get_sample_document]
         output_key: qualification
       - id: follow_up
@@ -81,7 +83,8 @@ agents:
           rules: their words for the pain, the numbers they gave, what we understood about the decision process, one
           case study matched to their industry, and one dated next step. No pricing unless they asked for it; under
           180 words; plain and warm. Address it to the champion and cc the other attendees, then call
-          smb_save_email_draft. Return the full email text and the draft id.
+          smb_save_email_draft. Return the full email text and the draft id. Write in the language the request names
+          (default English).
         tools: [smb_save_email_draft]
         output_key: follow_up_email
     tools: [smb_crm_lookup, get_sample_document]
@@ -97,6 +100,8 @@ agents:
       Give every specialist a self-contained request (company, attendees, dates and the earlier outputs it needs).
       Check stage exit criteria and discount rules in the knowledge base (sales playbook, pricing & packaging) before
       you recommend a stage or quote a price. Keep every number exactly as the tools returned it.
+      LANGUAGE: answer in the language of the user's message (headings and table headers included) and put
+      "Language: <language>" in every specialist request so their outputs come back in it.
     output: >-
       PREP — "Call plan · <company> · <date>": 3-line prospect snapshot, pain hypotheses, agenda, question table
       (letter · question · listen for), landmines, proof point, next step to secure. DEBRIEF — MEDDICC table with
@@ -139,6 +144,10 @@ agents:
       4. Security: call smb_security_answer for each question and quote the approved answer verbatim with its id. If
          confidence is low, write "Escalate to Rosa Delgado (Sales Engineer)" instead of answering.
       5. Several questions at once: answer as a numbered list in the same order.
+      6. Answer in the language of the user's message, but always call the tools in English (translate a question
+         before smb_security_answer). Quote approved answers verbatim, then add a one-line translation when the user
+         writes in another language. Copy prices and totals exactly as returned — never add them up yourself (TCV is
+         subscription only).
     output: Direct answer first (1-3 sentences), then detail (a table for quotes), sources (document titles or answer ids) and any escalation.
     samples:
       - Does the Growth plan include SSO? And what would 60 technicians on Growth with Route Optimizer cost on a 2-year term?
@@ -344,7 +353,9 @@ agents:
             (one of discovery, design, configuration, data_migration, integration, development, testing, uat,
             training, content, change_management, procurement, security_review, go_live, hypercare, marketing),
             dependencies (ids) and the deliverable.
-          - Hard dates from the brief (start, deadline, blackout periods).
+          - Hard dates from the brief (start, deadline, blackout periods) in YYYY-MM-DD. Today is 2026-11-06: a
+            date given without a year is its next occurrence (e.g. "Dec 18" = 2026-12-18, "Feb 2" = 2027-02-02).
+            With no start date, start on the next Monday.
           Output the WBS as a table. Do not estimate durations.
         tools: [get_sample_document]
         output_key: wbs
@@ -359,11 +370,14 @@ agents:
           1. Call smb_estimate_tasks with every work package (id, name, type, size, depends_on).
           2. Call smb_team_capacity (filter by the relevant teams) and assign one accountable owner per work package by
              skill and availability; name customer-side owners as "<role> (customer)".
-          3. Call critical_path with tasks_for_critical_path (owners filled in) and the start date from the brief.
+          3. Call critical_path with tasks_for_critical_path copied exactly — every task keeps its id, name,
+             duration_days and depends_on; only fill in owner — and the start date from the brief.
           4. Compare the finish date with the deadline. If it is late, propose ONE fix (overlap, phasing or more
-             people), re-run critical_path and report both runs. Add the recommended contingency.
-          Output: schedule table (id · package · owner · expected days · start · finish · slack), the critical path,
-          the Mermaid Gantt exactly as returned, total effort in person-days, and the deadline check.
+             people), re-run critical_path and report both runs. Add the recommended contingency. Call each tool once,
+             critical_path at most twice — never iterate further.
+          Output: schedule table (id · package · owner · expected days · start · finish · slack), the critical path
+          (plain text with "→", never LaTeX), the Mermaid Gantt exactly as returned, total effort in person-days, and
+          the deadline check.
         tools: [smb_estimate_tasks, smb_team_capacity, critical_path]
         output_key: schedule
       - id: governance
@@ -393,8 +407,9 @@ agents:
       SCHEDULE: {{schedule}}
       RACI AND RISKS: {{governance}}
 
-      Keep every date and number exactly as computed. Check the plan against the delivery method in the knowledge base
-      (phase gates, status cadence, change control) and add the governance rhythm. Only if the user asked to "create
+      Keep every date and number exactly as computed. Search the knowledge base ONCE for the delivery method (phase
+      gates, status cadence, change control) — do not search again — and add the governance rhythm. Write arrows as
+      "→", never LaTeX. Only if the user asked to "create
       the tasks" or "push to the tracker", call smb_create_tasks with the work packages (owner, due date = finish date)
       and report the task keys (simulated).
     output: >-
@@ -436,6 +451,8 @@ agents:
       3. Use the delivery method in the knowledge base for RAG definitions and escalation rules.
       4. Draft the stakeholder update (under 200 words: RAG, progress, decisions needed, next week). Save it with
          smb_save_email_draft to the project's distribution list only when the user asks for the email.
+      5. Write everything — headings, table headers, the summary and the email — in the language of the user's
+         message; task names, ids and owners stay as the tool returns them.
     output: >-
       "Status — <project> — week of <date>": RAG (and last week's), 3-line summary, metrics (complete %, SPI, CPI,
       budget burn, forecast vs target), late/blocked table with unblock actions, next 7 days, decisions needed; then

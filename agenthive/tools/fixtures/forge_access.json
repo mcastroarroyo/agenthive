@@ -2,7 +2,7 @@
   "as_of": "2026-11-06",
   "note": "Synthetic Agent Forge users, roles and client access. All people and domains are fictional.",
   "iap": {"enabled": true, "sign_in": "Google Identity-Aware Proxy in front of the forge web app (Cloud Run)",
-          "staff_domain": "wursta.example", "external_access": "individual IAP grants per demo user (no public access)",
+          "staff_domain": "wursta.example", "staff_label": "Wursta staff", "external_access": "individual IAP grants per demo user (no public access)",
           "context_aware_access": "not configured", "session_length_hours": 12},
   "roles": {
     "admin": {"description": "Wursta platform owners: users, roles, clients and everything a builder can do.",

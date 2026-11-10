@@ -1,6 +1,7 @@
 """Build web/static/catalog.json from the catalog + factory metadata (run at image build time).
 
-    .venv/bin/python web/build_catalog.py
+    .venv/bin/python web/build_catalog.py                      # internal edition  -> catalog.json
+    HIVE_EDITION=showcase .venv/bin/python web/build_catalog.py # showcase edition  -> catalog-showcase.json
 """
 from __future__ import annotations
 
@@ -18,7 +19,7 @@ os.environ.setdefault("HIVE_PROJECT", "")
 def build() -> dict:
     from agenthive import models
     from agenthive.blocks import blocks
-    from agenthive.catalog import load_catalog
+    from agenthive.catalog import load_catalog, load_i18n
     from agenthive.tools import TOOL_META
 
     cat = load_catalog()
@@ -43,6 +44,10 @@ def build() -> dict:
         "realms": realms,
         "compositions": [c.model_dump() for c in cat.compositions],
         "security_layers": [l.model_dump() for l in cat.security_layers],
+        "edition": cat.edition,
+        "term": cat.term,
+        "layout": cat.layout,
+        "i18n": {"es": load_i18n(cat.edition, "es")} if cat.edition != "internal" else {},
         "skills": skills,
         "tiers": {k: {"label": t.label, "model_id": t.model_id, "why": t.why, "cost": t.price_hint}
                   for k, t in models.TIERS.items()},
@@ -60,7 +65,7 @@ def build() -> dict:
 
 
 if __name__ == "__main__":
-    out = ROOT / "web" / "static" / "catalog.json"
     data = build()
+    out = ROOT / "web" / "static" / ("catalog.json" if data["edition"] == "internal" else f"catalog-{data['edition']}.json")
     out.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")))
     print(f"wrote {out} — {data['counts']['agents']} agents, {data['counts']['tools']} tools")

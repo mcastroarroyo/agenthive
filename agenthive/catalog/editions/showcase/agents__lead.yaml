@@ -1,0 +1,18 @@
+# Showcase overrides owned by the catalog lead: compositions no segment file rewrites.
+agents: {}
+compositions:
+  citizen_services_framework:
+    status: Reference architecture — agents run live on synthetic data
+    summary: >-
+      A sovereign-cloud-ready blueprint for national digital services: a messaging front-end (e.g. WhatsApp), citizen
+      sign-in through the national identity provider via Workforce Identity Federation, and specialised agents for
+      each programme. The agents run live here on synthetic data.
+    flow:
+      - Citizen writes on the messaging channel
+      - Identity verified with the national IdP (OIDC + Workforce Identity Federation)
+      - "Farmer Desk · Business Registry · Housing & Credit answer, check eligibility and act"
+      - Governance layer logs every turn (telemetry, DLP, Model Armor)
+  waisentry_soc:
+    status: Live demo · Wursta managed service
+  workforce_job:
+    status: Live demo

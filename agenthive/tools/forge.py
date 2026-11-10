@@ -1,6 +1,6 @@
 """Agent Forge tools — Platform Core realm, cluster `forge` (every tool is prefixed forge_).
 
-Agent Forge is Wursta's factory for client-ready agents: Describe -> Plan -> Build -> Test -> Deploy to sandbox ->
+Agent Forge is an agent factory for client-ready agents: Describe -> Plan -> Build -> Test -> Deploy to sandbox ->
 Deploy to client, with plain-English change requests looping back as new versions and every run kept as a job.
 Everything here is deterministic over synthetic fixtures frozen at the demo date 2026-11-06 (forge_*.json):
 connector registry, forge agent catalog and version history, test-pane results, job log, standards and access.
@@ -156,6 +156,11 @@ def _snapshots(agent_id: str) -> list[tuple[dict, dict]]:
             snap["settings"] = {**snap.get("settings", {}), **d.get("settings", {})}
         out.append((v, snap))
     return out
+
+
+def _scoped(role: str) -> bool:
+    """True for roles limited to their assigned clients (e.g. demo users), from the access fixture."""
+    return fixture("forge_access")["roles"].get(role, {}).get("client_scope", "all") != "all"
 
 
 def _user(email: str) -> dict | None:
@@ -1088,7 +1093,8 @@ def forge_deploy(agent: str, version: str, target: str = "sandbox", client: str 
                   dry_run="DRY_RUN=true - sends and writes become drafts", job={"id": job, "type": "deploy"},
                   next_step="review in sandbox, then promote to the client with an approver", simulated=True)
     if cl["kind"] == "prospect":
-        return _refused("prospect", f"{cl['name']} is a prospect - agents stay in the sandbox until the client signs")
+        return _refused("prospect", cl.get("sandbox_only_reason")
+                        or f"{cl['name']} is a prospect - agents stay in the sandbox until the client signs")
     if sandbox_deploy_id.strip().upper() == _token("DEP-SBX", aid, ver):
         gates["sandbox"] = "deployed in this session"
     elif vrec and vrec.get("sandbox"):
@@ -1100,8 +1106,9 @@ def forge_deploy(agent: str, version: str, target: str = "sandbox", client: str 
         return _refused("approval", "client promotion needs approved_by = an active admin or builder")
     if vrec and u["email"] == vrec.get("built_by"):
         return _refused("approval", f"{u['email']} built {ver}; a different reviewer must approve (four-eyes)")
-    if u["email"].split("@")[-1] != fixture("forge_access")["iap"]["staff_domain"]:
-        return _refused("approval", "approver must be Wursta staff")
+    iap = fixture("forge_access")["iap"]
+    if u["email"].split("@")[-1] != iap["staff_domain"]:
+        return _refused("approval", "approver must be " + (iap.get("staff_label") or f"staff on {iap['staff_domain']}"))
     gates["approval"] = f"{u['name']} ({u['role']})"
     missing = [s for s in secrets if s not in cl["secret_manager"]]
     if missing:
@@ -1296,7 +1303,9 @@ def forge_access_review(client: str = "") -> dict:
     cid = _client_id(client) if client else None
     if client and not cid:
         return err(f"unknown client {client!r}", clients=sorted(_clients()))
-    users = [u for u in acc["users"] if not cid or u["role"] != "demo" or cid in u["clients"]]
+    users = [u for u in acc["users"] if not cid or not _scoped(u["role"]) or cid in u["clients"]]
+    low_role = next((r for r in acc["roles"] if _scoped(r)), "demo")
+    org = acc.get("org_label", "organisation")
     names = {k: v["name"] for k, v in _clients().items()}
     findings = []
 
@@ -1308,22 +1317,22 @@ def forge_access_review(client: str = "") -> dict:
         idle = (TODAY - dt.date.fromisoformat(u["last_active"])).days
         if u["role"] in ("admin", "builder") and dom != staff:
             add("high", u["email"], f"external account with the {u['role']} role (can deploy and see every client)",
-                "downgrade to demo or time-box with an expiry and named sponsor")
+                f"downgrade to {low_role} or time-box with an expiry and named sponsor")
         if u["role"] in ("admin", "builder") and idle > 60 and u["status"] == "active":
             add("medium", u["email"], f"{u['role']} inactive for {idle} days" + (f" - {u['note']}" if u.get("note")
                                                                                   else ""),
                 "disable or remove the role")
-        if u["role"] == "demo":
+        if _scoped(u["role"]):
             exp = u.get("assignment_expires")
             if exp and exp < TODAY.isoformat() and u["status"] == "active":
-                add("high", u["email"], f"demo assignment expired {exp} but the account is active",
+                add("high", u["email"], f"{u['role']} assignment expired {exp} but the account is active",
                     "remove the client assignment and the IAP grant")
             if not u["clients"]:
-                add("low", u["email"], "demo user with no client assigned (sees nothing)",
+                add("low", u["email"], f"{u['role']} user with no client assigned (sees nothing)",
                     "assign a client or remove the IAP grant")
             foreign = [c for c in u["clients"] if acc["client_domains"].get(c) != dom]
             if foreign:
-                add("high", u["email"], "can see another organisation's agents: " +
+                add("high", u["email"], f"can see another {org}'s agents: " +
                     ", ".join(names.get(c, c) for c in foreign), "remove cross-client assignment unless the "
                     "client owner approved it in writing")
             elif exp and exp <= (TODAY + dt.timedelta(days=30)).isoformat() and exp >= TODAY.isoformat():
@@ -1373,25 +1382,26 @@ def forge_check_access(user: str, client: str, action: str = "view") -> dict:
     name = _clients()[cid]["name"]
     dom = u["email"].split("@")[-1]
     notes = []
-    if u["role"] == "demo" and cid in u["clients"] and acc["client_domains"].get(cid) != dom:
-        notes.append(f"cross-client assignment: this user belongs to another organisation but is assigned to {name} "
+    if _scoped(u["role"]) and cid in u["clients"] and acc["client_domains"].get(cid) != dom:
+        notes.append(f"cross-client assignment: this user belongs to another {acc.get('org_label', 'organisation')} "
+                     f"but is assigned to {name} "
                      "- flagged high in the access review")
-    if dom != acc["iap"]["staff_domain"] and u["role"] != "demo":
+    if dom != acc["iap"]["staff_domain"] and not _scoped(u["role"]):
         notes.append("external account with a staff role - flagged in the access review")
     base = {"user": u["email"], "role": u["role"], "client": name, "action": act, "notes": notes,
             **({"assigned_clients": [_clients()[c]["name"] for c in u["clients"] if c in _clients()]}
-               if u["role"] == "demo" else {})}
+               if _scoped(u["role"]) else {})}
     if u["status"] != "active":
         return ok(allowed=False, reason="account disabled", **base)
     if act not in acc["roles"][u["role"]]["actions"]:
         return ok(allowed=False, reason=f"the {u['role']} role cannot {act}", **base)
-    if u["role"] == "demo":
+    if _scoped(u["role"]):
         if cid not in u["clients"]:
-            return ok(allowed=False, reason=f"demo access is scoped to assigned clients; {name} is not assigned",
+            return ok(allowed=False, reason=f"{u['role']} access is scoped to assigned clients; {name} is not assigned",
                       **base)
         if u.get("assignment_expires", "9999") < TODAY.isoformat():
             return ok(allowed=False, reason=f"assignment expired {u['assignment_expires']}", **base)
-    return ok(allowed=True, reason=f"{u['role']} role" + (" with client assignment" if u["role"] == "demo" else
+    return ok(allowed=True, reason=f"{u['role']} role" + (" with client assignment" if _scoped(u["role"]) else
                                                             " (all clients)"), **base)
 
 

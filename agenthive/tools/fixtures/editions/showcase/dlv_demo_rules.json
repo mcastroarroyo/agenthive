@@ -1,0 +1,292 @@
+{
+  "min_buffer_pct": 10,
+  "min_live_pct": 40,
+  "max_context_pct": 20,
+  "min_qa_minutes": 4,
+  "max_talk_segment_minutes": 6,
+  "solutions_note": "Sablewood Cloud Partners' demoable solutions (fictional). Every demo moment's input is tested against the synthetic demo environment; paste it exactly.",
+  "solutions": [
+    {
+      "id": "migration_factory",
+      "name": "Sablewood Workspace Migration Factory",
+      "tagline": "Microsoft 365 and file shares to Google Workspace, planned from data and run in waves.",
+      "description": "Sablewood's migration service: a pre-flight audit of the legacy tenant, a wave plan by department and data complexity, personalised bilingual user comms per wave, bulk and delta transfer with go/no-go gates, post-migration validation and a daily status report for the project team and the sponsor. Runs on the Atlas migration agents (Gemini on Vertex AI Agent Engine).",
+      "audience_fit": {
+        "CIO": "risk, timeline, visibility — go/no-go brief and daily status",
+        "IT director": "permissions, long paths, mobile devices, rollback — pre-flight blockers and validation",
+        "HR / change owner": "frontline adoption and language — personalised comms"
+      },
+      "how_it_works": [
+        "Pre-flight audit (Atlas Pre-Flight Auditor)",
+        "Wave planning (Atlas Batch Planner)",
+        "User comms in English and Spanish (Atlas User Comms)",
+        "Bulk transfer and delta sync with go/no-go gates (Atlas Core Data Mover, Atlas Delta Sync)",
+        "Validation and daily status (Atlas Post-Migration Validator, Atlas Status Reporter)"
+      ],
+      "demo_environment": "Synthetic Kestrel Manufacturing tenant (fictional): 1,200 users on Microsoft 365 + Windows file shares, waves W0-W7, demo date 2026-11-06.",
+      "demo_moments": [
+        {
+          "moment": "Pre-flight audit",
+          "input": "Run the pre-flight audit on the Kestrel tenant and list the blockers.",
+          "show": "verdict line, blockers table (legal holds, long paths, shared-drive item limit) and scope decisions",
+          "typical_minutes": 4
+        },
+        {
+          "moment": "Restricted folders and long paths",
+          "input": "What will break when we migrate the Engineering file share?",
+          "show": "Engineering blockers: long paths, broken inheritance, the shared-drive split",
+          "typical_minutes": 3
+        },
+        {
+          "moment": "Wave plan",
+          "input": "Show the approved wave plan for Kestrel.",
+          "show": "eight waves, pilot first, executives last, Thanksgiving freeze respected",
+          "typical_minutes": 3
+        },
+        {
+          "moment": "Personalised user comms",
+          "input": "Draft the Spanish T-1 email for wave W4 and schedule it for the Spanish segment.",
+          "show": "the Spanish email with merge fields and the simulated schedule id",
+          "typical_minutes": 3
+        },
+        {
+          "moment": "Daily status",
+          "input": "Daily status for the Kestrel project team.",
+          "show": "RAG with reasons, wave table, open issues with owners",
+          "typical_minutes": 3
+        },
+        {
+          "moment": "Cutover go/no-go (optional)",
+          "input": "Are we ready to cut over W4 (Sales) tomorrow? Give me the go/no-go brief.",
+          "show": "CONDITIONAL GO, gates table and the conditions with deadlines",
+          "typical_minutes": 3
+        }
+      ],
+      "simulated_actions": [
+        "email scheduling",
+        "transfer retries",
+        "delta sync and MX switch",
+        "email drafts"
+      ],
+      "proof_points": [
+        "CS-009 — regional transit agency moved 2,400 staff to Google Workspace in 9 weeks"
+      ],
+      "kpis": [
+        "Blockers found before wave 1",
+        "Waves delivered on the planned date",
+        "Day-one tickets per 100 users"
+      ],
+      "sample_doc": "dlv_demo_request_atlas",
+      "related": [
+        "adoption_programme"
+      ]
+    },
+    {
+      "id": "idea_to_demo",
+      "name": "Sablewood Idea-to-Demo Sprint",
+      "tagline": "A one-line idea becomes a clickable prototype and a draft SOW outline in one working session.",
+      "description": "Sablewood's discovery offering: a builder designs the core user journey and renders a self-contained clickable prototype on synthetic data, a critic checks it against the concept, and the session ends with a draft SOW outline — phases, deliverables and an estimate range from an illustrative rate card. Runs on the Morpheus agent (Gemini on Vertex AI).",
+      "audience_fit": {
+        "COO / business owner": "seeing the idea working before investing",
+        "CIO": "integrations, effort and a phased plan",
+        "Innovation lead": "speed from idea to something clickable"
+      },
+      "how_it_works": [
+        "Concept to core journey (3-5 steps)",
+        "3-6 screens rendered as a clickable HTML prototype",
+        "Critic checks the journey end to end",
+        "Draft SOW outline with an estimate range"
+      ],
+      "demo_environment": "Synthetic sample data generated for the concept; no real company or brand names.",
+      "demo_moments": [
+        {
+          "moment": "Field inspection app",
+          "input": "Dream-to-demo: a field inspection app for a real-estate developer — inspectors log defects with photos and PMs approve fixes.",
+          "show": "the clickable prototype (open the HTML), the screen list and the SOW outline with phases",
+          "typical_minutes": 5
+        },
+        {
+          "moment": "Member portal",
+          "input": "Prototype a member portal for a credit union: loan status, document upload and an assistant chat.",
+          "show": "the assistant-chat screen and the integrations in the SOW outline",
+          "typical_minutes": 5
+        },
+        {
+          "moment": "Volunteer scheduler",
+          "input": "Turn this idea into a clickable demo and SOW outline: a volunteer shift scheduler for a food bank with SMS reminders.",
+          "show": "the journey from shift list to confirmation and the estimate range",
+          "typical_minutes": 4
+        }
+      ],
+      "simulated_actions": [],
+      "proof_points": [
+        "Prototypes are rendered live from the conversation; estimates come from an illustrative rate card"
+      ],
+      "kpis": [
+        "Concept-to-demo time",
+        "Demos converted to SOWs",
+        "Discovery workshops shortened"
+      ],
+      "related": [
+        "migration_factory"
+      ]
+    },
+    {
+      "id": "ai_guardrail",
+      "name": "Sablewood AI Guardrail Service",
+      "tagline": "Every outbound model call screened for personal data, secrets and prompt injection — and runaway spend stopped.",
+      "description": "Sablewood's managed guardrail for clients running AI agents: a deterministic pre-check redacts personal data with typed tokens, blocks secrets and injection attempts and compares each agent's hourly spend with its baseline. In production the verdicts are enforced by Model Armor templates and Sensitive Data Protection on the Vertex AI call path. Runs on the Aegis agent.",
+      "audience_fit": {
+        "CIO / CISO": "data leakage, prompt injection, audit trail",
+        "CFO": "runaway model spend",
+        "AI governance lead": "policy and evidence"
+      },
+      "how_it_works": [
+        "Intercept the outbound call",
+        "PII redaction, secret and injection detection",
+        "Spend vs baseline per agent",
+        "Audit log and required actions"
+      ],
+      "demo_environment": "Synthetic log of intercepted calls from a client's agents (last hour) with fictional personal data.",
+      "demo_moments": [
+        {
+          "moment": "Last hour review",
+          "input": "Review the last hour of outbound model calls and tell me what you blocked or redacted.",
+          "show": "verdict counts, the blocked injection attempt and the redacted personal data",
+          "typical_minutes": 3
+        },
+        {
+          "moment": "Live prompt scan",
+          "input": "Scan this prompt before it goes to the model: 'Summarise the complaint from jane.doe@clientmail.example, phone +1 415-555-0142, card 4111 1111 1111 1111.'",
+          "show": "verdict redact and the redacted prompt with typed tokens",
+          "typical_minutes": 2
+        },
+        {
+          "moment": "Runaway spend",
+          "input": "Is there a cost anomaly in outbound calls right now, and which agent is causing it?",
+          "show": "the agent at 3x+ baseline and the throttle action",
+          "typical_minutes": 2
+        }
+      ],
+      "simulated_actions": [
+        "throttling and owner paging"
+      ],
+      "proof_points": [
+        "BLOG-109 — Model Armor in practice: guardrails for outbound model calls"
+      ],
+      "kpis": [
+        "PII leaks prevented",
+        "Prompt-injection attempts blocked",
+        "Unplanned model spend avoided"
+      ],
+      "related": [
+        "meeting_intelligence"
+      ]
+    },
+    {
+      "id": "meeting_intelligence",
+      "name": "Sablewood Meeting Intelligence",
+      "tagline": "Every client meeting becomes knowledge, alerts, tasks and a churn signal.",
+      "description": "Sablewood's meeting-intelligence agents for professional-services and B2B teams: recorded meetings become searchable knowledge records, each meeting is scored for dissatisfaction, scope creep and disengagement with verbatim evidence, action items become owned and dated tasks, and an explainable churn-risk score per account drives the save plan. Runs on the Janus, Helios, Athena and Oracle agents.",
+      "audience_fit": {
+        "COO / delivery director": "escalations caught early",
+        "Customer success": "churn risk before renewal",
+        "PMO": "tasks with owners minutes after the meeting"
+      },
+      "how_it_works": [
+        "Recording to knowledge record (Janus)",
+        "Meeting health audit (Helios)",
+        "Tasks and decision log (Athena)",
+        "Churn-risk score and save plan (Oracle)"
+      ],
+      "demo_environment": "Synthetic engagement: Tallbridge Logistics steering committee transcript MTG-2026-1104-TBL and account history (fictional).",
+      "demo_moments": [
+        {
+          "moment": "Meeting health audit",
+          "input": "Audit the Tallbridge Logistics steering committee MTG-2026-1104-TBL and alert the PM if it is at risk.",
+          "show": "RED grade with timestamped quotes and the simulated PM alert",
+          "typical_minutes": 4
+        },
+        {
+          "moment": "Tasks from the meeting",
+          "input": "Extract the action items and decisions from 'ops_transcript_tallbridge_steerco' and create the tasks in project TBL.",
+          "show": "tasks with resolved due dates and the duplicate that was not created",
+          "typical_minutes": 3
+        },
+        {
+          "moment": "Churn risk",
+          "input": "What is Tallbridge Logistics' churn risk after the latest steering committee, and why?",
+          "show": "the score, top drivers with evidence and the save play",
+          "typical_minutes": 3
+        }
+      ],
+      "simulated_actions": [
+        "PM alerts",
+        "task creation",
+        "CRM updates",
+        "knowledge-base indexing"
+      ],
+      "proof_points": [
+        "BLOG-118 — Agents that audit meetings: inside our meeting-intelligence loop"
+      ],
+      "kpis": [
+        "Risk signals caught before client escalation",
+        "Time from meeting to tasks",
+        "Churn flagged 60+ days before renewal"
+      ],
+      "related": [
+        "ai_guardrail"
+      ]
+    },
+    {
+      "id": "adoption_programme",
+      "name": "Sablewood Workspace & Gemini Adoption Programme",
+      "tagline": "Role-based training, wave-aligned cohorts and adoption tactics that keep people using the new tools.",
+      "description": "Sablewood's change and enablement service: learning paths per role, bilingual cohorts timed to each migration wave, knowledge-check quizzes, a stakeholder map and comms calendar, and adoption tactics per department from post-migration telemetry. Runs on the Enablement Engine and Migration CM agents.",
+      "audience_fit": {
+        "HR / L&D owner": "training completion and frontline staff",
+        "Change lead": "resistance and adoption gaps",
+        "CIO": "day-one tickets"
+      },
+      "how_it_works": [
+        "Training plan and calendar",
+        "Wave-aligned cohorts",
+        "Quizzes from an approved bank",
+        "Stakeholder, comms and adoption plan"
+      ],
+      "demo_environment": "Synthetic Kestrel Manufacturing migration (fictional) with adoption telemetry for waves W0-W3.",
+      "demo_moments": [
+        {
+          "moment": "Enablement plan",
+          "input": "Build the enablement plan for Kestrel starting 2026-11-09 and align it to the remaining waves.",
+          "show": "learning paths, sessions by language and the first-week calendar",
+          "typical_minutes": 4
+        },
+        {
+          "moment": "Quiz",
+          "input": "Create a 5-question quiz for module M-EU-102 with the answer key for trainers.",
+          "show": "questions and the trainer answer key",
+          "typical_minutes": 2
+        },
+        {
+          "moment": "Adoption rescue",
+          "input": "Which Kestrel departments are struggling with adoption and what should the champions do this week?",
+          "show": "departments flagged amber/red with the gap and the tactic",
+          "typical_minutes": 3
+        }
+      ],
+      "simulated_actions": [],
+      "proof_points": [
+        "CS-006 — senior living operator rolled out Gemini Enterprise to 900 staff"
+      ],
+      "kpis": [
+        "Training completion before cutover",
+        "Weekly active use 30 days after cutover",
+        "Day-one tickets per 100 users"
+      ],
+      "related": [
+        "migration_factory"
+      ]
+    }
+  ]
+}

@@ -8,7 +8,9 @@ Routes
   POST /api/warm/{realm}      wake a realm's Agent Engine before a demo
   GET  /healthz-hive          liveness
 
-Runs on Cloud Run behind IAP; calls Agent Engine REST with the service account's credentials. No project ids in code.
+Editions (HIVE_EDITION): internal (Cloud Run behind IAP, Wursta only) or showcase (HIVE_AUTH=google: any Google
+account signs in; limits, activity log, feedback and /admin from web/showcase.py). Calls Agent Engine REST with the
+service account's credentials. No project ids in code.
 """
 from __future__ import annotations
 
@@ -33,13 +35,17 @@ from pydantic import BaseModel, Field
 
 HERE = Path(__file__).resolve().parent
 STATIC = HERE / "static"
-CATALOG: dict = json.loads((STATIC / "catalog.json").read_text())
+EDITION = os.environ.get("HIVE_EDITION", "internal")
+AUTH = os.environ.get("HIVE_AUTH", "iap")             # iap (internal) | google (showcase)
+CATALOG: dict = json.loads((STATIC / ("catalog.json" if EDITION == "internal" else f"catalog-{EDITION}.json")).read_text())
 AGENTS = {a["id"]: a for r in CATALOG["realms"] for a in r["agents"]}
 REALM_NAMES = {r["id"]: r["name"] for r in CATALOG["realms"]}
 
 PROJECT = os.environ.get("HIVE_PROJECT") or os.environ.get("GOOGLE_CLOUD_PROJECT", "")
 REGION = os.environ.get("HIVE_REGION", "us-central1")
 ENGINE_REGION = os.environ.get("HIVE_ENGINE_REGION", "us-east4")
+ENGINE_PREFIX = "Agent Hive · " if EDITION == "internal" else "Agent Hive Showcase · "
+TOKENS_PREFIX = "hive_tok:"   # per-agent token counters the engine keeps in session state
 
 
 def _api(location: str) -> str:
@@ -62,6 +68,13 @@ MAX_DELIVERABLE_B64 = 4 * 1024 * 1024
 RATE = (40, 600)  # runs per user per 10 minutes
 
 app = FastAPI(title="Wursta Agent Hive", docs_url=None, redoc_url=None)
+if AUTH == "google":
+    from web import showcase as SC
+
+    SC.AGENTS = AGENTS
+    app.include_router(SC.router)
+else:
+    SC = None
 _creds = None
 _engines: dict[str, str] = {}
 _engines_at = 0.0
@@ -91,6 +104,8 @@ def _headers() -> dict:
 
 
 def _user(request: Request) -> str:
+    if SC:
+        return SC.current_user(request)["email"]
     email = request.headers.get("x-goog-authenticated-user-email", "")
     email = email.split(":", 1)[-1] if email else ""
     if not email and os.environ.get("HIVE_REQUIRE_IAP") == "1":
@@ -115,8 +130,8 @@ async def _engine_for(realm: str) -> str:
             found = {}
             for e in r.json().get("reasoningEngines", []):
                 dn = e.get("displayName", "")
-                if dn.startswith("Agent Hive · "):
-                    found[dn.removeprefix("Agent Hive · ")] = e["name"]
+                if dn.startswith(ENGINE_PREFIX):
+                    found[dn.removeprefix(ENGINE_PREFIX)] = e["name"]
             _engines, _engines_at = found, time.time()
     name = _engines.get(REALM_NAMES.get(realm, ""))
     if not name:
@@ -148,6 +163,8 @@ class RunIn(BaseModel):
     session_id: str = Field(max_length=200)
     message: str = Field(max_length=MAX_MESSAGE)
     files: list[FileIn] = Field(default_factory=list, max_length=3)
+    lang: str = Field(default="en", max_length=5)
+    sample: bool = False                 # the message is one of the agent's sample prompts
 
 
 @app.get("/healthz-hive")
@@ -156,18 +173,21 @@ def health():
 
 
 @app.get("/api/catalog")
-def catalog():
+def catalog(request: Request):
+    _user(request)
     return JSONResponse(CATALOG, headers={"Cache-Control": "no-cache"})
 
 
 DOCS = HERE.parent / "agenthive" / "tools" / "fixtures" / "docs"
+EDITION_DOCS = HERE.parent / "agenthive" / "tools" / "fixtures" / "editions" / EDITION / "docs"
 
 
 @app.get("/api/doc/{key}")
-def sample_doc(key: str):
+def sample_doc(key: str, request: Request):
+    _user(request)
     if not re.fullmatch(r"[a-z0-9_]{1,80}", key):
         raise HTTPException(400, "bad key")
-    p = DOCS / f"{key}.md"
+    p = EDITION_DOCS / f"{key}.md" if (EDITION_DOCS / f"{key}.md").is_file() else DOCS / f"{key}.md"
     if not p.is_file():
         raise HTTPException(404, "no such sample document")
     text = p.read_text()
@@ -176,7 +196,8 @@ def sample_doc(key: str):
 
 
 @app.post("/api/warm/{realm}")
-async def warm(realm: str):
+async def warm(realm: str, request: Request):
+    _user(request)
     t0 = time.time()
     engine = await _engine_for(realm)
     await _query(engine, "async_list_sessions", {"user_id": "warmup"})
@@ -188,12 +209,19 @@ async def session(body: SessionIn, request: Request):
     a = AGENTS.get(body.agent_id)
     if not a:
         raise HTTPException(404, "unknown agent")
-    uid = _user_id(_user(request))
+    email = _user(request)
+    uid = _user_id(email)
+    state: dict[str, Any] = {"hive_agent": a["adk_name"]}
+    if SC:
+        lim = await SC.limits()
+        state["hive_token_limit"] = lim["session_tokens"]   # enforced by the engine (agents/factory.py)
     engine = await _engine_for(a["realm"])
     t0 = time.time()
-    out = await _query(engine, "async_create_session", {"user_id": uid, "state": {"hive_agent": a["adk_name"]}})
+    out = await _query(engine, "async_create_session", {"user_id": uid, "state": state})
+    if SC:
+        await SC.session_started(SC.current_user(request), out["id"], a)
     return {"session_id": out["id"], "engine": engine.rsplit("/", 1)[-1], "region": ENGINE_REGION,
-            "seconds": round(time.time() - t0, 1)}
+            "seconds": round(time.time() - t0, 1), "token_limit": state.get("hive_token_limit")}
 
 
 def _limit(email: str) -> None:
@@ -252,7 +280,10 @@ def _simplify(ev: dict) -> list[dict]:
             out.append({"type": "file", "author": author, "id": k[len(FILE_PREFIX):][:64],
                         "name": re.sub(r"[^\w .()-]", "_", str(v.get("name") or "deliverable"))[:120],
                         "mime": v["mime"], "size": int(v.get("size") or 0), "b64": v["b64"]})
-    keys = sorted(k for k in sd if not k.startswith(FILE_PREFIX))
+    tok = {k: v for k, v in sd.items() if k.startswith(TOKENS_PREFIX) and isinstance(v, (int, float))}
+    if tok:
+        out.append({"type": "_tok", "values": tok})        # consumed by /api/run, not sent to the browser
+    keys = sorted(k for k in sd if not k.startswith((FILE_PREFIX, TOKENS_PREFIX)))
     if keys:
         out.append({"type": "state", "author": author, "keys": keys[:10]})
     return out
@@ -295,6 +326,8 @@ async def run(body: RunIn, request: Request):
         raise HTTPException(404, "unknown agent")
     email = _user(request)
     _limit(email)
+    user = SC.current_user(request) if SC else None
+    lim = await SC.check_quota(user) if SC else {}
     engine = await _engine_for(a["realm"])
     message: Any = body.message
     if body.files:
@@ -308,19 +341,43 @@ async def run(body: RunIn, request: Request):
             parts.append({"inline_data": {"mime_type": f.mime_type, "data": f.data}})
         message = {"role": "user", "parts": parts}
     payload = {"user_id": _user_id(email), "session_id": body.session_id, "message": message}
+    if lim:
+        payload["run_config"] = {"max_llm_calls": lim["max_llm_calls"]}
+    tok_before = await SC.session_tok(body.session_id) if SC else {}
 
     async def sse():
         t0 = time.time()
         first = None
+        tok = dict(tok_before)      # per-agent cumulative counters for this session
+        usage = 0                   # fallback: usage events of the top-level agents
+        status, error = "ok", ""
         try:
             async for ev in _stream_events(engine, payload):
+                if ev["type"] == "_tok":
+                    tok.update(ev["values"])
+                    continue
+                if ev["type"] == "usage":
+                    usage += ev["prompt"] + ev["output"] + ev.get("thoughts", 0)
+                if ev["type"] == "error":
+                    status, error = "error", str(ev.get("message", ""))
                 if first is None:
                     first = round(time.time() - t0, 1)
                     yield f"data: {json.dumps({'type': 'runtime', 'first_event_s': first})}\n\n"
                 yield f"data: {json.dumps(ev, ensure_ascii=False, default=str)}\n\n"
         except (httpx.HTTPError, asyncio.TimeoutError) as e:
-            yield f"data: {json.dumps({'type': 'error', 'message': f'{type(e).__name__}: {e}'[:300]})}\n\n"
-        yield f"data: {json.dumps({'type': 'done', 'seconds': round(time.time() - t0, 1)})}\n\n"
+            status, error = "error", f"{type(e).__name__}: {e}"
+            yield f"data: {json.dumps({'type': 'error', 'message': error[:300]})}\n\n"
+        seconds = round(time.time() - t0, 1)
+        total = sum(tok.values())
+        run_tokens = max(total - sum(tok_before.values()), 0) or usage
+        if SC:
+            try:
+                await SC.record_run(user, a, body.session_id, tokens=run_tokens, session_tok=tok, seconds=seconds,
+                                    status=status, lang=body.lang, sample=body.sample, error=error)
+            except Exception as e:  # noqa: BLE001 — logging must never break the demo
+                print(f"usage logging failed: {e}", flush=True)
+            yield f"data: {json.dumps({'type': 'budget', 'session_tokens': total or usage, 'limit': lim.get('session_tokens')})}\n\n"
+        yield f"data: {json.dumps({'type': 'done', 'seconds': seconds, 'tokens': run_tokens})}\n\n"
 
     return StreamingResponse(sse(), media_type="text/event-stream",
                              headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
@@ -340,6 +397,19 @@ async def security_headers(request: Request, call_next):
 @app.get("/")
 def index():
     return FileResponse(STATIC / "index.html")
+
+
+@app.get("/admin")
+def admin_page(request: Request):
+    if not SC:
+        raise HTTPException(404, "not found")
+    try:
+        SC.require_admin(request)
+    except HTTPException:
+        from fastapi.responses import RedirectResponse
+
+        return RedirectResponse("/")
+    return FileResponse(STATIC / "admin.html")
 
 
 app.mount("/static", StaticFiles(directory=STATIC), name="static")

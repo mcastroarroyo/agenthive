@@ -35,7 +35,8 @@ agents:
           1. Identify the client from the request: a client id (WM-xxxx), a household or contact name. Client
              material (meeting notes) may be pasted in the message or appear below as referenced client material;
              if the user names a sample key that is not shown (e.g. 'fin_meeting_notes_hartwell'), load it with
-             get_sample_document. Note the client's stated wishes and constraints.
+             get_sample_document. Never guess document keys — policies such as QPW-POL-07 are searched in the
+             knowledge base by the final step. Note the client's stated wishes and constraints.
           2. If the request is about the whole book ("which clients", "scan my book", "most urgent"), call
              fin_mandate_check with no client, show the ranked table, then continue with the highest-priority client
              that can be advised (skip clients whose profile is blocked under WS-1 and say so).
@@ -98,8 +99,8 @@ agents:
 
       1. Advisor brief first: verdict in one line (e.g. "Rebalance recommended — 3 breaches, suitable with
          conditions"), then breaches by severity with rule ids, the trade table, tax/cost and conditions
-         (pre-clearance, tender windows, liquidity). Search the knowledge base for the QPW-POL-07 rule wording when
-         you cite a rule.
+         (pre-clearance, tender windows, liquidity). Search the knowledge base once (one query naming QPW-POL-07 and
+         the rule ids) for the rule wording; if a rule is not returned, cite it by id without searching again.
       2. Then a client-ready proposal in plain language (no rule ids, no jargon): why we suggest changes, what changes,
          what it costs (tax estimate as illustrative), what stays the same, and the 1-2 market themes that matter.
       3. If suitability is not_suitable or blocked, do not write a client proposal — explain what is needed instead.
@@ -145,14 +146,18 @@ agents:
         model: flash
         role: Runs TM-01..TM-06 over the account(s) in scope and screens the parties involved.
         instruction: |
+          First decide the request type.
+          A. Exam, audit, evidence or policy request (e.g. 'fin_exam_request_q4'): call fin_run_aml_rules once with no
+             account and report only the high-severity accounts in two lines each (alerts, score, disposition). Do NOT
+             call fin_screen_party in this case.
+          B. Account or customer request:
           1. If the request names an account (ACC-xxxxx) or customer, call fin_run_aml_rules for it; otherwise call it
              with no account to get every account with alerts.
           2. Screen the account holder and every counterparty linked to an alert with fin_screen_party (pass
-             birth_year for individuals when the account shows one, and the counterparty country).
+             birth_year for individuals when the account shows one, and the counterparty country) — in one parallel
+             batch, at most 6 parties.
           3. Report per account: alerts (alert id, rule, evidence transaction ids, amounts, detail), risk score,
              severity, screening outcomes with scores and discounting factors, and the rulebook next step.
-          If the request is purely about policies or an exam letter, report only the high-severity accounts in
-          two lines each.
         tools: [fin_run_aml_rules, fin_screen_party]
         output_key: tm_findings
       - id: policy
@@ -226,7 +231,8 @@ agents:
          'forecast') and a grain (business unit, cost centre, P&L line, account).
       2. Query BigQuery: aggregate actuals and plan at that grain in one query where possible (join on month,
          cost_center and account_code). Amounts are positive for both revenue and expense; line_type tells which.
-         Full-year outlook = actual months to date + forecast for the remaining months.
+         Full-year outlook = actual months to date + forecast for the remaining months. Use the column names in the
+         schema notes below — no exploratory queries (SELECT * / LIMIT / DISTINCT checks); at most 4 queries in total.
       3. Pass the resulting lines to fin_flag_material_variances (plan = budget or forecast) to apply the policy.
       4. For each material line, drill one level down (account or month) to find the driver; quote the numbers.
       5. Use the knowledge base for the materiality policy, chart of accounts and known management commentary
@@ -265,11 +271,14 @@ agents:
     instruction: |
       1. Translate the question into KPIs using the KPI dictionary in the knowledge base (definition, formula,
          direction of good); state the definition you used in one line.
-      2. Query BigQuery with at most 3 queries. Bank totals: sum volumes across business units; weight ratios by
-         their denominators or quote them per business unit — never average ratios blindly.
-      3. For trend or anomaly questions, pass the time series to fin_detect_anomalies and report only what it
-         flags. Explain an anomaly with evidence from another table or a knowledge-base document (e.g. an incident
-         or campaign), never with speculation.
+      2. Query BigQuery with at most 3 queries in total, aggregated to month (or week) — never select daily rows.
+         Bank totals: sum volumes across business units; weight ratios by their denominators or quote them per
+         business unit — never average ratios blindly.
+      3. For trend or anomaly questions, get every series you need in ONE query (e.g. channel anomalies: per channel
+         and month, SUM(transactions) and the transaction-weighted failed_pct for the year), then pass the series to
+         fin_detect_anomalies in ONE parallel batch (at most 4 series) and report only what it flags. Explain an
+         anomaly with one knowledge-base search for the flagged month (e.g. "May 2026 outage") or one more query on
+         another table; never speculate.
       4. Write for a board: lead with the answer, compare with the right baseline (prior year, plan or trend), say
          why it moved and what decision it informs.
     output: >-
@@ -314,7 +323,9 @@ agents:
         instruction: |
           1. Identify the synthetic patient id (SYN-Pxxx) and, if named, the trial. A referral note may be pasted
              in the message or shown below as referenced client material; if only its key is named (e.g.
-             'hlt_referral_p014'), load it with get_sample_document. Keep any facts the referral adds.
+             'hlt_referral_p014') and the text is not shown, load it with get_sample_document. Call
+             get_sample_document only for a key the user wrote exactly — never guess keys: trial protocols come from
+             hlt_get_trial_criteria in the next step. Keep any facts the referral adds.
           2. Call hlt_get_patient_record.
           3. Write a concise abstract, facts only, with dates: age/sex; diagnoses with stage; biomarkers; performance
              status; latest labs and vitals (value, unit, date); imaging; prior therapies with last-dose dates;
@@ -355,7 +366,7 @@ agents:
          trial id, short name, PI and slots remaining.
       2. Criterion table (all criteria; failing and missing ones first).
       3. "To complete pre-screening": each missing item, who obtains it and by when (respect lab and imaging
-         windows; check the knowledge-base pre-screening SOP for window and contact rules).
+         windows; one knowledge-base search for the pre-screening SOP window and contact rules — do not search again).
       4. Draft the coordinator note (to the study coordinator, cc PI): 5-8 sentences, synthetic id only, no patient
          contact before PI approval.
       5. Only when the user asks to log or save it, call hlt_log_prescreen with the outcome and the note.
@@ -497,9 +508,10 @@ agents:
           Reviewer feedback from the previous round (apply every numbered fix):
           {{soap_review}}
 
-          Write the note with headings SUBJECTIVE (chief complaint, HPI, ROS, medications, allergies), OBJECTIVE
-          (vitals, exam, data), ASSESSMENT (numbered problems with status), PLAN (per problem, follow-up,
-          education/teach-back) and a line for medical decision making or time when stated.
+          Write the note with headings SUBJECTIVE (chief complaint, HPI, ROS, medications, medication
+          reconciliation, allergies), OBJECTIVE (vitals, exam, data), ASSESSMENT (numbered problems with status), PLAN
+          (per problem, follow-up, education/teach-back) and a line for medical decision making or time when stated.
+          Keep these English headings even when you write the note in another language.
           Rules: only document what the source says; write "[not documented]" for anything required that is missing;
           never invent vitals, doses, exam findings or allergies; keep the patient's synthetic id only.
         tools: [get_sample_document]
@@ -516,7 +528,9 @@ agents:
              source is a video or phone visit, else outpatient_follow_up).
           2. Check fidelity: every medication, dose, vital and exam finding in the draft must appear in the source.
           3. The draft passes when the tool verdict starts with "complete" (score >= 85; items the source genuinely
-             lacks may stay marked "[not documented]") and fidelity has no errors.
+             lacks may stay marked "[not documented]") and fidelity has no errors. It also passes when every element
+             the tool still lists as missing is information the source does not contain and the draft marks it
+             "[not documented]" — then write "APPROVED — gaps in the source" and list them.
           Output the score, verdict and either "APPROVED" (then call exit_loop) or numbered, specific fixes.
         tools: [hlt_documentation_completeness]
         output_key: soap_review

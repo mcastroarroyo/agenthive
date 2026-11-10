@@ -1,0 +1,305 @@
+# Showcase edition · Spanish UI texts for the Agent Workforce segment (12 agents).
+# Pricing stays labelled "precios ilustrativos, no definitivos". Product names, doc keys, amounts and dates are kept.
+agents:
+  # --- Plataforma Workforce ----------------------------------------------------------------------------------------
+  workforce:
+    tagline: Gestiona un trabajo completo como una agencia de talento — define el brief, muestra el costo por adelantado, asigna especialistas, hace QA y entrega el archivo con tu marca.
+    description: >-
+      Agent Workforce es el orquestador del marketplace de talento de IA de Wursta. Un cliente le hace un brief en
+      lenguaje natural ("una propuesta para Alderbrook como documento de Word"); el orquestador define el alcance y
+      muestra la estimación por nivel de prioridad, asigna a los especialistas que el trabajo necesita, pasa el
+      borrador por QA y verificación de datos contra el brief y la marca del cliente, y hace que el Estudio de
+      documentos genere el archivo final con la marca, listo para descargar. Las revisiones siguen el mismo camino y se
+      entregan como una nueva versión del archivo.
+    persona: Equipos de marketing, ventas y operaciones de empresas pequeñas y medianas que quieren documentos terminados, no herramientas
+    use_cases:
+      - Un brief de entrada y un archivo terminado con la marca de salida — propuesta, SOP, calendario de contenido, presentación GTM, comunicado de prensa
+      - Estimación por adelantado por nivel de prioridad antes de empezar (precios ilustrativos, no definitivos)
+      - Revisiones en lenguaje natural, entregadas como una nueva versión del archivo
+    output: >-
+      "Trabajo <id> — entregado": la línea de la estimación (nivel, créditos reservados, precios ilustrativos, no
+      definitivos), quién trabajó en él, el veredicto de QA con las correcciones más importantes, el archivo (nombre,
+      formato, páginas/diapositivas/hojas, id del archivo) — queda adjunto a esta sesión para descargarlo, así que nunca
+      se escribe un enlace o una ruta — y una línea sobre cómo pedir una revisión.
+    samples:
+      - Contrata al equipo para el trabajo de 'wf_brief_proposal_alderbrook' — estímalo, redáctalo, pásalo por QA y entrega la propuesta en Word con la marca.
+      - Ejecuta de punta a punta el trabajo de 'wf_brief_sop_handoff' y entrega el SOP como documento de Word.
+      - "Trabajo: un calendario de contenido de LinkedIn de 2 semanas a partir del 2026-11-17 para la beta en español de Kitewing Assist y nuestro stand 14 en el Regional Service Contractors Summit (19-20 de noviembre). Estímalo y entrega el archivo de Excel."
+    kpis: [Tiempo del brief a la entrega, Trabajos entregados sin rechazo de QA, Revisiones por trabajo, Créditos estimados vs reales]
+    steps:
+      estimator: {name: Brief y estimación, role: "Convierte el brief en entregables, formatos y especialistas y lo cotiza por nivel (precios ilustrativos, no definitivos)."}
+      brand: {name: Inteligencia de marca, role: "Aprende un nuevo perfil de marca a partir de las guías y revisa los borradores contra él."}
+      seo: {name: Estratega SEO, role: "Auditorías SEO del sitio web conectado y briefs de artículos de blog."}
+      social: {name: Planificador de redes sociales, role: "Calendarios de contenido para LinkedIn e Instagram."}
+      proposal: {name: Redactor de propuestas, role: "Propuestas para clientes y presentaciones comerciales."}
+      sop: {name: Creador de SOP, role: "Procedimientos operativos estándar con RACI y pasos verificados."}
+      gtm: {name: Estratega go-to-market, role: "Planes go-to-market con dimensionamiento de mercado con fuentes."}
+      longform: {name: Redactor de contenido extenso, role: "Comunicados de prensa, whitepapers, one-pagers y artículos de blog."}
+      qa: {name: QA y verificación de datos, role: "Revisa el borrador contra el brief y la marca, verifica las afirmaciones y devuelve la versión corregida."}
+      studio: {name: Estudio de documentos, role: "Genera el archivo con la marca a partir del contenido aprobado por QA; nuevas versiones en cada revisión."}
+
+  workforce_guide:
+    name: Guía del marketplace
+    tagline: Te ayuda a recorrer los 10 departamentos y elegir al especialista adecuado — y explica cómo funciona Agent Workforce.
+    description: >-
+      La Guía del marketplace es la recepción del marketplace de Agent Workforce. Traduce una necesidad expresada en
+      lenguaje natural al departamento y al especialista que conviene contratar, explica qué produce cada uno y en qué
+      formato de archivo, cómo se ejecuta un trabajo (explorar, hacer el brief, estimar, ejecutar, entregar), los dos
+      modos de entrega (app SaaS y Gemini Enterprise Agent Marketplace) y por qué Agent Workforce es distinto de los
+      freelancers o de las plataformas para construir agentes.
+    persona: Compradores primerizos y líderes de equipo que deciden a quién contratar; equipos de TI y compras que evalúan el servicio
+    use_cases:
+      - ¿Qué especialista deberíamos contratar para esta necesidad?
+      - ¿Cómo funcionan un trabajo, la estimación y la entrega?
+      - ¿Por qué Agent Workforce en lugar de un freelancer o una plataforma para construir agentes?
+    output: >-
+      Primero la recomendación (especialista · departamento · qué recibes · formato), un brief de ejemplo y luego
+      cualquier detalle de cómo funciona, con citas de la base de conocimiento.
+    samples:
+      - Necesitamos ayuda con LinkedIn y una propuesta comercial — ¿a quién deberíamos contratar y qué vamos a recibir?
+      - ¿Por qué usar Agent Workforce en lugar de un freelancer de Upwork o de construir nuestros propios agentes con CrewAI?
+      - ¿Podemos usar Agent Workforce dentro de Gemini Enterprise? ¿Cómo funciona la facturación y qué formatos de archivo recibimos?
+    kpis: [Conversión de exploración a brief, Preguntas respondidas sin intervención humana, Especialista correcto elegido a la primera]
+
+  workforce_estimator:
+    name: Brief y estimación
+    tagline: Convierte un brief en lenguaje natural en un trabajo con alcance definido y muestra el costo por adelantado para cada nivel de prioridad.
+    description: >-
+      Brief y estimación lee el brief de un trabajo como lo haría un buen ejecutivo de cuenta de agencia: qué
+      entregables, en qué formato, para qué audiencia, qué especialistas y qué se asume. Luego cotiza el trabajo por
+      tiempo y materiales — tarifa por agente según el nivel de prioridad (Urgent, Standard, Economy) más un margen
+      reembolsable — y revisa el saldo de créditos del cliente. Todos los precios son ilustrativos, no definitivos.
+    persona: Cualquier persona que envía un trabajo; responsables de finanzas que vigilan el gasto en créditos
+    use_cases:
+      - Convertir un brief desordenado en entregables, formatos y especialistas
+      - Comparar Urgent, Standard y Economy antes de comprometerse
+      - Revisar el saldo de créditos y la recarga necesaria
+    output: >-
+      "Trabajo <id>": tabla de alcance (entregable · formato · especialistas · estructura), tabla de estimación (nivel ·
+      modalidad · tarifa por agente · subtotal · margen · créditos reservados · plazo) marcada "Precios ilustrativos,
+      no definitivos", nivel recomendado, revisión de créditos, supuestos y próximo paso.
+    samples:
+      - Estima el trabajo de 'wf_brief_proposal_alderbrook'.
+      - ¿Cuánto cuesta una auditoría SEO de nuestro sitio web más 3 briefs de artículos de blog? No tenemos prisa.
+      - "Urgente: un calendario de contenido de LinkedIn e Instagram de 6 semanas a partir del 2026-11-16 — define el alcance y dame el precio por nivel."
+    kpis: [Precisión de la estimación vs créditos usados, Tiempo del brief al trabajo aprobado]
+
+  workforce_brand:
+    name: Inteligencia de marca
+    tagline: Aprende tu marca a partir de tus guías — tipografías, colores, tono, reglas, nombres — y revisa cualquier borrador contra ella.
+    description: >-
+      Inteligencia de marca convierte las guías de marca que subes en un perfil de marca guardado con un id estable:
+      tipografías y alternativas, códigos hexadecimales de color y dónde se puede usar cada uno, reglas de logo y
+      diagramación, tono de voz, reglas de redacción, palabras prohibidas con sus reemplazos, nombres de productos,
+      reglas para nombrar clientes y hacer afirmaciones, datos aprobados y el texto institucional de la empresa. Todos
+      los especialistas y el Estudio de documentos aplican ese perfil, y su verificador basado en reglas puntúa
+      cualquier borrador con los problemas que bloquean la publicación y sus correcciones.
+    persona: Jefes de marketing y responsables de marca; cualquier persona que quiere que cada entregable suene y se vea como la empresa
+    use_cases:
+      - Aprender un perfil de marca a partir de las guías una sola vez y reutilizarlo en cada trabajo
+      - Revisar un borrador, una publicación o el texto de una presentación contra la marca antes de que salga
+      - Explicar qué tipografías, colores y reglas de redacción aplican
+    output: >-
+      APRENDER — "Perfil de marca <id>": tipografías, tabla de la paleta de colores (nombre · hex · uso), voz y reglas,
+      reglas de nombres, datos y elementos faltantes. REVISAR — puntuación y aprobado/rechazado, tabla de problemas
+      bloqueantes (encontrado · regla · corrección), advertencias y luego las oraciones corregidas.
+    samples:
+      - Aprende nuestra marca a partir de 'wf_kitewing_brand_guidelines' y muéstrame el perfil que aplicarás a cada entregable.
+      - Revisa el borrador 'wf_draft_press_release' contra la marca Kitewing y enumera todas las correcciones.
+      - "¿Esta publicación de LinkedIn respeta la marca? '¡¡¡Gran noticia!!! Kitewing AI ahora habla español de forma impecable — nuestros clientes redujeron las devoluciones de llamadas en 40%. #AI #FieldService #HVAC #Tech #Innovation'"
+    kpis: [Tasa de aprobación de marca en el primer borrador, Problemas fuera de marca detectados antes de publicar, Tiempo para incorporar una nueva marca]
+
+  workforce_qa:
+    name: QA y verificación de datos
+    tagline: Revisa cada entregable contra el brief y la marca, verifica sus afirmaciones y devuelve una versión corregida.
+    description: >-
+      QA y verificación de datos es el control de calidad entre el borrador de un especialista y el cliente. Aplica la
+      revisión de marca basada en reglas, extrae cada afirmación de hecho y la compara con los datos aprobados y los
+      resultados de clientes de la empresa, verifica las estadísticas públicas con Google Search, comprueba que el brief
+      esté cubierto por completo y que los precios y las fechas sean exactamente los indicados, y devuelve un veredicto,
+      una tabla de problemas y el entregable completo corregido.
+    persona: Líderes de marketing y comunicación, gerentes de ventas y cualquier persona que aprueba documentos antes de enviarlos
+    use_cases:
+      - Verificar un comunicado de prensa o un artículo de blog antes de publicarlo
+      - Detectar nombres de clientes restringidos, palabras de estado de producto incorrectas y números inventados
+      - Devolver una versión corregida y lista para generar el archivo
+    output: >-
+      "Veredicto de QA: Aprobado / Aprobado con correcciones / Rechazado" con la puntuación de marca y el conteo de
+      afirmaciones; una tabla de problemas (severidad · problema · corrección · fuente); luego una línea con exactamente
+      "=== CORRECTED VERSION ===" seguida del entregable completo corregido en markdown con la misma estructura ("#
+      Título", "## " por sección o diapositiva, tablas incluidas). Esta salida puede superar el límite habitual de
+      palabras porque contiene el entregable completo.
+    samples:
+      - Haz QA y verificación de datos del borrador 'wf_draft_press_release' — un comunicado de prensa público sobre la beta en español de Kitewing Assist.
+      - "Verifica los datos de este párrafo para el blog de Kitewing: 'Greystone Facilities Group elevó su tasa de resolución en la primera visita de 71% a 86%. En EE. UU. hay más de 100,000 empresas contratistas de HVAC, y la Oficina de Estadísticas Laborales (Bureau of Labor Statistics) proyecta que los empleos de técnicos de HVAC crecerán 9% en esta década.'"
+      - "Revisa este extracto de propuesta para Alderbrook Home Services (audiencia: cliente): 'Kitewing FieldOps reducirá sin ningún esfuerzo sus horas extra en 30%, tal como lo hizo con Harbor & Pine Mechanical. Su total del primer año es de $145,542.08.'"
+    kpis: [Problemas críticos detectados antes de la entrega, Afirmaciones verificadas por entregable, Errores reportados por el cliente después de la entrega]
+
+  workforce_studio:
+    name: Estudio de documentos
+    tagline: Genera el entregable final como un archivo real de Word, PowerPoint o Excel con tu marca — y una nueva versión en cada revisión.
+    description: >-
+      El Estudio de documentos es el área de entregas. Convierte el contenido aprobado en un archivo real con el perfil
+      de marca del cliente — portada o diapositiva de título, tipografías de títulos y cuerpo, colores de marca,
+      logotipo, tablas con estilo, encabezado y pie de página, encabezados fijos en las hojas de cálculo — en .docx,
+      .pptx, .xlsx, .md o .csv (la exportación a PDF se hace en el producto), y lo adjunta a la sesión para descargarlo.
+      Las solicitudes de revisión generan una nueva versión del archivo.
+    persona: Cualquier persona que necesita convertir contenido en un archivo terminado y fiel a la marca; el orquestador al final de cada trabajo
+    use_cases:
+      - Notas o markdown convertidos en un documento de Word o una presentación con la marca
+      - Tablas convertidas en un libro de Excel con la marca
+      - Revisiones como versión 2, 3, ... del mismo archivo
+    output: >-
+      "Entregado: <nombre del archivo>" — formato, tamaño en KB, páginas/diapositivas/hojas, id del archivo, versión y
+      marca aplicada (el archivo queda adjunto a esta sesión para descargarlo; nunca se escribe un enlace o una ruta),
+      luego la estructura en una línea y cómo pedir una revisión.
+    samples:
+      - "Convierte esto en un one-pager de Kitewing con la marca (.docx): # Reordenamiento en vivo de Route Optimizer ## Qué cambió Las rutas ahora se reordenan automáticamente cuando el tráfico o un trabajo cancelado cambian el día. ## Prueba Copperline Plumbing & Drain redujo 18% el tiempo de manejo por trabajo. ## Próximo paso Agenda una demo de 20 minutos en kitewing.example."
+      - "Haz una presentación de Kitewing de 4 diapositivas (.pptx) con estas notas: las respuestas en español de Kitewing Assist están en beta desde el 2026-11-17 para clientes Growth y Enterprise; los técnicos de Greystone Facilities Group las pidieron; demos en vivo en el stand 14 del Regional Service Contractors Summit (19-20 de noviembre); disponibilidad general prevista para febrero de 2027."
+      - "Crea un tracker en Excel con la marca, con las columnas Semana, Responsable, Tarea, Estado y estas filas: S1, Ben Hartley, Redactar las publicaciones de la beta en español, Hecho; S1, Alicia Moreau, Aprobar las publicaciones, En curso; S2, Sofia Petrov, Presentación de la charla del Summit, Sin empezar."
+    kpis: [Archivos entregados por día, Errores de generación, Revisiones entregadas en un solo turno]
+
+  # --- Marketing, redes sociales y ventas ---------------------------------------------------------------------------
+  wf_seo_strategist:
+    name: Estratega SEO
+    tagline: Audita tu sitio web para buscadores y escribe briefs de artículos de blog capaces de posicionarse — entregados como informe de Word con tu marca.
+    description: >-
+      El Estratega SEO del departamento de Marketing audita el sitio web conectado del cliente (rastreo y captura de
+      Search Console): bloqueos técnicos, títulos y meta descripciones, contenido escaso o desactualizado,
+      canibalización de palabras clave, velocidad de carga y búsquedas con victorias rápidas, y termina con un plan de
+      acción priorizado. Para contenido, escribe briefs de artículos de blog — título, meta, palabras clave, estructura,
+      pruebas y llamado a la acción — revisados con un verificador SEO on-page y basados en datos de búsqueda actuales.
+    persona: Líderes de marketing y gerentes de contenido de empresas pequeñas y medianas
+    use_cases:
+      - Auditoría SEO con un plan de acción priorizado
+      - Brief de artículo de blog que un redactor puede convertir en una publicación que posicione
+      - Victorias rápidas a partir de búsquedas que aparecen en la página 1-2 con baja tasa de clics
+    output: >-
+      Archivo entregado (nombre, páginas, id del archivo), luego AUDITORÍA: puntuación, tablero, las 5 correcciones
+      principales y victorias rápidas; BRIEF: título, meta, palabras clave principales/secundarias, estructura de H2 y
+      la puntuación de la revisión on-page.
+    samples:
+      - Haz una auditoría SEO del sitio web de Kitewing y entrégala como informe de Word con un plan de acción priorizado.
+      - Escribe el brief SEO de artículo de blog de 'wf_brief_blog_peak_season'.
+      - Brief de artículo de blog para la búsqueda 'hvac maintenance agreement software' — marca Kitewing, archivo de Word.
+    kpis: [Sesiones orgánicas, Páginas corregidas a partir de la auditoría, Briefs publicados por mes]
+
+  wf_social_planner:
+    name: Planificador de redes sociales
+    tagline: Planifica y escribe tu calendario de contenido de LinkedIn e Instagram fiel a la marca — entregado como libro de Excel.
+    description: >-
+      El Planificador de redes sociales (que cubre el trabajo del LinkedIn Content Builder y del Instagram Specialist
+      del departamento de Redes Sociales) arma un calendario de contenido con fechas a partir de la cadencia, los
+      pilares de contenido, las fechas bloqueadas y los momentos de campaña del cliente, escribe cada publicación con la
+      voz de la marca — gancho, texto, llamado a la acción, hashtags aprobados, idea de recurso visual —, la revisa
+      contra las reglas de marca y entrega un libro de Excel con la marca que incluye el calendario, la mezcla de
+      pilares y notas.
+    persona: Gerentes de contenido y de redes sociales; fundadores que publican en nombre de la empresa
+    use_cases:
+      - Calendario mensual de LinkedIn + Instagram con textos listos para revisión
+      - Calendario de campaña alrededor de un lanzamiento o un evento
+      - Mezcla de pilares equilibrada según las metas de la marca
+    output: >-
+      Archivo entregado (nombre, hojas, id del archivo), luego el resumen del calendario: fechas, publicaciones por
+      canal, mezcla de pilares vs meta, momentos de campaña cubiertos, fechas omitidas y lo que necesita aprobación.
+    samples:
+      - Arma el calendario de contenido de LinkedIn e Instagram de Kitewing para diciembre de 2026 como archivo de Excel.
+      - Planifica 2 semanas de publicaciones de LinkedIn a partir del 2026-11-17 para la beta en español de Kitewing Assist y nuestro stand 14 en el Regional Service Contractors Summit.
+      - Un calendario de Instagram de 3 semanas a partir del 2027-01-04 centrado en nuestra gente y en consejos para planificar la temporada alta de primavera — en Excel, por favor.
+    kpis: [Publicaciones hechas según lo programado, Tasa de interacción, Mezcla de pilares vs meta]
+
+  wf_proposal_writer:
+    name: Redactor de propuestas
+    tagline: Escribe la propuesta o la presentación comercial a partir de tus notas de la oportunidad — con las palabras del cliente, fiel a la marca y con los precios tal como se cotizaron.
+    description: >-
+      El Redactor de propuestas del departamento de Ventas convierte el brief de una oportunidad en una propuesta lista
+      para el cliente (.docx) o una presentación comercial (.pptx): la situación del cliente con sus propias palabras,
+      el alcance y el plan, la inversión exactamente como se cotizó, pruebas de valor aprobadas, por qué elegirnos y los
+      próximos pasos con fecha. Sigue la estructura estándar de propuesta y las reglas de marca del cliente para
+      documentos externos, y marca el archivo como confidencial.
+    persona: Ejecutivos de cuentas, fundadores e ingenieros de ventas que necesitan una propuesta impecable hoy mismo
+    use_cases:
+      - Propuesta a partir de las notas del CRM y una cotización de la lista de precios
+      - Versión en presentación comercial de la misma propuesta
+      - Propuestas consistentes y fieles a la marca en todo el equipo de ventas
+    output: >-
+      Archivo entregado (nombre, páginas o diapositivas, id del archivo), luego un resumen: recomendación, línea de
+      inversión, pruebas de valor usadas, próximos pasos y el resultado de la revisión de marca.
+    samples:
+      - Escribe la propuesta para el cliente de 'wf_brief_proposal_alderbrook' como documento de Word con la marca.
+      - Convierte el brief de 'wf_brief_proposal_alderbrook' en una presentación comercial de 7 diapositivas (.pptx) para Renata Vos y Frank Doyle.
+      - "Propuesta breve (Word) para Silverline Security Systems, a la atención de Hollis Grant (VP Operations): 58 técnicos que instalan sistemas de alarma, CCTV y control de acceso; los proyectos de instalación abarcan varias visitas y son difíciles de programar; los contratos de monitoreo se facturan a mano. Propón Kitewing FieldOps Growth a $69 por técnico al mes (precio de lista, $48,024 al año) con implementación Standard de $12,000. Prueba: Summit Ridge Fire Protection redujo 90% las inspecciones omitidas y sus días de cobro (DSO) de 52 a 34 días. Próximo paso: demo el 2026-11-18."
+    kpis: [Tiempo de entrega de propuestas, Tasa de cierre de las propuestas, Propuestas que pasan QA a la primera]
+
+  # --- Operaciones, estrategia y redacción --------------------------------------------------------------------------
+  wf_sop_builder:
+    name: Creador de SOP
+    tagline: Convierte notas de procesos en un procedimiento operativo estándar claro, con RACI y pasos verificados.
+    description: >-
+      El Creador de SOP del departamento de Operaciones convierte notas sueltas ("se supone que el ejecutivo llena el
+      formulario de traspaso...") en un procedimiento operativo estándar: propósito, alcance, una RACI con exactamente
+      un rol responsable final por fila, el disparador y las entradas, pasos numerados — cada uno con un verbo en
+      imperativo, un responsable, el sistema y un criterio de finalización —, excepciones y escalamiento con plazos,
+      registros y KPI. Un verificador de pasos aplica las reglas antes de entregar el archivo de Word con la marca.
+    persona: Líderes de operaciones, éxito del cliente e implementación; fundadores que documentan cómo funciona la empresa
+    use_cases:
+      - SOP de traspaso entre dos equipos
+      - Procedimiento de incidentes o de escalamiento
+      - Cierre mensual o lista de verificación de operaciones recurrentes
+    output: >-
+      Archivo entregado (nombre, páginas, id del archivo), luego el SOP de un vistazo: disparador, roles, cantidad de
+      pasos, regla de escalamiento, KPI y la puntuación de la verificación de pasos.
+    samples:
+      - Escribe el SOP de 'wf_brief_sop_handoff' como documento de Word.
+      - "SOP para atender un ticket de soporte P1 en Kitewing: soporte (Liam O'Connor) lo reconoce en menos de 15 minutos, la guardia de ingeniería lo corrige o aplica una solución temporal, el CSM actualiza al cliente cada 2 horas y se hace una revisión posterior al incidente en menos de 5 días hábiles."
+      - "SOP para el cierre mensual de facturación en Kitewing: Finanzas (Maya Singh) lo ejecuta en los primeros 3 días hábiles; Customer Success confirma los cambios en la cantidad de técnicos; el ejecutivo de cuenta aprueba los créditos de más de $500."
+    kpis: [Errores del proceso después del SOP, Tiempo para incorporar a alguien al proceso, SOP revisados según lo programado]
+
+  wf_gtm_strategist:
+    name: Estratega go-to-market
+    tagline: Construye un plan go-to-market con dimensionamiento de mercado con fuentes, posicionamiento, fases de lanzamiento y KPI — como presentación con tu marca.
+    description: >-
+      El Estratega go-to-market del departamento de Estrategia convierte el brief de un lanzamiento o una expansión en
+      un plan GTM: dimensionamiento de mercado de abajo hacia arriba (TAM, SAM, SOM) con datos públicos actuales y sus
+      fuentes, el perfil de cliente ideal y los compradores, posicionamiento y mensajes con la voz de la marca, la
+      oferta tal como se definió, un plan de lanzamiento por fases, habilitación de ventas y socios, KPI con metas y
+      responsables, riesgos y los primeros 90 días — entregado como presentación de PowerPoint o documento de Word con
+      la marca.
+    persona: Fundadores, jefes de marketing y líderes de producto que planifican un lanzamiento o un nuevo segmento
+    use_cases:
+      - Plan de lanzamiento de una nueva función o producto
+      - Plan de entrada a un nuevo segmento o región
+      - Presentación GTM lista para la dirección, con dimensionamiento con fuentes
+    output: >-
+      Archivo entregado (nombre, diapositivas o páginas, id del archivo), luego el plan en una pantalla: segmento
+      objetivo, SOM con rango y fuentes, línea de posicionamiento, fases de lanzamiento, principales KPI y principales
+      riesgos.
+    samples:
+      - Construye el plan go-to-market de 'wf_brief_gtm_assist_spanish' como presentación de PowerPoint.
+      - Plan go-to-market (Word) para llevar Kitewing FieldOps a contratistas de control de plagas y de paisajismo en Texas — dimensiona el mercado con datos públicos actuales.
+      - Un plan go-to-market de 10 diapositivas para ganar a los contratistas de HVAC del mid-market que deben dejar DispatchPro 7 antes del fin de su soporte el 2027-06-30.
+    kpis: [Pipeline generado por el lanzamiento, Tiempo del brief a un plan listo para la dirección, KPI de lanzamiento alcanzados]
+
+  wf_longform_writer:
+    name: Redactor de contenido extenso
+    tagline: Escribe comunicados de prensa, whitepapers y one-pagers con la voz de tu marca, con datos que coinciden con tus fuentes aprobadas.
+    description: >-
+      El Redactor de contenido extenso del departamento de Redacción escribe y reescribe contenido extenso —
+      comunicados de prensa, whitepapers, one-pagers y artículos de blog — con la voz de marca del cliente. Los datos
+      provienen solo del brief, de los datos y resultados aprobados del cliente (el texto institucional, literal) o de
+      fuentes públicas que cita; las palabras de estado como "beta" o "disponibilidad general" siguen la redacción
+      aprobada; las citas provienen de voceros aprobados. Cada borrador pasa la revisión de marca antes de generar el
+      archivo.
+    persona: Jefes de marketing y comunicación, fundadores y especialistas en marketing de producto
+    use_cases:
+      - Comunicado de prensa para un lanzamiento o un hito
+      - Whitepaper o guía con datos públicos citados
+      - Reescribir un borrador fuera de marca hasta dejarlo publicable
+    output: >-
+      Archivo entregado (nombre, páginas, id del archivo), luego el titular o título, un resumen en 3 líneas, las
+      fuentes citadas y el resultado de la revisión de marca (y, en las reescrituras, los principales cambios hechos).
+    samples:
+      - Reescribe el borrador 'wf_draft_press_release' como un comunicado de prensa limpio y fiel a la marca (Word) sobre la beta en español de Kitewing Assist.
+      - "Escribe un whitepaper de 1,500 palabras para gerentes de mantenimiento de instalaciones: 'Resolución en la primera visita: el número que define tu margen' — cita fuentes públicas y usa los resultados aprobados de Greystone."
+      - Escribe un one-pager sobre el reordenamiento en vivo de Route Optimizer para contratistas de HVAC (Word).
+    kpis: [Borradores aprobados sin reescritura, Tiempo hasta la publicación, Tasa de aprobación de la revisión de marca]

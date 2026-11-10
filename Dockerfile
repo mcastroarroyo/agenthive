@@ -7,7 +7,9 @@ RUN pip install --no-cache-dir -r web/requirements.txt
 COPY agenthive agenthive
 COPY web web
 # The catalog (with the four building blocks per agent) is generated from the same source the agents are built from.
-RUN python web/build_catalog.py && rm -rf agenthive/grounding/corpus
+# Both editions ship in one image; HIVE_EDITION picks the catalog at runtime.
+RUN python web/build_catalog.py && HIVE_EDITION=showcase python web/build_catalog.py \
+ && rm -rf agenthive/grounding/corpus agenthive/grounding/editions
 RUN useradd --create-home --uid 10001 hive && chown -R hive /app
 USER hive
 CMD ["sh", "-c", "uvicorn web.main:app --host 0.0.0.0 --port ${PORT} --proxy-headers --forwarded-allow-ips='*'"]

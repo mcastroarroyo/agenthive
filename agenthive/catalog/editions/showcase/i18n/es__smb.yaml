@@ -1,0 +1,515 @@
+# Showcase edition · Spanish UI texts for the SMB segment (12 SMB agents + 9 WAISentry agents).
+# Translated from the showcase (client-framed) English. Product names, codes, IDs, doc keys, amounts and dates are kept.
+agents:
+  # --- Crecimiento y ventas ----------------------------------------------------------------------------------------
+  sales_discovery:
+    name: Descubrimiento de ventas
+    tagline: Prepara, conduce y analiza el descubrimiento comercial — investigación del prospecto, plan de llamada MEDDICC, oportunidad calificada y correo de seguimiento.
+    description: >-
+      Descubrimiento de ventas acompaña al ejecutivo de cuentas desde la primera investigación hasta el correo de
+      seguimiento. Antes de la llamada investiga al prospecto (historial del CRM más Google Search para el contexto de
+      la industria), elige la prueba de valor adecuada y arma un plan de llamada MEDDICC con preguntas a la medida y
+      trampas para la competencia. Después de la llamada convierte las notas en una calificación basada en evidencia,
+      actualiza el CRM y redacta el correo de resumen dentro de la regla de las 24 horas.
+    persona: Ejecutivos de cuentas y SDR de una empresa de software B2B; gerentes de ventas que entrenan el descubrimiento
+    use_cases:
+      - Plan de llamada y preguntas MEDDICC a la medida para la llamada de descubrimiento de mañana
+      - Puntuación MEDDICC basada en evidencia, etapa y actualización del CRM a partir de notas desordenadas
+      - Correo de resumen con las palabras del comprador, guardado como borrador
+    output: >-
+      PREPARACIÓN — "Plan de llamada · <empresa> · <fecha>": resumen del prospecto en 3 líneas, hipótesis de dolor,
+      agenda, tabla de preguntas (letra · pregunta · qué escuchar), trampas, prueba de valor y próximo paso a asegurar.
+      ANÁLISIS — tabla MEDDICC con evidencia, puntuación y veredicto, señales de alerta, próximas preguntas, cotización
+      aproximada, actualización del CRM (simulada) y el correo de seguimiento en un bloque de cita con su id de borrador.
+    samples:
+      - Prepara mi llamada de descubrimiento con Alderbrook Home Services del martes — investigación, plan de llamada y preguntas MEDDICC.
+      - Analiza las notas de la llamada en 'smb_call_notes_alderbrook' — califica la oportunidad, actualiza el CRM y redacta el correo de seguimiento.
+      - "Me reúno con Hollis Grant de Silverline Security Systems la próxima semana y están probando Fieldnest. ¿Cómo debería conducir el descubrimiento y qué preguntas trampa debería plantear contra la competencia?"
+    kpis: [Conversión de descubrimiento a oportunidad calificada, Tiempo de preparación del ejecutivo por llamada, Seguimientos enviados en menos de 24 horas]
+    steps:
+      researcher: {name: Investigador de prospectos, role: "Investiga al prospecto — registro del CRM, interlocutores, dolores, competidores — más el contexto actual de la industria con Google Search."}
+      planner: {name: Planificador de la llamada, role: "Arma el plan de la llamada de descubrimiento de 30 minutos — preguntas MEDDICC en el contexto del prospecto, trampas y el próximo paso a asegurar."}
+      qualifier: {name: Calificador de oportunidades, role: "Convierte las notas de la llamada en una puntuación MEDDICC basada en evidencia, una recomendación de etapa, una cotización aproximada y la actualización del CRM."}
+      follow_up: {name: Redactor del seguimiento, role: "Escribe el correo de resumen con las palabras del comprador y lo guarda como borrador (nunca lo envía)."}
+
+  presales_lookup:
+    name: Consulta de preventa
+    tagline: Respuestas aprobadas al instante para preventa — capacidades de cada plan, reglas de precios, casos de éxito y cuestionarios de seguridad.
+    description: >-
+      Consulta de preventa le da a vendedores e ingenieros de ventas la respuesta oficial en segundos: qué incluye cada
+      plan, cómo se cotiza y quién debe aprobar el descuento, qué historia de cliente demuestra un punto (y si se puede
+      nombrar), y la redacción aprobada para las preguntas de los cuestionarios de seguridad. Nunca improvisa: las
+      respuestas de baja confianza se escalan al ingeniero de ventas.
+    persona: Ejecutivos de cuentas, SDR e ingenieros de ventas en medio de una oportunidad o una llamada
+    use_cases:
+      - Preguntas sobre planes y funciones respondidas con citas
+      - Cotización rápida con el nivel de aprobación del descuento
+      - Respuestas a cuestionarios de seguridad desde el banco de respuestas aprobadas
+    output: Primero la respuesta directa (1-3 oraciones), luego el detalle (una tabla para cotizaciones), las fuentes (títulos de documentos o ids de respuesta) y cualquier escalamiento.
+    samples:
+      - ¿El plan Growth incluye SSO? ¿Y cuánto costarían 60 técnicos en Growth con Route Optimizer a un plazo de 2 años?
+      - "Cuestionario de seguridad: ¿Dónde se alojan nuestros datos? ¿Están cifrados en reposo? ¿Tienen SOC 2? ¿Se usan nuestros datos para entrenar modelos de IA? ¿Tienen un programa de bug bounty?"
+      - Dame un caso de éxito para un prospecto de protección contra incendios al que le importa el flujo de caja — ¿puedo nombrar al cliente en LinkedIn?
+    kpis: [Tiempo para responder preguntas de preventa, Cuestionarios de seguridad completados por semana, Preguntas escaladas vs respondidas]
+
+  account_indexer:
+    name: Índice de cuentas
+    tagline: Construye un índice 360° de la cuenta con CRM, correos, tickets, facturas y uso — puntuación de salud, mapa de interlocutores y oportunidades de expansión.
+    description: >-
+      Índice de cuentas reúne en una sola página todo lo que la empresa sabe de un cliente: una puntuación de salud
+      ponderada con sus factores, señales de riesgo, el mapa de interlocutores, la cuenta regresiva a la renovación, los
+      tickets abiertos y las facturas vencidas, y el espacio de expansión (técnicos sin licencia, complementos, mejoras
+      de plan) valorado con la lista de precios — y termina con las tres jugadas que el equipo de cuenta debe ejecutar.
+    persona: Gerentes de éxito del cliente, ejecutivos de cuentas y líderes de ventas que preparan renovaciones, QBR y planes de expansión
+    use_cases:
+      - Revisión del riesgo de renovación con evidencia
+      - Preparación de la QBR con mapa de interlocutores
+      - Plan de expansión valorado con la lista de precios
+    output: >-
+      "Índice de cuenta — <nombre>": puntuación y banda de salud con tabla de componentes, señales de riesgo, mapa de
+      interlocutores, cuenta regresiva a la renovación, tabla de expansión (jugada · ACV estimado · prueba) y 3 jugadas
+      recomendadas con responsables y fechas.
+    samples:
+      - Construye el índice de cuenta de Harbor & Pine Mechanical — la renovación es en enero. ¿Qué tan preocupados deberíamos estar?
+      - ¿Dónde está el espacio de expansión en Greystone Facilities Group y cuál es la mejor jugada de expansión este trimestre?
+      - "Compara Bluefin Elevator Services, Meadowlark Pest Solutions y Summit Ridge Fire Protection: salud, riesgos y potencial de expansión."
+    kpis: [Retención bruta de ingresos, ARR de expansión por CSM, Cuentas en riesgo con plan de rescate]
+
+  roi_discovery:
+    name: Descubrimiento de ROI
+    tagline: Conduce una entrevista guiada de ROI, calcula beneficio, ROI y periodo de recuperación, y escribe un caso de negocio de una página que un CFO acepta.
+    description: >-
+      Descubrimiento de ROI convierte la línea base de un prospecto en un caso de negocio defendible. Pide los pocos
+      números que importan (técnicos, tiempo de manejo, resolución en la primera visita, horas extra, personal de
+      oficina, DSO), completa los vacíos con benchmarks del segmento — claramente etiquetados —, valora la solución con
+      la lista de precios oficial y calcula ROI, VPN y periodo de recuperación, empezando por el escenario conservador.
+    persona: Ejecutivos de cuentas e ingenieros de ventas que preparan una conversación con el CFO; compradores que arman su caso interno
+    use_cases:
+      - Entrevista guiada de ROI en cinco preguntas o menos
+      - Caso de negocio de una página listo para el CFO
+      - Sensibilidad conservadora / esperada / optimista
+    output: >-
+      "Caso de negocio — <empresa>": titular (ROI %, meses de recuperación, beneficio neto a 3 años — caso
+      conservador), tabla de supuestos (valor · fuente: cliente o benchmark), beneficio por palanca, tabla de costos
+      (suscripción, implementación, esfuerzo interno), ROI conservador vs esperado, pruebas de valor, supuestos y qué
+      validar con finanzas.
+    samples:
+      - Arma el caso de negocio de ROI para Alderbrook Home Services — 140 técnicos, 2.1 horas de manejo al día, 74% de resolución en la primera visita, 14% de horas extra, DSO de 47 días.
+      - "Un contratista de protección contra incendios con 45 técnicos quiere saber si Kitewing se paga en menos de un año. Usa benchmarks donde haga falta."
+      - Inicia una entrevista de ROI para Ironwood Elevator Co.
+    kpis: [Oportunidades con caso de negocio en etapa de propuesta, Tasa de cierre con un ROI validado por el CFO, Periodo de recuperación promedio presentado]
+
+  social_branding:
+    name: Marca en redes sociales
+    tagline: Convierte las noticias de la empresa en publicaciones de LinkedIn fieles a la marca y un calendario de contenido de dos semanas — escritas, revisadas y aprobadas.
+    description: >-
+      Marca en redes sociales redacta publicaciones de LinkedIn a partir de noticias aprobadas de la empresa; luego un
+      crítico de marca revisa cada publicación contra las reglas de marca (palabras prohibidas, política de
+      afirmaciones, permisos de clientes y empleados, hashtags, extensión, llamado a la acción) con un verificador
+      determinístico y devuelve correcciones numeradas hasta que los borradores pasan. Un último paso coloca las
+      publicaciones aprobadas en un calendario de contenido equilibrado entre los pilares de contenido.
+    persona: Gerentes de marketing y fundadores de pequeñas empresas B2B que publican sin un equipo de redes sociales
+    use_cases:
+      - Publicaciones semanales de LinkedIn a partir de noticias de la empresa
+      - Historias de clientes seguras para la marca (permisos y afirmaciones verificados)
+      - Calendario de contenido de dos semanas equilibrado entre pilares
+    output: >-
+      Publicaciones aprobadas (texto completo, listas para pegar), tabla del calendario (fecha · horario · pilar ·
+      publicación · id de la noticia de origen), equilibrio de pilares vs metas y lo que se retuvo con el motivo.
+    samples:
+      - Escribe 3 publicaciones de LinkedIn para la próxima semana a partir de nuestras noticias más recientes y ponlas en el calendario.
+      - Convierte la historia de resolución en la primera visita de Greystone y la beta de Assist en español en dos publicaciones.
+      - Redacta una publicación para dar la bienvenida a nuestras tres nuevas contrataciones y anunciar que estaremos en el Regional Service Contractors Summit.
+    kpis: [Publicaciones por semana, Tasa de aprobación de marca en el primer borrador, Tasa de interacción por publicación]
+    steps:
+      writer: {name: Redactor de publicaciones, role: "Escribe o corrige publicaciones de LinkedIn a partir de noticias aprobadas de la empresa, con la voz de la marca."}
+      critic: {name: Crítico de marca, role: "Revisa cada publicación con smb_brand_check y la aprueba o devuelve correcciones numeradas."}
+
+  # --- Operaciones y datos -------------------------------------------------------------------------------------------
+  project_plan:
+    name: Plan de proyecto
+    tagline: Convierte un brief de proyecto en un plan ejecutable — EDT, estimaciones de tres puntos, ruta crítica, RACI y registro de riesgos puntuado.
+    description: >-
+      Plan de proyecto lee un brief (pegado o como documento), estructura la estructura de desglose del trabajo (EDT),
+      estima cada paquete de trabajo con los proyectos de referencia de la empresa (PERT), lo programa con un motor
+      determinístico de ruta crítica, asigna responsables según la capacidad real del equipo y arma la matriz RACI y el
+      registro de riesgos — el plan con el que una empresa de 60 personas puede arrancar el lunes.
+    persona: Gerentes de proyecto y de operaciones, líderes de implementación y fundadores que gestionan proyectos sin una PMO
+    use_cases:
+      - Plan de implementación para un cliente a partir de un brief firmado
+      - Plan de proyecto interno (lanzamiento, cumplimiento, sistemas) con responsables nombrados
+      - Escenarios hipotéticos de fechas y alcance con la ruta crítica recalculada
+    output: >-
+      "Plan de proyecto — <nombre>": resumen (objetivo, inicio, fin, duración, esfuerzo, ruta crítica en una línea,
+      verificación de la fecha límite), tabla de EDT y cronograma, diagrama de Gantt en Mermaid, RACI, registro de
+      riesgos, cadencia de gobierno, supuestos y las 3 decisiones que necesita el patrocinador.
+    samples:
+      - Arma el plan de proyecto de 'smb_brief_alderbrook_rollout' — tienen que estar en producción antes del 1 de marzo.
+      - "Planifica el lanzamiento en disponibilidad general (GA) de Kitewing Assist en español: la beta termina el 18 de diciembre y la GA debe salir antes del 2 de febrero; participan producto, ingeniería, marketing y soporte."
+      - Planifica una migración de 6 semanas de nuestro equipo de ventas de hojas de cálculo al CRM a partir del 2026-11-23, con responsables de nuestro equipo.
+    kpis: [Tiempo desde el brief hasta el plan aprobado, Desviación del cronograma en la salida a producción, Proyectos con responsables de riesgos nombrados]
+    steps:
+      scoper: {name: Alcance y EDT, role: "Lee el brief y produce objetivos, alcance, restricciones y una estructura de desglose del trabajo de dos niveles."}
+      scheduler: {name: Estimador y programador, role: "Estima los paquetes de trabajo (PERT), asigna responsables según la capacidad del equipo y calcula la ruta crítica."}
+      governance: {name: RACI y riesgos, role: "Arma la matriz RACI y el registro de riesgos puntuado del plan."}
+
+  pm_assistant:
+    name: Asistente de proyectos
+    tagline: Escribe el estado semanal a partir del gestor de tareas — qué está atrasado, qué está bloqueado, semáforo con motivos y la actualización para los interesados.
+    description: >-
+      Asistente de proyectos lee el gestor de tareas, calcula el valor ganado, el trabajo atrasado y bloqueado y una
+      fecha de fin pronosticada, define el semáforo (RAG) con motivos explícitos, sugiere quién podría desbloquear qué
+      según la capacidad del equipo y redacta la actualización para los interesados — y le devuelve al gerente de
+      proyecto la tarde de viernes que dedica a los reportes de estado.
+    persona: Gerentes de proyecto, líderes de equipo y patrocinadores en empresas pequeñas
+    use_cases:
+      - Reporte de estado semanal con semáforo y pronóstico
+      - Escalamiento de bloqueos con responsables sugeridos
+      - Vista de portafolio de todos los proyectos para la dirección
+    output: >-
+      "Estado — <proyecto> — semana del <fecha>": semáforo (y el de la semana pasada), resumen en 3 líneas, métricas (%
+      completado, SPI, CPI, consumo del presupuesto, pronóstico vs meta), tabla de atrasos y bloqueos con acciones para
+      desbloquear, próximos 7 días y decisiones necesarias; luego el borrador del correo cuando se pide. Portafolio: una
+      fila por proyecto.
+    samples:
+      - Estado semanal de Customer Portal 2.0 — qué está atrasado, qué está bloqueado — y redacta la actualización para los interesados.
+      - Dame una vista de portafolio de PRJ-104, PRJ-107 y PRJ-109 para la reunión de dirección.
+      - El despliegue de Assist en Greystone parece atascado en el SSO — ¿quién puede desbloquearlo y la presentación de resultados del piloto seguirá siendo el 20 de noviembre?
+    kpis: [Horas del gerente de proyecto dedicadas a reportes por semana, Bloqueos de más de 5 días, Proyectos que reportan a tiempo]
+
+  retrospective:
+    name: Retrospectiva
+    tagline: Conduce la retrospectiva de un sprint o proyecto — agrupa la retroalimentación en temas, encuentra las causas raíz y registra acciones SMART.
+    description: >-
+      Retrospectiva toma un tablero de retro (o notas sueltas), agrupa las tarjetas en temas con sus votos, revisa si se
+      cumplieron las acciones de la retro anterior, lee el chequeo de salud del equipo y propone como máximo tres
+      acciones SMART con responsables y fechas — registradas en el gestor de tareas cuando se pide.
+    persona: Scrum masters, gerentes de ingeniería, gerentes de proyecto y líderes de equipo
+    use_cases:
+      - Síntesis de la retrospectiva del sprint
+      - Retro de mitad de proyecto o post mortem
+      - Retro a partir de notas en texto libre
+    output: >-
+      "Retro — <tablero>": tabla de seguimiento, tabla de temas (tema · votos · causa raíz · evidencia), lo que salió
+      bien, puntos bajos del chequeo de salud, 3 acciones SMART (acción · responsable · fecha · medida) y las claves de
+      las tareas si se registraron.
+    samples:
+      - Conduce la retro del sprint-42 y propone tres acciones.
+      - Sintetiza la retro de mitad del piloto de Assist en Greystone ('prj-104-pilot') y registra las acciones en PRJ-104.
+      - Conduce una retro a partir de las notas en texto libre de 'smb_retro_notes_support'.
+    kpis: [Tasa de cumplimiento de las acciones de la retro, Problemas repetidos entre sprints, Tendencia de la salud del equipo]
+
+  bigquery_data:
+    name: Datos en BigQuery
+    tagline: Responde preguntas de negocio sobre los datos de la empresa en BigQuery — SQL legible, resultados en tablas y conclusiones en lenguaje claro.
+    description: >-
+      Datos en BigQuery permite que cualquier persona de la empresa le haga preguntas al data warehouse en lenguaje
+      natural: clientes y ARR, reservas, pipeline y tasas de cierre, SLA y CSAT de soporte, facturas y caja, y uso
+      mensual del producto. Escribe SQL de solo lectura, lo explica, devuelve el resultado como tabla (con un gráfico de
+      texto para tendencias) y dice qué significa — sin abrir un ticket de BI.
+    persona: Fundadores y líderes de finanzas, ventas y éxito del cliente sin conocimientos de SQL
+    use_cases:
+      - Análisis de pipeline y tasa de cierre
+      - Listas de riesgo de abandono y de uso
+      - Reportes de SLA y CSAT de soporte
+    output: Interpretación (1 línea), bloque SQL, tabla de resultados (más un gráfico de barras de texto para tendencias), conclusiones y una pregunta de seguimiento sugerida.
+    samples:
+      - ¿Qué 10 clientes activos tuvieron la menor proporción de técnicos activos en octubre de 2026, con su ARR, puntuación de salud y fecha de renovación?
+      - Muestra la tasa de cierre y el tamaño promedio de las oportunidades por fuente de prospectos para las oportunidades de clientes nuevos cerradas en 2025 vs 2026.
+      - ¿Qué categorías de tickets de soporte incumplieron el SLA con más frecuencia en los últimos 90 días y cómo se compara el CSAT por categoría?
+    kpis: [Preguntas respondidas sin un analista, Tiempo de respuesta, Preguntas recurrentes convertidas en tableros]
+
+  ai_adoption:
+    name: Adopción de IA
+    tagline: Evalúa la preparación para la IA, prioriza casos de uso por valor y esfuerzo y traza una hoja de ruta práctica de 90 días.
+    description: >-
+      Adopción de IA aplica una evaluación de madurez de 12 preguntas sobre estrategia, datos, herramientas,
+      habilidades, gobierno y cultura, la convierte en un nivel de madurez, prioriza los casos de uso de IA por valor,
+      esfuerzo y preparación de los datos, y los ordena en una hoja de ruta de 90 días con responsables, KPI y las bases
+      de gobierno que una pyme necesita primero.
+    persona: Fundadores, COO y jefes de área de empresas de 20 a 500 personas que empiezan con IA
+    use_cases:
+      - Evaluación de preparación para la IA con nivel de madurez
+      - Priorización de casos de uso (valor vs esfuerzo vs preparación de los datos)
+      - Hoja de ruta de IA a 90 días con responsables y KPI
+    output: >-
+      Tablero de madurez (nivel, puntuación general, tabla por dimensión), principales brechas con acciones, tabla de
+      casos de uso priorizados y gráfico de cuadrantes en Mermaid, hoja de ruta de 90 días (ola · iniciativa ·
+      responsable · KPI) y los 3 primeros pasos.
+    samples:
+      - Califica nuestra preparación para la IA a partir de 'smb_ai_readiness_survey' y dame una hoja de ruta de IA a 90 días con responsables.
+      - ¿Con qué casos de uso de IA deberían empezar nuestros equipos de Customer Success y Finanzas? Priorízalos.
+      - "Prioriza estos: correos de cobranza de facturas (valor 3, esfuerzo 1, datos 4), alerta temprana de abandono (5, 3, 4), precios dinámicos (3, 5, 1), redacción de propuestas (4, 2, 3)."
+    kpis: [Casos de uso de IA en producción en 90 días, Personas capacitadas en uso seguro de la IA, Horas ahorradas por mes]
+
+  # --- Personas --------------------------------------------------------------------------------------------------
+  hr_onboarding:
+    name: Incorporación de personal
+    tagline: Un acompañante para la incorporación de nuevos empleados — plan 30/60/90 personalizado, respuestas del manual, tickets de aprovisionamiento y la agenda del primer día.
+    description: >-
+      Incorporación de personal le da a cada nueva contratación y a su gerente un solo lugar para empezar. Arma un plan
+      30/60/90 personalizado a partir de la plantilla del puesto y la primera asignación de la persona, responde
+      preguntas del manual del empleado con citas, abre los tickets de equipos y cuentas con verificación de SLA para
+      que no falte nada el primer día y organiza la agenda del primer día con nombres y horarios reales — en la oficina,
+      remoto o híbrido.
+    persona: Nuevas contrataciones, gerentes que contratan y la líder de People & Culture en una empresa de 60 personas
+    use_cases:
+      - Paquete de bienvenida para una nueva contratación (plan, agenda, aprovisionamiento)
+      - Preguntas y respuestas del manual durante las primeras semanas
+      - Verificación del aprovisionamiento antes de la fecha de inicio
+    output: >-
+      Paquete de bienvenida — "Paquete de bienvenida · <nombre> · <puesto> · inicia el <fecha>": acciones antes del
+      primer día, agenda del primer día, tablas del plan 30/60/90, capacitaciones con fechas, lista de equipos y accesos
+      con ids de ticket (simulados) y contactos clave. Preguntas — la respuesta directa con su fuente.
+    samples:
+      - Prepara el paquete completo de incorporación de Mateo Fernández — plan 30/60/90, agenda del primer día y tickets de equipos.
+      - "Soy Grace Obi y empiezo el 23. ¿Cómo será mi primer día y cuántos días de vacaciones tengo?"
+      - ¿Está todo listo para el primer día de Samir Haddad? Abre los tickets de aprovisionamiento y dime qué está en riesgo.
+    kpis: [Nuevas contrataciones con todo aprovisionado el primer día, Metas del día 30 cumplidas, Satisfacción de las nuevas contrataciones al día 30]
+    steps:
+      handbook: {name: Guía del manual, role: "Responde preguntas de políticas y beneficios con el manual del empleado y la guía de incorporación, con citas."}
+      plan_builder: {name: Creador del plan 30/60/90, role: "Arma el plan 30/60/90 personalizado con metas, medidas, capacitaciones y personas clave."}
+      provisioning: {name: Equipos y accesos, role: "Abre los tickets de aprovisionamiento de equipos y cuentas y señala lo que está en riesgo para el primer día."}
+      day_one: {name: Agenda del primer día, role: "Organiza la agenda del primer día y la lista previa al primer día; redacta el correo de bienvenida del gerente cuando se pide."}
+
+  skills_profiler:
+    name: Perfil de habilidades
+    tagline: Construye perfiles de habilidades a partir de CV e historial de proyectos, encuentra las brechas hacia un puesto objetivo y planifica la ruta de aprendizaje.
+    description: >-
+      Perfil de habilidades lee un CV o el historial de proyectos de un empleado, lo mapea al marco de habilidades de
+      la empresa (cuatro niveles por habilidad), lo compara con la matriz del puesto objetivo y convierte las brechas en
+      una ruta de aprendizaje ordenada — cursos de la academia interna, asignaciones de desarrollo y certificaciones de
+      Google Cloud — dentro del presupuesto de aprendizaje.
+    persona: Gerentes, líderes de People & Culture y empleados que planifican su crecimiento; gerentes que evalúan candidatos
+    use_cases:
+      - Análisis de brechas de carrera para un empleado
+      - Ajuste de un candidato a partir de su CV
+      - Ruta de aprendizaje con certificaciones y presupuesto
+    output: >-
+      Tabla del perfil de habilidades (habilidad · nivel · evidencia), % de preparación para el puesto objetivo, tabla de
+      brechas (habilidad · requerido · actual · brecha), tabla de la ruta de aprendizaje (semanas · actividad · tipo ·
+      horas · costo), resumen del presupuesto, asignaciones de desarrollo y preguntas de entrevista para candidatos.
+    samples:
+      - ¿Qué necesita Ines Duarte para convertirse en Solutions Architect? Arma su ruta de aprendizaje con certificaciones de Google Cloud.
+      - Perfila el CV del candidato 'smb_cv_jordan_reyes' frente al puesto de Implementation Consultant — ajuste, brechas y preguntas de entrevista.
+      - Femi Adeyemi quiere ser Senior Data Engineer — brechas, ruta de aprendizaje y cuánto tarda a 4 horas por semana.
+    kpis: [Empleados con plan de desarrollo, Certificaciones obtenidas por año, Promociones internas vs contrataciones externas]
+
+  # --- WAISentry · seguridad 24/7 -----------------------------------------------------------------------------------
+  waisentry:
+    tagline: Lleva un incidente por las tres fases de WAISentry — triaje con IA, el caso del analista y la contención preaprobada — y escribe el informe ejecutivo.
+    description: >-
+      WAISentry SOC muestra de punta a punta el servicio gestionado de operaciones de seguridad 24/7 de Wursta sobre
+      un lote de telemetría tokenizada del tenant de un cliente. La fase 1 puntúa cada evento y descarta el ruido
+      normal; la fase 2 prepara el caso que verifica un analista certificado de Wursta (ruta del ataque, línea de tiempo,
+      radio de impacto); la fase 3 ejecuta solo los playbooks de contención preaprobados y escala todo lo demás al
+      analista de guardia. Cierra con un informe ejecutivo del incidente medido contra las metas de cada fase. En el
+      servicio real un analista humano confirma cada incidente antes de la contención; aquí se prepara el caso de ese
+      analista y los playbooks son simulados.
+    persona: Dueños de pymes, COO y líderes de TI que quieren ver qué pasa un domingo a las 2 a. m.
+    use_cases:
+      - Reproducir el intento de phishing de consentimiento / BEC del domingo a las 02:00, de la telemetría cruda al informe ejecutivo
+      - Mostrar cómo una mañana de ruido se convierte en un incidente medio y una cuarentena de Drive de 17 segundos
+      - Explicarle a un comprador exactamente qué hace la IA, qué hace el analista certificado y qué está preaprobado
+    output: >-
+      "Informe ejecutivo del incidente — <id del incidente>": titular, tabla de desempeño por fase (fase · medido · meta
+      · cumplida), lo que intentó el atacante, lo que se contuvo automáticamente vs lo escalado (responsable),
+      comparación con el enfoque tradicional, 3 recomendaciones y la nota de demo. Formato de "todo en orden" cuando no
+      hay incidente.
+    samples:
+      - Ejecuta el pipeline completo del SOC sobre el lote de telemetría del domingo a las 02:00, TB-1101-0200 — triaje, investigación, contención e informe para mí.
+      - Procesa el lote de telemetría de esta mañana, TB-1106-0900, y dime si algo requiere acción.
+      - "Reproduce el miércoles 28 de octubre, lote TB-1028-1400: una laptop de soporte de Millbrook se comportaba de forma extraña. Triaje, investigación, contención e informe para el CEO."
+    kpis: [Tiempo desde el primer evento malicioso hasta la contención, Proporción de eventos descartados como ruido, Incidentes contenidos con playbooks preaprobados vs escalados]
+    steps:
+      triage: {name: "Fase 1 · Triaje con IA", role: "Puntúa el lote de telemetría, descarta el ruido normal y nombra el incidente a investigar."}
+      investigate: {name: "Fase 2 · Caso del analista", role: "Prepara el caso que verifica un analista certificado de Wursta — ruta del ataque, línea de tiempo, radio de impacto y playbooks recomendados."}
+      contain: {name: "Fase 3 · Contención activa", role: "Ejecuta solo los playbooks preaprobados sobre el incidente confirmado y escala todo lo demás al analista de guardia."}
+
+  sentry_triage:
+    name: Triaje con IA
+    tagline: Puntúa lotes de telemetría tokenizada, descarta el ruido normal y devuelve alertas priorizadas con técnica ATT&CK, confianza y motivo.
+    description: >-
+      Triaje con IA es la fase 1 de WAISentry. Puntúa cada evento de un lote de telemetría de Workspace, laptops,
+      herramientas de seguridad SaaS y servidores locales del cliente, explica qué descartó como ruido normal y devuelve
+      las pocas alertas que importan — cada una con una técnica de MITRE ATT&CK, un nivel de confianza y las señales
+      que la respaldan — agrupadas en incidentes. También responde preguntas de tendencia sobre 30 días de eventos
+      puntuados en BigQuery.
+    persona: Analistas del SOC y líderes de TI del cliente que revisan qué marcó la IA y por qué
+    use_cases:
+      - Triaje de un lote en segundos con los motivos de cada alerta y de cada evento descartado
+      - Mostrarle a un comprador el embudo de ruido, de miles de registros crudos a un puñado de alertas
+      - Preguntas de tendencia — técnicas, fuentes, alertas fuera de horario, proporción de ruido por día
+    output: >-
+      Línea del embudo, tabla de alertas, incidentes con contexto y próximo paso. Para tendencias: interpretación, bloque
+      SQL, tabla de resultados con un gráfico de barras de texto y 2 conclusiones.
+    samples:
+      - Haz el triaje del lote de telemetría de esta mañana, TB-1106-0900 — ¿hay algo real escondido en el ruido?
+      - "Haz el triaje del lote del domingo a las 02:00 en 'sentry_alert_batch_sun0200' y explica la técnica ATT&CK detrás de cada alerta."
+      - En los últimos 30 días, ¿cuántos eventos puntuó WAISentry por semana, qué proporción se descartó como ruido y qué técnicas ATT&CK aparecieron más en las alertas?
+    kpis: [Proporción de eventos descartados como ruido, Segundos del evento a la alerta, Tasa de falsos positivos de las alertas]
+
+  sentry_privacy:
+    name: Tokenizador Zero-PII
+    tagline: Muestra cómo nombres, correos, nombres de archivo y contenido de mensajes se convierten en tokens determinísticos antes de que una alerta salga del tenant del cliente.
+    description: >-
+      Tokenizador Zero-PII demuestra el diseño de privacidad de WAISentry. Dentro del propio tenant de Google Cloud del
+      cliente, las personas, direcciones de correo, nombres de archivo, números de teléfono y de cuenta y el contenido de
+      los mensajes se reemplazan por tokens HMAC determinísticos (USR-xxxx, FIL-xxxx, ...), de modo que el SOC puede
+      correlacionar eventos sin saber nunca quién o qué son. Muestra el payload exacto que recibe el SOC para un
+      incidente, explica el modelo de panel de alarma (Alarm Panel Model) y reidentifica tokens solo cuando la solicitud
+      se hace dentro del tenant con un motivo registrado.
+    persona: Líderes de TI y de privacidad del cliente, DPO y compradores que preguntan "¿qué datos salen de nuestro entorno?"
+    use_cases:
+      - Tokenizar un correo o una alerta y mostrar lo que saldría del tenant
+      - Mostrar la vista del SOC sobre un incidente junto a la vista del cliente
+      - Reidentificación de tokens de un incidente dentro del tenant, con registro de auditoría
+    output: >-
+      Texto tokenizado (bloque de código), tabla de tokens (token · tipo · cantidad), listas de "Queda en claro" y
+      "Señales enviadas en lugar del contenido", y luego una explicación de privacidad en 3 oraciones. Para la vista del
+      SOC: payload, campos retenidos y el modelo de panel de alarma.
+    samples:
+      - "Tokeniza el correo de 'sentry_email_vendor_bank_change' y muestra exactamente qué saldría del tenant de Kitewing."
+      - ¿Qué ve realmente el SOC de Wursta del incidente INC-1101-01? Explica el modelo de panel de alarma (Alarm Panel Model).
+      - Soy Noah Kim, administrador de TI y seguridad de Kitewing, y trabajo dentro de nuestro tenant en el INC-1101-01 — reidentifica USR-CFA4, EXT-CBE6 y FIL-48E5.
+    kpis: [Campos de datos personales que salen del tenant (meta 0), Reidentificaciones registradas con motivo, Tiempo para responder revisiones de privacidad]
+
+  sentry_identity:
+    name: Detección de amenazas de identidad
+    tagline: Vigila las identidades de Workspace contra BEC, reglas de reenvío ocultas, viajes imposibles, fatiga de MFA, consentimientos riesgosos y secuestro de sesión.
+    description: >-
+      Detección de amenazas de identidad cubre los ataques que no necesitan malware: sesiones robadas, phishing de
+      consentimiento, fatiga de MFA y compromiso del correo empresarial (BEC). Revisa las detecciones de identidad de
+      Workspace (con el viaje imposible calculado a partir de las dos ubicaciones), escanea todos los buzones en busca de
+      reglas de reenvío ocultas o externas y revisa los correos sospechosos de desvío de pagos — dominios de proveedores
+      parecidos, solicitudes de cambio de cuenta bancaria y facturas abiertas reales — y le dice a cuentas por pagar
+      exactamente qué hacer.
+    persona: Líderes de TI y de finanzas del cliente; analistas del SOC que trabajan alertas de identidad
+    use_cases:
+      - Revisión semanal de identidad que separa ataques reales de viajes conocidos
+      - Auditoría de reglas de reenvío en todos los buzones después de un susto de BEC
+      - Revisar un correo de cambio de cuenta bancaria de un proveedor antes de que alguien pague
+    output: >-
+      Primero el veredicto; luego una tabla de detecciones (hora · tipo · token del usuario · técnica · severidad ·
+      estado), una tabla de reglas de reenvío con acciones o la revisión de BEC (puntuación, indicadores, monto en
+      riesgo, pasos para cuentas por pagar).
+    samples:
+      - Revisa las detecciones de identidad de Workspace de Kitewing de los últimos 7 días — ¿cuáles son ataques reales y cuáles son solo viajes?
+      - Revisa todos los buzones en busca de reglas de reenvío ocultas o externas y dime cuáles eliminar.
+      - "Cuentas por pagar recibió el correo de 'sentry_email_vendor_bank_change'. ¿Es BEC / desvío de pagos y qué debe hacer exactamente cuentas por pagar?"
+    kpis: [Intentos de desvío de pagos detenidos antes del pago, Reglas de reenvío externo activas, Alertas de identidad cerradas como viajes legítimos]
+
+  sentry_oauth:
+    name: Gobierno de OAuth y SaaS
+    tagline: Encuentra concesiones OAuth riesgosas y apps de phishing de consentimiento, descubre TI en la sombra y resume las alertas de KnowBe4, Mimecast, DNSFilter y el proxy web.
+    description: >-
+      Gobierno de OAuth y SaaS vigila la superficie de ataque en la nube que las contraseñas y la MFA no cubren.
+      Inventaría las concesiones OAuth de terceros (permisos, verificación del editor, usuarios) y señala las apps de
+      phishing de consentimiento, descubre SaaS no autorizado a partir de los registros de DNS y del proxy con la
+      alternativa autorizada, y convierte las herramientas de seguridad SaaS del cliente (KnowBe4, Mimecast, DNSFilter,
+      proxy web) en un solo resumen semanal de lo que hay que atender.
+    persona: Administradores de TI y líderes de seguridad del cliente; analistas del SOC que revisan alertas de apps y SaaS
+    use_cases:
+      - Apps OAuth riesgosas y de phishing de consentimiento con una lista de revocación
+      - Descubrimiento de TI en la sombra con los datos subidos y alternativas autorizadas
+      - Un resumen semanal de KnowBe4, Mimecast, DNSFilter y el proxy web
+    output: Primero las 1-3 acciones que importan, luego la(s) tabla(s) relevante(s) y un breve "por qué importa" por sección.
+    samples:
+      - ¿Qué apps OAuth de terceros en kitewing.example son riesgosas y cuáles parecen phishing de consentimiento?
+      - ¿Qué TI en la sombra se usa en Kitewing, cuántos datos se le enviaron y qué debería usar la gente en su lugar?
+      - Resume las alertas de esta semana de KnowBe4, Mimecast, DNSFilter y el proxy web — ¿qué debo atender?
+    kpis: [Concesiones OAuth no verificadas activas, Usuarios en SaaS no autorizado, Porcentaje de propensión al phishing]
+
+  sentry_fleet:
+    name: Monitor de equipos e infraestructura híbrida
+    tagline: Vigila laptops remotas con macOS, Windows y ChromeOS, además del firewall/IDS, el controlador de dominio y el servidor de archivos a través de un solo reenviador de syslog.
+    description: >-
+      Monitor de equipos e infraestructura híbrida cubre lo que está fuera del tenant en la nube: laptops distribuidas
+      (salud del EDR, cifrado, parches, Wi-Fi riesgosas), alertas del EDR y la infraestructura local que le queda al
+      cliente — eventos del firewall/IDS, del controlador de dominio y del servidor de archivos enviados por un
+      reenviador de syslog al pipeline dentro del tenant. Separa las amenazas reales de los falsos parecidos y muestra
+      las brechas por las que entran los atacantes.
+    persona: Administradores de TI del cliente con personal remoto y un pequeño cuarto de servidores en la oficina; analistas del SOC con alertas de endpoints y red
+    use_cases:
+      - Chequeo de salud de los equipos — cobertura del EDR, atraso de parches, cifrado, redes riesgosas
+      - Explicar una detección del EDR y lo que pasó después
+      - Vista híbrida del controlador de dominio, el servidor de archivos, el firewall/IDS y el reenviador de registros
+    output: Línea de veredicto, una tabla resumen, la tabla de problemas, falsos parecidos descartados y 3 correcciones con responsables.
+    samples:
+      - ¿Qué tan sana está la flota de laptops de Kitewing — cobertura del EDR, parches, cifrado y Wi-Fi riesgosas en los últimos 7 días?
+      - "Una laptop de soporte de Millbrook fue marcada el 28 de octubre (ticket 'sentry_ticket_millbrook_laptop'). ¿Qué vio el EDR y cuál es su estado ahora?"
+      - ¿Qué está pasando en la infraestructura local de Millbrook — controlador de dominio, servidor de archivos, firewall/IDS y el reenviador de syslog?
+    kpis: [Cobertura del EDR en los equipos compatibles, Equipos con más de 30 días de atraso en parches, Brechas de registros locales por mes]
+
+  sentry_containment:
+    name: Contención activa
+    tagline: Ejecuta en segundos los cuatro playbooks preaprobados — cierre de sesiones, revocación de OAuth, suspensión de cuenta y cuarentena de Drive — y escala el resto.
+    description: >-
+      Contención activa es la fase 3 de WAISentry. Ante un incidente confirmado ejecuta solo las cuatro acciones que el
+      cliente preaprobó — cierre inmediato de sesiones web, revocación de aplicaciones OAuth, suspensión dirigida de la
+      cuenta y cuarentena de accesos de Drive —, cada una limitada al radio de impacto del incidente, cronometrada y
+      reversible. Todo lo demás (aislamiento de equipos, bloqueos en el firewall, restablecimiento de contraseñas,
+      eliminación de reglas de correo, retención de pagos) se rechaza y se escala al analista de guardia y al cliente.
+      Aquí todas las acciones son simuladas.
+    persona: Analistas del SOC y líderes de TI del cliente que deciden qué se puede hacer ahora mismo sin esperar una aprobación
+    use_cases:
+      - Contener un incidente confirmado en menos de un minuto
+      - Revisar una lista de acciones solicitadas contra la preaprobación
+      - Escalar lo que no está preaprobado con responsables y prioridad
+    output: >-
+      Línea de veredicto ("2 acciones preaprobadas ejecutadas en 29 s; 3 escaladas"), tabla del registro de contención,
+      acciones rechazadas con el motivo, ticket de escalamiento con responsables y la reversión de cada acción.
+    samples:
+      - Contén el INC-1106-01 — la exportación de ARR de clientes que se compartió públicamente esta mañana.
+      - "Para el INC-1028-01: borra la laptop, bloquea 198.51.100.23 en el firewall y cierra las sesiones del usuario."
+      - "Reproduce la contención del INC-1101-01: cierra las sesiones de USR-CFA4, revoca PDF Secure Viewer, suspende a USR-CFA4 por 24 horas y elimina la regla de reenvío."
+    kpis: [Segundos desde la autorización hasta la contención, Proporción de incidentes contenidos sin esperar al cliente, Escalamientos resueltos dentro de la meta del runbook]
+
+  sentry_compliance:
+    name: Cumplimiento y ciberseguro
+    tagline: Mapea los controles y la evidencia de WAISentry a cuestionarios de ciberseguro, la FTC Safeguards Rule, HIPAA §164.312(b), SOC 2 y CMMC.
+    description: >-
+      Cumplimiento y ciberseguro convierte el monitoreo, la respuesta y la evidencia de WAISentry en respuestas que
+      aceptan auditores y aseguradoras. Redacta las respuestas del cuestionario de ciberseguro (MDR 24/7, EDR, MFA,
+      retención de registros, historial de incidentes) con referencias a la evidencia y mapea el servicio a la FTC
+      Safeguards Rule (16 CFR Part 314), los controles de auditoría de la HIPAA Security Rule (§164.312(b)), SOC 2 CC7 y
+      CMMC Level 2 — siempre separando lo que cubre WAISentry de lo que queda a cargo del cliente.
+    persona: Dueños de pymes y líderes de finanzas y TI ante una renovación del seguro o una auditoría
+    use_cases:
+      - Redactar el cuestionario de renovación del ciberseguro con evidencia y brechas
+      - Mapeo de marcos — lo que cubre WAISentry vs lo que queda a cargo del cliente
+      - Lista de evidencia para un auditor o evaluador
+    output: >-
+      Cuestionario: respuestas numeradas (pregunta · respuesta · estado · evidencia), luego las brechas y las preguntas
+      a cargo del cliente. Mapeo: línea de aplicabilidad, tabla, conteo por estado y descargo de responsabilidad.
+    samples:
+      - "Redacta las respuestas de nuestro cuestionario de renovación del ciberseguro 'sentry_insurance_questionnaire' con referencias a la evidencia y las brechas a corregir antes de enviarlo."
+      - Mapea WAISentry a la FTC Safeguards Rule (16 CFR Part 314) — ¿qué cubre y qué queda a nuestro cargo?
+      - Un prospecto, un grupo de clínicas dentales, pregunta cómo WAISentry apoya los controles de auditoría de HIPAA §164.312(b) y SOC 2 CC7 — ¿qué evidencia recibiría?
+    kpis: [Tiempo de respuesta de cuestionarios, Respuestas respaldadas con evidencia, Brechas abiertas antes de la renovación]
+
+  sentry_posture:
+    name: Revisión de postura y aplicaciones
+    tagline: Realiza la revisión gratuita de 30 minutos de postura de seguridad y aplicaciones, planifica la incorporación de 48 horas y compara opciones de SOC.
+    description: >-
+      Revisión de postura y aplicaciones es la puerta de entrada a WAISentry. Realiza la revisión gratuita de 30 minutos
+      de postura de seguridad y aplicaciones (Security Posture & Application Review) de un tenant de Google Workspace
+      (cobertura de MFA, superadministradores, uso compartido externo, reenvío automático, protocolos heredados, apps
+      OAuth no verificadas y más) con una puntuación y las principales correcciones, organiza la incorporación de 48
+      horas (día 1 conexión mediante APIs nativas, día 2 calibración de la línea base y configuración híbrida, día 3
+      defensa activa continua) y compara construir un SOC propio, contratar un MSSP tradicional y WAISentry — sin
+      inventar nunca un precio de WAISentry.
+    persona: Dueños de pymes, COO y líderes de TI que evalúan seguridad gestionada
+    use_cases:
+      - Revisión gratuita de postura con puntuación y principales correcciones
+      - Vista de antes y después que vincula las brechas abiertas con incidentes reales
+      - Plan de incorporación de 48 horas y comparación entre construir, un MSSP y WAISentry
+    output: >-
+      Revisión: puntuación, tabla de verificaciones, principales correcciones y victorias rápidas. Incorporación: tabla
+      con fechas de los días 1-3. Comparación: tabla de opciones, datos con fuentes y próximo paso (agendar la revisión
+      / pedir una cotización).
+    samples:
+      - Realiza la revisión gratuita de 30 minutos de postura de seguridad y aplicaciones para kitewing.example y dame las principales correcciones.
+      - ¿Cómo cambió la postura de Workspace de Kitewing desde la primera revisión del 2026-10-01 y cómo se relacionan las brechas abiertas con los incidentes recientes?
+      - "Somos 62 personas, con un controlador de dominio, un servidor de archivos y un firewall en una oficina, además de KnowBe4, Mimecast y DNSFilter. Planifica nuestra incorporación de 48 horas a WAISentry a partir del lunes 2026-11-09 y compárala con construir nuestro propio SOC o contratar un MSSP."
+    kpis: [Puntuación de postura, Revisiones convertidas en incorporaciones, Días desde la revisión hasta la salida a producción]

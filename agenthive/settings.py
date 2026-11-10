@@ -10,8 +10,12 @@ from dataclasses import dataclass
 from functools import lru_cache
 
 
+EDITIONS = ("internal", "showcase")
+
+
 @dataclass(frozen=True)
 class Settings:
+    edition: str           # internal (Wursta) | showcase (Google + clients)
     project: str
     region: str            # Cloud Run and BigQuery location
     engine_region: str     # Agent Engine location
@@ -20,6 +24,15 @@ class Settings:
     kb_prefix: str         # Vertex AI Search data store id prefix ("<prefix>-<realm>")
     kb_location: str
 
+    @property
+    def engine_prefix(self) -> str:
+        """Agent Engine display-name prefix; one engine per realm (internal) or segment (showcase)."""
+        return "Agent Hive · " if self.edition == "internal" else "Agent Hive Showcase · "
+
+    @property
+    def term(self) -> str:
+        return "realm" if self.edition == "internal" else "segment"
+
     def kb_data_store(self, realm: str) -> str:
         return (f"projects/{self.project}/locations/{self.kb_location}/collections/default_collection/"
                 f"dataStores/{self.kb_prefix}-{realm}")
@@ -27,7 +40,11 @@ class Settings:
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
+    edition = os.environ.get("HIVE_EDITION", "internal")
+    if edition not in EDITIONS:
+        raise ValueError(f"HIVE_EDITION must be one of {EDITIONS}, not {edition!r}")
     return Settings(
+        edition=edition,
         project=os.environ.get("HIVE_PROJECT") or os.environ.get("GOOGLE_CLOUD_PROJECT", ""),
         region=os.environ.get("HIVE_REGION", "us-central1"),
         engine_region=os.environ.get("HIVE_ENGINE_REGION", "us-east4"),

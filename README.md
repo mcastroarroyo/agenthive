@@ -18,6 +18,20 @@ Tools, Grounding** — light up as it plans, calls tools and retrieves knowledge
 
 All organisations, people and records in this repository are **synthetic**.
 
+## Two editions
+
+| | Internal (Wursta) | Showcase (Google and clients) |
+|---|---|---|
+| Audience | Wursta staff, behind IAP | Anyone with a Google account (Gmail or Workspace), app-level Google sign-in |
+| Grouping | Realms, incl. internal Platform Core and Delivery Engine | Customer segments only: Government, Enterprise, SMB, Professional Services, Agent Workforce |
+| Content | Internal use cases | Client-framed overrides (`catalog/editions/showcase/agents*.yaml`), edition copies of fixtures, docs and KB docs |
+| Language | English | English and Spanish (`catalog/editions/showcase/i18n/es*.yaml`) |
+| Extras | — | Per-session, per-user and app-wide token limits, activity log, 1–5 rating after each demo, `/admin` |
+
+`HIVE_EDITION=showcase` selects the edition for engines, the web app, the KB sync and the smoke test. Both editions share
+the Vertex AI Search stores: every document is tagged with the editions that use it and agents filter on it. One-time
+setup of the showcase site: `deploy/setup_showcase.sh` (session secret, service account, public Cloud Run service).
+
 ## The four ADK building blocks
 
 | Block | How the hive implements it |

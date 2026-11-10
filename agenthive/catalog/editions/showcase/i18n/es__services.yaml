@@ -1,0 +1,861 @@
+# Spanish (neutral Latin American) for the Professional Services segment — translated from the client-framed English
+# in agents__services.yaml (demo firm: Sablewood Cloud Partners, fictional). Doc keys, ids, codes, amounts and dates
+# are kept exactly; tool outputs stay in English.
+agents:
+  # ===================================================================================================================
+  # Alcance, SOW y entrega
+  # ===================================================================================================================
+  sow_builder:
+    name: Generador de SOW
+    tagline: Convierte notas de descubrimiento en un Statement of Work con precio y control de calidad en minutos.
+    description: >-
+      Un pipeline de tres etapas (ADK SequentialAgent) para consultoras e integradores de sistemas. Un analista de
+      alcance convierte las notas de descubrimiento en entregables numerados, supuestos, exclusiones y restricciones;
+      un estimador dimensiona cada entregable con el modelo de estimación de referencia de la firma, le pone precio con
+      su tarifario (precio fijo o tiempo y materiales; onshore, nearshore o mixto), calendariza las fases con la
+      herramienta de ruta crítica y arma el calendario de pagos; el redactor ensambla el SOW con la biblioteca de
+      cláusulas aprobadas y ejecuta el control de calidad del SOW hasta que pasa: criterios de aceptación para cada
+      entregable, sin términos vagos y pagos que suman 100%. Firma de demo: Sablewood Cloud Partners, un partner de
+      Google Cloud ficticio.
+    persona: Líderes de proyecto, arquitectos de preventa y directores de entrega en consultoras y partners de Google Cloud
+    use_cases:
+      - Primer borrador de SOW el mismo día del descubrimiento, con cifras que salen de herramientas, no de suposiciones
+      - Precio fijo vs. T&M (onshore, nearshore o mixto) con revisión de margen y el aprobador correcto
+      - SOW consistentes que pasan el estándar de calidad antes de que los vean Legal y el cliente
+    output: >-
+      El SOW completo en markdown (documento completo; no aplica el límite habitual de extensión) y luego un pie de
+      control de calidad: puntaje y veredicto del control, margen bruto vs. objetivo, aprobador requerido y las
+      preguntas abiertas a cerrar con el cliente antes de la firma.
+    samples:
+      - Arma un SOW a precio fijo a partir de 'dlv_discovery_harborline'.
+      - "Redacta un SOW T&M con entrega mixta: 400 usuarios de Exchange Online a Google Workspace, 2 TB de carpetas compartidas, 6 sesiones de capacitación, 2 semanas de hypercare, inicio 2027-02-01."
+      - Cotiza 'dlv_discovery_harborline' a precio fijo (US onshore) y en T&M (mixto), recomienda una opción y escribe el SOW para esa opción.
+    kpis: [Tiempo de descubrimiento a SOW, SOW que pasan QA en la primera revisión, Margen bruto vs. objetivo de 40%]
+    steps:
+      scope_analyst: {name: Analista de alcance, role: "Extrae objetivos, entregables numerados asociados a tipos de estimación, supuestos, exclusiones y restricciones."}
+      estimator: {name: Estimador y cotizador, role: "Dimensiona y cotiza los entregables, calendariza las fases y arma el calendario de pagos."}
+
+  latam_sow:
+    name: SOW LATAM
+    tagline: Escribe SOW para clientes de América Latina en español o portugués, con moneda local, notas fiscales y cláusulas locales.
+    description: >-
+      La variante latinoamericana del Generador de SOW para firmas que venden en la región. Un estimador dimensiona y
+      cotiza el trabajo (entrega nearshore por defecto); un localizador fiscal convierte el precio al tipo de cambio de
+      planeación, compara facturar de forma transfronteriza en USD (retenciones y gross-up) con facturar a través de
+      un socio local (IVA en moneda local) y trae las cláusulas legales del país: ley aplicable, facturación
+      electrónica, gross-up de retenciones y protección de datos; el redactor produce el SOW en el idioma del cliente.
+      Las cifras fiscales son valores ilustrativos de planeación y siempre se marcan para revisión de asesores locales.
+      Firma de demo: Sablewood Cloud Partners (ficticia) y su centro nearshore.
+    persona: Líderes de proyecto y gerentes de alianzas en consultoras que venden en México, Colombia, Brasil, Chile, Perú y El Salvador
+    use_cases:
+      - SOW en español o portugués a partir de notas de descubrimiento en español o portugués
+      - Escenarios de facturación en USD vs. moneda local con IVA, retenciones y gross-up
+      - Cláusulas legales por país (CFDI, DIAN, NFS-e, LGPD...) insertadas textualmente
+    output: >-
+      El SOW completo en español o portugués (documento completo; no aplica el límite de extensión) y luego un pie
+      breve en inglés para el deal desk de la firma: precio (USD y moneda local), escenario de facturación recomendado,
+      margen, aprobador, puntaje del control de calidad y temas para el asesor local.
+    samples:
+      - Prepara el SOW en español para 'dlv_discovery_altamar' con precio fijo y los dos escenarios de facturación (MXN vía socio local y USD transfronterizo).
+      - Arma el SOW en portugués para 'dlv_discovery_horizonte', precio fijo, entrega nearshore.
+      - "Escribe un SOW para una aseguradora en El Salvador: 300 usuarios de Exchange Online a Google Workspace, 1 TB de archivos, 4 capacitaciones, 2 semanas de hypercare, inicio 2027-03-01."
+    kpis: [Tiempo de entrega de SOW LATAM, Ciclos de revisión legal por SOW, Fuga por retenciones en honorarios cobrados]
+    steps:
+      estimator: {name: Alcance y precio (USD), role: "Extrae los entregables de las notas, estima el esfuerzo y lo cotiza en USD."}
+      fiscal_localiser: {name: Localizador fiscal y legal, role: "Convierte el precio a moneda local, compara escenarios de facturación y trae las cláusulas del país."}
+
+  scope_creep:
+    name: Control de alcance
+    tagline: Detecta pedidos fuera de alcance en reuniones y correos, los contrasta con el SOW firmado y redacta la orden de cambio.
+    description: >-
+      Dos especialistas leen en paralelo las mismas notas de reunión o el mismo correo (ADK ParallelAgent): un
+      verificador de alcance contrasta cada pedido del cliente con el SOW firmado (dentro de alcance, fuera de alcance,
+      por encima de un tope contractual o ambiguo), mientras un lector de señales califica la conversación por
+      insatisfacción, aumento de alcance y riesgo de plazos y extrae las acciones. La síntesis redacta una orden de
+      cambio con las tarifas contratadas del SOW y una respuesta para el cliente que cuida la relación.
+    persona: Gerentes de proyecto y líderes de entrega en consultoras que protegen el margen sin dañar la relación con el cliente
+    use_cases:
+      - Revisión de la reunión de estado semanal en busca de pedidos no facturados
+      - Triaje de correos del cliente — qué está cubierto y qué necesita papeleo
+      - Orden de cambio con impacto en esfuerzo, precio y cronograma en minutos
+    output: >-
+      Línea de veredicto; tabla (pedido, veredicto, cláusula, esfuerzo/precio); resumen de la orden de cambio (id,
+      total, valor del contrato antes/después, impacto en cronograma, aprobador; registro simulado); borrador de
+      respuesta al cliente; alerta para el equipo de entrega (2-3 líneas con las señales de riesgo).
+    samples:
+      - Revisa 'dlv_status_meeting_bluestem' contra SOW-2026-0388 y redacta la orden de cambio.
+      - El correo de Megan 'dlv_email_kestrel_requests' — ¿qué puntos cubre SOW-2026-0412 y cuánto costaría el resto?
+      - Kestrel quiere agregar 150 contratistas y migrar las carpetas públicas. ¿Está eso en SOW-2026-0412 y a qué precio?
+    kpis: [Horas fuera de alcance no facturadas, Órdenes de cambio emitidas en 3 días hábiles, Ingresos recuperados con órdenes de cambio]
+    steps:
+      scope_matcher: {name: Verificador de alcance, role: "Lista cada pedido del cliente y lo clasifica contra el SOW firmado."}
+      signals_reader: {name: Lector de señales de la reunión, role: "Califica insatisfacción, aumento de alcance y riesgo de plazos y extrae las acciones."}
+
+  vdr_validator:
+    name: Validador VDR
+    tagline: Revisa documentos de diseño y de validación contra las plantillas VDR de la firma antes de enviarlos al cliente para firma.
+    description: >-
+      El Validador VDR revisa documentos de entrega (revisiones de diseño e informes de validación/UAT) contra la
+      plantilla obligatoria de la firma: secciones faltantes, campos de control documental vacíos, versión del
+      encabezado que no coincide con el historial de revisiones, filas de aprobación sin firmar, marcadores de
+      posición, cifras que no coinciden entre secciones, pruebas fallidas sin defecto, una tasa de aprobación que la
+      tabla no respalda y una recomendación GO con un Sev1 todavía abierto. Devuelve comentarios de revisión listos
+      para pegar. Plantillas y documentos de demo: Sablewood Cloud Partners (ficticia).
+    persona: Líderes de entrega, líderes de QA y arquitectos que preparan documentos para la firma del cliente
+    use_cases:
+      - Revisión previa a la firma de un documento de diseño
+      - Verificación de un informe UAT (tasa de aprobación, defectos, recomendación)
+      - Guía de la plantilla para un autor nuevo
+    output: >-
+      Veredicto y puntaje; tabla de hallazgos bloqueantes (sección, problema, corrección); hallazgos de mejora;
+      comentarios de revisión listos para pegar (una línea cada uno, "Sección — comentario"); quién falta por firmar.
+    samples:
+      - Valida 'dlv_vdr_design_kestrel' contra la plantilla de revisión de diseño.
+      - ¿El informe UAT de Bluestem 'dlv_vdr_validation_bluestem' está listo para la firma del cliente?
+      - ¿Qué secciones necesita un informe de validación de Sablewood y quién debe firmarlo?
+    kpis: [Ciclos de revisión por documento, Documentos firmados a la primera, Días de borrador a firma]
+
+  enablement_engine:
+    name: Motor de capacitación
+    tagline: Arma planes de capacitación por rol para el cliente, agenda las sesiones y escribe los cuestionarios de verificación.
+    description: >-
+      El Motor de capacitación convierte la mezcla de roles del cliente en rutas de aprendizaje (ejecutivos,
+      asistentes, usuarios finales, personal de primera línea, usuarios avanzados, champions, administradores, legal),
+      dimensiona cohortes presenciales por idioma, distribuye las sesiones en el calendario entre los instructores
+      disponibles y genera cuestionarios a partir del banco de preguntas aprobado. En clientes que migran, alinea las
+      cohortes con el plan de olas de Atlas para que cada persona se capacite la semana previa a su cutover.
+    persona: Líderes de cambio y capacitación en programas de Workspace y Gemini; responsables de RR. HH. y aprendizaje del cliente
+    use_cases:
+      - Plan y calendario de capacitación para una migración
+      - Cohortes bilingües para plantas y almacenes
+      - Cuestionarios de verificación por módulo
+    output: >-
+      Resumen del plan (sesiones, horas de instructor, fecha de la última sesión), tabla de rutas de aprendizaje,
+      sesiones por módulo e idioma, alineación con las olas (Kestrel), calendario de la primera semana; cuestionarios
+      como preguntas numeradas con opciones.
+    samples:
+      - Arma el plan de capacitación para Kestrel a partir del 2026-11-09 y alinéalo con las olas restantes.
+      - Crea un cuestionario de 5 preguntas para el módulo M-EU-102 con la clave de respuestas para instructores.
+      - Planifica la capacitación de administradores y champions de Harborline a partir del 2027-01-11.
+    kpis: [Capacitación completada antes del cutover, Tasa de aprobación de cuestionarios, Tickets del primer día por cada 100 usuarios]
+
+  cert_notifier:
+    name: Alertas de certificaciones
+    tagline: Da seguimiento a las certificaciones de Google Cloud de cada consultor, avisa antes de que venzan y protege las especializaciones de partner.
+    description: >-
+      Alertas de certificaciones vigila las certificaciones de Google Cloud de cada consultor, lista lo que ya venció
+      y lo que vence dentro de la ventana de anticipación, revisa la cobertura contra los objetivos de especialización
+      de la firma hoy y al final de la ventana, y envía recordatorios de renovación (simulados) según la cadencia de la
+      política de certificaciones, con el gerente en copia y la elegibilidad de voucher indicada. Plantilla de demo:
+      Sablewood Cloud Partners (ficticia).
+    persona: Gerentes de alianzas, directores de práctica y consultores en partners de Google Cloud
+    use_cases:
+      - Revisión mensual del estado de certificaciones
+      - Cobertura de especializaciones en riesgo antes de una revisión de partner
+      - Recordatorios de renovación con elegibilidad de voucher
+    output: >-
+      Titular (vencidas, por vencer, especializaciones en riesgo); tabla de próximas a vencer; tabla de cobertura;
+      acciones (recordatorios enviados — simulados — y recomendaciones de vouchers).
+    samples:
+      - ¿Qué certificaciones vencen en los próximos 60 días y qué especializaciones están en riesgo?
+      - Envía recordatorios de renovación a todas las personas que no tengan examen agendado en los próximos 30 días.
+      - ¿Seguimos cubiertos para la especialización Work Transformation al cierre del Q1 2027?
+    kpis: [Certificaciones vencidas, Cobertura de especializaciones, Uso de vouchers]
+
+  migration_ready:
+    name: Preparación para migrar
+    tagline: Califica el cuestionario de preparación para la migración del cliente, nombra los bloqueos y da un go / no-go con plan de remediación.
+    description: >-
+      Preparación para migrar califica el cuestionario de preparación del cliente en ocho dominios (patrocinio,
+      identidad, DNS y flujo de correo, retención y cumplimiento, aplicaciones, dispositivos, personas y cambio,
+      soporte), aplica las reglas de go / condicional / no-go de la firma y convierte cada bloqueo en una tarea de
+      remediación con responsable, calendarizada con la herramienta de ruta crítica para dar la fecha de inicio
+      realista más temprana.
+    persona: Líderes de proyecto y arquitectos de preventa en consultoras que deciden si una migración puede comenzar
+    use_cases:
+      - Go / no-go antes de firmar un SOW de migración
+      - Plan de remediación con la fecha de inicio más temprana
+      - Comparación de preparación entre clientes
+    output: >-
+      Veredicto + puntaje; tabla de dominios; tabla de bloqueos (pregunta, respuesta, remediación, responsable);
+      calendario de remediación con ruta crítica y la fecha GO más temprana; recomendación (avanzar / avanzar con
+      condiciones / detener).
+    samples:
+      - Ejecuta la evaluación de preparación para la migración de Harborline y dime qué bloquea un inicio en enero.
+      - ¿Quarrystone Credit Union está lista para migrar? Dame el go/no-go y un plan de remediación.
+      - Compara la preparación de Kestrel en agosto con la de Harborline hoy.
+    kpis: [Proyectos que inician sin bloqueos críticos, Tiempo de preparación a kickoff, Sorpresas a mitad de proyecto]
+
+  migration_report:
+    name: Informe de migración
+    tagline: Convierte el tracker de migración en un informe ejecutivo de avance — olas, usuarios migrados, incidencias, burndown y pronóstico.
+    description: >-
+      Un pipeline secuencial: un analista del tracker lee el tracker de migración (en proyectos Atlas es el estado en
+      vivo de Atlas) y calcula avance, plan vs. real, burndown y pronóstico de cierre; un revisor califica cronograma,
+      alcance, calidad y adopción contra los umbrales del runbook; el redactor produce un informe ejecutivo de una
+      página con las decisiones necesarias.
+    persona: Directores de entrega, patrocinadores del cliente y comités directivos
+    use_cases:
+      - Informe ejecutivo semanal de la migración
+      - Burndown y pronóstico de fecha de cierre
+      - Informe de cierre con lecciones aprendidas
+    output: >-
+      "Informe de migración — <cliente>, <fecha>": RAG general y resumen de una frase; avance (usuarios, olas,
+      datos); tabla RAG por dimensión; tabla de burndown; pronóstico vs. línea base; principales riesgos e
+      incidencias; decisiones necesarias (responsable, fecha); próxima semana.
+    samples:
+      - Escribe el informe ejecutivo de migración de esta semana para Kestrel (KES-WS-2026).
+      - Dame el burndown y el pronóstico de KES-WS-2026 — ¿terminaremos el 5 de diciembre?
+      - Informe de cierre para Tidewell Dental Group (TDW-WS-2026) — ¿qué salió bien y qué se retrasó?
+    kpis: [Tiempo de preparación del informe, Precisión del pronóstico, Decisiones del comité tomadas a tiempo]
+    steps:
+      tracker_analyst: {name: Analista del tracker, role: "Lee el tracker y calcula avance, plan vs. real, burndown, velocidad y pronóstico."}
+      rag_reviewer: {name: Revisor RAG, role: "Califica cronograma, alcance, calidad y adopción contra el runbook y nombra las decisiones necesarias."}
+
+  migration_cm:
+    name: Gestión del cambio de migración
+    tagline: Gestión del cambio para migraciones — mapa de stakeholders, plan de comunicaciones, tácticas de adopción y programa de champions.
+    description: >-
+      Tres especialistas en cambio trabajan en paralelo (ADK ParallelAgent): un analista de stakeholders mapea
+      influencia, impacto y actitud y planifica cómo mover a quienes se resisten; un planificador de comunicaciones
+      arma el calendario de comunicaciones ola por ola; un estratega de adopción lee la telemetría posterior a la
+      migración (uso de Drive y Meet, uso del cliente de escritorio anterior, capacitación, tickets, cobertura de
+      champions) y elige tácticas específicas. La síntesis es un único plan de cambio con responsables y fechas.
+    persona: Líderes de cambio, responsables de RR. HH. / comunicaciones del cliente y gerentes de programas de migración
+    use_cases:
+      - Plan de cambio para las olas restantes de una migración
+      - Rescate de adopción para áreas que se están quedando atrás
+      - Mapa de stakeholders y plan de comunicaciones antes del kickoff
+    output: >-
+      "Plan de cambio — <cliente>": las 3 prioridades de esta semana; tabla de acciones con stakeholders; calendario
+      de comunicaciones (próximas 3 semanas); tácticas de adopción por área; programa de champions (actual vs.
+      necesario); KPI a vigilar.
+    samples:
+      - Arma el plan de gestión del cambio para las olas restantes de Kestrel (Sales, Engineering, Finance & Legal, Executives).
+      - ¿Qué áreas de Kestrel tienen problemas de adopción y qué deberían hacer los champions esta semana?
+      - Redacta un mapa de stakeholders y un plan de comunicaciones para Harborline antes del kickoff.
+    kpis: [Uso activo semanal 30 días después del cutover, Tickets por cada 100 usuarios, Puntaje de pulso]
+    steps:
+      stakeholder_analyst: {name: Analista de stakeholders, role: "Mapea a los stakeholders por influencia, impacto y actitud y planifica cómo involucrarlos."}
+      comms_planner: {name: Planificador de comunicaciones, role: "Arma el calendario de comunicaciones por audiencia y ola."}
+      adoption_strategist: {name: Estratega de adopción, role: "Lee la telemetría de adopción y la cobertura de champions y elige tácticas por área."}
+
+  demo_scripts:
+    name: Guiones de demo
+    tagline: Escribe guiones y storyboards para las demos de soluciones de tu firma — audiencia, narrativa, ruta de clics, discurso y planes de respaldo.
+    description: >-
+      Un ciclo de borrador y crítica (ADK LoopAgent) para equipos de preventa. El redactor toma los datos de cada
+      solución del catálogo de soluciones de la firma (entradas de demo probadas, cómo funciona, qué se simula,
+      evidencias) y escribe una narrativa, un guion cronometrado, la ruta de clics exacta y el discurso; el crítico
+      revisa los tiempos contra los estándares de demo (margen, proporción de demo en vivo, preguntas, sin monólogos,
+      un respaldo para cada paso en vivo) y que cada entrada de la ruta de clics sea un momento de demo probado, y lo
+      devuelve hasta que pasa. Catálogo de demo: las soluciones de Sablewood Cloud Partners, un partner de Google Cloud
+      ficticio.
+    persona: Ingenieros de preventa, arquitectos de soluciones y líderes de proyecto que preparan demos para prospectos y clientes
+    use_cases:
+      - Guion para la demo de una o varias soluciones de la firma ante un prospecto
+      - Guion cronometrado que cabe en el espacio asignado
+      - Plan de respaldo para el riesgo de la demo en vivo
+    output: >-
+      El guion de la demo: encabezado (audiencia, duración, veredicto de tiempos); objetivo; narrativa en tres actos;
+      tabla del guion; ruta de clics con las entradas exactas; discurso; plan de respaldo; aviso legal.
+    samples:
+      - Escribe el guion de demo para 'dlv_demo_request_atlas'.
+      - Una demo de 15 minutos del Sablewood Idea-to-Demo Sprint para el COO de una desarrolladora inmobiliaria — incluye planes de respaldo.
+      - Haz el storyboard de una demo de 10 minutos del Sablewood AI Guardrail Service para una audiencia de CIO.
+    kpis: [Tiempo de preparación de la demo, Demos sin fallas en vivo, Conversión de demo a siguiente reunión]
+    steps:
+      script_writer: {name: Redactor del guion, role: "Redacta la narrativa, el guion cronometrado, la ruta de clics y el discurso a partir de los datos de la solución."}
+      critic: {name: Crítico de la demo, role: "Revisa tiempos y validez de las entradas contra los estándares de demo y aprueba o devuelve correcciones."}
+
+  # ===================================================================================================================
+  # Migración a Workspace (Atlas)
+  # ===================================================================================================================
+  atlas_preflight:
+    name: Atlas · Auditor previo a la migración
+    tagline: Escanea el tenant anterior antes de mover nada — buzones, tamaños, carpetas compartidas, permisos y bloqueos.
+    description: >-
+      Atlas 1 audita el entorno anterior de Microsoft 365 + carpetas compartidas: usuarios, volúmenes de buzones y
+      OneDrive, tamaños de carpetas compartidas y cantidad de elementos por área, y cada bloqueo conocido —
+      retenciones por litigio, buzones sobredimensionados, archivos PST, rutas largas, carpetas que superan el límite
+      de elementos de una unidad compartida, herencia de permisos rota, relays de correo de aplicaciones, carpetas
+      públicas — con severidad, responsable y remediación, para que el plan parta de hechos.
+    persona: Líderes de migración y arquitectos de soluciones al inicio de una migración a Workspace
+    use_cases:
+      - Auditoría previa y lista de bloqueos antes de planificar las olas
+      - Análisis profundo de un área (p. ej., carpetas compartidas de Engineering)
+      - Señalamiento de elementos que el SOW excluye
+    output: >-
+      "Informe previo a la migración — Kestrel Manufacturing": veredicto; tabla resumen del entorno; tabla de
+      bloqueos; decisiones de alcance necesarias; próximas 5 acciones con responsables.
+    samples:
+      - Ejecuta la auditoría previa en el tenant de Kestrel y lista los bloqueos.
+      - ¿Qué se va a romper cuando migremos la carpeta compartida de Engineering?
+      - ¿Qué hallazgos están fuera del alcance del SOW y necesitan una decisión del cliente?
+    kpis: [Bloqueos detectados antes de la ola 1, Rollbacks de cutover no planificados, Tiempo de auditoría por tenant]
+
+  atlas_batch_planner:
+    name: Atlas · Planificador de olas
+    tagline: Agrupa a los usuarios en olas de migración por área y complejidad de datos, con fechas de cutover y de copia masiva.
+    description: >-
+      Atlas 2 arma el plan de olas: primero el piloto, luego las áreas en orden ascendente de complejidad y al final
+      los ejecutivos en una ola con atención personalizada; las olas se limitan por usuarios y por los datos que la
+      copia masiva puede mover antes del cutover, y se respetan los periodos de congelamiento globales y por área
+      (congelamiento de Thanksgiving, cierre de mes de Finance). Devuelve la línea base aprobada que usan todos los
+      demás agentes Atlas y ejecuta escenarios hipotéticos contra ella.
+    persona: Líderes de migración y gerentes de proyecto del cliente
+    use_cases:
+      - Plan de olas base con fechas
+      - Replanificación hipotética (topes, cadencia, fecha de inicio, piloto)
+      - Perfil de riesgo por ola (retenciones, delegados, buzones sobredimensionados, idioma)
+    output: >-
+      Resumen del plan (olas, primer y último cutover); tabla de olas; riesgos por ola; en escenarios hipotéticos,
+      una comparación con la línea base y una recomendación.
+    samples:
+      - Muestra el plan de olas aprobado para Kestrel.
+      - ¿Y si limitamos las olas a 180 usuarios? ¿Cuántas olas serían y cuándo terminamos?
+      - Replanifica con una cadencia de 10 días a partir del 2026-10-17 y sin piloto — ¿qué se mueve?
+    kpis: [Olas entregadas en la fecha planificada, Usuarios por ola vs. capacidad, Tiempo de replanificación]
+
+  atlas_user_comms:
+    name: Atlas · Comunicaciones a usuarios
+    tagline: Escribe secuencias de correos personalizadas para cada ola de migración — en inglés y español — y las programa.
+    description: >-
+      Atlas 3 se encarga del recorrido del usuario: para cada ola conoce la fecha de cutover, los siete puntos de
+      contacto (anuncio, preparación y capacitación, acción requerida, hoy es la noche, bienvenida, consejos y
+      encuesta, cierre) y los segmentos de audiencia — hispanohablantes, usuarios móviles, dueños de PST, custodios
+      con retención legal, delegados, buzones sobredimensionados — y escribe correos breves y personalizados con
+      campos de combinación. La programación es simulada.
+    persona: Líderes de cambio y equipos de comunicación del cliente
+    use_cases:
+      - El siguiente punto de contacto de una ola, con variantes por segmento
+      - Versiones en español para el personal de planta
+      - El calendario de comunicaciones de esta semana entre olas
+    output: Punto de contacto y fecha; un bloque por correo (segmento, destinatarios, asunto, cuerpo); resultados de la programación cuando se solicita.
+    samples:
+      - Escribe los correos T-7 para la ola W5 (Engineering), incluida la variante para dueños de PST.
+      - Redacta el correo T-1 en español para la ola W4 y prográmalo para el segmento en español.
+      - ¿Qué correos vencen esta semana en todas las olas?
+    kpis: [Tasa de apertura por punto de contacto, Tickets de "cómo hacer" del primer día, Usuarios capacitados antes del cutover]
+
+  atlas_data_mover:
+    name: Atlas · Motor de transferencia de datos
+    tagline: Ejecuta y monitorea la transferencia masiva — avance, rendimiento, errores y reintentos de correo, Drive y unidades compartidas.
+    description: >-
+      Atlas 4 vigila los trabajos de copia masiva de cada ola (correo, OneDrive a Mi unidad, carpetas compartidas a
+      unidades compartidas): elementos y GB movidos, rendimiento, hora estimada de fin frente al inicio de la
+      sincronización delta, y errores separados en transitorios (reintentar ya), corregibles (requieren un ajuste en
+      el origen), omisiones por política y fallas permanentes. Pone en cola reintentos con la recuperación esperada
+      según el runbook (simulado) y escala cuando una ola está en riesgo.
+    persona: Ingenieros de migración y el líder de migración durante la ventana de copia masiva
+    use_cases:
+      - Revisión del estado de la transferencia masiva de una ola
+      - Triaje de errores y reintentos
+      - Escalamiento cuando la hora estimada amenaza el cutover
+    output: Titular del estado; tabla por carga de trabajo; tabla de triaje de errores; acciones realizadas (simuladas) y escalamientos.
+    samples:
+      - ¿Cómo va la transferencia masiva de W5 (Engineering)?
+      - Reintenta todos los errores transitorios de W5 y dime qué queda pendiente.
+      - Engineering acortó las rutas largas — reintenta path_too_long en W5.
+    kpis: [TB movidos por día, Tasa de errores accionables, Olas con copia masiva completa 48 h antes del cutover]
+
+  atlas_delta_sync:
+    name: Atlas · Sincronización delta
+    tagline: Dimensiona la última sincronización incremental, evalúa las compuertas de go/no-go y arranca la secuencia de cutover al aprobarse.
+    description: >-
+      Atlas 5 se encarga del último tramo antes del cutover: mide todo lo que cambió desde la última pasada masiva,
+      verifica que el delta quepa en la ventana del viernes por la noche, evalúa las compuertas de cutover (copia
+      masiva completa, tasa de errores, ajuste del delta) y la lista de verificación del cutover, y entrega un
+      informe GO / GO CONDICIONAL / NO-GO. Cuando el patrocinador aprueba, arranca la sincronización delta y la
+      secuencia de cambio de MX (simulado).
+    persona: Líder de migración, director de TI del cliente y quien aprueba el go/no-go
+    use_cases:
+      - Informe de go/no-go la tarde previa al cutover
+      - Escenarios del tamaño del delta (inicio más tarde, usuarios adicionales)
+      - Arranque de la secuencia de cutover con el aprobador registrado
+    output: Línea de veredicto; tabla de compuertas; pendientes abiertos; estimación del delta; cronograma del cutover (cuando se inicia — simulado).
+    samples:
+      - ¿Estamos listos para el cutover de W4 (Sales) mañana? Dame el informe de go/no-go.
+      - ¿Qué tan grande será el delta final de W4 si empezamos a las 20:00 en lugar de las 18:00?
+      - Robert Lindqvist (CIO) aprobó el go para W4 — arranca la sincronización delta.
+    kpis: [Cutovers dentro de la ventana, Rollbacks, Tamaño del delta vs. estimación]
+
+  atlas_validator:
+    name: Atlas · Validador post-migración
+    tagline: Demuestra que la migración está completa — conteo de elementos, muestras de checksum y auditoría de permisos con informe de discrepancias.
+    description: >-
+      Atlas 6 valida cada ola migrada: conteo de elementos origen vs. destino por carga de trabajo, con omisiones
+      explicadas (elementos sobredimensionados, tipos bloqueados, rutas largas) y la variación no explicada frente a
+      la tolerancia de 0.1%, una muestra de checksums y una auditoría de permisos — ACL mapeadas, entradas huérfanas
+      descartadas, delegaciones y grupos de buzones compartidos recreados, archivos compartidos externamente
+      detectados. Las discrepancias abiertas incluyen responsable, corrección y fecha compromiso.
+    persona: Líder de migración, QA y el responsable de TI del cliente que firma una ola
+    use_cases:
+      - Evidencia para la firma de una ola
+      - Informe de discrepancias con responsables
+      - Tendencias de calidad entre olas
+    output: Veredicto; tabla de conteos; resumen de checksums y permisos; tabla de discrepancias; notas para usuarios; recomendación de firma.
+    samples:
+      - Valida la ola W3 y dame el informe de discrepancias.
+      - ¿Se migraron todas las delegaciones y los grupos de buzones compartidos en W3?
+      - Compara los resultados de validación de W0 a W3 — ¿hay algún patrón?
+    kpis: [Variación no explicada, Discrepancias cerradas en 72 h, Tickets de datos después de la migración]
+
+  atlas_status:
+    name: Atlas · Reportero de estado
+    tagline: Estado diario de la migración para el equipo del proyecto y los ejecutivos del cliente — RAG, avance, incidencias y próximos pasos.
+    description: >-
+      Atlas 7 escribe el estado diario a partir del estado en vivo de la ejecución: RAG general con razones, usuarios
+      y datos migrados, estado de las olas, incidencias abiertas con responsables y fechas compromiso, hitos de los
+      próximos siete días y la tendencia de hypercare, en una versión detallada para el equipo del proyecto y una de
+      cinco viñetas para los ejecutivos del cliente. Los correos se guardan como borradores (simulado).
+    persona: Líder de proyecto, patrocinador del cliente y comité directivo de una migración a Workspace
+    use_cases:
+      - Estado diario para el equipo del proyecto
+      - Actualización ejecutiva para el patrocinador
+      - Vista de los próximos 7 días
+    output: El informe de estado para la audiencia solicitada; el id del borrador cuando se preparó un correo.
+    samples:
+      - Estado diario para el equipo del proyecto de Kestrel.
+      - Escribe la actualización ejecutiva para Robert Lindqvist (robert.lindqvist@kestrelmfg.example) y prepara el borrador del correo.
+      - ¿Qué pasa en los próximos 7 días y qué podría impedirlo?
+    kpis: [Tiempo de preparación del estado, Satisfacción de los stakeholders, Incidencias vencidas]
+
+  # ===================================================================================================================
+  # Éxito del cliente
+  # ===================================================================================================================
+  helios:
+    name: Helios · Auditor de salud de reuniones
+    tagline: Audita las transcripciones de reuniones con clientes en busca de insatisfacción, aumento de alcance y desconexión, y alerta al PM.
+    description: >-
+      Helios procesa transcripciones de Google Meet, ejecuta la habilidad detect-meeting-sentiment-risk para calificar
+      insatisfacción, aumento de alcance, desconexión y riesgo de plazos con evidencia textual, y lo combina con la
+      asistencia (¿el patrocinador ejecutivo sigue asistiendo?) y la tendencia de sentimiento de la cuenta. Califica la
+      reunión en verde, ámbar o rojo según el Client Health & Escalation Playbook y redacta la alerta que el gerente de
+      proyecto necesita el mismo día.
+    persona: Gerentes de proyecto, líderes de proyecto y gerentes de éxito del cliente
+    use_cases:
+      - Auditoría de riesgo el mismo día de cada comité directivo
+      - Alerta temprana sobre aumento de alcance antes de que se convierta en trabajo no pagado
+      - Tendencia de sentimiento y de asistencia del patrocinador a lo largo de un proyecto
+    output: >-
+      Titular "Salud de la reunión: ROJO/ÁMBAR/VERDE — <reunión>"; tabla de señales (categoría, puntaje, cita textual
+      con marca de tiempo); nota de asistencia y tendencia; el texto de la alerta en un bloque de cita; id de la alerta
+      y destinatarios (simulado).
+    samples:
+      - Audita el comité directivo de Tallbridge Logistics MTG-2026-1104-TBL y alerta al PM si está en riesgo.
+      - ¿Hay algo preocupante en la reunión semanal de Calder & Finch 'ops_transcript_calder_weekly'?
+      - ¿Cómo ha evolucionado la salud de las reuniones en los últimos cuatro comités directivos de Tallbridge?
+    kpis: [Señales de riesgo detectadas antes de un escalamiento del cliente, Tiempo de la reunión a la alerta al PM, Escalamientos evitados por trimestre]
+
+  athena:
+    name: Athena · Seguimiento de acciones y decisiones
+    tagline: Convierte las notas de reunión en tareas con responsable y fecha en el sistema de gestión de proyectos y mantiene al día el registro de decisiones.
+    description: >-
+      Athena analiza transcripciones y notas de reuniones con la habilidad extract-meeting-structured-data, resuelve
+      cada responsable contra la lista del proyecto, convierte fechas relativas ("para el viernes", "el lunes 9") en
+      fechas reales a partir de la fecha de la reunión, detecta duplicados de tareas ya abiertas y crea las tareas y las
+      entradas del registro de decisiones en el sistema de gestión de proyectos (simulado). Nada de lo dicho en una
+      reunión se pierde y nada se crea dos veces.
+    persona: Gerentes de proyecto, scrum masters y coordinadores de proyecto
+    use_cases:
+      - Tareas con responsables y fechas minutos después de un comité directivo
+      - Registro de decisiones que resuelve los debates de "¿qué acordamos?"
+      - Seguimiento de tareas vencidas y de tareas a cargo del cliente
+    output: >-
+      Tabla de tareas (clave, tarea, responsable, fecha, regla usada), decisiones registradas, duplicados encontrados
+      (clave existente), pendientes que aún necesitan responsable y un mensaje de seguimiento de una línea que el PM
+      puede pegar en Chat.
+    samples:
+      - Extrae las acciones y decisiones de 'ops_transcript_tallbridge_steerco' y crea las tareas en el proyecto TBL.
+      - Convierte las notas del taller de Verdant 'ops_notes_verdant_workshop' en tareas para el proyecto VAC — muéstrame primero la tabla, no las crees todavía.
+      - ¿Qué tareas abiertas de TBL están vencidas o a cargo del cliente, y qué se ha decidido hasta ahora?
+    kpis: ["% de acciones con responsable y fecha", Tiempo de la reunión a las tareas en el sistema de proyectos, Tareas duplicadas evitadas]
+
+  scribe:
+    name: Scribe · Ingeniero autónomo de presentaciones
+    tagline: Convierte los documentos técnicos y casos de éxito de tu firma en presentaciones listas para el cliente, con notas del orador.
+    description: >-
+      Scribe descompone documentos de ingeniería, casos de éxito y notas de capacidades en una presentación para el
+      cliente: títulos de acción, máximo cinco viñetas por diapositiva, notas del orador y cifras con fuente. Un
+      redactor y un revisor de marca iteran (ADK LoopAgent) hasta que el esquema cumple los estándares de presentación
+      de la firma — se eliminan datos comerciales como márgenes y tarifarios y se anonimizan los clientes no aprobados
+      como referencia — y luego se crea el archivo de Google Slides (simulado). Biblioteca de demo: Sablewood Cloud
+      Partners (ficticia).
+    persona: Líderes de proyecto, arquitectos de preventa y ejecutivos de cuenta en consultoras que preparan reuniones con clientes
+    use_cases:
+      - Presentación para el cliente a partir de un documento técnico del proyecto
+      - Presentación de un caso de éxito adaptada a la industria y la audiencia de un prospecto
+      - Sesión ejecutiva sobre una de las soluciones de la firma
+    output: >-
+      Titular "Presentación lista" con el puntaje de marca, tabla de diapositivas, notas del orador, nota de contenido
+      eliminado y el id y enlace de la presentación cuando se crea (simulado).
+    samples:
+      - Convierte el documento de ingeniería 'ops_tech_doc_claims_triage' en una presentación de 10 diapositivas para el CIO de una aseguradora y crea el archivo de Slides.
+      - Arma una presentación de 8 diapositivas a partir del caso de éxito CS-021 para el VP de operaciones de un prospecto de logística.
+      - Redacta una presentación ejecutiva de 6 diapositivas sobre Sablewood Meeting Intelligence para un CIO.
+    kpis: [Horas del documento fuente a la presentación lista, Errores de marca por presentación, Presentaciones reutilizadas entre oportunidades]
+    steps:
+      drafter: {name: Redactor de la presentación, role: "Escribe o revisa el esquema diapositiva por diapositiva a partir del material fuente."}
+      reviewer: {name: Revisor de marca y audiencia, role: "Ejecuta la revisión de marca del esquema y lo aprueba o devuelve correcciones numeradas."}
+
+  cataloger:
+    name: Cataloger · Bibliotecario de Partner Advantage
+    tagline: Califica el contenido nuevo del portal de partners según su preparación para IA, lo etiqueta e informa a cada equipo lo que importa.
+    description: >-
+      Cada semana el portal de partners publica playbooks, presentaciones, grabaciones y guías de programa. Cataloger
+      ejecuta la habilidad partner-advantage-cataloger para calificar cada elemento según su preparación para la
+      ingesta en IA (necesidad de OCR, extensión, confidencialidad, antigüedad), lo etiqueta por producto, audiencia y
+      movimiento, resume los puntos clave para cada equipo y, a pedido, publica el resumen del equipo o propone una
+      estructura ordenada de Drive con la habilidad drive-organization.
+    persona: Operaciones de alianzas, líderes de práctica y gerentes de habilitación
+    use_cases:
+      - Triaje semanal del contenido del portal de partners
+      - Mantener el material confidencial de partners fuera de la búsqueda amplia con IA
+      - Resúmenes por equipo de lo nuevo y útil
+    output: >-
+      Tabla de preparación (elemento, puntaje, veredicto, problemas bloqueantes, etiquetas), puntos clave por equipo,
+      elementos restringidos y el texto del resumen (publicado solo cuando se solicita, simulado).
+    samples:
+      - Cataloga el lote de Partner Advantage de esta semana 'partner_portal_week45' y dime qué está listo para la ingesta en IA.
+      - Resume los puntos clave de 'partner_portal_week45' para preventa y publica el resumen en su espacio.
+      - ¿Qué elementos de 'partner_portal_week45' son confidenciales para partners o necesitan OCR antes de indexarlos?
+    kpis: [Contenido de partners indexado en una semana, "% de elementos listos para IA al ingresar", Elementos confidenciales fuera de la búsqueda amplia]
+
+  # ===================================================================================================================
+  # Ventas y marketing
+  # ===================================================================================================================
+  mercator:
+    name: Mercator · Analista de RFP y compras
+    tagline: Descompone un RFP empresarial en requisitos, los cruza con la evidencia de la firma y entrega una matriz de cumplimiento y la decisión de ofertar.
+    description: >-
+      Mercator analiza RFP empresariales y del sector público en un pipeline de tres etapas (ADK SequentialAgent): un
+      extractor en Flash-Lite lista cada requisito obligatorio y deseable con plazos y pesos de evaluación; un
+      emparejador cruza cada requisito con los casos de éxito aprobados de la firma, SOW anteriores y capacidades
+      documentadas en una matriz requisito → evidencia → brecha; el paso final da la recomendación de ofertar,
+      mitigaciones, temas ganadores y un borrador de resumen ejecutivo. Biblioteca de evidencia de demo: Sablewood
+      Cloud Partners (ficticia).
+    persona: Gerentes de propuestas, ejecutivos de cuenta y líderes de preventa
+    use_cases:
+      - Matriz de cumplimiento en la primera hora desde que llega un RFP
+      - Decisión de ofertar / no ofertar basada en evidencia
+      - Temas ganadores y resumen ejecutivo basados en referencias aprobadas
+    output: >-
+      Recomendación de ofertar (titular + justificación), tabla de la matriz de cumplimiento, brechas y mitigaciones,
+      alertas comerciales, temas ganadores, borrador del resumen ejecutivo y preguntas de aclaración.
+    samples:
+      - Analiza el RFP de transporte de Harborview 'ops_rfp_harborview_transit' y arma la matriz de cumplimiento.
+      - ¿Deberíamos ofertar en 'ops_rfp_harborview_transit'? Dame la decisión de ofertar o no y las brechas que te preocupan.
+      - Redacta los temas ganadores y el resumen ejecutivo para 'ops_rfp_harborview_transit' usando nuestros casos de éxito.
+    kpis: [Horas hasta la primera matriz de cumplimiento, Requisitos obligatorios respaldados con evidencia, Tasa de éxito en RFP]
+    steps:
+      extractor: {name: Extractor de requisitos, role: "Descompone el RFP en requisitos numerados obligatorios/deseables, plazos, presupuesto y pesos de evaluación."}
+      matcher: {name: Emparejador de evidencia, role: "Cruza cada requisito con casos de éxito, SOW anteriores y capacidades en una matriz de cumplimiento."}
+
+  argus:
+    name: Argus · Explorador de inteligencia competitiva
+    tagline: Vigila precios, ofertas y contrataciones de la competencia y envía a ventas un resumen semanal con respuestas.
+    description: >-
+      Argus ejecuta dos exploradores en paralelo (ADK ParallelAgent): un analista de la lista de vigilancia que lee los
+      cambios capturados en páginas de precios, comunicados de prensa, foros y ofertas de empleo de la competencia, y
+      un explorador web que agrega contexto de mercado público y actual con Google Search. Un paso de síntesis ordena
+      los cambios por impacto en los negocios activos, aplica la Competitive Positioning Guide y produce el resumen
+      semanal para el equipo de ventas, publicado en su espacio a pedido.
+    persona: Ejecutivos de cuenta, líderes de ventas y marketing de producto
+    use_cases:
+      - Resumen competitivo semanal para el equipo de ventas
+      - Guía de respuesta rápida cuando un competidor baja precios
+      - Actualización de battlecards con evidencias recientes
+    output: >-
+      "Resumen competitivo — semana del <fecha>": los 3 cambios principales (competidor, cambio, impacto, respuesta),
+      otros cambios, contexto de mercado (con fuentes), actualizaciones de battlecards y la confirmación de publicación
+      cuando se solicita (simulado).
+    samples:
+      - Prepara el resumen competitivo de esta semana para el equipo de ventas.
+      - ¿Qué cambió Cobalt Cloud Partners en sus precios y cómo deberíamos responder en los negocios activos de migración a Workspace?
+      - Dame el resumen competitivo enfocado en ofertas de agentes de IA y publícalo en el canal de ventas.
+    kpis: [Cambios competitivos detectados en 7 días, Negocios con battlecard actualizada, Tasa de éxito frente a competidores vigilados]
+    steps:
+      watchlist: {name: Analista de la lista de vigilancia, role: "Resume los cambios competitivos capturados en la lista de vigilancia."}
+      scout: {name: Explorador web, role: "Agrega contexto de mercado público y actual con Google Search."}
+
+  stentor:
+    name: Stentor · Agente de campañas en redes sociales
+    tagline: Redacta posts para LinkedIn y X a partir de casos de éxito, blogs y lanzamientos de soluciones aprobados, y los programa.
+    description: >-
+      Stentor convierte el contenido aprobado de la firma — casos de éxito, entradas de blog y ofertas de soluciones —
+      en posts nativos para LinkedIn y X, valida cada borrador contra la política de redes sociales (extensión,
+      hashtags, afirmaciones prohibidas, mención de clientes, mención de competidores, horarios de publicación) y
+      programa los que están limpios en espacios libres (simulado). Canales y contenido de demo: Sablewood Cloud
+      Partners (ficticia).
+    persona: Gerentes de marketing y líderes de práctica en consultoras que promueven su trabajo
+    use_cases:
+      - Promover un caso de éxito nuevo en varios canales
+      - Mini campañas para la semana de lanzamiento de nuevas soluciones
+      - Convertir una entrada de blog en una serie corta para X
+    output: >-
+      Borradores por canal (en bloques de cita) con conteo de caracteres, resultados de la validación, espacios
+      propuestos o reservados (hora del Centro) e ids de los posts cuando se programan (simulado).
+    samples:
+      - Redacta un post para LinkedIn y otro para X que promuevan el caso de éxito CS-014 y prográmalos para la próxima semana.
+      - Planifica una mini campaña de 3 posts en LinkedIn para el lanzamiento de los servicios de IA de Sablewood con Meeting Intelligence, Bid Desk y el Idea-to-Demo Sprint — valídalos, pero no los programes todavía.
+      - Convierte la entrada de blog BLOG-112 en dos posts para X y revísalos contra la política de redes sociales.
+    kpis: [Posts publicados por semana, Tasa de interacción por post, Infracciones de política detectadas antes de publicar]
+
+  # ===================================================================================================================
+  # Operaciones, riesgo y gobierno de IA
+  # ===================================================================================================================
+  vulcan:
+    name: Vulcan · Middleware de sincronización empresarial
+    tagline: Sincroniza oportunidades del CRM, proyectos de construcción y BigQuery para varios tenants — mapeo, conflictos y planes de sincronización.
+    description: >-
+      Vulcan es un middleware de sincronización multi-tenant que una práctica de integración opera para sus clientes
+      inmobiliarios y de construcción: las oportunidades de HubSpot y Salesforce y los proyectos y órdenes de cambio de
+      Procore fluyen hacia un único modelo canónico en BigQuery. El agente propone mapeos de campos, resuelve registros
+      en conflicto con trazabilidad a nivel de campo (la etapa más avanzada, Procore como fuente del monto después del
+      contrato, revisión manual por encima de un 10% de diferencia) y planifica las ejecuciones de sincronización dentro
+      del presupuesto de API de cada proveedor — todo simulado sobre tenants de clientes sintéticos, como una
+      desarrolladora inmobiliaria.
+    persona: Arquitectos de integración, ingenieros de datos y líderes de RevOps en clientes inmobiliarios y de construcción
+    use_cases:
+      - Mapeo de campos de objetos de CRM y construcción a un modelo canónico
+      - Resolución explicable de conflictos entre dos CRM y un sistema de proyectos
+      - Planes de carga inicial e incremental con presupuestos de API
+    output: >-
+      Primero la respuesta corta, luego la tabla de mapeo o la tabla de conflictos (campo, valor, ganador, regla),
+      escrituras de vuelta, cola de revisión manual y el plan de sincronización (objetos, registros, uso de API,
+      calendario) — simulado.
+    samples:
+      - Mapea las oportunidades de HubSpot y los proyectos de Procore del tenant de la desarrolladora inmobiliaria al modelo canónico.
+      - Resuelve los conflictos de sincronización de PRJ-2207 y PRJ-2219 y explica cada ganador.
+      - Planifica una carga inicial en modo de prueba desde Salesforce y Procore hacia BigQuery para 'redev_tenant_01' y revisa el presupuesto de API.
+    kpis: [Horas de doble captura eliminadas, "% de conflictos resueltos automáticamente", Frescura de los datos en BigQuery (minutos)]
+
+  chiron:
+    name: Chiron · Compañero de onboarding de la Academia
+    tagline: Guía a tus nuevos consultores en sus primeros 90 días — beneficios, acceso a herramientas y ruta de certificación.
+    description: >-
+      Chiron es el compañero de la persona recién contratada durante sus primeros 90 días en una consultora: conoce el
+      día del plan de onboarding, los hitos de 30/60/90 días del rol, la fecha límite de inscripción a beneficios, qué
+      herramientas están otorgadas, pendientes o faltantes, y la ruta de certificación con fechas objetivo y horas de
+      estudio semanales sugeridas. Levanta solicitudes de acceso con el aprobador correcto y responde preguntas sobre
+      las políticas de la Academia con la New-Hire Guide. Demo: la Sablewood Academy de Sablewood Cloud Partners
+      (ficticia).
+    persona: Personas recién contratadas en consultoras, sus gerentes y sus compañeros de onboarding
+    use_cases:
+      - ¿Qué debo hacer esta semana? ¿Voy bien?
+      - Solicitar el acceso faltante a herramientas con el aprobador correcto
+      - Ruta de certificación, vouchers de examen y plan de estudio
+    output: >-
+      Encabezado "Día N de 90", prioridades de esta semana, estado de beneficios, tabla de accesos (sistema, estado,
+      aprobador), ruta de certificación (fecha objetivo, estado, horas/semana) y tickets levantados (simulado).
+    samples:
+      - Soy Sofia Marín (NH-311). ¿En qué debo enfocarme esta semana y voy bien?
+      - Kwame Mensah (NH-314) acaba de empezar como Workspace Consultant — solicita su acceso faltante a herramientas y dile cuándo cierra la inscripción a beneficios.
+      - ¿Qué ruta de certificación debería seguir un nuevo Data Engineer y Sablewood paga el examen?
+    kpis: [Días hasta tener acceso completo a herramientas, Inscripción a beneficios completada a tiempo, Primera certificación en 90 días]
+
+  oracle:
+    name: Oracle · Agente predictivo de riesgo de abandono
+    tagline: Predice qué cuentas de clientes están en riesgo de abandono con un puntaje explicable y un plan de retención.
+    description: >-
+      Oracle combina la asistencia a reuniones, la participación del patrocinador ejecutivo, el sentimiento de las
+      reuniones y su tendencia, la carga de soporte, la adopción, las facturas vencidas, los hitos retrasados y el NPS
+      en un puntaje explicable de riesgo de abandono de 0 a 100. Cada punto se puede rastrear a un factor con
+      evidencia, la banda se asocia a una jugada de retención del Client Health & Escalation Playbook, y el puntaje se
+      puede recalcular con el sentimiento más reciente de Helios y escribirse en el CRM (simulado).
+    persona: Gerentes de éxito del cliente, ejecutivos de cuenta y directores de entrega
+    use_cases:
+      - Vista de la cartera de cuentas en riesgo antes de la renovación
+      - Factores explicables para una sola cuenta
+      - Recalcular tras una mala reunión y abrir un plan de retención
+    output: >-
+      Titular "Riesgo de abandono: <puntaje>/100 — <banda>", tabla de factores (factor, puntos, evidencia), factores
+      de protección, tiempo a la renovación, plan de retención y la actualización del CRM (simulado), o una tabla de
+      cartera ordenada con el ARR en riesgo.
+    samples:
+      - ¿Cuál es el riesgo de abandono de Tallbridge Logistics después del último comité directivo, y por qué?
+      - Ordena todas las cuentas por riesgo de abandono y dime cuáles necesitan un plan de retención antes de la renovación.
+      - Recalcula Tallbridge con el sentimiento más reciente de Helios de -0.6 y actualiza el CRM con un plan de retención.
+    kpis: [Abandono detectado 60+ días antes de la renovación, Tasa de éxito de los planes de retención, Retención neta de ingresos]
+
+  janus:
+    name: Janus · Deconstructor autónomo de video
+    tagline: Convierte reuniones grabadas con clientes en registros de conocimiento buscables, con capítulos, decisiones y preguntas y respuestas.
+    description: >-
+      Janus usa la habilidad extract-video-to-okf para descomponer una grabación o transcripción en un registro del
+      Open Knowledge Framework — resumen, capítulos con marcas de tiempo, entidades, decisiones y pares de preguntas y
+      respuestas reutilizables — y lo indexa en la base de conocimiento de entrega con el nivel de acceso correcto,
+      para que cualquiera en la cuenta encuentre "¿qué decidimos sobre X?" en segundos. Acepta claves de
+      transcripción, URI de grabaciones gs:// y URL públicas de YouTube.
+    persona: Equipos de entrega, gestores de conocimiento y personas nuevas que se suman a un proyecto
+    use_cases:
+      - Registro buscable de cada comité directivo
+      - Enlaces por capítulo directo al momento en que se tomó una decisión
+      - Preguntas y respuestas reutilizables de talleres y sesiones de habilitación
+    output: >-
+      Registro OKF (resumen, tabla de capítulos con marcas de tiempo, decisiones, preguntas y respuestas), nivel de
+      acceso y el id del activo cuando se indexa (simulado).
+    samples:
+      - Convierte el comité directivo de Tallbridge MTG-2026-1104-TBL en un registro de conocimiento buscable e indéxalo para el equipo de la cuenta.
+      - Descompón 'ops_transcript_calder_weekly' en capítulos con marcas de tiempo y preguntas y respuestas reutilizables.
+      - ¿Qué reuniones grabadas con clientes todavía no están indexadas en la base de conocimiento?
+    kpis: [Reuniones buscables en 1 hora, Búsquedas respondidas con registros de reuniones, Horas de grabaciones procesadas por semana]
+
+  aegis:
+    name: Aegis · Guardarraíl Model Armor
+    tagline: Intercepta las llamadas salientes a modelos para frenar fugas de datos personales, inyección de prompts y gasto descontrolado.
+    description: >-
+      Aegis se ubica en la ruta de salida de cada agente que opera la firma — asistentes internos y agentes para
+      clientes. Una verificación previa determinista encuentra datos personales (redactados con tokens tipificados),
+      secretos y patrones de inyección (bloqueados) y compara el gasto por hora de cada agente con su línea base para
+      detectar bucles de reintentos. En producción, los mismos veredictos se aplican con plantillas de Model Armor y
+      Sensitive Data Protection en la ruta de llamadas a Vertex AI; Aegis agrega el registro de auditoría y los
+      controles de costo. Registro de llamadas de demo: Sablewood Cloud Partners (ficticia).
+    persona: Líderes de gobierno de IA, ingenieros de seguridad y responsables de agentes
+    use_cases:
+      - Revisar la última hora de llamadas interceptadas
+      - Escaneo previo de un prompt antes de que llegue a un modelo
+      - Detectar y limitar agentes descontrolados
+    output: >-
+      Resumen de veredictos (conteos), tabla de llamadas señaladas (id, origen, veredicto, razones), anomalías de
+      costo y acciones requeridas con responsables; o, para un solo prompt, el veredicto, los hallazgos
+      (enmascarados) y el prompt redactado.
+    samples:
+      - Revisa la última hora de llamadas salientes a modelos y dime qué bloqueaste o redactaste.
+      - "Escanea este prompt antes de que llegue al modelo: 'Resume la queja de jane.doe@clientmail.example, teléfono +1 415-555-0142, tarjeta 4111 1111 1111 1111.'"
+      - ¿Hay una anomalía de costo en las llamadas salientes ahora mismo y qué agente la está causando?
+    kpis: [Fugas de datos personales evitadas, Intentos de inyección de prompts bloqueados, Gasto no planificado en modelos evitado]
+
+  charon:
+    name: Charon · Agente de desaprovisionamiento de datos
+    tagline: Gestiona las salidas a tiempo — revoca accesos en todos los sistemas, preserva los datos y registra la evidencia de auditoría.
+    description: >-
+      Charon ejecuta el offboarding según la política — pensado para consultoras cuyo personal tiene administración
+      delegada en tenants de clientes: inventaría los datos de Google Workspace de quien se va, sus permisos OAuth,
+      GitHub, roles y llaves de cuentas de servicio en Google Cloud, accesos delegados en tenants de clientes,
+      licencias SaaS y hardware; arma la lista ordenada S1-S10 con plazos desde la hora de terminación, respeta las
+      retenciones legales y escribe un registro de evidencia encadenado por hash para los auditores. Todas las
+      acciones son simuladas. Casos de demo: Sablewood Cloud Partners (ficticia).
+    persona: Mesa de servicio de TI, seguridad y equipos de operaciones de personas
+    use_cases:
+      - Revocación el mismo día de accesos a clientes y a la nube
+      - Traspaso de datos sin unidades huérfanas
+      - Evidencia lista para auditoría en revisiones de control de acceso
+    output: >-
+      Titular de estado (vencido / a tiempo), resumen del inventario, tabla de la lista (paso, acción, plazo, estado),
+      notas de retención legal y registro de evidencia (ids + hash de cabecera) cuando se ejecuta (simulado).
+    samples:
+      - Ryan Caldwell (OFF-077) se va hoy — arma su plan de desaprovisionamiento y ejecútalo en modo de prueba.
+      - Nadia Kerr (OFF-081) está bajo retención legal — ¿qué podemos y qué no podemos hacer con su cuenta y sus datos?
+      - El contrato de Leo Sandoval (OFF-083) terminó al mediodía — ejecuta los pasos del mismo día y dame el registro de evidencia.
+    kpis: [Accesos revocados dentro del SLA, Archivos huérfanos después del offboarding, Integridad de la evidencia de auditoría]
+
+  morpheus:
+    name: Morpheus · Agente del sueño a la demo
+    tagline: Convierte un concepto de una línea en una demo clicable y un borrador de esquema de SOW en minutos.
+    description: >-
+      Morpheus es el motor de prototipado rápido: un constructor diseña las pantallas del recorrido principal del
+      usuario y genera una demo HTML clicable y autocontenida, un crítico la revisa contra el concepto y la lista de
+      verificación de demos, y ambos iteran (ADK LoopAgent) hasta que está lista. El paso final entrega la demo y un
+      borrador de esquema de SOW — fases, entregables, esfuerzo y un rango estimado — para que una llamada de
+      descubrimiento termine con algo en lo que el cliente pueda hacer clic.
+    persona: Arquitectos de preventa, ejecutivos de cuenta y líderes de innovación
+    use_cases:
+      - Demo clicable durante o justo después de una llamada de descubrimiento
+      - Validación del concepto antes de invertir en un design sprint
+      - Primer esquema de SOW para una idea nueva
+    output: >-
+      Resumen del concepto en una línea, la demo clicable (HTML completo en un bloque de código), lista de pantallas y
+      luego "Borrador de esquema de SOW" con tabla de fases, rango estimado, supuestos, fuera de alcance y próximos
+      pasos.
+    samples:
+      - "Del sueño a la demo: una app de inspección de campo para una desarrolladora inmobiliaria — los inspectores registran defectos con fotos y los PM aprueban las correcciones."
+      - "Haz el prototipo de un portal para socios de una cooperativa de ahorro y crédito: estado del préstamo, carga de documentos y un chat con asistente."
+      - "Convierte esta idea en una demo clicable y un esquema de SOW: un programador de turnos de voluntarios para un banco de alimentos con recordatorios por SMS."
+    kpis: [Tiempo del concepto a la demo, Demos convertidas en SOW, Talleres de descubrimiento acortados]
+    steps:
+      builder: {name: Constructor del prototipo, role: "Diseña las pantallas del recorrido principal y genera el prototipo clicable."}
+      critic: {name: Crítico de la demo, role: "Revisa la especificación del prototipo contra el concepto y la lista de verificación de demos."}
+
+  thoth:
+    name: Thoth · Calificador de lenguaje y riesgo de SOW
+    tagline: Califica los borradores de SOW cláusula por cláusula contra el playbook legal y escribe las redlines.
+    description: >-
+      Thoth revisa los statements of work antes de que salgan de la firma. Un escáner en Flash-Lite divide el borrador
+      en cláusulas y señala de forma determinista el lenguaje riesgoso o ambiguo (revisiones ilimitadas, aceptación
+      subjetiva, garantías de resultados, responsabilidad sin tope, penalidades, apropiación de propiedad intelectual,
+      control de cambios informal); luego el calificador analiza todo el documento con el SOW Legal Playbook, confirma
+      o ajusta cada calificación, encuentra contradicciones que los patrones no detectan y escribe redlines con
+      lenguaje preferido y alternativo.
+    persona: Líderes de proyecto, deal desk y revisores legales
+    use_cases:
+      - Revisión previa a Legal de cada borrador de SOW
+      - Redlines con lenguaje preferido y alternativo
+      - Calificación de riesgo antes de enviar un SOW al cliente
+    output: >-
+      Titular "Calificación del SOW: <A-F>" con conteos, tabla de cláusulas (cláusula, riesgo, problema), redlines
+      (original → propuesta → alternativa) empezando por las rojas, secciones faltantes y ruta de aprobación.
+    samples:
+      - Califica el borrador de SOW 'ops_sow_draft_kestrel' cláusula por cláusula y dame las redlines.
+      - ¿Qué cláusulas de 'ops_sow_draft_kestrel' rechazaría Legal de inmediato y cuál es nuestro lenguaje alternativo?
+      - "Califica esta cláusula (está en inglés): 'Sablewood guarantees the model will be 99% accurate and will provide unlimited revisions until the client is fully satisfied.'"
+    kpis: [Cláusulas rojas detectadas antes de la firma, Tiempo de respuesta de la revisión legal, Solicitudes de cambio causadas por alcance ambiguo]
+    steps:
+      scanner: {name: Escáner de cláusulas, role: "Divide el SOW en cláusulas y señala de forma determinista el lenguaje riesgoso."}
+
+  nomos:
+    name: Nomos · Agente de cumplimiento y políticas
+    tagline: Responde preguntas de cumplimiento y políticas con citas — conceptos de SOC 2 e ISO 27001 y los controles propios de la firma.
+    description: >-
+      Nomos es un sistema de preguntas y respuestas con recuperación aumentada sobre los documentos de cumplimiento y
+      políticas de la firma: explica conceptos de SOC 2 e ISO 27001 en lenguaje simple, asocia las preguntas a los
+      controles de la firma con responsables y evidencia, y le dice al equipo qué puede y qué no puede decir a los
+      clientes, siempre citando el documento fuente. Políticas y controles de demo: Sablewood Cloud Partners
+      (ficticia).
+    persona: Consultores que responden cuestionarios de seguridad de clientes, gerentes de proyecto y personas recién contratadas
+    use_cases:
+      - Explicación en lenguaje simple de conceptos de cumplimiento
+      - Qué control y qué evidencia responden la pregunta de un cliente
+      - Preguntas cotidianas de políticas (herramientas de IA, manejo de datos, offboarding)
+    output: >-
+      Respuesta directa (2-5 frases), controles relevantes (id, responsable, evidencia) cuando aplica, qué podemos
+      decir a los clientes y una lista de "Fuentes" con los títulos de los documentos.
+    samples:
+      - ¿Cuál es la diferencia entre SOC 2 Tipo I y Tipo II, y qué controles nuestros cubren las revisiones de acceso?
+      - Un cliente pregunta si seguimos ISO 27001 en el offboarding — ¿qué hacemos y qué evidencia podemos compartir?
+      - ¿Puedo pegar datos de clientes en un chatbot de IA público? Cita la política.
+    kpis: [Preguntas de políticas respondidas sin escalar, "% de respuestas con citas", Tiempo de respuesta de cuestionarios de seguridad]
+
+compositions:
+  atlas_migration:
+    name: Pipeline de migración a Workspace de Atlas
+    status: Demo en vivo
+    summary: >-
+      Siete agentes Atlas ejecutan para un partner la migración del correo anterior de un cliente a Google Workspace,
+      desde la auditoría previa hasta el estado diario.
+    flow:
+      - Auditoría previa del tenant anterior del cliente
+      - Planificación de olas por área y complejidad de datos
+      - Comunicaciones personalizadas a usuarios por ola, en inglés y español
+      - Transferencia masiva de datos, luego sincronización delta y go/no-go antes de cada cutover
+      - Validación posterior a la migración e informe de estado diario para el equipo y el patrocinador
+    blocks:
+      models: Flash-Lite para comunicaciones y estado; Flash para planificación, triaje de transferencias y validación.
+      runtime: Segmento Professional Services en Vertex AI Agent Engine; cada agente Atlas funciona solo o como etapa.
+      tools: Inventario sintético del tenant, planificador de olas, simuladores de transferencia, delta y checksums.
+      grounding: Base de conocimiento de servicios (runbook de migración, lista de cutover, playbook de gestión del cambio).
+  meeting_intelligence:
+    name: Ciclo de inteligencia de reuniones
+    status: Demo en vivo
+    summary: Cada reunión con un cliente se convierte en conocimiento buscable, una alerta de salud, tareas con responsable y una señal de abandono.
+    flow:
+      - Janus convierte la grabación o la transcripción en un registro de conocimiento buscable
+      - Helios califica insatisfacción, aumento de alcance y desconexión y alerta al PM
+      - Athena crea tareas con responsables y fechas y registra las decisiones
+      - Oracle actualiza el puntaje explicable de riesgo de abandono de la cuenta y el plan de retención
+    blocks:
+      models: Flash-Lite para Janus y Athena, Flash para Helios y Oracle; las habilidades corren en Flash-Lite.
+      runtime: Segmento Professional Services en Vertex AI Agent Engine.
+      tools: Habilidades extract-video-to-okf, detect-meeting-sentiment-risk y extract-meeting-structured-data; acciones de gestión de proyectos, CRM y chat (simuladas).
+      grounding: Historial de proyectos (sintético) + base de conocimiento de servicios (Client Health & Escalation Playbook).

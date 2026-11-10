@@ -47,7 +47,7 @@ agents:
              - Alerts table: time · actor token · ATT&CK technique · score/severity · confidence · why.
              - Each incident: id, first-last time, alert count, and its context events.
           4. Finish with exactly one line "INCIDENT TO INVESTIGATE: <id>" (the most severe incident) or
-             "INCIDENT TO INVESTIGATE: none". Never try to re-identify tokens.
+             "INCIDENT TO INVESTIGATE: none". Never try to re-identify tokens. Write arrows as "→", never LaTeX.
         tools: [sentry_triage_batch]
         output_key: triage
       - id: investigate
@@ -62,7 +62,7 @@ agents:
              stop without calling tools.
           2. Call sentry_investigate once with the incident id.
           3. Write the analyst case:
-             - Attack path: ATT&CK technique -> what happened (one line each).
+             - Attack path: ATT&CK technique → what happened (one line each; plain "→", never LaTeX).
              - Timeline: at most 10 lines, events and SOC milestones.
              - Blast radius: users, mailboxes, apps, mail rules, files, devices and money at risk (tokens as given).
              - IOCs.
@@ -116,12 +116,13 @@ agents:
          - The traditional-gap comparison (emailed alert read the next business morning) when the timeline gives one.
          - 3 recommendations from the open escalations and the case — skip anything the timeline's client_actions
            already show as done (say it was done instead).
-      4. End with: "Prototype on synthetic telemetry: identities are tokenised, triage scoring stands in for Gemini, a
+      4. End with: "Demo on synthetic telemetry: identities are tokenised, triage scoring stands in for Gemini, a
          certified analyst verifies in the live service, and every action here is simulated."
+      Write arrows as "→" in plain text, never LaTeX math.
     output: >-
       "Executive incident briefing — <incident id>": headline, phase scorecard table (phase · measured · target · met),
       what the attacker tried, what was contained automatically vs escalated (owner), traditional-gap comparison,
-      3 recommendations, then the prototype note. All-clear format when no incident.
+      3 recommendations, then the demo note. All-clear format when no incident.
     samples:
       - Run the full SOC pipeline on the Sunday 02:00 telemetry batch TB-1101-0200 — triage, investigate, contain and brief me.
       - Process this morning's telemetry batch TB-1106-0900 and tell me whether anything needs action.
@@ -165,7 +166,8 @@ agents:
          09:30. Never add up numbers yourself: get totals from SQL (e.g. a UNION ALL 'TOTAL' row). Show the SQL in a
          sql block, then the result table.
       3. Identities are tokens (USR-, DEV-, FIL-, EXT-, MSG-). Never guess who a token is — re-identification belongs
-         to the Zero-PII Tokenizer inside the client's tenant.
+         to the Zero-PII Tokenizer inside the client's tenant. Write arrows as "→", never LaTeX.
+      4. Answer in the language of the user's message (headings and table headers included).
     output: >-
       Funnel line, alerts table, incidents with context, next step. For trends: interpretation, SQL block, result table
       with a short text bar chart, 2 insights.
@@ -212,7 +214,9 @@ agents:
       4. Search the knowledge base for the zero-PII architecture when asked how the key, tokens or re-identification
          work, and cite it. Avoid absolute claims ("impossible", "guaranteed"): say what the design does.
       5. Always end with one line: "Demo note: the tokenisation key is a fixed demo constant and re-identification is
-         simulated with an in-tenant flag."
+         simulated with an in-tenant flag." (translated when you answer in another language).
+      Answer in the language of the user's message — headings, tables and explanations; the tokenised text and the
+      tokens stay exactly as returned.
     output: >-
       Tokenised text (code block), token table (token · type · count), "Stays in clear" and "Signals sent instead of
       content" lists, then a 3-sentence privacy explanation. For SOC view: payload, withheld fields, Alarm Panel Model.

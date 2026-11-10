@@ -1,0 +1,613 @@
+# Spanish (neutral Latin American) for the Enterprise industry agents — showcase edition: financial services,
+# healthcare, telco & media, retail & CPG, logistics & manufacturing (23 agents). The other Enterprise agents
+# (strategy, agent factory, productivity) are translated in their own files.
+# Same intent, document keys, IDs, amounts and dates as the English samples; product and persona names unchanged.
+agents:
+  # ------------------------------------------------------------------------------------------- servicios financieros
+  wealth_sentinel:
+    tagline: Vigila cada portafolio frente a su mandato y convierte las desviaciones en una propuesta de rebalanceo lista para el cliente y validada en idoneidad.
+    description: >-
+      Wealth Sentinel es un copiloto para asesores de Quillmark Private Wealth (ficticia). Revisa la cartera del
+      asesor en busca de incumplimientos de mandato, explica la exposición de cada cliente (clase de activo, sector por
+      transparencia, concentración, liquidez, lotes fiscales), agrega contexto de mercado actual desde Google Search y
+      arma un rebalanceo eficiente en impuestos que se valida contra la política de idoneidad de la firma antes de que
+      una sola palabra llegue al cliente. El resultado son dos documentos: un informe para el asesor y una propuesta
+      en lenguaje sencillo para el cliente, listos para la revisión de supervisión.
+    persona: Asesores patrimoniales y sus supervisores; equipos de banca privada que preparan revisiones con clientes
+    use_cases:
+      - Revisión matutina de la cartera — qué clientes incumplen su mandato y por qué
+      - Paquete de revisión del cliente con exposición, desviación, concentración y un rebalanceo eficiente en impuestos
+      - Revisión de idoneidad de una operación pedida por el cliente (p. ej., "15% en Bitcoin") con una alternativa que cumple
+    output: >-
+      "Informe para el asesor" (veredicto, tabla de incumplimientos, tabla de operaciones, impuestos y costos,
+      condiciones, contexto de mercado con enlaces) y "Propuesta para el cliente" (lenguaje sencillo, 150-250
+      palabras), y luego el descargo de responsabilidad.
+    samples:
+      - Revisa el hogar Hartwell (WM-1042) con las notas de la llamada 'fin_meeting_notes_hartwell' y redacta una propuesta de rebalanceo lista para el cliente.
+      - Revisa mi cartera en busca de incumplimientos de mandato y prepara la propuesta para el cliente más urgente que pueda asesorar hoy.
+      - El cliente WM-2087 quiere poner el 15% del portafolio en el ETP de Bitcoin (QBTCX) antes de fin de año. ¿Es adecuado y qué le puedo ofrecer en su lugar?
+    kpis: [Tiempo de preparación del asesor por revisión de cliente, "% de la cartera dentro del mandato", Excepciones de idoneidad por trimestre]
+    steps:
+      exposure:
+        name: Analista de exposición y mandato
+        role: Identifica al cliente, carga el perfil y el portafolio, y documenta la exposición, la desviación y los incumplimientos de política.
+      market:
+        name: Explorador de contexto de mercado
+        role: Agrega contexto de mercado actual y citado para las exposiciones que importan.
+      rebalance:
+        name: Motor de rebalanceo e idoneidad
+        role: Arma el rebalanceo eficiente en impuestos y demuestra que cumple la política de idoneidad.
+
+  compliance:
+    name: Cumplimiento
+    tagline: Ejecuta reglas de monitoreo tipo AML y revisión en listas, vincula los hallazgos con políticas y controles y reúne la evidencia de auditoría.
+    description: >-
+      Cumplimiento le da a la segunda línea de defensa de un banco una primera revisión rápida. Un especialista
+      ejecuta los escenarios de monitoreo transaccional y la revisión en listas de sanciones y PEP sobre el libro
+      sintético, mientras otro vincula el tema con las políticas y los controles de Quillmark, con sus últimos
+      resultados de prueba y su evidencia. Un paso de síntesis convierte ambos en un memorando listo para el
+      investigador: qué se activó, por qué importa, qué control y qué política aplican, qué evidencia existe y qué
+      hacer a continuación.
+    persona: Analistas AML, oficiales de cumplimiento, auditoría interna y equipos de preparación para exámenes regulatorios
+    use_cases:
+      - Triaje de alertas con evidencia y una disposición recomendada
+      - Revisión de contrapartes en listas con el razonamiento de falsos positivos
+      - Solicitud de examen o auditoría — vínculo entre políticas y controles y paquete de evidencias
+    output: >-
+      "Memorando de cumplimiento": conclusión principal, tabla de alertas (cuenta · reglas · evidencia · puntaje ·
+      disposición), resultados de la revisión en listas, vínculo con políticas y controles (con calificaciones e ids
+      de evidencia) y próximos pasos con responsables y fechas.
+    samples:
+      - Ejecuta el monitoreo transaccional de ACC-30245 y dime si debemos abrir un caso.
+      - Revisa en listas a las contrapartes de Duskwater Trading LLC (ACC-30117) y resume sus alertas AML con los controles que aplican.
+      - Prepara el resumen de evidencias para la solicitud de examen del supervisor 'fin_exam_request_q4'.
+    kpis: [Tiempo de triaje de alertas, "% de alertas resueltas dentro del SLA", Tiempo de entrega de evidencias para exámenes]
+    steps:
+      monitor:
+        name: Analista de monitoreo transaccional y listas
+        role: Ejecuta TM-01..TM-06 sobre las cuentas del alcance y revisa en listas a las partes involucradas.
+      policy:
+        name: Mapeador de políticas y controles
+        role: Vincula la solicitud con temas regulatorios, políticas internas, controles, resultados de prueba y evidencia.
+
+  fin_insights:
+    name: Análisis Financiero
+    tagline: Explica la variación del P&L, los impulsores de costos y la precisión del pronóstico directamente desde el libro mayor en BigQuery.
+    description: >-
+      Análisis Financiero es un analista de FP&A sobre el libro mayor sintético del banco. Escribe SQL sobre las
+      tablas de resultados reales y de presupuesto/pronóstico, descompone las variaciones por unidad de negocio,
+      centro de costos y cuenta, aplica la política de materialidad para decidir qué necesita comentario y redacta el
+      comentario de variaciones que requiere un paquete para el CFO.
+    persona: Analistas de FP&A, socios de negocio de finanzas, oficina del CFO
+    use_cases:
+      - Comentario mensual y trimestral de variaciones real vs. presupuesto
+      - Análisis a fondo de impulsores de costos por centro de costos y cuenta
+      - Precisión del pronóstico y perspectiva del año completo frente al presupuesto
+    output: >-
+      Titular (impacto en la utilidad neta frente al plan), tabla de variaciones (línea, real, plan, variación, %,
+      F/D, material), comentario de impulsores para cada línea material y una línea de advertencias sobre los datos.
+      Montos en miles o millones de USD.
+    samples:
+      - Explica la variación del P&L del T3 2026 frente al presupuesto por unidad de negocio e indica qué requiere comentario.
+      - ¿Qué hizo que los costos de Tecnología (CC-900) superaran el presupuesto entre julio y septiembre de 2026? Desglósalo por cuenta y mes.
+      - ¿Cómo se compararon los resultados reales del T3 2026 con la reproyección del T3 y cuál es la perspectiva del año completo 2026 frente al presupuesto?
+    kpis: [Días para cerrar el paquete de variaciones, "% de variaciones materiales con comentario", Precisión del pronóstico (MAPE)]
+
+  exec_data_intel:
+    name: Inteligencia Ejecutiva
+    tagline: Responde en lenguaje sencillo las preguntas de los ejecutivos sobre KPI, tendencias y anomalías, directamente desde BigQuery.
+    description: >-
+      Inteligencia Ejecutiva es analítica en lenguaje natural para el comité ejecutivo. Consulta las tablas de KPI y
+      de canales del banco (y el libro mayor cuando hay dinero de por medio), prueba tendencias y anomalías con una
+      herramienta estadística robusta y escribe respuestas listas para el consejo: la cifra, la comparación, el porqué
+      y el "¿y qué?", con las definiciones de KPI acordadas por el consejo.
+    persona: Directores generales, directores de operaciones, miembros del consejo y jefes de gabinete
+    use_cases:
+      - Resumen de KPI para el paquete del consejo de un trimestre frente al año anterior
+      - Explicación de anomalías (¿qué pasó en mayo?)
+      - Preguntas de tendencia sobre calidad crediticia, adopción digital o experiencia del cliente
+    output: >-
+      Respuesta lista para el consejo: titular (1 oración), 3-5 hallazgos con cifras y comparaciones, una tabla
+      pequeña, "Qué vigilar" (1-2 puntos) y las definiciones de KPI usadas.
+    samples:
+      - Dame un resumen para el consejo del desempeño del T3 2026 por unidad de negocio frente al T3 2025.
+      - ¿Hubo anomalías en la actividad de los canales este año? ¿Qué pasó en mayo de 2026?
+      - ¿Qué unidad de negocio está deteriorando su calidad crediticia y a qué ritmo?
+    kpis: [Preguntas ejecutivas respondidas sin un analista, Tiempo para el paquete del consejo, Tasa de retrabajo de respuestas]
+
+  # ----------------------------------------------------------------------------------------------------- salud
+  trial_screener:
+    name: Preselección de Ensayos
+    tagline: Preevalúa pacientes para ensayos clínicos criterio por criterio, señala los datos faltantes y redacta la nota para la coordinación.
+    description: >-
+      Preselección de Ensayos ayuda a una oficina de investigación a encontrar pacientes elegibles más rápido sin
+      atajos. Un abstractor resume el expediente sintético del paciente; un evaluador pasa cada criterio de inclusión
+      y exclusión por un motor de reglas determinista (ventanas de laboratorio, periodos de lavado, múltiplos del LSN,
+      umbrales alternativos) y explica cada resultado; el paso final redacta la nota para la coordinación con los
+      datos faltantes, la fecha más temprana de elegibilidad y los próximos pasos. Todo es preevaluación sobre
+      expedientes sintéticos: el investigador decide la elegibilidad.
+    persona: Coordinadores de investigación clínica, investigadores principales, enfermeras de investigación
+    use_cases:
+      - Preevaluar a un paciente referido para un ensayo específico con una tabla criterio por criterio
+      - Comparar a un paciente con todos los ensayos en reclutamiento y clasificarlos
+      - Encontrar los datos faltantes (laboratorios fuera de ventana, serologías) y cuándo el paciente se vuelve elegible
+    output: >-
+      Banner de resultado, tabla de criterios (ID · criterio · estado · evidencia · explicación), lista de datos
+      faltantes, nota para la coordinación en un bloque de cita, id del registro cuando se guarda y descargo de
+      responsabilidad.
+    samples:
+      - Preevalúa al paciente sintético SYN-P014 para el ensayo CVH-ONC-2026-014 usando la referencia 'hlt_referral_p014' y redacta la nota para la coordinación.
+      - ¿Para qué ensayos en reclutamiento podría ser candidato SYN-P041? Explica cada criterio y registra la preevaluación.
+      - ¿Es elegible SYN-P066 para HERON-2 hoy? Si no, ¿cuál es la fecha más temprana y qué debe repetirse?
+    kpis: [Tiempo de preevaluación por paciente, Tasa de fallas de tamizaje después del consentimiento, Reclutamiento frente a la meta]
+    steps:
+      abstract:
+        name: Abstractor del expediente
+        role: Extrae del expediente sintético del paciente los datos relevantes para la investigación.
+      evaluate:
+        name: Evaluador de criterios
+        role: Pasa cada criterio de inclusión y exclusión por el motor de reglas y explica cada resultado.
+
+  after_care:
+    name: Seguimiento Posalta
+    tagline: Acompaña a los pacientes después del alta — evalúa síntomas frente a señales de alarma, controla la adherencia y escala a tiempo.
+    description: >-
+      Seguimiento Posalta apoya a un equipo de enfermería de cuidados de transición durante los 30 días posteriores
+      al alta. Lee el plan de cuidados sintético, evalúa los reportes de seguimiento frente a señales de alarma
+      universales y específicas de cada condición (aumento de peso en insuficiencia cardíaca, signos de TVP tras
+      cirugía de cadera, hipoglucemia con insulina nueva, plan de acción de EPOC), revisa la adherencia a la
+      medicación con datos de surtido y de tomas registradas, y crea la tarea correcta (llamada de enfermería, cita en
+      clínica, revisión farmacéutica o escalamiento a guardia) con un mensaje en lenguaje sencillo para el paciente.
+    persona: Enfermeras de cuidados de transición, coordinadores de atención, farmacéuticos ambulatorios
+    use_cases:
+      - Triaje de los reportes de síntomas con escalamiento ante señales de alarma
+      - Revisión de adherencia a la medicación y mensajes recordatorio
+      - Tareas de seguimiento por riesgo de reingreso para el equipo de atención
+    output: >-
+      Banner de disposición (emergencia / urgente / mismo día / rutina) con tiempo de respuesta, motivo (reglas
+      activadas), acciones y tareas creadas (ids simulados), tabla de adherencia cuando aplica, texto del mensaje al
+      paciente y descargo de responsabilidad.
+    samples:
+      - "Haz el seguimiento del paciente sintético SYN-A101: hoy pesa 84.3 kg, tiene los tobillos un poco hinchados y no tiene dolor en el pecho. ¿Qué debe pasar?"
+      - Revisa la adherencia a la medicación de SYN-A123 y envía el mensaje recordatorio de hoy.
+      - SYN-A117 reporta dolor e hinchazón en la pantorrilla de la pierna operada desde esta mañana. Haz el triaje y escala según corresponda.
+    kpis: [Tasa de reingreso a 30 días, Tiempo desde la señal de alarma hasta el contacto clínico, "% de pacientes adherentes (PDC >= 80%)"]
+
+  claim_denial:
+    name: Reclamaciones Denegadas
+    tagline: Gestiona reclamaciones denegadas — explica la denegación, estima la probabilidad de apelación, elige entre apelar o corregir y redacta la carta.
+    description: >-
+      Reclamaciones Denegadas ayuda a un equipo de ciclo de ingresos a recuperar más con menos esfuerzo. Ordena la
+      lista de denegaciones abiertas por recuperación esperada y plazo, explica cada código de denegación frente a las
+      reglas del pagador, decide si la solución es una apelación, una reclamación corregida o una revisión para dar de
+      baja, redacta la carta de apelación a partir de los documentos disponibles y analiza las tendencias de
+      denegación en BigQuery para corregir las causas raíz en el origen.
+    persona: Especialistas en ciclo de ingresos y gestión de denegaciones, líderes de servicios financieros al paciente
+    use_cases:
+      - Lista de denegaciones priorizada por recuperación esperada
+      - Carta de apelación redactada a partir de los hechos de la reclamación y la política del pagador
+      - Análisis de causa raíz de las tendencias de denegación por pagador, código y línea de servicio
+    output: >-
+      Para una reclamación: denegación explicada, probabilidad con sus impulsores, ruta recomendada, plazo y la carta
+      en un bloque de cita. Para la lista o las tendencias: una tabla priorizada con la recuperación esperada y las 3
+      acciones de mayor impacto.
+    samples:
+      - Analiza la reclamación denegada CLM-26-004211 y redacta la carta de apelación.
+      - Prioriza la lista de denegaciones abiertas. ¿Qué reclamaciones debemos apelar, corregir o dar de baja?
+      - ¿Qué pagador y qué motivo de denegación impulsaron el aumento de denegaciones en el T3 2026 y qué corrección en el origen lo detendría?
+    kpis: [Tasa de reversión de denegaciones, Días en cuentas por cobrar de reclamaciones denegadas, Recuperación neta por FTE]
+
+  clinical_docs:
+    name: Documentación Clínica
+    tagline: Convierte transcripciones y notas de consulta en una nota SOAP completa con sugerencias de codificación ilustrativas.
+    description: >-
+      Documentación Clínica redacta la nota SOAP a partir de una transcripción sintética de la consulta o de notas
+      rápidas; luego un revisor de completitud la califica frente al estándar de documentación y la devuelve con
+      correcciones numeradas hasta que aprueba (ADK LoopAgent). El paso final sugiere códigos CIE-10-MC y E/M
+      ilustrativos con consultas de especificidad para el médico y el codificador. No se inventa nada: lo que no se
+      dijo se marca como "[not documented]".
+    persona: Médicos, enfermeras practicantes, especialistas en documentación clínica, codificadores
+    use_cases:
+      - Nota SOAP a partir de una transcripción ambiental
+      - Revisión de completitud de la documentación antes de la firma
+      - Sugerencias de codificación con consultas al médico sobre especificidad
+    output: >-
+      Nota SOAP (encabezados markdown), puntaje de completitud, tabla de codificación ilustrativa (problema · código ·
+      descripción · consulta), lista de pendientes para el médico y descargo de responsabilidad.
+    samples:
+      - Redacta la nota SOAP de 'hlt_encounter_hf_followup' y sugiere códigos ilustrativos.
+      - Documenta la consulta de telesalud 'hlt_encounter_copd_telehealth' y revisa que esté completa.
+      - "Convierte estas notas en una nota SOAP: 45 años, dolor de garganta desde hace 3 días, temperatura 38.4 C, sin tos, exudado amigdalino, prueba rápida de estreptococo positiva, iniciar amoxicilina 500 mg dos veces al día por 10 días, sin alergias conocidas a medicamentos, regresar si no mejora en 48 horas."
+    kpis: [Tiempo de documentación por consulta, "% de notas completas en la primera revisión", Tasa de consultas de codificación]
+    steps:
+      drafter:
+        name: Redactor SOAP
+        role: Escribe o revisa la nota SOAP estrictamente a partir de la fuente de la consulta.
+      reviewer:
+        name: Revisor de completitud
+        role: Califica el borrador frente al estándar de documentación y verifica la fidelidad a la fuente.
+
+  # --------------------------------------------------------------------------------------- telecomunicaciones y medios
+  sla_sentinel:
+    tagline: Vigila los SLA empresariales, anticipa incumplimientos antes de fin de mes, calcula los créditos y redacta el aviso al cliente.
+    description: >-
+      SLA Sentinel mantiene honestos los contratos empresariales de una telco. Mide cada servicio frente a su nivel
+      contractual (disponibilidad ponderada por sitio, tiempos de restablecimiento, notificación de P1), pronostica
+      qué servicios incumplirán antes del cierre de mes, calcula los créditos de servicio exactamente como indica el
+      esquema de créditos y redacta el aviso proactivo o la respuesta a una escalación que envía el gerente de cuenta.
+    persona: Gerentes de servicio empresarial, líderes del NOC y gerentes de cuenta de Kestrava Telecom
+    use_cases:
+      - Revisión matutina del portafolio de servicios incumplidos o en riesgo este mes
+      - Cálculo de créditos de servicio al cierre de mes con explicación línea por línea
+      - Respuesta a la escalación de un cliente con los hechos, el crédito y los próximos pasos
+    output: >-
+      Línea inicial con el veredicto, luego una tabla de "Posición de SLA" (servicio, presupuesto usado,
+      disponibilidad frente a la meta, estado), riesgo de incumplimiento, créditos cuando aplican, acciones
+      (responsable, plazo) y el borrador del aviso al cliente en un bloque de cita.
+    samples:
+      - ¿Qué clientes empresariales están en riesgo de incumplir su SLA este mes y qué debemos hacer hoy?
+      - Calcula los créditos de servicio de octubre de 2026 para Calder Mutual Bank y explica cada línea.
+      - "Tidewater Port Authority acaba de escalar (muestra 'tel_email_tidewater_escalation'). Evalúa su posición de SLA y redacta nuestra respuesta."
+    kpis: [Incumplimientos de SLA por trimestre, Créditos pagados frente a provisionados, Cumplimiento de avisos al cliente por P1]
+
+  campaign_analyst:
+    name: Analista de Campañas
+    tagline: Mide las campañas contra su grupo de control, encuentra de dónde viene realmente el incremento y elige la siguiente mejor oferta.
+    description: >-
+      Analista de Campañas juzga el marketing por resultados incrementales, no por tasas de respuesta. Compara cada
+      campaña con su grupo de control (incremento, significancia, costo por retención incremental, ROI), segmenta los
+      resultados por segmento y semana en BigQuery para encontrar dónde funciona una oferta y recomienda la siguiente
+      mejor oferta para un suscriptor dentro de los límites del manual de retención.
+    persona: Gerentes de marketing de consumo, líderes de retención y analistas de CRM
+    use_cases:
+      - Veredicto de escalar / corregir / detener para cada campaña activa
+      - Explicar una oferta de retención que pierde dinero y dónde todavía funciona
+      - Siguiente mejor oferta para un suscriptor con elegibilidad y valor esperado
+    output: >-
+      Veredicto por campaña (escalar / corregir / detener), tabla de resultados (incremento en pp, significativo,
+      costo por incremental, ROI), hallazgo por segmento, recomendación de siguiente mejor oferta cuando se pide y 3
+      próximos pasos.
+    samples:
+      - ¿Cuáles de nuestras campañas deberíamos escalar, corregir o detener?
+      - ¿Por qué CMP-2610-SAVE02 está perdiendo dinero y qué segmento sí responde a ella?
+      - ¿Cuál es la siguiente mejor oferta para el suscriptor SUB-40211? ¿Y para SUB-40733?
+    kpis: [Retenciones incrementales por cada USD 1k invertidos, Tasa de bajas en la base objetivo, ROI de campaña]
+
+  content_creator:
+    name: Creador de Contenido
+    tagline: Escribe textos de marca para redes sociales, push, email y SMS y los itera con un crítico de cumplimiento de marca hasta que aprueban.
+    description: >-
+      Un redactor y un crítico de cumplimiento de marca trabajan en un ADK LoopAgent: el redactor escribe los textos
+      de cada canal a partir de un brief, el crítico revisa cada pieza con un verificador determinista de marca y
+      legales (longitudes, palabras prohibidas, nombres de producto, leyendas legales obligatorias, afirmaciones que
+      requieren fuente) y devuelve correcciones numeradas hasta que todo aprueba o se usan tres rondas.
+    persona: Especialistas de marca y de marketing de ciclo de vida, community managers, productores de agencia
+    use_cases:
+      - Textos de lanzamiento de una oferta nueva para push, email, redes sociales y SMS
+      - Reescribir textos fuera de marca con la voz de la casa
+      - Variantes por canal para pruebas A/B que cumplen en su totalidad
+    output: Textos finales por canal (listos para pegar), tabla de cumplimiento (canal, puntaje, aprobado) y cualquier pendiente.
+    samples:
+      - "Escribe los textos de lanzamiento de 'tel_campaign_brief_fiber_max' para push, email, redes sociales y SMS."
+      - "Escribe 3 variantes de notificación push para Kestrava 5G Home: $50 al mes, datos ilimitados, sin contrato anual."
+      - "Reescribe esto para que esté en línea con la marca: 'REVOLUTIONARY Fibre Max!!! The fastest internet, guaranteed. Act now!'"
+    kpis: [Tiempo del ciclo de aprobación de textos, Cumplimiento de marca en la primera pasada, Tasa de clics]
+    steps:
+      writer:
+        name: Redactor
+        role: Escribe textos de marca para cada canal solicitado y aplica las correcciones del crítico.
+      critic:
+        name: Crítico de cumplimiento de marca
+        role: Revisa cada canal con la herramienta de cumplimiento de marca y aprueba o devuelve correcciones numeradas.
+
+  localization:
+    name: Localización
+    tagline: Localiza campañas al español, portugués y francés con el glosario, las reglas de tono y las revisiones culturales.
+    description: >-
+      Un flujo de tres pasos: un traductor localiza el texto fuente para cada mercado con el glosario aprobado, la
+      lista de términos que no se traducen y la lista local de precios; un revisor verifica cada pieza con un
+      verificador de localización determinista (forma de tratamiento, anglicismos, leyendas de impuestos y uso
+      razonable, formatos de números y fechas, alertas culturales como imágenes invernales en un diciembre brasileño);
+      el paso final aplica las correcciones y explica qué cambió.
+    persona: Gerentes regionales de marketing, coordinadores de localización y equipos de marca de telcos multimercado
+    use_cases:
+      - Localizar una campaña a es-419, pt-BR y fr-CA en una sola pasada
+      - Revisar traducciones de agencia antes del lanzamiento
+      - Explicar leyendas legales por mercado y riesgos culturales
+    output: Textos finales por idioma y canal, una tabla de "qué cambió y por qué" y notas culturales por mercado.
+    samples:
+      - "Localiza 'tel_source_copy_5g_home' al español de Latinoamérica, al portugués de Brasil y al francés de Canadá."
+      - "Localiza para España y Francia este push que está en inglés y explícame qué cambiaste: 'Kestrava Fiber Max 2 Gig: upgrade for $65/mo. T&Cs apply.'"
+      - "Revisa este push en pt-BR antes del lanzamiento: 'Neste inverno, dados ilimitados por US$50 👌 Assine até 12/31!'"
+    kpis: [Tiempo de salida al mercado por idioma, Defectos de localización detectados antes del lanzamiento, Costo de traducción por campaña]
+    steps:
+      translator:
+        name: Traductor
+        role: Traduce el texto fuente a cada idioma de destino con el glosario y la lista local de precios.
+      reviewer:
+        name: Revisor de localización
+        role: Revisa cada traducción en glosario, tono, leyendas legales, formato y aspectos culturales.
+
+  # ---------------------------------------------------------------------------------------------- retail y consumo
+  inventory_risk:
+    name: Riesgo de Inventario
+    tagline: Detecta el riesgo de quiebre de stock y de sobreinventario por tienda y SKU, le pone precio y propone transferencias entre tiendas.
+    description: >-
+      Riesgo de Inventario revisa cada posición tienda-SKU por días de cobertura, separa los quiebres reales de los que
+      cubrirá una entrega en camino, cuantifica el margen perdido por día y el exceso valorizado a costo, y reequilibra
+      el stock entre tiendas con propuestas de transferencia. Las tendencias salen de las fotos de inventario y las
+      ventas semanales en BigQuery.
+    persona: Planificadores de mercancía, analistas de inventario y gerentes regionales de tiendas
+    use_cases:
+      - Reporte diario de riesgo de quiebre y sobreinventario con su impacto en dinero
+      - Plan de transferencias entre tiendas para un SKU
+      - Exposición de fin de vida antes del lanzamiento de un sucesor
+    output: >-
+      Titular (riesgo en USD y unidades), tabla de quiebres (tienda, SKU, cobertura, en camino), tabla de
+      sobreinventario (SKU, cobertura de la red, valor del exceso, fin de vida), transferencias y acciones
+      recomendadas.
+    samples:
+      - ¿Dónde estamos por quedarnos sin stock y cuánto nos cuesta por día?
+      - Reequilibra los audífonos Aurion NC90 entre tiendas.
+      - Muestra el riesgo de sobreinventario de los productos en fin de vida y cómo ha evolucionado su cobertura en las últimas 4 semanas.
+    kpis: [Días de venta perdida evitados, Valor del inventario excedente, Costo de transferencia por unidad protegida]
+
+  fulfillment:
+    name: Gestión de Pedidos
+    tagline: Resuelve las excepciones de pedidos — atrasados, divididos, en espera o dañados —, elige el transportista y avisa al cliente.
+    description: >-
+      Gestión de Pedidos le da a un equipo de operaciones de e-commerce una sola cola de excepciones de pedidos con la
+      siguiente mejor acción para cada una: envío desde tienda para pedidos en espera, mejora de transportista para
+      cumplir una promesa exprés, confirmación de dirección, reposición por daño en tránsito. Cotiza transportistas
+      según la regla de selección y redacta (y, si se pide, envía) la notificación al cliente con el crédito de cortesía
+      correcto.
+    persona: Líderes de operaciones de e-commerce y coordinadores de despacho
+    use_cases:
+      - Cola matutina de excepciones con plazos para avisar al cliente
+      - Recuperación de un pedido en espera con envío desde tienda
+      - Aviso de retraso al cliente con la compensación correcta según la política
+    output: >-
+      Tabla de excepciones (pedido, tipo, días de atraso, avisar antes de, acción), plan por pedido con el
+      transportista elegido, borradores de mensajes al cliente y confirmaciones "(simulado)" de lo enviado.
+    samples:
+      - Muestra las excepciones de pedidos de hoy y qué debemos hacer con cada una.
+      - ORD-L-480532 está en espera por falta de stock. ¿Podemos enviarlo desde una tienda? Cotiza los transportistas.
+      - Redacta y envía la notificación de retraso de ORD-L-480702 con el crédito correcto.
+    kpis: [Tasa de entregas a tiempo, Excepciones notificadas en menos de 2 h, Costo por pedido recuperado]
+
+  promotions:
+    name: Promociones
+    tagline: Planifica promociones simulando incremento, margen, canibalización y efecto halo, y revisa el calendario promocional.
+    description: >-
+      Promociones compara opciones de oferta antes de que lleguen al calendario: incremento por elasticidad de precio,
+      compradores de campañas dirigidas, canibalización de SKU hermanos, efecto halo en artículos complementarios,
+      margen en la ventana y frente a no hacer nada hasta el fin de vida. Revisa conflictos de calendario, periodos de
+      bloqueo, topes de contacto y el piso de margen, y valida el incremento contra promociones pasadas en BigQuery.
+    persona: Planificadores de promociones, gerentes de categoría y analistas de precios
+    use_cases:
+      - Elegir el descuento y la ventana para la promoción de un SKU
+      - Revisar un plan frente a periodos de bloqueo, promociones existentes y topes de contacto
+      - Leer el incremento real de promociones pasadas
+    output: >-
+      Recomendación en una línea, tabla de opciones (descuento, semanas, unidades, margen neto, frente a no hacer nada,
+      verificaciones), notas de canibalización y halo, conflictos de calendario y aprobaciones.
+    samples:
+      - '¿Conviene hacer 15%, 20% o 25% de descuento en el TV Lumetra Q8 55" durante dos semanas a partir del 9 de noviembre? Muestra el impacto en margen.'
+      - Planifica una promoción de noviembre para la freidora de aire Vantor AirCrisp. ¿Hay conflictos de calendario?
+      - ¿Qué incremento dio la promoción de TV de Labor Day y podemos repetirla en la semana de Black Friday?
+    kpis: [ROI de promociones, Margen bruto por promoción, Tasa de canibalización]
+
+  inventory_campaign:
+    name: Campañas de Inventario
+    tagline: Convierte el sobreinventario en campañas dirigidas — encuentra el exceso, elige la audiencia, simula el margen y prepara el lanzamiento.
+    description: >-
+      Campañas de Inventario reemplaza las rebajas generalizadas por campañas dirigidas. Cuatro pasos ADK corren en
+      secuencia: un analista de sobreinventario encuentra los SKU con mayor exceso valorizado (BigQuery + revisión de
+      inventario), un planificador de audiencias los asigna a los segmentos de clientes con más probabilidad de compra
+      y revisa el calendario promocional y los topes de contacto, un simulador de margen prueba opciones de descuento y
+      paquete frente a no hacer nada hasta el fin de vida, y el paso final escribe el brief de campaña y los textos de
+      marca y crea la campaña en borrador en la plataforma de marketing.
+    persona: Directores de mercancía, gerentes de CRM y de campañas de un retailer de electrónica de consumo y hogar
+    use_cases:
+      - Liquidar stock en fin de vida antes del lanzamiento de un sucesor sin destruir el margen
+      - Briefs de campaña y textos listos para lanzar a partir de un memo de sobreinventario
+      - Comparar una campaña dirigida con una rebaja de liquidación posterior
+    output: >-
+      "Plan de sobreinventario a campañas": titular (exceso atendido, margen frente a no hacer nada), tabla de
+      preselección, un brief por campaña (oferta, audiencia, ventana, impacto esperado, aprobaciones), textos por
+      canal, ids de campañas en borrador (simulados), riesgos y próximos pasos.
+    samples:
+      - Tenemos demasiado stock en fin de vida. Convierte nuestro peor sobreinventario en campañas dirigidas para las próximas dos semanas.
+      - 'Arma una campaña para liquidar los TV Lumetra Q8 55" antes del lanzamiento del Q9 y agrega la barra de sonido en paquete si ayuda al margen.'
+      - "Usa el memo de mercancía 'ret_merch_memo_q4_overstock' y dame campañas listas para lanzar en audio y wearables."
+    kpis: [Valor del inventario excedente liquidado, Margen frente a la rebaja de referencia, Tiempo hasta el lanzamiento de la campaña]
+    steps:
+      overstock:
+        name: Analista de sobreinventario
+        role: Encuentra los SKU sobreinventariados que justifican una campaña y cuantifica el exceso.
+      audience:
+        name: Planificador de audiencias
+        role: Asigna a cada SKU los mejores segmentos y revisa el calendario y los topes de contacto.
+      margin:
+        name: Simulador de margen
+        role: Simula opciones de descuento y paquete y elige la más rentable dentro de los límites.
+
+  support_scout:
+    tagline: Un copiloto de atención al cliente — busca el pedido, aplica la política de devoluciones y sugiere la respuesta o el escalamiento.
+    description: >-
+      Support Scout acompaña a un agente de soporte de retail: clasifica el mensaje entrante, trae el pedido, decide
+      la elegibilidad de devolución o cambio con el motor de políticas (plazos, extensiones por lealtad, falla al
+      llegar, daño en tránsito, cargos de reposición, avisos de producto), sugiere una respuesta empática y específica
+      y escribe la nota de escalamiento cuando el caso necesita al nivel 2 de devoluciones.
+    persona: Agentes de atención al cliente de retail y líderes de equipo
+    use_cases:
+      - Responder una solicitud de devolución o cambio con la decisión correcta
+      - Atender casos de daño en tránsito y producto defectuoso
+      - Escalar casos especiales con un resumen limpio
+    output: >-
+      Resumen del caso (cliente, pedido, intención, prioridad), decisión con la referencia a la política, respuesta
+      sugerida en un bloque de cita, nota de escalamiento si hace falta y próximos pasos del equipo.
+    samples:
+      - "Ayúdame a responder a este cliente (muestra 'ret_email_tv_dead_pixels'): explícame el caso en español y redacta la respuesta."
+      - El cliente del pedido ORD-L-479880 quiere devolver hoy su laptop Corvex Air 14 ya abierta. ¿Qué le podemos ofrecer?
+      - Priya Ashdown dice que la freidora de aire del pedido ORD-L-480790 llegó con la canasta rota. Redacta la respuesta y envíala.
+    kpis: [Tiempo promedio de atención, Resolución en el primer contacto, Excepciones a la política por cada 100 casos]
+
+  ces_concierge:
+    tagline: Un asesor de compras de electrónica de consumo — compara productos, verifica compatibilidad y sugiere paquetes y protección.
+    description: >-
+      CES Concierge ayuda a un comprador a elegir con confianza: preselecciona productos del catálogo según la
+      necesidad y el presupuesto, los compara en palabras sencillas, verifica la compatibilidad con lo que el
+      comprador ya tiene (eARC y Dolby Atmos, HDMI 2.1 para juegos en 4K120, docks USB4, Wi-Fi 7, dispositivos Matter)
+      y ofrece paquetes y protección CarePlus con precios exactos, con honestidad sobre los modelos en fin de vida y
+      sus sucesores.
+    persona: Compradores en línea y asesores de venta en tienda de un retailer de electrónica de consumo
+    use_cases:
+      - Recomendar un TV, una laptop o audífonos según la necesidad y el presupuesto
+      - Verificar la compatibilidad antes de que el comprador compre
+      - Sugerir un paquete y un plan de protección que realmente encajen
+    output: >-
+      Recomendación, tabla comparativa (máximo 3 filas), verificaciones de "Funciona con tu equipo", opción de paquete
+      y CarePlus, y nota de devolución y garantía.
+    samples:
+      - Quiero un TV de 55 a 65 pulgadas para jugar con mi Kairo Nova, con un presupuesto de $1,100. ¿Qué debería comprar?
+      - '¿La barra de sonido Aurion SB700 me dará Dolby Atmos con un TV Lumetra U6 55"?'
+      - Compara la Corvex Air 14 y la Pro 16 para un estudiante que también quiere armar un escritorio con dos monitores.
+    kpis: [Conversión en sesiones asistidas, Tasa de venta adicional (paquetes y CarePlus), Devoluciones por incompatibilidad]
+
+  # ------------------------------------------------------------------------------------- logística y manufactura
+  control_tower:
+    name: Torre de Control
+    tagline: Una torre de control de la cadena de suministro — excepciones de envíos, riesgo de ETA, disrupciones y desempeño de rutas en BigQuery.
+    description: >-
+      Torre de Control muestra de un vistazo la red de un 3PL: cada excepción de envío clasificada por severidad
+      (nivel del cliente, retraso, control de temperatura, cargas críticas para promociones, riesgo de paro de línea),
+      las disrupciones detrás de ellas, el riesgo de ETA P50/P90 de las críticas y las tendencias de desempeño de
+      rutas y transportistas desde BigQuery.
+    persona: Analistas de torre de control, planificadores de transporte y gerentes de logística
+    use_cases:
+      - Qué está en riesgo en la red ahora mismo y por qué
+      - Riesgo de ETA e impacto aguas abajo de un envío crítico
+      - Tendencias de desempeño de rutas y transportistas
+    output: >-
+      KPI (excepciones por severidad, valor en riesgo), tabla de excepciones, disrupciones activas, hallazgo de
+      desempeño de rutas y acciones con responsables.
+    samples:
+      - ¿Qué está en riesgo en la red ahora mismo y por qué?
+      - ¿Cómo se ha desempeñado la ruta L07 (cross-dock de Port Calder a Silverton Bay) en las últimas 8 semanas en comparación con las demás rutas?
+      - ¿Cuál es el riesgo de ETA de HLV-SH-260552 y qué significa para la planta de Vantor?
+    kpis: [Entregas a tiempo y completas, Excepciones detectadas antes de que llame el cliente, Valor en riesgo resuelto]
+
+  replenishment:
+    name: Reabastecimiento
+    tagline: Reabastecimiento impulsado por la demanda — stock de seguridad, puntos de reorden, brechas por acelerar y sugerencias de órdenes de compra.
+    description: >-
+      Reabastecimiento calcula el stock de seguridad y los puntos de reorden a partir de la variabilidad de la demanda
+      y del tiempo de entrega según el nivel de servicio, detecta picos de demanda, encuentra la brecha entre la fecha
+      de quiebre y la próxima entrada, dimensiona envíos acelerados desde fuentes alternativas aprobadas y agrupa las
+      sugerencias de órdenes de compra por proveedor, con colchones de tiempo de entrega cuando un puerto o una
+      carretera están cerrados.
+    persona: Planificadores de suministro, gerentes de inventario y planificadores de materiales
+    use_cases:
+      - Corrida semanal de órdenes de compra para un centro de distribución
+      - Dimensionar una compra de emergencia durante una disrupción
+      - Explicar un reorden repentino (pico de demanda)
+    output: >-
+      Resumen (órdenes, acelerados, excesos), tabla de órdenes de compra por proveedor con nivel de aprobación,
+      acciones de aceleración, acciones sobre excesos y supuestos.
+    samples:
+      - ¿Qué debemos pedir esta semana en Ashford Vale y Redmarsh?
+      - La resina de la planta de Vantor está detenida en el puerto. Dimensiona la compra de emergencia de RES-ABS-PC con un colchón de 4 días en el tiempo de entrega.
+      - ¿Por qué la carcasa de servicio del CM12 (VAN-P-HSG12) quedó de repente por debajo de su punto de reorden?
+    kpis: [Tasa de cumplimiento, Rotación de inventario, Gasto en envíos acelerados]
+
+  shipment_brief:
+    name: Resumen de Envíos
+    tagline: El resumen diario del gerente de logística — qué va tarde, por qué, a quién afecta, qué hacer y las actualizaciones al cliente, listo a las 07:00.
+    description: >-
+      Tres especialistas trabajan en paralelo (ADK ParallelAgent): un analista de excepciones clasifica lo que va
+      tarde o está en riesgo con ETA P90, un analista de impacto en clientes calcula la exposición a penalidades y los
+      efectos aguas abajo por remitente, y un analista de disrupciones explica las causas y cuándo se resuelven. Un
+      paso de síntesis evalúa opciones de recuperación para los envíos críticos, escribe el resumen en el formato de la
+      casa y redacta una actualización por cliente afectado.
+    persona: Gerentes de logística y de servicio al cliente de un 3PL al comenzar su día
+    use_cases:
+      - Resumen de las 07:00 para todos los remitentes
+      - Resumen de una cuenta clave con actualizaciones al cliente redactadas
+      - Decisiones de recuperación con costo y nivel de aprobación antes de la llamada matutina
+    output: >-
+      "Resumen de envíos — 6 nov 2026, 07:00": titular, qué va tarde y por qué (tabla), impacto en clientes (tabla con
+      exposición a penalidades), acciones recomendadas (responsable, costo, aprobación, para cuándo), borradores de
+      actualización al cliente y lista de seguimiento.
+    samples:
+      - Dame el resumen de envíos de hoy.
+      - Infórmame solo de los envíos de Larkspur y Vantor y redacta sus actualizaciones para el cliente.
+      - Prepara el resumen de hoy y luego envía las actualizaciones a cada remitente Tier-1.
+    kpis: [Tiempo de preparación del resumen, Clientes actualizados antes de que pregunten, Exposición a penalidades evitada]
+    steps:
+      exceptions:
+        name: Analista de excepciones
+        role: Enumera lo que va tarde o está en riesgo, por cuánto y si el cliente ya fue avisado.
+      impact:
+        name: Analista de impacto en clientes
+        role: Cuantifica la exposición a penalidades y el impacto aguas abajo por cliente.
+      causes:
+        name: Analista de disrupciones
+        role: Explica el porqué — las disrupciones detrás de los retrasos y cuándo se resuelven.
+
+  logistics_orch:
+    name: Orquestador Logístico
+    tagline: Resuelve de principio a fin una disrupción de la cadena de suministro coordinando a Torre de Control, Reabastecimiento y Resumen de Envíos.
+    description: >-
+      Orquestador Logístico es el coordinador para un mal día: delimita la disrupción, consulta a Torre de Control
+      sobre la exposición, a Reabastecimiento sobre las consecuencias en el stock y las compras de emergencia, y a
+      Resumen de Envíos para el resumen del gerente y los borradores al cliente; luego concilia sus respuestas en un
+      solo plan de resolución con decisiones, costos, aprobaciones y comunicaciones.
+    persona: Jefes de operaciones logísticas y directores de cadena de suministro durante una disrupción
+    use_cases:
+      - Congestión portuaria o cierre de carretera que afecta a varios clientes a la vez
+      - Disyuntiva entre acelerar el flete y comprar localmente
+      - Una sola lista de decisiones para la llamada de aprobación del mediodía
+    output: >-
+      "Plan de resolución de la disrupción": situación, exposición, tabla de decisiones (envío o SKU, acción, costo,
+      aprobación, responsable, para cuándo), acciones de inventario, comunicaciones al cliente, riesgos abiertos y
+      próximo punto de control.
+    samples:
+      - La congestión de Port Calder está afectando a Larkspur y a Vantor. Resuélvela de principio a fin.
+      - "Usa la nota de operaciones 'log_ops_note_port_calder' y dame las decisiones que debo aprobar antes del mediodía."
+      - La tormenta de hielo en Northgate Pass está reteniendo cargas. ¿Qué hacemos con el refrigerado de Orla Pharma y con las entregas a las tiendas de Larkspur?
+    kpis: [Tiempo hasta el plan de resolución, Costo de recuperación frente a penalidad evitada, Escalaciones de clientes]
+    steps:
+      control_tower:
+        name: Torre de Control
+        role: "Exposición: excepciones, riesgo de ETA y desempeño de rutas."
+      replenishment:
+        name: Reabastecimiento
+        role: Consecuencias en el stock, envíos acelerados y compras de emergencia.
+      shipment_brief:
+        name: Resumen de Envíos
+        role: Resumen del gerente y borradores de actualización al cliente.
+
+  mfg_quality:
+    name: Calidad de Manufactura
+    tagline: Calidad de manufactura — tendencias de defectos, reglas de control estadístico, 5 porqués, espina de pescado y un borrador CAPA/8D.
+    description: >-
+      Calidad de Manufactura convierte una queja de cliente o un pico de defectos en un 8D basado en evidencia: arma
+      el Pareto de defectos y su cambio frente a la línea base, ejecuta el control estadístico X-barra/R con las reglas
+      de Western Electric y la capacidad frente a los límites de la Fase I, alinea las señales con los eventos del
+      proceso (lotes de material, cambios de parámetros, alarmas, personal) y redacta los 5 porqués, la espina de
+      pescado y la CAPA con contención, responsables y verificación.
+    persona: Ingenieros de calidad de planta, gerentes de calidad y equipos de calidad de proveedores
+    use_cases:
+      - Causa raíz y 8D para una queja de cliente
+      - ¿Está la línea en control estadístico y desde cuándo no?
+      - Dónde enfocar la mejora entre líneas
+    output: >-
+      Hallazgos (violaciones de control estadístico, capacidad, cambio en el Pareto), línea de tiempo de eventos
+      frente a señales, 5 porqués, tabla de espina de pescado, CAPA con los encabezados del 8D y una respuesta breve al
+      cliente.
+    samples:
+      - "Larkspur se quejó por carcasas agrietadas en las cafeteras Vantor (muestra 'log_complaint_cc_26_118'). Encuentra la causa raíz y redacta el 8D."
+      - ¿Está la línea BW-2 en control estadístico? ¿Qué reglas de Western Electric se activan y desde cuándo?
+      - Compara la calidad de BW-1 y BW-2 este mes y dime dónde enfocarnos.
+    kpis: [Defectos en ppm, Cpk de características críticas, Tiempo de cierre de CAPA]

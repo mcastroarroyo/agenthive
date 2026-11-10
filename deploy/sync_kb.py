@@ -1,12 +1,16 @@
-"""Publish the knowledge-base corpus to Vertex AI Search (one data store per realm).
+"""Publish the knowledge-base corpus to Vertex AI Search — one data store per internal realm, shared by editions.
 
-    HIVE_PROJECT=<project> .venv/bin/python deploy/sync_kb.py [realm ...]
+    HIVE_PROJECT=<project> .venv/bin/python deploy/sync_kb.py [store ...]      # store = internal realm id
 
-Markdown in agenthive/grounding/corpus/<realm>/ -> HTML in gs://<project>-agenthive/kb/<realm>/ -> documents:import
-(FULL reconciliation, so deleted docs disappear). Uses gcloud for auth (no local ADC needed).
+Each store holds the realm's own docs (edition "internal") plus the docs of every showcase segment hosted on it
+(edition "showcase"; see kb_store / kb_sources in catalog/editions/showcase/hive.yaml). A doc used by both editions is
+stored once. Markdown -> HTML in gs://<project>-agenthive/kb/<store>/ + documents.jsonl with
+structData.editions -> documents:import (FULL reconciliation, so removed docs disappear). Agents filter with
+editions: ANY("<edition>"). Uses gcloud for auth (no local ADC needed).
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import os
@@ -19,10 +23,23 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CORPUS = ROOT / "agenthive" / "grounding" / "corpus"
+sys.path.insert(0, str(ROOT))
+from agenthive.catalog import load_catalog  # noqa: E402
+from agenthive.grounding import HERE as GROUNDING, corpus_files  # noqa: E402
+from agenthive.settings import EDITIONS, get_settings  # noqa: E402
+
 P = os.environ["HIVE_PROJECT"]
-PREFIX = os.environ.get("HIVE_KB_PREFIX", "agenthive-kb")
+PREFIX = get_settings().kb_prefix
 BUCKET = f"gs://{P}-agenthive"
+API = "https://discoveryengine.googleapis.com/v1"
+SCHEMA = {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "properties": {
+        "title": {"type": "string", "keyPropertyMapping": "title", "retrievable": True},
+        "editions": {"type": "array", "items": {"type": "string", "indexable": True, "retrievable": True}},
+    },
+}
 
 
 def md_to_html(md: str) -> str:
@@ -81,36 +98,65 @@ def api(method: str, url: str, body: dict | None = None) -> dict:
         return json.loads(r.read() or b"{}")
 
 
-def sync(realm: str) -> None:
-    src = CORPUS / realm
-    docs = sorted(src.glob("*.md"))
-    if not docs:
-        print(f"[{realm}] no corpus docs, skipped")
-        return
-    with tempfile.TemporaryDirectory() as tmp:
-        for d in docs:
-            (Path(tmp) / f"{d.stem}.html").write_text(md_to_html(d.read_text()))
-        dest = f"{BUCKET}/kb/{realm}/"
-        subprocess.run(["gcloud", "storage", "rm", "--quiet", f"{dest}**"], capture_output=True)
-        subprocess.run(["gcloud", "storage", "cp", "--quiet", *[str(p) for p in Path(tmp).glob("*.html")], dest],
-                       check=True, capture_output=True)
-    base = (f"https://discoveryengine.googleapis.com/v1/projects/{P}/locations/global/collections/default_collection/"
-            f"dataStores/{PREFIX}-{realm}/branches/default_branch/documents:import")
-    op = api("POST", base, {"gcsSource": {"inputUris": [f"{BUCKET}/kb/{realm}/*.html"], "dataSchema": "content"},
-                            "reconciliationMode": "FULL"})
-    name = op["name"]
-    for _ in range(60):
-        st = api("GET", f"https://discoveryengine.googleapis.com/v1/{name}")
-        if st.get("done"):
-            meta = st.get("metadata", {})
-            print(f"[{realm}] {len(docs)} docs -> success={meta.get('successCount', 0)} "
-                  f"failure={meta.get('failureCount', 0)} {st.get('error', '')}")
-            return
+def store_docs(store: str) -> list[dict]:
+    """Documents for one data store: id, source path and the editions that use it."""
+    eds: dict[Path, set[str]] = {}
+    for edition in EDITIONS:
+        cat = load_catalog(edition)
+        for seg in cat.realms:
+            if (seg.kb_store or seg.id) != store:
+                continue
+            for path in corpus_files(seg.id, edition).values():
+                eds.setdefault(path, set()).add(edition)
+    out = []
+    for path, editions in sorted(eds.items()):
+        rel = str(path.relative_to(GROUNDING).with_suffix(""))
+        doc_id = f"{re.sub(r'[^a-zA-Z0-9_-]', '-', path.stem)[:44]}-{hashlib.sha1(rel.encode()).hexdigest()[:10]}"
+        out.append({"id": doc_id, "path": path, "editions": sorted(editions)})
+    return out
+
+
+def wait(op: dict, what: str) -> dict:
+    name = op.get("name")
+    for _ in range(90):
+        if op.get("done") or not name:
+            return op
         time.sleep(10)
-    print(f"[{realm}] import still running: {name}")
+        op = api("GET", f"{API}/{name}")
+    raise SystemExit(f"{what}: still running ({name})")
+
+
+def sync(store: str) -> None:
+    docs = store_docs(store)
+    if not docs:
+        print(f"[{store}] no corpus docs, skipped")
+        return
+    base = f"{API}/projects/{P}/locations/global/collections/default_collection/dataStores/{PREFIX}-{store}"
+    wait(api("PATCH", f"{base}/schemas/default_schema", {"structSchema": SCHEMA}), f"[{store}] schema")
+    dest = f"{BUCKET}/kb/{store}/"
+    with tempfile.TemporaryDirectory() as tmp:
+        lines = []
+        for d in docs:
+            text = d["path"].read_text()
+            title = next((ln.lstrip("# ").strip() for ln in text.splitlines() if ln.startswith("#")), d["path"].stem)
+            (Path(tmp) / f"{d['id']}.html").write_text(md_to_html(text))
+            lines.append(json.dumps({"id": d["id"], "structData": {"title": title, "editions": d["editions"]},
+                                     "content": {"mimeType": "text/html", "uri": f"{dest}{d['id']}.html"}}))
+        (Path(tmp) / "documents.jsonl").write_text("\n".join(lines) + "\n")
+        subprocess.run(["gcloud", "storage", "rm", "--quiet", f"{dest}**"], capture_output=True)
+        subprocess.run(["gcloud", "storage", "cp", "--quiet", *[str(x) for x in Path(tmp).iterdir()], dest],
+                       check=True, capture_output=True)
+    op = api("POST", f"{base}/branches/default_branch/documents:import",
+             {"gcsSource": {"inputUris": [f"{dest}documents.jsonl"], "dataSchema": "document"},
+              "reconciliationMode": "FULL"})
+    st = wait(op, f"[{store}] import")
+    meta = st.get("metadata", {})
+    split = {e: sum(e in d["editions"] for d in docs) for e in EDITIONS}
+    print(f"[{store}] {len(docs)} docs ({', '.join(f'{k} {v}' for k, v in split.items())}) -> "
+          f"success={meta.get('successCount', 0)} failure={meta.get('failureCount', 0)} {st.get('error', '')}")
 
 
 if __name__ == "__main__":
-    realms = sys.argv[1:] or [p.name for p in sorted(CORPUS.iterdir()) if p.is_dir()]
-    for r in realms:
-        sync(r)
+    stores = sys.argv[1:] or [r.id for r in load_catalog("internal").realms]
+    for st in stores:
+        sync(st)

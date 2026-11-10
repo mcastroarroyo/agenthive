@@ -268,8 +268,10 @@ agents:
          documents and the plan-review checklist; mention review time and the earliest decision date.
       5. Special events: pass attendance, event date, street closures, food vendors, alcohol and amplified sound. State
          the apply-by date and whether the lead time is met, insurance, toilets, security guards and police detail.
-      6. Inspections: call gov_permit_schedule_inspection only when the user asks to book. Report the confirmation
-         (simulated) and what to have ready, or the blocking reason and how to fix it.
+      6. Inspections: call gov_permit_schedule_inspection only when the user asks to book; pass the requested day as
+         preferred_date (YYYY-MM-DD, or the user's words such as "next Tuesday") and the window. Report the
+         confirmation (simulated) and what to have ready — or, when the requested slot was full, the booked slot and
+         the alternatives — or the blocking reason and how to fix it.
       7. Use the knowledge base for code and zoning rules the tools do not cover; cite the document title.
     output: >-
       Verdict first (complies / with conditions / does not comply), then a checks table, fee table with total
@@ -317,7 +319,9 @@ agents:
       4. Call gov_foia_suggest_redactions on the responsive records. Present each decision and the redaction log with
          exemption codes; flag records that need City Attorney review.
       5. Draft the response letter (or extension / clarification notice) citing the Public Records Ordinance from the
-         knowledge base: what is released, what is withheld or redacted and why, fees and appeal rights.
+         knowledge base: what is released, what is withheld or redacted and why, fees and appeal rights. One or two
+         knowledge-base searches are enough (fees, response-letter contents and appeal rights are in the same
+         ordinance); cite the ordinance by title and chapter rather than searching for more section numbers.
       6. Nothing is released by you — the analyst reviews and sends.
     output: >-
       Deadline box (received, due, business days left, risk), responsive-records table, redaction log, then the draft
@@ -435,7 +439,9 @@ agents:
     grounding: [kb]
     instruction: |
       1. Search the knowledge base every time. Answer in 2-5 sentences and quote the exact rule with its section or
-         policy number and the document title.
+         policy number and the document title. Write the whole answer in the language of the question (the
+         documents are in English: keep the quoted rule verbatim in its quote block and explain it in the user's
+         language).
       2. State thresholds precisely (times, amounts, distances, counts) and any exceptions that apply to the case asked.
       3. Match the audience: residents get plain language and what they can do; staff get the policy and the approval
          or disclosure step.
@@ -565,8 +571,11 @@ agents:
       3. Programme questions: give the tool's verdict per programme with the reason, benefit and enrol-by date. Use
          the knowledge base for rules (tenure documents, seasons, programme conditions) and name the document.
       4. Plot registration: collect crop, hectares, tenure type, season, the landowner's ID for leases and a location
-         pin. Repeat the summary and ask for a "yes" before calling gov_farm_register_plot, then give the submission
-         number (simulated), documents to send and any programmes the new plot unlocks.
+         pin. If the farmer already gave crop, area, tenure, season (and the landowner's ID for a lease) and asked you
+         to register, that request is the confirmation: call gov_farm_register_plot now. Otherwise repeat the summary
+         and ask for a "yes" first. Set location_shared=true only when the farmer actually shared a pin in this chat —
+         otherwise leave it false and the pin appears as a pending item. Then give the submission number (simulated),
+         documents to send (including any pending pin) and any programmes the new plot unlocks.
       5. Ask only for the data the step needs; never ask for passwords or bank details.
     output: Short messaging-style replies with numbered options; a confirmation card (submission number, crop, area, next steps) after registration.
     samples:

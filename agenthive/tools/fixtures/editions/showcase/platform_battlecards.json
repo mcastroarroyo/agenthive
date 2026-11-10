@@ -1,0 +1,158 @@
+{
+  "enterprise_ai_assistant": {
+    "competitors": [
+      "Competitor A — AI copilot bundled with the incumbent productivity suite",
+      "Competitor B — standalone chat assistant sold per seat to enterprises",
+      "Build-your-own — open-weight model plus an internal chat front end"
+    ],
+    "positioning": "Gemini Enterprise is the agent platform for the whole company, not a sidebar in one productivity suite: it searches and acts across the systems employees already use (Workspace, Microsoft 365, CRM, ticketing, data warehouses), ships pre-built agents, and lets the organisation build and govern its own agents on Google Cloud with enterprise controls.",
+    "strengths": [
+      "Grounded answers across many connected sources with permissions respected at query time",
+      "Agent building for business users (no-code) and developers (ADK, Agent Engine) on one governed platform",
+      "Security and compliance posture of Google Cloud: data not used to train models, customer-managed encryption options, data residency options (verify per region/edition)",
+      "Choice of Gemini model tiers to balance quality and cost per use case",
+      "Works for mixed estates — does not require moving everyone off the incumbent suite first"
+    ],
+    "landmines": [
+      "Ask: 'How many of your systems of record can the assistant search today, with each user's own permissions?'",
+      "Ask: 'Can business teams build and share their own agents, and who governs them centrally?'",
+      "Ask: 'What does the licence cost if only 30% of seats are heavy users — can you mix tiers?'",
+      "Ask: 'Where are prompts and responses stored, for how long, and can you prove they are not used for training?'",
+      "Ask: 'How do you evaluate answer quality before rolling out to 2,000 people?'"
+    ],
+    "objections": [
+      {
+        "objection": "We already own the incumbent suite; its copilot is 'free' with our agreement.",
+        "response": "Check what is actually included versus add-on per seat. Then compare on outcomes: which assistant can answer from your CRM, core banking knowledge base and ticketing with permissions intact? Run a 6-week side-by-side on 3 real use cases and measure answer quality and time saved."
+      },
+      {
+        "objection": "Regulators will not accept AI on customer data.",
+        "response": "Start with internal knowledge (policies, procedures, product sheets) where no customer PII is needed, keep humans in the loop for anything customer-facing, log every interaction for audit and involve Compliance in the evaluation set. A documented security and PII handling standard plus model risk documentation templates shorten the review."
+      },
+      {
+        "objection": "Our data is a mess — AI will hallucinate.",
+        "response": "That is why grounding and curation come first: a curated, owned knowledge base with freshness checks, citations on every answer and a 'no answer' behaviour when sources are missing. Data hygiene improves as a side effect."
+      },
+      {
+        "objection": "Per-seat pricing for 2,000 people is too expensive.",
+        "response": "Segment users: heavy users on the full licence, occasional users on a lighter tier, and agent workloads billed by consumption. Tie the business case to 2-3 measurable processes rather than 'productivity' in general."
+      }
+    ],
+    "proof_points": [
+      "Fenmoor Credit Union (fictional, 1,800 seats): procedures and product Q&A answered in about 20 seconds instead of a one-day email loop to Operations; 71% weekly active users after 8 weeks",
+      "Pellmont Logistics (fictional): dispatch agent grounded on SOPs and the TMS cut onboarding time of new dispatchers from 6 to 3 weeks",
+      "Corvane Health (fictional clinic network): 42 internal agents built by business teams in 4 months under one central governance model"
+    ]
+  },
+  "data_platform": {
+    "competitors": [
+      "Competitor C — cloud data warehouse sold separately from the hyperscaler",
+      "Competitor D — lakehouse platform running on any cloud",
+      "Incumbent on-premises warehouse plus BI tool"
+    ],
+    "positioning": "BigQuery is a serverless, AI-ready data platform: storage and compute separated, no clusters to size, built-in governance and lineage, and Gemini and Vertex AI working directly on governed data — so analytics and AI share one copy of the truth.",
+    "strengths": [
+      "Serverless operations — no warehouses or clusters to size, pause or tune",
+      "Native AI on data (SQL functions calling Gemini, vector search, ML) without moving data out",
+      "Unified governance: catalog, lineage, policy tags and column-level security",
+      "Open formats (Iceberg tables) and multi-engine access to avoid lock-in",
+      "Flexible pricing: on-demand for spiky workloads, editions with autoscaling slots for steady ones"
+    ],
+    "landmines": [
+      "Ask: 'Who sizes, suspends and resumes compute today, and what happens when someone forgets?'",
+      "Ask: 'How many copies of your data exist between the lake, the warehouse and the AI team?'",
+      "Ask: 'Can you apply column-level masking once and have it hold in every tool?'",
+      "Ask: 'What is your cost per query at month-end close, when concurrency peaks?'"
+    ],
+    "objections": [
+      {
+        "objection": "On-demand query pricing is unpredictable.",
+        "response": "Use editions with a slot baseline plus autoscaling for steady workloads, set custom quotas and maximum-bytes-billed per user or project, and partition/cluster tables (as in the BigQuery Data Modelling Standards). Most organisations see stable monthly bills within two months."
+      },
+      {
+        "objection": "We are standardising on a lakehouse platform that runs on any cloud.",
+        "response": "BigQuery reads and writes open table formats, so the choice is not exclusive. Compare total cost including cluster administration, and test AI-on-data scenarios side by side."
+      },
+      {
+        "objection": "Migrating 15 years of warehouse logic is too risky.",
+        "response": "Use automated SQL translation and a phased migration by subject area with parallel runs and reconciliation reports; start with the domain that has the clearest business owner."
+      }
+    ],
+    "proof_points": [
+      "Larkspur Outfitters (fictional, 120 stores): daily SKU-store forecasts on BigQuery, stock-outs on top sellers down 18% in the pilot region",
+      "City of Port Alder (fictional): 311 service request analytics with SLA tracking built in 8 weeks",
+      "Brightwater Distribution (fictional): month-end reporting runtime from 9 hours to 25 minutes after migration"
+    ]
+  },
+  "workspace_collaboration": {
+    "competitors": [
+      "Incumbent suite — desktop-first productivity suite with email server or cloud mail",
+      "Competitor E — team chat platform layered on top of email"
+    ],
+    "positioning": "Google Workspace is cloud-native collaboration with security built in and AI included in the workflow: real-time co-editing, one identity, zero-trust access and Gemini in Gmail, Docs, Sheets, Meet and Chat.",
+    "strengths": [
+      "Browser-native real-time collaboration — no file versions emailed around",
+      "Security by default: phishing and malware protection, context-aware access, DLP and data regions in eligible editions (verify current edition matrix)",
+      "Simple administration for small IT teams",
+      "Gemini built into the apps people already use",
+      "Proven migration path from Exchange and file shares (a tested cutover-weekend runbook)"
+    ],
+    "landmines": [
+      "Ask: 'How many people in IT keep the mail servers patched, and what did the last out-of-support server cost you in risk?'",
+      "Ask: 'How long does it take to find the latest version of a contract today?'",
+      "Ask: 'What would your cyber insurer say about the current mail platform?'"
+    ],
+    "objections": [
+      {
+        "objection": "Finance lives in Excel macros.",
+        "response": "Keep desktop Excel for the handful of power users that need it during transition; migrate macro-heavy workbooks selectively to Sheets and Apps Script or BigQuery. Do not let 40 workbooks block 400 users."
+      },
+      {
+        "objection": "Users will resist change.",
+        "response": "Pilot with executive assistants and champions, floor-walkers on day one, and role-based training. A structured hypercare model with floor-walkers resolves most issues in the first 3 days."
+      },
+      {
+        "objection": "We need data to stay in the US/EU.",
+        "response": "Data regions are available in eligible editions for covered data at rest; confirm the current scope in Google's documentation and design the edition choice accordingly."
+      }
+    ],
+    "proof_points": [
+      "Tidewell Mutual (fictional insurer, 400 users): planned move off out-of-support mail servers with a 6-month plan and AI claims assistant in the same programme",
+      "Pellmont Logistics (fictional): 1,100 users migrated in two waves with zero lost mail and 92% user satisfaction in week 2"
+    ]
+  },
+  "contact_center_ai": {
+    "competitors": [
+      "Competitor F — cloud contact-centre platform with built-in bots",
+      "Competitor G — conversational AI start-up focused on chatbots",
+      "Incumbent on-premises ACD/IVR with scripted menus"
+    ],
+    "positioning": "Google's Customer Engagement Suite brings generative AI agents to every channel — voice, chat, WhatsApp — grounded on the organisation's own knowledge, with agent assist and conversation insights, and it plugs into the existing contact-centre platform instead of forcing a rip-and-replace.",
+    "strengths": [
+      "Generative agents grounded on enterprise content with guardrails and human hand-off",
+      "Agent assist: real-time suggestions and summaries for human agents",
+      "Conversation insights across 100% of interactions, not samples",
+      "Multilingual speech and text out of the box",
+      "Integrates with existing CCaaS and telephony"
+    ],
+    "landmines": [
+      "Ask: 'What share of contacts could be fully resolved without a human if the bot could read your knowledge base?'",
+      "Ask: 'How do you measure quality on 100% of calls today?'",
+      "Ask: 'How long does it take to change a bot flow when a policy changes?'"
+    ],
+    "objections": [
+      {
+        "objection": "Our last chatbot frustrated customers.",
+        "response": "Scripted decision-tree bots fail on anything off-script. Generative agents grounded on curated knowledge handle variation, and every conversation has a clear escalation path to a human with the context carried over."
+      },
+      {
+        "objection": "We just renewed our contact-centre platform.",
+        "response": "No replacement needed: start with agent assist and insights on the current platform, then add virtual agents channel by channel."
+      }
+    ],
+    "proof_points": [
+      "City of Port Alder (fictional): WhatsApp 311 pilot resolved 41% of information requests without an agent and created tracked service requests for the rest",
+      "Corvane Health (fictional): appointment rescheduling bot handled 28,000 conversations a month with 4.5/5 CSAT"
+    ]
+  }
+}

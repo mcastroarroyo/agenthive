@@ -4,7 +4,7 @@ from __future__ import annotations
 import datetime as dt
 from collections import defaultdict, deque
 
-from ._base import FIXTURES, doc_text, err, hive_tool, ok
+from ._base import doc_paths, doc_text, err, hive_tool, ok
 
 
 @hive_tool("common")
@@ -12,14 +12,16 @@ def get_sample_document(key: str) -> dict:
     """Load a synthetic sample document (transcript, RFP, SOW draft, policy, email thread, code file...).
 
     Args:
-        key: Document key, e.g. 'transcript_steering_q3'. Use list_sample_documents to discover keys.
+        key: Document key exactly as given in the request or your instructions, e.g. 'transcript_steering_q3'.
+            Never guess keys.
 
     Returns:
         The document text and its length in characters.
     """
     text = doc_text(key)
     if text is None:
-        return err(f"no sample document {key!r}", hint="call list_sample_documents")
+        return err(f"no sample document {key!r}",
+                   hint="use only a key given in the request or your instructions; otherwise work from the request")
     return ok(key=key, text=text, chars=len(text))
 
 
@@ -34,9 +36,9 @@ def list_sample_documents(prefix: str = "") -> dict:
         Document keys with their first heading line.
     """
     out = []
-    for p in sorted((FIXTURES / "docs").glob(f"{prefix}*.md")):
+    for key, p in doc_paths(prefix).items():
         first = next((ln.strip("# ").strip() for ln in p.read_text().splitlines() if ln.strip()), "")
-        out.append({"key": p.stem, "title": first})
+        out.append({"key": key, "title": first})
     return ok(documents=out)
 
 
@@ -91,7 +93,10 @@ def critical_path(tasks: list[dict], start_date: str = "") -> dict:
         Project duration, ordered critical path, per-task early/late start-finish and slack, plus a Mermaid Gantt.
     """
     try:
-        by_id = {t["id"]: {**t, "depends_on": list(t.get("depends_on") or [])} for t in tasks}
+        if any(not str(t.get("id") or "").strip() for t in tasks):
+            return err("every task needs a non-empty 'id' (e.g. 'T1')")
+        by_id = {t["id"]: {**t, "depends_on": [d for d in (t.get("depends_on") or []) if str(d).strip()]}
+                 for t in tasks}
         for t in by_id.values():
             for d in t["depends_on"]:
                 if d not in by_id:
@@ -124,7 +129,7 @@ def critical_path(tasks: list[dict], start_date: str = "") -> dict:
                  "es": es[k], "ef": ef[k], "ls": ls[k], "lf": lf[k], "slack": round(ls[k] - es[k], 2)}
                 for k in order]
         path = [r["id"] for r in rows if abs(r["slack"]) < 1e-9]
-        today = dt.date.today()
+        today = dt.date(2026, 11, 6)   # the demo world's fixed "today" (same as the synthetic systems of record)
         start = dt.date.fromisoformat(start_date) if start_date else today + dt.timedelta(days=(7 - today.weekday()) % 7 or 7)
         gantt = ["gantt", "  title Delivery schedule", "  dateFormat YYYY-MM-DD"]
         for r in rows:

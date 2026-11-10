@@ -1,0 +1,579 @@
+# Showcase overrides for the former Platform Core agents (now Enterprise). Keys per agent: realm (segment), cluster and any client-facing field to replace
+# (name, tagline, description, persona, use_cases, instruction, output, samples, sample_doc, steps, related, kpis, aka).
+# Framing: an enterprise uses these agents for itself.
+#   pantheon cluster  — the enterprise's own transformation office (demo programme: Tidewell Mutual, fictional insurer).
+#   forge cluster     — the agent factory run by the AI Centre of Excellence of Halvern Group (fictional diversified
+#                       holding) for its business units: Ridgeline Outfitters, Copperline Auto Care, Northpass Capital,
+#                       Stonebridge Facilities, Halvern Corporate and Summit Tire & Auto (acquisition pending close).
+#   productivity      — an employee of Halvern Group (Alex Morgan, VP Client Services at Stonebridge Facilities).
+# Edition fixtures: tools/fixtures/editions/showcase/{forge_*,platform_*}.json and docs/; KB: grounding/editions/showcase/corpus/enterprise/.
+agents:
+  context_librarian:
+    realm: enterprise
+    cluster: productivity
+    persona: Any employee looking for "the official answer"; knowledge managers and heads of function who own documents
+    use_cases:
+      - Answer process and policy questions with citations
+      - Resolve conflicts between two versions of a runbook or standard
+      - Report stale or ownerless documents for curation
+
+  deep_research:
+    realm: enterprise
+    cluster: productivity
+    persona: Strategy, product and architecture teams preparing a decision paper or a leadership briefing
+    steps:
+      - id: planner
+        name: Research planner
+        model: lite
+        role: Breaks the question into 3-5 precise sub-questions and search queries.
+        instruction: |
+          Write a research plan for the user's question: 3-5 numbered sub-questions, each with 1-2 Google search
+          queries. Do not answer them. Output only the plan.
+        output_key: research_plan
+      - id: researcher
+        name: Researcher
+        model: flash
+        role: Answers every sub-question with Google Search and records sources.
+        instruction: |
+          Research plan:
+          {{research_plan}}
+
+          Answer every sub-question using Google Search. For each: 3-5 bullet facts. Every bullet MUST end with
+          "(source: <website domain> - <page or article title>)" taken from the search result it came from, e.g.
+          "(source: workspaceupdates.googleblog.com - Client-side encryption updates)". Keep the "(source: ...)"
+          marker in English even when you write in another language. Note conflicting or missing evidence.
+        grounding: [google_search]
+        output_key: research_notes
+    instruction: |
+      Research notes from the previous stage:
+      {{research_notes}}
+
+      Write the final brief from these notes only — do not add facts that are not in them. Under Sources list every
+      source the notes cite (their "(source: domain - title)" markers) as "domain - title", deduplicated; never
+      invent a source or a document name.
+    use_cases:
+      - Market scan before a strategy offsite or an investment decision
+      - Technology comparison with current sources
+      - Regulatory landscape brief
+    output: >-
+      "Research brief" with: Bottom line (3 bullets), Findings by sub-question, What it means for us,
+      Open questions, Sources (deduplicated list of links).
+    samples:
+      - What approaches are banks in Latin America taking to deploy AI assistants for their customers?
+      - Compare the current options for running open-weight LLMs on Google Cloud for our regulated bank.
+      - What changed in Google Workspace security features in the last 12 months?
+    kpis: [Research hours saved per decision paper, Sources per brief]
+
+  pantheon:
+    realm: enterprise
+    cluster: pantheon
+    tagline: Five specialists assess an initiative brief in parallel and return one rapid assessment.
+    description: >-
+      The fast, low-cost way for a transformation office to run the Pantheon suite: backlog, architecture, data, risk
+      and value specialists read the same initiative brief or discovery notes simultaneously (ADK ParallelAgent), then
+      a synthesis step merges their views into a single one-page assessment. Use Hermes when the programme needs deep,
+      adaptive orchestration.
+    persona: Transformation office leads, enterprise architects and business sponsors after a discovery workshop
+    use_cases:
+      - One-page assessment the same day as a discovery workshop
+      - Consistent first view across backlog, architecture, data, risk and value
+      - Input for a business case or a Hermes deep-dive
+    steps:
+      - id: backlog
+        name: Backlog view (Xenophon lens)
+        model: lite
+        role: Lists the epics and the riskiest user stories.
+        instruction: From the initiative brief in the conversation, list 3-6 epics and the 3 riskiest user stories with one acceptance criterion each.
+        output_key: view_backlog
+      - id: architecture
+        name: Architecture view (Daedalus lens)
+        model: flash
+        role: Sketches the target Google Cloud / Workspace architecture.
+        instruction: From the initiative brief, propose a target architecture (services and why, one rejected alternative) in under 150 words.
+        grounding: [kb]
+        output_key: view_architecture
+      - id: data
+        name: Data view (Ariadne lens)
+        model: lite
+        role: Identifies data sources, the core entities and data risks.
+        instruction: From the initiative brief, list the data sources, 4-8 core entities and the top data-quality or governance risks.
+        output_key: view_data
+      - id: risk
+        name: Risk view (Prometheus lens)
+        model: lite
+        role: Lists the top delivery risks with likelihood, impact and mitigation.
+        instruction: From the initiative brief, list the top 5 delivery risks as likelihood (H/M/L), impact (H/M/L) and one mitigation each.
+        output_key: view_risk
+      - id: value
+        name: Value view (Proteus lens)
+        model: lite
+        role: Frames the business value and the MVP.
+        instruction: From the initiative brief, state the business value hypothesis, 2 KPIs to measure it and a 6-week MVP.
+        output_key: view_value
+    instruction: |
+      You merge five specialist views of the same initiative brief into one assessment for the transformation office.
+      Views:
+      BACKLOG: {{view_backlog}}
+      ARCHITECTURE: {{view_architecture}}
+      DATA: {{view_data}}
+      RISK: {{view_risk}}
+      VALUE: {{view_value}}
+      Resolve contradictions explicitly, keep every specialist's most important point, and finish with the 3 next steps.
+    samples:
+      - "Assess our initiative: we are a 400-employee insurer moving from Exchange to Google Workspace and adding an AI claims assistant within 6 months."
+      - Run a rapid assessment of our discovery notes 'discovery_notes_insurer'.
+      - "Our 120-store retail chain wants daily inventory forecasting on BigQuery and a store-manager chatbot. Assess it."
+    kpis: [Time from discovery to assessment, Initiatives assessed per architect per week]
+
+  hermes:
+    realm: enterprise
+    cluster: pantheon
+    tagline: The strategy coordinator — decomposes the business problem, calls the right specialists, delivers one strategy.
+    description: >-
+      Hermes is the coordinator of the Pantheon suite for a transformation office. It ingests raw discovery material
+      (workshop notes, transcripts, documents, whiteboard photos), decides which specialists the problem needs —
+      Xenophon, Daedalus, Ariadne, Prometheus, Proteus — calls them as tools, reconciles their outputs and compiles a
+      strategy report ready for the steering committee.
+    persona: Transformation directors, CIOs and the business sponsors of a transformation programme
+    use_cases:
+      - Discovery-to-strategy in one session
+      - Executive summary with architecture, backlog, risks and ROI
+      - Strategy report for the steering committee
+    instruction: |
+      1. Read the discovery material (call get_sample_document when the user names a sample). If it is a transcript,
+         run extract_meeting_structured_data first.
+      2. Write a short decomposition: the problem, what is known, what is missing, and which specialists you will call
+         and why. Call only the specialists the problem needs (usually 3-4, never more than 5) and each one once. Give
+         each a focused, self-contained brief of at most 150 words with the facts and numbers it needs, and ask for a
+         compact answer (at most about 300 words, tables welcome).
+      3. Reconcile specialist outputs: resolve conflicts, keep numbers exactly as returned by tools.
+      4. Call compile_engagement_report once with the organisation or programme name as client, the executive summary
+         and the final sections to produce the steering-committee report.
+      Search the knowledge base at most once, only for the transformation method or a standard you must quote.
+    output: >-
+      Executive summary (5 bullets), Recommended architecture, Backlog highlights, Data, Risks & schedule (critical
+      path), Value & ROI, Next steps — then the report id returned by compile_engagement_report.
+    samples:
+      - Run the full Pantheon strategy on our discovery notes 'discovery_notes_insurer' and give me the executive deliverable for the steering committee.
+      - "Our 120-store outdoor retail chain wants daily inventory forecasting on BigQuery and a store-manager assistant in Google Chat. Build the strategy and the business case."
+      - "We have 3 months and $250k to modernise our distribution business's order management onto Google Cloud — what should we do?"
+    kpis: [Discovery-to-business-case cycle time, Business cases approved at the funding gate]
+
+  xenophon:
+    realm: enterprise
+    cluster: pantheon
+    description: >-
+      Xenophon parses discovery notes and transcripts into epics and user stories with Gherkin acceptance criteria,
+      applies MoSCoW prioritisation, sizes stories from the team's historical reference stories, and pushes the
+      backlog to Jira using the company's standard taxonomy.
+    persona: Product owners, delivery managers and scrum masters in the transformation office
+    use_cases:
+      - Backlog from discovery notes
+      - Story sizing from historical reference stories
+      - Jira import with the standard taxonomy
+    samples:
+      - Create the backlog for our discovery notes 'discovery_notes_insurer'.
+      - "Write stories for: our field technicians need to see today's work orders offline and capture photos."
+      - "Size these and push them to Jira project CLM: As an adjuster I want claims pre-filled from the FNOL email; As a manager I want a weekly SLA report; As an admin I want SSO for the claims portal."
+
+  daedalus:
+    realm: enterprise
+    cluster: pantheon
+    persona: Enterprise and cloud architects, CTOs, security reviewers
+    samples:
+      - "Design the GCP architecture for our customer-service assistant on WhatsApp with 2M users/month and data residency in the US."
+      - Propose an architecture to run nightly demand forecasting for our 120 stores on BigQuery, with cost.
+      - "Architecture for our AI claims assistant with PII protection and human review."
+
+  ariadne:
+    realm: enterprise
+    cluster: pantheon
+    samples:
+      - Design a BigQuery star schema for our claims analytics using the 'claims' source profile.
+      - Model sales and inventory for our 120 stores, with partitioning.
+      - "Design the data model for our B2B sales pipeline using the 'crm' source profile: accounts, opportunities, stage history and invoices."
+
+  prometheus:
+    realm: enterprise
+    cluster: pantheon
+    persona: PMO leads, programme directors, steering committees
+    instruction: |
+      1. Turn the plan into tasks with ids, durations (days), dependencies and owners; ask only if durations are missing
+         entirely — otherwise state assumptions. Every task passed to critical_path is an object with id, name,
+         duration_days, depends_on (always a list of existing task ids, [] when none) and owner.
+      2. Call critical_path; never compute dates yourself. Report duration, critical path and slack.
+      3. Build risks (description, likelihood 1-5, impact 1-5, owner) and call score_risk_register.
+      4. For what-ifs, change the inputs and call critical_path again; report the delta.
+    samples:
+      - "Plan: discovery 10d, architecture 15d after discovery, data model 12d after discovery, build 40d after both, UAT 10d, cutover 3d. Critical path?"
+      - Build the risk register and schedule for the programme in our discovery notes 'discovery_notes_insurer'.
+      - "Plan: discovery 10d, architecture 15d and data model 12d after discovery, build 40d after both, UAT 10d, cutover 3d. If the data model slips by 8 days, what happens to go-live?"
+    kpis: [Schedule variance, Risks with owners and mitigations]
+
+  proteus:
+    realm: enterprise
+    cluster: pantheon
+    tagline: The value advisor — challenges assumptions and frames 3-5 solution concepts with ROI and a market-options view.
+    description: >-
+      Proteus drives business innovation for the transformation office: it challenges the assumptions behind a
+      request, formulates 3-5 solution concepts on Google Cloud and Gemini, defines the business value, adoption angle,
+      risks and a concrete MVP for each, and backs them with ROI calculations and a market-options battlecard for the
+      platform decision.
+    persona: Business sponsors, product and innovation leads, finance business partners
+    use_cases:
+      - Solution concepts for a new initiative
+      - ROI for a business case
+      - Market-options comparison before choosing a platform
+    instruction: |
+      1. Challenge one or two assumptions in the request before proposing.
+      2. Formulate 3-5 concepts. For each: business value, adoption angle, key risk, 6-week MVP, Google products used.
+      3. Compute ROI with compute_roi for the top concept (state your input assumptions).
+      4. When a platform choice matters, call competitive_battlecard for the relevant category and present it as an
+         options comparison for the buyer: where each option fits, and the "landmines" as questions to put to every
+         vendor during the evaluation.
+    output: Concepts table, recommended concept with ROI table, options comparison highlights, next step.
+    samples:
+      - Our leadership wants to "do something with AI" in customer service at our regional distribution business. Give me concepts and ROI.
+      - "Business case: $180k implementation, saves 6 FTE at $38k each, run cost $24k/year — ROI over 3 years?"
+      - We are a 2,000-seat bank choosing an enterprise AI assistant. Compare Gemini Enterprise with the alternatives using the battlecard.
+    kpis: [Concepts approved for funding, Value realised vs business case]
+
+  workspace_pro:
+    realm: enterprise
+    cluster: productivity
+    persona: Executives, managers and anyone living in Gmail and Calendar
+    instruction: |
+      You work for the owner of this mailbox and calendar.
+      1. For inbox requests, call workspace_inbox and classify with route_incoming_email only for ambiguous items.
+      2. For scheduling, call workspace_find_free_slots with all attendees, propose up to 3 slots, and create the event
+         only after the user picks one (or explicitly says "book it").
+      3. Draft emails with workspace_draft_email; show the draft text in full and never claim it was sent. Write each
+         draft in the language of the email it answers and sign it with the first name of the mailbox_owner the tools
+         return - never as the assistant and never with a placeholder.
+      4. Use workspace_search_drive to attach or quote the right document.
+    use_cases:
+      - Inbox triage with suggested replies
+      - Scheduling across colleagues and customers
+      - Drafting follow-ups from documents and meeting notes
+    samples:
+      - Triage my inbox and draft replies for anything urgent.
+      - Find 45 minutes this week with Ana and Diego for the Larkspur QBR prep and book the first slot.
+      - Find the latest Marbury Mutual contract proposal in Drive and draft a follow-up email to Joanna Pell about the open points.
+
+  codemender:
+    realm: enterprise
+    cluster: productivity
+
+  brief_me:
+    realm: enterprise
+    cluster: productivity
+    description: >-
+      Brief Me prepares a busy leader for the day: today's meetings with context on each customer account and attendee,
+      the emails that need a decision, live account signals from the CRM and fresh public news about the accounts.
+    persona: Sales and client-services leaders, account managers and executives with back-to-back customer meetings
+    instruction: |
+      1. Call brief_calendar_today, brief_priority_emails and brief_account_signals.
+      2. For each external meeting, search Google for news about the account from the last 30 days. The accounts are
+         fictional, so ignore results about unrelated organisations; when nothing relevant is found say in one short
+         line, in the user's language, that there is no recent public news - nothing more about it.
+      3. Prioritise: decisions needed, risks, then FYIs.
+
+  gws_research:
+    realm: enterprise
+    cluster: productivity
+    tagline: Researches Google Workspace capabilities, editions and admin settings with current, cited sources and your IT standards.
+    description: >-
+      GWS Research answers Google Workspace questions for IT admins and workplace teams — feature availability by
+      edition, admin console settings, rollout news and migration considerations — always with current sources and the
+      company's own IT standards (security baseline, cutover runbook).
+    persona: Workspace admins, IT and security teams, workplace technology leads
+    use_cases:
+      - Edition and feature comparisons
+      - Admin setting how-tos
+      - Release-note digests for IT and security teams
+    instruction: |
+      1. Use Google Search for anything that changes over time (editions, features, release notes); prefer official
+         Google sources (support.google.com, workspaceupdates.googleblog.com, workspace.google.com).
+      2. Use the knowledge base for the company's own IT standards (Workspace security baseline, cutover runbook).
+      3. Distinguish clearly between "Google documentation says" and "Our IT standard says".
+    output: Answer, step-by-step admin path when relevant, an "Our IT standard says" box, sources.
+    samples:
+      - Which Workspace editions include Gemini features for Gmail and Docs right now?
+      - How do I set up data regions for our EU subsidiary that needs EU data residency?
+      - Summarise the most relevant Workspace updates from the last month for our security team.
+    kpis: [Research time per IT question]
+
+  agent_forge:
+    realm: enterprise
+    cluster: forge
+    tagline: Turns a business unit's plain-English request into a planned, built, tested and sandbox-deployed agent wired to its systems.
+    description: >-
+      Agent Forge is the coordinator of the agent factory an AI Centre of Excellence runs for the business units. A
+      business unit describes the agent it needs in plain English; the forge plans the spec with the Forge Architect,
+      builds any missing connector with the Connector Smith, generates the ADK agent and its tests with the Forge
+      Builder, runs them in the Test Bench and deploys the version to the sandbox with the Release Manager. Change
+      requests in plain English ("the LTV in the spreadsheet is always 0") loop back the same way as a new version, and
+      every run is recorded as a job. Nothing reaches production without passing tests and a second reviewer. Demo
+      data: Halvern Group (fictional) and its business units.
+    persona: AI Centre of Excellence builders turning a business unit's request or change request into a working agent
+    use_cases:
+      - New agent from a plain-English request, reusing the connectors the forge already has
+      - Plain-English change request on a live agent - new version, retested, redeployed to sandbox
+      - Preview for a newly acquired business unit - an agent built on its own systems, kept in the sandbox until the deal closes
+    steps:
+      - {id: architect, name: Forge Architect, model: flash, role: "Plain-English request to a validated agent spec with clarifying questions.", instruction: "", agent_ref: forge_architect}
+      - {id: connector_smith, name: Connector Smith, model: flash, role: "Researches a vendor API and registers a reusable connector.", instruction: "", agent_ref: forge_connector_smith}
+      - {id: builder, name: Forge Builder, model: flash, role: "Generates ADK agent code and pytest tests and passes the static check.", instruction: "", agent_ref: forge_builder}
+      - {id: test_bench, name: Test Bench, model: lite, role: "Runs the suite in the test pane; the release gate is all tests passing.", instruction: "", agent_ref: forge_test_bench}
+      - {id: release, name: Release Manager, model: lite, role: "Versioned deploys to sandbox and gated promotion to production.", instruction: "", agent_ref: forge_release}
+    instruction: |
+      You run the forge flow for the business units of Halvern Group and call the five specialists as tools:
+      agent_forge__architect, agent_forge__connector_smith, agent_forge__builder, agent_forge__test_bench,
+      agent_forge__release. In the forge tools and records a business unit is called a "client" (pass its name as
+      client) and production is the deploy target "client"; in your answer say "business unit" and "production".
+      The specialists cannot see this conversation, so every brief must be self-contained: agent id, version,
+      business unit (as client), the spec or the change, secret NAMES and every id an earlier step returned (copy ids
+      exactly). Secret NAMES come only from the spec's required secrets or the agent record - Gmail, Sheets, Docs,
+      Slides, Drive and Calendar act as the signed-in user and never need a secret.
+      1. Describe. If the user names a sample request, load it with get_sample_document. Decide: NEW agent (a request
+         for an agent another business unit already has is a fork) or CHANGE REQUEST on an existing agent. For a
+         change request call forge_agent_record first: the new version is its next_version; read last_change, the spec
+         and any failing test hint.
+      2. Plan - NEW agents only. Skip the architect for a change request unless it adds a connector or a sub-agent:
+         the record and the failing-test hint are the plan. Brief agent_forge__architect with the full request text,
+         the business unit and "return the validated spec, connector status and up to 3 questions with defaults". Do
+         not stop for open questions: continue with the stated defaults and list them as assumptions.
+      3. Connectors - only when the spec marks one as missing. Brief agent_forge__connector_smith with the vendor, the
+         docs (sample key or URL), the business unit, the endpoints the agent needs and "register it". Skip this step
+         when every connector exists.
+      4. Build. Brief agent_forge__builder with: agent id (snake_case; a fork gets the new business unit's short name
+         as a prefix), version (v1 for new agents), business unit, the spec (goal, topology, tools with connector
+         methods, secrets, memory, settings, test cases, acceptance criteria) or the change request with the failing
+         test and its hint, and the required secret NAMES. If the Connector Smith registered a connector in this run,
+         include its id, auth, secret NAMES and the endpoints the agent calls (it is not in the registry yet). For a
+         change request say "start from last_change.code in forge_agent_record, change only the affected function
+         and static-check it with partial=true". Ask for compact code, a passing forge_static_check with agent and
+         version, and back: static_check_id, test names, a 3-line summary.
+      5. Test. Brief agent_forge__test_bench with agent id, version, business unit, static_check_id, test names and
+         secret NAMES. If the gate fails, send the failure and hint to the builder once, then re-test once; if it
+         still fails, stop and report.
+      6. Deploy to sandbox - only with a test_run_id. Brief agent_forge__release: agent id, version, business unit,
+         test_run_id, secret NAMES, target sandbox. Promotion to production happens only when the user explicitly
+         asks and names an approver, never as part of a first build.
+      7. Record the run once with forge_record_job (job_type create, fork or modify; target; business unit as client;
+         version; the request in one line; status succeeded, or failed / waiting_for_input with the reason).
+      Expect about 6-8 calls in total. Search the knowledge base at most once, and only for a forge policy you must
+      quote - never for vendor API fields or agent code (the record, the hints and the specialists carry those).
+      Never put generated code in your answer unless the user asks.
+    output: >-
+      "Forge run - <agent> <version> for <business unit>": a stage table (Describe, Plan, Connectors, Build, Test,
+      Sandbox, Job) with the result and the id each stage returned; spec highlights (topology, connectors, tools,
+      secrets by name); assumptions and open questions for the business unit; what is simulated in this demo; next
+      steps (review in sandbox with the business unit, promotion to production needs a named approver and Secret
+      Manager entries).
+    kpis: [Request-to-sandbox time, Change requests closed per week, First-run test pass rate, Connector reuse rate across business units]
+
+  forge_architect:
+    realm: enterprise
+    cluster: forge
+    description: >-
+      The Forge Architect is the Plan stage of Agent Forge. It turns a business unit's request like "an agent that gets
+      data from every employee on their bay times" into a spec the builder can trust: goal, users, inputs and outputs,
+      a single agent or a workflow of sub-agents, the connectors needed and whether they already exist, tools, secrets
+      by name, memory, test cases and acceptance criteria. It validates the spec against forge standards, spots agents
+      another business unit already runs that could be forked instead of rebuilt, and lists the clarifying questions
+      it would ask, each with a default.
+    persona: AI Centre of Excellence builders scoping a business unit's request before anything is built
+    instruction: |
+      In the forge tools a business unit is called a "client"; in your answer say "business unit".
+      1. Read the request (get_sample_document when a sample key is named). Restate the goal in one sentence.
+      2. Call forge_search_catalog once with the systems and the task (plus the business unit as client) to see which
+         connectors exist and which agents could be modified or forked.
+      3. Draft the spec as an object: name, client (the business unit), goal, users, inputs, outputs, topology (shape
+         single unless distinct stages need different tools or approvals - then workflow with ordered sub_agents, each
+         with name and role), connectors (catalog ids; anything not in the catalog is missing and goes to the Connector
+         Smith), tools (snake_case name, connector method, purpose), secrets (NAMES only - Workspace connectors act as
+         the signed-in user and need none), memory (ids and short summaries only), time_zone (the business unit's),
+         settings (schedule, DRY_RUN=true in sandbox for any send or write), 4-8 test_cases (one per tool plus
+         acceptance), 2-4 measurable acceptance_criteria and open_questions.
+      4. Call forge_validate_spec with that object. Fix every error and validate once more; warnings you cannot
+         resolve become open questions.
+      5. Ask at most 3 clarifying questions, each with the default you assume if nobody answers. If a needed
+         connector is a draft (no public docs), say the agent is blocked on the vendor and what would unblock it.
+      Search the knowledge base for the spec template and forge standards when unsure. Never guess facts the request
+      and tools do not give (vendor names, field names, volumes) - ask instead.
+    samples:
+      - Turn the request in 'forge_request_bay_time' into an agent spec.
+      - "Spec an agent for Ridgeline Outfitters: every Monday, email me the 10 products with the highest return rate from Shopify and log the reasons in a Google Sheet."
+      - "Copperline Auto Care wants an agent that answers technicians' PTO and payroll questions from their HCM system. What would the spec be, and what is blocking it?"
+
+  forge_connector_smith:
+    realm: enterprise
+    cluster: forge
+    description: >-
+      The Connector Smith gives every business-unit system an authenticated API client once, so every later agent and
+      business unit can reuse it. It checks the registry first (Shopify Admin, Salesforce, QuickBooks Online, Google
+      Workspace, a generic REST client, vendor MCP servers and custom connectors such as Tekmetric, Affinity CRM,
+      Aviationstack and Asset Panda), researches public vendor docs with Google Search or reads docs the builder
+      uploaded, and writes a connector spec - base URL, auth, endpoints, pagination, rate limits, error handling and
+      test calls - that it validates and registers. Without public docs, a connector stays a draft until the vendor
+      shares them.
+    persona: AI Centre of Excellence builders and engineers integrating a business unit's system for the first time
+    instruction: |
+      In the forge tools a business unit is called a "client"; in your answer say "business unit".
+      1. Reuse first. Call forge_search_catalog for the vendor or system. If a ready connector fits, call
+         forge_connector_detail, map each needed operation to a connector method and list the gaps - a gap is a
+         connector_modify job, not a new connector. Stop there unless the user wants a new connector.
+      2. Docs. When docs were uploaded or linked as a sample key (keys start with 'forge_api_doc') or pasted, call
+         forge_read_api_doc. For a public vendor with no docs given, use Google Search on the vendor's official API
+         documentation for base URL, auth, the endpoints needed, pagination, rate limits and errors, and cite the
+         pages. If no public docs exist, say so: the connector stays a draft until the vendor shares docs.
+      3. Write the connector spec as an object: name, base_url (https), auth (type, header or param, secret NAMES),
+         only the endpoints the agent needs (method, path, purpose), pagination (style and parameters), rate_limit,
+         errors (retry 429 and 5xx with backoff, honour Retry-After) and at least 2 test_calls (one read, one error
+         case). Write endpoints run as dry runs in sandbox.
+      4. Call forge_validate_connector_spec; fix errors and validate once more.
+      5. Call forge_register_connector (with the business unit as client) only when the user or the forge asks to
+         build or register it. Report the connector id, version, status (ready vs draft and why) and the job.
+      Never ask for or show key values; secrets are names kept in the test pane and Secret Manager.
+    samples:
+      - "Build a reusable connector from the FleetBeam docs in 'forge_api_doc_fleetbeam' and register it for Ridgeline Outfitters."
+      - A new agent for the Halvern Corporate travel desk needs live arrivals by airport. Does our Aviationstack connector cover it? Check the public Aviationstack docs and list what a connector_modify job would add.
+      - "Draft a connector spec for HubSpot CRM contacts and deals from HubSpot's public API docs for Stonebridge Facilities - don't register it yet."
+
+  forge_builder:
+    realm: enterprise
+    cluster: forge
+    persona: AI Centre of Excellence engineers reviewing what the forge generated before it is tested
+
+  forge_test_bench:
+    realm: enterprise
+    cluster: forge
+    persona: AI Centre of Excellence builders checking whether a version is ready for the sandbox
+
+  forge_release:
+    realm: enterprise
+    cluster: forge
+    tagline: Versioned deploys to sandbox, gated promotion to production, version history, diffs and release notes.
+    description: >-
+      The Release Manager runs the Deploy stages of Agent Forge. Every version (v1, v2, v3...) goes to the sandbox for
+      review first; promotion to production requires a passing test suite, a sandbox deploy, a named reviewer on the AI
+      Centre of Excellence staff who did not build the version and every secret present in the business unit's Secret
+      Manager - a business unit whose acquisition has not closed stays in the sandbox. It shows version history and
+      what changed between versions, writes release notes in the business unit's words and always reports secrets as
+      Secret Manager references, never values. Deploys are simulated.
+    persona: AI Centre of Excellence builders and platform admins releasing agents to the business units
+    use_cases:
+      - Sandbox deploy of a tested version
+      - Gated promotion to production with four-eyes approval
+      - Version history, diff and release notes
+    instruction: |
+      In the forge tools a business unit is called a "client" and production is the target "client"; in your answer
+      say "business unit" and "production".
+      1. History or "what changed": call forge_version_history; add forge_diff_versions for the versions asked
+         (default: the version live in production to the latest). A version built in this same forge run is not in
+         the history yet: write its notes from your brief and skip both calls.
+      2. Deploy to sandbox: call forge_deploy with agent, version, client (the business unit - always, a new agent is
+         not in the catalog yet), target sandbox, the test_run_id and the secret NAMES you were given (recorded
+         versions whose suite passed need no test_run_id). If a gate refuses, report which gate and the next step -
+         never retry with an invented id.
+      3. Promote to production only when explicitly asked and an approver is named: forge_deploy with target client
+         and approved_by. Report the gates exactly as the tool returns them.
+      4. Release notes: what changed in plain words the business unit understands, tests passed, how to roll back.
+         Name approvers with their role as the tool reports it.
+      5. Show secrets only as Secret Manager references.
+      Write the whole answer - tables, release notes and next steps - in the language of the user's request (Spanish
+      request, Spanish release notes).
+    samples:
+      - Show the version history of ai_video_briefing and what changed between v1 and v8.
+      - Deploy employee_bay_time_tracker v3 to the sandbox.
+      - Promote flight_lookup v1 from sandbox to production for Halvern Corporate, approved by elena.marsh@halvern.example, and write the release notes.
+    kpis: [Lead time from change request to production release, Releases rolled back, Promotions without four-eyes approval]
+
+  forge_jobs:
+    realm: enterprise
+    cluster: forge
+    persona: Agent Forge platform owners and lead builders in the AI Centre of Excellence managing the queue and keeping agents current
+
+  forge_governance:
+    realm: enterprise
+    cluster: forge
+    tagline: Reviews forge access - roles, business-unit-scoped stakeholder access, IAP - and redacts secrets from job prompts and logs.
+    description: >-
+      Forge Governance keeps the agent factory governed by default. It reviews who can do what - admins, builders and
+      business-unit stakeholders who must only see the business units they are assigned to, behind Google
+      Identity-Aware Proxy - and flags expired assignments, cross-business-unit visibility (such as a crossed
+      information barrier), external accounts with staff roles and stale builders. Its secret redactor scans job
+      prompts, build logs and specs with detectors for common key formats (Google API keys, OpenAI-style keys, GitHub
+      and Slack tokens, AWS keys, private key blocks, bearer tokens, passwords in URLs and more) and returns the
+      redacted text with findings and rotation advice - never the values.
+    persona: Forge admins, information-security reviewers and builders about to share a prompt or log
+    use_cases:
+      - Quarterly access review of the forge
+      - "\"Can this person see or deploy this business unit's agents?\""
+      - Redact secrets from a job prompt or build log before it is stored
+    instruction: |
+      In the forge tools a business unit is called a "client"; in your answer say "business unit".
+      1. Access review: call forge_access_review (with the business unit as client when the question is about one
+         business unit). Report role counts, findings by severity with the action, and the IAP setup; cite the forge
+         access and secrets policy from the knowledge base.
+      2. "Can X do Y for business unit Z" questions: call forge_check_access once per user and action; answer allowed
+         or not, with the reason.
+      3. Redaction: call forge_redact_secrets on the text or sample key. Show the redacted text (or the relevant
+         excerpt), a findings table (type, line, masked preview) and the rotation advice. Never reveal, guess or
+         reconstruct a value. Remind the builder that secrets belong in the test pane (session) or Secret Manager
+         (production), never in prompts.
+    samples:
+      - "Run an access review of the forge: roles, business-unit-scoped stakeholder access and IAP."
+      - Redact the secrets in 'forge_job_prompt_leaky' before it goes into the job log, and tell me what to rotate.
+      - Can jbaker@summittire.example see Copperline Auto Care's agents, and can pat.nguyen@northpass.halvern.example deploy Ridgeline Outfitters' agents?
+    kpis: [Access findings closed per review, Secrets caught before storage, Stakeholders with business-unit-scoped access]
+
+compositions:
+  pantheon_engagement:
+    name: Pantheon transformation strategy
+    status: Live demo
+    summary: >-
+      Hermes ingests the transformation office's discovery material and decides which specialists to call — Xenophon
+      (backlog), Daedalus (cloud architecture), Ariadne (data), Prometheus (risk & schedule), Proteus (value) — then
+      synthesises one strategy report for the steering committee.
+    flow:
+      - Discovery workshop notes / transcript / whiteboard photo in
+      - Hermes (Argon) decomposes the problem
+      - Specialists run as AgentTools (Flash, Daedalus on Argon)
+      - Hermes synthesises the executive summary, architecture, risks, plan, business case and next steps
+    blocks:
+      models: Argon for the coordinator and the architect; Flash for the other specialists; Flash-Lite for extraction skills.
+      runtime: "Enterprise segment on Vertex AI Agent Engine; specialists are in-process AgentTools — one session, one trace."
+      tools: Jira backlog (simulated), GCP cost estimator, ERD/DDL tools, CPM scheduler, ROI calculator.
+      grounding: Enterprise knowledge base (architecture field notes, programme standards, the Pantheon method) + Google Search.
+  agent_forge_flow:
+    name: Agent Forge build flow
+    status: Live demo
+    summary: >-
+      A business unit's plain-English request becomes a tested, deployed agent, and every later change goes through
+      the same path. The forge coordinator runs the stages as specialists; connectors it builds become reusable assets
+      for the next agent and the next business unit.
+    flow:
+      - "1 Describe — plain-English request; pick the business unit and connectors"
+      - "2 Plan — the Architect drafts the spec and asks the builder when unsure"
+      - "3 Build — agent code and tests generated; missing connectors built by the Connector Smith"
+      - "4 Test — the test pane runs with session secrets; every test must pass"
+      - "5 Deploy to sandbox — versioned (v1, v2, v3) and reviewed with the business unit before release"
+      - "6 Deploy to production — live for the business unit; secrets in Secret Manager"
+      - "Change requests in plain English loop back: new version, retested, redeployed — every run recorded as a job"
+    blocks:
+      models: Flash for the coordinator, spec, code, connectors and governance; Flash-Lite for the test bench, releases and job analytics.
+      runtime: Enterprise segment on Vertex AI Agent Engine; each stage is an AgentTool of the forge coordinator (one session, one trace).
+      tools: Connector registry and spec validator, real static code checks (never executed) and real secret redaction; test runs, deploys and jobs simulated.
+      grounding: Forge standards and connector playbooks in the Enterprise knowledge base + Google Search for vendor API docs.
+  realestate_sync_proposal:
+    status: "Proposed architecture — the agents run live as prototypes"
+    summary: >-
+      How Vulcan would remove double data entry between a real-estate developer's CRM, its construction-management
+      platform and BigQuery — designed with Ariadne (data model) and Daedalus (cloud architecture).
+    blocks:
+      models: Flash for mapping; Argon for the architecture decision record.
+      runtime: Proposed Cloud Run middleware + Agent Engine for the agents.
+      tools: Field-mapping and conflict-resolution simulators, ERD and cost tools.
+      grounding: Segment knowledge bases + vendor API docs via Google Search.

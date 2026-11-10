@@ -1,0 +1,483 @@
+# Spanish (neutral Latin American) for the Enterprise segment agents that came from Platform Core — showcase edition:
+# Strategy & transformation (Pantheon), Agent factory (Agent Forge) and Productivity & knowledge.
+# Same intent, document keys, IDs, amounts and dates as the English samples; product and persona names unchanged.
+agents:
+  # --- Productividad y conocimiento --------------------------------------------------------------------------------
+  context_librarian:
+    name: Bibliotecario de Contexto
+    tagline: Encuentra la fuente de verdad correcta, responde con citas y señala el conocimiento desactualizado.
+    description: >-
+      El Bibliotecario de Contexto es la puerta de entrada al conocimiento de la organización. Busca en la base de
+      conocimiento curada, responde con citas de los documentos, explica qué fuente manda cuando dos documentos se
+      contradicen y señala el contenido desactualizado o sin responsable para que los gestores de conocimiento lo
+      corrijan.
+    persona: Cualquier colaborador que busca "la respuesta oficial"; gestores de conocimiento y líderes de área responsables de documentos
+    use_cases:
+      - Responder preguntas de procesos y políticas con citas
+      - Resolver conflictos entre dos versiones de un runbook o un estándar
+      - Reportar documentos desactualizados o sin responsable para su curaduría
+    output: Una respuesta directa (2-5 oraciones), una lista de "Fuentes" con los títulos de los documentos y una nota de vigencia cuando aplique.
+    samples:
+      - ¿Cuál es nuestro proceso estándar para un fin de semana de corte (cutover) de una migración a Workspace?
+      - ¿Qué documento es la fuente de verdad del checklist de despliegue de agentes y está al día?
+      - ¿Qué fuentes de conocimiento no tienen responsable o tienen más de un año sin revisión?
+    kpis: [Tiempo de respuesta a preguntas de políticas, "% de respuestas con citas", Documentos desactualizados corregidos por mes]
+
+  deep_research:
+    name: Investigación Profunda
+    tagline: Planifica, busca y redacta un informe de investigación con fuentes sobre cualquier pregunta de mercado o tecnología.
+    description: >-
+      Un flujo de investigación de tres etapas: un planificador divide la pregunta en subpreguntas, un investigador
+      responde cada una con Google Search y un redactor produce un informe ejecutivo con citas y preguntas abiertas.
+    persona: Equipos de estrategia, producto y arquitectura que preparan un documento de decisión o un informe para la dirección
+    use_cases:
+      - Panorama de mercado antes de un retiro estratégico o una decisión de inversión
+      - Comparación de tecnologías con fuentes actuales
+      - Informe del panorama regulatorio
+    output: >-
+      "Informe de investigación" con: Conclusión (3 viñetas), Hallazgos por subpregunta, Qué significa para nosotros,
+      Preguntas abiertas y Fuentes (lista de enlaces sin duplicados).
+    samples:
+      - ¿Qué enfoques están usando los bancos en Latinoamérica para desplegar asistentes de IA para sus clientes?
+      - Compara las opciones actuales para ejecutar LLM de pesos abiertos en Google Cloud para nuestro banco regulado.
+      - ¿Qué cambió en las funciones de seguridad de Google Workspace en los últimos 12 meses?
+    kpis: [Horas de investigación ahorradas por documento de decisión, Fuentes por informe]
+    steps:
+      planner: {name: Planificador de la investigación, role: "Divide la pregunta en 3-5 subpreguntas precisas con sus búsquedas."}
+      researcher: {name: Investigador, role: "Responde cada subpregunta con Google Search y registra las fuentes."}
+
+  workspace_pro:
+    tagline: Un asistente experto de Google Workspace que clasifica la bandeja de entrada, encuentra horarios para reuniones y redacta respuestas y documentos.
+    description: >-
+      Workspace Pro trabaja en Gmail, Calendar y Drive para un profesional con mucha carga: clasifica la bandeja de
+      entrada, encuentra horarios que le sirven a todos, redacta respuestas y correos de seguimiento, agenda reuniones
+      y trae al contexto el archivo correcto de Drive. Las acciones se simulan sobre un buzón sintético.
+    persona: Ejecutivos, gerentes y cualquier persona que vive en Gmail y Calendar
+    use_cases:
+      - Clasificación de la bandeja de entrada con respuestas sugeridas
+      - Agendar reuniones entre colegas y clientes
+      - Redactar seguimientos a partir de documentos y notas de reunión
+    output: Respuesta breve y orientada a la acción; tablas para la bandeja de entrada y los horarios; el borrador completo en un bloque de cita.
+    samples:
+      - Clasifica mi bandeja de entrada y redacta respuestas para todo lo urgente.
+      - Encuentra 45 minutos esta semana con Ana y Diego para preparar la QBR de Larkspur y agenda el primer horario.
+      - Busca en Drive la última propuesta de contrato de Marbury Mutual y redacta un correo de seguimiento a Joanna Pell sobre los puntos abiertos.
+    kpis: [Horas ahorradas por semana, Tiempo de respuesta a correos prioritarios]
+
+  codemender:
+    tagline: Revisa código, encuentra el error, escribe la corrección y la comprueba con pruebas en un sandbox alojado por Google.
+    description: >-
+      CodeMender revisa un archivo de código, explica defectos y problemas de seguridad, escribe un parche mínimo y lo
+      verifica ejecutando las pruebas en el sandbox administrado de ejecución de código de Gemini; ningún código se
+      ejecuta dentro del propio runtime del agente.
+    persona: Ingenieros y líderes técnicos que revisan pull requests
+    use_cases:
+      - Encontrar y corregir una prueba que falla
+      - Revisión de seguridad de un módulo
+      - Explicar código heredado
+    output: Causa raíz, diff unificado de la corrección, resultados del sandbox antes y después, y una sugerencia de endurecimiento.
+    samples:
+      - Corrige las pruebas que fallan en 'code_invoice_calc'.
+      - Revisa 'code_invoice_calc' en busca de problemas de seguridad y de corrección.
+      - Explícale a una persona nueva del equipo qué hace 'code_invoice_calc'.
+    kpis: [Tiempo medio de corrección, Defectos que llegan a producción]
+
+  brief_me:
+    tagline: Tu resumen de la mañana — las reuniones de hoy, lo que le importa a cada asistente, los correos prioritarios y las noticias de tus cuentas.
+    description: >-
+      Brief Me prepara a un líder ocupado para su día: las reuniones de hoy con contexto de cada cuenta de cliente y de
+      cada asistente, los correos que requieren una decisión, las señales de las cuentas en el CRM y noticias públicas
+      recientes sobre ellas.
+    persona: Líderes comerciales y de atención a clientes, gerentes de cuenta y ejecutivos con reuniones seguidas con clientes
+    use_cases:
+      - Resumen de la mañana
+      - Una página de preparación antes de una reunión
+      - Resumen semanal de cuentas
+    output: >-
+      "Tu resumen del <fecha>": las 3 prioridades principales, Reuniones (hora · cuenta · por qué importa ·
+      preparación), Correos que requieren una decisión, Señales de las cuentas y Noticias.
+    samples:
+      - Dame mi resumen de hoy.
+      - Prepárame para la reunión de las 11:00.
+      - ¿Qué debería preocuparme esta semana en mis cuentas?
+    kpis: [Tiempo de preparación por reunión, Reuniones con resumen]
+
+  gws_research:
+    name: Investigación GWS
+    tagline: Investiga capacidades, ediciones y configuraciones de administración de Google Workspace con fuentes actuales y citadas, y tus estándares de TI.
+    description: >-
+      Investigación GWS responde preguntas de Google Workspace para administradores de TI y equipos de entorno de
+      trabajo — disponibilidad de funciones por edición, configuraciones de la consola de administración, novedades de
+      lanzamientos y consideraciones de migración —, siempre con fuentes actuales y los estándares de TI de la propia
+      empresa (línea base de seguridad, runbook de corte).
+    persona: Administradores de Workspace, equipos de TI y de seguridad, líderes de tecnología del entorno de trabajo
+    use_cases:
+      - Comparaciones de ediciones y funciones
+      - Guías de configuración de administración
+      - Resúmenes de novedades para los equipos de TI y de seguridad
+    output: Respuesta, ruta paso a paso en la consola cuando aplique, un recuadro "Nuestro estándar de TI dice" y fuentes.
+    samples:
+      - ¿Qué ediciones de Workspace incluyen hoy funciones de Gemini para Gmail y Docs?
+      - ¿Cómo configuro las regiones de datos para nuestra subsidiaria en la UE que necesita residencia de datos en la UE?
+      - Resume las actualizaciones de Workspace más relevantes del último mes para nuestro equipo de seguridad.
+    kpis: [Tiempo de investigación por pregunta de TI]
+
+  # --- Estrategia y transformación (Pantheon) ---------------------------------------------------------------------
+  pantheon:
+    name: Evaluación Rápida Pantheon
+    tagline: Cinco especialistas evalúan en paralelo el brief de una iniciativa y entregan una sola evaluación rápida.
+    description: >-
+      La forma rápida y económica de que una oficina de transformación use la suite Pantheon: especialistas de backlog,
+      arquitectura, datos, riesgo y valor leen al mismo tiempo el mismo brief o las mismas notas de descubrimiento (ADK
+      ParallelAgent) y luego un paso de síntesis combina sus visiones en una evaluación de una página. Usa Hermes cuando
+      el programa necesite una orquestación profunda y adaptativa.
+    persona: Líderes de la oficina de transformación, arquitectos empresariales y patrocinadores de negocio después de un taller de descubrimiento
+    use_cases:
+      - Evaluación de una página el mismo día del taller de descubrimiento
+      - Una primera visión consistente de backlog, arquitectura, datos, riesgo y valor
+      - Insumo para un caso de negocio o un análisis a fondo con Hermes
+    output: >-
+      "Evaluación rápida": Situación (2 líneas), Enfoque recomendado, Arquitectura, Datos, Riesgos principales (tabla),
+      Valor y MVP, y los 3 próximos pasos.
+    samples:
+      - "Evalúa nuestra iniciativa: somos una aseguradora de 400 empleados que migra de Exchange a Google Workspace y quiere sumar un asistente de IA para siniestros en 6 meses."
+      - Haz una evaluación rápida de nuestras notas de descubrimiento 'discovery_notes_insurer'.
+      - "Nuestra cadena de 120 tiendas quiere un pronóstico diario de inventario en BigQuery y un chatbot para los gerentes de tienda. Evalúalo."
+    kpis: [Tiempo del descubrimiento a la evaluación, Iniciativas evaluadas por arquitecto por semana]
+    steps:
+      backlog: {name: Visión de backlog (lente Xenophon), role: "Lista los épicos y las historias de usuario más riesgosas."}
+      architecture: {name: Visión de arquitectura (lente Daedalus), role: "Esboza la arquitectura objetivo en Google Cloud / Workspace."}
+      data: {name: Visión de datos (lente Ariadne), role: "Identifica las fuentes de datos, las entidades principales y los riesgos de datos."}
+      risk: {name: Visión de riesgo (lente Prometheus), role: "Lista los principales riesgos de ejecución con probabilidad, impacto y mitigación."}
+      value: {name: Visión de valor (lente Proteus), role: "Plantea el valor de negocio y el MVP."}
+
+  hermes:
+    tagline: El coordinador de estrategia — descompone el problema de negocio, llama a los especialistas adecuados y entrega una sola estrategia.
+    description: >-
+      Hermes es el coordinador de la suite Pantheon para una oficina de transformación. Recibe el material de
+      descubrimiento en bruto (notas de talleres, transcripciones, documentos, fotos de pizarras), decide qué
+      especialistas necesita el problema — Xenophon, Daedalus, Ariadne, Prometheus, Proteus —, los llama como
+      herramientas, concilia sus resultados y compila un informe de estrategia listo para el comité de dirección.
+    persona: Directores de transformación, CIO y patrocinadores de negocio de un programa de transformación
+    use_cases:
+      - Del descubrimiento a la estrategia en una sola sesión
+      - Resumen ejecutivo con arquitectura, backlog, riesgos y ROI
+      - Informe de estrategia para el comité de dirección
+    output: >-
+      Resumen ejecutivo (5 viñetas), Arquitectura recomendada, Lo más importante del backlog, Datos, Riesgos y
+      cronograma (ruta crítica), Valor y ROI, Próximos pasos — y luego el id del informe que devuelve
+      compile_engagement_report.
+    samples:
+      - Ejecuta la estrategia Pantheon completa sobre nuestras notas de descubrimiento 'discovery_notes_insurer' y dame el entregable ejecutivo para el comité de dirección.
+      - "Nuestra cadena de 120 tiendas de artículos para exteriores quiere un pronóstico diario de inventario en BigQuery y un asistente para gerentes de tienda en Google Chat. Arma la estrategia y el caso de negocio."
+      - "Tenemos 3 meses y USD 250k para modernizar la gestión de pedidos de nuestro negocio de distribución en Google Cloud. ¿Qué deberíamos hacer?"
+    kpis: [Tiempo del descubrimiento al caso de negocio, Casos de negocio aprobados en la compuerta de financiamiento]
+    steps:
+      xenophon: {name: Xenophon · Analista Ágil, role: "Backlog de épicos e historias en Gherkin."}
+      daedalus: {name: Daedalus · Arquitecto Cloud, role: "Arquitectura objetivo y costo."}
+      ariadne: {name: Ariadne · Arquitecta de Datos, role: "Modelo de datos, ERD y DDL."}
+      prometheus: {name: Prometheus · Riesgo y Ejecución, role: "Registro de riesgos y ruta crítica."}
+      proteus: {name: Proteus · Asesor de Valor, role: "Conceptos de solución y ROI."}
+
+  xenophon:
+    tagline: El analista ágil — convierte requisitos en épicos e historias de usuario en Gherkin, listos para el sprint.
+    description: >-
+      Xenophon transforma notas de descubrimiento y transcripciones en épicos e historias de usuario con criterios de
+      aceptación en Gherkin, aplica priorización MoSCoW, estima las historias con las historias de referencia del
+      equipo y carga el backlog en Jira con la taxonomía estándar de la empresa.
+    persona: Product owners, gerentes de ejecución y scrum masters de la oficina de transformación
+    use_cases:
+      - Backlog a partir de notas de descubrimiento
+      - Estimación de historias con historias de referencia
+      - Carga en Jira con la taxonomía estándar
+    output: Tabla del backlog (Épico, Historia, Prioridad, Puntos) y luego los escenarios Gherkin de las historias Must.
+    samples:
+      - Crea el backlog de nuestras notas de descubrimiento 'discovery_notes_insurer'.
+      - "Escribe historias para: nuestros técnicos de campo necesitan ver las órdenes de trabajo del día sin conexión y tomar fotos."
+      - "Estima estas historias y cárgalas en el proyecto de Jira CLM: Como ajustador quiero los siniestros prellenados desde el correo FNOL; Como gerente quiero un reporte semanal de SLA; Como administrador quiero SSO para el portal de siniestros."
+    kpis: [Tiempo para crear el backlog, Precisión de la estimación frente al real]
+
+  daedalus:
+    tagline: El arquitecto de GCP y Workspace — diseños seguros, escalables y optimizados en costo, con las alternativas descartadas.
+    description: >-
+      Daedalus diseña arquitecturas de Google Cloud y Workspace, justifica cada servicio con el Google Cloud
+      Architecture Framework, lista de forma explícita las alternativas descartadas, estima el costo mensual y genera
+      un diagrama como código editable.
+    persona: Arquitectos empresariales y de nube, CTO, revisores de seguridad
+    use_cases:
+      - Arquitectura objetivo para una migración o una carga de trabajo de IA
+      - Registro de decisión de arquitectura con sus compensaciones
+      - Estimación del costo mensual de operación
+    output: Resumen de la arquitectura, tabla de componentes (servicio, propósito, pilar), alternativas descartadas, tabla de costos y diagrama Mermaid.
+    samples:
+      - "Diseña la arquitectura en GCP para nuestro asistente de atención al cliente en WhatsApp con 2M de usuarios al mes y residencia de datos en EE. UU."
+      - Propón una arquitectura para ejecutar cada noche el pronóstico de demanda de nuestras 120 tiendas en BigQuery, con su costo.
+      - "Arquitectura para nuestro asistente de IA para siniestros con protección de datos personales y revisión humana."
+    kpis: [Ciclos de revisión de arquitectura, Costo estimado frente al costo real de operación]
+
+  ariadne:
+    tagline: La arquitecta de datos y analítica — de los sistemas fuente a un esquema estrella en BigQuery con ERD y DDL.
+    description: >-
+      Ariadne diseña el ciclo de vida de los datos: perfila los sistemas fuente, diseña esquemas relacionales (Cloud
+      SQL, AlloyDB, Spanner) y esquemas estrella en BigQuery, genera ERD para validarlos y produce DDL ordenado por
+      dependencias y listo para desplegar.
+    persona: Arquitectos de datos, ingenieros de analítica y líderes de BI
+    use_cases:
+      - Esquema estrella para un nuevo dominio analítico
+      - ERD para validar con las áreas de negocio
+      - DDL listo para desplegar
+    output: Resumen del modelo (granularidad, hechos, dimensiones), ERD en Mermaid, DDL validado en un bloque sql y notas de calidad de datos.
+    samples:
+      - Diseña un esquema estrella en BigQuery para la analítica de siniestros con el perfil de origen 'claims'.
+      - Modela ventas e inventario de nuestras 120 tiendas, con particionamiento.
+      - "Diseña el modelo de datos de nuestro pipeline de ventas B2B con el perfil de origen 'crm': cuentas, oportunidades, historial de etapas y facturas."
+    kpis: [Tiempo al primer modelo validado, Defectos de DDL aguas abajo]
+
+  prometheus:
+    tagline: El analista de riesgo y ejecución — registro de riesgos, ruta crítica y un cronograma determinista.
+    description: >-
+      Prometheus identifica y cuantifica el riesgo del programa, arma el registro de riesgos con mitigaciones y
+      responsables, y calcula la ruta crítica y la holgura de planes con varios frentes de trabajo, con un diagrama de
+      Gantt.
+    persona: Líderes de PMO, directores de programa y comités de dirección
+    use_cases:
+      - Ruta crítica de un plan con varios frentes de trabajo
+      - Registro de riesgos cuantificado
+      - Análisis what-if ante una dependencia retrasada
+    output: Resumen del cronograma, ruta crítica, Gantt en Mermaid (de la herramienta), tabla del registro de riesgos puntuado y las 3 mitigaciones principales.
+    samples:
+      - "Plan: descubrimiento 10d, arquitectura 15d después del descubrimiento, modelo de datos 12d después del descubrimiento, construcción 40d después de ambos, UAT 10d, corte 3d. ¿Cuál es la ruta crítica?"
+      - Arma el registro de riesgos y el cronograma del programa de nuestras notas de descubrimiento 'discovery_notes_insurer'.
+      - "Plan: descubrimiento 10d, arquitectura 15d y modelo de datos 12d después del descubrimiento, construcción 40d después de ambos, UAT 10d, corte 3d. Si el modelo de datos se retrasa 8 días, ¿qué pasa con la salida a producción?"
+    kpis: [Desviación del cronograma, Riesgos con responsable y mitigación]
+
+  proteus:
+    tagline: El asesor de valor — cuestiona supuestos y plantea 3-5 conceptos de solución con ROI y una visión de las opciones del mercado.
+    description: >-
+      Proteus impulsa la innovación de negocio para la oficina de transformación: cuestiona los supuestos detrás de una
+      solicitud, formula 3-5 conceptos de solución sobre Google Cloud y Gemini, define para cada uno el valor de
+      negocio, el ángulo de adopción, los riesgos y un MVP concreto, y los respalda con cálculos de ROI y una
+      battlecard de opciones del mercado para la decisión de plataforma.
+    persona: Patrocinadores de negocio, líderes de producto e innovación, socios de negocio de finanzas
+    use_cases:
+      - Conceptos de solución para una nueva iniciativa
+      - ROI para un caso de negocio
+      - Comparación de opciones del mercado antes de elegir una plataforma
+    output: Tabla de conceptos, concepto recomendado con su tabla de ROI, lo más importante de la comparación de opciones y el próximo paso.
+    samples:
+      - La dirección quiere "hacer algo con IA" en la atención al cliente de nuestro negocio regional de distribución. Dame conceptos y ROI.
+      - "Caso de negocio: implementación de USD 180k, ahorra 6 FTE de USD 38k cada uno, costo de operación de USD 24k al año. ¿ROI a 3 años?"
+      - Somos un banco de 2,000 usuarios y estamos eligiendo un asistente de IA empresarial. Compara Gemini Enterprise con las alternativas usando la battlecard.
+    kpis: [Conceptos aprobados para financiamiento, Valor obtenido frente al caso de negocio]
+
+  # --- Fábrica de agentes (Agent Forge) ----------------------------------------------------------------------------
+  agent_forge:
+    tagline: Convierte la solicitud en lenguaje natural de una unidad de negocio en un agente planificado, construido, probado y desplegado en sandbox, conectado a sus sistemas.
+    description: >-
+      Agent Forge es el coordinador de la fábrica de agentes que un Centro de Excelencia de IA opera para las unidades
+      de negocio. Una unidad de negocio describe en lenguaje natural el agente que necesita; la fábrica planifica la
+      especificación con el Forge Architect, construye cualquier conector faltante con el Connector Smith, genera el
+      agente ADK y sus pruebas con el Forge Builder, las ejecuta en el Test Bench y despliega la versión en el sandbox
+      con el Release Manager. Las solicitudes de cambio en lenguaje natural ("el LTV en la hoja de cálculo siempre es
+      0") vuelven por el mismo camino como una nueva versión, y cada ejecución queda registrada como un job. Nada llega
+      a producción sin pasar las pruebas y la revisión de una segunda persona. Datos de la demo: Halvern Group
+      (ficticio) y sus unidades de negocio.
+    persona: Builders del Centro de Excelencia de IA que convierten la solicitud o el cambio de una unidad de negocio en un agente que funciona
+    use_cases:
+      - Nuevo agente a partir de una solicitud en lenguaje natural, reutilizando los conectores que la fábrica ya tiene
+      - Solicitud de cambio en lenguaje natural sobre un agente en vivo — nueva versión, probada de nuevo y desplegada otra vez en sandbox
+      - Vista previa para una unidad de negocio recién adquirida — un agente construido sobre sus propios sistemas, que se queda en sandbox hasta que cierre la operación
+    output: >-
+      "Ejecución de la fábrica - <agente> <versión> para <unidad de negocio>": una tabla de etapas (Describir,
+      Planificar, Conectores, Construir, Probar, Sandbox, Job) con el resultado y el id que devolvió cada etapa; lo
+      principal de la especificación (topología, conectores, herramientas, secretos por nombre); supuestos y preguntas
+      abiertas para la unidad de negocio; qué se simula en esta demo; próximos pasos (revisión en sandbox con la unidad
+      de negocio; la promoción a producción requiere un aprobador con nombre y las entradas en Secret Manager).
+    samples:
+      - "Nueva solicitud de Summit Tire & Auto en 'forge_request_bay_time': planifícala, constrúyela, pruébala y despliégala en el sandbox."
+      - Ridgeline Outfitters dice que el LTV en la hoja de cálculo siempre es 0 en el Shopify Order Support Tracker. Corrígelo como una nueva versión, vuelve a probarla y despliégala otra vez en el sandbox.
+      - "Para Ridgeline Outfitters, construye un agente que revise las excepciones de entrega de FleetBeam (documentación de la API en 'forge_api_doc_fleetbeam') y redacte una respuesta en Gmail para cada cliente afectado. Llévalo al sandbox."
+    kpis: [Tiempo de la solicitud al sandbox, Solicitudes de cambio cerradas por semana, Tasa de pruebas aprobadas en la primera ejecución, Reutilización de conectores entre unidades de negocio]
+    steps:
+      architect: {name: Forge Architect, role: "De la solicitud en lenguaje natural a una especificación validada del agente, con preguntas aclaratorias."}
+      connector_smith: {name: Connector Smith, role: "Investiga la API de un proveedor y registra un conector reutilizable."}
+      builder: {name: Forge Builder, role: "Genera el código ADK del agente y las pruebas pytest, y pasa el análisis estático."}
+      test_bench: {name: Test Bench, role: "Ejecuta la suite en el panel de pruebas; la compuerta de liberación es que todas las pruebas pasen."}
+      release: {name: Release Manager, role: "Despliegues versionados en sandbox y promoción controlada a producción."}
+
+  forge_architect:
+    tagline: Convierte una solicitud vaga en lenguaje natural en una especificación validada del agente, y pregunta al builder cuando tiene dudas.
+    description: >-
+      El Forge Architect es la etapa de planificación de Agent Forge. Convierte la solicitud de una unidad de negocio,
+      como "un agente que obtenga de cada empleado sus tiempos por bahía", en una especificación en la que el builder
+      puede confiar: objetivo, usuarios, entradas y salidas, un solo agente o un flujo de subagentes, los conectores
+      necesarios y si ya existen, herramientas, secretos por nombre, memoria, casos de prueba y criterios de
+      aceptación. Valida la especificación contra los estándares de la fábrica, detecta agentes que otra unidad de
+      negocio ya usa y que podrían bifurcarse en lugar de reconstruirse, y lista las preguntas aclaratorias que haría,
+      cada una con un valor por defecto.
+    persona: Builders del Centro de Excelencia de IA que definen el alcance de la solicitud de una unidad de negocio antes de construir nada
+    use_cases:
+      - De la solicitud a la especificación en una sola pasada, con reutilización de conectores y candidatos a bifurcación
+      - Decisión entre un solo agente o un flujo de subagentes, con su justificación
+      - Preguntas aclaratorias con valores por defecto para que la construcción nunca se detenga
+    output: >-
+      Resumen de la especificación (objetivo, usuarios, entradas, salidas), topología con su justificación, tabla de
+      conectores (conector, estado, autenticación, reutilizar o construir), tabla de herramientas (herramienta, método
+      del conector, propósito), secretos por nombre, memoria, casos de prueba y criterios de aceptación, resultado de
+      la validación, agentes similares (bifurcar o crear) y preguntas aclaratorias con sus valores por defecto.
+    samples:
+      - Convierte la solicitud de 'forge_request_bay_time' en una especificación de agente.
+      - "Especifica un agente para Ridgeline Outfitters: cada lunes, envíame por correo los 10 productos con mayor tasa de devolución en Shopify y registra los motivos en una hoja de Google Sheets."
+      - "Copperline Auto Care quiere un agente que responda las preguntas de vacaciones y nómina de los técnicos desde su sistema de HCM. ¿Cuál sería la especificación y qué lo está bloqueando?"
+    kpis: [Especificaciones aprobadas sin retrabajo, Preguntas aclaratorias por solicitud, Construcciones que reutilizan conectores existentes]
+
+  forge_connector_smith:
+    tagline: Investiga la API de un proveedor a partir de su documentación y construye un conector reutilizable y probado que cualquier agente puede usar.
+    description: >-
+      El Connector Smith crea una sola vez un cliente de API autenticado para cada sistema de las unidades de negocio,
+      para que cualquier agente y unidad de negocio posterior lo reutilice. Primero revisa el registro (Shopify Admin,
+      Salesforce, QuickBooks Online, Google Workspace, un cliente REST genérico, servidores MCP de proveedores y
+      conectores a la medida como Tekmetric, Affinity CRM, Aviationstack y Asset Panda), investiga la documentación
+      pública del proveedor con Google Search o lee la documentación que subió el builder, y escribe la especificación
+      del conector — URL base, autenticación, endpoints, paginación, límites de uso, manejo de errores y llamadas de
+      prueba — que valida y registra. Sin documentación pública, el conector queda como borrador hasta que el
+      proveedor la comparta.
+    persona: Builders e ingenieros del Centro de Excelencia de IA que integran por primera vez un sistema de una unidad de negocio
+    use_cases:
+      - Revisión de reutilización — ¿un conector existente ya cubre los endpoints que necesita este agente?
+      - Nuevo conector a partir de documentación del proveedor subida o enlazada
+      - Especificación de conector investigada en la documentación pública del proveedor
+    output: >-
+      Veredicto de reutilización (reutilizar, extender o construir), tabla de la especificación del conector (URL base,
+      autenticación, endpoints, paginación, límites de uso, errores, llamadas de prueba), resultado de la validación,
+      registro (id, versión, estado, job) cuando se solicita, y fuentes.
+    samples:
+      - "Construye un conector reutilizable con la documentación de FleetBeam en 'forge_api_doc_fleetbeam' y regístralo para Ridgeline Outfitters."
+      - Un nuevo agente para el área de viajes de Halvern Corporate necesita las llegadas en vivo por aeropuerto. ¿Nuestro conector de Aviationstack lo cubre? Revisa la documentación pública de Aviationstack y lista lo que agregaría un job connector_modify.
+      - "Redacta una especificación de conector para los contactos y negocios de HubSpot CRM a partir de la documentación pública de la API de HubSpot para Stonebridge Facilities; todavía no la registres."
+    kpis: [Tasa de reutilización de conectores, Tiempo al primer conector funcional, Tasa de llamadas de prueba exitosas]
+
+  forge_builder:
+    tagline: Genera el agente ADK y su suite pytest a partir de una especificación y los comprueba con un análisis estático real.
+    description: >-
+      El Forge Builder es la etapa de construcción de Agent Forge. A partir de una especificación — o de una solicitud
+      de cambio en lenguaje natural sobre un agente existente — genera Python de Google ADK compacto (un agente con
+      herramientas de función que llaman a los conectores de la fábrica) y pruebas pytest, y luego ejecuta un análisis
+      estático real del código generado: lo parsea, verifica la estructura ADK, los docstrings y las anotaciones de
+      tipo de las herramientas, busca secretos escritos en el código y confirma que los secretos se leen del entorno o
+      de Secret Manager. El código generado nunca se ejecuta aquí; el Test Bench ejecuta la suite.
+    persona: Ingenieros del Centro de Excelencia de IA que revisan lo que generó la fábrica antes de probarlo
+    use_cases:
+      - Código del agente y pruebas a partir de una especificación aprobada
+      - Corrección mínima más prueba de regresión para una solicitud de cambio
+      - Revisión estática del código generado (estructura, contratos de herramientas, secretos)
+    output: >-
+      Resumen de la construcción (agente, versión, herramientas, pruebas, líneas), resultado del análisis estático con
+      el static_check_id (o los problemas pendientes) y luego agent.py y test_agent.py en bloques de código python —
+      solo la versión final verificada.
+    samples:
+      - Ejecuta el análisis estático sobre 'forge_code_price_tracker_draft', corrige lo que encuentre y vuelve a verificar.
+      - "Genera el agente ADK y las pruebas para la especificación de 'forge_spec_returns_digest' (agente returns_insight_digest, versión v1) y pásalos por el análisis estático."
+      - Escribe el cambio v4 de employee_bay_time_tracker para que el correo del lunes solo cree un borrador en Gmail mientras DRY_RUN sea true; solo la herramienta modificada y su prueba, con análisis estático.
+    kpis: [Análisis estático aprobado en la primera construcción, Pruebas generadas por herramienta, Hallazgos de secretos en el código generado]
+
+  forge_test_bench:
+    tagline: Ejecuta las pruebas de una versión del agente en el panel de pruebas con secretos de sesión y convierte las fallas en correcciones en lenguaje natural.
+    description: >-
+      El Test Bench es la etapa de pruebas de Agent Forge. Ejecuta la suite de una versión en el panel de pruebas de la
+      fábrica, donde los secretos de sesión del builder se inyectan solo para esa sesión; explica cada falla a partir de
+      su traza y su log, y escribe la corrección como una solicitud de cambio en lenguaje natural que el builder puede
+      devolver directamente a la fábrica. Es dueño de la compuerta de liberación: una versión solo se puede liberar
+      cuando todas las pruebas pasan, y las pruebas bloqueadas (por un secreto de sesión faltante) cuentan como fallas.
+      Las ejecuciones se simulan a partir de resultados sintéticos del panel de pruebas.
+    persona: Builders del Centro de Excelencia de IA que verifican si una versión está lista para el sandbox
+    use_cases:
+      - Revisión de la compuerta de liberación antes de un despliegue en sandbox
+      - Explicación de fallas con una solicitud de cambio lista para pegar
+      - Pruebas bloqueadas por secretos de sesión faltantes
+    output: >-
+      Veredicto de la compuerta (PASA o FALLA) con conteos de pruebas aprobadas, fallidas y bloqueadas, una tabla de
+      fallas (prueba, esperado, obtenido, causa raíz), la solicitud de cambio lista para pegar, los secretos de sesión
+      por nombre (configurados o faltantes) y el test_run_id cuando la compuerta pasa.
+    samples:
+      - Ejecuta la suite de pruebas de shopify_order_support_tracker v4 y explica la falla.
+      - ¿employee_bay_time_tracker v3 está listo para el sandbox? Ejecuta sus pruebas.
+      - Ejecuta las pruebas de asset_audit_assistant y dime qué las está bloqueando.
+    kpis: [Tasa de aprobación en la primera ejecución, Tiempo de la falla a la corrección, Versiones bloqueadas por secretos faltantes]
+
+  forge_release:
+    tagline: Despliegues versionados en sandbox, promoción controlada a producción, historial de versiones, diferencias y notas de la versión.
+    description: >-
+      El Release Manager ejecuta las etapas de despliegue de Agent Forge. Cada versión (v1, v2, v3...) pasa primero por
+      el sandbox para revisión; la promoción a producción exige una suite de pruebas aprobada, un despliegue en
+      sandbox, un revisor con nombre del Centro de Excelencia de IA que no haya construido esa versión y que todos los
+      secretos estén en el Secret Manager de la unidad de negocio; una unidad de negocio cuya adquisición no ha cerrado
+      se queda en el sandbox. Muestra el historial de versiones y qué cambió entre ellas, redacta las notas de la
+      versión con las palabras de la unidad de negocio y siempre reporta los secretos como referencias de Secret
+      Manager, nunca como valores. Los despliegues se simulan.
+    persona: Builders y administradores de plataforma del Centro de Excelencia de IA que liberan agentes a las unidades de negocio
+    use_cases:
+      - Despliegue en sandbox de una versión probada
+      - Promoción controlada a producción con aprobación de cuatro ojos
+      - Historial de versiones, diferencias y notas de la versión
+    output: >-
+      Tabla de liberación (agente, versión, destino, compuertas, id del despliegue, job), notas de la versión (3-6
+      viñetas), versión de rollback y, para preguntas de historial, una línea de tiempo de versiones con la solicitud
+      de cambio detrás de cada una.
+    samples:
+      - Muestra el historial de versiones de ai_video_briefing y qué cambió entre v1 y v8.
+      - Despliega employee_bay_time_tracker v3 en el sandbox.
+      - Promueve flight_lookup v1 del sandbox a producción para Halvern Corporate, aprobado por elena.marsh@halvern.example, y redacta las notas de la versión.
+    kpis: [Tiempo de la solicitud de cambio a la liberación en producción, Liberaciones revertidas, Promociones sin aprobación de cuatro ojos]
+
+  forge_jobs:
+    name: Jobs y Puesta a Punto
+    tagline: Analiza el log de jobs de la fábrica y revisa los agentes antiguos contra los estándares vigentes para ponerlos a punto.
+    description: >-
+      Jobs y Puesta a Punto lee el log duradero de jobs de la fábrica — ejecuciones create, modify, fork, deploy,
+      connector y connector_modify con su estado y duración — para mostrar qué es lento, qué falló y por qué, y qué
+      jobs esperan la respuesta de un builder. También hace revisiones de puesta a punto: compara un agente antiguo con
+      los estándares vigentes de la fábrica y la herramienta lista exactamente qué cambiaría un job de puesta a punto
+      (versiones fijadas de conectores, reintentos, logging, configuración del modelo...) sin cambiar lo que hace el
+      agente, qué pruebas volver a ejecutar y cuál sería la siguiente versión.
+    persona: Responsables de la plataforma Agent Forge y builders líderes del Centro de Excelencia de IA que gestionan la cola y mantienen los agentes al día
+    use_cases:
+      - Salud semanal de la fábrica — fallas, tipos de job lentos, jobs esperando información
+      - Revisión de puesta a punto de un agente antiguo contra los estándares vigentes
+      - Encolar un job de puesta a punto
+    output: >-
+      Resumen de jobs (por tipo y estado, minutos medianos), fallas agrupadas por causa, lista de jobs esperando
+      información con la acción del responsable, tabla de puesta a punto (estándar, hallazgo, cambio, automático o
+      revisión) cuando se pide y las 3 acciones que más trabajo desbloquearían.
+    samples:
+      - "Resume el log de jobs de la fábrica: fallas, tipos de job lentos y todo lo que esté esperando a un builder."
+      - Haz una revisión de puesta a punto de weekly_status_recap_generator y lista lo que cambiaría un job de puesta a punto.
+      - Revisa company_prospecting_assistant contra los estándares vigentes de la fábrica y encola un job de puesta a punto para él.
+    kpis: [Jobs esperando información por más de 24 horas, Minutos medianos de construcción, Agentes con los estándares vigentes]
+
+  forge_governance:
+    name: Gobernanza de la Fábrica
+    tagline: Revisa el acceso a la fábrica — roles, acceso de stakeholders limitado por unidad de negocio, IAP — y oculta secretos en prompts y logs de jobs.
+    description: >-
+      Gobernanza de la Fábrica mantiene la fábrica de agentes gobernada por defecto. Revisa quién puede hacer qué —
+      administradores, builders y stakeholders de las unidades de negocio que solo deben ver las unidades que tienen
+      asignadas, detrás de Google Identity-Aware Proxy — y señala asignaciones vencidas, visibilidad cruzada entre
+      unidades de negocio (como una barrera de información vulnerada), cuentas externas con roles de personal y
+      builders inactivos. Su redactor de secretos revisa prompts de jobs, logs de construcción y especificaciones con
+      detectores de formatos de claves comunes (claves de API de Google, claves estilo OpenAI, tokens de GitHub y
+      Slack, claves de AWS, bloques de claves privadas, tokens bearer, contraseñas en URL y más) y devuelve el texto
+      con los secretos ocultos, los hallazgos y la recomendación de rotación, nunca los valores.
+    persona: Administradores de la fábrica, revisores de seguridad de la información y builders a punto de compartir un prompt o un log
+    use_cases:
+      - Revisión trimestral de accesos a la fábrica
+      - "\"¿Esta persona puede ver o desplegar los agentes de esta unidad de negocio?\""
+      - Ocultar secretos de un prompt de job o un log de construcción antes de guardarlo
+    output: >-
+      Para revisiones: conteo de roles, tabla de hallazgos (severidad, usuario, problema, acción) y notas de IAP. Para
+      verificaciones de acceso: una tabla sí/no con los motivos. Para la redacción de secretos: tabla de hallazgos,
+      extracto con los secretos ocultos, claves a rotar y un consejo de prevención.
+    samples:
+      - "Haz una revisión de accesos de la fábrica: roles, acceso de stakeholders limitado por unidad de negocio e IAP."
+      - Oculta los secretos de 'forge_job_prompt_leaky' antes de que entre al log de jobs y dime qué hay que rotar.
+      - ¿jbaker@summittire.example puede ver los agentes de Copperline Auto Care, y pat.nguyen@northpass.halvern.example puede desplegar los agentes de Ridgeline Outfitters?
+    kpis: [Hallazgos de acceso cerrados por revisión, Secretos detectados antes de guardarse, Stakeholders con acceso limitado por unidad de negocio]

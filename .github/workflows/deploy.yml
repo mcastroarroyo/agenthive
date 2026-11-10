@@ -1,6 +1,7 @@
 name: deploy
-# main -> tests -> redeploy only what the push changed (deploy/changes.py): the web app (Cloud Run behind IAP), the
-# affected realm engines (Agent Engine, one job per realm), the KB corpus (Vertex AI Search), the BigQuery seed.
+# main -> tests -> redeploy only what the push changed (deploy/changes.py): the web apps (internal behind IAP; the
+# showcase for Google and clients, with Google sign-in), the affected engines of both editions (Agent Engine, one job
+# each), the KB stores (Vertex AI Search, both editions per store), the BigQuery seed.
 # Auth is keyless (Workload Identity Federation; see deploy/setup_cicd.sh). Project values live in repo secrets, so
 # they are masked in these public logs.
 on:
@@ -9,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       targets:
-        description: "auto (changed paths), all, or a list: web, engines, kb, bq, or realm ids (platform, smb, ...)"
+        description: "auto (changed paths), all, or a list: web, engines, showcase, kb, bq, realm ids, sc:<segment>"
         default: auto
 permissions:
   contents: read
@@ -30,6 +31,7 @@ jobs:
     outputs:
       web: ${{ steps.plan.outputs.web }}
       realms: ${{ steps.plan.outputs.realms }}
+      engines: ${{ steps.plan.outputs.engines }}
       kb: ${{ steps.plan.outputs.kb }}
       bq: ${{ steps.plan.outputs.bq }}
       configured: ${{ steps.plan.outputs.configured }}
@@ -77,21 +79,30 @@ jobs:
           docker build -t "$IMAGE" .
           docker push "$IMAGE"
           echo "HIVE_WEB_IMAGE=$IMAGE" >> "$GITHUB_ENV"
-      - name: Deploy to Cloud Run (IAP and access settings are left as they are)
+      - name: Deploy the internal app to Cloud Run (IAP and access settings are left as they are)
         env: {HIVE_PROJECT: "${{ secrets.GCP_PROJECT }}"}
         run: deploy/deploy_web.sh
+      - name: Deploy the showcase app (same image; Google sign-in in the app)
+        env:
+          HIVE_PROJECT: ${{ secrets.GCP_PROJECT }}
+          HIVE_EDITION: showcase
+          HIVE_GOOGLE_CLIENT_ID: ${{ secrets.GCP_SHOWCASE_CLIENT_ID }}
+          HIVE_ADMINS: ${{ secrets.GCP_SHOWCASE_ADMINS }}
+        run: |
+          if [ -z "$HIVE_GOOGLE_CLIENT_ID" ]; then echo "::notice::showcase not set up yet (deploy/setup_showcase.sh)"; exit 0; fi
+          deploy/deploy_web.sh
 
   engines:
     needs: plan
-    if: needs.plan.outputs.configured == 'true' && needs.plan.outputs.realms != '[]'
+    if: needs.plan.outputs.configured == 'true' && needs.plan.outputs.engines != '[]'
     runs-on: ubuntu-latest
     permissions: {contents: read, id-token: write}
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
-        realm: ${{ fromJSON(needs.plan.outputs.realms) }}
-    name: engine (${{ matrix.realm }})
+        include: ${{ fromJSON(needs.plan.outputs.engines) }}
+    name: engine (${{ matrix.edition }} · ${{ matrix.realm }})
     steps:
       - uses: actions/checkout@v7
       - *mask
@@ -102,6 +113,7 @@ jobs:
       - name: Update the Agent Engine and probe it
         env:
           HIVE_PROJECT: ${{ secrets.GCP_PROJECT }}
+          HIVE_EDITION: ${{ matrix.edition }}
           REALM: ${{ matrix.realm }}
         run: python deploy/deploy_engines.py "$REALM" --probe
 

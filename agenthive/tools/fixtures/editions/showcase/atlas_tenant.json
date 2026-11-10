@@ -1,0 +1,807 @@
+{
+  "tenant": {
+    "client": "Kestrel Manufacturing Inc. (fictional)",
+    "domain": "kestrelmfg.example",
+    "project_id": "KES-WS-2026",
+    "sow_id": "SOW-2026-0412",
+    "source": "Microsoft 365 (Exchange Online, OneDrive) + on-prem Windows file server KES-FS01",
+    "target": "Google Workspace Enterprise Standard (Gmail, Calendar, Drive, Shared drives, Vault)",
+    "scanned_at": "2026-09-18",
+    "sites": [
+      "Cedar Falls HQ & plant (US)",
+      "Monterrey plant (MX)",
+      "Field / remote"
+    ],
+    "delivery_partner": "Sablewood",
+    "delivery_partner_team": {
+      "engagement_lead": "Ana Lucia Mendoza",
+      "migration_lead": "Diego Ferraz",
+      "change_lead": "Noor Haddad"
+    },
+    "client_team": {
+      "sponsor": "Robert Lindqvist (CIO)",
+      "project_manager": "Megan Hollis (IT Director)"
+    }
+  },
+  "constraints": {
+    "max_items_per_shared_drive": 400000,
+    "per_item_limit_mb": 25,
+    "daily_bulk_throughput_gb": 800,
+    "min_bulk_lead_days": 10,
+    "cutover_window_hours": 12,
+    "cutover_window": "Friday 18:00 delta sync -> Saturday 06:00 MX switch (America/Chicago)",
+    "global_blackouts": [
+      "2026-11-28",
+      "2026-12-26"
+    ],
+    "blackout_reasons": {
+      "2026-11-28": "Thanksgiving change freeze",
+      "2026-12-26": "Year-end change freeze"
+    }
+  },
+  "departments": [
+    {
+      "id": "it",
+      "name": "IT",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 40,
+      "mailbox_gb": 220,
+      "mailbox_items": 2640000,
+      "onedrive_gb": 380,
+      "onedrive_files": 152000,
+      "share": "\\\\KES-FS01\\IT",
+      "share_gb": 400,
+      "share_files": 210000,
+      "unique_acl_folders": 120,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 3,
+      "mobile_devices": 38,
+      "pst_files": 6,
+      "pst_gb": 40,
+      "oversized_mailboxes": 0,
+      "spanish_pct": 0.05,
+      "blackouts": []
+    },
+    {
+      "id": "executive",
+      "name": "Executive office",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 24,
+      "mailbox_gb": 840,
+      "mailbox_items": 7980000,
+      "onedrive_gb": 410,
+      "onedrive_files": 98000,
+      "share": "\\\\KES-FS01\\Exec",
+      "share_gb": 180,
+      "share_files": 61000,
+      "unique_acl_folders": 85,
+      "lit_hold_users": 2,
+      "delegates": 24,
+      "shared_mailboxes": 1,
+      "mobile_devices": 24,
+      "pst_files": 9,
+      "pst_gb": 120,
+      "oversized_mailboxes": 5,
+      "spanish_pct": 0.0,
+      "blackouts": []
+    },
+    {
+      "id": "finance",
+      "name": "Finance",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 96,
+      "mailbox_gb": 1152,
+      "mailbox_items": 13800000,
+      "onedrive_gb": 610,
+      "onedrive_files": 290000,
+      "share": "\\\\KES-FS01\\Finance",
+      "share_gb": 900,
+      "share_files": 640000,
+      "unique_acl_folders": 3140,
+      "lit_hold_users": 4,
+      "delegates": 6,
+      "shared_mailboxes": 4,
+      "mobile_devices": 70,
+      "pst_files": 38,
+      "pst_gb": 260,
+      "oversized_mailboxes": 2,
+      "spanish_pct": 0.08,
+      "blackouts": [
+        "2026-10-31",
+        "2026-11-28",
+        "2026-12-31"
+      ]
+    },
+    {
+      "id": "hr",
+      "name": "Human Resources",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 48,
+      "mailbox_gb": 430,
+      "mailbox_items": 5100000,
+      "onedrive_gb": 210,
+      "onedrive_files": 96000,
+      "share": "\\\\KES-FS01\\HR",
+      "share_gb": 250,
+      "share_files": 180000,
+      "unique_acl_folders": 940,
+      "lit_hold_users": 0,
+      "delegates": 2,
+      "shared_mailboxes": 3,
+      "mobile_devices": 30,
+      "pst_files": 5,
+      "pst_gb": 30,
+      "oversized_mailboxes": 0,
+      "spanish_pct": 0.1,
+      "blackouts": []
+    },
+    {
+      "id": "legal",
+      "name": "Legal & Compliance",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 30,
+      "mailbox_gb": 690,
+      "mailbox_items": 7600000,
+      "onedrive_gb": 240,
+      "onedrive_files": 88000,
+      "share": "\\\\KES-FS01\\Legal",
+      "share_gb": 600,
+      "share_files": 410000,
+      "unique_acl_folders": 1120,
+      "lit_hold_users": 18,
+      "delegates": 4,
+      "shared_mailboxes": 2,
+      "mobile_devices": 26,
+      "pst_files": 22,
+      "pst_gb": 310,
+      "oversized_mailboxes": 3,
+      "spanish_pct": 0.03,
+      "blackouts": []
+    },
+    {
+      "id": "sales",
+      "name": "Sales",
+      "site": "Field / remote",
+      "users": 210,
+      "mailbox_gb": 2730,
+      "mailbox_items": 31400000,
+      "onedrive_gb": 1180,
+      "onedrive_files": 420000,
+      "share": "\\\\KES-FS01\\Sales",
+      "share_gb": 700,
+      "share_files": 380000,
+      "unique_acl_folders": 410,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 6,
+      "mobile_devices": 205,
+      "pst_files": 61,
+      "pst_gb": 290,
+      "oversized_mailboxes": 4,
+      "spanish_pct": 0.12,
+      "blackouts": []
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 72,
+      "mailbox_gb": 790,
+      "mailbox_items": 8700000,
+      "onedrive_gb": 940,
+      "onedrive_files": 260000,
+      "share": "\\\\KES-FS01\\Marketing",
+      "share_gb": 1600,
+      "share_files": 520000,
+      "unique_acl_folders": 230,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 2,
+      "mobile_devices": 60,
+      "pst_files": 8,
+      "pst_gb": 60,
+      "oversized_mailboxes": 1,
+      "spanish_pct": 0.06,
+      "blackouts": []
+    },
+    {
+      "id": "engineering",
+      "name": "Engineering (R&D)",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 180,
+      "mailbox_gb": 1980,
+      "mailbox_items": 22700000,
+      "onedrive_gb": 2250,
+      "onedrive_files": 610000,
+      "share": "\\\\KES-FS01\\Engineering",
+      "share_gb": 3200,
+      "share_files": 1640000,
+      "unique_acl_folders": 760,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 2,
+      "mobile_devices": 95,
+      "pst_files": 27,
+      "pst_gb": 140,
+      "oversized_mailboxes": 2,
+      "spanish_pct": 0.1,
+      "blackouts": []
+    },
+    {
+      "id": "ops_cf",
+      "name": "Operations - Cedar Falls plant",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 190,
+      "mailbox_gb": 560,
+      "mailbox_items": 5900000,
+      "onedrive_gb": 190,
+      "onedrive_files": 41000,
+      "share": "\\\\KES-FS01\\Operations",
+      "share_gb": 650,
+      "share_files": 300000,
+      "unique_acl_folders": 180,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 3,
+      "mobile_devices": 30,
+      "pst_files": 4,
+      "pst_gb": 12,
+      "oversized_mailboxes": 0,
+      "spanish_pct": 0.25,
+      "blackouts": []
+    },
+    {
+      "id": "ops_mty",
+      "name": "Operaciones - Monterrey plant",
+      "site": "Monterrey plant (MX)",
+      "users": 150,
+      "mailbox_gb": 460,
+      "mailbox_items": 4800000,
+      "onedrive_gb": 150,
+      "onedrive_files": 33000,
+      "share": "\\\\KES-FS01\\Operaciones-MTY",
+      "share_gb": 450,
+      "share_files": 210000,
+      "unique_acl_folders": 140,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 2,
+      "mobile_devices": 22,
+      "pst_files": 2,
+      "pst_gb": 6,
+      "oversized_mailboxes": 0,
+      "spanish_pct": 0.85,
+      "blackouts": []
+    },
+    {
+      "id": "supply_chain",
+      "name": "Supply Chain",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 110,
+      "mailbox_gb": 1210,
+      "mailbox_items": 14100000,
+      "onedrive_gb": 520,
+      "onedrive_files": 175000,
+      "share": "\\\\KES-FS01\\SupplyChain",
+      "share_gb": 500,
+      "share_files": 260000,
+      "unique_acl_folders": 300,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 2,
+      "mobile_devices": 80,
+      "pst_files": 22,
+      "pst_gb": 70,
+      "oversized_mailboxes": 1,
+      "spanish_pct": 0.3,
+      "blackouts": []
+    },
+    {
+      "id": "customer_service",
+      "name": "Customer Service",
+      "site": "Cedar Falls HQ & plant (US)",
+      "users": 50,
+      "mailbox_gb": 400,
+      "mailbox_items": 6200000,
+      "onedrive_gb": 90,
+      "onedrive_files": 22000,
+      "share": "\\\\KES-FS01\\CustomerService",
+      "share_gb": 120,
+      "share_files": 70000,
+      "unique_acl_folders": 60,
+      "lit_hold_users": 0,
+      "delegates": 0,
+      "shared_mailboxes": 7,
+      "mobile_devices": 10,
+      "pst_files": 10,
+      "pst_gb": 22,
+      "oversized_mailboxes": 0,
+      "spanish_pct": 0.4,
+      "blackouts": []
+    }
+  ],
+  "findings": [
+    {
+      "id": "PF-01",
+      "check": "litigation_hold",
+      "severity": "critical",
+      "departments": [
+        "legal",
+        "finance",
+        "executive"
+      ],
+      "count": 24,
+      "title": "24 mailboxes on litigation hold",
+      "detail": "Legal 18, Finance 4, Executive 2 custodians. Holds must exist in Google Vault before these users cut over; source holds stay in place for 90 days after cutover.",
+      "remediation": "Create Vault matter KES-LIT-01 with holds for all 24 custodians; Legal sign-off before the wave's go/no-go.",
+      "owner": "Hannah Cho (General Counsel) + Sablewood migration lead",
+      "status": "open"
+    },
+    {
+      "id": "PF-02",
+      "check": "oversized_mailboxes",
+      "severity": "high",
+      "departments": [
+        "executive",
+        "sales",
+        "legal",
+        "finance",
+        "engineering",
+        "marketing",
+        "supply_chain"
+      ],
+      "count": 18,
+      "title": "18 mailboxes over 50 GB (largest 96 GB / 1.1M items)",
+      "detail": "Large mailboxes take 4-6 days to bulk-copy and dominate wave duration.",
+      "remediation": "Pre-stage oversized mailboxes 21 days before their wave; ask owners to archive items older than 7 years.",
+      "owner": "Sablewood migration lead",
+      "status": "in_progress"
+    },
+    {
+      "id": "PF-03",
+      "check": "pst_files",
+      "severity": "medium",
+      "departments": [
+        "*"
+      ],
+      "count": 214,
+      "title": "214 PST files (1.36 TB) found on file shares",
+      "detail": "PST ingestion is out of scope in SOW-2026-0412 (section 4, item OOS-02). Files would be copied to Shared drives as opaque blobs.",
+      "remediation": "Exclude *.pst from share transfer; decide on change order CO for PST ingestion or user self-import.",
+      "owner": "Megan Hollis (client PM)",
+      "status": "open"
+    },
+    {
+      "id": "PF-04",
+      "check": "long_paths",
+      "severity": "high",
+      "departments": [
+        "engineering"
+      ],
+      "count": 18420,
+      "title": "18,420 files with paths over 400 characters (Engineering CAD tree)",
+      "detail": "The migration agent cannot read these paths reliably; they fail with path_too_long.",
+      "remediation": "Map the share root two levels deeper (\\\\KES-FS01\\Engineering\\Projects) or shorten folder names before the bulk pass.",
+      "owner": "Ingrid Solberg (VP Engineering) + Sablewood cloud engineer",
+      "status": "open"
+    },
+    {
+      "id": "PF-05",
+      "check": "broken_inheritance",
+      "severity": "high",
+      "departments": [
+        "finance",
+        "legal",
+        "hr"
+      ],
+      "count": 7485,
+      "title": "7,485 folders with unique (non-inherited) permissions",
+      "detail": "Shared drives grant access at drive level; restricted sub-folders need their own shared drive or a limited-access folder.",
+      "remediation": "Restructure: one shared drive per restricted area (Finance 6, Legal 4, HR 3 proposed).",
+      "owner": "Sablewood solutions architect",
+      "status": "in_progress"
+    },
+    {
+      "id": "PF-06",
+      "check": "everyone_full_control",
+      "severity": "critical",
+      "departments": [
+        "hr"
+      ],
+      "count": 1,
+      "title": "'Everyone: Full control' on the HR share root",
+      "detail": "Would map to domain-wide editor access in Drive.",
+      "remediation": "Remove the ACE at source and re-scan before the HR wave.",
+      "owner": "Kestrel IT",
+      "status": "resolved",
+      "resolved_on": "2026-10-02"
+    },
+    {
+      "id": "PF-07",
+      "check": "orphaned_sids",
+      "severity": "low",
+      "departments": [
+        "*"
+      ],
+      "count": 2870,
+      "title": "2,870 ACL entries point to deleted accounts (orphaned SIDs)",
+      "detail": "Cannot be mapped to Google identities.",
+      "remediation": "Dropped during transfer and logged in the permission audit.",
+      "owner": "Sablewood migration lead",
+      "status": "accepted"
+    },
+    {
+      "id": "PF-08",
+      "check": "blocked_file_types",
+      "severity": "low",
+      "departments": [
+        "it",
+        "engineering"
+      ],
+      "count": 3940,
+      "title": "3,940 executable / installer files (.exe, .msi, .bat)",
+      "detail": "Excluded by policy; kept on the source server read-only.",
+      "remediation": "Exclude by extension filter; IT keeps a software repository on Cloud Storage if needed.",
+      "owner": "Kestrel IT",
+      "status": "accepted"
+    },
+    {
+      "id": "PF-09",
+      "check": "oversize_items",
+      "severity": "medium",
+      "departments": [
+        "*"
+      ],
+      "count": 3812,
+      "title": "3,812 mail items over the 25 MB per-item limit",
+      "detail": "Skipped and reported; users keep read-only access through the source mailbox for 90 days.",
+      "remediation": "Report per user in the post-migration validation; no action unless the user requests export.",
+      "owner": "Sablewood migration lead",
+      "status": "accepted"
+    },
+    {
+      "id": "PF-10",
+      "check": "shared_mailboxes",
+      "severity": "medium",
+      "departments": [
+        "*"
+      ],
+      "count": 37,
+      "title": "37 shared mailboxes",
+      "detail": "Mapped to Google Groups collaborative inboxes (32) or delegated accounts (5, need send-as).",
+      "remediation": "Create groups and delegations in the wave before the members cut over.",
+      "owner": "Sablewood cloud engineer",
+      "status": "in_progress"
+    },
+    {
+      "id": "PF-11",
+      "check": "resource_mailboxes",
+      "severity": "low",
+      "departments": [
+        "*"
+      ],
+      "count": 58,
+      "title": "58 room and equipment mailboxes",
+      "detail": "46 rooms and 12 equipment resources.",
+      "remediation": "Created as Calendar resources with building ids (done in W0).",
+      "owner": "Sablewood cloud engineer",
+      "status": "resolved",
+      "resolved_on": "2026-10-09"
+    },
+    {
+      "id": "PF-12",
+      "check": "dynamic_distribution_lists",
+      "severity": "low",
+      "departments": [
+        "*"
+      ],
+      "count": 6,
+      "title": "6 dynamic distribution lists",
+      "detail": "No 1:1 equivalent; recreate as dynamic groups by department/location attributes.",
+      "remediation": "Recreate as dynamic groups; 182 static lists map 1:1 to Google Groups.",
+      "owner": "Sablewood cloud engineer",
+      "status": "resolved",
+      "resolved_on": "2026-10-08"
+    },
+    {
+      "id": "PF-13",
+      "check": "smtp_relay_apps",
+      "severity": "high",
+      "departments": [
+        "*"
+      ],
+      "count": 7,
+      "title": "7 applications relay mail through Exchange",
+      "detail": "ERP invoicing, CRM quote notifications, HR system, monitoring, 3 multifunction printers. 5 of 7 reconfigured and tested.",
+      "remediation": "Configure the SMTP relay service with IP allowlist; test CRM notifications (Sales wave) and HR system (done).",
+      "owner": "Megan Hollis (client PM)",
+      "status": "in_progress"
+    },
+    {
+      "id": "PF-14",
+      "check": "public_folders",
+      "severity": "medium",
+      "departments": [
+        "customer_service"
+      ],
+      "count": 1,
+      "title": "Public folder tree (42 GB) used by Customer Service",
+      "detail": "Public folders are out of scope in SOW-2026-0412 (OOS-01).",
+      "remediation": "Client decision: archive read-only, or change order to migrate into a shared drive / group archive.",
+      "owner": "Megan Hollis (client PM)",
+      "status": "open"
+    },
+    {
+      "id": "PF-15",
+      "check": "mobile_devices",
+      "severity": "medium",
+      "departments": [
+        "*"
+      ],
+      "count": 690,
+      "title": "690 mobile devices syncing with ActiveSync",
+      "detail": "Devices must be re-added with a Google account; hands-on re-enrolment is out of scope (guide only).",
+      "remediation": "Publish the mobile guide at T-3 and staff floorwalkers on Monday.",
+      "owner": "Noor Haddad (Sablewood change lead)",
+      "status": "in_progress"
+    },
+    {
+      "id": "PF-16",
+      "check": "third_party_archive",
+      "severity": "medium",
+      "departments": [
+        "*"
+      ],
+      "count": 1,
+      "title": "Third-party journaling archive (7 years)",
+      "detail": "Out of scope (OOS-04); retention continues in the existing archive until contract end.",
+      "remediation": "Document in the retention plan; Vault retention starts at cutover.",
+      "owner": "Hannah Cho (General Counsel)",
+      "status": "accepted"
+    },
+    {
+      "id": "PF-17",
+      "check": "leaver_mailboxes",
+      "severity": "low",
+      "departments": [
+        "*"
+      ],
+      "count": 63,
+      "title": "63 unlicensed leaver mailboxes still holding data",
+      "detail": "Not part of the 1,200 migrating users.",
+      "remediation": "Exclude; Legal decides on export per custodian.",
+      "owner": "Hannah Cho (General Counsel)",
+      "status": "accepted"
+    }
+  ],
+  "users_sample": [
+    {
+      "name": "Sam Ortiz",
+      "email": "sam.ortiz@kestrelmfg.example",
+      "dept": "it",
+      "title": "Systems Administrator",
+      "manager": "Megan Hollis",
+      "mailbox_gb": 6.2,
+      "language": "en",
+      "flags": [
+        "mobile"
+      ]
+    },
+    {
+      "name": "Luis Garza",
+      "email": "luis.garza@kestrelmfg.example",
+      "dept": "ops_mty",
+      "title": "Plant Supervisor",
+      "manager": "Rafael Montes",
+      "mailbox_gb": 3.1,
+      "language": "es",
+      "flags": [
+        "mobile"
+      ]
+    },
+    {
+      "name": "Maria Elena Ruiz",
+      "email": "maria.ruiz@kestrelmfg.example",
+      "dept": "ops_mty",
+      "title": "Quality Inspector",
+      "manager": "Luis Garza",
+      "mailbox_gb": 1.4,
+      "language": "es",
+      "flags": []
+    },
+    {
+      "name": "Janelle Brooks",
+      "email": "janelle.brooks@kestrelmfg.example",
+      "dept": "customer_service",
+      "title": "CS Team Lead",
+      "manager": "Owen Pratt",
+      "mailbox_gb": 9.8,
+      "language": "en",
+      "flags": [
+        "shared_mailbox_member"
+      ]
+    },
+    {
+      "name": "Kevin Tran",
+      "email": "kevin.tran@kestrelmfg.example",
+      "dept": "supply_chain",
+      "title": "Buyer",
+      "manager": "Dolores Vega",
+      "mailbox_gb": 14.5,
+      "language": "en",
+      "flags": [
+        "pst",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Fatima Al-Sayed",
+      "email": "fatima.alsayed@kestrelmfg.example",
+      "dept": "hr",
+      "title": "HR Director",
+      "manager": "Douglas Pryor",
+      "mailbox_gb": 11.2,
+      "language": "en",
+      "flags": [
+        "delegate_owner",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Chloe Martin",
+      "email": "chloe.martin@kestrelmfg.example",
+      "dept": "marketing",
+      "title": "Senior Designer",
+      "manager": "Theo Grant",
+      "mailbox_gb": 58.4,
+      "language": "en",
+      "flags": [
+        "oversized_mailbox"
+      ]
+    },
+    {
+      "name": "Priya Raman",
+      "email": "priya.raman@kestrelmfg.example",
+      "dept": "sales",
+      "title": "Regional Sales Manager",
+      "manager": "Marcus Dell",
+      "mailbox_gb": 61.0,
+      "language": "en",
+      "flags": [
+        "oversized_mailbox",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Tomas Herrera",
+      "email": "tomas.herrera@kestrelmfg.example",
+      "dept": "sales",
+      "title": "Account Executive (LATAM)",
+      "manager": "Priya Raman",
+      "mailbox_gb": 18.3,
+      "language": "es",
+      "flags": [
+        "pst",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Grace Okafor",
+      "email": "grace.okafor@kestrelmfg.example",
+      "dept": "sales",
+      "title": "Sales Operations Analyst",
+      "manager": "Marcus Dell",
+      "mailbox_gb": 12.7,
+      "language": "en",
+      "flags": [
+        "shared_mailbox_member",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Ben Kowalski",
+      "email": "ben.kowalski@kestrelmfg.example",
+      "dept": "sales",
+      "title": "Inside Sales Representative",
+      "manager": "Priya Raman",
+      "mailbox_gb": 4.9,
+      "language": "en",
+      "flags": [
+        "mobile"
+      ]
+    },
+    {
+      "name": "Lena Fischer",
+      "email": "lena.fischer@kestrelmfg.example",
+      "dept": "engineering",
+      "title": "Principal Engineer",
+      "manager": "Ingrid Solberg",
+      "mailbox_gb": 22.6,
+      "language": "en",
+      "flags": [
+        "share_owner",
+        "long_paths"
+      ]
+    },
+    {
+      "name": "Raj Malhotra",
+      "email": "raj.malhotra@kestrelmfg.example",
+      "dept": "engineering",
+      "title": "Engineering Manager",
+      "manager": "Ingrid Solberg",
+      "mailbox_gb": 15.1,
+      "language": "en",
+      "flags": [
+        "mobile"
+      ]
+    },
+    {
+      "name": "Monica Reyes",
+      "email": "monica.reyes@kestrelmfg.example",
+      "dept": "finance",
+      "title": "Corporate Controller",
+      "manager": "Elaine Park",
+      "mailbox_gb": 27.9,
+      "language": "en",
+      "flags": [
+        "lit_hold",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Arthur Bell",
+      "email": "arthur.bell@kestrelmfg.example",
+      "dept": "finance",
+      "title": "Accounts Payable Lead",
+      "manager": "Monica Reyes",
+      "mailbox_gb": 13.4,
+      "language": "en",
+      "flags": [
+        "shared_mailbox_member",
+        "pst"
+      ]
+    },
+    {
+      "name": "Hannah Cho",
+      "email": "hannah.cho@kestrelmfg.example",
+      "dept": "legal",
+      "title": "General Counsel",
+      "manager": "Douglas Pryor",
+      "mailbox_gb": 44.2,
+      "language": "en",
+      "flags": [
+        "lit_hold",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Douglas Pryor",
+      "email": "douglas.pryor@kestrelmfg.example",
+      "dept": "executive",
+      "title": "Chief Executive Officer",
+      "manager": "Board",
+      "mailbox_gb": 96.0,
+      "language": "en",
+      "flags": [
+        "oversized_mailbox",
+        "delegate_owner",
+        "lit_hold",
+        "mobile"
+      ]
+    },
+    {
+      "name": "Carol Nguyen",
+      "email": "carol.nguyen@kestrelmfg.example",
+      "dept": "executive",
+      "title": "Executive Assistant to the CEO",
+      "manager": "Douglas Pryor",
+      "mailbox_gb": 19.5,
+      "language": "en",
+      "flags": [
+        "delegate",
+        "mobile"
+      ]
+    }
+  ]
+}

@@ -39,7 +39,8 @@ agents:
       5. When the status is breached or at_risk, or the user shares a customer email (load sample keys with
          get_sample_document), draft the customer notice: what happened, impact, what we are doing, credit if any,
          next update time. Plain language, no blame on named third parties, no liability beyond the contract. Mark it
-         "Draft for the account manager".
+         "Draft for the account manager". Write the analysis in the language of the user's request and the notice in
+         the customer's language (the language of their email, else the user's language).
     output: >-
       Lead line with the verdict, then an "SLA position" table (service, budget used, availability vs target,
       status), breach risk, credits when relevant, actions (owner, deadline) and the customer notice draft in a quote
@@ -131,6 +132,10 @@ agents:
           knowledge base. Email uses labelled lines "Subject:", "Preheader:", "Body:", "CTA:"; push may start with a
           "Title:" line. Apply every numbered fix from the critique. Output only the copy, one section per channel with
           the channel name as the heading.
+          Write the copy in the language of the request. Spanish copy uses the approved Spanish legal lines ("Aplica
+          política de uso razonable." with ilimitado, "Aplican términos y condiciones." with a price — in email
+          "Impuestos y cargos no incluidos. Aplican términos y condiciones." — and "Responde STOP para no recibir más
+          mensajes" in SMS), tú, and a CTA verb such as Pásate, Mejora, Obtén or Descubre; product names stay as is.
         tools: [get_sample_document]
         grounding: [kb]
         output_key: copy_draft
@@ -227,8 +232,12 @@ agents:
 
       Apply every fix from the review and present the final localised copy per locale and channel. Re-check any piece
       you rewrote with tel_check_localized_copy. Finish with a short table of what changed and why (glossary, legal,
-      format, cultural).
-    output: Final copy per locale and channel, a "what changed and why" table, and cultural notes per market.
+      format, cultural). Only the localised copy is in the target locales. Headings, the "what changed" table and the
+      notes are in the language the user wrote the request in: English for an English request (even when the targets
+      are Spanish, Portuguese or French), Spanish for a Spanish request.
+    output: >-
+      Final copy per locale and channel, a "what changed and why" table, and cultural notes per market — the copy in
+      each target locale, everything else in the language the user wrote the request in.
     samples:
       - "Localize 'tel_source_copy_5g_home' into Spanish (Latin America), Brazilian Portuguese and Canadian French."
       - "Localize this push for Spain and France: 'Kestrava Fiber Max 2 Gig: upgrade for $65/mo. T&Cs apply.'"
@@ -342,13 +351,16 @@ agents:
     tools: [ret_simulate_promotion, ret_promo_calendar]
     grounding: [kb, "bigquery:ret_sales_weekly,ret_products"]
     instruction: |
-      1. Check the window first with ret_promo_calendar (conflicting promotions, blackouts, segment contact load).
-      2. Simulate 2-3 options with ret_simulate_promotion (discount levels, windows, public price vs a targeted offer
-         code with targeted_only=true); compare net margin in the window and margin vs doing nothing.
-      3. Sanity-check the modelled lift against past promotions in BigQuery (promo weeks vs the 4 weeks before, same
-         category); at most 3 queries.
-      4. Enforce the promotions and marketing guidelines from the knowledge base: category maximum discount, 18% margin
-         floor, blackouts, no stacking, Rewards Gold rules. Flag every approval needed.
+      1. Check the window first with ret_promo_calendar (conflicting promotions, blackouts, segment contact load); in
+         the same turn search the knowledge base once for the promotions and marketing guidelines.
+      2. Simulate 2-3 options with ret_simulate_promotion in ONE parallel batch (discount levels, windows, public
+         price vs a targeted offer code with targeted_only=true); compare net margin in the window and margin vs doing
+         nothing. Do not re-simulate unless a call failed.
+      3. Sanity-check the modelled lift against past promotions in BigQuery with at most 2 queries: one query that
+         joins ret_sales_weekly to ret_products and compares, per SKU, promo weeks (promo_flag = TRUE) with the
+         average of the 4 weeks before, for the same category.
+      4. Enforce the promotions and marketing guidelines: category maximum discount, 18% margin floor, blackouts, no
+         stacking, Rewards Gold rules. Flag every approval needed.
       5. Recommend one option and say why the others lost.
     output: >-
       Recommendation in one line, options table (discount, weeks, units, net margin, vs do-nothing, checks),
@@ -389,12 +401,13 @@ agents:
         model: flash
         role: Finds the overstocked SKUs worth a campaign and quantifies the excess.
         instruction: |
-          Read the user's request (load the merchandising memo with get_sample_document when a sample key is named).
-          Call ret_stock_risk_scan with risk='overstock' (respect any category, region or SKU the user gave). Use
-          BigQuery to confirm the trend for the top candidates: weekly units over the last 8 weeks and whether the SKU
-          already had a promotion. Pick 2-4 SKUs with the largest excess value at cost, end-of-life items first. For
-          each: on hand, network cover, excess units and value, end-of-life date, unit margin, sales trend, and any
-          overstocked attach item that could be bundled (e.g. a soundbar with a TV). Output a ranked shortlist only.
+          Read the user's request (the merchandising memo is shown below as referenced client material when a sample
+          key is named; load it with get_sample_document only if it is not shown). Call ret_stock_risk_scan with
+          risk='overstock' (respect any category, region or SKU the user gave). Run ONE BigQuery query to confirm the
+          trend for the candidates: weekly units over the last 8 weeks and whether the SKU already had a promotion.
+          Pick 2-3 SKUs with the largest excess value at cost, end-of-life items first. For each: on hand, network
+          cover, excess units and value, end-of-life date, unit margin, sales trend, and any overstocked attach item
+          that could be bundled (e.g. a soundbar with a TV). Output a compact ranked shortlist table only.
         tools: [get_sample_document, ret_stock_risk_scan]
         grounding: ["bigquery:ret_inventory_snapshot,ret_sales_weekly,ret_products"]
         output_key: overstock_shortlist
@@ -406,8 +419,8 @@ agents:
           Shortlist:
           {{overstock_shortlist}}
 
-          Call ret_match_segments for the shortlisted SKUs (start date from the user, default 2026-11-09) and
-          ret_promo_calendar for the window and each SKU's category. For each SKU pick 1-2 segments with reachable
+          In ONE parallel batch call ret_match_segments for the shortlisted SKUs (start date from the user, default
+          2026-11-09) and ret_promo_calendar once for the window (no category filter: it covers every category). For each SKU pick 1-2 segments with reachable
           audience, expected buyers and channel, and list every conflict: blackout, an existing promotion in the
           category, a segment at its email cap, Rewards Gold margin protection. Propose a window that avoids the
           conflicts (or joining an existing promotion when that is better). Output a compact audience plan.
@@ -424,13 +437,17 @@ agents:
           Audience plan:
           {{audience_plan}}
 
-          For at most the top 3 SKUs run ret_simulate_promotion at most twice each (6 calls in total) — pick the discount levels deliberately within the category maximum, with the chosen
-          segment, channel and window. Compare a targeted offer code (targeted_only=true, the preferred mechanic for
-          overstock) with a public price promotion, and add a bundle option when the shortlist names an attach item.
+          Simulate only the top 2 SKUs of the shortlist, with exactly these 4 ret_simulate_promotion calls issued
+          together in ONE parallel batch: (1) SKU 1 as a targeted offer code (targeted_only=true, the preferred
+          mechanic for overstock), (2) SKU 1 as a public price promotion — or as a bundle when the shortlist names an
+          attach item, (3) SKU 2 targeted, (4) SKU 2 public or bundle. Use the chosen segment, channel and window and a
+          discount within the category maximum. There is no second batch: after the results return, write the table
+          (re-run a call only if it returned an error).
           Choose the option with the best margin vs doing nothing that passes every check (max discount, margin floor
           or end-of-life exception, calendar, contact cap). If no option beats doing nothing, say so and suggest
           folding the SKU into a multi-SKU campaign or an existing promotion. Output a table per SKU: option, units,
           cover after, net margin in window, margin vs do nothing, checks — then the chosen option with one reason.
+          Keep it compact: no prose beyond one line per SKU.
         tools: [ret_simulate_promotion]
         output_key: margin_plan
     tools: [ret_create_campaign]
@@ -445,15 +462,18 @@ agents:
       Margin plan:
       {{margin_plan}}
 
-      1. Write one campaign brief per campaign (group small-ticket SKUs that share a segment into one campaign):
-         objective, SKUs, offer and mechanic, segments and audience size, window, channels, expected units, margin vs
-         doing nothing, cover after, risks and approvals. Numbers come only from the steps above.
-      2. Write the copy per channel (email with subject and body, push, social) following the Larkspur promotions and
-         marketing guidelines in the knowledge base: "While stocks last", the offer end date, no banned phrases, the
-         discount in the copy equals the offer.
-      3. Call ret_create_campaign once per campaign with the exact copy (pass bundle_discount_pct for bundles). If it
-         returns issues, fix the copy and call it again, at most twice. Report each campaign id and status as
-         (simulated).
+      1. Write one campaign brief per campaign (at most 2 campaigns; group small-ticket SKUs that share a segment
+         into one campaign): objective, SKUs, offer and mechanic, segments and audience size, window, channels,
+         expected units, margin vs doing nothing, cover after, risks and approvals. Numbers come only from the steps
+         above.
+      2. Write short copy per channel (email subject + body under 60 words, push under 110 characters, social under
+         200 characters) following the Larkspur promotions and marketing guidelines: "While stocks last", the offer
+         end date, no banned phrases or superlatives, the discount in the copy equals the offer. No knowledge-base
+         search is needed for this step: ret_create_campaign validates the copy against the guidelines and returns any
+         issue.
+      3. Call ret_create_campaign for every campaign in ONE parallel batch with the exact copy (pass
+         bundle_discount_pct for bundles). If it returns issues, fix the copy and call it again once. Report each
+         campaign id and status as (simulated).
     output: >-
       "Overstock-to-campaign plan": headline (excess value addressed, margin vs doing nothing), shortlist table, one
       brief per campaign (offer, audience, window, expected impact, approvals), copy per channel, draft campaign ids
@@ -488,6 +508,10 @@ agents:
     tools: [route_incoming_email, ret_order_lookup, ret_return_eligibility, ret_notify_customer, get_sample_document]
     grounding: [kb]
     instruction: |
+      0. Language: everything you write for the support agent (headings, case summary, decision, notes, next steps)
+         is in the language of the agent's own message — an English message gets English, a Spanish message gets
+         Spanish, whatever language the customer email or the tools use. Only the customer reply follows the
+         customer's language (the language of the customer's own message; if there is none, the agent's language).
       1. If the user pastes or names a customer message (load sample keys with get_sample_document), classify it with
          route_incoming_email for intent and priority.
       2. Find the order with ret_order_lookup (order id or email).
@@ -499,8 +523,9 @@ agents:
       5. When the tool returns an escalation, write a 3-line note for that queue with the facts. Send the reply with
          ret_notify_customer only when the agent confirms.
     output: >-
-      Case summary (customer, order, intent, priority), decision with the policy reference, suggested reply in a quote
-      block, escalation note if needed, internal next steps.
+      Written in the support agent's language (only the quoted customer reply follows the customer's language): case
+      summary (customer, order, intent, priority), decision with the policy reference, suggested reply in a quote
+      block, escalation note if needed, and next steps for the support team.
     samples:
       - "Help me answer this customer: sample 'ret_email_tv_dead_pixels'."
       - The customer on ORD-L-479880 wants to return their opened Corvex Air 14 laptop today. What can we offer?
@@ -534,12 +559,15 @@ agents:
       1. Understand the need (room, use, budget, devices already owned). Ask at most one clarifying question; otherwise
          state your assumptions.
       2. Shortlist with ret_product_compare (category, max_price, must_have features), then check what the shopper owns
-         or plans to add with ret_check_compatibility.
+         or plans to add with ret_check_compatibility. Take SKUs from the tool results (search by category when the
+         shopper names products) — never guess SKU codes.
       3. Recommend one product and one alternative. Explain trade-offs in plain words, not spec dumps. Mention
          end-of-life models and their successors honestly.
       4. Suggest a bundle only when the compatibility check supports it; offer CarePlus with the exact price from the
          tool; take warranty and return terms from the knowledge base.
       5. Never invent specs, prices or stock.
+      6. Reply in the shopper's language even though the catalog and tool results are in English (product names stay
+         as they are).
     output: >-
       Recommendation, comparison table (3 rows max), "Works with your setup" checks, bundle and CarePlus option,
       return and warranty note.
@@ -612,14 +640,19 @@ agents:
     tools: [log_replenishment_plan]
     grounding: [kb, "bigquery:log_dc_demand_daily"]
     instruction: |
-      1. Call log_replenishment_plan for the site or SKU asked; add lead_time_buffer_days when a disruption affects the
-         lane (e.g. 4 days for port-congested ocean items).
-      2. When the user questions the forecast or the tool flags a spike, validate demand in BigQuery (daily mean and
-         standard deviation over 28 and 84 days, stock-out days); at most 3 queries.
+      1. Call log_replenishment_plan first, for the site (AVD = Ashford Vale DC, RMD = Redmarsh DC, BRK = Vantor
+         plant) or SKU asked — or with no filter for "what should we order"; add lead_time_buffer_days when a
+         disruption affects the lane (e.g. 4 days for port-congested ocean items).
+      2. When the user questions the forecast or the tool flags a spike, validate demand in BigQuery
+         (log_dc_demand_daily only: daily mean and standard deviation over 28 and 84 days, stock-out days); at most 3
+         queries. Never explore INFORMATION_SCHEMA or other tables.
       3. Explain the status per item (order_now, expedite, excess), the PO lines by supplier and value, and the expedite
          proposals with their premium. Apply the PO approval thresholds from the replenishment policy in the
-         knowledge base.
+         knowledge base (one search).
       4. Never change quantities the tool returned; state the assumptions (service level, buffer).
+      5. Your scope is DC and plant stock. Shipment status, store stock and customer impact belong to Control Tower and
+         Shipment Brief: if asked, answer only the DC/plant stock consequence from the plan and name the agent that
+         covers the rest — do not search the knowledge base or BigQuery for shipment ids. Keep to 6 tool calls.
     output: >-
       Summary (orders, expedites, excess), PO table by supplier with approval level, expedite actions, excess actions,
       assumptions.
@@ -690,13 +723,16 @@ agents:
       IMPACT: {{customer_impact}}
       CAUSES: {{root_causes}}
 
-      1. Call log_recovery_options for every critical shipment and for high ones with penalty exposure; recommend one
-         option each with its cost and approval level.
-      2. Write the brief in the daily-brief format of the customer SLA and communications standard (knowledge base):
-         headline (3 bullets), what's late and why, customer impact and penalty exposure, recommended actions (owner,
-         cost, approval, deadline), customer updates owed (overdue ones first).
-      3. Draft one update per affected Tier-1 shipper: shipment ids, plain-language cause, new ETA dates, what we are
-         doing, next update time; no internal codes. Send with log_send_customer_update only if the user asks to send.
+      1. In ONE parallel batch: call log_recovery_options for every critical shipment (at most 5; add high ones with
+         penalty exposure only when fewer than 3 are critical) and search the knowledge base once for the daily-brief
+         format of the customer SLA and communications standard. Recommend one option each with its cost and approval
+         level.
+      2. Write the brief in that format: headline (3 bullets), what's late and why, customer impact and penalty
+         exposure, recommended actions (owner, cost, approval, deadline), customer updates owed (overdue ones first).
+         Tables over prose; keep the brief itself under ~600 words.
+      3. Draft one update per affected Tier-1 shipper (under 120 words each): shipment ids, plain-language cause, new
+         ETA dates, what we are doing, next update time; no internal codes. Send with log_send_customer_update only if
+         the user asks to send — then send all of them in ONE parallel batch and report the message ids (simulated).
     output: >-
       "Shipment brief — 6 Nov 2026, 07:00": headline, late and why (table), customer impact (table with penalty
       exposure), recommended actions (owner, cost, approval, by when), customer update drafts, watch list.
@@ -738,15 +774,19 @@ agents:
     instruction: |
       1. Restate the disruption and the goal: protect customers and product, keep cost within approval limits. Call
          log_disruption_feed to scope it; load the ops note with get_sample_document when a sample key is named.
-      2. Call Control Tower for exposure. Give every specialist a focused, self-contained request with the shipment ids
-         or SKUs it needs.
-      3. Call Replenishment for the stock consequences (for example RES-ABS-PC at the Vantor plant, LUM-65Q8 at Ashford
-         Vale) with a lead-time buffer that matches the disruption.
-      4. Decide recovery per shipment with log_recovery_options and reconcile it with Replenishment: an emergency buy
-         or a DC transfer can replace an expensive expedite. Respect the approval limits in the exception management
-         playbook.
-      5. Call Shipment Brief only when the user wants the manager's brief or customer drafts; otherwise draft updates
-         yourself. Send updates only on request.
+      2. Call Control Tower (tool logistics_orch__control_tower) once for exposure, with a focused, self-contained
+         request: the disruption id and the affected shipment ids; ask for severity, P90 ETA and downstream impact
+         (no lane-trend queries).
+      3. Call Replenishment (tool logistics_orch__replenishment) once when the disruption affects inbound stock at a DC
+         or plant: name the site code (AVD = Ashford Vale DC, RMD = Redmarsh DC, BRK = Vantor plant), the SKUs (for
+         example RES-ABS-PC at BRK, LUM-65Q8 at AVD) and a lead-time buffer that matches the disruption — never
+         shipment ids. If no DC or plant stock is at stake (e.g. a pharma reefer to a hospital), skip it and say why.
+      4. Decide recovery per critical or high shipment with log_recovery_options and reconcile it with Replenishment:
+         an emergency buy or a DC transfer can replace an expensive expedite. Respect the approval limits in the
+         exception management playbook.
+      5. Customer communications: draft the updates in the plan. Call log_send_customer_update ONLY when the user
+         explicitly asks to send; otherwise mark them "draft — not sent". Call Shipment Brief only when the user wants
+         the manager's brief.
       6. Finish with one resolution plan; keep every number exactly as the tools and specialists returned it.
     output: >-
       "Disruption resolution plan": situation, exposure, decisions table (shipment or SKU, action, cost, approval,

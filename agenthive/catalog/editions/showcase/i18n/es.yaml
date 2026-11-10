@@ -1,0 +1,106 @@
+# Spanish UI texts for the showcase edition: title, segments, clusters, statuses and security layers.
+# Agent texts live in es__<segment>.yaml; compositions and skills in es__compositions.yaml.
+title: The Wursta Agent Hive
+subtitle: >-
+  Demos en vivo de agentes de Google Cloud para cada industria: elige un segmento, abre un agente y míralo trabajar
+  con Gemini y Vertex AI Agent Engine.
+statuses:
+  demo_ready: {label: Demo en vivo, description: "Corre en vivo en Vertex AI Agent Engine con datos sintéticos."}
+  built: {label: Demo en vivo, description: "Corre en vivo en Vertex AI Agent Engine con datos sintéticos."}
+  in_build: {label: Demo en vivo, description: "Corre en vivo en Vertex AI Agent Engine con datos sintéticos."}
+  library: {label: Demo en vivo, description: "Corre en vivo en Vertex AI Agent Engine con datos sintéticos."}
+
+segments:
+  government:
+    name: Gobierno
+    blurb: >-
+      Agentes para el sector público: servicios ciudadanos, permisos, expedientes y políticas, más un marco de
+      servicios ciudadanos que los combina en programas nacionales.
+    clusters:
+      public_services: {name: "Servicios públicos", blurb: "Los servicios de primera línea que usan a diario ciudadanos y empresas."}
+      records_legal: {name: "Expedientes, legal y compras", blurb: "Agentes de back-office para transparencia, revisión legal y compras públicas."}
+      citizen_framework: {name: "Marco de Servicios Ciudadanos", blurb: "Composición nacional propuesta: canal de mensajería, federación de identidad y agentes especializados."}
+  enterprise:
+    name: Enterprise
+    blurb: >-
+      Agentes por industria para servicios financieros, salud, telco, retail y logística, más una suite de estrategia
+      y transformación, una fábrica de agentes y agentes de productividad para cualquier equipo.
+    clusters:
+      financial: {name: "Servicios financieros", blurb: "Patrimonio, cumplimiento, FP&A y analítica ejecutiva para bancos y gestores de patrimonio."}
+      healthcare: {name: "Salud", blurb: "Seguimiento post-alta, preselección para ensayos, rechazos de reclamos y documentación clínica."}
+      telco: {name: "Telco y medios", blurb: "Aseguramiento de SLA, analítica de campañas, contenido de marca y localización."}
+      retail: {name: "Retail y consumo masivo", blurb: "Riesgo de inventario, fulfillment, promociones, campañas y atención al cliente."}
+      logistics: {name: "Logística y manufactura", blurb: "Torre de control, reabastecimiento, resúmenes de envíos, orquestación y calidad."}
+      pantheon: {name: "Estrategia y transformación", blurb: "Un coordinador y cinco especialistas convierten el material de descubrimiento en arquitectura, backlog, plan de riesgos y caso de negocio."}
+      forge: {name: "Fábrica de agentes", blurb: "Describe un agente en lenguaje natural; la fábrica lo planifica, construye, prueba y despliega sobre tus sistemas."}
+      productivity: {name: "Productividad y conocimiento", blurb: "Agentes de investigación, conocimiento, Google Workspace e ingeniería para cualquier equipo."}
+  smb:
+    name: PyMEs
+    blurb: >-
+      Agentes prácticos para pequeñas y medianas empresas —vender más, gestionar proyectos, incorporar personas,
+      adoptar IA— y WAISentry, operaciones de seguridad 24/7 para equipos que trabajan en la nube.
+    clusters:
+      growth: {name: "Crecimiento y ventas", blurb: "Descubrimiento, preventa, inteligencia de cuentas, ROI y presencia en redes."}
+      operations: {name: "Operaciones y datos", blurb: "Planes, estado de proyectos, retrospectivas, preguntas sobre datos y adopción de IA."}
+      people: {name: "Personas", blurb: "Incorporación de colaboradores y desarrollo de habilidades."}
+      security: {name: "WAISentry · seguridad 24/7", blurb: "SOC gestionado: triage con Gemini, analistas certificados, contención en menos de 60 segundos y cero datos personales por diseño."}
+  services:
+    name: Servicios Profesionales
+    blurb: >-
+      Para consultoras de TI, integradores y partners de Google Cloud: ganar proyectos, definir alcance y precio,
+      migrar clientes a Google Workspace, entregar y mantener sana cada cuenta.
+    clusters:
+      delivery_engine: {name: "Alcance, SOWs y entrega", blurb: "Statements of work, control de alcance, validación, capacitación y preparación para migraciones."}
+      atlas: {name: "Migración a Workspace (Atlas)", blurb: "Siete agentes que ejecutan de punta a punta una migración de correo heredado a Google Workspace."}
+      client_delivery: {name: "Éxito del cliente", blurb: "Salud de las reuniones, acciones, documentos listos para el cliente y contenido para partners."}
+      sales_marketing: {name: "Ventas y marketing", blurb: "Respuestas a RFPs, inteligencia competitiva y campañas en redes."}
+      innovation: {name: "Operaciones, riesgo y gobierno de IA", blurb: "Operaciones de personas, predicción de abandono, revisión legal y de cumplimiento, y guardarraíles de IA."}
+  workforce:
+    name: Agent Workforce
+    blurb: >-
+      Una agencia de talento con IA: explora agentes especialistas, descríbele el trabajo en lenguaje natural, conoce
+      el costo antes de empezar y recibe un documento terminado con tu marca. Funciona como app SaaS o dentro del
+      Marketplace de agentes de Gemini Enterprise.
+    clusters:
+      workforce_platform: {name: "Plataforma Workforce", blurb: "Explorar, describir y estimar, orquestación multiagente, inteligencia de marca, QA y verificación de datos, entrega de documentos con tu marca."}
+      marketing_sales: {name: "Marketing, redes y ventas", blurb: "Especialistas de los departamentos de Marketing, Redes Sociales y Ventas."}
+      ops_strategy: {name: "Operaciones, estrategia y redacción", blurb: "Especialistas de los departamentos de Operaciones, Estrategia y Redacción."}
+
+security_layers:
+  google_security:
+    name: Capa de seguridad de Google
+    note: Arquitectura de referencia para despliegues en producción; esta demo usa datos sintéticos y no la aplica.
+    summary: >-
+      Los agentes de gobierno y enterprise funcionan detrás del stack de seguridad de Google: cada prompt y cada
+      respuesta se revisan, cada turno del agente se registra y correlaciona, y cada indicador se enriquece con
+      inteligencia de amenazas de primera línea.
+    controls:
+      - name: Google Security Operations
+        short: SecOps
+        brief: "SIEM + SOAR: correlaciona los registros de agentes, Cloud Run y auditoría; los playbooks contienen incidentes."
+        role: >-
+          SIEM + SOAR. Los registros de Agent Engine, Cloud Run y Cloud Audit Logs llegan a SecOps; las detecciones
+          cubren el mal uso de agentes (abuso de herramientas, exfiltración de datos, volúmenes inusuales) y los
+          playbooks de SOAR contienen los incidentes.
+      - name: Model Armor
+        short: Model Armor
+        brief: Revisa prompts y respuestas contra inyección, jailbreaks, datos sensibles y URLs maliciosas.
+        role: >-
+          Revisa cada prompt y cada respuesta: inyección de prompts y jailbreaks, datos sensibles con Sensitive Data
+          Protection, URLs maliciosas y filtros de IA responsable, aplicados mediante plantillas de políticas.
+      - name: Google Threat Intelligence
+        short: GTI
+        brief: La inteligencia de Mandiant y VirusTotal enriquece cada indicador.
+        role: >-
+          La inteligencia de primera línea de Mandiant y el contexto de VirusTotal enriquecen los dominios, IPs, URLs y
+          hashes de archivos que aparecen en las alertas de SecOps y en lo que los usuarios envían a los agentes.
+  waisentry:
+    name: WAISentry SOC 24/7
+    note: Servicio gestionado de Wursta; los agentes del grupo WAISentry muestran cada etapa con telemetría sintética.
+    summary: >-
+      Operaciones de seguridad gestionadas por Wursta para organizaciones que trabajan en la nube: triage con Gemini
+      y analistas certificados las 24 horas, contención en menos de 60 segundos y cero datos personales por diseño.
+    controls:
+      - {name: Triage con IA + SOC humano 24/7, short: SOC 24/7, role: "Gemini elimina ~99% del ruido en segundos; analistas certificados de Wursta verifican cada amenaza real."}
+      - {name: Contención activa, short: "Contención < 60 s", role: "Playbooks preaprobados cierran sesiones, revocan apps OAuth, suspenden cuentas y ponen en cuarentena enlaces de Drive."}
+      - {name: Arquitectura sin datos personales, short: Zero-PII, role: "Nombres, correos y contenidos se tokenizan dentro del tenant de Google Cloud del cliente antes de que una alerta salga."}

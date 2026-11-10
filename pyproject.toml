@@ -24,7 +24,9 @@ include = ["agenthive*"]
 
 [tool.setuptools.package-data]
 agenthive = ["catalog/*.yaml", "catalog/realms/*.yaml", "tools/fixtures/*.json", "tools/fixtures/docs/*.md",
-             "grounding/bq/*.json", "grounding/corpus/*/*.md"]
+             "grounding/bq/*.json", "grounding/corpus/*/*.md", "catalog/editions/*/*.yaml",
+             "catalog/editions/*/i18n/*.yaml", "tools/fixtures/editions/*/*.json", "tools/fixtures/editions/*/docs/*.md",
+             "grounding/editions/*/corpus/*/*.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

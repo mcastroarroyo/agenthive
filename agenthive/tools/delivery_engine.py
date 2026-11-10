@@ -1,4 +1,4 @@
-"""Wursta Delivery Engine tools — realm `delivery`, clusters *delivery_engine* (dlv_) and *atlas* (atlas_).
+"""Delivery Engine tools — realm `delivery`, clusters *delivery_engine* (dlv_) and *atlas* (atlas_).
 
 Everything is deterministic over synthetic fixtures frozen at the demo date 2026-11-06:
   dlv_*    SOW estimation and pricing, LATAM localisation, scope control and change orders, VDR template checks,
@@ -247,6 +247,7 @@ def atlas_preflight_scan(check: str = "all", only_open: bool = False) -> dict:
     """
     t = fixture("atlas_tenant")
     limit = t["constraints"]["max_items_per_shared_drive"]
+    partner = t["tenant"].get("delivery_partner", "Wursta")   # the delivery firm (editions name their own)
     findings = [dict(f) for f in t["findings"]]
     for d in t["departments"]:   # computed: Shared drives hold at most `limit` items each
         if d["share_files"] > limit:
@@ -257,7 +258,7 @@ def atlas_preflight_scan(check: str = "all", only_open: bool = False) -> dict:
                 "title": f"{d['share']} has {d['share_files']:,} items — over the {limit:,}-item shared drive limit",
                 "detail": f"Needs at least {n} shared drives (split by top-level folder).",
                 "remediation": f"Split into {n}+ shared drives before the bulk pass; map each top-level folder.",
-                "owner": "Wursta solutions architect", "status": "in_progress", "computed": True})
+                "owner": f"{partner} solutions architect", "status": "in_progress", "computed": True})
     if check and check != "all":
         findings = [f for f in findings if f["check"] == check]
         if not findings:
@@ -842,7 +843,7 @@ def atlas_status_snapshot(as_of: str = "2026-11-06", audience: str = "project_te
 @hive_tool("delivery")
 @_guard
 def dlv_estimate_effort(deliverables: list[dict]) -> dict:
-    """Estimate effort by role for SOW deliverables using Wursta's reference estimation model.
+    """Estimate effort by role for SOW deliverables using the reference estimation model.
 
     Args:
         deliverables: List of {"type": str, "quantity": number, "complexity": "low"|"medium"|"high", "name": str}.
@@ -917,7 +918,7 @@ def _role(name: str, roles: dict) -> str | None:
 @_guard
 def dlv_price_sow(role_hours: list[dict], pricing_model: str = "fixed", delivery_region: str = "us_onshore",
                   discount_pct: float = 0.0, risk_level: str = "medium") -> dict:
-    """Price an estimate with Wursta's illustrative rate card: T&M or fixed fee, margin, discount approvals.
+    """Price an estimate with the illustrative services rate card: T&M or fixed fee, margin, discount approvals.
 
     Args:
         role_hours: List of {"role": str, "hours": number} (e.g. the role_hours from dlv_estimate_effort).
@@ -990,7 +991,7 @@ def dlv_price_sow(role_hours: list[dict], pricing_model: str = "fixed", delivery
 @hive_tool("delivery")
 @_guard
 def dlv_payment_schedule(total_price_usd: float, pricing_model: str, milestones: list[dict]) -> dict:
-    """Build the SOW payment schedule from milestones following Wursta's billing policy.
+    """Build the SOW payment schedule from milestones following the billing policy.
 
     Args:
         total_price_usd: Fixed fee, or the T&M estimate for 'tm'.
@@ -1141,7 +1142,7 @@ _PAY_ROW = re.compile(r"signature|mobili[sz]a|milestone|hold-?back|final accepta
 @hive_tool("delivery")
 @_guard
 def dlv_sow_quality_check(sow_text: str, language: str = "auto") -> dict:
-    """QA a SOW draft against Wursta's SOW standards: required sections, vague terms, placeholders, acceptance, payments.
+    """QA a SOW draft against the SOW standards: required sections, vague terms, placeholders, acceptance, payments.
 
     Args:
         sow_text: The full SOW draft (markdown) or the key of a sample document.
@@ -1198,7 +1199,7 @@ def dlv_latam_fiscal_profile(country: str, amount_usd: float = 0.0, billing: str
     Args:
         country: ISO code: MX, CO, BR, CL, PE or SV.
         amount_usd: Optional SOW value in USD to convert and to compute VAT / withholding impact.
-        billing: 'cross_border' (Wursta US entity invoices in USD; client may withhold tax) or 'local_partner'
+        billing: 'cross_border' (the provider's US entity invoices in USD; client may withhold tax) or 'local_partner'
             (local reseller invoices in local currency with VAT).
 
     Returns:
@@ -1316,7 +1317,7 @@ def dlv_draft_change_order(sow_id: str, items: list[dict], requested_by: str = "
 
     Returns:
         Change-order id, priced lines, CO total, contingency, updated contract value, schedule impact, required
-        Wursta approver and client signature status (draft filed — simulated).
+        provider-side approver and client signature status (draft filed — simulated).
     """
     sows = fixture("dlv_signed_sows")
     s = sows.get(sow_id.strip().upper())
@@ -1329,6 +1330,15 @@ def dlv_draft_change_order(sow_id: str, items: list[dict], requested_by: str = "
     for it in items:
         ref = str(it.get("oos_ref", "")).upper()
         effort = it.get("role_hours") or []
+        title = str(it.get("title", ""))
+        if not ref and not effort:   # infer the clause from the title (an id in it, else the SOW's keywords)
+            m = re.search(r"\b(?:OOS|CAP)-\d+\b", title.upper())
+            low = f" {title.lower()} "
+            hit = next((x for x in [*s["out_of_scope"], *s["caps"]] if any(k in low for k in x["keywords"])), None)
+            ref = m.group(0) if m else (hit["id"] if hit else "")
+            if ref.startswith("CAP-") and not it.get("quantity"):
+                c = next((x for x in s["caps"] if x["id"] == ref), None)
+                it = {**it, "quantity": _quantity(low, c.get("unit_words", [c["unit"]])) if c else None}
         if ref:
             o = next((x for x in s["out_of_scope"] if x["id"] == ref), None)
             c = next((x for x in s["caps"] if x["id"] == ref), None)
@@ -1356,7 +1366,8 @@ def dlv_draft_change_order(sow_id: str, items: list[dict], requested_by: str = "
             lines.append({"item": it.get("title") or ref, "ref": ref or "custom", "role": role, "hours": h,
                           "rate_usd": rates[role], "amount_usd": round(h * rates[role], 2)})
     subtotal = round(sum(ln["amount_usd"] for ln in lines), 2)
-    pol = fixture("dlv_rate_card")["policy"]["change_orders"]
+    rc = fixture("dlv_rate_card")
+    pol = rc["policy"]["change_orders"]
     contingency = round(subtotal * pol["fixed_contingency_pct"] / 100, 2) if s["pricing_model"] == "fixed" else 0.0
     total = round(subtotal + contingency, 2)
     approver = next(a["approver"] for a in pol["approvals"] if total <= a["max_usd"])
@@ -1365,7 +1376,7 @@ def dlv_draft_change_order(sow_id: str, items: list[dict], requested_by: str = "
               pricing_model=s["pricing_model"], lines=lines, hours=sum(ln["hours"] for ln in lines),
               subtotal_usd=subtotal, contingency_usd=contingency, total_usd=total,
               contract_value_before_usd=s["value_usd"], contract_value_after_usd=round(s["value_usd"] + total, 2),
-              schedule_impact_days=days, wursta_approver=approver,
+              schedule_impact_days=days, **{f"{rc.get('firm_key', 'wursta')}_approver": approver},
               client_signature="required before work starts", valid_for_days=pol["validity_days"],
               result="draft filed in the change register (simulated)", simulated=True)
 
@@ -1378,7 +1389,7 @@ def dlv_draft_change_order(sow_id: str, items: list[dict], requested_by: str = "
 @hive_tool("delivery")
 @_guard
 def dlv_vdr_validate(document: str, template: str = "design_review") -> dict:
-    """Validate a delivery document (design review or validation report) against Wursta's required VDR template.
+    """Validate a delivery document (design review or validation report) against the required VDR template.
 
     Args:
         document: Document text or a sample key such as 'dlv_vdr_design_kestrel' or 'dlv_vdr_validation_bluestem'.
@@ -1597,7 +1608,7 @@ def dlv_cert_tracker(as_of: str = "2026-11-06", window_days: int = 90, specializ
 
     Returns:
         Expired and expiring certifications (who, what, days left, renewal booked), per-specialization coverage
-        today and at the end of the window versus the illustrative internal targets, gaps and at-risk counts.
+        today and at the end of the window versus the illustrative specialization targets, gaps and at-risk counts.
     """
     day = _date(as_of)
     if day is None or not 1 <= window_days <= 365:
@@ -1693,7 +1704,7 @@ def dlv_readiness_assessment(client_id: str) -> dict:
 
     Returns:
         Per-domain scores (0-100) with weights, overall weighted score, blockers (critical questions answered no,
-        partial or unknown) with remediation, the verdict per Wursta's readiness rules and all answers.
+        partial or unknown) with remediation, the verdict per the readiness rules and all answers.
     """
     rd = fixture("dlv_readiness")
     cl = rd["clients"].get(client_id.lower())
@@ -1861,15 +1872,24 @@ def dlv_migration_tracker(project_id: str = "KES-WS-2026", as_of: str = "2026-11
 @hive_tool("delivery")
 @_guard
 def dlv_agent_demo_facts(agent_id: str) -> dict:
-    """Return the facts a demo script needs about any Hive agent: what it does, pattern, tools, samples, KPIs.
+    """Return the facts a demo script needs about what is being demoed: what it does, how, exact inputs, KPIs.
 
     Args:
-        agent_id: Catalog agent id, e.g. 'atlas_preflight', 'sow_builder', 'hermes'.
+        agent_id: Id or name of the agent or solution to demo, as named in the demo request (an unknown id
+            returns the available ones).
 
     Returns:
-        Name, code, status, tagline, description, persona, model tier, pattern and steps, tools (with which ones
-        are simulated actions), grounding, the one-click samples and sample document, KPIs and related agents.
+        Name, tagline, description, audience, how it works (pattern, steps, tools), which actions are simulated,
+        the tested sample inputs (exact prompts for the click path), sample document, KPIs and related items.
     """
+    sols = fixture("dlv_demo_rules").get("solutions")
+    if sols:   # an edition can demo its own solutions instead of the agent catalog
+        want = _key(agent_id)
+        s = next((x for x in sols if want in (x["id"], _key(x["name"]))), None) or next(
+            (x for x in sols if want and (want in _key(x["name"]) or x["id"] in want)), None)
+        if not s:
+            return err(f"unknown solution {agent_id!r}", available=[f"{x['id']} ({x['name']})" for x in sols])
+        return ok(kind="solution", **s)
     from ..catalog import load_catalog
 
     cat = load_catalog()
@@ -1898,7 +1918,7 @@ def dlv_agent_demo_facts(agent_id: str) -> dict:
 @hive_tool("delivery")
 @_guard
 def dlv_demo_timing(segments: list[dict], slot_minutes: int = 30) -> dict:
-    """Check a demo run-of-show against Wursta's demo standards: timing, live share, buffer and fallbacks.
+    """Check a demo run-of-show against the demo standards: timing, live share, buffer and fallbacks.
 
     Args:
         segments: Ordered list of {"name": str, "minutes": number, "type": "intro"|"context"|"live_demo"|"story"|

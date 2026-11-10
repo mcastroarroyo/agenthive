@@ -2,7 +2,7 @@
   "templates": {
     "seo_audit": {
       "name": "SEO audit", "specialists": ["wf_seo_strategist"], "default_format": "docx", "formats": ["docx", "md"],
-      "keywords": ["seo audit", "site audit", "website audit", "audit our website", "audit of our website", "technical seo"],
+      "keywords": ["seo audit", "site audit", "website audit", "audit our website", "audit of our website", "technical seo", "auditoría seo", "auditoria seo", "auditoría del sitio", "auditoria del sitio", "auditoría de nuestro sitio", "auditoria de nuestro sitio"],
       "length": "1,000-1,600 words plus tables",
       "sections": [
         "Executive summary — score, the 3 fixes that matter most, expected impact",
@@ -16,7 +16,7 @@
     },
     "blog_brief": {
       "name": "Blog post brief", "specialists": ["wf_seo_strategist"], "default_format": "docx", "formats": ["docx", "md"],
-      "keywords": ["blog brief", "content brief", "post brief", "seo brief", "article brief", "brief for a blog", "blog post brief"],
+      "keywords": ["blog brief", "content brief", "post brief", "seo brief", "article brief", "brief for a blog", "blog post brief", "brief de artículo", "briefs de artículo", "brief de articulo", "briefs de articulo", "brief seo", "brief de blog", "brief de contenido"],
       "length": "500-900 words",
       "sections": [
         "Working title and meta — title under 60 characters, meta description 120-155 characters, URL slug",
@@ -31,14 +31,14 @@
     },
     "blog_post": {
       "name": "Blog post", "specialists": ["wf_seo_strategist", "wf_longform_writer"], "default_format": "docx", "formats": ["docx", "md"],
-      "keywords": ["blog post", "write a blog", "article", "blog article"],
+      "keywords": ["blog post", "write a blog", "article", "blog article", "artículo de blog", "articulo de blog", "entrada de blog", "escribe un artículo"],
       "length": "800-1,300 words",
       "sections": ["Title (H1) and standfirst", "3-5 H2 sections answering the search intent", "Proof from approved customer results", "Practical takeaway", "Call to action"],
       "checklist": ["Keyword placement from the brief", "Average sentence under 20 words", "Sources cited for public facts"]
     },
     "content_calendar": {
       "name": "Social content calendar", "specialists": ["wf_social_planner"], "default_format": "xlsx", "formats": ["xlsx", "csv"],
-      "keywords": ["content calendar", "social calendar", "posting calendar", "social media calendar", "linkedin calendar", "instagram calendar", "social posts", "posting plan", "social plan"],
+      "keywords": ["content calendar", "social calendar", "posting calendar", "social media calendar", "linkedin calendar", "instagram calendar", "social posts", "posting plan", "social plan", "calendario de contenido", "calendario de redes", "calendario de publicaciones", "calendario de linkedin", "calendario de instagram", "plan de publicaciones"],
       "length": "one row per post; hook and copy under the channel limits",
       "sections": [
         "Sheet 'Calendar' — date, day, time, channel, pillar, format, hook, post copy, call to action, hashtags, asset, status",
@@ -49,7 +49,7 @@
     },
     "proposal": {
       "name": "Client proposal", "specialists": ["wf_proposal_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
-      "keywords": ["proposal", "client proposal", "sales proposal", "rfp response", "quote document", "statement of work"],
+      "keywords": ["proposal", "client proposal", "sales proposal", "rfp response", "quote document", "statement of work", "propuesta"],
       "length": "1,200-2,000 words",
       "sections": [
         "Executive summary — their goal, our recommendation, investment and timeline in 5 lines",
@@ -66,14 +66,14 @@
     },
     "pitch_deck": {
       "name": "Pitch deck", "specialists": ["wf_proposal_writer"], "default_format": "pptx", "formats": ["pptx"],
-      "keywords": ["pitch deck", "sales deck", "sales presentation", "pitch presentation"],
+      "keywords": ["pitch deck", "sales deck", "sales presentation", "pitch presentation", "presentación comercial", "presentacion comercial", "presentación de ventas", "presentacion de ventas"],
       "length": "7-10 slides, at most 6 bullets per slide, speaker notes on key slides",
       "sections": ["Title", "Your situation", "Cost of the status quo", "What we propose", "How it works", "Proof", "Plan and timeline", "Investment", "Next steps"],
       "checklist": ["One message per slide", "Numbers from the brief or approved results", "Last slide is a dated next step"]
     },
     "sop": {
       "name": "Standard operating procedure", "specialists": ["wf_sop_builder"], "default_format": "docx", "formats": ["docx", "md"],
-      "keywords": ["sop", "standard operating procedure", "procedure", "runbook", "process document", "playbook for", "checklist for", "handoff", "hand-off"],
+      "keywords": ["sop", "standard operating procedure", "procedure", "runbook", "process document", "playbook for", "checklist for", "handoff", "hand-off", "procedimiento operativo", "procedimiento", "manual de proceso", "lista de verificación para", "traspaso"],
       "length": "800-1,500 words; 8-20 numbered steps",
       "sections": [
         "Purpose", "Scope — in and out", "Roles — RACI table (exactly one A per row)", "Trigger and inputs",
@@ -84,7 +84,7 @@
     },
     "gtm_plan": {
       "name": "Go-to-market plan", "specialists": ["wf_gtm_strategist"], "default_format": "pptx", "formats": ["pptx", "docx"],
-      "keywords": ["go-to-market", "go to market", "gtm", "launch plan", "market entry", "launch strategy", "market expansion"],
+      "keywords": ["go-to-market", "go to market", "gtm", "launch plan", "market entry", "launch strategy", "market expansion", "plan de lanzamiento", "estrategia de lanzamiento", "entrada al mercado", "salida al mercado"],
       "length": "10-14 slides or 1,500-2,200 words",
       "sections": [
         "Executive summary", "Market and segment — sizing with method and sources", "Ideal customer profile and buyers",
@@ -95,21 +95,21 @@
     },
     "whitepaper": {
       "name": "Whitepaper", "specialists": ["wf_longform_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
-      "keywords": ["whitepaper", "white paper", "ebook", "report on", "guide for", "thought leadership"],
+      "keywords": ["whitepaper", "white paper", "ebook", "report on", "guide for", "thought leadership", "libro blanco", "informe técnico", "guía para"],
       "length": "1,500-2,500 words",
       "sections": ["Title and abstract", "Executive summary", "The problem — industry context with cited sources", "A better approach", "Evidence — approved customer results", "How to get started", "About the company (boilerplate)", "Sources"],
       "checklist": ["Public facts cited", "Approved results only", "Boilerplate verbatim"]
     },
     "press_release": {
       "name": "Press release", "specialists": ["wf_longform_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
-      "keywords": ["press release", "news release", "announcement", "announce"],
+      "keywords": ["press release", "news release", "announcement", "announce", "comunicado de prensa", "nota de prensa"],
       "length": "400-600 words",
       "sections": ["Headline (under 100 characters)", "Subheadline", "Dateline and lead paragraph — who, what, when, where, why", "Body — details, availability", "Quote from an approved spokesperson", "Availability and pricing (as given)", "About the company (boilerplate, verbatim)", "Media contact", "###"],
       "checklist": ["Status words match approved facts (beta vs generally available)", "Only approved customers named", "Boilerplate verbatim"]
     },
     "one_pager": {
       "name": "One-pager", "specialists": ["wf_longform_writer"], "default_format": "docx", "formats": ["docx", "pdf", "md"],
-      "keywords": ["one-pager", "one pager", "fact sheet", "datasheet", "summary sheet"],
+      "keywords": ["one-pager", "one pager", "fact sheet", "datasheet", "summary sheet", "ficha técnica", "hoja informativa"],
       "length": "300-450 words",
       "sections": ["Headline", "The problem", "What it does", "Proof", "Call to action"],
       "checklist": ["Fits on one page", "One call to action"]

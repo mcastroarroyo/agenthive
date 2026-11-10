@@ -1,7 +1,9 @@
 """Live smoke test: run one sample prompt per agent through its realm router (local ADK runner, real Gemini).
 
     HIVE_PROJECT=<project> GCLOUD_ACCESS_TOKEN=$(gcloud auth print-access-token) \
-        .venv/bin/python deploy/smoke_all.py [--realm smb] [--agents a,b] [--sample 0] [--concurrency 8]
+        .venv/bin/python deploy/smoke_all.py [--realm smb] [--agents a,b] [--sample 0] [--concurrency 8] [--lang es]
+
+HIVE_EDITION=showcase runs the showcase edition (segments); --lang es uses the Spanish samples from its i18n files.
 
 Writes deploy/out/smoke-<timestamp>.json and prints a table: tool calls, tool errors, answer length, time, tokens.
 """
@@ -34,7 +36,7 @@ async def run_one(runner, agent, sample: str, timeout: int) -> dict:
 
     s = await runner.session_service.create_session(app_name="hive", user_id="smoke",
                                                     state={"hive_agent": agent.adk_name})
-    rec = {"agent": agent.id, "realm": agent.realm, "pattern": agent.pattern, "model": agent.model,
+    rec = {"agent": agent.id, "realm": agent.realm, "lang": "", "tokens_state": 0, "pattern": agent.pattern, "model": agent.model,
            "sample": sample[:120], "calls": [], "tool_errors": [], "text_chars": 0, "tokens": 0, "error": None}
     t0 = time.time()
 
@@ -55,6 +57,12 @@ async def run_one(runner, agent, sample: str, timeout: int) -> dict:
                     rec["last_text"] = p.text[-600:]
             if ev.usage_metadata and ev.usage_metadata.total_token_count:
                 rec["tokens"] += ev.usage_metadata.total_token_count
+            sd = ev.actions.state_delta if ev.actions else None
+            if sd:   # per-agent token counters (include AgentTool sub-agents) -> the session's true total
+                tok = {k: v for k, v in sd.items() if k.startswith("hive_tok:")}
+                if tok:
+                    rec.setdefault("_tok", {}).update(tok)
+                    rec["tokens_state"] = sum(rec["_tok"].values())
 
     try:
         await asyncio.wait_for(go(), timeout)
@@ -67,10 +75,11 @@ async def run_one(runner, agent, sample: str, timeout: int) -> dict:
 async def main(a):
     from google.adk.runners import InMemoryRunner
 
-    from agenthive.catalog import load_catalog
+    from agenthive.catalog import load_catalog, load_i18n
     from agenthive.router import build_realm_root
 
     cat = load_catalog()
+    es = load_i18n(cat.edition, "es").get("agents", {}) if a.lang == "es" else {}
     agents = [x for x in cat.agents() if (not a.realm or x.realm == a.realm)
               and (not a.agents or x.id in a.agents.split(","))]
     runners = {r: InMemoryRunner(agent=build_realm_root(r), app_name="hive") for r in {x.realm for x in agents}}
@@ -78,15 +87,22 @@ async def main(a):
 
     async def guarded(x):
         async with sem:
-            sample = x.samples[min(a.sample, len(x.samples) - 1)]
+            samples = (es.get(x.id) or {}).get("samples") or [] if a.lang == "es" else x.samples
+            if not samples:
+                print(f"SKIP {x.realm:10} {x.id:24} no {a.lang} samples", flush=True)
+                return None
+            sample = samples[min(a.sample, len(samples) - 1)]
             rec = await run_one(runners[x.realm], x, sample, a.timeout)
+            rec["lang"] = a.lang
+            rec["tokens"] = max(rec["tokens"], rec.pop("tokens_state", 0))   # state counters include sub-agents
+            rec.pop("_tok", None)
             flag = "FAIL" if rec["error"] or not rec["text_chars"] else ("WARN" if rec["tool_errors"] else "ok")
             print(f"{flag:4} {x.realm:10} {x.id:24} {len(rec['calls']):2} calls {len(rec['tool_errors'])} err "
                   f"{rec['text_chars']:6} ch {rec['seconds']:6}s {rec['tokens']:7} tok {rec['error'] or ''}",
                   flush=True)
             return rec
 
-    results = await asyncio.gather(*(guarded(x) for x in agents))
+    results = [r for r in await asyncio.gather(*(guarded(x) for x in agents)) if r]
     out = ROOT / "deploy" / "out"
     out.mkdir(exist_ok=True)
     path = out / f"smoke-{int(time.time() * 1000)}.json"   # ms: parallel runs must not overwrite each other
@@ -102,5 +118,6 @@ if __name__ == "__main__":
     ap.add_argument("--sample", type=int, default=0)
     ap.add_argument("--concurrency", type=int, default=8)
     ap.add_argument("--timeout", type=int, default=300)
+    ap.add_argument("--lang", default="en", choices=["en", "es"])
     _auth()
     asyncio.run(main(ap.parse_args()))

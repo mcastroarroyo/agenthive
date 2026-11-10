@@ -1,0 +1,465 @@
+{
+  "answer_points": {
+    "yes": 1.0,
+    "partial": 0.5,
+    "unknown": 0.25,
+    "no": 0.0
+  },
+  "rules": {
+    "go_from": 75,
+    "no_go_below": 60,
+    "text": "NO-GO if any critical question is 'no' or the weighted score is below 60; CONDITIONAL GO if any critical question is 'partial'/'unknown' or the score is below 75; otherwise GO."
+  },
+  "domains": {
+    "governance": {
+      "name": "Sponsorship & governance",
+      "weight": 15
+    },
+    "identity": {
+      "name": "Identity & directory",
+      "weight": 15
+    },
+    "network_dns": {
+      "name": "Network, DNS & mail flow",
+      "weight": 15
+    },
+    "data_compliance": {
+      "name": "Data, retention & compliance",
+      "weight": 15
+    },
+    "apps_integrations": {
+      "name": "Applications & integrations",
+      "weight": 10
+    },
+    "devices": {
+      "name": "Devices & clients",
+      "weight": 10
+    },
+    "people_change": {
+      "name": "People & change",
+      "weight": 10
+    },
+    "support": {
+      "name": "Support & operations",
+      "weight": 10
+    }
+  },
+  "clients": {
+    "harborline": {
+      "name": "Harborline Logistics (fictional)",
+      "assessed_on": "2026-11-03",
+      "profile": "Third-party logistics, 850 users across HQ and 4 warehouses (one in Mexico); Exchange 2019 on-premises in hybrid with Microsoft 365; 9 TB of file shares; target Google Workspace + Gemini pilot.",
+      "answers": [
+        {
+          "id": "Q01",
+          "domain": "governance",
+          "critical": true,
+          "question": "Executive sponsor named and committed to the timeline?",
+          "answer": "yes",
+          "evidence": "COO Janet Okoro sponsors; target go-live April 2027."
+        },
+        {
+          "id": "Q02",
+          "domain": "governance",
+          "critical": false,
+          "question": "Steering committee cadence and go/no-go decision-maker agreed?",
+          "answer": "yes",
+          "evidence": "Fortnightly steerco; COO decides."
+        },
+        {
+          "id": "Q03",
+          "domain": "identity",
+          "critical": true,
+          "question": "Directory clean (no stale or duplicate accounts; sign-in names match email)?",
+          "answer": "partial",
+          "evidence": "1,140 enabled accounts for 850 staff; ~290 stale.",
+          "remediation": "Disable/clean the 290 stale accounts and fix 64 mismatched UPNs before provisioning."
+        },
+        {
+          "id": "Q04",
+          "domain": "identity",
+          "critical": false,
+          "question": "SSO / identity-provider approach decided?",
+          "answer": "yes",
+          "evidence": "Federate with the existing third-party IdP."
+        },
+        {
+          "id": "Q05",
+          "domain": "network_dns",
+          "critical": true,
+          "question": "Admin access to the DNS zone and an approved change window for MX?",
+          "answer": "unknown",
+          "evidence": "DNS run by an external web agency; no contact confirmed.",
+          "remediation": "Get named DNS contact and a signed change window; test with a TXT verification record."
+        },
+        {
+          "id": "Q06",
+          "domain": "network_dns",
+          "critical": false,
+          "question": "Bandwidth sufficient for bulk transfer (>= 500 Mbps off-hours)?",
+          "answer": "yes",
+          "evidence": "1 Gbps at HQ."
+        },
+        {
+          "id": "Q07",
+          "domain": "data_compliance",
+          "critical": true,
+          "question": "Retention and legal-hold requirements documented with an owner?",
+          "answer": "yes",
+          "evidence": "3-year mail retention; no active litigation."
+        },
+        {
+          "id": "Q08",
+          "domain": "data_compliance",
+          "critical": false,
+          "question": "Data inventory available (mailboxes, shares, archives, PSTs)?",
+          "answer": "partial",
+          "evidence": "Mailbox report available; file-share scan pending.",
+          "remediation": "Run the Atlas pre-flight scan on shares."
+        },
+        {
+          "id": "Q09",
+          "domain": "apps_integrations",
+          "critical": true,
+          "question": "Applications that send mail (SMTP relay) inventoried?",
+          "answer": "partial",
+          "evidence": "6 apps known; WMS alerts and label printers unknown.",
+          "remediation": "Log SMTP connections on Exchange for 14 days to find every sender."
+        },
+        {
+          "id": "Q10",
+          "domain": "apps_integrations",
+          "critical": false,
+          "question": "Outlook / Exchange-dependent add-ins identified?",
+          "answer": "no",
+          "evidence": "Sales uses a CRM Outlook add-in; no Workspace equivalent chosen.",
+          "remediation": "Confirm the CRM vendor's Gmail add-on or browser extension."
+        },
+        {
+          "id": "Q11",
+          "domain": "devices",
+          "critical": false,
+          "question": "Mobile policy decided for Google accounts (BYOD / managed)?",
+          "answer": "yes",
+          "evidence": "Basic mobile management, BYOD allowed."
+        },
+        {
+          "id": "Q12",
+          "domain": "devices",
+          "critical": false,
+          "question": "Desktop approach decided (browser-first vs sync clients)?",
+          "answer": "yes",
+          "evidence": "Browser-first; Drive for desktop for finance."
+        },
+        {
+          "id": "Q13",
+          "domain": "people_change",
+          "critical": true,
+          "question": "Client change owner and champions identified?",
+          "answer": "yes",
+          "evidence": "HR business partner owns change; 25 champions named."
+        },
+        {
+          "id": "Q14",
+          "domain": "people_change",
+          "critical": false,
+          "question": "Training windows and blackout periods known?",
+          "answer": "yes",
+          "evidence": "Peak-season freeze 2026-11-15 to 2027-01-08."
+        },
+        {
+          "id": "Q15",
+          "domain": "support",
+          "critical": false,
+          "question": "Help desk briefed and staffed for hypercare?",
+          "answer": "partial",
+          "evidence": "Outsourced help desk not yet briefed.",
+          "remediation": "Include help desk in the champions programme and give them the hypercare runbook."
+        },
+        {
+          "id": "Q16",
+          "domain": "support",
+          "critical": false,
+          "question": "Licences procured and billing set up?",
+          "answer": "yes",
+          "evidence": "Enterprise Standard + 100 Gemini seats ordered."
+        }
+      ]
+    },
+    "quarrystone": {
+      "name": "Quarrystone Credit Union (fictional)",
+      "assessed_on": "2026-10-28",
+      "profile": "Regulated credit union, 420 users, Exchange Online; 7-year retention obligation; core banking system sends customer alerts via SMTP; target Google Workspace Enterprise Plus.",
+      "answers": [
+        {
+          "id": "Q01",
+          "domain": "governance",
+          "critical": true,
+          "question": "Executive sponsor named and committed to the timeline?",
+          "answer": "partial",
+          "evidence": "Sponsor changed in September; new CIO reviewing.",
+          "remediation": "Re-confirm sponsorship and timeline with the new CIO."
+        },
+        {
+          "id": "Q02",
+          "domain": "governance",
+          "critical": false,
+          "question": "Steering committee cadence and go/no-go decision-maker agreed?",
+          "answer": "no",
+          "evidence": "No steerco yet."
+        },
+        {
+          "id": "Q03",
+          "domain": "identity",
+          "critical": true,
+          "question": "Directory clean (no stale or duplicate accounts; sign-in names match email)?",
+          "answer": "yes",
+          "evidence": "Quarterly access reviews."
+        },
+        {
+          "id": "Q04",
+          "domain": "identity",
+          "critical": false,
+          "question": "SSO / identity-provider approach decided?",
+          "answer": "partial",
+          "evidence": "Evaluating options."
+        },
+        {
+          "id": "Q05",
+          "domain": "network_dns",
+          "critical": true,
+          "question": "Admin access to the DNS zone and an approved change window for MX?",
+          "answer": "yes",
+          "evidence": "Internal DNS team; CAB every Tuesday."
+        },
+        {
+          "id": "Q06",
+          "domain": "network_dns",
+          "critical": false,
+          "question": "Bandwidth sufficient for bulk transfer (>= 500 Mbps off-hours)?",
+          "answer": "yes",
+          "evidence": "Cloud-to-cloud; not a constraint."
+        },
+        {
+          "id": "Q07",
+          "domain": "data_compliance",
+          "critical": true,
+          "question": "Retention and legal-hold requirements documented with an owner?",
+          "answer": "no",
+          "evidence": "7-year regulatory retention known, but no Vault retention design and no legal-hold process owner.",
+          "remediation": "Compliance officer to own a retention/hold design (Vault rules, holds, exports) approved before any migration."
+        },
+        {
+          "id": "Q08",
+          "domain": "data_compliance",
+          "critical": false,
+          "question": "Data inventory available (mailboxes, shares, archives, PSTs)?",
+          "answer": "yes",
+          "evidence": "Tenant report available."
+        },
+        {
+          "id": "Q09",
+          "domain": "apps_integrations",
+          "critical": true,
+          "question": "Applications that send mail (SMTP relay) inventoried?",
+          "answer": "unknown",
+          "evidence": "Core banking alerts path not documented.",
+          "remediation": "Vendor confirmation of the alerting path and a relay test plan."
+        },
+        {
+          "id": "Q10",
+          "domain": "apps_integrations",
+          "critical": false,
+          "question": "Outlook / Exchange-dependent add-ins identified?",
+          "answer": "partial",
+          "evidence": "Secure-mail add-in in use."
+        },
+        {
+          "id": "Q11",
+          "domain": "devices",
+          "critical": false,
+          "question": "Mobile policy decided for Google accounts (BYOD / managed)?",
+          "answer": "yes",
+          "evidence": "Managed devices only."
+        },
+        {
+          "id": "Q12",
+          "domain": "devices",
+          "critical": false,
+          "question": "Desktop approach decided (browser-first vs sync clients)?",
+          "answer": "unknown",
+          "evidence": "Not discussed."
+        },
+        {
+          "id": "Q13",
+          "domain": "people_change",
+          "critical": true,
+          "question": "Client change owner and champions identified?",
+          "answer": "no",
+          "evidence": "No change owner; branch managers not engaged.",
+          "remediation": "Name a change owner and one champion per branch."
+        },
+        {
+          "id": "Q14",
+          "domain": "people_change",
+          "critical": false,
+          "question": "Training windows and blackout periods known?",
+          "answer": "partial",
+          "evidence": "Month-end and audit periods to be confirmed."
+        },
+        {
+          "id": "Q15",
+          "domain": "support",
+          "critical": false,
+          "question": "Help desk briefed and staffed for hypercare?",
+          "answer": "partial",
+          "evidence": "Internal help desk of 4 people."
+        },
+        {
+          "id": "Q16",
+          "domain": "support",
+          "critical": false,
+          "question": "Licences procured and billing set up?",
+          "answer": "no",
+          "evidence": "Procurement pending budget approval."
+        }
+      ]
+    },
+    "kestrel": {
+      "name": "Kestrel Manufacturing Inc. (fictional)",
+      "assessed_on": "2026-08-14",
+      "profile": "Manufacturer, 1,200 users on Microsoft 365 + Windows file shares (28 TB), plants in Cedar Falls (US) and Monterrey (MX); 24 legal-hold custodians. Migrated with the Atlas suite from October 2026.",
+      "answers": [
+        {
+          "id": "Q01",
+          "domain": "governance",
+          "critical": true,
+          "question": "Executive sponsor named and committed to the timeline?",
+          "answer": "yes",
+          "evidence": "CIO sponsors; finish before year-end freeze."
+        },
+        {
+          "id": "Q02",
+          "domain": "governance",
+          "critical": false,
+          "question": "Steering committee cadence and go/no-go decision-maker agreed?",
+          "answer": "yes",
+          "evidence": "Fortnightly steerco; CIO decides go/no-go."
+        },
+        {
+          "id": "Q03",
+          "domain": "identity",
+          "critical": true,
+          "question": "Directory clean (no stale or duplicate accounts; sign-in names match email)?",
+          "answer": "yes",
+          "evidence": "63 leavers identified and excluded."
+        },
+        {
+          "id": "Q04",
+          "domain": "identity",
+          "critical": false,
+          "question": "SSO / identity-provider approach decided?",
+          "answer": "yes",
+          "evidence": "Google as IdP with directory sync."
+        },
+        {
+          "id": "Q05",
+          "domain": "network_dns",
+          "critical": true,
+          "question": "Admin access to the DNS zone and an approved change window for MX?",
+          "answer": "yes",
+          "evidence": "Kestrel IT owns DNS; Friday-night window."
+        },
+        {
+          "id": "Q06",
+          "domain": "network_dns",
+          "critical": false,
+          "question": "Bandwidth sufficient for bulk transfer (>= 500 Mbps off-hours)?",
+          "answer": "yes",
+          "evidence": "2 Gbps at Cedar Falls for file-share agents."
+        },
+        {
+          "id": "Q07",
+          "domain": "data_compliance",
+          "critical": true,
+          "question": "Retention and legal-hold requirements documented with an owner?",
+          "answer": "yes",
+          "evidence": "General Counsel owns; 24 custodians listed."
+        },
+        {
+          "id": "Q08",
+          "domain": "data_compliance",
+          "critical": false,
+          "question": "Data inventory available (mailboxes, shares, archives, PSTs)?",
+          "answer": "partial",
+          "evidence": "Share scan scheduled for September.",
+          "remediation": "Atlas pre-flight scan (done 2026-09-18)."
+        },
+        {
+          "id": "Q09",
+          "domain": "apps_integrations",
+          "critical": true,
+          "question": "Applications that send mail (SMTP relay) inventoried?",
+          "answer": "yes",
+          "evidence": "7 applications listed."
+        },
+        {
+          "id": "Q10",
+          "domain": "apps_integrations",
+          "critical": false,
+          "question": "Outlook / Exchange-dependent add-ins identified?",
+          "answer": "partial",
+          "evidence": "CRM add-in for Sales under review."
+        },
+        {
+          "id": "Q11",
+          "domain": "devices",
+          "critical": false,
+          "question": "Mobile policy decided for Google accounts (BYOD / managed)?",
+          "answer": "yes",
+          "evidence": "Basic management; guide-only re-enrolment."
+        },
+        {
+          "id": "Q12",
+          "domain": "devices",
+          "critical": false,
+          "question": "Desktop approach decided (browser-first vs sync clients)?",
+          "answer": "yes",
+          "evidence": "Browser-first; Drive for desktop for Engineering."
+        },
+        {
+          "id": "Q13",
+          "domain": "people_change",
+          "critical": true,
+          "question": "Client change owner and champions identified?",
+          "answer": "yes",
+          "evidence": "HR Director owns change; 36 champions."
+        },
+        {
+          "id": "Q14",
+          "domain": "people_change",
+          "critical": false,
+          "question": "Training windows and blackout periods known?",
+          "answer": "yes",
+          "evidence": "Finance month-end, Thanksgiving freeze."
+        },
+        {
+          "id": "Q15",
+          "domain": "support",
+          "critical": false,
+          "question": "Help desk briefed and staffed for hypercare?",
+          "answer": "partial",
+          "evidence": "Help desk of 6; floorwalkers from Sablewood."
+        },
+        {
+          "id": "Q16",
+          "domain": "support",
+          "critical": false,
+          "question": "Licences procured and billing set up?",
+          "answer": "yes",
+          "evidence": "Enterprise Standard, 1,250 seats."
+        }
+      ]
+    }
+  }
+}

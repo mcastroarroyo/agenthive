@@ -1,0 +1,96 @@
+{
+  "_note": "Synthetic social publishing calendar and channel rules (see the social media policy in the knowledge base). Scheduling is simulated.",
+  "today": "2026-11-06",
+  "timezone": "America/Chicago",
+  "channels": {
+    "linkedin": {
+      "account": "Sablewood company page (demo)",
+      "max_chars": 3000,
+      "recommended_chars": [
+        600,
+        1300
+      ],
+      "max_hashtags": 5,
+      "max_links": 1
+    },
+    "x": {
+      "account": "Sablewood company account (demo)",
+      "max_chars": 280,
+      "recommended_chars": [
+        80,
+        260
+      ],
+      "max_hashtags": 2,
+      "max_links": 1
+    }
+  },
+  "posting_windows": {
+    "linkedin": {
+      "days": [
+        "Tue",
+        "Wed",
+        "Thu"
+      ],
+      "times": [
+        "08:30",
+        "12:00"
+      ]
+    },
+    "x": {
+      "days": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri"
+      ],
+      "times": [
+        "12:15",
+        "16:00"
+      ]
+    }
+  },
+  "approved_hashtags": [
+    "#GoogleCloud",
+    "#GoogleWorkspace",
+    "#GenAI",
+    "#AIAgents",
+    "#BigQuery",
+    "#Gemini",
+    "#DataAnalytics",
+    "#PublicSector",
+    "#Insurance",
+    "#Logistics"
+  ],
+  "banned_phrases": [
+    "guarantee",
+    "guaranteed",
+    "#1",
+    "number one",
+    "best in the world",
+    "world-class",
+    "100%",
+    "risk-free",
+    "never fails"
+  ],
+  "scheduled": [
+    {
+      "id": "POST-3301",
+      "channel": "linkedin",
+      "slot": "2026-11-10T08:30",
+      "topic": "BLOG-115 floor-walker plan"
+    },
+    {
+      "id": "POST-3302",
+      "channel": "x",
+      "slot": "2026-11-10T12:15",
+      "topic": "BLOG-115 floor-walker plan"
+    },
+    {
+      "id": "POST-3305",
+      "channel": "linkedin",
+      "slot": "2026-11-12T08:30",
+      "topic": "AI services launch teaser"
+    }
+  ]
+}

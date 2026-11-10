@@ -10,7 +10,7 @@ Patterns (ADK multi-agent primitives):
 from __future__ import annotations
 
 import re
-from typing import Callable
+from typing import Any, Callable
 
 from typing import AsyncGenerator
 
@@ -34,13 +34,48 @@ GUARDRAILS
 - Actions with side effects (send, create, schedule, move, file) are simulated by your tools — report them as
   "(simulated)".
 - Lead with the answer, then the detail. Use short markdown sections and tables. Keep it under ~350 words unless the
-  user asks for a full document. Reply in the user's language.
+  user asks for a full document. Reply in the language of the user's latest message, even when your tools,
+  documents or knowledge base are in another language — headings, table headers and output templates included
+  (keep quoted rules, names, codes and figures as they are).
+- Plain markdown only: never LaTeX or math notation; write arrows as →.
 - If the request is outside your role, say which hive agent fits better (by its name) instead of improvising.
 - Be economical with tools (cost matters): plan before calling, never repeat an identical call, check a draft once
   and re-check only what you changed, and keep to about 8 tool calls per answer unless the user asks for more.
 - When you name Google AI models, use current names generically ("Gemini Flash", "Gemini Flash-Lite",
   "Gemini 4 Argon"); never cite retired versions such as Gemini 1.x.
 """.strip()
+
+# Token accounting: every model call adds its tokens to state["hive_tok:<agent>"] (one key per agent, so parallel
+# steps and AgentTools never overwrite each other). The web proxy reads these keys from the event stream; when the
+# session has a "hive_token_limit" (set by the proxy at session creation), calls past it are answered locally.
+TOKENS_PREFIX = "hive_tok:"
+LIMIT_KEY = "hive_token_limit"
+LIMIT_MESSAGE = ("This demo session reached its usage limit. Start a new session to keep exploring. / "
+                 "Esta sesión de demo alcanzó su límite de uso. Inicia una nueva sesión para seguir explorando.")
+
+
+def session_tokens(state: Any) -> int:
+    data = state.to_dict() if hasattr(state, "to_dict") else dict(state)
+    return sum(int(v or 0) for k, v in data.items() if k.startswith(TOKENS_PREFIX))
+
+
+def count_tokens(callback_context: Any, llm_response: Any) -> None:
+    um = getattr(llm_response, "usage_metadata", None)
+    if um and um.total_token_count:
+        key = TOKENS_PREFIX + callback_context.agent_name
+        callback_context.state[key] = int(callback_context.state.get(key) or 0) + int(um.total_token_count)
+    return None
+
+
+def enforce_session_budget(callback_context: Any, llm_request: Any) -> Any:
+    limit = int(callback_context.state.get(LIMIT_KEY) or 0)
+    if limit and session_tokens(callback_context.state) >= limit:
+        from google.adk.models import LlmResponse
+        from google.genai import types
+
+        return LlmResponse(content=types.Content(role="model", parts=[types.Part(text=LIMIT_MESSAGE)]))
+    return None
+
 
 _STATE_VAR = re.compile(r"\{\{\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\}\}")
 
@@ -92,7 +127,7 @@ def _grounding_text(specs: list[str], realm: str) -> str:
     for g in specs:
         kind, _, arg = g.partition(":")
         if kind == "kb":
-            lines.append(f"- Knowledge base (Vertex AI Search, {realm} realm): search it before stating any policy, "
+            lines.append(f"- Knowledge base (Vertex AI Search, {realm} {load_catalog().term}): search it before stating any policy, "
                          "process, pricing rule or product fact, and cite the document title.")
         elif kind == "google_search":
             lines.append("- Google Search: use it for current public facts (products, regulations, market news) and "
@@ -129,10 +164,21 @@ def _tool_objects(agent_id: str, tool_names: list[str], grounding: list[str], re
     return tools
 
 
+def _context_line(a: Agent, realm_name: str, cluster_name: str) -> str:
+    from ..settings import get_settings
+
+    if get_settings().edition == "internal":
+        return f"Part of the Wursta Agent Hive · {realm_name} · {cluster_name}. You serve: {a.persona}."
+    # Showcase: Wursta built the demo; the user belongs to the (fictional) organisation in the demo data.
+    return (f"Live demo agent · {realm_name} segment · {cluster_name}. You serve: {a.persona}. The user works at the "
+            "organisation in your demo data; never present Wursta or the Agent Hive as the user's company, team or "
+            "tool, and never refer to the hive itself.")
+
+
 def _instruction(a: Agent, realm_name: str, cluster_name: str) -> str:
     parts = [
         f"You are **{a.name}** ({a.code}) — {a.tagline}",
-        f"Part of the Wursta Agent Hive · {realm_name} · {cluster_name}. You serve: {a.persona}.",
+        _context_line(a, realm_name, cluster_name),
         f"ROLE AND OBJECTIVE\n{a.description.strip()}",
         f"HOW TO WORK\n{a.instruction.strip()}",
         _tools_text(a.tools),
@@ -155,6 +201,8 @@ def _llm(name: str, tier: str, instruction: str, description: str, tools: list, 
         output_key=output_key,
         disallow_transfer_to_parent=isolated,
         disallow_transfer_to_peers=isolated,
+        before_model_callback=enforce_session_budget,
+        after_model_callback=count_tokens,
     )
 
 

@@ -1,0 +1,230 @@
+{
+  "_note": "Synthetic Sablewood Academy onboarding records. People are fictional; benefits and certification rules mirror the New-Hire Academy Guide in the knowledge base.",
+  "today": "2026-11-06",
+  "benefits_enrollment_days": 30,
+  "systems": {
+    "google_workspace": {
+      "label": "Google Workspace account",
+      "approver": "IT Service Desk",
+      "sla_hours": 4,
+      "day_one": true
+    },
+    "gcp_sandbox": {
+      "label": "Google Cloud sandbox project (personal lab)",
+      "approver": "Cloud Platform team",
+      "sla_hours": 24,
+      "roles": [
+        "Cloud Engineer",
+        "Data Engineer"
+      ]
+    },
+    "github": {
+      "label": "GitHub organisation",
+      "approver": "Engineering Manager",
+      "sla_hours": 24,
+      "roles": [
+        "Cloud Engineer",
+        "Data Engineer"
+      ]
+    },
+    "jira": {
+      "label": "Jira (delivery projects)",
+      "approver": "PMO",
+      "sla_hours": 24
+    },
+    "hubspot": {
+      "label": "HubSpot CRM (read-only)",
+      "approver": "Sales Ops",
+      "sla_hours": 48,
+      "roles": [
+        "Project Manager",
+        "Workspace Consultant"
+      ]
+    },
+    "expense_tool": {
+      "label": "Expense & travel tool",
+      "approver": "Finance",
+      "sla_hours": 48
+    },
+    "academy_lms": {
+      "label": "Sablewood Academy LMS",
+      "approver": "People team",
+      "sla_hours": 4,
+      "day_one": true
+    },
+    "workspace_admin_lab": {
+      "label": "Workspace admin lab tenant",
+      "approver": "Workspace practice lead",
+      "sla_hours": 24,
+      "roles": [
+        "Workspace Consultant"
+      ]
+    }
+  },
+  "role_paths": {
+    "Cloud Engineer": {
+      "certifications": [
+        {
+          "name": "Google Cloud Associate Cloud Engineer",
+          "target_day": 60,
+          "study_hours": 40
+        },
+        {
+          "name": "Google Cloud Professional Cloud Architect",
+          "target_day": 180,
+          "study_hours": 80
+        }
+      ],
+      "milestones": {
+        "30": "Shadow a delivery squad; complete Terraform and landing-zone labs; first pull request merged.",
+        "60": "Associate Cloud Engineer certified; own one workstream task on a client project.",
+        "90": "Deliver a client-facing component with review; present a lab demo at the Academy guild."
+      }
+    },
+    "Data Engineer": {
+      "certifications": [
+        {
+          "name": "Google Cloud Associate Cloud Engineer",
+          "target_day": 60,
+          "study_hours": 40
+        },
+        {
+          "name": "Google Cloud Professional Data Engineer",
+          "target_day": 90,
+          "study_hours": 70
+        }
+      ],
+      "milestones": {
+        "30": "Complete BigQuery and Dataflow labs; pair on a pipeline in a client project.",
+        "60": "Associate Cloud Engineer certified; own a data-quality check suite.",
+        "90": "Professional Data Engineer certified (or exam booked); deliver a pipeline to production with review."
+      }
+    },
+    "Workspace Consultant": {
+      "certifications": [
+        {
+          "name": "Google Workspace Administrator",
+          "target_day": 60,
+          "study_hours": 35
+        }
+      ],
+      "milestones": {
+        "30": "Complete the Workspace admin lab and the migration methodology course; shadow one cutover weekend.",
+        "60": "Workspace Administrator certified; run a discovery workshop with a lead.",
+        "90": "Lead one migration wave with supervision."
+      }
+    },
+    "Project Manager": {
+      "certifications": [
+        {
+          "name": "Google Cloud Digital Leader",
+          "target_day": 45,
+          "study_hours": 15
+        },
+        {
+          "name": "Sablewood Delivery Method (in-house)",
+          "target_day": 30,
+          "study_hours": 8
+        }
+      ],
+      "milestones": {
+        "30": "Sablewood Delivery Method completed; shadow two steering committees; learn the SOW and change-request process.",
+        "60": "Cloud Digital Leader certified; co-run a project with a senior PM.",
+        "90": "Own a small project end to end, including the status report and risk log."
+      }
+    }
+  },
+  "new_hires": [
+    {
+      "id": "NH-311",
+      "name": "Sofia Marín",
+      "role": "Cloud Engineer",
+      "start_date": "2026-10-19",
+      "manager": "Priya Nair",
+      "buddy": "Tomás Ibarra",
+      "location": "Remote (Americas)",
+      "benefits_enrolled": false,
+      "access": {
+        "google_workspace": "granted",
+        "academy_lms": "granted",
+        "jira": "granted",
+        "github": "granted",
+        "gcp_sandbox": "pending",
+        "expense_tool": "not requested"
+      },
+      "courses_done": [
+        "Security awareness",
+        "Sablewood Delivery Method",
+        "Terraform foundations"
+      ],
+      "certifications_done": [],
+      "exam_booked": null
+    },
+    {
+      "id": "NH-314",
+      "name": "Kwame Mensah",
+      "role": "Workspace Consultant",
+      "start_date": "2026-11-02",
+      "manager": "Marco Ruiz",
+      "buddy": "Leah Brandt",
+      "location": "Remote (Americas)",
+      "benefits_enrolled": false,
+      "access": {
+        "google_workspace": "granted",
+        "academy_lms": "granted",
+        "jira": "not requested",
+        "hubspot": "not requested",
+        "workspace_admin_lab": "not requested",
+        "expense_tool": "not requested"
+      },
+      "courses_done": [
+        "Security awareness"
+      ],
+      "certifications_done": [],
+      "exam_booked": null
+    },
+    {
+      "id": "NH-298",
+      "name": "Elena Petrova",
+      "role": "Project Manager",
+      "start_date": "2026-08-31",
+      "manager": "Dana Whitfield",
+      "buddy": "Ethan Brooks",
+      "location": "Remote (Americas)",
+      "benefits_enrolled": true,
+      "access": {
+        "google_workspace": "granted",
+        "academy_lms": "granted",
+        "jira": "granted",
+        "hubspot": "granted",
+        "expense_tool": "granted"
+      },
+      "courses_done": [
+        "Security awareness",
+        "Sablewood Delivery Method",
+        "SOW & change control"
+      ],
+      "certifications_done": [
+        "Sablewood Delivery Method (in-house)"
+      ],
+      "exam_booked": "Google Cloud Digital Leader — 2026-11-19"
+    },
+    {
+      "id": "NH-320",
+      "name": "Jonah Whitaker",
+      "role": "Data Engineer",
+      "start_date": "2026-11-09",
+      "manager": "Priya Nair",
+      "buddy": "Tomás Ibarra",
+      "location": "Remote (Americas)",
+      "benefits_enrolled": false,
+      "access": {
+        "google_workspace": "pending",
+        "academy_lms": "pending"
+      },
+      "courses_done": [],
+      "certifications_done": [],
+      "exam_booked": null
+    }
+  ]
+}

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/styles.css?v=1">
+  <link rel="stylesheet" href="/static/styles.css?v=2">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
@@ -23,11 +23,12 @@
       </div>
     </div>
     <nav class="views" role="tablist" aria-label="Views">
-      <button role="tab" data-view="hive" aria-selected="true">Hive map</button>
-      <button role="tab" data-view="navigator">Use-case navigator</button>
-      <button role="tab" data-view="compositions">Compositions</button>
-      <button role="tab" data-view="skills">Skill library</button>
+      <button role="tab" data-view="hive" aria-selected="true" data-i18n="view.hive">Hive map</button>
+      <button role="tab" data-view="navigator" data-i18n="view.navigator">Use-case navigator</button>
+      <button role="tab" data-view="compositions" data-i18n="view.compositions">Compositions</button>
+      <button role="tab" data-view="skills" data-i18n="view.skills">Skill library</button>
     </nav>
+    <div class="user" id="user"></div>
   </header>
 
   <section class="stats" id="stats" aria-label="Hive summary"></section>
@@ -37,11 +38,11 @@
   <section class="toolbar" aria-label="Filters">
     <label class="search">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="q" type="search" placeholder="Search agents, use cases, tools…" autocomplete="off">
+      <input id="q" type="search" placeholder="Search agents, use cases, tools…" data-i18n-placeholder="search" autocomplete="off">
     </label>
     <div class="chips" id="filter-status"></div>
     <div class="chips" id="filter-tier"></div>
-    <button class="ghost" id="clear-filters" hidden>Clear filters</button>
+    <button class="ghost" id="clear-filters" data-i18n="clear" hidden>Clear filters</button>
   </section>
 
   <main>
@@ -73,16 +74,16 @@
         <div class="samples" id="samples"></div>
         <form class="composer" id="composer">
           <div class="files" id="files"></div>
-          <textarea id="msg" rows="3" placeholder="Ask the agent… (Enter to send, Shift+Enter for a new line)"></textarea>
+          <textarea id="msg" rows="3" placeholder="Ask the agent… (Enter to send, Shift+Enter for a new line)" data-i18n-placeholder="msg.ph"></textarea>
           <div class="composer-row">
             <label class="ghost small attach">
               <input type="file" id="file" accept="image/*,application/pdf,text/plain" hidden>
-              Attach file
+              <span data-i18n="msg.attach">Attach file</span>
             </label>
-            <button type="button" class="ghost small" id="doc-btn" hidden>Insert sample document</button>
-            <button type="button" class="ghost small" id="new-session">New session</button>
+            <button type="button" class="ghost small" id="doc-btn" data-i18n="msg.doc" hidden>Insert sample document</button>
+            <button type="button" class="ghost small" id="new-session" data-i18n="msg.new">New session</button>
             <span class="runtime-line" id="runtime-line"></span>
-            <button type="submit" class="primary" id="send">Run</button>
+            <button type="submit" class="primary" id="send" data-i18n="msg.run">Run</button>
           </div>
         </form>
       </section>
@@ -92,12 +93,30 @@
 
   <div class="modal" id="preview" hidden>
     <div class="modal-box">
-      <header><b>Prototype preview</b><span class="muted small">sandboxed — scripts allowed, no network to this app</span>
+      <header><b data-i18n="prev.title">Prototype preview</b><span class="muted small" data-i18n="prev.note">sandboxed — scripts allowed, no network to this app</span>
         <button class="icon" id="preview-close" aria-label="Close preview"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header>
       <iframe id="preview-frame" sandbox="allow-scripts" title="Prototype preview"></iframe>
     </div>
   </div>
 
-  <script src="/static/app.js?v=1"></script>
+  <div class="modal feedback" id="feedback" hidden></div>
+
+  <div class="login" id="login" hidden>
+    <div class="login-card">
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="en" aria-pressed="false">EN</button><button data-lang="es" aria-pressed="false">ES</button>
+      </div>
+      <svg class="brand-hex" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27"/></svg>
+      <h1>The Wursta Agent Hive</h1>
+      <p class="lead" data-i18n="login.lead"></p>
+      <p data-i18n="login.cta"></p>
+      <div id="gsi" class="gsi"></div>
+      <p class="muted small" id="login-status" role="status"></p>
+      <p class="muted small privacy" data-i18n="login.privacy"></p>
+    </div>
+  </div>
+
+  <script src="/static/i18n.js?v=2"></script>
+  <script src="/static/app.js?v=2"></script>
 </body>
 </html>

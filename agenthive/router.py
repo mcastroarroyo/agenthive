@@ -15,7 +15,7 @@ from google.adk.events import Event, EventActions
 from pydantic import Field
 
 from . import models
-from .agents.factory import build_agent
+from .agents.factory import build_agent, count_tokens, enforce_session_budget
 from .catalog import load_catalog
 
 STATE_KEY = "hive_agent"
@@ -69,6 +69,7 @@ def directory_text(realm_id: str) -> str:
 def build_realm_root(realm_id: str) -> HiveRouter:
     cat = load_catalog()
     realm = cat.realm(realm_id)
+    term = cat.term
     subs = [build_agent(a) for a in realm.agents]
     codes = {}
     for a in realm.agents:
@@ -79,14 +80,16 @@ def build_realm_root(realm_id: str) -> HiveRouter:
         name=f"{realm_id}_concierge",
         model=models.model("lite"),
         generate_content_config=models.content_config("lite"),
-        description=f"Concierge for the {realm.name} realm of the Wursta Agent Hive.",
+        description=f"Concierge for the {realm.name} {term} of the Wursta Agent Hive.",
         instruction=lambda _ctx: (
-            f"You are the concierge of the **{realm.name}** realm in the Wursta Agent Hive. {realm.blurb}\n"
-            "Help the user pick the right agent. Agents in this realm (start a message with the @code to talk to "
+            f"You are the concierge of the **{realm.name}** {term} in the Wursta Agent Hive. {realm.blurb}\n"
+            f"Help the user pick the right agent. Agents in this {term} (start a message with the @code to talk to "
             f"one):\n{directory_text(realm_id)}\n\nRecommend at most 2 agents, say why in one line each, and show an "
             "example message starting with the @code. Do not answer domain questions yourself."),
         disallow_transfer_to_parent=True,
         disallow_transfer_to_peers=True,
+        before_model_callback=enforce_session_budget,
+        after_model_callback=count_tokens,
     )
     return HiveRouter(name=f"hive_{realm_id}", description=f"Wursta Agent Hive · {realm.name}",
                       sub_agents=[concierge, *subs], codes=codes, concierge_name=concierge.name)

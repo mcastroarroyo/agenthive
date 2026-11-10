@@ -1,0 +1,237 @@
+{
+  "_note": "Synthetic partner-portal inbox: abstracts and key takeaways for the same items the partner_advantage_cataloger skill grades (fixtures/partner_content.json, matched by title). Summaries are illustrative stand-ins written for the demo and contain no real incentive figures or partner-confidential content.",
+  "batches": {
+    "partner_portal_week45": {
+      "received": "2026-11-02",
+      "items": [
+        {
+          "id": "PA-4501",
+          "title": "Gemini Enterprise — Partner Sales Playbook (November 2026)",
+          "audiences": [
+            "sales",
+            "presales"
+          ],
+          "motion": "sell",
+          "abstract": "How to lead mid-market conversations with departmental agent use cases, qualify on data readiness and an executive sponsor, and close with a time-boxed pilot.",
+          "key_takeaways": [
+            "Lead with 2-3 departmental agent use cases, not seat counts",
+            "Qualify on data readiness and a named executive sponsor",
+            "Offer a 30-day pilot with success criteria agreed up front"
+          ]
+        },
+        {
+          "id": "PA-4502",
+          "title": "Google Workspace — Migration Best Practices Guide",
+          "audiences": [
+            "delivery"
+          ],
+          "motion": "service",
+          "abstract": "Methodology for planning waves, communicating with users, cutover weekends and post-migration validation.",
+          "key_takeaways": [
+            "Plan waves by department and data complexity",
+            "Run a pilot wave with IT before business users",
+            "Validate mail, calendar and Drive counts after every wave"
+          ]
+        },
+        {
+          "id": "PA-4503",
+          "title": "Agent Engine Technical Deep Dive (session recording)",
+          "audiences": [
+            "delivery",
+            "presales"
+          ],
+          "motion": "build",
+          "abstract": "Recorded session on deploying ADK agents to a managed runtime: sessions, memory, evaluation and tracing.",
+          "key_takeaways": [
+            "Use managed sessions and memory instead of custom stores",
+            "Build an evaluation set before go-live",
+            "Trace every tool call — needs a transcript before indexing (route to Janus)"
+          ]
+        },
+        {
+          "id": "PA-4504",
+          "title": "Partner Advantage Program Guide 2026",
+          "audiences": [
+            "leadership",
+            "partner operations"
+          ],
+          "motion": "sell",
+          "abstract": "Programme structure, tiers, specialisation requirements and benefits. Partner-confidential.",
+          "key_takeaways": [
+            "Specialisation evidence is re-checked at renewal",
+            "Restricted distribution — leadership and partner operations only",
+            "Nearly 10 months old — check for a newer edition"
+          ]
+        },
+        {
+          "id": "PA-4505",
+          "title": "Co-sell agreement template (scanned, signed copy)",
+          "audiences": [
+            "legal"
+          ],
+          "motion": "sell",
+          "abstract": "Scanned signed co-sell agreement. Legal record, not enablement content.",
+          "key_takeaways": [
+            "Store in the legal repository, not the enablement index",
+            "Needs OCR and restricted ACLs if indexed at all"
+          ]
+        },
+        {
+          "id": "PA-4506",
+          "title": "BigQuery pricing one-pager (2024 edition)",
+          "audiences": [
+            "sales"
+          ],
+          "motion": "sell",
+          "abstract": "One-page pricing summary from 2024.",
+          "key_takeaways": [
+            "Likely outdated — always quote from the current official pricing page",
+            "Exclude from AI answers to avoid stale prices"
+          ]
+        },
+        {
+          "id": "PA-4507",
+          "title": "Vertex AI Search — competitive positioning",
+          "audiences": [
+            "sales",
+            "presales"
+          ],
+          "motion": "sell",
+          "abstract": "Positioning of enterprise search against alternatives: grounding quality, connectors, security. Partner-confidential.",
+          "key_takeaways": [
+            "Win on grounded answers with citations and enterprise connectors",
+            "Partner-confidential — sales and presales only",
+            "Pair with the Competitive Positioning Guide in our knowledge base"
+          ]
+        },
+        {
+          "id": "PA-4508",
+          "title": "Customer Engagement Suite — demo script",
+          "audiences": [
+            "presales"
+          ],
+          "motion": "sell",
+          "abstract": "Step-by-step demo storyline for contact-centre AI: virtual agent, agent assist and analytics.",
+          "key_takeaways": [
+            "Show human hand-off early in the demo",
+            "Anchor on containment and handle-time outcomes",
+            "Reuse in Sablewood's customer-service agent offering"
+          ]
+        },
+        {
+          "id": "PA-4509",
+          "title": "Reference landing zone — architecture diagram",
+          "audiences": [
+            "delivery"
+          ],
+          "motion": "build",
+          "abstract": "Diagram of a reference landing zone: resource hierarchy, networking, logging and security controls.",
+          "key_takeaways": [
+            "Image only — needs a text description before indexing",
+            "Useful for the Cloud Engineer onboarding path"
+          ]
+        },
+        {
+          "id": "PA-4510",
+          "title": "Security and compliance FAQ for public sector",
+          "audiences": [
+            "presales",
+            "public sector"
+          ],
+          "motion": "sell",
+          "abstract": "Answers to common public-sector security questions: data residency, certifications, shared responsibility.",
+          "key_takeaways": [
+            "Over a year old — verify every certification claim before reuse",
+            "Good input for RFP security sections (Mercator)"
+          ]
+        },
+        {
+          "id": "PA-4511",
+          "title": "Q4 partner incentives — funding matrix",
+          "audiences": [
+            "leadership",
+            "sales"
+          ],
+          "motion": "sell",
+          "abstract": "Matrix of incentive and funding categories for the quarter. Partner-confidential.",
+          "key_takeaways": [
+            "Restricted to sales leadership and deal desk",
+            "Check claim windows before deals close"
+          ]
+        },
+        {
+          "id": "PA-4512",
+          "title": "Gemini in Workspace webinar (Spanish, recording)",
+          "audiences": [
+            "customers",
+            "marketing"
+          ],
+          "motion": "service",
+          "abstract": "Customer-facing webinar in Spanish showing Gemini features in Gmail, Docs and Meet.",
+          "key_takeaways": [
+            "Reusable for LATAM adoption campaigns",
+            "Needs a transcript (Janus) before it is searchable"
+          ]
+        },
+        {
+          "id": "PA-4513",
+          "title": "Legacy reseller onboarding guide (scanned)",
+          "audiences": [
+            "partner operations"
+          ],
+          "motion": "service",
+          "abstract": "Very old scanned guide for reseller onboarding.",
+          "key_takeaways": [
+            "Almost 6 years old — archive",
+            "Exclude from the AI index"
+          ]
+        }
+      ]
+    },
+    "partner_portal_week44": {
+      "received": "2026-10-26",
+      "items": [
+        {
+          "id": "PA-4401",
+          "title": "AlloyDB migration workshop kit",
+          "audiences": [
+            "delivery"
+          ],
+          "motion": "build",
+          "abstract": "Workshop slides and labs for assessing and migrating PostgreSQL workloads.",
+          "key_takeaways": [
+            "Use for database modernisation discovery",
+            "Labs need a sandbox project"
+          ]
+        },
+        {
+          "id": "PA-4402",
+          "title": "Data residency briefing for regulated industries",
+          "audiences": [
+            "sales",
+            "presales"
+          ],
+          "motion": "sell",
+          "abstract": "Briefing on residency controls for regulated clients. Partner-confidential.",
+          "key_takeaways": [
+            "Restricted distribution",
+            "Relevant to RFP data-residency requirements"
+          ]
+        },
+        {
+          "id": "PA-4403",
+          "title": "Partner certification roadmap (photo of whiteboard)",
+          "audiences": [
+            "partner operations"
+          ],
+          "motion": "service",
+          "abstract": "Photo of a whiteboard planning session on certification targets.",
+          "key_takeaways": [
+            "Image with no text layer — transcribe or exclude",
+            "Confidential"
+          ]
+        }
+      ]
+    }
+  }
+}

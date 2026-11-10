@@ -34,14 +34,37 @@ def hive_tool(module: str, kind: str = "function"):
     return deco
 
 
-@functools.lru_cache(maxsize=128)
+def _override(rel: str) -> Path | None:
+    """Edition-specific copy of a fixture or doc: fixtures/editions/<edition>/<rel>, if present."""
+    from ..settings import get_settings
+
+    ed = get_settings().edition
+    if ed != "internal":
+        p = FIXTURES / "editions" / ed / rel
+        if p.exists():
+            return p
+    return None
+
+
+@functools.lru_cache(maxsize=256)
 def fixture(name: str) -> Any:
-    """Load fixtures/<name>.json (cached)."""
-    return json.loads((FIXTURES / f"{name}.json").read_text())
+    """Load fixtures/<name>.json (cached); the edition's copy wins when it exists."""
+    return json.loads((_override(f"{name}.json") or FIXTURES / f"{name}.json").read_text())
+
+
+def doc_paths(prefix: str = "") -> dict[str, Path]:
+    """Sample documents by key (edition copies replace base ones)."""
+    from ..settings import get_settings
+
+    out = {p.stem: p for p in sorted((FIXTURES / "docs").glob(f"{prefix}*.md"))}
+    ed = get_settings().edition
+    if ed != "internal":
+        out.update({p.stem: p for p in sorted((FIXTURES / "editions" / ed / "docs").glob(f"{prefix}*.md"))})
+    return dict(sorted(out.items()))
 
 
 def doc_text(key: str) -> str | None:
-    p = FIXTURES / "docs" / f"{key}.md"
+    p = _override(f"docs/{key}.md") or FIXTURES / "docs" / f"{key}.md"
     return p.read_text() if p.exists() else None
 
 

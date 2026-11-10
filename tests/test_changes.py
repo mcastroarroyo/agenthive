@@ -24,11 +24,29 @@ ALL = sorted(changes.realms_and_modules()[0])   # every realm that has agents
     (["deploy/deploy_engines.py"], False, ALL, [], False),
 ])
 def test_plan(files, web, realms, kb, bq):
-    assert changes.plan(files) == {"web": web, "realms": realms, "kb": kb, "bq": bq}
+    got = changes.plan(files)
+    assert {k: got[k] for k in ("web", "realms", "kb", "bq")} == {"web": web, "realms": realms, "kb": kb, "bq": bq}
+    # every internal realm that redeploys takes the showcase segments holding its agents along
+    assert bool(got["showcase"]) == bool(realms)
+    assert got["engines"] == [{"edition": "internal", "realm": r} for r in realms] + \
+        [{"edition": "showcase", "realm": s} for s in got["showcase"]]
+
+
+def test_showcase_paths():
+    seg = changes.plan(["agenthive/catalog/realms/delivery__ops.yaml"])
+    assert seg["realms"] == ["delivery"] and seg["showcase"] == ["services"]
+    over = changes.plan(["agenthive/catalog/editions/showcase/agents__services.yaml"])
+    assert over["realms"] == [] and over["showcase"] and over["web"]
+    kb = changes.plan(["agenthive/grounding/editions/showcase/corpus/services/x.md"])
+    assert kb["kb"] == ["delivery"] and not kb["engines"]
+    plat = changes.plan(["agenthive/grounding/corpus/platform/x.md"])
+    assert plat["kb"] == ["enterprise", "platform"]
 
 
 def test_explicit_targets():
     assert changes.explicit("web,smb")["realms"] == ["smb"]
     assert changes.explicit("engines")["realms"] and not changes.explicit("engines")["web"]
+    assert changes.explicit("sc:services")["showcase"] == ["services"]
+    assert changes.explicit("showcase")["realms"] == []
     with pytest.raises(SystemExit):
         changes.explicit("nope")

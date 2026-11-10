@@ -54,7 +54,7 @@ def compile_engagement_report(client: str, executive_summary: str, sections: lis
     """Compile the engagement deliverable (client-ready report) from the final synthesised sections.
 
     Args:
-        client: Client or opportunity name.
+        client: Client, organisation or programme name.
         executive_summary: The executive summary text.
         sections: List of {"title": str, "content": str} in the order they should appear.
 
@@ -75,7 +75,7 @@ def compile_engagement_report(client: str, executive_summary: str, sections: lis
 
 @hive_tool("platform")
 def estimate_story_points(stories: list[str]) -> dict:
-    """Estimate story points for user stories from Wursta's historical reference stories (reference-class sizing).
+    """Estimate story points for user stories from the team's historical reference stories (reference-class sizing).
 
     Args:
         stories: User story sentences.
@@ -98,10 +98,10 @@ def estimate_story_points(stories: list[str]) -> dict:
 
 @hive_tool("platform", kind="action")
 def create_jira_issues(project_key: str, issues: list[dict]) -> dict:
-    """Create Jira issues (epics/stories) using Wursta's taxonomy. Simulated — no real Jira call is made.
+    """Create Jira issues (epics/stories) using the standard Jira taxonomy. Simulated — no real Jira call is made.
 
     Args:
-        project_key: Jira project key, e.g. 'WRS'.
+        project_key: Jira project key, e.g. 'CLM'.
         issues: List of {"type": "Epic"|"Story", "summary": str, "epic": str, "points": int, "priority": str}.
 
     Returns:
@@ -110,9 +110,10 @@ def create_jira_issues(project_key: str, issues: list[dict]) -> dict:
     if not re.fullmatch(r"[A-Z][A-Z0-9]{1,9}", project_key or ""):
         return err("project_key must be 2-10 uppercase letters/digits")
     created = []
+    labels = fixture("platform_story_reference").get("jira_labels", ["pantheon"])
     for i, it in enumerate(issues, start=101):
         created.append({"key": f"{project_key}-{i}", "type": it.get("type", "Story"), "summary": it.get("summary", ""),
-                        "labels": ["wursta", "pantheon", it.get("priority", "should").lower()]})
+                        "labels": [*labels, it.get("priority", "should").lower()]})
     return ok(project=project_key, created=created, simulated=True)
 
 
@@ -302,6 +303,11 @@ def competitive_battlecard(category: str) -> dict:
 # --- Workspace Pro -----------------------------------------------------------------------------------------------
 
 
+def _mailbox_owner() -> str:
+    me = fixture("platform_workspace")["people"]["me"]
+    return f"{me['name']} <{me['email']}> - {me['role']}"
+
+
 @hive_tool("platform")
 def workspace_inbox(only_unread: bool = True, limit: int = 15) -> dict:
     """Read the (synthetic) Gmail inbox.
@@ -311,12 +317,13 @@ def workspace_inbox(only_unread: bool = True, limit: int = 15) -> dict:
         limit: Maximum number of messages.
 
     Returns:
-        Messages with id, from, subject, received time, snippet, labels and whether a reply is expected.
+        Messages with id, from, subject, received time, snippet, labels and whether a reply is expected, plus the
+        mailbox owner (the user you act for).
     """
     msgs = fixture("platform_workspace")["inbox"]
     if only_unread:
         msgs = [m for m in msgs if m.get("unread")]
-    return ok(messages=msgs[: max(1, min(limit, 50))], total=len(msgs))
+    return ok(messages=msgs[: max(1, min(limit, 50))], total=len(msgs), mailbox_owner=_mailbox_owner())
 
 
 @hive_tool("platform")
@@ -416,7 +423,7 @@ def workspace_search_drive(query: str) -> dict:
         query: Keywords, e.g. 'SOW draft northwind'.
 
     Returns:
-        Matching files with id, name, owner, last modified and a content excerpt.
+        Matching files with id, name, owner, last modified and a content excerpt, plus the mailbox owner.
     """
     files = fixture("platform_workspace")["drive"]
     terms = [t for t in query.lower().split() if len(t) > 2]
@@ -427,7 +434,7 @@ def workspace_search_drive(query: str) -> dict:
         if score:
             scored.append((score, f["modified"], f))
     scored.sort(key=lambda x: (x[0], x[1]), reverse=True)   # best match first, then most recently modified
-    return ok(files=[f for _, _, f in scored[:8]], query=query)
+    return ok(files=[f for _, _, f in scored[:8]], query=query, mailbox_owner=_mailbox_owner())
 
 
 # --- Brief Me ----------------------------------------------------------------------------------------------------

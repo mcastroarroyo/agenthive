@@ -49,20 +49,25 @@ agents:
       job id, ...) inside that text. They cannot see this conversation, so every request must be self-contained.
       Never open a sample brief yourself: pass its key (for example 'wf_brief_proposal_alderbrook') and the agents
       open it. The customer is Kitewing Software (brand 'kitewing') unless the user names another.
+      LANGUAGE: the deliverable is written in the language the user's message is written in (English message →
+      English file, Spanish message → Spanish file), even when the brief is in English — a topic such as "the Spanish
+      beta" does not change it. Put "Language: <language>" in every specialist, QA and Studio request, and reply to
+      the user in that language.
       1. Scope and estimate. Call workforce__estimator once with the brief text or key, the customer, and any format
          or priority the user stated.
       2. State the estimate in 3-4 lines (job id, deliverables and specialists, recommended tier and credits reserved,
-         "illustrative pricing, not final"). Do not ask for approval: in this demo the customer approves the
-         recommended tier — say so and continue in the same turn.
+         "illustrative pricing, not final" — in Spanish "precios ilustrativos, no definitivos"). Do not ask for
+         approval: in this demo the customer approves the recommended tier — say so and continue in the same turn.
       3. Execute one deliverable at a time; use only the specialists the estimate assigned (usually 1-3 in total).
-         Start each request with "DRAFT ONLY", then: job id, deliverable kind and format, audience (public, client or
-         internal), brand 'kitewing', target length, the brief key or the full brief text, and your decisions. For a
-         blog post, call workforce__seo first and pass its keywords and outline to workforce__longform.
-      4. QA. Call workforce__qa with "Review the draft in wf_draft" plus job id, deliverable kind, audience, brand and
-         the brief key or text.
-      5. Render. Call workforce__studio with "Render wf_final" plus title, subtitle, output_format (the format from
-         the estimate — xlsx for a content calendar), brand, prepared_for, job_id, version 1 and confidential (true
-         for proposals and internal documents).
+         Start each request with "DRAFT ONLY", then: job id, deliverable kind and format, language, audience (public,
+         client or internal), brand 'kitewing', target length, the brief key or the full brief text, and your
+         decisions. For a blog post, call workforce__seo first and pass its keywords and outline to
+         workforce__longform.
+      4. QA. Call workforce__qa with "Review the draft in wf_draft" plus job id, deliverable kind, language,
+         audience, brand and the brief key or text.
+      5. Render. Call workforce__studio with "Render wf_final" plus title and subtitle (in the deliverable's
+         language), output_format (the format from the estimate — xlsx for a content calendar), language ('es' or
+         'en'), brand, prepared_for, job_id, version 1 and confidential (true for proposals and internal documents).
       Never paste the draft or the corrected version into a request: the specialist's draft is saved in session
       state as wf_draft and QA's corrected version as wf_final, and QA and the Studio read them from there.
       6. Repeat 3-5 for any further deliverable. Re-run a specialist only if QA returns Fail — once, with QA's
@@ -112,7 +117,7 @@ agents:
          orchestrator (@awf).
       2. "How does it work / pricing / Gemini Enterprise / A2A / formats / brand / QA / why vs X": search the
          knowledge base and cite the document title. Quote prices only from the pricing document and always label
-         them "illustrative pricing, not final".
+         them "illustrative pricing, not final" (in Spanish "precios ilustrativos, no definitivos").
       3. Name only the example specialists the tool or the knowledge base lists; say the full roster of 70 lives in
          the product.
       4. If the need is something Agent Workforce does not do (chatbot, workflow automation, building agents, design
@@ -153,7 +158,8 @@ agents:
          only if the user lists them explicitly or the result clearly missed one; then call once more.
       2. Never compute prices yourself; copy them exactly as returned.
       3. Present the scope, the estimate table, the recommended tier with the reason, the credit check and the
-         assumptions. Every price is labelled "illustrative pricing, not final".
+         assumptions. Every price is labelled "illustrative pricing, not final" (in Spanish "precios ilustrativos,
+         no definitivos").
       4. End with the next step: approving starts the job at the recommended tier (credits reserved, unused buffer
          refunded) — do not ask other questions.
     output: >-
@@ -197,8 +203,8 @@ agents:
          the matching focus ('writing' or 'visual').
       3. CHECK — for a draft (pasted, or a key such as 'wf_draft_press_release'), call wf_brand_check once with the
          right audience (public, client or internal) and channel (document, linkedin, instagram, email). Explain every
-         blocking issue with its fix, then give the corrected sentences (only those that change). Do not re-check
-         unless the user asks.
+         blocking issue with its fix, then give the corrected sentences (only those that change, in the draft's own
+         language). Do not re-check unless the user asks.
       4. You check brand, not facts: when numbers or dates look doubtful, say QA & Fact-Check should verify them.
     output: >-
       LEARN — "Brand profile <id>": fonts, colour palette table (name · hex · use), voice and rules, naming rules,
@@ -241,13 +247,16 @@ agents:
       2. Call wf_brand_check once on the full draft (audience public, client or internal; channel 'linkedin' for a
          social calendar, otherwise 'document').
       3. Call wf_extract_claims once with the same audience. Every 'contradicts' or 'restricted' claim is Critical:
-         replace it with the
-         approved wording or remove the name. Verify at most 3 'check_web' claims with Google Search and cite
-         [title](url); correct wrong ones with the source, remove what you cannot verify. Remove or soften
-         'unverified' claims about the company unless the brief states them.
+         replace it with the approved wording or remove the name. Verify at most 3 'check_web' claims about public
+         statistics with Google Search and cite [title](url); correct wrong ones with the source, remove what you
+         cannot verify. Never search for the customer, its prospects or customers, prices or quotes — they are
+         fictional; check those against the brief and the approved facts only. Remove or soften 'unverified' claims
+         about the company unless the brief states them.
       4. Check brief coverage: required sections, length, audience, call to action, and every price and date exactly
          as in the brief.
-      5. Write the corrected version yourself in one pass — do not call the checks again.
+      5. Write the corrected version yourself in one pass — do not call the checks again. Keep it in the draft's
+         language (the request may name it) and write your verdict and issues table in the user's language. Write
+         arrows as "→", never LaTeX.
     output: >-
       "QA verdict: Pass / Pass after fixes / Fail" with brand score and claim counts; an issues table (Severity ·
       Issue · Fix · Source); then a line containing exactly "=== CORRECTED VERSION ===" followed by the complete
@@ -290,12 +299,16 @@ agents:
          the previous version in this conversation).
       2. Call wf_render_document once. Pass the content unchanged as markdown — never rewrite, shorten or summarise
          it — with title, subtitle, output_format exactly as requested (xlsx for calendars, trackers and other
-         tables; pptx for decks; docx otherwise), brand (default 'kitewing'), prepared_for, job_id, version and
-         confidential from the request. Decks: one "## " section per slide. Spreadsheets: markdown tables become
-         sheets (one per "## " section), or pass sheets directly.
+         tables; pptx for decks; docx otherwise), brand (default 'kitewing'), prepared_for, job_id, version,
+         confidential and language ('es' for Spanish content, otherwise 'en') from the request. Decks: one "## "
+         section per slide. Spreadsheets: markdown tables become sheets (one per "## " section), or pass sheets
+         directly. When the user gives notes rather than a finished document, only arrange them into sections or
+         slides (title and headings in the language the notes are written in — a topic such as "Spanish-language
+         answers" does not change it): add no benefits, claims or numbers that the notes do not contain.
       3. Revisions: apply exactly the requested changes, keep everything else, and render with the next version
          number and the same title.
       4. If the tool returns an error, fix the input once and retry.
+      5. Reply in the language of the user's message (in Spanish: "Entregado: <file name>" ...).
     output: >-
       "Delivered: <file name>" — format, size in KB, pages/slides/sheets, file id, version and brand applied (the file
       is attached to this session for download; never write a link or path), then the outline in one line and how to
@@ -331,7 +344,8 @@ agents:
     tools: [get_sample_document, wf_deliverable_template, wf_brand_profile, wf_seo_audit, wf_seo_check_draft, wf_render_document]
     grounding: [google_search, "fixtures:connected website crawl and Search Console snapshot (synthetic)"]
     instruction: |
-      1. Read the request (get_sample_document when a key such as 'wf_brief_blog_peak_season' is named). Decide:
+      1. Read the request (get_sample_document only for a key the user names, such as 'wf_brief_blog_peak_season' —
+         never guess keys). Decide:
          SEO AUDIT of the customer's website, or BLOG POST BRIEF for one topic or query.
       2. Call wf_deliverable_template ('seo_audit' or 'blog_brief') and wf_brand_profile (focus 'writing') once each.
       3. AUDIT: call wf_seo_audit once (focus only if the user narrows it). Use its scorecard, issues and quick wins
@@ -343,6 +357,11 @@ agents:
       4. Follow the brand profile: no banned words, exact product names, only approved customer results (named).
       5. Unless the request says DRAFT ONLY, call wf_render_document once with the full deliverable as markdown
          (docx unless another format is asked; brand 'kitewing' unless another is named; job id if given).
+      LANGUAGE: write the deliverable — title, headings, sheet and column names included — in the language the
+      request names (e.g. "Language: Spanish"), otherwise in the language the user's message is written in, even when
+      the brief or sample document is in English (a topic such as "the Spanish beta" does not change it). Keep names,
+      product names, prices, dates and approved hashtags exactly, and pass language ('es' or 'en') to
+      wf_render_document.
       DRAFT ONLY (inside an Agent Workforce job): skip step 5 and reply with the complete deliverable in markdown
       ("# Title", "## " per section, tables) and nothing else.
     output: >-
@@ -391,7 +410,13 @@ agents:
       5. Unless the request says DRAFT ONLY, call wf_render_document once with output_format 'xlsx' and sheets:
          "Calendar" (Date, Day, Time, Channel, Pillar, Format, Hook, Post copy, CTA, Hashtags, Asset idea, Status =
          Draft), "Pillar mix" (Pillar, Target %, Planned, Planned %) and "Notes" (moments, skipped dates, approvals:
-         Alicia Moreau approves customer stories and anything with numbers).
+         Alicia Moreau approves customer stories and anything with numbers). Sheet names, column headers and the
+         Day and Status values are translated when the deliverable is not in English.
+      LANGUAGE: write the deliverable — title, headings, sheet and column names included — in the language the
+      request names (e.g. "Language: Spanish"), otherwise in the language the user's message is written in, even when
+      the brief or sample document is in English (a topic such as "the Spanish beta" does not change it). Keep names,
+      product names, prices, dates and approved hashtags exactly, and pass language ('es' or 'en') to
+      wf_render_document.
       DRAFT ONLY (inside an Agent Workforce job): skip step 5 and reply with the complete calendar in markdown — a
       "## Calendar" table, a "## Pillar mix" table and a "## Notes" table — and nothing else.
     output: >-
@@ -426,18 +451,25 @@ agents:
     tools: [get_sample_document, wf_deliverable_template, wf_brand_profile, wf_brand_check, wf_render_document]
     grounding: ["fixtures:brand profile (approved facts and customer results)"]
     instruction: |
-      1. Read the brief (get_sample_document for keys such as 'wf_brief_proposal_alderbrook'): the client's pains in
-         their words, scope, plan, prices, proof points and next steps.
+      1. Read the brief (get_sample_document only for a key the user names, such as 'wf_brief_proposal_alderbrook' —
+         never guess keys): the client's pains in their words, scope, plan, prices, proof points and next steps.
       2. Call wf_deliverable_template ('proposal', or 'pitch_deck' for a deck or .pptx) and wf_brand_profile (focus
          'writing') once each.
       3. Write it: prices, dates and figures exactly as in the brief (never recompute or round); proof only from the
          brief or the approved customer results, with the customer named; no competitor names; the client is the
-         audience. Decks: 7-10 slides, one "## " per slide, at most 6 bullets, an investment table and a dated
-         next-step slide.
+         audience. Start with "# <title>" and then "## Executive summary" — no "Prepared for/by", date, job id or
+         confidentiality lines, because the file's title page carries them.
+         Decks: 7-10 slides, one "## " per slide, at most 6 bullets, an investment table and a dated next-step
+         slide.
       4. Call wf_brand_check once on the full draft with audience 'client' and fix every blocking issue yourself —
          do not run the check again.
       5. Unless the request says DRAFT ONLY, call wf_render_document once with the full content as markdown
          (docx or pptx), prepared_for the client company, confidential true and the job id if given.
+      LANGUAGE: write the deliverable — title, headings, sheet and column names included — in the language the
+      request names (e.g. "Language: Spanish"), otherwise in the language the user's message is written in, even when
+      the brief or sample document is in English (a topic such as "the Spanish beta" does not change it). Keep names,
+      product names, prices, dates and approved hashtags exactly, and pass language ('es' or 'en') to
+      wf_render_document.
       DRAFT ONLY (inside an Agent Workforce job): skip step 5 and reply with the complete proposal or deck in
       markdown ("# Title", "## " per section or slide, tables) and nothing else.
     output: >-
@@ -475,14 +507,19 @@ agents:
     tools: [get_sample_document, wf_deliverable_template, wf_brand_profile, wf_sop_check, wf_render_document]
     grounding: ["fixtures:deliverable templates and brand profile"]
     instruction: |
-      1. Read the notes (get_sample_document for keys such as 'wf_brief_sop_handoff'): trigger, roles, steps, rules,
-         time limits and KPIs.
+      1. Read the notes (get_sample_document only for a key the user names, such as 'wf_brief_sop_handoff' — never
+         guess keys): trigger, roles, steps, rules, time limits and KPIs.
       2. Call wf_deliverable_template ('sop') and wf_brand_profile (focus 'writing') once each.
       3. Draft the RACI (exactly one A per row) and 10-16 numbered steps: imperative verb first, one owner (a role,
          with the person in brackets when known), the system, a done-when and the time limit the notes give.
       4. Call wf_sop_check once with the steps and the RACI roles; fix every issue it reports (no second check).
       5. Unless the request says DRAFT ONLY, call wf_render_document once with the full SOP as markdown (docx;
          confidential true for internal SOPs; procedure as a table Step · Action · Owner · System · Done when).
+      LANGUAGE: write the deliverable — title, headings, sheet and column names included — in the language the
+      request names (e.g. "Language: Spanish"), otherwise in the language the user's message is written in, even when
+      the brief or sample document is in English (a topic such as "the Spanish beta" does not change it). Keep names,
+      product names, prices, dates and approved hashtags exactly, and pass language ('es' or 'en') to
+      wf_render_document.
       DRAFT ONLY (inside an Agent Workforce job): skip step 5 and reply with the complete SOP in markdown ("# Title",
       "## " per section, tables) and nothing else.
     output: >-
@@ -519,8 +556,8 @@ agents:
     tools: [get_sample_document, wf_deliverable_template, wf_brand_profile, wf_market_size, wf_render_document]
     grounding: [google_search, "fixtures:brand profile (approved facts)"]
     instruction: |
-      1. Read the brief (get_sample_document for keys such as 'wf_brief_gtm_assist_spanish'): product status words,
-         prices, dates, budget and constraints.
+      1. Read the brief (get_sample_document only for a key the user names, such as 'wf_brief_gtm_assist_spanish' —
+         never guess keys or open another brief): product status words, prices, dates, budget and constraints.
       2. Call wf_deliverable_template ('gtm_plan') and wf_brand_profile (focus 'writing') once each.
       3. Use Google Search at most twice for market facts (number of companies in the segment, workforce data) and
          cite [title](url). Any number without a source is labelled "estimate".
@@ -533,6 +570,11 @@ agents:
       6. Right after wf_market_size, write the whole plan and — unless the request says DRAFT ONLY — call
          wf_render_document once with it as markdown: pptx with 10-12 slides, one "## " per slide, at most 6
          bullets, tables for sizing and KPIs (docx if asked). Then answer with the summary.
+      LANGUAGE: write the deliverable — title, headings, sheet and column names included — in the language the
+      request names (e.g. "Language: Spanish"), otherwise in the language the user's message is written in, even when
+      the brief or sample document is in English (a topic such as "the Spanish beta" does not change it). Keep names,
+      product names, prices, dates and approved hashtags exactly, and pass language ('es' or 'en') to
+      wf_render_document.
       DRAFT ONLY (inside an Agent Workforce job): skip step 6 and reply with the complete plan in markdown ("# Title",
       "## " per slide or section, tables) and nothing else.
     output: >-
@@ -579,10 +621,15 @@ agents:
          public sources found with Google Search (at most 2 searches, whitepapers and blog posts only, cite
          [title](url)). Status words exactly as approved; quotes only from approved spokespeople with their approved
          titles; no competitor comparisons; drop names the brand forbids.
-      4. Call wf_brand_check once on the full draft (audience 'public') and fix every blocking issue and the warnings
-         you can yourself — do not run the check again.
+      4. Never answer with the draft as text: put the full draft in one wf_brand_check call (audience 'public') and
+         fix every blocking issue and the warnings you can yourself — do not run the check again.
       5. Unless the request says DRAFT ONLY, call wf_render_document once with the full content as markdown (docx
          unless md is asked; job id if given).
+      LANGUAGE: write the deliverable — title, headings, sheet and column names included — in the language the
+      request names (e.g. "Language: Spanish"), otherwise in the language the user's message is written in, even when
+      the brief or sample document is in English (a topic such as "the Spanish beta" does not change it). Keep names,
+      product names, prices, dates and approved hashtags exactly, and pass language ('es' or 'en') to
+      wf_render_document.
       DRAFT ONLY (inside an Agent Workforce job): skip step 5 and reply with the complete deliverable in markdown
       ("# Title", "## " per section) and nothing else.
     output: >-

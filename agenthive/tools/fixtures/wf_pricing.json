@@ -17,7 +17,7 @@
   "credits": {"usd_per_credit": 1, "bought_in_advance": true},
   "revision_rule": "A revision is estimated like a job: the per-agent rate x the agents the change needs (often one).",
   "urgency_words": {
-    "P1": ["urgent", "asap", "today", "tonight", "right now", "immediately", "within the hour", "by tomorrow", "this morning", "this afternoon"],
-    "P3": ["no rush", "whenever", "next month", "low priority", "batch", "overnight is fine", "not urgent"]
+    "P3": ["no rush", "not in a rush", "no hurry", "whenever", "next month", "low priority", "batch", "overnight is fine", "not urgent", "sin prisa", "no hay prisa", "no tenemos prisa", "no es urgente", "baja prioridad", "el próximo mes"],
+    "P1": ["urgent", "asap", "today", "tonight", "right now", "immediately", "within the hour", "by tomorrow", "this morning", "this afternoon", "urgente", "lo antes posible", "cuanto antes", "hoy mismo", "para mañana", "de inmediato", "esta mañana", "esta tarde"]
   }
 }

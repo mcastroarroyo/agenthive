@@ -1,0 +1,556 @@
+{
+  "today": "2026-11-09",
+  "timezone": "America/New_York",
+  "people": {
+    "me": {
+      "name": "Alex Morgan",
+      "role": "VP Client Services, Stonebridge Facilities (Halvern Group)",
+      "email": "alex.morgan@stonebridge.halvern.example",
+      "busy": [
+        [
+          "2026-11-09T08:30",
+          "2026-11-09T09:00"
+        ],
+        [
+          "2026-11-09T10:00",
+          "2026-11-09T10:45"
+        ],
+        [
+          "2026-11-09T11:00",
+          "2026-11-09T12:00"
+        ],
+        [
+          "2026-11-09T13:00",
+          "2026-11-09T14:00"
+        ],
+        [
+          "2026-11-09T14:30",
+          "2026-11-09T15:30"
+        ],
+        [
+          "2026-11-09T16:00",
+          "2026-11-09T16:45"
+        ],
+        [
+          "2026-11-10T09:00",
+          "2026-11-10T10:00"
+        ],
+        [
+          "2026-11-10T10:30",
+          "2026-11-10T12:00"
+        ],
+        [
+          "2026-11-10T13:00",
+          "2026-11-10T13:30"
+        ],
+        [
+          "2026-11-10T15:00",
+          "2026-11-10T16:00"
+        ],
+        [
+          "2026-11-11T09:00",
+          "2026-11-11T11:30"
+        ],
+        [
+          "2026-11-11T13:00",
+          "2026-11-11T14:00"
+        ],
+        [
+          "2026-11-11T15:00",
+          "2026-11-11T17:00"
+        ],
+        [
+          "2026-11-12T09:00",
+          "2026-11-12T09:30"
+        ],
+        [
+          "2026-11-12T11:00",
+          "2026-11-12T12:00"
+        ],
+        [
+          "2026-11-12T14:00",
+          "2026-11-12T15:30"
+        ],
+        [
+          "2026-11-13T09:00",
+          "2026-11-13T10:00"
+        ],
+        [
+          "2026-11-13T15:00",
+          "2026-11-13T16:30"
+        ]
+      ]
+    },
+    "ana": {
+      "name": "Ana Torres",
+      "role": "Account Director, Stonebridge Facilities",
+      "email": "ana.torres@stonebridge.halvern.example",
+      "busy": [
+        [
+          "2026-11-09T08:30",
+          "2026-11-09T09:00"
+        ],
+        [
+          "2026-11-09T09:00",
+          "2026-11-09T10:30"
+        ],
+        [
+          "2026-11-09T12:00",
+          "2026-11-09T13:00"
+        ],
+        [
+          "2026-11-09T15:00",
+          "2026-11-09T17:00"
+        ],
+        [
+          "2026-11-10T09:30",
+          "2026-11-10T11:00"
+        ],
+        [
+          "2026-11-10T13:00",
+          "2026-11-10T14:30"
+        ],
+        [
+          "2026-11-11T09:00",
+          "2026-11-11T17:00"
+        ],
+        [
+          "2026-11-12T10:00",
+          "2026-11-12T11:00"
+        ],
+        [
+          "2026-11-12T13:00",
+          "2026-11-12T14:00"
+        ],
+        [
+          "2026-11-13T11:00",
+          "2026-11-13T12:00"
+        ]
+      ]
+    },
+    "diego": {
+      "name": "Diego Salas",
+      "role": "Head of Smart Buildings, Stonebridge Facilities",
+      "email": "diego.salas@stonebridge.halvern.example",
+      "busy": [
+        [
+          "2026-11-09T08:30",
+          "2026-11-09T09:00"
+        ],
+        [
+          "2026-11-09T09:00",
+          "2026-11-09T12:00"
+        ],
+        [
+          "2026-11-09T14:00",
+          "2026-11-09T15:00"
+        ],
+        [
+          "2026-11-10T11:00",
+          "2026-11-10T12:30"
+        ],
+        [
+          "2026-11-10T14:00",
+          "2026-11-10T15:00"
+        ],
+        [
+          "2026-11-11T10:00",
+          "2026-11-11T12:00"
+        ],
+        [
+          "2026-11-11T14:00",
+          "2026-11-11T15:30"
+        ],
+        [
+          "2026-11-12T09:30",
+          "2026-11-12T10:30"
+        ],
+        [
+          "2026-11-12T12:00",
+          "2026-11-12T13:00"
+        ],
+        [
+          "2026-11-12T16:30",
+          "2026-11-12T17:00"
+        ],
+        [
+          "2026-11-13T12:00",
+          "2026-11-13T14:00"
+        ]
+      ]
+    },
+    "lucia": {
+      "name": "Lucia Ferrer",
+      "role": "Business Development Manager, Stonebridge Facilities",
+      "email": "lucia.ferrer@stonebridge.halvern.example",
+      "busy": [
+        [
+          "2026-11-09T09:00",
+          "2026-11-09T11:00"
+        ],
+        [
+          "2026-11-09T13:00",
+          "2026-11-09T14:00"
+        ],
+        [
+          "2026-11-10T10:30",
+          "2026-11-10T12:00"
+        ],
+        [
+          "2026-11-10T14:00",
+          "2026-11-10T17:00"
+        ],
+        [
+          "2026-11-11T09:00",
+          "2026-11-11T10:00"
+        ],
+        [
+          "2026-11-12T11:00",
+          "2026-11-12T12:00"
+        ],
+        [
+          "2026-11-13T09:00",
+          "2026-11-13T12:00"
+        ]
+      ]
+    },
+    "priya": {
+      "name": "Priya Raman",
+      "role": "Service Quality Lead, Stonebridge Facilities",
+      "email": "priya.raman@stonebridge.halvern.example",
+      "busy": [
+        [
+          "2026-11-09T08:30",
+          "2026-11-09T09:00"
+        ],
+        [
+          "2026-11-09T10:00",
+          "2026-11-09T12:00"
+        ],
+        [
+          "2026-11-10T13:00",
+          "2026-11-10T15:00"
+        ],
+        [
+          "2026-11-11T09:00",
+          "2026-11-11T10:30"
+        ],
+        [
+          "2026-11-11T14:00",
+          "2026-11-11T15:00"
+        ],
+        [
+          "2026-11-12T09:00",
+          "2026-11-12T12:00"
+        ],
+        [
+          "2026-11-13T14:00",
+          "2026-11-13T17:00"
+        ]
+      ]
+    },
+    "tomas": {
+      "name": "Tomás Herrera",
+      "role": "AI Engineering Lead, Halvern AI Centre of Excellence",
+      "email": "tomas.herrera@halvern.example",
+      "busy": [
+        [
+          "2026-11-09T09:30",
+          "2026-11-09T11:00"
+        ],
+        [
+          "2026-11-10T09:00",
+          "2026-11-10T12:00"
+        ],
+        [
+          "2026-11-11T13:00",
+          "2026-11-11T16:00"
+        ],
+        [
+          "2026-11-12T15:00",
+          "2026-11-12T17:00"
+        ],
+        [
+          "2026-11-13T10:00",
+          "2026-11-13T11:30"
+        ]
+      ]
+    }
+  },
+  "inbox": [
+    {
+      "id": "msg-001",
+      "from": "Joanna Pell <joanna.pell@marburymutual.example>",
+      "subject": "IFM proposal v3 — data wording before Wednesday's CFO review",
+      "received": "2026-11-09T07:48:00-05:00",
+      "snippet": "Alex, Victor (our CFO) reviews the facilities contract on Wednesday at 10:00. Two things still block us: the clause on building-access and CCTV data (we need 'stored in the US only, 90-day retention' stated explicitly) and the mobilisation payments — we asked for 20/40/40. Can you send updated wording by end of day today?",
+      "labels": [
+        "customer",
+        "Marbury Mutual",
+        "important"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-002",
+      "from": "Gregory Haines <g.haines@brightwaterdist.example>",
+      "subject": "Timeline — I need a straight answer before Thursday's board",
+      "received": "2026-11-08T21:15:00-05:00",
+      "snippet": "I have now heard three different go-live dates for the warehouse maintenance programme. The board meets Thursday and I need one date I can defend, plus exactly what you need from us to hit it. Frankly, I'm frustrated that we are here again.",
+      "labels": [
+        "customer",
+        "Brightwater Distribution",
+        "escalation"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-003",
+      "from": "Kofi Mensah <kofi.mensah@larkspuroutfitters.example>",
+      "subject": "Pilot readout — can we add the 6 new Northeast stores?",
+      "received": "2026-11-09T06:55:00-05:00",
+      "snippet": "Looking forward to 11:00. One more thing: could the readout also cover the 6 stores we opened in September? I know their HVAC sensors only have 8 weeks of data, but the COO will ask.",
+      "labels": [
+        "customer",
+        "Larkspur Outfitters"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-004",
+      "from": "Imani Carter <icarter@portalder.example>",
+      "subject": "Facilities workshop today 14:30 — room change and attendee list",
+      "received": "2026-11-09T08:05:00-05:00",
+      "snippet": "We moved to Conference Room 4B, 3rd floor of City Hall. Attending: me, Luis Ortega (Facilities Operations), two supervisors from Public Works and our privacy officer, Ruth Abernathy. Does your team need guest Wi-Fi for the demo?",
+      "labels": [
+        "customer",
+        "City of Port Alder"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-005",
+      "from": "Ana Torres <ana.torres@stonebridge.halvern.example>",
+      "subject": "Larkspur QBR prep — 45 min with you and Diego this week?",
+      "received": "2026-11-08T18:30:00-05:00",
+      "snippet": "The Larkspur QBR is on the 19th. Can the three of us find 45 minutes this week to agree the story (pilot results, 120-store expansion proposal, contract renewal risk)? Note I'm out on Wednesday.",
+      "labels": [
+        "team",
+        "Larkspur Outfitters"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-006",
+      "from": "Diego Salas <diego.salas@stonebridge.halvern.example>",
+      "subject": "Marbury Mutual — smart-building sensor cost estimate",
+      "received": "2026-11-07T16:20:00-05:00",
+      "snippet": "Sensor platform run cost lands around USD 2.9k/month for the head office and 3 regional offices. The one-off installation of ~640 sensors is the big number — I'd show it as a separate proposal line.",
+      "labels": [
+        "team",
+        "Marbury Mutual"
+      ],
+      "unread": true,
+      "needs_reply": false
+    },
+    {
+      "id": "msg-007",
+      "from": "Finance Approvals <finance-approvals@stonebridge.halvern.example>",
+      "subject": "Approval needed: 12% discount — Ashgrove Bank branch facilities proposal",
+      "received": "2026-11-09T07:10:00-05:00",
+      "snippet": "Lucia Ferrer requests approval of a 12% discount (USD 28,800) on the Ashgrove Bank branch maintenance proposal. Approver: Alex Morgan. Proposal is due to the bank on Nov 13.",
+      "labels": [
+        "finance",
+        "approvals"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-008",
+      "from": "Priya Raman <priya.raman@stonebridge.halvern.example>",
+      "subject": "Brightwater re-baseline — mobilisation gate needs your sign-off by Wednesday",
+      "received": "2026-11-08T11:42:00-05:00",
+      "snippet": "The re-baselined plan does not meet the mobilisation-gate criterion yet (Brightwater still has not named its site contacts for acceptance testing). I can run the gate on Wednesday as 'pass with conditions' but need you as approver. OK with you?",
+      "labels": [
+        "team",
+        "Brightwater Distribution",
+        "quality"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-009",
+      "from": "Halvern Procurement Desk <procurement-desk@halvern.example>",
+      "subject": "Reminder: framework pricing for Larkspur Outfitters expires Nov 13",
+      "received": "2026-11-07T09:00:00-05:00",
+      "snippet": "The approved framework pricing for 'Larkspur Outfitters — 120-store maintenance expansion' expires on 2026-11-13 unless the opportunity is updated with a next step and an expected close date.",
+      "labels": [
+        "group",
+        "action"
+      ],
+      "unread": true,
+      "needs_reply": false
+    },
+    {
+      "id": "msg-010",
+      "from": "Lucia Ferrer <lucia.ferrer@stonebridge.halvern.example>",
+      "subject": "Ashgrove Bank wants a comparison with their incumbent provider",
+      "received": "2026-11-09T07:32:00-05:00",
+      "snippet": "Their COO asked how our offer compares with the maintenance bundled into their landlord service charges. Our call is Thursday 11:00 (already on your calendar). Could you get me a comparison by Wednesday?",
+      "labels": [
+        "team",
+        "Ashgrove Bank"
+      ],
+      "unread": true,
+      "needs_reply": true
+    },
+    {
+      "id": "msg-011",
+      "from": "Tomás Herrera <tomas.herrera@halvern.example>",
+      "subject": "Work-order triage agent for the Marbury demo — sandbox deployment moved to Thursday 18:00",
+      "received": "2026-11-06T17:05:00-05:00",
+      "snippet": "FYI: the sandbox deployment of the work-order triage agent the AI Centre of Excellence built in Agent Forge for the Marbury demo moved to Thursday 18:00 because of the evaluation re-run. No action needed unless you want the demo earlier.",
+      "labels": [
+        "group",
+        "Marbury Mutual"
+      ],
+      "unread": false,
+      "needs_reply": false
+    },
+    {
+      "id": "msg-012",
+      "from": "Facilities Weekly <newsletter@facilitiesweekly.example>",
+      "subject": "This week: smart-building sensors, energy cost tips, 5 things to try",
+      "received": "2026-11-09T05:00:00-05:00",
+      "snippet": "In this issue: predictive maintenance in practice, HVAC energy benchmarks, and a reader poll on facilities budgets for 2027.",
+      "labels": [
+        "newsletter"
+      ],
+      "unread": true,
+      "needs_reply": false
+    },
+    {
+      "id": "msg-013",
+      "from": "Halvern IT Service Desk <it-news@halvern.example>",
+      "subject": "Group IT news — November, issue 2",
+      "received": "2026-11-08T06:00:00-05:00",
+      "snippet": "Roundup of recent Google Workspace changes, security reminders and the timeline for moving Summit Tire & Auto mailboxes onto the group's Workspace after the acquisition closes.",
+      "labels": [
+        "newsletter"
+      ],
+      "unread": true,
+      "needs_reply": false
+    },
+    {
+      "id": "msg-014",
+      "from": "People Team <people@halvern.example>",
+      "subject": "Benefits open enrollment closes November 20",
+      "received": "2026-11-05T10:00:00-05:00",
+      "snippet": "Reminder to review your 2027 benefits elections before November 20. No action needed if you are keeping your current plan.",
+      "labels": [
+        "group",
+        "hr"
+      ],
+      "unread": false,
+      "needs_reply": false
+    },
+    {
+      "id": "msg-015",
+      "from": "GrowthRocket AI <hello@growthrocket-sdr.example>",
+      "subject": "Alex, 10x your pipeline with autonomous SDR agents",
+      "received": "2026-11-09T04:12:00-05:00",
+      "snippet": "Book a 15-minute call and get a free pipeline audit. Limited spots this month!",
+      "labels": [
+        "promotions"
+      ],
+      "unread": true,
+      "needs_reply": false
+    }
+  ],
+  "drive": [
+    {
+      "id": "drv-101",
+      "name": "Marbury Mutual — IFM contract proposal v3 (head office + 3 regional offices)",
+      "owner": "Ana Torres",
+      "modified": "2026-11-06",
+      "excerpt": "DRAFT v3 for customer review. Customer contact: Joanna Pell, Head of Workplace & Real Estate (joanna.pell@marburymutual.example). Scope A: integrated facilities management for the head office and 3 regional claims offices (~410 staff): maintenance, cleaning, security and front of house. Scope B: smart-building pilot — occupancy and HVAC sensors plus a work-order triage assistant, with human approval of every dispatch. Term 2026-12-01 to 2029-11-30. Annual fee USD 386,000 (A 214,000; B 172,000); sensor installation billed separately. OPEN POINTS: (1) Data clause — customer wants building-access and CCTV data 'stored in the US only' with 90-day retention stated explicitly; (2) Mobilisation payments — Stonebridge proposes 30/40/30, customer asks 20/40/40; (3) Site asset register unconfirmed — customer's asset export overdue since 2026-10-31; (4) Who approves out-of-hours call-outs and the expected weekly volume; (5) ~30 restricted rooms (legal-hold archive) need escorted access — Legal sign-off required; (6) Start date 2026-12-01 requires signature by 2026-11-20."
+    },
+    {
+      "id": "drv-102",
+      "name": "Marbury Mutual — IFM contract proposal v2",
+      "owner": "Ana Torres",
+      "modified": "2026-10-28",
+      "excerpt": "Superseded by v3. Annual fee USD 352,000; smart-building pilot for the head office only; data clause not yet included; mobilisation payments 30/40/30."
+    },
+    {
+      "id": "drv-103",
+      "name": "Marbury Mutual — Site survey notes 2026-10-21",
+      "owner": "Diego Salas",
+      "modified": "2026-10-22",
+      "excerpt": "Head office plus 3 regional offices, ~410 staff. 14-year-old HVAC at head office, 2 chillers out of warranty; 640 sensor points proposed. Goal: new contract and smart-building pilot live before the summer cooling season (by 2027-04-30). Compliance requires US-only storage of access-control and CCTV data and human approval of every automated dispatch."
+    },
+    {
+      "id": "drv-104",
+      "name": "Larkspur Outfitters — Predictive maintenance pilot readout (deck)",
+      "owner": "Diego Salas",
+      "modified": "2026-11-07",
+      "excerpt": "Pilot: 18 stores, 8 weeks. Emergency HVAC call-outs down 27% versus the same stores last year; store downtime from HVAC failures down 18%; sensor data on time 97% (gateway drop-outs at 3 stores). Recommendation: roll out to all 120 stores in Q1 2027."
+    },
+    {
+      "id": "drv-105",
+      "name": "Larkspur QBR — Q4 2026 prep notes",
+      "owner": "Ana Torres",
+      "modified": "2026-11-05",
+      "excerpt": "QBR on 2026-11-19 with the COO. Story: pilot results, 120-store expansion proposal (USD 240k/year), energy dashboard timeline, contract renewal in Feb 2027 (at risk if the dashboard slips). Need 45 minutes with Alex and Diego to agree the narrative."
+    },
+    {
+      "id": "drv-106",
+      "name": "Brightwater — Q3 service review minutes",
+      "owner": "Ana Torres",
+      "modified": "2026-09-25",
+      "excerpt": "Customer frustrated by the slipped go-live of the warehouse planned-maintenance programme; maintenance system integration blocked waiting on the customer's WMS vendor for API credentials; dock-door maintenance at two key sites requested as an addition; actions: re-baselined plan, change request for dock doors, named site contacts."
+    },
+    {
+      "id": "drv-107",
+      "name": "Brightwater — Recovery plan draft v1",
+      "owner": "Ana Torres",
+      "modified": "2026-11-07",
+      "excerpt": "Re-baselined go-live 2027-02-15 (was 2026-12-07). Conditions: WMS API credentials by 2026-11-14; 4 named site contacts for acceptance testing by 2026-11-16; dock-door maintenance moved to change request CR-07 (estimate 21 days); weekly sponsor check-in."
+    },
+    {
+      "id": "drv-108",
+      "name": "Ashgrove Bank — Branch facilities proposal v1",
+      "owner": "Lucia Ferrer",
+      "modified": "2026-11-04",
+      "excerpt": "42 branches and 2 operations centres. Phase 1: planned and reactive maintenance for branches; Phase 2: security and cash-room access management. Annual services USD 240,000 before discount; 12% discount pending approval. Competing against the incumbent provider bundled into their landlord service charges."
+    },
+    {
+      "id": "drv-109",
+      "name": "Port Alder — Municipal buildings discovery workshop agenda",
+      "owner": "Alex Morgan",
+      "modified": "2026-11-06",
+      "excerpt": "Workshop 2026-11-09 14:30. Agenda: current maintenance contracts and volumes for 38 municipal buildings; work-order intake via 311 and WhatsApp; SLA definitions by department; asset data for an energy and maintenance dashboard; privacy and retention for CCTV and access logs; next steps toward the 2027 tender."
+    },
+    {
+      "id": "drv-110",
+      "name": "Pellmont Logistics — Facilities services contract (signed, 2025)",
+      "owner": "Lucia Ferrer",
+      "modified": "2025-03-10",
+      "excerpt": "Executed contract: facilities management for 6 distribution centres, mobilised in two waves; fixed annual fee; mobilisation closed and accepted in 2025."
+    },
+    {
+      "id": "drv-111",
+      "name": "Stonebridge contract proposal template 2026",
+      "owner": "Priya Raman",
+      "modified": "2026-01-12",
+      "excerpt": "Standard proposal template: scope, assumptions, exclusions, service levels, mobilisation milestones and payment schedule, acceptance, change control, service quality gates."
+    }
+  ]
+}

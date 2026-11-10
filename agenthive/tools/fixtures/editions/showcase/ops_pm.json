@@ -1,0 +1,300 @@
+{
+  "_note": "Synthetic project-management system (Jira-style). Task creation is simulated.",
+  "today": "2026-11-06",
+  "projects": {
+    "TBL": {
+      "name": "Project Lighthouse",
+      "account": "Tallbridge Logistics",
+      "account_id": "ACC-1042",
+      "pm": "Dana Whitfield",
+      "last_meeting": "MTG-2026-1104-TBL",
+      "last_meeting_date": "2026-11-04",
+      "members": [
+        {
+          "name": "Dana Whitfield",
+          "user": "dwhitfield",
+          "org": "Sablewood",
+          "role": "Project Manager",
+          "open_tasks": 6
+        },
+        {
+          "name": "Marco Ruiz",
+          "user": "mruiz",
+          "org": "Sablewood",
+          "role": "Engagement Lead",
+          "open_tasks": 3
+        },
+        {
+          "name": "Priya Nair",
+          "user": "pnair",
+          "org": "Sablewood",
+          "role": "Solution Architect",
+          "open_tasks": 5
+        },
+        {
+          "name": "Tomás Ibarra",
+          "user": "tibarra",
+          "org": "Sablewood",
+          "role": "Data Engineer",
+          "open_tasks": 7
+        },
+        {
+          "name": "Leah Brandt",
+          "user": "lbrandt",
+          "org": "Sablewood",
+          "role": "Customer Success Manager",
+          "open_tasks": 2
+        },
+        {
+          "name": "Grace Okafor",
+          "user": "gokafor",
+          "org": "Sablewood",
+          "role": "Account Executive",
+          "open_tasks": 1
+        },
+        {
+          "name": "Owen Castillo",
+          "user": "ext-ocastillo",
+          "org": "Tallbridge",
+          "role": "Director of IT",
+          "open_tasks": 2
+        },
+        {
+          "name": "Farah Haddad",
+          "user": "ext-fhaddad",
+          "org": "Tallbridge",
+          "role": "Head of Customer Operations",
+          "open_tasks": 0
+        },
+        {
+          "name": "Victor Lindqvist",
+          "user": "ext-vlindqvist",
+          "org": "Tallbridge",
+          "role": "Finance Controller",
+          "open_tasks": 0
+        },
+        {
+          "name": "Helen Marsh",
+          "user": "ext-hmarsh",
+          "org": "Tallbridge",
+          "role": "VP Operations (executive sponsor)",
+          "open_tasks": 1
+        }
+      ],
+      "open_tasks": [
+        {
+          "key": "TBL-188",
+          "title": "Countersigned telematics data-sharing agreement",
+          "owner": "Owen Castillo",
+          "due": "2026-10-23",
+          "status": "Blocked"
+        },
+        {
+          "key": "TBL-201",
+          "title": "On-time delivery dashboard v1",
+          "owner": "Tomás Ibarra",
+          "due": "2026-11-15",
+          "status": "In progress"
+        },
+        {
+          "key": "TBL-204",
+          "title": "Gemini Enterprise training sessions (90 min)",
+          "owner": "Leah Brandt",
+          "due": "2026-11-12",
+          "status": "To do"
+        },
+        {
+          "key": "TBL-207",
+          "title": "TMS feed data-quality checks",
+          "owner": "Priya Nair",
+          "due": "2026-11-13",
+          "status": "To do"
+        },
+        {
+          "key": "TBL-209",
+          "title": "Executive sponsor 1:1 with engagement lead",
+          "owner": "Helen Marsh",
+          "due": "2026-11-05",
+          "status": "To do"
+        },
+        {
+          "key": "TBL-211",
+          "title": "Send steering committee #6 status report",
+          "owner": "Dana Whitfield",
+          "due": "2026-11-05",
+          "status": "Done"
+        }
+      ],
+      "decision_log": [
+        {
+          "id": "DEC-TBL-014",
+          "date": "2026-10-21",
+          "decision": "Keep the telematics integration on the provider API (no flat-file fallback); revisit if the data-sharing agreement is not signed by 2026-11-01."
+        },
+        {
+          "id": "DEC-TBL-013",
+          "date": "2026-10-07",
+          "decision": "Gemini Enterprise rollout in two waves of 150 seats."
+        }
+      ]
+    },
+    "CFI": {
+      "name": "Claims Assistant Phase 2",
+      "account": "Calder & Finch Insurance",
+      "account_id": "ACC-1017",
+      "pm": "Ethan Brooks",
+      "last_meeting": "MTG-2026-1103-CFI",
+      "last_meeting_date": "2026-11-03",
+      "members": [
+        {
+          "name": "Ethan Brooks",
+          "user": "ebrooks",
+          "org": "Sablewood",
+          "role": "Project Manager",
+          "open_tasks": 4
+        },
+        {
+          "name": "Priya Nair",
+          "user": "pnair",
+          "org": "Sablewood",
+          "role": "Solution Architect",
+          "open_tasks": 5
+        },
+        {
+          "name": "Leah Brandt",
+          "user": "lbrandt",
+          "org": "Sablewood",
+          "role": "Customer Success Manager",
+          "open_tasks": 2
+        },
+        {
+          "name": "Rosa Delgado",
+          "user": "ext-rdelgado",
+          "org": "Calder & Finch",
+          "role": "Claims Director (executive sponsor)",
+          "open_tasks": 0
+        },
+        {
+          "name": "Arjun Mehta",
+          "user": "ext-amehta",
+          "org": "Calder & Finch",
+          "role": "Enterprise Architect",
+          "open_tasks": 1
+        },
+        {
+          "name": "Claire Beaumont",
+          "user": "ext-cbeaumont",
+          "org": "Calder & Finch",
+          "role": "Claims Operations Lead",
+          "open_tasks": 1
+        }
+      ],
+      "open_tasks": [
+        {
+          "key": "CFI-142",
+          "title": "December release plan",
+          "owner": "Ethan Brooks",
+          "due": "2026-11-09",
+          "status": "In progress"
+        },
+        {
+          "key": "CFI-145",
+          "title": "Security review sign-off document",
+          "owner": "Arjun Mehta",
+          "due": "2026-11-06",
+          "status": "To do"
+        },
+        {
+          "key": "CFI-147",
+          "title": "Auto-glass extraction accuracy audit",
+          "owner": "Priya Nair",
+          "due": "2026-11-12",
+          "status": "In progress"
+        }
+      ],
+      "decision_log": [
+        {
+          "id": "DEC-CFI-021",
+          "date": "2026-10-27",
+          "decision": "Pilot extended to the Hartwell office."
+        }
+      ]
+    },
+    "VAC": {
+      "name": "Farmer Advisory Assistant",
+      "account": "Verdant Agro Cooperative",
+      "account_id": "ACC-1088",
+      "pm": "Sam Oduya",
+      "last_meeting": "MTG-2026-1030-VAC",
+      "last_meeting_date": "2026-10-30",
+      "members": [
+        {
+          "name": "Sam Oduya",
+          "user": "soduya",
+          "org": "Sablewood",
+          "role": "Project Manager",
+          "open_tasks": 3
+        },
+        {
+          "name": "Priya Nair",
+          "user": "pnair",
+          "org": "Sablewood",
+          "role": "Solution Architect",
+          "open_tasks": 5
+        },
+        {
+          "name": "Lucía Ferrer",
+          "user": "lferrer",
+          "org": "Sablewood",
+          "role": "Conversation Designer",
+          "open_tasks": 2
+        },
+        {
+          "name": "Joaquín Reyes",
+          "user": "ext-jreyes",
+          "org": "Verdant Agro",
+          "role": "General Manager (sponsor)",
+          "open_tasks": 0
+        },
+        {
+          "name": "Amara Nwosu",
+          "user": "ext-anwosu",
+          "org": "Verdant Agro",
+          "role": "Agronomy Lead",
+          "open_tasks": 1
+        },
+        {
+          "name": "Ben Hollis",
+          "user": "ext-bhollis",
+          "org": "Verdant Agro",
+          "role": "IT Coordinator",
+          "open_tasks": 1
+        }
+      ],
+      "open_tasks": [
+        {
+          "key": "VAC-031",
+          "title": "WhatsApp Business number verification",
+          "owner": "Ben Hollis",
+          "due": "2026-10-28",
+          "status": "In progress"
+        },
+        {
+          "key": "VAC-033",
+          "title": "Pilot district selection",
+          "owner": "Joaquín Reyes",
+          "due": "2026-10-30",
+          "status": "Done"
+        }
+      ],
+      "decision_log": [
+        {
+          "id": "DEC-VAC-004",
+          "date": "2026-10-16",
+          "decision": "Phase 1 limited to maize and coffee."
+        }
+      ]
+    }
+  },
+  "firm": "Sablewood"
+}

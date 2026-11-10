@@ -1,0 +1,137 @@
+# Showcase edition — the version Wursta presents to Google and to clients.
+# Same agents and code as the internal edition, regrouped into customer segments: no internal use cases.
+# agents*.yaml in this folder move agents into segments and replace client-facing fields; i18n/es*.yaml translate
+# the catalog texts for the UI. Engines: "Agent Hive Showcase · <Segment>". Knowledge bases share the internal
+# realms' data stores (kb_store); every document is tagged with the editions it belongs to and agents filter on it.
+title: The Wursta Agent Hive
+subtitle: >-
+  Live Google Cloud agent demos for every industry — pick a segment, open an agent and watch it work on Gemini and
+  Vertex AI Agent Engine.
+term: segment
+force_status: demo_ready
+statuses:
+  demo_ready: {label: Live demo, description: "Runs live on Vertex AI Agent Engine with synthetic data."}
+  built: {label: Live demo, description: "Runs live on Vertex AI Agent Engine with synthetic data."}
+  in_build: {label: Live demo, description: "Runs live on Vertex AI Agent Engine with synthetic data."}
+  library: {label: Live demo, description: "Runs live on Vertex AI Agent Engine with synthetic data."}
+layout:
+  left: [government, smb, workforce]
+  right: [enterprise, services]
+
+realms:
+  - id: government
+    name: Government
+    kind: user
+    color: "#5d4fc7"
+    blurb: >-
+      Public-sector agents for citizen services, permits, records and policy — plus a citizen-services framework
+      that composes them for national programmes.
+    kb_store: government
+    kb_sources: [government]
+    clusters:
+      - {id: public_services, name: "Public services", blurb: "Front-door services residents and businesses use every day."}
+      - {id: records_legal, name: "Records, legal & procurement", blurb: "Back-office agents for transparency, legal review and buying."}
+      - {id: citizen_framework, name: "Citizen Services Framework", blurb: "Proposed national composition: messaging front-end, identity federation and specialised agents."}
+
+  - id: enterprise
+    name: Enterprise
+    kind: user
+    color: "#2b78d0"
+    blurb: >-
+      Industry agents for financial services, healthcare, telco, retail and logistics — plus a strategy and
+      transformation suite, an agent factory and productivity agents for every team.
+    kb_store: enterprise
+    kb_sources: [enterprise, platform]
+    clusters:
+      - {id: financial, name: "Financial services", blurb: "Wealth, compliance, FP&A and executive analytics for banks and wealth managers."}
+      - {id: healthcare, name: "Healthcare", blurb: "Post-discharge care, trial pre-screening, denials and clinical documentation."}
+      - {id: telco, name: "Telco & media", blurb: "SLA assurance, campaign analytics, on-brand content and localisation."}
+      - {id: retail, name: "Retail & CPG", blurb: "Inventory risk, fulfilment, promotions, campaigns and customer support."}
+      - {id: logistics, name: "Logistics & manufacturing", blurb: "Control tower, replenishment, shipment briefs, orchestration and quality."}
+      - {id: pantheon, name: "Strategy & transformation", blurb: "A coordinator and five specialists turn discovery material into an architecture, backlog, risk plan and business case."}
+      - {id: forge, name: "Agent factory", blurb: "Describe an agent in plain English; the factory plans, builds, tests and deploys it against your systems."}
+      - {id: productivity, name: "Productivity & knowledge", blurb: "Research, knowledge, Google Workspace and engineering agents for every team."}
+
+  - id: smb
+    name: SMB
+    kind: user
+    color: "#cf5528"
+    blurb: >-
+      Practical agents for small and mid-size businesses — sell more, run projects, onboard people, adopt AI — and
+      WAISentry, 24/7 security operations for cloud-first teams.
+    kb_store: smb
+    kb_sources: [smb]
+    clusters:
+      - {id: growth, name: "Growth & sales", blurb: "Discovery, presales, account intelligence, ROI and social presence."}
+      - {id: operations, name: "Operations & data", blurb: "Plans, status, retros, data questions and AI adoption."}
+      - {id: people, name: "People", blurb: "Onboarding and skills development."}
+      - {id: security, name: "WAISentry · 24/7 security", blurb: "Managed SOC: Gemini triage, certified analysts, sub-60-second containment, zero-PII by design."}
+
+  - id: services
+    name: Professional Services
+    kind: user
+    color: "#0f7c8c"
+    blurb: >-
+      For IT consultancies, systems integrators and Google Cloud partners — win the work, scope and price it, migrate
+      clients to Google Workspace, deliver, and keep every client healthy.
+    kb_store: delivery
+    kb_sources: [delivery]
+    clusters:
+      - {id: delivery_engine, name: "Scoping, SOWs & delivery", blurb: "Statements of work, scope control, validation, enablement and migration readiness."}
+      - {id: atlas, name: "Workspace migration (Atlas)", blurb: "Seven agents that run a legacy-email-to-Google-Workspace migration end to end."}
+      - {id: client_delivery, name: "Client success", blurb: "Meeting health, actions, client-ready write-ups and partner content."}
+      - {id: sales_marketing, name: "Sales & marketing", blurb: "RFP responses, competitive intelligence and social campaigns."}
+      - {id: innovation, name: "Operations, risk & AI governance", blurb: "People operations, churn prediction, legal and compliance review, and AI guardrails."}
+
+  - id: workforce
+    name: Agent Workforce
+    kind: user
+    color: "#b0306a"
+    blurb: >-
+      An AI staffing agency: browse specialist agents, brief one in plain English, see the cost upfront and get a
+      finished, brand-styled document. Runs as a SaaS app or inside the Gemini Enterprise Agent Marketplace.
+    kb_store: workforce
+    kb_sources: [workforce]
+    clusters:
+      - {id: workforce_platform, name: "Workforce platform", blurb: "Browse, brief and estimate, multi-agent orchestration, brand intelligence, QA and fact-checking, branded document delivery."}
+      - {id: marketing_sales, name: "Marketing, social & sales", blurb: "Specialists from the Marketing, Social Media and Sales departments."}
+      - {id: ops_strategy, name: "Operations, strategy & writing", blurb: "Specialists from the Operations, Strategy and Writing departments."}
+
+security_layers:
+  - id: google_security
+    name: Google security layer
+    realms: [government, enterprise]
+    note: Reference architecture for production deployments — this demo runs on synthetic data and does not enforce it.
+    summary: >-
+      Government and enterprise agents run behind Google's security stack: every prompt and response is screened,
+      every agent turn is logged and correlated, and every indicator is enriched with frontline threat intelligence.
+    controls:
+      - name: Google Security Operations
+        short: SecOps
+        brief: "SIEM + SOAR: agent, Cloud Run and audit logs correlated; playbooks contain incidents."
+        role: >-
+          SIEM + SOAR. Agent Engine, Cloud Run and Cloud Audit Logs stream into SecOps; detections cover agent misuse
+          (tool abuse, data exfiltration, unusual volumes) and SOAR playbooks contain incidents.
+      - name: Model Armor
+        short: Model Armor
+        brief: Screens prompts and responses for injection, jailbreaks, sensitive data and malicious URLs.
+        role: >-
+          Screens every prompt and response: prompt injection and jailbreaks, sensitive data via Sensitive Data
+          Protection, malicious URLs and responsible-AI filters, enforced by policy templates.
+      - name: Google Threat Intelligence
+        short: GTI
+        brief: Mandiant and VirusTotal intelligence enriches every indicator.
+        role: >-
+          Mandiant frontline intelligence and VirusTotal context enrich the domains, IPs, URLs and file hashes that
+          show up in SecOps alerts and in what users send to the agents.
+  - id: waisentry
+    name: WAISentry 24/7 SOC
+    realms: [smb, services, workforce]
+    note: Wursta managed service; the agents in the WAISentry cluster demo each stage on synthetic telemetry.
+    summary: >-
+      Wursta's managed security operations for cloud-first organisations: Gemini triage plus certified analysts
+      around the clock, sub-60-second containment, and zero-PII by design.
+    controls:
+      - {name: AI triage + 24/7 human SOC, short: 24/7 SOC, role: "Gemini removes ~99% of noise in seconds; certified Wursta analysts verify every real threat."}
+      - {name: Active containment, short: "< 60 s containment", role: "Pre-approved playbooks end sessions, revoke OAuth apps, suspend accounts and quarantine Drive links."}
+      - {name: Zero-PII architecture, short: Zero-PII, role: "Names, emails and file contents are tokenised inside the client's Google Cloud tenant before any alert leaves it."}

@@ -1,0 +1,588 @@
+# Showcase overrides for the former Delivery Engine agents (now Professional Services). Keys per agent: realm (segment), cluster and any client-facing field to replace
+# (name, tagline, description, persona, use_cases, instruction, output, samples, sample_doc, steps, related, kpis, aka).
+# Client framing: every agent is a product an IT consultancy / systems integrator / Google Cloud partner uses. The demo
+# firm is Sablewood Cloud Partners (fictional Google Cloud partner, US + LATAM nearshore centre) with fictional staff and
+# fictional clients (Kestrel Manufacturing, Harborline Logistics, Tallbridge Logistics, Calder & Finch Insurance...).
+# Client-framed fixtures, sample docs and KB copies: tools/fixtures/editions/showcase/ and
+# grounding/editions/showcase/corpus/services/.
+agents:
+  # ===================================================================================================================
+  # Scoping, SOWs & delivery
+  # ===================================================================================================================
+  sow_builder:
+    realm: services
+    description: >-
+      A three-stage pipeline (ADK SequentialAgent) for consultancies and systems integrators. A scope analyst turns raw
+      discovery notes into numbered deliverables, assumptions, exclusions and constraints; an estimator sizes every
+      deliverable with the firm's reference estimation model, prices it from the firm's rate card (fixed fee or time &
+      materials; onshore, nearshore or blended), schedules the phases with the critical-path tool and builds the
+      payment schedule; the writer assembles the SOW from the approved clause library and runs the SOW quality check
+      until it passes — acceptance criteria for every deliverable, no vague terms, payments that add up. Demo firm:
+      Sablewood Cloud Partners, a fictional Google Cloud partner.
+    persona: Engagement leads, pre-sales architects and delivery directors at consultancies and Google Cloud partners
+    use_cases:
+      - First-draft SOW the same day as discovery, with numbers that come from tools, not guesses
+      - Fixed fee vs T&M (onshore, nearshore or blended) with margin check and the right approver
+      - Consistent SOWs that pass the quality bar before Legal and the client see them
+    instruction: |
+      You write the Statement of Work from two inputs.
+      SCOPE BRIEF:
+      {{sow_scope}}
+
+      NUMBERS PACK:
+      {{sow_numbers}}
+
+      Write the SOW, the notes and the QA footer in the language of the user's request (en, es or pt) unless the user
+      asks for another contract language.
+      1. Call dlv_sow_clause_library in that language and use these clauses verbatim, citing their ids: acceptance,
+         change_control, assumptions, out_of_scope, client_responsibilities, governance and the payment clause for
+         the pricing model (payment_fixed or payment_tm).
+      2. Search the knowledge base for the SOW standards only if you need a rule the clauses and this list do not
+         give you (section order, acceptance criteria, terms to avoid, approval matrix).
+      3. Draft the SOW in markdown with '#' headings in this order: Executive summary; Scope; Deliverables (table
+         D1..Dn: deliverable, description, quantity); Acceptance criteria (one measurable criterion per D-id);
+         Assumptions; Out of scope; Client responsibilities; Milestones and timeline; Pricing and payment (price
+         table plus the payment schedule as a markdown table with a % column); Change control; Governance; Open
+         questions; Signatures (headings translated into the SOW's language).
+      4. Always call dlv_sow_quality_check on the complete draft before you answer. Fix every reported issue
+         (missing sections, vague terms, placeholders, deliverables without acceptance criteria, payment rows not
+         summing to 100%) in the final document; re-run the check only if the verdict was "revise" (at most once).
+      5. Only if the notes give a quantified business benefit, add a short value case using compute_roi.
+      Never change a number from the numbers pack. Label prices "illustrative rate card".
+
+  latam_sow:
+    realm: services
+    description: >-
+      The Latin America variant of the SOW Builder for firms that sell across the region. An estimator sizes and prices
+      the work (nearshore delivery by default); a fiscal localiser converts the price at the planning FX rate, compares
+      invoicing cross-border in USD (withholding and gross-up) with invoicing through a local partner (VAT in local
+      currency), and pulls the country's legal clauses — governing law, e-invoicing, withholding gross-up, data
+      protection; the writer produces the SOW in the client's language. Tax figures are illustrative planning values
+      and always flagged for local counsel. Demo firm: Sablewood Cloud Partners (fictional) and its nearshore centre.
+    persona: Engagement leads and partner managers at consultancies selling in Mexico, Colombia, Brazil, Chile, Peru and El Salvador
+    output: >-
+      The full SOW in Spanish or Portuguese (full document — length limit does not apply), then a short English
+      footer for the firm's deal desk: price (USD and local), recommended billing scenario, margin, approver,
+      quality-check score and items for local counsel.
+
+  scope_creep:
+    realm: services
+    persona: Project managers and delivery leads at consultancies protecting margin without damaging the client relationship
+    steps:
+      - id: scope_matcher
+        name: Scope matcher
+        model: flash
+        role: Lists every client ask and classifies it against the signed SOW.
+        instruction: |
+          Load the material: call get_sample_document only when the user's message contains a key that starts with
+          'dlv_'. If it names none, skip get_sample_document and work from the message text — never guess a key (a SOW
+          id is not a document; the signed SOW is read by dlv_check_scope).
+          Find the SOW id (stated by the user or in the document, e.g. SOW-2026-0412 or
+          SOW-2026-0388).
+          1. Write every client request as one short English sentence in the client's words — include small asks.
+             Translate requests made in another language: the scope check matches English contract terms.
+          2. Call dlv_check_scope ONCE with the SOW id and all requests.
+          Output a table: #, request, classification (in_scope / out_of_scope / exceeds_cap / ambiguous), clause id
+          and text, quantity detected, reference effort. Then the SOW summary line (model, value, burn %).
+        tools: [get_sample_document, dlv_check_scope]
+        output_key: scope_findings
+      - id: signals_reader
+        name: Meeting signals reader
+        model: lite
+        role: Scores dissatisfaction, scope creep and timeline risk and extracts actions.
+        instruction: |
+          Load the same material: call get_sample_document only when the user's message contains a key that starts
+          with 'dlv_'. If it names none, skip get_sample_document and pass the user's message text to the skills —
+          never guess a key (a SOW id is not a document). Call detect_meeting_sentiment_risk and extract_meeting_structured_data on it.
+          Output: overall risk level, the top 3 signals with a short verbatim quote each, the action items with
+          owners and dates, and a one-line read of the client's mood.
+        tools: [get_sample_document, detect_meeting_sentiment_risk, extract_meeting_structured_data]
+        output_key: meeting_signals
+    instruction: |
+      SCOPE FINDINGS:
+      {{scope_findings}}
+
+      MEETING SIGNALS:
+      {{meeting_signals}}
+
+      1. Lead with the verdict: how many asks are in scope, out of scope, over a cap, ambiguous — and the burn.
+      2. For out_of_scope and exceeds_cap items (all of them unless the user picks), call dlv_draft_change_order
+         ONCE with one item per ask, shaped {"title": short name, "oos_ref": the clause id (OOS-.. or CAP-..)}; for a
+         CAP item also "quantity": the extra units (e.g. 150 users, 3 dashboards, 2 sessions). Never draft for
+         in-scope items.
+      3. Ambiguous items become clarifying questions, not charges.
+      4. Follow the scope-change process in the knowledge base (impact assessment within 3 business days, approval
+         thresholds, no work before signature).
+      5. Write a client-facing reply: thank, confirm what is covered and when, explain the change order neutrally,
+         and propose a 20-minute review. Match the tone to the meeting signals (de-escalate if risk is high). Sign it
+         as the delivery firm's contact named in the material (e.g. Ana Lucia Mendoza for Kestrel, Grace Whitmore for
+         Bluestem — both at Sablewood Cloud Partners); never sign as an agent or as the software vendor.
+    output: >-
+      Verdict line; table (request, verdict, clause, effort/price); change-order summary (id, total, contract value
+      before/after, schedule impact, approver — simulated filing); client reply draft; a PM alert for the delivery
+      team (2-3 lines with the risk signals).
+
+  vdr_validator:
+    realm: services
+    tagline: Checks design and validation documents against the firm's VDR templates before they go to the client for sign-off.
+    description: >-
+      The VDR Validator reviews delivery documents — design reviews and validation (UAT) reports — against the firm's
+      required template: missing sections, empty document-control fields, version drift between the header and the
+      revision history, unsigned sign-off rows, placeholders, figures that disagree across sections, failed tests
+      without a defect, a stated pass rate that the table does not support, and a GO recommendation with a Sev1 still
+      open. It returns review comments the author can paste back. Demo templates and documents: Sablewood Cloud
+      Partners (fictional).
+    samples:
+      - Validate 'dlv_vdr_design_kestrel' against the design review template.
+      - Is the Bluestem UAT report 'dlv_vdr_validation_bluestem' ready for client sign-off?
+      - Which sections does a Sablewood validation report need, and who must sign it?
+
+  enablement_engine:
+    realm: services
+
+  cert_notifier:
+    realm: services
+    tagline: Tracks every consultant's Google Cloud certifications, warns before they lapse and protects partner specializations.
+    description: >-
+      Cert Notifier watches every consultant's Google Cloud certifications, lists what has expired and what expires
+      inside the look-ahead window, checks coverage against the firm's specialization targets now and at the end of
+      the window, and sends renewal reminders (simulated) following the certification policy's cadence — with the
+      manager in copy and voucher eligibility stated. Demo roster: Sablewood Cloud Partners (fictional).
+    persona: Partner managers, practice directors and consultants at Google Cloud partners
+
+  migration_ready:
+    realm: services
+    description: >-
+      Migration Ready scores the client's readiness questionnaire across eight domains (sponsorship, identity, DNS and
+      mail flow, retention and compliance, applications, devices, people and change, support), applies the firm's
+      go / conditional / no-go rules, and turns every blocker into a remediation task with an owner — scheduled with
+      the critical-path tool to give the earliest realistic kickoff date.
+    persona: Engagement leads and pre-sales architects at consultancies deciding whether a migration can start
+
+  migration_report:
+    realm: services
+    instruction: |
+      FACTS PACK:
+      {{report_facts}}
+
+      RAG REVIEW:
+      {{report_rag}}
+
+      Write the executive migration report from these inputs only, in the same language as the user's message
+      (English message → English report; a message in another language → the whole report in that language). Plain language for a sponsor; no tool names, no
+      system ids except wave ids and issue ids. Put the burndown as a small table (wave, planned remaining, actual
+      remaining). For a completed project write a close-out: outcome vs plan, what slipped and why, lessons learned.
+
+  migration_cm:
+    realm: services
+
+  demo_scripts:
+    realm: services
+    tagline: Writes demo scripts and storyboards for your firm's solution demos — audience, storyline, click path, talk track and fallbacks.
+    description: >-
+      A draft-and-critique loop (ADK LoopAgent) for pre-sales teams. The writer pulls the facts of each solution from
+      the firm's solution catalogue (tested demo inputs, how it works, what is simulated, proof points) and writes a
+      storyline, a timed run-of-show, the exact click path and the talk track; the critic checks the timing against the
+      demo standards (buffer, live-demo share, Q&A, no monologues, a fallback for every live step) and that every input
+      in the click path is a tested demo moment, and sends it back until it passes. Demo catalogue: the solutions of
+      Sablewood Cloud Partners, a fictional Google Cloud partner.
+    persona: Pre-sales engineers, solution architects and engagement leads preparing prospect and client demos
+    use_cases:
+      - Script for a prospect demo of one or more of the firm's solutions
+      - Timed run-of-show that fits the slot
+      - Fallback plan for live-demo risk
+    model_reason: The writer runs on Flash; the timing critique and publishing the approved script are checklist work on Flash-Lite.
+    steps:
+      - id: script_writer
+        name: Script writer
+        model: flash
+        role: Drafts the storyline, run-of-show, click path and talk track from the solution facts.
+        instruction: |
+          Read the demo request (call get_sample_document when a 'dlv_' key is named). For each solution to show, call
+          dlv_agent_demo_facts with its id (solution ids: migration_factory, idea_to_demo, ai_guardrail,
+          meeting_intelligence, adoption_programme) and use the exact inputs of its demo_moments in the click path.
+          Previous critique (empty on the first round):
+          {{demo_critique}}
+          Apply every numbered fix from the critique. Write:
+          1. Audience and goal (what each person must leave believing).
+          2. Storyline in three acts (problem, proof, outcome) tied to the audience's worries.
+          3. Run-of-show table: segment, minutes, type (intro / context / live_demo / story / qa / close), fallback
+             (required for live_demo: recorded run, screenshot or cached answer).
+          4. Click path: numbered steps — demo moment, exact input to paste, what to point at in the result.
+          5. Talk track: 2-3 sentences per segment, plus the "wow" moment.
+          6. Disclaimer line: synthetic data and simulated actions (name them from the facts).
+        tools: [dlv_agent_demo_facts, get_sample_document]
+        grounding: [kb]
+        output_key: demo_draft
+      - id: critic
+        name: Demo critic
+        model: lite
+        role: Checks timing and input validity against the demo standards and approves or returns fixes.
+        instruction: |
+          Draft to review:
+          {{demo_draft}}
+
+          1. Call dlv_demo_timing with the run-of-show segments (name, minutes, type, fallback) and the slot length.
+          2. Call dlv_agent_demo_facts for each solution in the click path and confirm each pasted input matches one
+             of its demo_moments inputs or is clearly marked as a free-form input.
+          3. Check that every audience concern in the request is answered somewhere in the script.
+          If all checks pass, say "APPROVED" with the timing summary. Otherwise list numbered, specific fixes.
+        tools: [dlv_demo_timing, dlv_agent_demo_facts]
+        output_key: demo_critique
+    output: >-
+      The demo script: header (audience, slot, timing verdict); goal; three-act storyline; run-of-show table; click
+      path with exact inputs; talk track; fallback plan; disclaimer.
+    samples:
+      - Write the demo script for 'dlv_demo_request_atlas'.
+      - A 15-minute demo of the Sablewood Idea-to-Demo Sprint for a real-estate developer's COO — include fallbacks.
+      - Storyboard a 10-minute demo of the Sablewood AI Guardrail Service for a CIO audience.
+    related: [atlas_preflight, morpheus, aegis]
+
+  # ===================================================================================================================
+  # Workspace migration (Atlas) — one synthetic tenant (Kestrel Manufacturing, 1,200 users, M365 + file shares)
+  # ===================================================================================================================
+  atlas_preflight:
+    realm: services
+  atlas_batch_planner:
+    realm: services
+  atlas_user_comms:
+    realm: services
+  atlas_data_mover:
+    realm: services
+  atlas_delta_sync:
+    realm: services
+  atlas_validator:
+    realm: services
+  atlas_status:
+    realm: services
+    persona: Engagement lead, client sponsor and steering committee of a Workspace migration
+
+  # ===================================================================================================================
+  # Client success
+  # ===================================================================================================================
+  helios:
+    realm: services
+    instruction: |
+      1. Identify the meeting: call ops_meeting_registry with the meeting id, transcript key or account. Note who was
+         absent (especially the executive sponsor), the previous sentiment scores and the PM.
+      2. Run detect_meeting_sentiment_risk on the transcript document key (or on pasted text). Never score by yourself.
+      3. Combine the skill's signals with attendance and the sentiment trend, then grade the meeting green / amber / red
+         using the thresholds in the Client Health & Escalation Playbook. Quote evidence verbatim with its [mm:ss]
+         timestamp; never make a quote harsher than it was.
+      4. Draft the PM alert: headline, evidence, why it matters (renewal, QBR, dependencies), up to 5 recommended actions
+         with owners. For amber or red — or when the user asks — send it with ops_send_pm_alert and report the alert id
+         and acknowledgement deadline as (simulated).
+      5. End with a short "Next steps" section that names Athena (tasks) and Oracle (churn score) by name only.
+  athena:
+    realm: services
+    instruction: |
+      1. Find the meeting and project key with ops_meeting_registry (transcript key, meeting id or account).
+      2. Run extract_meeting_structured_data on the transcript or notes document key (or pasted text).
+      3. Call ops_pm_project_roster for the project to see members, open tasks and the decision log.
+      4. Show the proposed tasks as a table (task, owner, due as stated, priority) plus the decisions.
+      5. When the user asks to create or push the tasks, call ops_create_pm_tasks with the tasks, the decisions and the
+         meeting id. Report created keys, resolved due dates, duplicates (recommend updating the existing task instead)
+         and items that still need an owner — all as (simulated).
+      6. For follow-up questions, use the roster's overdue and client_owned flags; never guess task status.
+      Answer in the same language as the user's message: an English message gets an English answer; only a message
+      written in another language gets the answer (headings, tables, text) in that language, with tool results
+      translated and ids, names, keys and dates unchanged.
+
+  scribe:
+    realm: services
+    tagline: Turns your firm's technical write-ups and case studies into client-ready slide decks with speaker notes.
+    description: >-
+      Scribe deconstructs engineering write-ups, case studies and capability notes into a client-facing deck: action
+      titles, at most five bullets per slide, speaker notes and sourced figures. A drafter and a brand reviewer iterate
+      (ADK LoopAgent) until the outline passes the firm's presentation standards — commercials such as margins and rate
+      cards stripped, unapproved client names anonymised — and then the Google Slides file is created (simulated).
+      Demo library: Sablewood Cloud Partners (fictional).
+    persona: Engagement leads, pre-sales architects and account executives at consultancies preparing client meetings
+    use_cases:
+      - Client deck from a technical project write-up
+      - Case-study deck tailored to a prospect's industry and audience
+      - Executive briefing on one of the firm's solution offerings
+    steps:
+      - id: drafter
+        name: Deck drafter
+        model: flash
+        role: Writes or revises the slide-by-slide outline from the source material.
+        instruction: |
+          Reviewer feedback from the previous round (none on the first round):
+          {{deck_review}}
+
+          1. Load the source: get_sample_document for document keys (e.g. 'ops_tech_doc_claims_triage');
+             ops_content_library for case-study ids (e.g. 'CS-021'), blog ids ('BLOG-') or the firm's solution
+             offerings (kind 'agent'). Only 'ops_' keys are documents; for library items work from the fields the
+             library returns (challenge, solution, outcomes, key points, one-liner). Search the knowledge base at
+             most twice (standards, approved wording).
+          2. Take the audience and length from the request (default: client deck, 8-10 slides).
+          3. Write the outline: title slide, agenda, the problem in the client's words, approach, proof with figures and
+             their source id, plan, next steps. Action titles of at most 10 words; at most 5 bullets of at most 14 words;
+             speaker notes of 40-120 words on every slide after the title.
+          4. Remove commercials and anything marked for the firm only (margins, discounts, rate cards, notes not for
+             clients) and anonymise clients that are not approved named references (see the Presentation & Brand
+             Standards).
+          5. If there is reviewer feedback, apply every numbered fix and keep the rest stable.
+          Output the full outline as: Slide N — Title / Bullets / Notes / Source.
+        tools: [get_sample_document, ops_content_library]
+        grounding: [kb]
+        output_key: deck_draft
+      - id: reviewer
+        name: Brand & audience reviewer
+        model: lite
+        role: Runs the brand check on the outline and approves it or returns numbered fixes.
+        instruction: |
+          Deck outline to review:
+          {{deck_draft}}
+
+          Convert the outline into the slides list (title, bullets, notes, source) and call ops_brand_deck_check with
+          audience 'executive' when the request mentions executives or C-level, else 'client'. The deck passes when the
+          tool reports no errors, a brand score of 80 or more, and the content fits the stated audience. Report the
+          score and every issue.
+        tools: [ops_brand_deck_check]
+        output_key: deck_review
+    instruction: |
+      Approved outline:
+      {{deck_draft}}
+
+      Brand review:
+      {{deck_review}}
+
+      1. Present the final deck as a table (slide, title, key bullets) followed by the speaker notes per slide.
+      2. Report the brand score and list what was deliberately removed or anonymised.
+      3. Only when the user asked to create or build the Slides file, call ops_create_slides_deck with the same slides
+         (template 'sablewood_executive_2026' for executive audiences, else 'sablewood_client_2026') and report the deck
+         id and link as (simulated).
+    samples:
+      - Turn the engineering write-up 'ops_tech_doc_claims_triage' into a 10-slide client deck for an insurance CIO and create the Slides file.
+      - Build an 8-slide deck from case study CS-021 for the operations VP of a logistics prospect.
+      - Draft a 6-slide executive deck on Sablewood Meeting Intelligence for a CIO.
+
+  cataloger:
+    realm: services
+    instruction: |
+      1. Call ops_partner_content_inbox for the batch (default 'partner_portal_week45') to get abstracts, audiences and
+         key takeaways.
+      2. Call partner_advantage_cataloger on the same batch for readiness scores and verdicts (ingest / fix first /
+         exclude). Match items by title. If the skill reports an unknown batch, apply the scoring rules from the Partner
+         Content Curation Guidelines and say so.
+      3. Tag each item: product, audience, motion (sell / build / service), AI readiness, sensitivity. Never recommend
+         company-wide indexing of partner-confidential items; route videos to Janus for a transcript.
+      4. Write the takeaways for the audience the user asks about (default: one line per team).
+      5. Only when asked: post the digest with ops_publish_digest (report the message id as simulated), or call
+         drive_organization (dry run) to propose where files should live.
+      Answer in the same language as the user's message: an English message gets an English answer; only a message
+      written in another language gets the answer (headings, tables, text) in that language, with tool results
+      translated and ids, names, keys and dates unchanged.
+
+  # ===================================================================================================================
+  # Sales & marketing
+  # ===================================================================================================================
+  mercator:
+    realm: services
+    tagline: Breaks an enterprise RFP into requirements, matches the firm's evidence and returns a compliance matrix and bid call.
+    description: >-
+      Mercator analyses enterprise and public-sector RFPs in a three-stage pipeline (ADK SequentialAgent): a Flash-Lite
+      extractor lists every mandatory and desirable requirement with deadlines and evaluation weights; a matcher
+      cross-references each requirement with the firm's approved case studies, past SOWs and documented capabilities
+      into a requirement → evidence → gap matrix; the final step gives the bid recommendation, mitigations, win themes
+      and a draft executive summary. Demo evidence library: Sablewood Cloud Partners (fictional).
+
+  argus:
+    realm: services
+
+  stentor:
+    realm: services
+    tagline: Drafts LinkedIn and X posts from approved case studies, blogs and solution launches, then schedules them.
+    description: >-
+      Stentor turns the firm's approved content — case studies, blog posts and solution offerings — into channel-native
+      posts for LinkedIn and X, validates every draft against the social media policy (length, hashtags, banned
+      claims, client naming, competitor mentions, posting windows) and schedules the clean ones in free slots
+      (simulated). Demo channels and content: Sablewood Cloud Partners (fictional).
+    persona: Marketing managers and practice leads at consultancies promoting their work
+    use_cases:
+      - Promote a new case study across channels
+      - Launch-week mini-campaigns for new solution offerings
+      - Turn a blog post into a short X series
+    instruction: |
+      1. Find the content with ops_content_library (external_only true) — case study ids (CS-), blog ids (BLOG-) or the
+         firm's solution offerings (kind 'agent', ids SOL-). Refuse content that is not approved for external use.
+      2. Draft per channel, never the same text twice: LinkedIn 600-1,300 characters with a hook, one insight, one
+         measured result and one call to action; X up to 280 characters. Use only approved hashtags (LinkedIn at most 5,
+         X at most 2) and at most one link — only a url the content item provides (blog posts have one, case studies
+         do not); never invent a link. Name a client only if it is an approved named reference.
+      3. Validate with ops_schedule_social_posts in dry-run mode and fix every error; explain any warning you keep.
+      4. Schedule (dry_run false) only when the user asks to schedule; report post ids and slots as (simulated).
+    samples:
+      - Draft a LinkedIn post and an X post promoting case study CS-014 and schedule them next week.
+      - Plan a 3-post LinkedIn mini-campaign for Sablewood's AI services launch featuring Meeting Intelligence, Bid Desk and the Idea-to-Demo Sprint — validate them but don't schedule yet.
+      - Turn blog post BLOG-112 into two X posts and check them against the social media policy.
+
+  # ===================================================================================================================
+  # Operations, risk & AI governance
+  # ===================================================================================================================
+  vulcan:
+    realm: services
+    name: Vulcan · Enterprise Sync Middleware
+    description: >-
+      Vulcan is multi-tenant sync middleware an integration practice runs for its real-estate and construction clients:
+      HubSpot and Salesforce deals, Procore projects and change orders flow into one canonical model in BigQuery. The
+      agent proposes field mappings, resolves conflicting records with field-level lineage (most advanced stage,
+      Procore as post-contract amount master, manual review above a 10% delta) and plans sync runs within each
+      vendor's API budget — all simulated over synthetic client tenants such as a real-estate developer.
+
+  chiron:
+    realm: services
+    name: Chiron · Academy Onboarding Companion
+    tagline: Guides your new consultants through their first 90 days — benefits, tool access and certification path.
+    description: >-
+      Chiron is the new hire's companion for the first 90 days at a consultancy: it knows the day of the onboarding
+      plan, the 30/60/90 milestones for the role, the benefits enrollment deadline, which tools are granted, pending or
+      missing, and the certification path with target dates and suggested weekly study hours. It raises access requests
+      with the right approver and answers Academy policy questions from the New-Hire Guide. Demo: the Sablewood Academy
+      at Sablewood Cloud Partners (fictional).
+    persona: New hires at consultancies, their managers and onboarding buddies
+    instruction: |
+      1. Identify the new hire (id or name) and call ops_onboarding_status; for role-only questions pass the role name.
+      2. Lead with the 2-3 most important actions this week; always mention the benefits deadline while enrollment is
+         open and any certification marked at risk.
+      3. Raise access requests with ops_request_tool_access only when the user asks; report tickets, approvers and
+         expected dates as (simulated) and flag requests outside the role's standard access.
+      4. Answer policy questions (vouchers, study time, check-ins) from the Sablewood Academy New-Hire Guide and cite it.
+      5. Be warm and concise; redirect HR-sensitive questions (pay, performance, personal matters) to the People team.
+      Answer in the same language as the user's message: an English message gets an English answer; only a message
+      written in another language gets the answer (headings, tables, text) in that language, with tool results
+      translated and ids, names, keys and dates unchanged.
+    samples:
+      - I'm Sofia Marín (NH-311). What should I focus on this week, and am I on track?
+      - Kwame Mensah (NH-314) just started as a Workspace Consultant — request his missing tool access and tell him when benefits enrollment closes.
+      - Which certification path should a new Data Engineer follow, and does Sablewood pay for the exam?
+    kpis: [Days to full tool access, Benefits enrollment completed on time, First certification within 90 days]
+
+  oracle:
+    realm: services
+  janus:
+    realm: services
+    instruction: |
+      1. Resolve the meeting with ops_meeting_registry. Prefer the transcript document key for the skill; use the
+         recording URI only when there is no transcript or the user passes a gs:// or YouTube URL.
+      2. Call extract_video_to_okf and present the record in the language of the user's message: title, summary,
+         chapters with [mm:ss], entities, decisions and 3-6 Q&A pairs. The skill answers in English — when the user
+         wrote in another language, translate every part of the record, Q&A pairs included, before presenting it.
+      3. When the user asks to index or publish, call ops_index_knowledge_asset with meeting_id, title, summary, tags,
+         chapters and qa_pairs from the record, and access 'account_team' for steering committees and commercial
+         meetings ('company' only for enablement content without client details). Report the asset id as (simulated).
+      4. For "what is not indexed" questions, use the registry's indexed_in_kb flag.
+      Answer in the same language as the user's message: an English message gets an English answer; only a message
+      written in another language gets the answer (headings, tables, text) in that language, with tool results
+      translated and ids, names, keys and dates unchanged.
+
+  aegis:
+    realm: services
+    name: Aegis · Model Armor Guardrail
+    description: >-
+      Aegis sits on the outbound path of every agent the firm runs — in-house assistants and client-facing agents. A
+      deterministic pre-check finds personal data (redacted with typed tokens), secrets and injection patterns
+      (blocked) and compares each agent's hourly spend with its baseline to catch retry loops. In production the same
+      verdicts are enforced by Model Armor templates and Sensitive Data Protection on the Vertex AI call path; Aegis
+      adds the audit log and cost controls. Demo call log: Sablewood Cloud Partners (fictional).
+
+  charon:
+    realm: services
+    description: >-
+      Charon runs offboarding by the policy — built for consultancies whose people hold delegated admin in client
+      tenants: it inventories a leaver's Google Workspace data, OAuth grants, GitHub, Google Cloud bindings and
+      service-account keys, client-tenant delegated access, SaaS licences and hardware, builds the ordered S1-S10
+      checklist with deadlines from the termination time, respects legal holds and writes a hash-chained evidence log
+      for auditors. All actions are simulated. Demo cases: Sablewood Cloud Partners (fictional).
+
+  morpheus:
+    realm: services
+    instruction: |
+      Approved prototype spec:
+      {{prototype_draft}}
+
+      Critic review:
+      {{prototype_review}}
+
+      1. Call ops_render_clickable_prototype with the approved spec and output the returned HTML unchanged in a single
+         html code block — it is self-contained, so the user can save it and open it in a browser.
+      2. Call ops_draft_sow_outline with the concept title, the number of screens and the integrations the concept
+         implies.
+      3. Present the SOW outline: objective, phases with weeks and deliverables, estimate range (label it an estimate
+         from an illustrative rate card), assumptions, out of scope and acceptance. Recommend that the firm's SOW risk
+         review (the Thoth agent) and commercial review check it before it is sent to anyone.
+
+  thoth:
+    realm: services
+    description: >-
+      Thoth reviews statements of work before they leave the firm. A Flash-Lite scanner splits the draft into clauses and
+      flags risky or ambiguous language deterministically (unlimited revisions, subjective acceptance, outcome
+      guarantees, uncapped liability, penalties, IP grabs, informal change control); the grader then reasons over the
+      whole document with the SOW Legal Playbook, confirms or adjusts each grade, finds contradictions the patterns
+      miss, and writes redlines with preferred and fallback language.
+    model_reason: >-
+      Legal-risk reasoning over ambiguous language is the product and a missed red clause costs far more than tokens —
+      so the final grading step runs on Argon, and only after a Flash-Lite pre-scan.
+    samples:
+      - Grade the draft SOW 'ops_sow_draft_kestrel' clause by clause and give me redlines.
+      - Which clauses in 'ops_sow_draft_kestrel' would Legal reject outright, and what is our fallback language?
+      - "Grade this clause: 'Sablewood guarantees the model will be 99% accurate and will provide unlimited revisions until the client is fully satisfied.'"
+
+  nomos:
+    realm: services
+    tagline: Answers compliance and policy questions with citations — SOC 2, ISO 27001 concepts and the firm's own controls.
+    description: >-
+      Nomos is retrieval-augmented Q&A over the firm's compliance and policy documents: it explains SOC 2 and ISO 27001
+      concepts in plain language, maps questions to the firm's controls with owners and evidence, and tells the team
+      what they may and may not say to clients — always citing the source document. Demo policies and controls:
+      Sablewood Cloud Partners (fictional).
+    instruction: |
+      1. Search the knowledge base first (Compliance FAQ, policies) and cite each document title you rely on.
+      2. When a question touches a control, call ops_control_lookup with an English keyword, a control id or a
+         framework reference (e.g. 'access review', 'offboarding', 'CC6.2', 'A.6.5') and give the control id, owner
+         and evidence.
+      3. Distinguish "aligned" from "certified"; never claim a certification or report the documents do not support.
+      4. If the documents do not answer the question, say so and name the owner (Security & Compliance, Legal or the
+         Data Protection Officer).
+      Answer in the same language as the user's message: an English message gets an English answer; only a message
+      written in another language gets the answer (headings, tables, text) in that language, with tool results
+      translated and ids, names, keys and dates unchanged.
+    samples:
+      - What's the difference between SOC 2 Type I and Type II, and which of our controls cover access reviews?
+      - A client asks whether we follow ISO 27001 for offboarding — what do we do and what evidence can we share?
+      - Can I paste client data into a public AI chatbot? Cite the policy.
+
+compositions:
+  atlas_migration:
+    name: Atlas Workspace migration pipeline
+    status: Live demo
+    summary: >-
+      Seven Atlas agents run a client's legacy-email-to-Google-Workspace migration for a partner, from pre-flight audit
+      to daily status.
+    flow:
+      - Pre-flight audit of the client's legacy tenant
+      - Wave planning by department and data complexity
+      - Personalised user comms per wave, in English and Spanish
+      - Bulk data transfer, then delta sync and go/no-go before each cutover
+      - Post-migration validation and a daily status report for the team and the sponsor
+    blocks:
+      models: Flash-Lite for comms and status; Flash for planning, transfer triage and validation.
+      runtime: Professional Services segment on Vertex AI Agent Engine; each Atlas agent runs alone or as a stage.
+      tools: Synthetic tenant inventory, wave planner, transfer, delta and checksum simulators.
+      grounding: Services knowledge base (migration runbook, cutover checklist, change-management playbook).
+  meeting_intelligence:
+    name: Meeting intelligence loop
+    status: Live demo
+    summary: Every client meeting becomes searchable knowledge, a health alert, owned tasks and a churn signal.
+    flow:
+      - Janus turns the recording or transcript into a searchable knowledge record
+      - Helios scores dissatisfaction, scope creep and disengagement and alerts the PM
+      - Athena creates tasks with owners and due dates and logs the decisions
+      - Oracle updates the account's explainable churn-risk score and save plan
+    blocks:
+      models: Flash-Lite for Janus and Athena, Flash for Helios and Oracle; the skills themselves run on Flash-Lite.
+      runtime: Professional Services segment on Vertex AI Agent Engine.
+      tools: extract-video-to-okf, detect-meeting-sentiment-risk and extract-meeting-structured-data skills; PM, CRM and chat actions (simulated).
+      grounding: Engagement history (synthetic) + services knowledge base (Client Health & Escalation Playbook).

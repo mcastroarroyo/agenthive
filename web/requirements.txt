@@ -5,3 +5,4 @@ google-auth>=2.40
 pydantic>=2.10
 pyyaml>=6.0
 requests>=2.32
+google-cloud-firestore==2.34.1
