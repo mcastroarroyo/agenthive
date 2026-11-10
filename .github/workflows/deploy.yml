@@ -100,6 +100,7 @@ jobs:
     timeout-minutes: 45
     strategy:
       fail-fast: false
+      max-parallel: 5          # Agent Engine write quota is per minute per region
       matrix:
         include: ${{ fromJSON(needs.plan.outputs.engines) }}
     name: engine (${{ matrix.edition }} · ${{ matrix.realm }})
@@ -115,7 +116,13 @@ jobs:
           HIVE_PROJECT: ${{ secrets.GCP_PROJECT }}
           HIVE_EDITION: ${{ matrix.edition }}
           REALM: ${{ matrix.realm }}
-        run: python deploy/deploy_engines.py "$REALM" --probe
+        run: |
+          for attempt in 1 2 3; do
+            python deploy/deploy_engines.py "$REALM" --probe && exit 0
+            echo "::warning::attempt $attempt failed (often the per-minute write quota); retrying in 90s"
+            sleep 90
+          done
+          exit 1
 
   kb:
     needs: plan
@@ -128,13 +135,16 @@ jobs:
       - *mask
       - *auth
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Sync the corpus to Vertex AI Search
+      - uses: actions/setup-python@v7
+        with: {python-version: "3.13", cache: pip}
+      - run: pip install -e .
+      - name: Sync the corpus to Vertex AI Search (both editions per store)
         env:
           HIVE_PROJECT: ${{ secrets.GCP_PROJECT }}
           KB: ${{ needs.plan.outputs.kb }}
         run: |
           mapfile -t REALMS < <(jq -r '.[]' <<< "$KB")
-          python3 deploy/sync_kb.py "${REALMS[@]}"
+          python deploy/sync_kb.py "${REALMS[@]}"
 
   bq:
     needs: plan
