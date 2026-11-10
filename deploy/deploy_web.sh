@@ -34,10 +34,13 @@ else
   ENV="$ENV|HIVE_FIRESTORE_DB=agenthive|HIVE_GOOGLE_CLIENT_ID=$CLIENT_ID|HIVE_ADMINS=$ADMINS"
   # optional: sign-in alert emails through the Apps Script relay (deploy/mail_relay.gs)
   [ -n "${HIVE_MAIL_RELAY:-}" ] && ENV="$ENV|HIVE_MAIL_RELAY=$HIVE_MAIL_RELAY|HIVE_NOTIFY_EMAILS=${HIVE_NOTIFY_EMAILS:-$ADMINS}"
-  EXTRA=(--set-secrets "HIVE_SESSION_SECRET=agenthive-$EDITION-session:latest")
+  EXTRA=(--update-secrets "HIVE_SESSION_SECRET=agenthive-$EDITION-session:latest")
 fi
 
-ARGS=(--project "$P" --region "$REGION" --service-account "$SA" --set-env-vars "$ENV" ${EXTRA[@]+"${EXTRA[@]}"}
+# The showcase merges its env (--update-env-vars) so settings made on the service itself survive CI deploys
+# (e.g. HIVE_MAIL_RELAY for sign-in alerts); the internal edition replaces it.
+ENV_FLAG=--set-env-vars; [ "$EDITION" != internal ] && ENV_FLAG=--update-env-vars
+ARGS=(--project "$P" --region "$REGION" --service-account "$SA" "$ENV_FLAG" "$ENV" ${EXTRA[@]+"${EXTRA[@]}"}
   --labels app=agenthive,edition=$EDITION --cpu 1 --memory 512Mi --min-instances 0 --max-instances 3
   --concurrency 40 --timeout 900 --quiet)
 if [ -n "$IMAGE" ]; then ARGS+=(--image "$IMAGE"); else ARGS+=(--source .); fi
