@@ -399,6 +399,19 @@ def index():
     return FileResponse(STATIC / "index.html")
 
 
+@app.get("/privacy")
+def privacy():
+    """Public privacy notice (linked from the Google sign-in consent screen); contact = first admin email."""
+    from fastapi.responses import HTMLResponse
+
+    contact = (os.environ.get("HIVE_CONTACT_EMAIL") or os.environ.get("HIVE_ADMINS", "").split(",")[0]).strip()
+    html = (STATIC / "privacy.html").read_text()
+    if re.fullmatch(r"[^@\s<>\"]+@[^@\s<>\"]+", contact or ""):
+        html = html.replace('id="contact" href="#"', f'id="contact" href="mailto:{contact}"')
+        html = html.replace('id="contacto" href="#"', f'id="contacto" href="mailto:{contact}"')
+    return HTMLResponse(html, headers={"Cache-Control": "no-cache"})
+
+
 @app.get("/admin")
 def admin_page(request: Request):
     if not SC:
