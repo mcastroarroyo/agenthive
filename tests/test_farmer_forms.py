@@ -51,3 +51,11 @@ def test_guards():
     assert fill("PHY", "NPR-2026-031002", "", "en")["status"] == "error"            # identity not verified
     assert fill("PLT", "NPR-2024-018832", "", "en")["use"] == "gov_farm_register_plot"
     assert fill("PHY", "NPR-2024-018832", "not json", "en")["status"] == "error"
+
+
+def test_answer_keys_are_mapped():
+    bad = {"product_description": "Café verde", "plot": "PLT-2024-104417", "importer_name": "Nordhafen Kaffee Import GmbH",
+           "quantity": "3,000 kg", "país de destino": "Alemania", "port_of_exit": "Puerto de Port Alder", "shipping_date": "2026-12-04"}
+    assert fill("PHY", "NPR-2024-018832", bad, "es")["status"] == "ready"
+    r = fill("PHY", "NPR-2024-018832", {"exporter_npr": "NPR-2024-018832"}, "en")
+    assert r["unknown_fields"] == ["exporter_npr"] and "buyer" in r["field_ids"]

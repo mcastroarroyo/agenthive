@@ -1797,6 +1797,33 @@ def _choice(f: dict, v: Any) -> str | None:
     return names[m[0]] if m else None
 
 
+def _key(s: str) -> str:
+    return _norm(unicodedata.normalize("NFKD", str(s).replace("_", " ")).encode("ascii", "ignore").decode())
+
+
+def _map_answers(pr: dict, given: dict) -> tuple[dict, list[str]]:
+    """Map the model's answer keys onto the form's field ids (exact id, label or alias; then close matches)."""
+    alias: dict[str, str] = {}
+    for f in pr["fields"]:
+        for a in [f["id"], f["label"], f.get("label_es", ""), *f.get("aliases", [])]:
+            if a:
+                alias.setdefault(_key(a), f["id"])
+    out: dict[str, Any] = {}
+    unknown: list[str] = []
+    for k, val in given.items():
+        nk = _key(k)
+        fid = alias.get(nk)
+        if not fid:
+            close = difflib.get_close_matches(nk, list(alias), n=1, cutoff=0.82)
+            inside = [a for a in alias if len(a) >= 4 and (a in nk.split() or f" {a} " in f" {nk} ")]
+            fid = alias[close[0]] if close else alias[max(inside, key=len)] if inside else None
+        if fid and fid not in out:
+            out[fid] = val
+        elif not fid:
+            unknown.append(k)
+    return out, unknown
+
+
 def _form_docx(pr: dict, lang: str, rows: list[tuple[str, str, str]], meta: dict) -> bytes:
     import io
 
@@ -1878,7 +1905,7 @@ def gov_farm_fill_form(procedure: str, producer: str, answers: str = "", languag
             raise ValueError
     except (ValueError, TypeError):
         return err("answers must be a JSON object such as {\"quantity_kg\": 3000, \"shipment_date\": \"2026-12-04\"}")
-    given = {str(k).strip(): v for k, v in given.items() if v not in (None, "")}
+    given, unknown = _map_answers(pr, {str(k).strip(): v for k, v in given.items() if v not in (None, "")})
     p = _producer(producer)
     if pr["code"] == "PRD":
         if p:
@@ -1975,8 +2002,11 @@ def gov_farm_fill_form(procedure: str, producer: str, answers: str = "", languag
     if missing or errors:
         return ok(status="incomplete", procedure=_proc_card(pr, lang), prefilled_from_registry=prefilled,
                   filled={k: (v.isoformat() if isinstance(v, dt.date) else v) for k, v in values.items()},
-                  missing=missing, errors=errors,
-                  next="Ask for the first missing field (one question at a time) or the fix for the first error, then call again with all answers.")
+                  missing=missing, errors=errors, unknown_fields=unknown,
+                  field_ids=[f["id"] for f in pr["fields"]],
+                  next=("If the producer already gave any missing value (under another name), call gov_farm_fill_form "
+                        "again now with these field ids before asking anything. Otherwise ask for the first missing "
+                        "field (one question at a time) or the fix for the first error."))
     # complete: build the form
     fee = pr["fee_usd"] + pr.get("fee_usd_per_head", 0) * values.get("head_count", 0)
     sub = _sid(f"{pr['code']}-2026-", p["npr"] if p else values.get("national_id"), sorted((k, str(v)) for k, v in values.items()))

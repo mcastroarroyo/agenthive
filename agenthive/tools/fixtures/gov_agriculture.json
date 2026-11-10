@@ -248,14 +248,26 @@
           "label": "Full name",
           "label_es": "Nombre completo",
           "type": "text",
-          "required": true
+          "required": true,
+          "aliases": [
+            "name",
+            "producer name",
+            "nombre"
+          ]
         },
         {
           "id": "national_id",
           "label": "National ID",
           "label_es": "Documento nacional de identidad",
           "type": "text",
-          "required": true
+          "required": true,
+          "aliases": [
+            "id",
+            "id number",
+            "dni",
+            "documento",
+            "cedula"
+          ]
         },
         {
           "id": "municipality",
@@ -280,6 +292,10 @@
               "value": "Lowmarsh",
               "es": "Lowmarsh"
             }
+          ],
+          "aliases": [
+            "municipio",
+            "town"
           ]
         },
         {
@@ -287,7 +303,11 @@
           "label": "Main crop",
           "label_es": "Cultivo principal",
           "type": "crop",
-          "required": true
+          "required": true,
+          "aliases": [
+            "crop",
+            "cultivo"
+          ]
         },
         {
           "id": "total_area_ha",
@@ -296,7 +316,14 @@
           "type": "number",
           "min": 0.1,
           "max": 50,
-          "required": true
+          "required": true,
+          "aliases": [
+            "area",
+            "hectares",
+            "total area",
+            "superficie",
+            "hectareas"
+          ]
         }
       ],
       "channel_es": "chat"
@@ -393,6 +420,11 @@
               "value": "CRR",
               "es": "CRR · Crédito de renovación de café"
             }
+          ],
+          "aliases": [
+            "programme",
+            "programa",
+            "program code"
           ]
         },
         {
@@ -400,7 +432,12 @@
           "label": "Plot",
           "label_es": "Parcela",
           "type": "plot",
-          "required": true
+          "required": true,
+          "aliases": [
+            "plot",
+            "plot number",
+            "parcela"
+          ]
         },
         {
           "id": "area_ha",
@@ -409,7 +446,13 @@
           "type": "number",
           "min": 0.1,
           "max": 50,
-          "required": true
+          "required": true,
+          "aliases": [
+            "area",
+            "hectares",
+            "ha",
+            "hectareas"
+          ]
         }
       ],
       "channel_es": "chat"
@@ -479,6 +522,14 @@
               "value": "vegetables",
               "es": "hortalizas"
             }
+          ],
+          "aliases": [
+            "crop",
+            "commodity",
+            "product description",
+            "product name",
+            "producto",
+            "cultivo"
           ]
         },
         {
@@ -486,7 +537,15 @@
           "label": "Plot of origin",
           "label_es": "Parcela de origen",
           "type": "plot",
-          "required": true
+          "required": true,
+          "aliases": [
+            "plot",
+            "plot number",
+            "origin plot",
+            "plot of origin",
+            "parcela",
+            "parcela de origen"
+          ]
         },
         {
           "id": "quantity_kg",
@@ -495,21 +554,50 @@
           "type": "number",
           "min": 1,
           "max": 1000000,
-          "required": true
+          "required": true,
+          "aliases": [
+            "quantity",
+            "weight",
+            "weight kg",
+            "kg",
+            "amount",
+            "net weight",
+            "cantidad",
+            "peso"
+          ]
         },
         {
           "id": "destination_country",
           "label": "Destination country",
           "label_es": "País de destino",
           "type": "text",
-          "required": true
+          "required": true,
+          "aliases": [
+            "country",
+            "destination",
+            "country of destination",
+            "pais",
+            "pais de destino",
+            "destino"
+          ]
         },
         {
           "id": "buyer",
           "label": "Buyer / importer",
           "label_es": "Comprador / importador",
           "type": "text",
-          "required": true
+          "required": true,
+          "aliases": [
+            "importer",
+            "importer name",
+            "buyer name",
+            "consignee",
+            "consignee name",
+            "client",
+            "customer",
+            "comprador",
+            "importador"
+          ]
         },
         {
           "id": "exit_point",
@@ -530,6 +618,17 @@
               "value": "Northgate land border",
               "es": "Frontera terrestre de Northgate"
             }
+          ],
+          "aliases": [
+            "port",
+            "port of exit",
+            "exit port",
+            "port of departure",
+            "departure port",
+            "point of exit",
+            "border",
+            "puerto",
+            "punto de salida"
           ]
         },
         {
@@ -537,7 +636,16 @@
           "label": "Shipment date",
           "label_es": "Fecha de embarque",
           "type": "date",
-          "required": true
+          "required": true,
+          "aliases": [
+            "date",
+            "departure date",
+            "export date",
+            "shipping date",
+            "ship date",
+            "fecha",
+            "fecha de embarque"
+          ]
         }
       ],
       "channel_es": "chat + visita de inspección"
@@ -599,6 +707,12 @@
               "value": "sheep",
               "es": "ovinos"
             }
+          ],
+          "aliases": [
+            "animal",
+            "animal type",
+            "livestock type",
+            "especie"
           ]
         },
         {
@@ -608,14 +722,29 @@
           "type": "number",
           "min": 1,
           "max": 200,
-          "required": true
+          "required": true,
+          "aliases": [
+            "count",
+            "number",
+            "number of animals",
+            "quantity",
+            "heads",
+            "animals",
+            "cantidad"
+          ]
         },
         {
           "id": "destination",
           "label": "Destination (place)",
           "label_es": "Destino (lugar)",
           "type": "text",
-          "required": true
+          "required": true,
+          "aliases": [
+            "destination place",
+            "place",
+            "destino",
+            "lugar"
+          ]
         },
         {
           "id": "destination_type",
@@ -636,6 +765,11 @@
               "value": "farm",
               "es": "finca"
             }
+          ],
+          "aliases": [
+            "type",
+            "tipo",
+            "tipo de destino"
           ]
         },
         {
@@ -643,21 +777,39 @@
           "label": "Movement date",
           "label_es": "Fecha de traslado",
           "type": "date",
-          "required": true
+          "required": true,
+          "aliases": [
+            "date",
+            "move date",
+            "fecha",
+            "fecha de traslado"
+          ]
         },
         {
           "id": "brand_registration",
           "label": "Livestock brand registration no.",
           "label_es": "N.º de registro del fierro",
           "type": "text",
-          "required": true
+          "required": true,
+          "aliases": [
+            "brand",
+            "brand number",
+            "fierro",
+            "marca"
+          ]
         },
         {
           "id": "vaccination_certificate",
           "label": "Vaccination certificate no.",
           "label_es": "N.º de certificado de vacunación",
           "type": "text",
-          "required": true
+          "required": true,
+          "aliases": [
+            "vaccination",
+            "vaccine certificate",
+            "certificado de vacunacion",
+            "vacunacion"
+          ]
         }
       ],
       "channel_es": "chat"
@@ -709,6 +861,13 @@
               "value": "other",
               "es": "otro"
             }
+          ],
+          "aliases": [
+            "reason",
+            "for",
+            "motivo",
+            "proposito",
+            "entity"
           ]
         }
       ],

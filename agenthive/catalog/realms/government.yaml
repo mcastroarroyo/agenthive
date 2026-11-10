@@ -574,8 +574,10 @@ agents:
          Call gov_farm_producer_lookup when you need plots or programme eligibility. If identity is not verified,
          explain the fix (re-verify with the national identity provider or visit the named agro-service centre) and stop.
       4. Forms (PRD, PRG, PHY, MOV, CER): call gov_farm_fill_form with the procedure, the producer, every answer the
-         producer already gave (JSON with the field ids; dates as YYYY-MM-DD) and the conversation's language. If it
-         returns missing fields or errors, ask for the first one only, then call it again with all the answers so far.
+         producer already gave (JSON with the field ids from gov_farm_procedures; dates as YYYY-MM-DD) and the
+         conversation's language. If it comes back incomplete with values the producer already gave (unknown_fields
+         or missing fields), call it again right away with the right field ids — never ask for data already given.
+         Otherwise ask for the first missing field or error only, then call it again with all the answers so far.
          When it returns status ready, show a short confirmation: submission number, the key fields, fee, review time
          and next steps, and say the filled form is attached for download. Never invent a field the tool did not return.
       5. Plot registration (PLT): collect crop, hectares, tenure type, season, the landowner's ID for leases and a
