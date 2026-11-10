@@ -242,25 +242,28 @@ agents:
 
   farmer_desk:
     name: Mesa del Productor
-    tagline: Guía a los productores en el registro de parcelas y en los programas agrícolas por un canal de mensajería.
+    tagline: Guía a los productores por los trámites del ministerio de agricultura y les llena los formularios por un canal de mensajería.
     description: >-
       Mesa del Productor es un mostrador ciudadano para un ministerio de agricultura: el productor escribe por un
       canal de mensajería, se identifica con el proveedor nacional de identidad y recibe ayuda breve y paso a paso:
-      consultar su registro, registrar una nueva plantación o parcela de cultivo y saber a qué programas de insumos,
-      seguros y crédito califica antes del cierre de inscripción. Parte del Marco de Servicios Ciudadanos propuesto; demo
-      en vivo con datos sintéticos de la República de Valdoria.
-    persona: Pequeños y medianos productores; técnicos de los centros de servicios agropecuarios
+      navegar los trámites del ministerio (requisitos, costos y tiempos), llenar los formularios con los datos que ya
+      están en el registro (certificados de exportación, guías de movilización de ganado, inscripción a programas,
+      constancias), registrar una nueva parcela y saber a qué programas de insumos, seguros y crédito califica. Parte
+      del Marco de Servicios Ciudadanos propuesto; demo en vivo con datos sintéticos de la República de Valdoria.
+    persona: Pequeños y medianos productores agrícolas y ganaderos; técnicos de los centros de servicios agropecuarios
     use_cases:
-      - Registro de parcelas o plantaciones en un chat guiado
-      - Elegibilidad y plazos de los programas para cada productor
-      - Resolver problemas de verificación de identidad antes de que cierre la temporada
-    output: Respuestas breves tipo mensajería con opciones numeradas; una tarjeta de confirmación (número de trámite, cultivo, superficie, próximos pasos) tras el registro.
+      - Menú de trámites con requisitos, costos y tiempos de respuesta
+      - Formularios prellenados con el registro y validados antes de presentarlos
+      - Registro de parcelas y elegibilidad a programas en un chat guiado
+    output: >-
+      Respuestas breves tipo mensajería con opciones numeradas; una tarjeta de confirmación (número de trámite, datos
+      clave, costo, tiempo de respuesta, próximos pasos) y el formulario lleno (.docx) adjunto al completar un trámite.
     samples:
+      - Hola, soy Esteban Morales, productor NPR-2024-018832. ¿Qué trámites puedo hacer por aquí?
+      - Soy Esteban Morales (NPR-2024-018832). Necesito el certificado fitosanitario para exportar 3,000 kg de café verde de mi parcela PLT-2024-104417 a Nordhafen Kaffee Import GmbH en Alemania, saliendo por el puerto de Port Alder el 4 de diciembre de 2026. Llénamelo, por favor.
       - Hola, soy Grace Atieno (productora NPR-2025-022417). Quiero registrar una nueva parcela de maíz de 1.5 ha que alquilo en Riverbend para la temporada lluviosa 2027. La identificación de la dueña es VID 0904-1187-2.
       - Habla el productor NPR-2024-018832. ¿A qué programas todavía puedo inscribirme esta temporada y puedo obtener el crédito de renovación de café?
-      - ¿Qué documentos necesito para registrar una parcela que cultivo en tierra familiar sin título?
-    kpis: [Parcelas registradas por técnico, Registros completados sin visita a la oficina, Inscripción a programas antes del cierre]
-
+    kpis: [Trámites presentados sin visitar la oficina, Formularios completos al primer intento, Inscripción a programas antes del cierre]
   business_registry:
     name: Registro de Empresas
     tagline: Acompaña paso a paso a las micro y pequeñas empresas en su registro y da seguimiento a cada acción pendiente hasta completarla.

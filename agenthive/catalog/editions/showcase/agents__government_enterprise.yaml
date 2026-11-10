@@ -73,10 +73,11 @@ agents:
   farmer_desk:
     description: >-
       Farmer Desk is a citizen desk for an agriculture ministry: a producer writes on a messaging channel, is
-      identified through the national identity provider, and gets short, step-by-step help — checking registry
-      records, registering a new plantation or crop plot, and finding out which input, insurance and credit programmes
-      they qualify for before the enrolment deadline. Part of the proposed Citizen Services Framework; live demo on
-      synthetic Republic of Valdoria data.
+      identified through the national identity provider, and gets short, step-by-step help — browsing the ministry's
+      procedures (requirements, fees and times), filling in the forms with the data the registry already holds
+      (export certificates, livestock movement permits, programme enrolment, registration certificates), registering
+      a new plot, and finding out which input, insurance and credit programmes they qualify for. Part of the proposed
+      Citizen Services Framework; live demo on synthetic Republic of Valdoria data.
   business_registry:
     description: >-
       Business Registry is an action tracker for a business registry agency: it plans the registration for the chosen

@@ -546,45 +546,56 @@ agents:
     name: Farmer Desk
     cluster: citizen_framework
     status: library
-    tagline: Guides farmers through plot registration and agricultural programmes on a messaging channel.
+    tagline: Guides producers through the agriculture ministry's procedures and fills in their forms on a messaging channel.
     description: >-
       Farmer Desk applies the Citizen Desk pattern for an agriculture ministry: a producer writes on a messaging
-      channel, is identified through the national identity provider, and gets short, step-by-step help — checking
-      registry records, registering a new plantation or crop plot, and finding out which input, insurance and credit
-      programmes they qualify for before the enrolment deadline. Reference prototype for the proposed Citizen Services
-      Framework, on synthetic Republic of Valdoria data — not a deployed system.
-    persona: Smallholder and medium farmers; agro-service centre technicians
+      channel, is identified through the national identity provider, and gets short, step-by-step help — browsing
+      the ministry's procedures (requirements, fees and times), filling in the forms with the data the registry
+      already holds (export certificates, livestock movement permits, programme enrolment, registration
+      certificates), registering a new plantation or crop plot, and finding out which input, insurance and credit
+      programmes they qualify for before the enrolment deadline. Reference prototype for the proposed Citizen
+      Services Framework, on synthetic Republic of Valdoria data — not a deployed system.
+    persona: Smallholder and medium farmers and livestock producers; agro-service centre technicians
     use_cases:
-      - Plot / plantation registration in a guided chat
-      - Programme eligibility and deadlines per producer
-      - Fixing identity-verification problems before the season closes
+      - Procedure menu with requirements, fees and review times
+      - Forms pre-filled from the registry and validated before filing
+      - Plot / plantation registration and programme eligibility in a guided chat
     model: lite
-    model_reason: Short guided conversations with deterministic registry and eligibility tools — Flash-Lite keeps a high-volume channel cheap.
-    tools: [gov_farm_producer_lookup, gov_farm_register_plot]
+    model_reason: Short guided conversations with deterministic registry, procedure and form tools — Flash-Lite keeps a high-volume channel cheap.
+    tools: [gov_farm_procedures, gov_farm_fill_form, gov_farm_producer_lookup, gov_farm_register_plot]
     grounding: [kb, "fixtures:National Producer Registry (synthetic)"]
     instruction: |
-      1. Write for a phone screen: at most 6 short lines per message, plain words, one question at a time, and
-         numbered options the farmer can answer with a digit.
-      2. Identify the producer: ask for the producer registry number (NPR) or national ID if not given, then call
-         gov_farm_producer_lookup. If identity is not verified, explain the fix (re-verify with the national identity
-         provider or visit the named agro-service centre) and stop there.
-      3. Programme questions: give the tool's verdict per programme with the reason, benefit and enrol-by date. Use
+      1. Write for a phone screen: at most 8 short lines per message, plain words, one question at a time, and
+         numbered options the producer can answer with a digit.
+      2. "Which procedures can I do?" or a vague need: call gov_farm_procedures with no query and show the numbered
+         menu (name, fee, review time). A number or a named procedure: call it with that query and explain the
+         requirements in a short list.
+      3. Identify the producer before any form: use the registry number (NPR) or national ID given, or ask for it.
+         Call gov_farm_producer_lookup when you need plots or programme eligibility. If identity is not verified,
+         explain the fix (re-verify with the national identity provider or visit the named agro-service centre) and stop.
+      4. Forms (PRD, PRG, PHY, MOV, CER): call gov_farm_fill_form with the procedure, the producer, every answer the
+         producer already gave (JSON with the field ids; dates as YYYY-MM-DD) and the conversation's language. If it
+         returns missing fields or errors, ask for the first one only, then call it again with all the answers so far.
+         When it returns status ready, show a short confirmation: submission number, the key fields, fee, review time
+         and next steps, and say the filled form is attached for download. Never invent a field the tool did not return.
+      5. Plot registration (PLT): collect crop, hectares, tenure type, season, the landowner's ID for leases and a
+         location pin. If the producer already gave crop, area, tenure, season (and the landowner's ID for a lease) and
+         asked you to register, that request is the confirmation: call gov_farm_register_plot now. Otherwise repeat
+         the summary and ask for a "yes" first. Set location_shared=true only when the producer actually shared a pin
+         in this chat — otherwise leave it false and the pin appears as a pending item.
+      6. Programme questions: give the tool's verdict per programme with the reason, benefit and enrol-by date. Use
          the knowledge base for rules (tenure documents, seasons, programme conditions) and name the document.
-      4. Plot registration: collect crop, hectares, tenure type, season, the landowner's ID for leases and a location
-         pin. If the farmer already gave crop, area, tenure, season (and the landowner's ID for a lease) and asked you
-         to register, that request is the confirmation: call gov_farm_register_plot now. Otherwise repeat the summary
-         and ask for a "yes" first. Set location_shared=true only when the farmer actually shared a pin in this chat —
-         otherwise leave it false and the pin appears as a pending item. Then give the submission number (simulated),
-         documents to send (including any pending pin) and any programmes the new plot unlocks.
-      5. Ask only for the data the step needs; never ask for passwords or bank details.
-    output: Short messaging-style replies with numbered options; a confirmation card (submission number, crop, area, next steps) after registration.
+      7. Submissions are simulated: say so once. Ask only for the data the step needs; never ask for passwords or
+         bank details.
+    output: >-
+      Short messaging-style replies with numbered options; a confirmation card (submission number, key fields, fee,
+      review time, next steps) and the filled form (.docx) attached after a form is completed.
     samples:
+      - Hi, I'm Esteban Morales, producer NPR-2024-018832. Which procedures can I do here?
+      - I'm Esteban Morales (NPR-2024-018832). I need the phytosanitary certificate to export 3,000 kg of green coffee from my plot PLT-2024-104417 to Nordhafen Kaffee Import GmbH in Germany, shipping from the Port Alder seaport on 2026-12-04. Please fill in the form.
       - Hi, I'm Grace Atieno (producer NPR-2025-022417). I want to register a new 1.5 ha maize plot I rent in Riverbend for the 2027 wet season. The owner's ID is VID 0904-1187-2.
       - Producer NPR-2024-018832 here. Which programmes can I still join this season, and can I get the coffee renovation credit?
-      - What documents do I need to register a plot I farm on family land without a title?
-    related: [citizen_311, business_registry, housing_credit]
-    kpis: [Plots registered per technician, Registrations completed without an office visit, Programme enrolment before deadline]
-
+    kpis: [Procedures filed without an office visit, Forms complete on the first submission, Programme enrolment before deadline]
   - id: business_registry
     code: Brg
     name: Business Registry

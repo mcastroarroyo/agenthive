@@ -2,10 +2,33 @@
   "agency": "Ministry of Agriculture and Rural Development (MARD), Republic of Valdoria (fictional agriculture ministry)",
   "registry": "National Producer Registry (NPR)",
   "season_calendar": {
-    "2026-27-dry": {"planting": "November 2026 - February 2027", "registration_closes": "2026-12-31"},
-    "2027-wet": {"planting": "May - June 2027", "registration_closes": "2027-02-28"}
+    "2026-27-dry": {
+      "planting": "November 2026 - February 2027",
+      "registration_closes": "2026-12-31"
+    },
+    "2027-wet": {
+      "planting": "May - June 2027",
+      "registration_closes": "2027-02-28"
+    }
   },
-  "crops": {"staple": ["maize", "beans", "rice", "sorghum"], "perennial": ["coffee", "cacao", "avocado", "plantain"], "other": ["vegetables", "sugarcane"]},
+  "crops": {
+    "staple": [
+      "maize",
+      "beans",
+      "rice",
+      "sorghum"
+    ],
+    "perennial": [
+      "coffee",
+      "cacao",
+      "avocado",
+      "plantain"
+    ],
+    "other": [
+      "vegetables",
+      "sugarcane"
+    ]
+  },
   "tenure_documents": {
     "owner_title": "Property title number (the registry checks it against the land registry automatically)",
     "lease": "Signed lease or rental agreement covering at least one full season, with the landowner's national ID number",
@@ -14,15 +37,65 @@
     "informal": "Tenure declaration signed by the producer and two witnesses, endorsed by the municipal agriculture officer"
   },
   "programs": [
-    {"code": "SIP", "name": "Smallholder Inputs Package", "summary": "Certified seed and fertiliser for staple crops, delivered at the municipal agro-service centre in March 2027.",
-     "rules": {"max_total_ha": 3.0, "requires_staple_plot": true, "requires_verified_identity": true}, "enrol_by": "2027-02-28", "benefit": "Seed for up to 1 ha of staples plus 2 bags (45 kg) of fertiliser per hectare, up to 3 ha"},
-    {"code": "FVP", "name": "Fertiliser Voucher", "summary": "50% voucher on fertiliser at accredited agro-dealers, one voucher per producer per season.",
-     "rules": {"max_total_ha": 10.0, "once_per_season": true}, "enrol_by": "2026-12-31", "benefit": "50% of the price of up to 4 bags (45 kg) per hectare, up to 10 ha"},
-    {"code": "PCI", "name": "Parametric Crop Insurance", "summary": "Rainfall-index insurance; pays automatically when 30-day rainfall falls below 60% of the 20-year average.",
-     "rules": {"subsidy_pct_small": 70, "subsidy_pct_large": 30, "small_max_ha": 5.0}, "enrol_by": "2026-12-15", "benefit": "Payout up to $350 per insured hectare"},
-    {"code": "CRR", "name": "Coffee Renovation Credit", "summary": "Credit to renovate rust-affected or old coffee plots through the national development bank.",
-     "rules": {"crop": "coffee", "max_ha": 5.0, "per_ha": 2500, "rate_pct": 3.0, "term_years": 5, "grace_years": 2, "requires_georeference": true, "requires_tenure": ["owner_title", "lease", "usufruct", "cooperative"], "min_rust_pct": 20, "or_min_plant_age_years": 15},
-     "enrol_by": "2027-03-31", "benefit": "Up to $2,500 per hectare at 3% a year, 5 years with 2 years' grace"}
+    {
+      "code": "SIP",
+      "name": "Smallholder Inputs Package",
+      "summary": "Certified seed and fertiliser for staple crops, delivered at the municipal agro-service centre in March 2027.",
+      "rules": {
+        "max_total_ha": 3.0,
+        "requires_staple_plot": true,
+        "requires_verified_identity": true
+      },
+      "enrol_by": "2027-02-28",
+      "benefit": "Seed for up to 1 ha of staples plus 2 bags (45 kg) of fertiliser per hectare, up to 3 ha"
+    },
+    {
+      "code": "FVP",
+      "name": "Fertiliser Voucher",
+      "summary": "50% voucher on fertiliser at accredited agro-dealers, one voucher per producer per season.",
+      "rules": {
+        "max_total_ha": 10.0,
+        "once_per_season": true
+      },
+      "enrol_by": "2026-12-31",
+      "benefit": "50% of the price of up to 4 bags (45 kg) per hectare, up to 10 ha"
+    },
+    {
+      "code": "PCI",
+      "name": "Parametric Crop Insurance",
+      "summary": "Rainfall-index insurance; pays automatically when 30-day rainfall falls below 60% of the 20-year average.",
+      "rules": {
+        "subsidy_pct_small": 70,
+        "subsidy_pct_large": 30,
+        "small_max_ha": 5.0
+      },
+      "enrol_by": "2026-12-15",
+      "benefit": "Payout up to $350 per insured hectare"
+    },
+    {
+      "code": "CRR",
+      "name": "Coffee Renovation Credit",
+      "summary": "Credit to renovate rust-affected or old coffee plots through the national development bank.",
+      "rules": {
+        "crop": "coffee",
+        "max_ha": 5.0,
+        "per_ha": 2500,
+        "rate_pct": 3.0,
+        "term_years": 5,
+        "grace_years": 2,
+        "requires_georeference": true,
+        "requires_tenure": [
+          "owner_title",
+          "lease",
+          "usufruct",
+          "cooperative"
+        ],
+        "min_rust_pct": 20,
+        "or_min_plant_age_years": 15
+      },
+      "enrol_by": "2027-03-31",
+      "benefit": "Up to $2,500 per hectare at 3% a year, 5 years with 2 years' grace"
+    }
   ],
   "service_centres": {
     "Alto Verde": "Alto Verde Agro-Service Centre, 12 Market Square - Mon-Fri 07:30-15:30",
@@ -31,24 +104,627 @@
     "Lowmarsh": "Lowmarsh Agro-Service Centre, 22 Dyke Street - Mon-Fri 08:00-15:00"
   },
   "producers": [
-    {"npr": "NPR-2024-018832", "national_id": "VID 0412-7789-3", "name": "Esteban Morales", "municipality": "Alto Verde", "province": "Highlands",
-     "identity_verified": true, "phone_on_file": "registered messaging number ending 4471",
-     "plots": [
-       {"id": "PLT-2024-104417", "crop": "coffee", "area_ha": 2.4, "tenure": "owner_title", "georeferenced": true, "plant_count": 9600, "plant_age_years": 18, "rust_incidence_pct": 35, "status": "active"},
-       {"id": "PLT-2025-118020", "crop": "beans", "area_ha": 0.6, "tenure": "lease", "georeferenced": true, "status": "active", "season": "2026-27-dry"}],
-     "enrolments": [{"program": "FVP", "season": "2026-27-dry", "status": "voucher issued 2026-10-14"}]},
-    {"npr": "NPR-2025-022417", "national_id": "VID 1120-5531-8", "name": "Grace Atieno", "municipality": "Riverbend", "province": "Central Valley",
-     "identity_verified": true, "phone_on_file": "registered messaging number ending 9032",
-     "plots": [{"id": "PLT-2025-120931", "crop": "vegetables", "area_ha": 0.8, "tenure": "cooperative", "georeferenced": true, "irrigated": true, "status": "active"}],
-     "enrolments": []},
-    {"npr": "NPR-2023-009154", "national_id": "VID 0731-2286-4", "name": "Lukas Brenner", "municipality": "Cedar Gap", "province": "Central Valley",
-     "identity_verified": true, "phone_on_file": "registered messaging number ending 1180",
-     "plots": [
-       {"id": "PLT-2023-090112", "crop": "sugarcane", "area_ha": 14.0, "tenure": "owner_title", "georeferenced": true, "status": "active"},
-       {"id": "PLT-2024-101877", "crop": "maize", "area_ha": 2.0, "tenure": "lease", "georeferenced": true, "status": "active", "season": "2027-wet"}],
-     "enrolments": [{"program": "PCI", "season": "2026", "status": "policy expired 2026-10-31"}]},
-    {"npr": "NPR-2026-031002", "national_id": "VID 1502-0047-1", "name": "Nadia Petrova", "municipality": "Lowmarsh", "province": "Bayshore",
-     "identity_verified": false, "verification_issue": "Name on the registration does not match the national identity provider record (second surname missing).",
-     "phone_on_file": "registered messaging number ending 6624", "plots": [], "enrolments": []}
-  ]
+    {
+      "npr": "NPR-2024-018832",
+      "national_id": "VID 0412-7789-3",
+      "name": "Esteban Morales",
+      "municipality": "Alto Verde",
+      "province": "Highlands",
+      "identity_verified": true,
+      "phone_on_file": "registered messaging number ending 4471",
+      "plots": [
+        {
+          "id": "PLT-2024-104417",
+          "crop": "coffee",
+          "area_ha": 2.4,
+          "tenure": "owner_title",
+          "georeferenced": true,
+          "plant_count": 9600,
+          "plant_age_years": 18,
+          "rust_incidence_pct": 35,
+          "status": "active"
+        },
+        {
+          "id": "PLT-2025-118020",
+          "crop": "beans",
+          "area_ha": 0.6,
+          "tenure": "lease",
+          "georeferenced": true,
+          "status": "active",
+          "season": "2026-27-dry"
+        }
+      ],
+      "enrolments": [
+        {
+          "program": "FVP",
+          "season": "2026-27-dry",
+          "status": "voucher issued 2026-10-14"
+        }
+      ]
+    },
+    {
+      "npr": "NPR-2025-022417",
+      "national_id": "VID 1120-5531-8",
+      "name": "Grace Atieno",
+      "municipality": "Riverbend",
+      "province": "Central Valley",
+      "identity_verified": true,
+      "phone_on_file": "registered messaging number ending 9032",
+      "plots": [
+        {
+          "id": "PLT-2025-120931",
+          "crop": "vegetables",
+          "area_ha": 0.8,
+          "tenure": "cooperative",
+          "georeferenced": true,
+          "irrigated": true,
+          "status": "active"
+        }
+      ],
+      "enrolments": []
+    },
+    {
+      "npr": "NPR-2023-009154",
+      "national_id": "VID 0731-2286-4",
+      "name": "Lukas Brenner",
+      "municipality": "Cedar Gap",
+      "province": "Central Valley",
+      "identity_verified": true,
+      "phone_on_file": "registered messaging number ending 1180",
+      "plots": [
+        {
+          "id": "PLT-2023-090112",
+          "crop": "sugarcane",
+          "area_ha": 14.0,
+          "tenure": "owner_title",
+          "georeferenced": true,
+          "status": "active"
+        },
+        {
+          "id": "PLT-2024-101877",
+          "crop": "maize",
+          "area_ha": 2.0,
+          "tenure": "lease",
+          "georeferenced": true,
+          "status": "active",
+          "season": "2027-wet"
+        }
+      ],
+      "enrolments": [
+        {
+          "program": "PCI",
+          "season": "2026",
+          "status": "policy expired 2026-10-31"
+        }
+      ]
+    },
+    {
+      "npr": "NPR-2026-031002",
+      "national_id": "VID 1502-0047-1",
+      "name": "Nadia Petrova",
+      "municipality": "Lowmarsh",
+      "province": "Bayshore",
+      "identity_verified": false,
+      "verification_issue": "Name on the registration does not match the national identity provider record (second surname missing).",
+      "phone_on_file": "registered messaging number ending 6624",
+      "plots": [],
+      "enrolments": []
+    }
+  ],
+  "agency_es": "Ministerio de Agricultura y Desarrollo Rural (MADR), República de Valdoria (ministerio de agricultura ficticio)",
+  "registry_es": "Registro Nacional de Productores (RNP)",
+  "procedures": [
+    {
+      "code": "PRD",
+      "form": "F-PRD-01",
+      "name": "Producer registration",
+      "name_es": "Registro de productor",
+      "for": "People who farm and are not yet in the National Producer Registry",
+      "for_es": "Personas que producen y aún no están en el Registro Nacional de Productores",
+      "keywords": [
+        "register as a producer",
+        "new producer",
+        "join the registry",
+        "registro de productor",
+        "inscribirme como productor",
+        "nuevo productor"
+      ],
+      "requirements": [
+        "Identity verified with the national identity provider",
+        "Municipality where you farm",
+        "Main crop and approximate total area"
+      ],
+      "requirements_es": [
+        "Identidad verificada con el proveedor nacional de identidad",
+        "Municipio donde produce",
+        "Cultivo principal y superficie total aproximada"
+      ],
+      "fee_usd": 0,
+      "business_days": 3,
+      "channel": "chat",
+      "fields": [
+        {
+          "id": "full_name",
+          "label": "Full name",
+          "label_es": "Nombre completo",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "national_id",
+          "label": "National ID",
+          "label_es": "Documento nacional de identidad",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "municipality",
+          "label": "Municipality",
+          "label_es": "Municipio",
+          "type": "choice",
+          "required": true,
+          "choices": [
+            {
+              "value": "Alto Verde",
+              "es": "Alto Verde"
+            },
+            {
+              "value": "Riverbend",
+              "es": "Riverbend"
+            },
+            {
+              "value": "Cedar Gap",
+              "es": "Cedar Gap"
+            },
+            {
+              "value": "Lowmarsh",
+              "es": "Lowmarsh"
+            }
+          ]
+        },
+        {
+          "id": "main_crop",
+          "label": "Main crop",
+          "label_es": "Cultivo principal",
+          "type": "crop",
+          "required": true
+        },
+        {
+          "id": "total_area_ha",
+          "label": "Total area farmed (ha)",
+          "label_es": "Superficie total cultivada (ha)",
+          "type": "number",
+          "min": 0.1,
+          "max": 50,
+          "required": true
+        }
+      ],
+      "channel_es": "chat"
+    },
+    {
+      "code": "PLT",
+      "form": "F-PLT-02",
+      "name": "Plot or plantation registration",
+      "name_es": "Registro de parcela o plantación",
+      "for": "Registered producers adding a plot for a season",
+      "for_es": "Productores registrados que agregan una parcela para una temporada",
+      "keywords": [
+        "plot",
+        "plantation",
+        "register a plot",
+        "parcela",
+        "plantación",
+        "registrar parcela",
+        "registrar una parcela"
+      ],
+      "requirements": [
+        "Crop, hectares, tenure and season",
+        "Tenure document (title, lease, cooperative letter, usufruct or declaration)",
+        "Location pin from the plot"
+      ],
+      "requirements_es": [
+        "Cultivo, hectáreas, tenencia y temporada",
+        "Documento de tenencia (título, arrendamiento, carta de cooperativa, usufructo o declaración)",
+        "Ubicación compartida desde la parcela"
+      ],
+      "fee_usd": 0,
+      "business_days": 5,
+      "channel": "chat",
+      "handled_by": "gov_farm_register_plot",
+      "fields": [],
+      "channel_es": "chat"
+    },
+    {
+      "code": "PRG",
+      "form": "F-PRG-03",
+      "name": "Programme enrolment (inputs, fertiliser voucher, crop insurance, coffee credit)",
+      "name_es": "Inscripción a programas (insumos, bono de fertilizante, seguro agrícola, crédito de café)",
+      "for": "Registered producers who qualify for a 2026-27 programme",
+      "for_es": "Productores registrados que califican a un programa 2026-27",
+      "keywords": [
+        "programme",
+        "program",
+        "enrol",
+        "inputs",
+        "voucher",
+        "insurance",
+        "credit",
+        "programa",
+        "inscripción",
+        "insumos",
+        "bono",
+        "seguro",
+        "crédito"
+      ],
+      "requirements": [
+        "Verified identity and a registered plot",
+        "Meet the programme rules (checked automatically)",
+        "Enrol before the programme deadline"
+      ],
+      "requirements_es": [
+        "Identidad verificada y una parcela registrada",
+        "Cumplir las reglas del programa (se verifican automáticamente)",
+        "Inscribirse antes del cierre del programa"
+      ],
+      "fee_usd": 0,
+      "business_days": 5,
+      "channel": "chat",
+      "fields": [
+        {
+          "id": "program",
+          "label": "Programme",
+          "label_es": "Programa",
+          "type": "choice",
+          "required": true,
+          "choices": [
+            {
+              "value": "SIP",
+              "es": "SIP · Paquete de insumos"
+            },
+            {
+              "value": "FVP",
+              "es": "FVP · Bono de fertilizante"
+            },
+            {
+              "value": "PCI",
+              "es": "PCI · Seguro agrícola paramétrico"
+            },
+            {
+              "value": "CRR",
+              "es": "CRR · Crédito de renovación de café"
+            }
+          ]
+        },
+        {
+          "id": "plot_id",
+          "label": "Plot",
+          "label_es": "Parcela",
+          "type": "plot",
+          "required": true
+        },
+        {
+          "id": "area_ha",
+          "label": "Hectares to enrol",
+          "label_es": "Hectáreas a inscribir",
+          "type": "number",
+          "min": 0.1,
+          "max": 50,
+          "required": true
+        }
+      ],
+      "channel_es": "chat"
+    },
+    {
+      "code": "PHY",
+      "form": "F-PHY-04",
+      "name": "Phytosanitary export certificate",
+      "name_es": "Certificado fitosanitario de exportación",
+      "for": "Producers exporting coffee, cacao, avocado, plantain or vegetables",
+      "for_es": "Productores que exportan café, cacao, aguacate, plátano u hortalizas",
+      "keywords": [
+        "export",
+        "phytosanitary",
+        "certificate to export",
+        "exportar",
+        "exportación",
+        "fitosanitario",
+        "certificado fitosanitario"
+      ],
+      "requirements": [
+        "Registered, georeferenced plot for the product",
+        "Pre-shipment inspection of the lot by a ministry inspector",
+        "Buyer, destination country and exit point"
+      ],
+      "requirements_es": [
+        "Parcela registrada y georreferenciada para el producto",
+        "Inspección del lote antes del embarque por un inspector del ministerio",
+        "Comprador, país de destino y punto de salida"
+      ],
+      "fee_usd": 35,
+      "business_days": 3,
+      "channel": "chat + inspection visit",
+      "min_notice_business_days": 5,
+      "max_kg_per_ha": {
+        "coffee": 1500,
+        "cacao": 1200,
+        "avocado": 15000,
+        "plantain": 25000,
+        "vegetables": 30000
+      },
+      "fields": [
+        {
+          "id": "product",
+          "label": "Product",
+          "label_es": "Producto",
+          "type": "choice",
+          "required": true,
+          "choices": [
+            {
+              "value": "coffee",
+              "es": "café"
+            },
+            {
+              "value": "cacao",
+              "es": "cacao"
+            },
+            {
+              "value": "avocado",
+              "es": "aguacate"
+            },
+            {
+              "value": "plantain",
+              "es": "plátano"
+            },
+            {
+              "value": "vegetables",
+              "es": "hortalizas"
+            }
+          ]
+        },
+        {
+          "id": "plot_id",
+          "label": "Plot of origin",
+          "label_es": "Parcela de origen",
+          "type": "plot",
+          "required": true
+        },
+        {
+          "id": "quantity_kg",
+          "label": "Quantity (kg)",
+          "label_es": "Cantidad (kg)",
+          "type": "number",
+          "min": 1,
+          "max": 1000000,
+          "required": true
+        },
+        {
+          "id": "destination_country",
+          "label": "Destination country",
+          "label_es": "País de destino",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "buyer",
+          "label": "Buyer / importer",
+          "label_es": "Comprador / importador",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "exit_point",
+          "label": "Exit point",
+          "label_es": "Punto de salida",
+          "type": "choice",
+          "required": true,
+          "choices": [
+            {
+              "value": "Port Alder seaport",
+              "es": "Puerto marítimo de Port Alder"
+            },
+            {
+              "value": "Valdoria International Airport",
+              "es": "Aeropuerto Internacional de Valdoria"
+            },
+            {
+              "value": "Northgate land border",
+              "es": "Frontera terrestre de Northgate"
+            }
+          ]
+        },
+        {
+          "id": "shipment_date",
+          "label": "Shipment date",
+          "label_es": "Fecha de embarque",
+          "type": "date",
+          "required": true
+        }
+      ],
+      "channel_es": "chat + visita de inspección"
+    },
+    {
+      "code": "MOV",
+      "form": "F-MOV-05",
+      "name": "Livestock movement permit",
+      "name_es": "Guía de movilización de ganado",
+      "for": "Producers moving animals to a fair, slaughterhouse or another farm",
+      "for_es": "Productores que trasladan animales a una feria, rastro u otra finca",
+      "keywords": [
+        "move cattle",
+        "livestock",
+        "animals",
+        "movement permit",
+        "movilizar",
+        "ganado",
+        "animales",
+        "guía de movilización",
+        "feria"
+      ],
+      "requirements": [
+        "Registered livestock brand",
+        "Foot-and-mouth and brucellosis vaccination in the last 6 months (certificate number)",
+        "Destination and movement date"
+      ],
+      "requirements_es": [
+        "Fierro o marca de ganado registrada",
+        "Vacunación contra fiebre aftosa y brucelosis en los últimos 6 meses (número de certificado)",
+        "Destino y fecha de traslado"
+      ],
+      "fee_usd": 0,
+      "fee_usd_per_head": 1.5,
+      "business_days": 1,
+      "channel": "chat",
+      "min_notice_business_days": 1,
+      "fields": [
+        {
+          "id": "species",
+          "label": "Species",
+          "label_es": "Especie",
+          "type": "choice",
+          "required": true,
+          "choices": [
+            {
+              "value": "cattle",
+              "es": "bovinos"
+            },
+            {
+              "value": "pigs",
+              "es": "porcinos"
+            },
+            {
+              "value": "goats",
+              "es": "caprinos"
+            },
+            {
+              "value": "sheep",
+              "es": "ovinos"
+            }
+          ]
+        },
+        {
+          "id": "head_count",
+          "label": "Number of animals",
+          "label_es": "Número de animales",
+          "type": "number",
+          "min": 1,
+          "max": 200,
+          "required": true
+        },
+        {
+          "id": "destination",
+          "label": "Destination (place)",
+          "label_es": "Destino (lugar)",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "destination_type",
+          "label": "Destination type",
+          "label_es": "Tipo de destino",
+          "type": "choice",
+          "required": true,
+          "choices": [
+            {
+              "value": "livestock fair",
+              "es": "feria ganadera"
+            },
+            {
+              "value": "slaughterhouse",
+              "es": "rastro"
+            },
+            {
+              "value": "farm",
+              "es": "finca"
+            }
+          ]
+        },
+        {
+          "id": "movement_date",
+          "label": "Movement date",
+          "label_es": "Fecha de traslado",
+          "type": "date",
+          "required": true
+        },
+        {
+          "id": "brand_registration",
+          "label": "Livestock brand registration no.",
+          "label_es": "N.º de registro del fierro",
+          "type": "text",
+          "required": true
+        },
+        {
+          "id": "vaccination_certificate",
+          "label": "Vaccination certificate no.",
+          "label_es": "N.º de certificado de vacunación",
+          "type": "text",
+          "required": true
+        }
+      ],
+      "channel_es": "chat"
+    },
+    {
+      "code": "CER",
+      "form": "F-CER-06",
+      "name": "Producer registration certificate",
+      "name_es": "Constancia de productor registrado",
+      "for": "Registered producers who need proof for a bank, cooperative or buyer",
+      "for_es": "Productores registrados que necesitan una constancia para un banco, cooperativa o comprador",
+      "keywords": [
+        "certificate of registration",
+        "proof",
+        "constancia",
+        "comprobante",
+        "certificado de productor"
+      ],
+      "requirements": [
+        "Producer in the registry with verified identity"
+      ],
+      "requirements_es": [
+        "Productor en el registro con identidad verificada"
+      ],
+      "fee_usd": 0,
+      "business_days": 0,
+      "channel": "chat",
+      "fields": [
+        {
+          "id": "purpose",
+          "label": "Purpose",
+          "label_es": "Para presentar ante",
+          "type": "choice",
+          "required": true,
+          "choices": [
+            {
+              "value": "bank credit",
+              "es": "crédito bancario"
+            },
+            {
+              "value": "cooperative membership",
+              "es": "afiliación a cooperativa"
+            },
+            {
+              "value": "export buyer",
+              "es": "comprador de exportación"
+            },
+            {
+              "value": "other",
+              "es": "otro"
+            }
+          ]
+        }
+      ],
+      "channel_es": "chat"
+    }
+  ],
+  "crop_names_es": {
+    "maize": "maíz",
+    "beans": "frijol",
+    "rice": "arroz",
+    "sorghum": "sorgo",
+    "coffee": "café",
+    "cacao": "cacao",
+    "avocado": "aguacate",
+    "plantain": "plátano",
+    "vegetables": "hortalizas",
+    "sugarcane": "caña de azúcar"
+  }
 }

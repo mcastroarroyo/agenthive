@@ -11,8 +11,15 @@ import difflib
 import hashlib
 import math
 import re
+import unicodedata
+from typing import Any
 
 from ._base import doc_text, err, fixture, hive_tool, ok
+
+try:  # ADK injects the context; the web image builds the catalog without ADK installed
+    from google.adk.tools import ToolContext
+except ImportError:  # pragma: no cover
+    ToolContext = Any  # type: ignore[misc,assignment]
 
 # --- shared helpers ----------------------------------------------------------------------------------------------
 
@@ -1668,6 +1675,365 @@ def gov_farm_register_plot(producer: str, crop: str, area_ha: float, tenure_type
               review_business_days=10 if field_visit else 5,
               newly_eligible=[e for e in after if e["eligible"] and e["program"] not in before],
               service_centre=ag["service_centres"].get(p["municipality"]), simulated=True)
+
+
+# --- Farmer Desk: procedure menu and form filling -----------------------------------------------------------------
+
+_DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+_FORM_TEXT = {
+    "en": {"field": "Field", "value": "Value", "source": "Source", "registry": "Registry", "farmer": "Producer",
+           "simulated": "SIMULATED APPLICATION — synthetic demo data, not a real submission",
+           "submission": "Submission", "date": "Date", "applicant": "Applicant", "requirements": "Requirements",
+           "next": "Next steps", "fee": "Fee", "review": "Review time", "days": "business days", "free": "No fee",
+           "same_day": "Issued at once", "footer": "Filled in by Farmer Desk on the messaging channel"},
+    "es": {"field": "Campo", "value": "Valor", "source": "Origen", "registry": "Registro", "farmer": "Productor",
+           "simulated": "SOLICITUD SIMULADA — datos sintéticos de demostración, no es un trámite real",
+           "submission": "Trámite", "date": "Fecha", "applicant": "Solicitante", "requirements": "Requisitos",
+           "next": "Próximos pasos", "fee": "Costo", "review": "Tiempo de respuesta", "days": "días hábiles",
+           "free": "Sin costo", "same_day": "Se emite al instante", "footer": "Llenado por la Mesa del Productor en el canal de mensajería"},
+}
+
+
+def _lang(language: str) -> str:
+    return "es" if (language or "").strip().lower()[:2] == "es" else "en"
+
+
+def _loc(item: dict, key: str, lang: str) -> Any:
+    return item.get(f"{key}_es", item.get(key)) if lang == "es" else item.get(key)
+
+
+def _procedure(query: str) -> dict | None:
+    ag = fixture("gov_agriculture")
+    q = _norm(query)
+    if not q:
+        return None
+    for pr in ag["procedures"]:
+        if q in (pr["code"].lower(), pr["form"].lower()):
+            return pr
+    best, score = None, 0.0
+    for pr in ag["procedures"]:
+        for k in pr["keywords"] + [pr["name"], pr["name_es"]]:
+            kn = _norm(k)
+            s = 1.0 if kn in q or q in kn else difflib.SequenceMatcher(None, q, kn).ratio()
+            if s > score:
+                best, score = pr, s
+    return best if score >= 0.6 else None
+
+
+def _proc_card(pr: dict, lang: str, n: int | None = None) -> dict:
+    card = {"code": pr["code"], "name": _loc(pr, "name", lang), "for": _loc(pr, "for", lang), "form": pr["form"],
+            "fee_usd": pr["fee_usd"], "review_business_days": pr["business_days"], "channel": _loc(pr, "channel", lang)}
+    if "fee_usd_per_head" in pr:
+        card["fee_usd_per_head"] = pr["fee_usd_per_head"]
+    if n is not None:
+        card = {"option": n, **card}
+    return card
+
+
+@hive_tool("government")
+def gov_farm_procedures(query: str = "", language: str = "en") -> dict:
+    """List the agriculture ministry's procedures (tramites) a producer can do on the channel, or explain one in detail.
+
+    Args:
+        query: Empty for the numbered menu of procedures; a procedure code ('PHY'), a menu number or plain words
+            ('export coffee', 'mover ganado', 'constancia') for the detail of one procedure.
+        language: 'es' or 'en' — the language of the conversation (labels come back in it).
+
+    Returns:
+        The menu (option number, code, name, who it is for, fee, review time, channel) or, for one procedure, its
+        requirements and the form fields to collect (id, label, type, choices, required). Plot registration is done
+        with gov_farm_register_plot; every other form is filled with gov_farm_fill_form.
+    """
+    ag = fixture("gov_agriculture")
+    lang = _lang(language)
+    procs = ag["procedures"]
+    q = (query or "").strip()
+    if q.isdigit() and 1 <= int(q) <= len(procs):
+        q = procs[int(q) - 1]["code"]
+    pr = _procedure(q) if q else None
+    if q and not pr:
+        return err(f"no procedure matches {query!r}", menu=[_proc_card(x, lang, i) for i, x in enumerate(procs, 1)])
+    if not pr:
+        return ok(agency=_loc(ag, "agency", lang), menu=[_proc_card(x, lang, i) for i, x in enumerate(procs, 1)],
+                  how="Reply with the option number or the procedure's name.", as_of=_today().isoformat())
+    fields = [{"id": f["id"], "label": _loc(f, "label", lang), "type": f["type"], "required": f["required"],
+               **({"choices": [c["es"] if lang == "es" else c["value"] for c in f["choices"]]} if "choices" in f else {})}
+              for f in pr["fields"]]
+    return ok(procedure=_proc_card(pr, lang), requirements=_loc(pr, "requirements", lang), fields=fields,
+              filled_by=pr.get("handled_by", "gov_farm_fill_form"),
+              prefilled_from_registry="Name, national ID, municipality and plots come from the producer's registry record.")
+
+
+def _num(v: Any) -> float | None:
+    if isinstance(v, (int, float)):
+        return float(v)
+    t = re.sub(r"[^\d.,]", "", str(v))
+    if re.fullmatch(r"\d{1,3}([.,]\d{3})+", t):          # 3,000 / 3.000 → thousands
+        t = re.sub(r"[.,]", "", t)
+    try:
+        return float(t.replace(",", "."))
+    except ValueError:
+        return None
+
+
+def _parse_day(v: Any) -> dt.date | None:
+    t = str(v).strip()
+    for fmt in ("%Y-%m-%d", "%d/%m/%Y", "%d-%m-%Y"):
+        try:
+            return dt.datetime.strptime(t, fmt).date()
+        except ValueError:
+            pass
+    return None
+
+
+def _choice(f: dict, v: Any) -> str | None:
+    t = _norm(str(v))
+    for c in f["choices"]:
+        for name in (_norm(c["value"]), _norm(c["es"])):
+            if t == name or name in t or (len(t) >= 4 and t in name):
+                return c["value"]
+    names = {_norm(c["value"]): c["value"] for c in f["choices"]} | {_norm(c["es"]): c["value"] for c in f["choices"]}
+    m = difflib.get_close_matches(t, list(names), n=1, cutoff=0.75)
+    return names[m[0]] if m else None
+
+
+def _form_docx(pr: dict, lang: str, rows: list[tuple[str, str, str]], meta: dict) -> bytes:
+    import io
+
+    from docx import Document
+    from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.shared import Pt, RGBColor
+
+    T = _FORM_TEXT[lang]
+    ag = fixture("gov_agriculture")
+    doc = Document()
+    st = doc.styles["Normal"]
+    st.font.name, st.font.size = "Calibri", Pt(10.5)
+    head = doc.add_paragraph()
+    r = head.add_run(_loc(ag, "agency", lang).split(" (")[0] + " · " + ("República de Valdoria" if lang == "es" else "Republic of Valdoria"))
+    r.bold, r.font.size, r.font.color.rgb = True, Pt(10), RGBColor(0x40, 0x40, 0x40)
+    head.add_run("\n" + _loc(ag, "registry", lang)).font.size = Pt(9)
+    doc.add_heading(f"{pr['form']} · {_loc(pr, 'name', lang)}", level=1)
+    warn = doc.add_paragraph().add_run(T["simulated"])
+    warn.bold, warn.font.size, warn.font.color.rgb = True, Pt(9), RGBColor(0xC2, 0x41, 0x2D)
+    doc.add_paragraph(f"{T['submission']}: {meta['submission']}    {T['date']}: {meta['date']}    {T['applicant']}: {meta['applicant']}")
+    table = doc.add_table(rows=1, cols=3)
+    table.style = "Table Grid"
+    for cell, text in zip(table.rows[0].cells, (T["field"], T["value"], T["source"])):
+        cell.text = ""
+        cell.paragraphs[0].add_run(text).bold = True
+    for label, value, src in rows:
+        cells = table.add_row().cells
+        cells[0].text, cells[1].text, cells[2].text = label, value, T[src]
+    doc.add_heading(T["requirements"], level=2)
+    for x in _loc(pr, "requirements", lang):
+        doc.add_paragraph(x, style="List Bullet")
+    doc.add_heading(T["next"], level=2)
+    for x in meta["next_steps"]:
+        doc.add_paragraph(x, style="List Number")
+    fee = f"{T['fee']}: " + (f"US${meta['fee_usd']:.2f}" if meta["fee_usd"] else T["free"])
+    review = f"{T['review']}: " + (f"{pr['business_days']} {T['days']}" if pr["business_days"] else T["same_day"])
+    doc.add_paragraph(f"{fee}    {review}")
+    foot = doc.add_paragraph(T["footer"])
+    foot.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    foot.runs[0].font.size, foot.runs[0].italic = Pt(8), True
+    buf = io.BytesIO()
+    doc.save(buf)
+    return buf.getvalue()
+
+
+@hive_tool("government", kind="action")
+def gov_farm_fill_form(procedure: str, producer: str, answers: str = "", language: str = "en", *,
+                       tool_context: ToolContext = None) -> dict:
+    """Fill in an agriculture-ministry form for a producer: pre-fill from the registry, validate, attach the filled form.
+
+    Call it as soon as you know the procedure and the producer, then again with the producer's answers. When every
+    required field is valid it attaches the filled form (.docx) to the session for download (simulated submission).
+
+    Args:
+        procedure: Procedure code from gov_farm_procedures: PRD, PRG, PHY, MOV or CER (PLT uses gov_farm_register_plot).
+        producer: Producer registry number (NPR-...), national ID or full name. For PRD (new producer): the national ID.
+        answers: The producer's answers as a JSON object {field_id: value}, using the field ids from
+            gov_farm_procedures; dates as YYYY-MM-DD. Empty to see what the registry pre-fills and what is missing.
+        language: 'es' or 'en' — the language of the conversation; the form is written in it.
+
+    Returns:
+        status 'incomplete' with the missing fields (label, type, choices) and validation errors to fix, or status
+        'ready' with the submission number, the filled fields and their source (registry or producer), fee, review
+        time, next steps and the attached file name.
+    """
+    import base64
+    import json
+
+    ag = fixture("gov_agriculture")
+    lang = _lang(language)
+    pr = _procedure(procedure)
+    if not pr:
+        return err(f"unknown procedure {procedure!r}", procedures=[x["code"] for x in ag["procedures"]])
+    if pr.get("handled_by"):
+        return err(f"{pr['code']} is filed with {pr['handled_by']}, not with a form", use=pr["handled_by"])
+    try:   # models sometimes send the object itself instead of its JSON text
+        given = answers if isinstance(answers, dict) else json.loads(answers) if answers and str(answers).strip() else {}
+        if not isinstance(given, dict):
+            raise ValueError
+    except (ValueError, TypeError):
+        return err("answers must be a JSON object such as {\"quantity_kg\": 3000, \"shipment_date\": \"2026-12-04\"}")
+    given = {str(k).strip(): v for k, v in given.items() if v not in (None, "")}
+    p = _producer(producer)
+    if pr["code"] == "PRD":
+        if p:
+            return err(f"{p['name']} is already registered as {p['npr']}", npr=p["npr"],
+                       next_step="Use CER for a registration certificate, or PLT/PRG for plots and programmes.")
+        given.setdefault("national_id", producer.strip())
+    else:
+        if not p:
+            return err(f"producer {producer!r} not found in the National Producer Registry",
+                       next_step="Register as a producer first (procedure PRD).")
+        if not p["identity_verified"]:
+            return err("identity not verified with the national identity provider — forms cannot be filed yet",
+                       issue=p.get("verification_issue"), fix=f"Re-verify identity or visit {ag['service_centres'].get(p['municipality'])}.")
+    crops = [c for group in ag["crops"].values() for c in group]
+    plots = {x["id"]: x for x in (p["plots"] if p else [])}
+    values: dict[str, Any] = {}
+    source: dict[str, str] = {}
+    errors: list[str] = []
+    for f in pr["fields"]:
+        fid, raw = f["id"], given.get(f["id"])
+        if raw is None:
+            continue
+        if f["type"] == "number":
+            v = _num(raw)
+            if v is None or not f["min"] <= v <= f["max"]:
+                errors.append(f"{fid}: a number between {f['min']} and {f['max']} is needed (got {raw!r})")
+                continue
+            values[fid] = int(v) if v == int(v) else round(v, 2)
+        elif f["type"] == "date":
+            d = _parse_day(raw)
+            if not d:
+                errors.append(f"{fid}: use a date like 2026-12-04 (got {raw!r})")
+                continue
+            values[fid] = d
+        elif f["type"] == "choice":
+            v = _choice(f, raw)
+            if not v:
+                errors.append(f"{fid}: choose one of {[c['es'] if lang == 'es' else c['value'] for c in f['choices']]} (got {raw!r})")
+                continue
+            values[fid] = v
+        elif f["type"] == "crop":
+            v = _norm(str(raw))
+            if v not in crops:
+                errors.append(f"{fid}: choose one of {crops} (got {raw!r})")
+                continue
+            values[fid] = v
+        elif f["type"] == "plot":
+            v = str(raw).strip().upper()
+            if v not in plots:
+                errors.append(f"{fid}: {raw!r} is not one of this producer's plots {sorted(plots)}")
+                continue
+            values[fid] = v
+        else:
+            values[fid] = str(raw).strip()
+        source[fid] = "farmer"
+    # registry pre-fill
+    if p:
+        crop_field = values.get("product")
+        if "plot_id" in {f["id"] for f in pr["fields"]} and "plot_id" not in values:
+            match = [x for x in p["plots"] if not crop_field or x["crop"] == crop_field]
+            if len(match) == 1:
+                values["plot_id"], source["plot_id"] = match[0]["id"], "registry"
+    if pr["code"] == "PRD" and "national_id" in values:
+        source["national_id"] = "farmer"
+    # procedure rules
+    today = _today()
+    plot = plots.get(values.get("plot_id", ""))
+    if pr["code"] == "PHY" and plot:
+        if "product" in values and plot["crop"] != values["product"]:
+            errors.append(f"plot_id: {plot['id']} grows {plot['crop']}, not {values['product']}")
+        if not plot.get("georeferenced"):
+            errors.append(f"plot_id: {plot['id']} is not georeferenced yet — share a location pin first")
+        cap = pr["max_kg_per_ha"].get(plot["crop"], 0) * plot["area_ha"]
+        if "quantity_kg" in values and values["quantity_kg"] > cap:
+            errors.append(f"quantity_kg: {values['quantity_kg']} kg exceeds what {plot['area_ha']} ha of {plot['crop']} can yield in a season ({cap:,.0f} kg)")
+    if pr["code"] == "PRG" and plot and "program" in values:
+        e = next(x for x in _farm_eligibility(p, p["plots"]) if x["program"] == values["program"])
+        if not e["eligible"]:
+            errors.append(f"program: not eligible for {values['program']} — {e['reason']}")
+        if values.get("area_ha", 0) > plot["area_ha"]:
+            errors.append(f"area_ha: plot {plot['id']} has {plot['area_ha']} ha")
+    for fid in ("shipment_date", "movement_date"):
+        if fid in values:
+            need = _add_business_days(today, pr.get("min_notice_business_days", 1))
+            if values[fid] < need:
+                errors.append(f"{fid}: must be on or after {need.isoformat()} ({pr.get('min_notice_business_days', 1)} business days' notice)")
+    missing = [{"id": f["id"], "label": _loc(f, "label", lang), "type": f["type"],
+                **({"choices": [c["es"] if lang == "es" else c["value"] for c in f["choices"]]} if "choices" in f else {}),
+                **({"choices": sorted(plots)} if f["type"] == "plot" else {})}
+               for f in pr["fields"] if f["required"] and f["id"] not in values]
+    applicant = p["name"] if p else values.get("full_name", "")
+    prefilled = ({"applicant": p["name"], "npr": p["npr"], "national_id": p["national_id"], "municipality": p["municipality"]}
+                 if p else {})
+    if missing or errors:
+        return ok(status="incomplete", procedure=_proc_card(pr, lang), prefilled_from_registry=prefilled,
+                  filled={k: (v.isoformat() if isinstance(v, dt.date) else v) for k, v in values.items()},
+                  missing=missing, errors=errors,
+                  next="Ask for the first missing field (one question at a time) or the fix for the first error, then call again with all answers.")
+    # complete: build the form
+    fee = pr["fee_usd"] + pr.get("fee_usd_per_head", 0) * values.get("head_count", 0)
+    sub = _sid(f"{pr['code']}-2026-", p["npr"] if p else values.get("national_id"), sorted((k, str(v)) for k, v in values.items()))
+    label = {f["id"]: _loc(f, "label", lang) for f in pr["fields"]}
+    show = lambda f, v: (next((c["es"] if lang == "es" else c["value"]) for c in f["choices"] if c["value"] == v)
+                         if f["type"] == "choice" else v.isoformat() if isinstance(v, dt.date)
+                         else f"{v:,}" if isinstance(v, (int, float)) else str(v))
+    rows = []
+    if p:
+        rows += [(("Productor" if lang == "es" else "Producer"), f"{p['name']} · {p['npr']}", "registry"),
+                 (("Documento de identidad" if lang == "es" else "National ID"), p["national_id"], "registry"),
+                 (("Municipio" if lang == "es" else "Municipality"), f"{p['municipality']}, {p['province']}", "registry")]
+    for f in pr["fields"]:
+        if f["id"] in values:
+            v = values[f["id"]]
+            text = show(f, v)
+            if f["type"] == "plot" and plot:
+                crop = ag.get("crop_names_es", {}).get(plot["crop"], plot["crop"]) if lang == "es" else plot["crop"]
+                text = f"{v} · {crop} · {plot['area_ha']} ha"
+            elif f["type"] == "crop" and lang == "es":
+                text = ag.get("crop_names_es", {}).get(v, v)
+            rows.append((label[f["id"]], text, source[f["id"]]))
+    centre = ag["service_centres"].get(p["municipality"] if p else values.get("municipality", ""), "")
+    nxt = {
+        "PHY": [("Un inspector visitará el lote para la inspección previa al embarque; tenga el lote separado y etiquetado."
+                 if lang == "es" else "An inspector will visit for the pre-shipment inspection; keep the lot separated and labelled."),
+                ("Pague la tarifa en el centro de servicios o en línea con el número de trámite."
+                 if lang == "es" else "Pay the fee at the service centre or online with the submission number."),
+                ("El certificado se emite tras la inspección y viaja con el embarque."
+                 if lang == "es" else "The certificate is issued after the inspection and travels with the shipment.")],
+        "MOV": [("Lleve la guía impresa o en el teléfono durante el traslado." if lang == "es" else "Carry the permit (printed or on the phone) during the move."),
+                ("Los puestos de control verifican el fierro y el certificado de vacunación." if lang == "es" else "Checkpoints verify the brand and the vaccination certificate.")],
+        "PRG": [("Recibirá la confirmación de inscripción por este canal." if lang == "es" else "You will get the enrolment confirmation on this channel."),
+                ("Los beneficios se entregan en el centro de servicios agropecuarios." if lang == "es" else "Benefits are delivered at the agro-service centre.")],
+        "PRD": [("Recibirá su número de productor por este canal." if lang == "es" else "You will receive your producer number on this channel."),
+                ("Luego registre sus parcelas (trámite PLT)." if lang == "es" else "Then register your plots (procedure PLT).")],
+        "CER": [("Presente la constancia ante la entidad indicada; tiene validez de 90 días." if lang == "es" else "Present the certificate to the named entity; it is valid for 90 days.")],
+    }[pr["code"]]
+    if centre:
+        nxt.append(("Centro de servicios: " if lang == "es" else "Service centre: ") + centre)
+    meta = {"submission": sub, "date": today.isoformat(), "applicant": applicant, "fee_usd": fee, "next_steps": nxt}
+    st = getattr(tool_context, "state", None) if tool_context is not None else None
+    file_name = None
+    if st is not None:
+        try:
+            data = _form_docx(pr, lang, rows, meta)
+        except Exception as e:  # noqa: BLE001 — tools must not raise
+            return err(f"form render failed: {type(e).__name__}: {e}"[:300])
+        plain = unicodedata.normalize("NFKD", _loc(pr, "name", lang)).encode("ascii", "ignore").decode().lower()
+        file_name = f"{re.sub(r'[^a-z0-9]+', '-', plain).strip('-')}-{sub}.docx"
+        st[f"hive_file:gov-{sub.lower()}"] = {"name": file_name, "mime": _DOCX_MIME, "size": len(data),
+                                             "b64": base64.b64encode(data).decode()}
+    return ok(status="ready", submission=sub, procedure=_proc_card(pr, lang), applicant=applicant,
+              form=[{"field": a, "value": b, "source": c} for a, b, c in rows],
+              fee_usd=fee, review_business_days=pr["business_days"], next_steps=nxt,
+              file=file_name, delivered="attached to this session for download" if file_name else "no session to attach the file to",
+              simulated=True)
 
 
 # =================================================================================================================
