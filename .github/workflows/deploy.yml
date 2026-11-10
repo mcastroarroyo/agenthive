@@ -88,6 +88,7 @@ jobs:
           HIVE_EDITION: showcase
           HIVE_GOOGLE_CLIENT_ID: ${{ secrets.GCP_SHOWCASE_CLIENT_ID }}
           HIVE_ADMINS: ${{ secrets.GCP_SHOWCASE_ADMINS }}
+          HIVE_MAIL_RELAY: ${{ secrets.GCP_SHOWCASE_MAIL_RELAY }}
         run: |
           if [ -z "$HIVE_GOOGLE_CLIENT_ID" ]; then echo "::notice::showcase not set up yet (deploy/setup_showcase.sh)"; exit 0; fi
           deploy/deploy_web.sh

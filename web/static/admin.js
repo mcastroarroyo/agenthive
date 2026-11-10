@@ -17,6 +17,12 @@ Object.assign(I18N.en, {
   "l.app": "Tokens per day, whole app", "l.calls": "Model calls per turn", "l.save": "Save limits", "l.saved": "Saved",
   "l.help.session": "The engine stops answering in a session once it reaches this.", "l.help.app": "Everyone together, per UTC day. Turn off \"Demos enabled\" to stop all new runs at once.",
   "none": "Nothing yet.", "forbidden": "Admins only.",
+  "adm.t.sessions": "Sessions", "s.open": "open", "s.closed": "closed", "s.expired": "expired", "s.state": "State",
+  "s.started": "Signed in", "s.seen": "Last activity", "s.browser": "Browser", "s.by": "Closed by", "s.actions": "Actions",
+  "s.close": "Close session", "s.block": "Close & block", "s.onlyOpen": "Only open sessions",
+  "s.confirmClose": "Close this session of {e}? They will be signed out within seconds.",
+  "s.confirmBlock": "Close all sessions of {e} and block the account from signing in again?",
+  "u.blocked": "Blocked", "u.block": "Block", "u.unblock": "Unblock", "u.confirmUnblock": "Allow {e} to sign in again?",
 });
 Object.assign(I18N.es, {
   "adm.title": "Admin del hive", "adm.sub": "Quién ha entrado, qué demos ha probado, cómo las calificó y los límites de uso.",
@@ -34,6 +40,12 @@ Object.assign(I18N.es, {
   "l.app": "Tokens por día, toda la app", "l.calls": "Llamadas al modelo por turno", "l.save": "Guardar límites", "l.saved": "Guardado",
   "l.help.session": "El motor deja de responder en una sesión cuando llega a este valor.", "l.help.app": "Todos juntos, por día UTC. Desactiva \"Demos habilitadas\" para detener todas las ejecuciones nuevas de inmediato.",
   "none": "Aún no hay datos.", "forbidden": "Solo administradores.",
+  "adm.t.sessions": "Sesiones", "s.open": "abierta", "s.closed": "cerrada", "s.expired": "vencida", "s.state": "Estado",
+  "s.started": "Inicio", "s.seen": "Última actividad", "s.browser": "Navegador", "s.by": "Cerrada por", "s.actions": "Acciones",
+  "s.close": "Cerrar sesión", "s.block": "Cerrar y bloquear", "s.onlyOpen": "Solo sesiones abiertas",
+  "s.confirmClose": "¿Cerrar esta sesión de {e}? Se desconectará en unos segundos.",
+  "s.confirmBlock": "¿Cerrar todas las sesiones de {e} y bloquear la cuenta para que no vuelva a entrar?",
+  "u.blocked": "Bloqueado", "u.block": "Bloquear", "u.unblock": "Desbloquear", "u.confirmUnblock": "¿Permitir que {e} vuelva a entrar?",
 });
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -41,7 +53,7 @@ const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const num = (n) => Number(n || 0).toLocaleString(LANG === "es" ? "es" : "en");
 const when = (iso) => iso ? new Date(iso).toLocaleString(LANG === "es" ? "es" : "en", { dateStyle: "medium", timeStyle: "short" }) : "";
-const A = { tab: "overview", data: {}, userFilter: "" };
+const A = { tab: "overview", data: {}, userFilter: "", onlyOpen: true };
 
 async function api(path, opts) {
   const r = await fetch(path, opts);
@@ -84,8 +96,19 @@ function renderUsers() {
     { h: "c.first", v: (u) => esc(when(u.first_seen)) }, { h: "c.last", v: (u) => esc(when(u.last_seen)) },
     { h: "c.logins", cls: "num", v: (u) => num(u.logins) }, { h: "c.runs", cls: "num", v: (u) => num(u.runs) },
     { h: "c.tokens", cls: "num", v: (u) => num(u.tokens) }, { h: "c.agents", cls: "num", v: (u) => num(u.agents_tried) },
-    { h: "c.top", v: (u) => esc((u.top_agents || []).map(([k, n]) => `${k} ×${n}`).join(", ")) }], rows);
+    { h: "c.top", v: (u) => esc((u.top_agents || []).map(([k, n]) => `${k} ×${n}`).join(", ")) },
+    { h: "s.state", v: (u) => u.blocked
+      ? `<span class="pill error">${esc(t("u.blocked"))}</span> <button class="ghost small" data-unblock="${esc(u.id)}" data-email="${esc(u.email)}">${esc(t("u.unblock"))}</button>`
+      : `<button class="ghost small danger" data-blockuser="${esc(u.id)}" data-email="${esc(u.email)}">${esc(t("u.block"))}</button>` }], rows);
   $$("[data-user]").forEach((b) => b.onclick = () => { A.userFilter = b.dataset.user; setTab("runs"); });
+  $$("[data-unblock]").forEach((b) => b.onclick = async () => {
+    if (!confirm(t("u.confirmUnblock", { e: b.dataset.email }))) return;
+    await api(`/api/admin/users/${encodeURIComponent(b.dataset.unblock)}/block?blocked=false`, { method: "POST" }); await load();
+  });
+  $$("[data-blockuser]").forEach((b) => b.onclick = async () => {
+    if (!confirm(t("s.confirmBlock", { e: b.dataset.email }))) return;
+    await api(`/api/admin/users/${encodeURIComponent(b.dataset.blockuser)}/block?blocked=true`, { method: "POST" }); await load();
+  });
 }
 
 async function renderRuns() {
@@ -108,6 +131,26 @@ async function renderFeedback() {
     { h: "c.when", v: (r) => esc(when(r.ts)) }, { h: "c.user", v: (r) => esc(r.email) }, { h: "c.agent", v: (r) => esc(r.agent || r.agent_id) },
     { h: "c.rating", cls: "num", v: (r) => `<span class="stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</span>` },
     { h: "c.comment", cls: "wrap", v: (r) => esc(r.comment) }, { h: "c.lang", v: (r) => esc(r.lang) }], fb);
+}
+
+async function renderSessions() {
+  const rows = (await api("/api/admin/sessions")).sessions.filter((r) => !A.onlyOpen || r.state === "open");
+  const box = $("#tab-sessions");
+  box.innerHTML = `<div class="adm-filter"><label><input type="checkbox" id="only-open" ${A.onlyOpen ? "checked" : ""}> ${esc(t("s.onlyOpen"))}</label></div>`
+    + table([
+      { h: "s.started", v: (r) => esc(when(r.created)) }, { h: "c.name", v: (r) => esc(r.name) }, { h: "c.email", v: (r) => esc(r.email) },
+      { h: "s.browser", v: (r) => esc(r.browser) }, { h: "s.seen", v: (r) => esc(when(r.last_seen)) },
+      { h: "s.state", v: (r) => `<span class="pill ${r.state === "open" ? "ok" : "error"}">${esc(t("s." + r.state))}</span>${r.revoked_by ? ` <span class="muted small">${esc(r.revoked_by)}</span>` : ""}` },
+      { h: "s.actions", v: (r) => r.state === "open" ? `<button class="ghost small" data-close="${esc(r.id)}" data-email="${esc(r.email)}">${esc(t("s.close"))}</button> <button class="ghost small danger" data-block="${esc(r.id)}" data-email="${esc(r.email)}">${esc(t("s.block"))}</button>` : "" }], rows);
+  $("#only-open").onchange = (e) => { A.onlyOpen = e.target.checked; renderSessions(); };
+  $$("[data-close]", box).forEach((b) => b.onclick = async () => {
+    if (!confirm(t("s.confirmClose", { e: b.dataset.email }))) return;
+    await api(`/api/admin/sessions/${encodeURIComponent(b.dataset.close)}/close`, { method: "POST" }); renderSessions();
+  });
+  $$("[data-block]", box).forEach((b) => b.onclick = async () => {
+    if (!confirm(t("s.confirmBlock", { e: b.dataset.email }))) return;
+    await api(`/api/admin/sessions/${encodeURIComponent(b.dataset.block)}/close?block=true`, { method: "POST" }); renderSessions();
+  });
 }
 
 async function renderLogins() {
@@ -139,7 +182,7 @@ function setTab(tab) {
   A.tab = tab;
   $$(".adm-tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.tab === tab));
   $$(".adm-main > section").forEach((s) => { s.hidden = s.id !== "tab-" + tab; });
-  ({ overview: renderOverview, users: renderUsers, runs: renderRuns, feedback: renderFeedback, logins: renderLogins, limits: renderLimits })[tab]();
+  ({ overview: renderOverview, users: renderUsers, runs: renderRuns, feedback: renderFeedback, sessions: renderSessions, logins: renderLogins, limits: renderLimits })[tab]();
 }
 
 async function load() {

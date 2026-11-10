@@ -29,6 +29,8 @@ table.tbl { border-collapse: collapse; width: 100%; font-size: 13px; }
 .limits-form { display: grid; grid-template-columns: max-content minmax(0, 260px); gap: 10px 16px; align-items: center; }
 .limits-form input[type=number] { font: inherit; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); width: 100%; }
 .limits-form .help { grid-column: 1 / -1; margin: -4px 0 4px; }
+.ghost.danger { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, var(--line)); }
+.adm-filter input[type=checkbox] { vertical-align: middle; }
 .saved { color: var(--accent); font-weight: 700; margin-left: 10px; }
 @media (max-width: 700px) {
   .adm-main { padding: 12px 16px 32px; } .adm-tabs { margin: 4px 16px 0; max-width: calc(100% - 32px); }

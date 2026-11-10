@@ -13,6 +13,14 @@ const S = {
   open: null, sessions: new Map(), running: false, files: [], warm: new Map(),
   me: null, auth: null, ran: new Set(), rated: new Set(), sample: false,
 };
+/* If an admin closes this session (or blocks the account), the next API call answers 401: back to sign-in. */
+const _fetch = window.fetch.bind(window);
+window.fetch = async (...args) => {
+  const r = await _fetch(...args);
+  const url = String(args[0] instanceof Request ? args[0].url : args[0]);
+  if (r.status === 401 && S.me && url.includes("/api/") && !url.includes("/api/auth/")) location.reload();
+  return r;
+};
 const SHOWCASE = () => S.cat && S.cat.edition && S.cat.edition !== "internal";
 const TERM = () => t("term." + ((S.cat && S.cat.term) || "realm"));
 

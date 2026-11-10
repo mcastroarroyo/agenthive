@@ -73,6 +73,7 @@ if AUTH == "google":
 
     SC.AGENTS = AGENTS
     app.include_router(SC.router)
+    SC.install(app)
 else:
     SC = None
 _creds = None

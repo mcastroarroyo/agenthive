@@ -32,6 +32,8 @@ else
   ADMINS=${HIVE_ADMINS:?set HIVE_ADMINS (comma-separated admin emails)}
   ENV="^|^HIVE_PROJECT=$P|HIVE_REGION=$REGION|HIVE_ENGINE_REGION=$ENGINE_REGION|HIVE_EDITION=$EDITION|HIVE_AUTH=google"
   ENV="$ENV|HIVE_FIRESTORE_DB=agenthive|HIVE_GOOGLE_CLIENT_ID=$CLIENT_ID|HIVE_ADMINS=$ADMINS"
+  # optional: sign-in alert emails through the Apps Script relay (deploy/mail_relay.gs)
+  [ -n "${HIVE_MAIL_RELAY:-}" ] && ENV="$ENV|HIVE_MAIL_RELAY=$HIVE_MAIL_RELAY|HIVE_NOTIFY_EMAILS=${HIVE_NOTIFY_EMAILS:-$ADMINS}"
   EXTRA=(--set-secrets "HIVE_SESSION_SECRET=agenthive-$EDITION-session:latest")
 fi
 
