@@ -76,7 +76,7 @@ function hexPoints(cx, cy, r) {
 }
 /* ---------------- fitting text inside a pointy-top hexagon ---------------- */
 const MEASURE = document.createElement("canvas").getContext("2d");
-const FONT_STACK = 'Figtree, system-ui, -apple-system, "Segoe UI", sans-serif';
+const FONT_STACK = 'Manrope, system-ui, -apple-system, "Segoe UI", sans-serif';
 function textW(text, px, weight, spacingEm = 0) {
   MEASURE.font = `${weight} ${px}px ${FONT_STACK}`;
   return MEASURE.measureText(text).width + spacingEm * px * Math.max(text.length - 1, 0);

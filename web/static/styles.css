@@ -1,26 +1,33 @@
+/* Tokens from the Wursta design system (Claude Design → "Wursta"): black on white, coral→magenta W as the accent. */
 :root {
-  --bg: #f6f5f1;
+  --bg: #fafafa;
   --surface: #ffffff;
-  --surface-2: #fbfaf7;
-  --ink: #1c1c1a;
-  --ink-2: #3a3936;
-  --muted: #6d6b65;
-  --line: #e3e0d8;
-  --line-2: #d4d0c6;
-  --accent: #13906a;
+  --surface-2: #fafafa;
+  --ink: #1a1a1a;
+  --ink-2: #404040;
+  --muted: #737373;
+  --line: #e6e6e6;
+  --line-2: #d4d4d4;
+  --accent: #d6302a;          /* action: white text 4.9:1 */
+  --on-accent: #ffffff;
+  --brand-coral: #ef473a;
+  --brand-magenta: #ff1c82;
+  --brand-grad: linear-gradient(90deg, #ef473a, #ff1c82);
   --warn: #e39a1c;
   --danger: #c2412d;
-  --code-bg: #f1efe9;
-  --shadow: 0 1px 2px rgba(0,0,0,.05), 0 8px 24px rgba(0,0,0,.06);
-  --radius: 14px;
-  --font: "Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --code-bg: #f2f2f2;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.05);
+  --radius: 12px;
+  --font: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "neulis-sans", "Manrope", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #121311; --surface: #1b1c1a; --surface-2: #20211f; --ink: #ecebe6; --ink-2: #cfcdc6; --muted: #9a988f;
-    --line: #2e2f2b; --line-2: #3b3c37; --code-bg: #242522; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+    --bg: #121212; --surface: #1c1c1c; --surface-2: #232323; --ink: #f2f2f2; --ink-2: #b8b8b8; --muted: #a3a3a3;
+    --line: #2a2a2a; --line-2: #383838; --code-bg: #242424; --accent: #ef473a; --on-accent: #0d0d0d;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
     color-scheme: dark;
   }
 }
@@ -36,9 +43,13 @@ svg { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; 
 .top { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
   padding: 22px 32px 10px; max-width: 1640px; margin: 0 auto; }
 .brand { display: flex; align-items: center; gap: 14px; }
-.brand-hex { width: 40px; height: 40px; flex: none; }
-.brand-hex polygon { fill: var(--accent); stroke: none; }
-.brand h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
+.brand-logo { height: 26px; width: auto; flex: none; display: block; }
+.brand-logo.dark { display: none; }
+@media (prefers-color-scheme: dark) { .brand-logo.light { display: none; } .brand-logo.dark { display: block; } }
+.brand { gap: 16px; }
+.brand > div { border-left: 1px solid var(--line-2); padding-left: 16px; }
+body::before { content: ""; display: block; height: 4px; background: var(--brand-grad); }
+.brand h1 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
 .brand p { margin: 2px 0 0; font-size: 14px; max-width: 720px; }
 .views { display: flex; gap: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 4px; }
 .views button { border: 0; background: none; color: var(--ink-2); padding: 7px 14px; border-radius: 999px; font-weight: 600; font-size: 13.5px; }
@@ -64,7 +75,7 @@ svg { stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; 
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .ghost { border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); border-radius: 999px; padding: 5px 12px; font-weight: 600; font-size: 13px; }
 .ghost.small { padding: 4px 10px; font-size: 12.5px; }
-.primary { border: 0; background: var(--accent); color: #fff; border-radius: 999px; padding: 8px 20px; font-weight: 700; }
+.primary { border: 0; background: var(--accent); color: var(--on-accent); border-radius: 999px; padding: 8px 20px; font-weight: 700; }
 .primary:disabled { opacity: .55; cursor: progress; }
 .icon { border: 0; background: none; color: var(--muted); width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; }
 .icon:hover { background: var(--surface-2); color: var(--ink); }
@@ -77,7 +88,7 @@ main { max-width: 1640px; margin: 0 auto; padding: 6px 32px 30px; }
 .hive-col { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
 .realm { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px 10px; box-shadow: var(--shadow); min-width: 0; }
 .realm-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.realm-head h2 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }
+.realm-head h2 { margin: 0; font-family: var(--font-display); font-size: 19px; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }
 .realm-head .kind { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; border-radius: 6px; padding: 1px 7px; border: 1px solid currentColor; opacity: .8; }
 .realm-blurb { margin: 4px 0 6px; color: var(--muted); font-size: 13px; }
 .sec-band { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; width: 100%; margin: 2px 0 10px; padding: 5px 10px;
@@ -266,15 +277,17 @@ main { max-width: 1640px; margin: 0 auto; padding: 6px 32px 30px; }
 .lang button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 
 .login { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px;
-  background: radial-gradient(1200px 600px at 20% 0%, color-mix(in srgb, var(--accent) 12%, var(--bg)), var(--bg)); }
+  background: var(--bg); }
 .login-card { position: relative; width: min(460px, 100%); background: var(--surface); border: 1px solid var(--line);
   border-radius: 20px; box-shadow: var(--shadow); padding: 34px 30px 26px; text-align: center; }
 .login-card .lang { position: absolute; top: 14px; right: 14px; }
-.login-card .brand-hex { width: 54px; height: 54px; }
-.login-card .brand-hex polygon { fill: var(--accent); stroke: none; }
-.login-card h1 { margin: 10px 0 4px; font-size: 26px; font-weight: 800; letter-spacing: -.02em; }
+.login-card { border-top: 0; overflow: hidden; }
+.login-card::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; background: var(--brand-grad); }
+.login-card .brand-logo { height: 30px; margin: 4px auto 0; }
+.login-card h1 { margin: 16px 0 4px; font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
 .login-card .lead { margin: 0 0 14px; color: var(--muted); }
 .login-card .gsi { display: flex; justify-content: center; min-height: 44px; margin: 16px 0 6px; }
+.login-card a { color: var(--accent); }
 .login-card .privacy { margin-top: 14px; text-align: left; border-top: 1px solid var(--line); padding-top: 12px; }
 
 .feedback { z-index: 70; }

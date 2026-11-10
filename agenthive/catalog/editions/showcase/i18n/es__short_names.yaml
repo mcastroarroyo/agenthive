@@ -13,3 +13,5 @@ agents:
   atlas_validator: {short_name: Validador de migración}
   sentry_oauth: {short_name: OAuth y SaaS}
   wf_social_planner: {short_name: Redes sociales}
+  wf_gtm_strategist: {short_name: Estratega GTM}
+  cert_notifier: {short_name: Certificaciones}
