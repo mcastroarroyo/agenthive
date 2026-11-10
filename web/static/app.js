@@ -623,7 +623,7 @@ async function send() {
         const d = document.createElement("div");
         d.className = "msg agent file-card";
         d.dataset.file = ev.id;
-        d.innerHTML = `<span class="file-ext">${esc(ext)}</span><div><b>${esc(ev.name)}</b><div class="muted small">${(ev.size / 1024).toFixed(1)} KB · ${esc(t("file.by", { who: stepName(a, ev.author) }))}</div></div><a class="primary" href="${url}" download="${esc(ev.name)}">${esc(t("file.download"))}</a>`;
+        d.innerHTML = `<span class="file-ext">${esc(ext)}</span><div><b title="${esc(ev.name)}">${esc(ev.name)}</b><div class="muted small">${(ev.size / 1024).toFixed(1)} KB · ${esc(t("file.by", { who: stepName(a, ev.author) }))}</div></div><a class="primary" href="${url}" download="${esc(ev.name)}">${esc(t("file.download"))}</a>`;
         chat.insertBefore(d, null);
         addEv(work, "result", `<b>${esc(t("work.deliverable"))}</b> <code>${esc(ev.name)}</code> <span class="muted">${esc(t("work.saved"))}</span>`);
         chat.scrollTop = chat.scrollHeight;
